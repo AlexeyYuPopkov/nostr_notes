@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/auth/home_screen.dart';
-import 'package:nostr_notes/unauth/login_screen.dart';
+import 'package:nostr_notes/unauth/presentation/onboarding/onboarding_screen.dart';
 
 final class AppRouter {
   AppRouter();
@@ -11,7 +11,7 @@ final class AppRouter {
       GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
-          return const LoginScreen();
+          return const OnboardingScreen();
         },
       ),
       GoRoute(

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:nostr_notes/services/model/base_nostr_event.dart';
 import 'package:nostr_notes/services/model/nostr_filter.dart';
 import 'package:uuid/uuid.dart';

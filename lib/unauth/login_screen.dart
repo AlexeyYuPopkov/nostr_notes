@@ -36,24 +36,28 @@ class _LoginScreenState extends State<LoginScreen> {
     await _client.connect();
     _subscription = _client.stream().listen((event) {
       // Handle incoming events
+      // ignore: avoid_print
       print('Received event: $event');
 
       if (event is NostrEventEose) {
         // Handle EOSE event
+        // ignore: avoid_print
         print('Received EOSE event: ${event.relay}');
       }
     }, onError: (error) {
       // Handle errors
+      // ignore: avoid_print
       print('Error: $error');
     }, onDone: () {
       // Handle stream completion
+      // ignore: avoid_print
       print('Stream closed');
     });
 
     _client.sendEventToAll(
       NostrReq.create(
         filters: [
-          NostrFilter(
+          const NostrFilter(
             kinds: [4],
             limit: 5,
           ),
@@ -71,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: Text('123'),
       ),

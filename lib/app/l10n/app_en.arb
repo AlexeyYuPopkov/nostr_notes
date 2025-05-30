@@ -1,0 +1,8 @@
+{
+    "commonButtonBack": "Back",
+    "commonButtonOk": "OK",
+    "commonError": "Error",
+    "commonUndefinedError": "Something went wrong",
+    "commonNoDataPlaceholderText": "No data",
+    "authError": "Authentication error"
+}

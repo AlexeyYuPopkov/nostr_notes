@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
@@ -150,7 +149,7 @@ void main() {
         NostrReq.create(
           uuid: uuid,
           filters: [
-            NostrFilter(
+            const NostrFilter(
               kinds: [4],
               limit: 5,
             ),
