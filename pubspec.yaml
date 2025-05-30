@@ -49,6 +49,7 @@ dependencies:
   rxdart: ^0.28.0
   di_storage: ^1.0.0
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -64,6 +65,7 @@ dev_dependencies:
   freezed: ^3.0.6
   json_serializable: ^6.9.5
 
+  mocktail: ^1.0.4
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

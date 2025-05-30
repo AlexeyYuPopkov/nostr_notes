@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:nostr_notes/services/model/nostr_event_eose.dart';
 import 'package:nostr_notes/services/model/nostr_filter.dart';
 import 'package:nostr_notes/services/model/nostr_req.dart';
 import 'package:nostr_notes/services/nostr_client.dart';
@@ -20,7 +21,6 @@ class _LoginScreenState extends State<LoginScreen> {
       WebSocketChannel.connect(Uri.parse('wss://testing.gathr.gives'));
 
   StreamSubscription? _subscription;
-  StreamSubscription? _subscription1;
 
   @override
   void initState() {
@@ -37,6 +37,11 @@ class _LoginScreenState extends State<LoginScreen> {
     _subscription = _client.stream().listen((event) {
       // Handle incoming events
       print('Received event: $event');
+
+      if (event is NostrEventEose) {
+        // Handle EOSE event
+        print('Received EOSE event: ${event.relay}');
+      }
     }, onError: (error) {
       // Handle errors
       print('Error: $error');
@@ -46,9 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     _client.sendEventToAll(
-      NostrReq(
-        // id: id,
-        subscriptionId: 'subscriptionId',
+      NostrReq.create(
         filters: [
           NostrFilter(
             kinds: [4],

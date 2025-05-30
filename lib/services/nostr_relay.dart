@@ -1,89 +1,43 @@
 import 'dart:convert';
 
+import 'package:nostr_notes/services/model/base_nostr_event.dart';
 import 'package:nostr_notes/services/model/nostr_event.dart';
+import 'package:nostr_notes/services/model/nostr_event_eose.dart';
 import 'package:nostr_notes/services/model/nostr_req.dart';
+import 'package:nostr_notes/services/nostr_client.dart';
+import 'package:nostr_notes/services/ws_channel.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
-final class NostrRelay {
-  final String _url;
-  final WebSocketChannel _channel;
+class NostrRelay with NostrRelayEventMapper {
+  final WsChannel _channel;
 
-  const NostrRelay._({
+  NostrRelay._({
+    required WsChannel channel,
+  }) : _channel = channel;
+
+  factory NostrRelay({
     required String url,
-    required WebSocketChannel channel,
-  })  : _url = url,
-        _channel = channel;
-
-  factory NostrRelay(
-    String url, {
-    // optional parameter for tests
-    WebSocketChannel? channel,
+    required ChannelFactory channelFactory,
   }) {
     return NostrRelay._(
-      url: url,
-      channel: channel ?? WebSocketChannel.connect(Uri.parse(url)),
+      channel: channelFactory.create(url),
     );
   }
 
-  Future<void> connect() {
-    return _channel.ready;
-  }
+  @override
+  String get url => _channel.url;
+
+  Future<void> get ready => _channel.ready;
 
   void sendEvent(NostrReq req) {
-    _channel.sink.add(req.toJsonString());
+    _channel.add(req.toJsonString());
   }
 
-  Stream<NostrEvent> get events {
-    return _channel.stream.map((data) {
-      final content = jsonDecode(data) as List?;
-
-      if (content == null) {
-        return null;
-      }
-
-      final length = content.length;
-
-      if (length < 2) {
-        return null;
-      }
-
-      final type = content[0] as String?;
-      final subscriptionId = content[1] as String?;
-
-      if (type == null ||
-          type.isEmpty ||
-          subscriptionId == null ||
-          subscriptionId.isEmpty) {
-        return null;
-      }
-
-      if (type == 'EOSE') {
-        // TODO: parse EOSE
-        return null;
-      }
-
-      if (length < 3) {
-        return null;
-      }
-
-      final payload = content[2] as Map<String, dynamic>?;
-
-      if (payload == null || payload.isEmpty) {
-        return null;
-      }
-
-      try {
-        return NostrEvent.fromJson(payload);
-      } catch (e) {
-        return null;
-      }
-    }).whereType<NostrEvent>();
+  Stream<BaseNostrEvent> get events {
+    return _channel.stream.map(toNostrEvent).whereNotNull();
   }
 
-  void disconnect() {
-    _channel.sink.close();
-  }
+  Future<dynamic> disconnect() => _channel.disconnect();
 
   @override
   bool operator ==(Object other) {
@@ -93,9 +47,57 @@ final class NostrRelay {
     if (other is! NostrRelay) {
       return false;
     }
-    return _url == other._url;
+    return url == other.url;
   }
 
   @override
-  int get hashCode => _url.hashCode;
+  int get hashCode => url.hashCode;
+}
+
+mixin NostrRelayEventMapper {
+  String get url;
+
+  BaseNostrEvent? toNostrEvent(data) {
+    final content = jsonDecode(data) as List?;
+
+    if (content == null) {
+      return null;
+    }
+
+    final length = content.length;
+
+    if (length < 2) {
+      return null;
+    }
+
+    final type = content[0] as String?;
+    final subscriptionId = content[1] as String?;
+
+    if (type == null ||
+        type.isEmpty ||
+        subscriptionId == null ||
+        subscriptionId.isEmpty) {
+      return null;
+    }
+
+    if (type == EventType.eose.type) {
+      return NostrEventEose(relay: url, subscriptionId: subscriptionId);
+    }
+
+    if (length < 3) {
+      return null;
+    }
+
+    final payload = content[2] as Map<String, dynamic>?;
+
+    if (payload == null || payload.isEmpty) {
+      return null;
+    }
+
+    try {
+      return NostrEvent.fromJson(payload);
+    } catch (e) {
+      return null;
+    }
+  }
 }

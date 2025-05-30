@@ -2,12 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:nostr_notes/services/model/base_nostr_event.dart';
 
 part 'nostr_event.g.dart';
 
 @immutable
 @JsonSerializable()
-final class NostrEvent {
+final class NostrEvent extends BaseNostrEvent {
+  @override
+  EventType get eventType => EventType.event;
+
   static const dummyKind = 999999;
   @JsonKey(name: 'kind', defaultValue: NostrEvent.dummyKind)
   final int kind;
