@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
+import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
 
 import 'bloc/onboarding_screen_bloc.dart';
 import 'bloc/onboarding_screen_state.dart';
@@ -25,17 +26,35 @@ final class OnboardingScreen extends StatelessWidget with DialogHelper {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => OnboardingScreenBloc(),
-      child: BlocConsumer<OnboardingScreenBloc, OnboardingScreenState>(
-        listener: _listener,
-        builder: (context, state) {
-          return const Scaffold(
-            body: Center(
-              child: Text('123'),
+    return Scaffold(
+      body: SafeArea(
+        child: DefaultTabController(
+          length: OnboardingStep.pages.length,
+          initialIndex: 0,
+          child: BlocProvider(
+            create: (context) => OnboardingScreenBloc(),
+            child: BlocListener<OnboardingScreenBloc, OnboardingScreenState>(
+              listenWhen: (a, b) => a.data.step != b.data.step,
+              listener: (context, state) {
+                DefaultTabController.of(context).animateTo(
+                  OnboardingStep.pages.indexOf(state.data.step),
+                );
+              },
+              child: BlocConsumer<OnboardingScreenBloc, OnboardingScreenState>(
+                listener: _listener,
+                builder: (context, state) {
+                  return TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      for (final page in OnboardingStep.pages)
+                        page.build(context),
+                    ],
+                  );
+                },
+              ),
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }

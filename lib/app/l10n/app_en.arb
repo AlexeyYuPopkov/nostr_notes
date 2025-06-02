@@ -1,8 +1,17 @@
 {
     "commonButtonBack": "Back",
     "commonButtonOk": "OK",
+    "commonButtonContinue": "Continue",
     "commonError": "Error",
     "commonUndefinedError": "Something went wrong",
     "commonNoDataPlaceholderText": "No data",
-    "authError": "Authentication error"
+    "authError": "Authentication error",
+    "onboardingWelcomePageTitle": "Welcome to\nNotesVault",
+    "onboardingWelcomePageDescription": "Securely store short notes and passwords\n– encrypted, decentralized, just for you",
+
+    "onboardingWelcomePageOptionComponents1": "✏️; Create; short notes and passwords",
+    "onboardingWelcomePageOptionComponents2": "🔐; Encrypted; on your device",
+    "onboardingWelcomePageOptionComponents3": "🌐; Stored; via Nostr",
+    "onboardingWelcomePageOptionComponents4": "🧷; Access; with your nsec and PIN"
+
 }

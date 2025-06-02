@@ -22,6 +22,8 @@ final class OnboardingScreenBloc
 
   void _setupHandlers() {
     on<InitialEvent>(_onInitialEvent);
+
+    on<NextStepEvent>(_onNextStepEvent);
   }
 
   void _onInitialEvent(
@@ -41,5 +43,18 @@ final class OnboardingScreenBloc
     } catch (e) {
       emit(OnboardingScreenState.error(e: e, data: data));
     }
+  }
+
+  void _onNextStepEvent(
+    NextStepEvent event,
+    Emitter<OnboardingScreenState> emit,
+  ) {
+    emit(
+      OnboardingScreenState.common(
+        data: data.copyWith(
+          step: data.step.getNextStep() ?? data.step,
+        ),
+      ),
+    );
   }
 }
