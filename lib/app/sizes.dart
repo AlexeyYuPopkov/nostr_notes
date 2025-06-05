@@ -62,6 +62,9 @@ final class Sizes {
   /// [defaultRowHeight = 44.0]
   static const defaultRowHeight = 44.0;
 
+  /// [iconTitle = 80.0]
+  static const iconTitle = 80.0;
+
   /// [icon = 24.0]
   static const icon = 24.0;
 

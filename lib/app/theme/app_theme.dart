@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/sizes.dart';
 
 import 'app_color_scheme.dart';
+import 'app_text_theme.dart';
 
 final class AppTheme {
   const AppTheme();
@@ -20,30 +21,8 @@ final class AppTheme {
         fontWeight: FontWeight.w600,
       ),
     ),
-    textTheme: TextTheme(
-      headlineLarge: TextStyle(
-        color: AppColorScheme.light.onSurface,
-        fontSize: TextSizes.headlineLarge,
-        fontWeight: FontWeight.w600,
-      ),
-      titleLarge: TextStyle(
-        color: AppColorScheme.light.onSurface,
-        fontSize: TextSizes.headline,
-        fontWeight: FontWeight.w600,
-      ),
-      titleMedium: TextStyle(
-        color: AppColorScheme.light.onSurface,
-        fontSize: TextSizes.titleMedium,
-        fontWeight: FontWeight.w600,
-      ),
-      bodyLarge: TextStyle(
-        color: AppColorScheme.light.onSurface,
-        fontSize: TextSizes.normal,
-      ),
-      bodyMedium: TextStyle(
-        color: AppColorScheme.light.onSurface,
-        fontSize: TextSizes.small,
-      ),
+    textTheme: AppTextTheme.createTextThemeWithColor(
+      AppColorScheme.light.onSurface,
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
@@ -99,30 +78,8 @@ final class AppTheme {
         fontWeight: FontWeight.w600,
       ),
     ),
-    textTheme: TextTheme(
-      headlineLarge: TextStyle(
-        color: AppColorScheme.dark.onSurface,
-        fontSize: TextSizes.headlineLarge,
-        fontWeight: FontWeight.w600,
-      ),
-      titleLarge: TextStyle(
-        color: AppColorScheme.dark.onSurface,
-        fontSize: TextSizes.headline,
-        fontWeight: FontWeight.w600,
-      ),
-      titleMedium: TextStyle(
-        color: AppColorScheme.dark.onSurface,
-        fontSize: TextSizes.titleMedium,
-        fontWeight: FontWeight.w600,
-      ),
-      bodyLarge: TextStyle(
-        color: AppColorScheme.dark.onSurface,
-        fontSize: TextSizes.normal,
-      ),
-      bodyMedium: TextStyle(
-        color: AppColorScheme.dark.onSurface,
-        fontSize: TextSizes.small,
-      ),
+    textTheme: AppTextTheme.createTextThemeWithColor(
+      AppColorScheme.dark.onSurface,
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,

@@ -2,16 +2,26 @@
     "commonButtonBack": "Back",
     "commonButtonOk": "OK",
     "commonButtonContinue": "Continue",
+    "commonButtonNext": "Next",
+    "commonButtonDone": "Done",
     "commonError": "Error",
     "commonUndefinedError": "Something went wrong",
     "commonNoDataPlaceholderText": "No data",
     "authError": "Authentication error",
     "onboardingWelcomePageTitle": "Welcome to\nNotesVault",
     "onboardingWelcomePageDescription": "Securely store short notes and passwords\n– encrypted, decentralized, just for you",
+    "onboardingWelcomePageOptionMD1": "✏️ **Create** short notes and passwords",
+    "onboardingWelcomePageOptionMD2": "🔐 **Encrypted** on your device",
+    "onboardingWelcomePageOptionMD3": "🌐 **Stored** via Nostr",
+    "onboardingWelcomePageOptionMD4": "🧷 **Access** with your **nsec** and **PIN**",
+    "onboardingWelcomeButtonNext": "Get Started",
 
-    "onboardingWelcomePageOptionComponents1": "✏️; Create; short notes and passwords",
-    "onboardingWelcomePageOptionComponents2": "🔐; Encrypted; on your device",
-    "onboardingWelcomePageOptionComponents3": "🌐; Stored; via Nostr",
-    "onboardingWelcomePageOptionComponents4": "🧷; Access; with your nsec and PIN"
-
+    "onboardingNsecPageTitle": "Enter your Nostr nsec",
+    "onboardingNsecPageDescription": "Your private key is used to encrypt and sign notes. It is only yours and never leaves the device",
+    "onboardingNsecPageTextFieldHint": "nsec1...",
+    "onboardingNsecPageLabelHint": "You can import from another app or paste it manually",
+    
+    "onboardingPinPageTitle": "Set a PIN or password",
+    "onboardingPinPageDescription": "This is used for an additional layer of encryption – even if someone obtains your nsec, your notes will remain protected",
+    "onboardingPinPageTextFieldHint": "PIN or password"
 }

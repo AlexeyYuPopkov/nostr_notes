@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="139px" height="129px" viewBox="0 0 139 129" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>nsec_icon</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="nsec_icon">
+            <rect id="Rectangle" fill="#ECE2FA" x="10.22" y="0" width="128.19" height="128.19" rx="32.71"></rect>
+            <rect id="Rectangle" fill="#7C43C7" x="0.81" y="24.52" width="27.49" height="10.4" rx="4.77"></rect>
+            <rect id="Rectangle" fill="#7C43C7" x="0" y="58.9" width="27.49" height="10.4" rx="4.77"></rect>
+            <rect id="Rectangle" fill="#7C43C7" x="1.51" y="93.27" width="27.49" height="10.4" rx="4.77"></rect>
+            <path d="M92.29,30.6 C100.27,38.58 100.27,51.54 92.29,59.52 C90.3,61.51 88,63.01 85.54,64.01 L85.54,72.06 L82.31,73.99 L85.54,75.92 L85.54,79.78 L82.31,81.71 L85.54,83.64 L85.54,89.42 L81.35,92.31 L85.54,95.2 L85.54,100.98 L79.76,106.77 L75.9,106.77 L70.12,100.98 L70.12,64.01 C67.66,63.01 65.36,61.52 63.37,59.53 C55.39,51.55 55.39,38.59 63.37,30.61 C71.35,22.63 84.31,22.63 92.29,30.61 L92.29,30.6 Z M77.95,37.49 C82.26,37.49 85.76,40.99 85.76,45.3 C85.76,49.61 82.26,53.11 77.95,53.11 C73.64,53.11 70.14,49.61 70.14,45.3 C70.14,40.99 73.64,37.49 77.95,37.49 Z" id="Shape" fill="#7C43C7"></path>
+        </g>
+    </g>
+</svg>

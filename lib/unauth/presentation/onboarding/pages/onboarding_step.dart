@@ -54,5 +54,7 @@ final class OnboardingPin extends OnboardingStep {
   }
 
   @override
-  OnboardingStep? getNextStep() => null;
+  OnboardingStep? getNextStep() {
+    return const OnboardingWelcome();
+  }
 }
