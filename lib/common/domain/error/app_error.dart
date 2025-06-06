@@ -1,4 +1,4 @@
-abstract class AppError {
+abstract class AppError implements Exception {
   String get message => '';
   final String reason;
   final Object? parentError;

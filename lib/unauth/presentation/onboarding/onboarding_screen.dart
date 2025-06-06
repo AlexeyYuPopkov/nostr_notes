@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
 
@@ -47,7 +48,17 @@ final class OnboardingScreen extends StatelessWidget with DialogHelper {
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
                       for (final page in OnboardingStep.pages)
-                        page.build(context),
+                        Center(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxWidth: Sizes.webMaxWidth,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(Sizes.indent2x),
+                              child: page.build(context),
+                            ),
+                          ),
+                        ),
                     ],
                   );
                 },

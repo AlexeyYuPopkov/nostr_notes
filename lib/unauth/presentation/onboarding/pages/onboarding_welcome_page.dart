@@ -18,62 +18,57 @@ final class OnboardingWelcomePage extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
 
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(Sizes.indent2x),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Center(
-                child: SvgPicture.asset(
-                  AppIcons.welcomeIcon,
-                  width: Sizes.iconTitle,
-                  height: Sizes.iconTitle,
-                  semanticsLabel: 'Nostr icon',
-                ),
-              ),
-              const SizedBox(height: Sizes.indentVariant4x),
-              Center(
-                child: Text(
-                  l10n.onboardingWelcomePageTitle,
-                  style: theme.textTheme.headlineLarge,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: Sizes.indentVariant4x),
-              Center(
-                child: Text(
-                  l10n.onboardingWelcomePageDescription,
-                  style: theme.textTheme.titleLarge,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: Sizes.indentVariant4x),
-              Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _Option(md: l10n.onboardingWelcomePageOptionMD1),
-                    _Option(md: l10n.onboardingWelcomePageOptionMD2),
-                    _Option(md: l10n.onboardingWelcomePageOptionMD3),
-                    _Option(md: l10n.onboardingWelcomePageOptionMD4),
-                  ],
-                ),
-              ),
-              const SizedBox(height: Sizes.indent4x),
-              const SizedBox(height: Sizes.indent4x),
-              Center(
-                child: PrymaryButton(
-                  title: l10n.onboardingWelcomeButtonNext,
-                  onTap: () => _onNext(context),
-                ),
-              )
-            ],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: SvgPicture.asset(
+              AppIcons.welcomeIcon,
+              width: Sizes.iconTitle,
+              height: Sizes.iconTitle,
+              semanticsLabel: 'Nostr icon',
+            ),
           ),
-        ),
+          const SizedBox(height: Sizes.indentVariant4x),
+          Center(
+            child: Text(
+              l10n.onboardingWelcomePageTitle,
+              style: theme.textTheme.headlineLarge,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: Sizes.indentVariant4x),
+          Center(
+            child: Text(
+              l10n.onboardingWelcomePageDescription,
+              style: theme.textTheme.titleLarge,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: Sizes.indentVariant4x),
+          Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _Option(md: l10n.onboardingWelcomePageOptionMD1),
+                _Option(md: l10n.onboardingWelcomePageOptionMD2),
+                _Option(md: l10n.onboardingWelcomePageOptionMD3),
+                _Option(md: l10n.onboardingWelcomePageOptionMD4),
+              ],
+            ),
+          ),
+          const SizedBox(height: Sizes.indent4x),
+          const SizedBox(height: Sizes.indent4x),
+          Center(
+            child: PrymaryButton(
+              title: l10n.onboardingWelcomeButtonNext,
+              onTap: () => _onNext(context),
+            ),
+          )
+        ],
       ),
     );
   }

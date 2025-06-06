@@ -40,6 +40,9 @@ dependencies:
   cupertino_icons: ^1.0.8
 
   web_socket_channel: ^3.0.3
+  bech32: ^0.2.2
+  hex: ^0.2.0
+  bip340: ^0.3.0
 
   freezed_annotation: ^3.0.0
   json_annotation: ^4.9.0
@@ -52,7 +55,7 @@ dependencies:
   uuid: ^4.5.1
   collection: ^1.19.0
   rxdart: ^0.28.0
-  di_storage: ^1.0.0
+  di_storage: ^2.0.1
 
   flutter_markdown: ^0.7.7+1
 

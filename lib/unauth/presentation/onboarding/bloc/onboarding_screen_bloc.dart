@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/unauth/domain/validators/nsec_validator.dart';
 
 import 'onboarding_screen_data.dart';
 import 'onboarding_screen_event.dart';
@@ -8,6 +10,8 @@ import 'onboarding_screen_state.dart';
 final class OnboardingScreenBloc
     extends Bloc<OnboardingScreenEvent, OnboardingScreenState> {
   OnboardingScreenData get data => state.data;
+
+  final NsecValidator nsecValidator = DiStorage.shared.resolve();
 
   OnboardingScreenBloc()
       : super(
@@ -34,8 +38,6 @@ final class OnboardingScreenBloc
       emit(OnboardingScreenState.loading(data: data));
 
       await Future.delayed(const Duration(seconds: 2));
-
-      // throw CommonError(message: '');
 
       emit(
         OnboardingScreenState.common(data: data),

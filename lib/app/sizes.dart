@@ -1,4 +1,7 @@
 final class Sizes {
+  /// [webMaxWidth = 600.0]
+  static const webMaxWidth = 600.0;
+
   /// [zero = 0.0]
   static const zero = 0.0;
 

@@ -17,64 +17,60 @@ final class OnboardingPinPage extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
 
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(Sizes.indent2x),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Center(
-                child: SvgPicture.asset(
-                  AppIcons.pinIcon,
-                  width: Sizes.iconTitle,
-                  height: Sizes.iconTitle,
-                  semanticsLabel: 'Pin icon',
-                ),
-              ),
-              const SizedBox(height: Sizes.indentVariant4x),
-              Center(
-                child: Text(
-                  l10n.onboardingPinPageTitle,
-                  style: theme.textTheme.headlineLarge,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: Sizes.indentVariant4x),
-              Center(
-                child: Text(
-                  l10n.onboardingPinPageDescription,
-                  style: theme.textTheme.titleLarge,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: Sizes.indentVariant4x),
-              TextField(
-                decoration: InputDecoration(
-                  hintText: l10n.onboardingPinPageTextFieldHint,
-                ),
-                onTapOutside: (e) => FocusScope.of(context).unfocus(),
-              ),
-              const SizedBox(height: Sizes.indentVariant4x),
-              Center(
-                child: Text(
-                  l10n.onboardingNsecPageLabelHint,
-                  style: theme.textTheme.bodyMedium,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: Sizes.indent4x),
-              const SizedBox(height: Sizes.indent4x),
-              Center(
-                child: PrymaryButton(
-                  title: l10n.commonButtonDone,
-                  onTap: () => _onNext(context),
-                ),
-              )
-            ],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: SvgPicture.asset(
+              AppIcons.pinIcon,
+              width: Sizes.iconTitle,
+              height: Sizes.iconTitle,
+              semanticsLabel: 'Pin icon',
+            ),
           ),
-        ),
+          const SizedBox(height: Sizes.indentVariant4x),
+          Center(
+            child: Text(
+              l10n.onboardingPinPageTitle,
+              style: theme.textTheme.headlineLarge,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: Sizes.indentVariant4x),
+          Center(
+            child: Text(
+              l10n.onboardingPinPageDescription,
+              style: theme.textTheme.titleLarge,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: Sizes.indentVariant4x),
+          TextField(
+            decoration: InputDecoration(
+              hintText: l10n.onboardingPinPageTextFieldHint,
+            ),
+            textAlign: TextAlign.center,
+            onTapOutside: (e) => FocusScope.of(context).unfocus(),
+          ),
+          const SizedBox(height: Sizes.indentVariant4x),
+          Center(
+            child: Text(
+              l10n.onboardingNsecPageLabelHint,
+              style: theme.textTheme.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: Sizes.indent4x),
+          const SizedBox(height: Sizes.indent4x),
+          Center(
+            child: PrymaryButton(
+              title: l10n.commonButtonDone,
+              onTap: () => _onNext(context),
+            ),
+          )
+        ],
       ),
     );
   }

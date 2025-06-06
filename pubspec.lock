@@ -33,6 +33,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.12.0"
+  bech32:
+    dependency: "direct main"
+    description:
+      name: bech32
+      sha256: "156cbace936f7720c79a79d16a03efad343b1ef17106716e04b8b8e39f99f7f7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
+  bip340:
+    dependency: "direct main"
+    description:
+      name: bip340
+      sha256: b7bcd70a860e605046006adaa72bc4f7453f4d31d7ba74a4ad9d5de387a0fc0b
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   bloc:
     dependency: transitive
     description:
@@ -189,10 +205,10 @@ packages:
     dependency: "direct main"
     description:
       name: di_storage
-      sha256: "56970f885392a838dc539db9e2463bc4628eb316be38df5458bb5bf5af171d19"
+      sha256: "3d980d3f7f5c2bb1797533d6b80c57fe91cfd93fb7820164e04fe21525188770"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "2.0.1"
   equatable:
     dependency: "direct main"
     description:
@@ -381,6 +397,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+  hex:
+    dependency: "direct main"
+    description:
+      name: hex
+      sha256: "4e7cd54e4b59ba026432a6be2dd9d96e4c5205725194997193bf871703b82c4a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   http:
     dependency: transitive
     description:
@@ -637,6 +661,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  pointycastle:
+    dependency: transitive
+    description:
+      name: pointycastle
+      sha256: "4be0097fcf3fd3e8449e53730c631200ebc7b88016acecab2b0da2f0149222fe"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.9.1"
   pool:
     dependency: transitive
     description:
