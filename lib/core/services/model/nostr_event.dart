@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:nostr_notes/services/model/base_nostr_event.dart';
+import 'package:nostr_notes/core/services/model/base_nostr_event.dart';
 
 part 'nostr_event.g.dart';
 

@@ -4,16 +4,33 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/common/presentation/buttons/prymary_button.dart';
-import 'package:nostr_notes/unauth/presentation/error_mapper/error_mapper.dart';
+import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
+import 'package:nostr_notes/common/presentation/buttons/prymary_loading_button.dart';
+import 'package:nostr_notes/common/presentation/buttons/vm/loading_button_vm.dart';
+import 'package:nostr_notes/unauth/presentation/onboarding/validators/nsec_validator.dart';
 
 import '../bloc/onboarding_screen_bloc.dart';
 import '../bloc/onboarding_screen_event.dart';
 
-final class OnboardingNsecPage extends StatelessWidget {
-  static final _formKey =
-      GlobalKey<FormState>(debugLabel: 'OnboardingNsecPage.FormKey');
+final class OnboardingNsecPage extends StatefulWidget {
+  static final _formKey = GlobalKey<FormState>(
+    debugLabel: 'OnboardingNsecPage.FormKey',
+  );
   const OnboardingNsecPage({super.key});
+
+  @override
+  State<OnboardingNsecPage> createState() => _OnboardingNsecPageState();
+}
+
+class _OnboardingNsecPageState extends State<OnboardingNsecPage>
+    with NsecValidator {
+  late final _controller = TextEditingController();
+
+  late final AuthUsecase _authUsecase =
+      context.read<OnboardingScreenBloc>().authUsecase;
+
+  @override
+  AuthUsecase getAuthUsecase(BuildContext context) => _authUsecase;
 
   @override
   Widget build(BuildContext context) {
@@ -51,18 +68,16 @@ final class OnboardingNsecPage extends StatelessWidget {
           ),
           const SizedBox(height: Sizes.indentVariant4x),
           Form(
-            key: _formKey,
+            key: OnboardingNsecPage._formKey,
             child: TextFormField(
+              controller: _controller,
               decoration: InputDecoration(
                 hintText: l10n.onboardingNsecPageTextFieldHint,
               ),
               textAlign: TextAlign.center,
               onTapOutside: (e) => FocusScope.of(context).unfocus(),
-              validator: (value) => context
-                  .read<OnboardingScreenBloc>()
-                  .nsecValidator
-                  .validate(value)
-                  ?.getMessage(context),
+              autovalidateMode: AutovalidateMode.onUnfocus,
+              validator: (str) => validateNsec(context, str),
             ),
           ),
           const SizedBox(height: Sizes.indentVariant4x),
@@ -76,9 +91,9 @@ final class OnboardingNsecPage extends StatelessWidget {
           const SizedBox(height: Sizes.indent4x),
           const SizedBox(height: Sizes.indent4x),
           Center(
-            child: PrymaryButton(
+            child: PrymaryLoadingButton(
               title: l10n.commonButtonNext,
-              onTap: () => _onNext(context),
+              onTap: (vm) => _onNext(context, vm),
             ),
           )
         ],
@@ -86,13 +101,14 @@ final class OnboardingNsecPage extends StatelessWidget {
     );
   }
 
-  void _onNext(BuildContext context) {
-    final isValid = _formKey.currentState?.validate() ?? false;
+  void _onNext(BuildContext context, LoadingButtonVM vm) {
+    final isValid =
+        OnboardingNsecPage._formKey.currentState?.validate() ?? false;
     if (isValid) {
-      _formKey.currentState?.save();
+      OnboardingNsecPage._formKey.currentState?.save();
       context
           .read<OnboardingScreenBloc>()
-          .add(const OnboardingScreenEvent.nextStep());
+          .add(OnboardingScreenEvent.onNsec(_controller.text, vm));
     }
   }
 }

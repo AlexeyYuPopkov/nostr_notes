@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nostr_notes/unauth/domain/validators/nsec_validator.dart';
+import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
+import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
+import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
 
 import 'onboarding_screen_data.dart';
 import 'onboarding_screen_event.dart';
@@ -11,7 +13,9 @@ final class OnboardingScreenBloc
     extends Bloc<OnboardingScreenEvent, OnboardingScreenState> {
   OnboardingScreenData get data => state.data;
 
-  final NsecValidator nsecValidator = DiStorage.shared.resolve();
+  final AuthUsecase authUsecase = DiStorage.shared.resolve();
+  final PinUsecase pinUsecase = DiStorage.shared.resolve();
+  late final StreamSubscription sessionSubscription;
 
   OnboardingScreenBloc()
       : super(
@@ -20,14 +24,31 @@ final class OnboardingScreenBloc
           ),
         ) {
     _setupHandlers();
-
+    _setupSubscriptions();
     add(const OnboardingScreenEvent.initial());
+  }
+
+  void _setupSubscriptions() {
+    sessionSubscription = authUsecase.session
+        .distinct((a, b) => a.isAuth == b.isAuth)
+        .listen((session) {
+      if (session.isAuth) {
+        add(const OnboardingScreenEvent.onStep(OnboardingPin()));
+      }
+    });
   }
 
   void _setupHandlers() {
     on<InitialEvent>(_onInitialEvent);
+    on<OnStepEvent>(_onNextStepEvent);
+    on<OnNsecEvent>(_onOnNsecEvent);
+    on<OnPinEvent>(_onOnPinEvent);
+  }
 
-    on<NextStepEvent>(_onNextStepEvent);
+  @override
+  Future<void> close() {
+    sessionSubscription.cancel();
+    return super.close();
   }
 
   void _onInitialEvent(
@@ -48,7 +69,7 @@ final class OnboardingScreenBloc
   }
 
   void _onNextStepEvent(
-    NextStepEvent event,
+    OnStepEvent event,
     Emitter<OnboardingScreenState> emit,
   ) {
     emit(
@@ -58,5 +79,43 @@ final class OnboardingScreenBloc
         ),
       ),
     );
+  }
+
+  void _onOnNsecEvent(
+    OnNsecEvent event,
+    Emitter<OnboardingScreenState> emit,
+  ) async {
+    try {
+      emit(OnboardingScreenState.loading(data: data));
+      event.vm.setLoading();
+
+      await authUsecase.execute(nsec: event.nsec);
+
+      emit(
+        OnboardingScreenState.common(data: data),
+      );
+    } catch (e) {
+      event.vm.setCompleted();
+      emit(OnboardingScreenState.error(e: e, data: data));
+    }
+  }
+
+  void _onOnPinEvent(
+    OnPinEvent event,
+    Emitter<OnboardingScreenState> emit,
+  ) async {
+    try {
+      emit(OnboardingScreenState.loading(data: data));
+      event.vm.setLoading();
+
+      await pinUsecase.execute(pin: event.pin);
+
+      emit(
+        OnboardingScreenState.common(data: data),
+      );
+    } catch (e) {
+      event.vm.setCompleted();
+      emit(OnboardingScreenState.error(e: e, data: data));
+    }
   }
 }

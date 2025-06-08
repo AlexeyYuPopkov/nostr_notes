@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:nostr_notes/services/model/nostr_event_eose.dart';
-import 'package:nostr_notes/services/model/nostr_filter.dart';
-import 'package:nostr_notes/services/model/nostr_req.dart';
-import 'package:nostr_notes/services/nostr_client.dart';
+import 'package:nostr_notes/core/services/model/nostr_event_eose.dart';
+import 'package:nostr_notes/core/services/model/nostr_filter.dart';
+import 'package:nostr_notes/core/services/model/nostr_req.dart';
+import 'package:nostr_notes/core/services/nostr_client.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 final class LoginScreen extends StatefulWidget {

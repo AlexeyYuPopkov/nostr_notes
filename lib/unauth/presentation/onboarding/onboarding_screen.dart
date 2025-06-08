@@ -44,22 +44,25 @@ final class OnboardingScreen extends StatelessWidget with DialogHelper {
               child: BlocConsumer<OnboardingScreenBloc, OnboardingScreenState>(
                 listener: _listener,
                 builder: (context, state) {
-                  return TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      for (final page in OnboardingStep.pages)
-                        Center(
-                          child: ConstrainedBox(
-                            constraints: const BoxConstraints(
-                              maxWidth: Sizes.webMaxWidth,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(Sizes.indent2x),
-                              child: page.build(context),
+                  return AbsorbPointer(
+                    absorbing: state is LoadingState,
+                    child: TabBarView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        for (final page in OnboardingStep.pages)
+                          Center(
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(
+                                maxWidth: Sizes.webMaxWidth,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(Sizes.indent2x),
+                                child: page.build(context),
+                              ),
                             ),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
                   );
                 },
               ),

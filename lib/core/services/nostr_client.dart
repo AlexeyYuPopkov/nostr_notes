@@ -1,5 +1,5 @@
-import 'package:nostr_notes/services/model/base_nostr_event.dart';
-import 'package:nostr_notes/services/nostr_relay.dart';
+import 'package:nostr_notes/core/services/model/base_nostr_event.dart';
+import 'package:nostr_notes/core/services/nostr_relay.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'model/nostr_req.dart';

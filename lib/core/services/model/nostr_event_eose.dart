@@ -1,4 +1,4 @@
-import 'package:nostr_notes/services/model/base_nostr_event.dart';
+import 'package:nostr_notes/core/services/model/base_nostr_event.dart';
 
 final class NostrEventEose extends BaseNostrEvent {
   static const String type = 'EOSE';

@@ -1,5 +1,5 @@
-import 'package:nostr_notes/services/model/base_nostr_event.dart';
-import 'package:nostr_notes/services/model/nostr_filter.dart';
+import 'package:nostr_notes/core/services/model/base_nostr_event.dart';
+import 'package:nostr_notes/core/services/model/nostr_filter.dart';
 import 'package:uuid/uuid.dart';
 
 class NostrReq extends BaseNostrEvent {

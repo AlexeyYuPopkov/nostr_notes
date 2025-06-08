@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:nostr_notes/services/model/base_nostr_event.dart';
-import 'package:nostr_notes/services/model/nostr_event.dart';
-import 'package:nostr_notes/services/model/nostr_event_eose.dart';
-import 'package:nostr_notes/services/model/nostr_req.dart';
-import 'package:nostr_notes/services/nostr_client.dart';
-import 'package:nostr_notes/services/ws_channel.dart';
+import 'package:nostr_notes/core/services/model/base_nostr_event.dart';
+import 'package:nostr_notes/core/services/model/nostr_event.dart';
+import 'package:nostr_notes/core/services/model/nostr_event_eose.dart';
+import 'package:nostr_notes/core/services/model/nostr_req.dart';
+import 'package:nostr_notes/core/services/nostr_client.dart';
+import 'package:nostr_notes/core/services/ws_channel.dart';
 import 'package:rxdart/rxdart.dart';
 
 class NostrRelay with NostrRelayEventMapper {

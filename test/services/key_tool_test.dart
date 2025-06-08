@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nostr_notes/services/key_tool/key_tool.dart';
+import 'package:nostr_notes/core/services/key_tool/key_tool.dart';
 
 void main() {
   group('KeyTool', () {

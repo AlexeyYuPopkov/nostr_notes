@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/theme/app_theme.dart';
-import 'package:nostr_notes/router/app_router.dart';
+import 'package:nostr_notes/app/router/app_router.dart';
 
 final _appRouter = AppRouter();
 

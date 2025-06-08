@@ -8,6 +8,11 @@ abstract class AppError implements Exception {
     this.parentError,
   });
 
+  const factory AppError.notAuthenticated({
+    Object? parentError,
+    String reason,
+  }) = NotAuthenticatedError;
+
   @override
   String toString() {
     return [
@@ -32,6 +37,13 @@ final class CommonError extends AppError {
 
   const CommonError({
     required this.message,
+    super.parentError,
+    super.reason,
+  });
+}
+
+final class NotAuthenticatedError extends AppError {
+  const NotAuthenticatedError({
     super.parentError,
     super.reason,
   });

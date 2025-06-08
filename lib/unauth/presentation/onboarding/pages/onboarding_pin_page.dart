@@ -4,13 +4,24 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/common/presentation/buttons/prymary_button.dart';
+import 'package:nostr_notes/common/presentation/buttons/prymary_loading_button.dart';
+import 'package:nostr_notes/common/presentation/buttons/vm/loading_button_vm.dart';
 
 import '../bloc/onboarding_screen_bloc.dart';
 import '../bloc/onboarding_screen_event.dart';
 
-final class OnboardingPinPage extends StatelessWidget {
+final class OnboardingPinPage extends StatefulWidget {
+  static final _formKey = GlobalKey<FormState>(
+    debugLabel: 'OnboardingPinPage.FormKey',
+  );
   const OnboardingPinPage({super.key});
+
+  @override
+  State<OnboardingPinPage> createState() => _OnboardingPinPageState();
+}
+
+class _OnboardingPinPageState extends State<OnboardingPinPage> {
+  late final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +58,16 @@ final class OnboardingPinPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: Sizes.indentVariant4x),
-          TextField(
-            decoration: InputDecoration(
-              hintText: l10n.onboardingPinPageTextFieldHint,
+          Form(
+            key: OnboardingPinPage._formKey,
+            child: TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                hintText: l10n.onboardingPinPageTextFieldHint,
+              ),
+              textAlign: TextAlign.center,
+              onTapOutside: (e) => FocusScope.of(context).unfocus(),
             ),
-            textAlign: TextAlign.center,
-            onTapOutside: (e) => FocusScope.of(context).unfocus(),
           ),
           const SizedBox(height: Sizes.indentVariant4x),
           Center(
@@ -65,9 +80,9 @@ final class OnboardingPinPage extends StatelessWidget {
           const SizedBox(height: Sizes.indent4x),
           const SizedBox(height: Sizes.indent4x),
           Center(
-            child: PrymaryButton(
+            child: PrymaryLoadingButton(
               title: l10n.commonButtonDone,
-              onTap: () => _onNext(context),
+              onTap: (vm) => _onNext(context, vm),
             ),
           )
         ],
@@ -75,7 +90,14 @@ final class OnboardingPinPage extends StatelessWidget {
     );
   }
 
-  void _onNext(BuildContext context) => context
-      .read<OnboardingScreenBloc>()
-      .add(const OnboardingScreenEvent.nextStep());
+  void _onNext(BuildContext context, LoadingButtonVM vm) {
+    final isValid =
+        OnboardingPinPage._formKey.currentState?.validate() ?? false;
+    if (isValid) {
+      OnboardingPinPage._formKey.currentState?.save();
+      context
+          .read<OnboardingScreenBloc>()
+          .add(OnboardingScreenEvent.onPin(_controller.text, vm));
+    }
+  }
 }
