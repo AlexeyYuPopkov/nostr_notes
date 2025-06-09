@@ -74,9 +74,7 @@ final class OnboardingScreenBloc
   ) {
     emit(
       OnboardingScreenState.common(
-        data: data.copyWith(
-          step: data.step.getNextStep() ?? data.step,
-        ),
+        data: data.copyWith(step: event.step),
       ),
     );
   }

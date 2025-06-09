@@ -4,15 +4,19 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/auth/home_screen.dart';
+import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/onboarding_screen.dart';
 
 final class AppRouter {
   late final SessionUsecase session = DiStorage.shared.resolve();
+  late final authUsecase = DiStorage.shared.resolve<AuthUsecase>();
   late final StreamSubscription sessionSubscription;
 
   AppRouter() {
-    _createSessionSubscription();
+    authUsecase.restore().then(
+          (_) => _createSessionSubscription(),
+        );
   }
 
   void _createSessionSubscription() {

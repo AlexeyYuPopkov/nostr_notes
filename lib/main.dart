@@ -3,6 +3,7 @@ import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/theme/app_theme.dart';
 import 'package:nostr_notes/app/router/app_router.dart';
+import 'package:nostr_notes/common/data/root_context_provider/root_context_provider.dart';
 
 final _appRouter = AppRouter();
 
@@ -24,6 +25,10 @@ final class App extends StatelessWidget {
       localizationsDelegates: Localization.localizationsDelegates,
       supportedLocales: Localization.supportedLocales,
       routerConfig: _appRouter.router,
+      builder: (context, child) {
+        RootContextProvider.instance.setRootContext(context);
+        return child!;
+      },
     );
   }
 }

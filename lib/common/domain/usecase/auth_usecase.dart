@@ -22,8 +22,7 @@ final class AuthUsecase {
   Stream<Session> get session => _sessionUsecase.sessionStream;
 
   Future<void> execute({required String nsec}) async {
-    final nsecTrimmed = nsec.trim();
-    final userKeys = _keyToolRepository.getUserKeys(nsec: nsecTrimmed);
+    final userKeys = _keyToolRepository.getUserKeysWithNsec(nsec: nsec);
     _secureStorage.setValue(key: secureStorageKey, value: userKeys.privateKey);
 
     final currentSession = _sessionUsecase.currentSession;
@@ -42,10 +41,39 @@ final class AuthUsecase {
     }
   }
 
-  NsecError? validate(String? nsec) {
+  Future<void> restore() async {
+    final privateKey = await _secureStorage.getValue(key: secureStorageKey);
+    if (privateKey.isEmpty) {
+      _sessionUsecase.setSession(const Unauth());
+      return;
+    }
+
+    final isValid = validatePrivateKey(privateKey) == null;
+    if (!isValid) {
+      _sessionUsecase.setSession(const Unauth());
+      return;
+    }
+
+    final userKeys = _keyToolRepository.getUserKeysWithPrivateKey(
+      privateKey: privateKey,
+    );
+    _sessionUsecase.setSession(Auth(userKeys));
+  }
+
+  KeysError? validateNsec(String? nsec) {
     try {
-      _keyToolRepository.getUserKeys(nsec: nsec);
-    } on NsecError catch (e) {
+      _keyToolRepository.getUserKeysWithNsec(nsec: nsec);
+    } on KeysError catch (e) {
+      return e;
+    }
+
+    return null;
+  }
+
+  KeysError? validatePrivateKey(String? privateKey) {
+    try {
+      _keyToolRepository.getUserKeysWithPrivateKey(privateKey: privateKey);
+    } on KeysError catch (e) {
       return e;
     }
 

@@ -25,5 +25,18 @@
     "onboardingPinPageDescription": "This is used for an additional layer of encryption – even if someone obtains your nsec, your notes will remain protected",
     "onboardingPinPageTextFieldHint": "PIN or password",
 
-    "errorInvalidNsec": "Invalid NSEC key format"
+    "errorEmptyNsec": "NSEC key cannot be empty",
+    "errorInvalidNsecFormat": "Invalid NSEC key format",
+    "errorInvalidPrivateKey": "Invalid private key",
+    "errorEmptyPubkey": "Public key cannot be empty",
+    "errorEmptyPin": "PIN or password cannot be empty",
+    "errorInvalidPinFormatMinCount": "PIN or password must be at least {minCount} characters long",
+    "@errorInvalidPinFormatMinCount": {
+        "placeholders": {
+            "minCount": {
+                "format": "String",
+                "type": "String"
+                }
+            }
+    }
 }

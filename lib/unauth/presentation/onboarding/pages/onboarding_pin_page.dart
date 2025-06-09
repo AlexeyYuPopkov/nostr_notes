@@ -4,11 +4,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/sizes.dart';
+import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 import 'package:nostr_notes/common/presentation/buttons/prymary_loading_button.dart';
 import 'package:nostr_notes/common/presentation/buttons/vm/loading_button_vm.dart';
 
 import '../bloc/onboarding_screen_bloc.dart';
 import '../bloc/onboarding_screen_event.dart';
+import '../validators/pin_validator.dart';
+import '../widgets/onboarding_text_field.dart';
 
 final class OnboardingPinPage extends StatefulWidget {
   static final _formKey = GlobalKey<FormState>(
@@ -20,7 +23,14 @@ final class OnboardingPinPage extends StatefulWidget {
   State<OnboardingPinPage> createState() => _OnboardingPinPageState();
 }
 
-class _OnboardingPinPageState extends State<OnboardingPinPage> {
+final class _OnboardingPinPageState extends State<OnboardingPinPage>
+    with PinValidator {
+  late final PinUsecase _pinUsecase =
+      context.read<OnboardingScreenBloc>().pinUsecase;
+
+  @override
+  PinUsecase getPinUsecase(BuildContext context) => _pinUsecase;
+
   late final _controller = TextEditingController();
 
   @override
@@ -60,13 +70,11 @@ class _OnboardingPinPageState extends State<OnboardingPinPage> {
           const SizedBox(height: Sizes.indentVariant4x),
           Form(
             key: OnboardingPinPage._formKey,
-            child: TextField(
+            child: OnboardingTextFormField(
+              initialValue: _controller.text,
               controller: _controller,
-              decoration: InputDecoration(
-                hintText: l10n.onboardingPinPageTextFieldHint,
-              ),
-              textAlign: TextAlign.center,
-              onTapOutside: (e) => FocusScope.of(context).unfocus(),
+              hint: l10n.onboardingPinPageTextFieldHint,
+              validator: (str) => validatePin(context, str),
             ),
           ),
           const SizedBox(height: Sizes.indentVariant4x),

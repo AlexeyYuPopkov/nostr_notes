@@ -27,6 +27,10 @@ final class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColorScheme.light.surface,
+      errorStyle: TextStyle(
+        color: AppColorScheme.light.error,
+        fontSize: TextSizes.small,
+      ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(Sizes.radius),
         borderSide: BorderSide(color: AppColorScheme.light.outline),
@@ -84,6 +88,10 @@ final class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColorScheme.dark.surface,
+      errorStyle: TextStyle(
+        color: AppColorScheme.dark.error,
+        fontSize: TextSizes.small,
+      ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(Sizes.radius),
         borderSide: BorderSide(color: AppColorScheme.dark.outline),

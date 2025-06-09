@@ -1,4 +1,5 @@
-import 'package:nostr_notes/common/domain/model/error/app_error.dart';
+import 'package:nostr_notes/common/domain/error/app_error.dart';
+import 'package:nostr_notes/common/domain/error/error_messages_provider.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 
@@ -42,25 +43,36 @@ final class PinUsecase {
     }
 
     if (pinTrimmed.length < minLength) {
-      return const PinErrorLength();
+      return const PinErrorMinLength(minLength);
     }
 
     return null;
   }
 }
 
-final class PinError extends AppError {
+abstract class PinError extends AppError {
   const PinError({required super.reason});
 }
 
 final class PinErrorEmpty extends PinError {
   const PinErrorEmpty() : super(reason: 'Invalid PIN format');
+
+  // @override
+  // String get message => ErrorMessagesProvider.defaultProvider.errorEmptyPin;
+
+  @override
+  String get message => ErrorMessagesProvider.defaultProvider.emptyPubkey;
 }
 
-final class PinErrorLength extends PinError {
-  const PinErrorLength()
+final class PinErrorMinLength extends PinError {
+  final int expectedMinCount;
+  const PinErrorMinLength(this.expectedMinCount)
       : super(
           reason:
               'PIN must be at least ${PinUsecase.minLength} characters long',
         );
+
+  @override
+  String get message => ErrorMessagesProvider.defaultProvider
+      .errorInvalidPinFormatMinCount(expectedMinCount);
 }

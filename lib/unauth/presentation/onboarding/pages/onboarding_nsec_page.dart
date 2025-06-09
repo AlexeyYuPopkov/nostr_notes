@@ -11,6 +11,7 @@ import 'package:nostr_notes/unauth/presentation/onboarding/validators/nsec_valid
 
 import '../bloc/onboarding_screen_bloc.dart';
 import '../bloc/onboarding_screen_event.dart';
+import '../widgets/onboarding_text_field.dart';
 
 final class OnboardingNsecPage extends StatefulWidget {
   static final _formKey = GlobalKey<FormState>(
@@ -22,7 +23,7 @@ final class OnboardingNsecPage extends StatefulWidget {
   State<OnboardingNsecPage> createState() => _OnboardingNsecPageState();
 }
 
-class _OnboardingNsecPageState extends State<OnboardingNsecPage>
+final class _OnboardingNsecPageState extends State<OnboardingNsecPage>
     with NsecValidator {
   late final _controller = TextEditingController();
 
@@ -69,14 +70,10 @@ class _OnboardingNsecPageState extends State<OnboardingNsecPage>
           const SizedBox(height: Sizes.indentVariant4x),
           Form(
             key: OnboardingNsecPage._formKey,
-            child: TextFormField(
+            child: OnboardingTextFormField(
+              initialValue: _controller.text,
               controller: _controller,
-              decoration: InputDecoration(
-                hintText: l10n.onboardingNsecPageTextFieldHint,
-              ),
-              textAlign: TextAlign.center,
-              onTapOutside: (e) => FocusScope.of(context).unfocus(),
-              autovalidateMode: AutovalidateMode.onUnfocus,
+              hint: l10n.onboardingNsecPageTextFieldHint,
               validator: (str) => validateNsec(context, str),
             ),
           ),
