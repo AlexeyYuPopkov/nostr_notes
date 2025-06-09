@@ -1,10 +1,12 @@
 {
     "commonButtonBack": "Back",
     "commonButtonOk": "OK",
+     "commonButtonCancel": "Cancel",
     "commonButtonContinue": "Continue",
     "commonButtonNext": "Next",
     "commonButtonDone": "Done",
     "commonError": "Error",
+    "commonAttention": "Attention",
     "commonUndefinedError": "Something went wrong",
     "commonNoDataPlaceholderText": "No data",
     "authError": "Authentication error",
@@ -38,5 +40,10 @@
                 "type": "String"
                 }
             }
-    }
+    },
+
+    "settingsScreenTitle": "Settings",
+    "settingsScreenExit": "Exit",
+    "settingsScreenLogout": "Logout and clear data",
+    "settingsScreenLogoutConfirmationMessage": "Do you really want to log out and clear all data? This action cannot be undone"
 }

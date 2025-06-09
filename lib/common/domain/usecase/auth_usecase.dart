@@ -60,6 +60,11 @@ final class AuthUsecase {
     _sessionUsecase.setSession(Auth(userKeys));
   }
 
+  Future<void> logout() async {
+    _secureStorage.setValue(key: secureStorageKey, value: '');
+    _sessionUsecase.setSession(const Unauth());
+  }
+
   KeysError? validateNsec(String? nsec) {
     try {
       _keyToolRepository.getUserKeysWithNsec(nsec: nsec);

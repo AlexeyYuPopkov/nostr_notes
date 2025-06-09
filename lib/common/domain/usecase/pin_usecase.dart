@@ -32,6 +32,8 @@ final class PinUsecase {
     }
   }
 
+  // void exit() => _sessionUsecase.setSession(const Auth());
+
   PinError? validate(String? pin) {
     if (pin == null || pin.isEmpty) {
       return const PinErrorEmpty();

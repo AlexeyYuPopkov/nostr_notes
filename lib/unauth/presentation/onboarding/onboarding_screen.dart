@@ -20,7 +20,7 @@ final class OnboardingScreen extends StatelessWidget with DialogHelper {
       case LoadingState():
         break;
       case ErrorState():
-        showError(context: context, error: state.e);
+        showError(context, error: state.e);
         break;
     }
   }
