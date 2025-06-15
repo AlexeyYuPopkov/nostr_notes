@@ -19,7 +19,7 @@ final class NostrEvent extends BaseNostrEvent {
   final String id;
   @JsonKey(name: 'pubkey', defaultValue: '')
   final String pubkey;
-  @JsonKey(name: 'createdAt', defaultValue: 0)
+  @JsonKey(name: 'created_at', defaultValue: 0)
   final int createdAt;
   @JsonKey(name: 'tags', defaultValue: [])
   final List<List<String>> tags;
@@ -45,4 +45,14 @@ final class NostrEvent extends BaseNostrEvent {
 
   @override
   String toString() => jsonEncode(toJson());
+
+  @override
+  String serialized([String subscriptionId = '']) {
+    final result = [
+      '"${EventType.event.type}"',
+      jsonEncode(toJson()),
+    ].join(',');
+
+    return '[$result]';
+  }
 }

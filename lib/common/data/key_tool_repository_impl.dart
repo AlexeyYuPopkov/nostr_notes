@@ -47,4 +47,15 @@ final class KeyToolRepositoryImpl implements KeyToolRepository {
       privateKey: privateKeyTrimmed,
     );
   }
+
+  @override
+  String createSig({
+    required String rawMessage,
+    required String privateKey,
+  }) {
+    return KeyTool.createSig(
+      rawMessage: rawMessage,
+      privateKey: privateKey,
+    );
+  }
 }

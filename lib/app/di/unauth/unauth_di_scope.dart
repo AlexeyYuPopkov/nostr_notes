@@ -44,6 +44,7 @@ final class UnauthDiScope extends DiScope {
       module: this,
       lifeTime: const LifeTime.single(),
     );
+
     di.bind<PinUsecase>(
       () => PinUsecase(sessionUsecase: di.resolve()),
       module: this,

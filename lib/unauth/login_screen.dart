@@ -54,10 +54,10 @@ class _LoginScreenState extends State<LoginScreen> {
       print('Stream closed');
     });
 
-    _client.sendEventToAll(
-      NostrReq.create(
+    _client.sendRequestToAll(
+      const NostrReq(
         filters: [
-          const NostrFilter(
+          NostrFilter(
             kinds: [4],
             limit: 5,
           ),

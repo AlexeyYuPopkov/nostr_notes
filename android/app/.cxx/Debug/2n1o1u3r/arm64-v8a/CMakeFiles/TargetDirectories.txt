@@ -1,0 +1,2 @@
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/android/app/.cxx/Debug/2n1o1u3r/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/android/app/.cxx/Debug/2n1o1u3r/arm64-v8a/CMakeFiles/rebuild_cache.dir

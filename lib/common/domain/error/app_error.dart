@@ -1,3 +1,5 @@
+import 'package:nostr_notes/common/domain/error/error_messages_provider.dart';
+
 abstract class AppError implements Exception {
   String get message => '';
   final String reason;
@@ -12,6 +14,12 @@ abstract class AppError implements Exception {
     Object? parentError,
     String reason,
   }) = NotAuthenticatedError;
+
+  const factory AppError.common({
+    required String message,
+    Object? parentError,
+    String reason,
+  }) = CommonError;
 
   @override
   String toString() {
@@ -47,4 +55,7 @@ final class NotAuthenticatedError extends AppError {
     super.parentError,
     super.reason,
   });
+
+  @override
+  String get message => ErrorMessagesProvider.defaultProvider.authError;
 }

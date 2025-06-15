@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:nostr_notes/core/services/model/base_nostr_event.dart';
 
 final class NostrEventEose extends BaseNostrEvent {
@@ -10,7 +12,13 @@ final class NostrEventEose extends BaseNostrEvent {
   EventType get eventType => EventType.eose;
 
   @override
-  String toString() {
-    return '["$type", "$subscriptionId", "$relay"]';
+  String serialized(String subscriptionId) {
+    return jsonEncode(
+      [
+        EventType.request.type,
+        subscriptionId,
+        relay,
+      ],
+    );
   }
 }

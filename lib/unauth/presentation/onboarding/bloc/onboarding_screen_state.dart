@@ -22,6 +22,10 @@ sealed class OnboardingScreenState extends Equatable {
     required OnboardingScreenData data,
     required Object e,
   }) = ErrorState;
+
+  const factory OnboardingScreenState.didUnlock({
+    required OnboardingScreenData data,
+  }) = DidUnlockState;
 }
 
 final class CommonState extends OnboardingScreenState {
@@ -30,6 +34,10 @@ final class CommonState extends OnboardingScreenState {
 
 final class LoadingState extends OnboardingScreenState {
   const LoadingState({required super.data});
+}
+
+final class DidUnlockState extends OnboardingScreenState {
+  const DidUnlockState({required super.data});
 }
 
 final class ErrorState extends OnboardingScreenState {

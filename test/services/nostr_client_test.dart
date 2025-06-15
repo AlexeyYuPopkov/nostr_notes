@@ -127,7 +127,7 @@ void main() {
 
     setUp(() async {
       await setupSocket();
-      client = NostrClient();
+      client = NostrClient(uuid: uuid);
     });
 
     tearDown(() async {
@@ -145,11 +145,10 @@ void main() {
 
       when(() => uuid.v1()).thenReturn('uuid-v1');
 
-      client.sendEventToAll(
-        NostrReq.create(
-          uuid: uuid,
+      client.sendRequestToAll(
+        const NostrReq(
           filters: [
-            const NostrFilter(
+            NostrFilter(
               kinds: [4],
               limit: 5,
             ),
@@ -175,7 +174,7 @@ void main() {
             const exepted = r'''{"kind":4,
                 "id":"9fe82b0ab2bb9d3b4523daaf947a17a050945ee2d45dca2c109785eff20cbcb9",
                 "pubkey":"dbbd7125eaead5470fa0f1c8e148fc866a0e0a24756d9e9964810d9007ff73f8",
-                "createdAt":0,
+                "created_at":1747690217,
                 "tags":[["p","87e02be9ae3894742a3fedda2e6b33675b642800633ab8c7ac1a306f107ac81c"]],
                 "content":"fg3oLO54BQYBWmN22pNuhDxrm1xq36m7vZy8KnXBiDhX3o/xwZbDHttwmuMNvids/7LzkK6qB5LM9jVwBPolcJJN311GReBTrb3I3gr3G8i0Bwl2TZGYydpGyyKJDTW7?iv=3tikMldwry7sgWsnbcgo8Q==",
                 "sig":"a1c1328d90adb6b6f7590493761a893d9cabe6843890653b6f8a9b58168ffa9a86afb67f864b179e52083a60ed8b674a8c3e10e847aca85a79403814a2ba1a0f"}''';
@@ -189,7 +188,7 @@ void main() {
             const exepted = r'''{"kind":4,
             "id":"b6429ba094aa41ef040241f46b8390eb3ac7d42dd780558ccd20fb02fc0bbdba",
             "pubkey":"3c316a662b851c0c2292a22099e0a7ef3a34234024987a669d2bd711bb42e850",
-            "createdAt":0,
+            "created_at":1747690210,
             "tags":[["p","c04b100da6f8e89863f904e2a53c9ebb8902d2d6b9ae96d2187987c5effa5093"]],
             "content":"OeXjJDJTkdPs6paEqpAHjHuqMdMaaXDurwtXlofVeUzSsR88S5jd8nfVmh0COa21A5s9MpJSf1C/2OmmrL3RC9nl2jsE+HJNpcApikym/Skb/G+ADpcdLAkVk6PnFRJLLgPzmr2MOAn43JpAaFJLDw==?iv=3jyYiIaWabIyJrZyDEwXaw==",
             "sig":"e2a62bea9de72b214f74c5f40bdf98e4e4cdb063de15e28cf28f9f6f0f65fcee24560fdd94f2073b124f25297fc89cdf6d2f31f46a3b658501188846ff38f569"}''';

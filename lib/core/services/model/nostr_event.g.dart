@@ -10,7 +10,7 @@ NostrEvent _$NostrEventFromJson(Map<String, dynamic> json) => NostrEvent(
       kind: (json['kind'] as num?)?.toInt() ?? 999999,
       id: json['id'] as String? ?? '',
       pubkey: json['pubkey'] as String? ?? '',
-      createdAt: (json['createdAt'] as num?)?.toInt() ?? 0,
+      createdAt: (json['created_at'] as num?)?.toInt() ?? 0,
       tags: (json['tags'] as List<dynamic>?)
               ?.map(
                   (e) => (e as List<dynamic>).map((e) => e as String).toList())
@@ -25,7 +25,7 @@ Map<String, dynamic> _$NostrEventToJson(NostrEvent instance) =>
       'kind': instance.kind,
       'id': instance.id,
       'pubkey': instance.pubkey,
-      'createdAt': instance.createdAt,
+      'created_at': instance.createdAt,
       'tags': instance.tags,
       'content': instance.content,
       'sig': instance.sig,

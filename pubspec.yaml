@@ -43,6 +43,10 @@ dependencies:
   bech32: ^0.2.2
   hex: ^0.2.0
   bip340: ^0.3.0
+  kepler: ^1.0.3
+  pointycastle: ^3.6.0
+  crypto: ^3.0.6
+  convert: ^3.1.2
 
   freezed_annotation: ^3.0.0
   json_annotation: ^4.9.0
@@ -58,6 +62,9 @@ dependencies:
   di_storage: ^2.0.1
 
   flutter_markdown: ^0.7.7+1
+  # markdown_editor_plus: ^0.2.15
+  # flutter_markdown_editor: ^2.0.0
+  # super_editor: #^0.2.7
 
 dev_dependencies:
   flutter_test:

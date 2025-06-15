@@ -33,4 +33,8 @@ final class ErrorMessagesProviderImpl implements ErrorMessagesProvider {
       minCount.toString(),
     );
   }
+
+  @override
+  String get noteScreenNoteContentCannotBeEmpty =>
+      _rootContextProvider.l10n.noteScreenErrorNoteContentCannotBeEmpty;
 }

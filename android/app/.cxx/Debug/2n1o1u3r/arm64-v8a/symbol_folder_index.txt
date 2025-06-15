@@ -1,0 +1,1 @@
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/build/app/intermediates/cxx/Debug/2n1o1u3r/obj/arm64-v8a

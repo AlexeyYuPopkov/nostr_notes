@@ -4,6 +4,7 @@
      "commonButtonCancel": "Cancel",
     "commonButtonContinue": "Continue",
     "commonButtonNext": "Next",
+    "commonButtonSave": "Save",
     "commonButtonDone": "Done",
     "commonError": "Error",
     "commonAttention": "Attention",
@@ -45,5 +46,7 @@
     "settingsScreenTitle": "Settings",
     "settingsScreenExit": "Exit",
     "settingsScreenLogout": "Logout and clear data",
-    "settingsScreenLogoutConfirmationMessage": "Do you really want to log out and clear all data? This action cannot be undone"
+    "settingsScreenLogoutConfirmationMessage": "Do you really want to log out and clear all data? This action cannot be undone",
+
+    "noteScreenErrorNoteContentCannotBeEmpty": "Note content cannot be empty"
 }

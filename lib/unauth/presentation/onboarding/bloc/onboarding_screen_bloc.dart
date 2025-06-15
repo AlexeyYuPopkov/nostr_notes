@@ -109,7 +109,7 @@ final class OnboardingScreenBloc
       await pinUsecase.execute(pin: event.pin);
 
       emit(
-        OnboardingScreenState.common(data: data),
+        OnboardingScreenState.didUnlock(data: data),
       );
     } catch (e) {
       event.vm.setCompleted();

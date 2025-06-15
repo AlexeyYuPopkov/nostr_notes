@@ -2,6 +2,8 @@ abstract class BaseNostrEvent {
   const BaseNostrEvent();
 
   EventType get eventType;
+
+  String serialized(String subscriptionId);
 }
 
 enum EventType {

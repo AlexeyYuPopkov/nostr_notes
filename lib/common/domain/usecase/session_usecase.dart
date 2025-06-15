@@ -1,5 +1,5 @@
 import 'package:nostr_notes/common/domain/model/session/session.dart';
-import 'package:nostr_notes/core/disposable.dart';
+import 'package:nostr_notes/core/tools/disposable.dart';
 import 'package:rxdart/rxdart.dart';
 
 final class SessionUsecase implements Disposable {

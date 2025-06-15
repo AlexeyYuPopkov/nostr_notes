@@ -1,28 +1,15 @@
 import 'package:nostr_notes/core/services/model/base_nostr_event.dart';
 import 'package:nostr_notes/core/services/model/nostr_filter.dart';
-import 'package:uuid/uuid.dart';
 
 class NostrReq extends BaseNostrEvent {
-  final String subscriptionId;
   final List<NostrFilter> filters;
 
-  const NostrReq._({
-    required this.subscriptionId,
+  const NostrReq({
     required this.filters,
   });
 
-  factory NostrReq.create({
-    Uuid? uuid = const Uuid(),
-    required List<NostrFilter> filters,
-  }) {
-    final subscriptionId = (uuid ?? const Uuid()).v1();
-    return NostrReq._(
-      subscriptionId: subscriptionId,
-      filters: filters,
-    );
-  }
-
-  String toJsonString() {
+  @override
+  String serialized(String subscriptionId) {
     final filtersStr = [
       '"${EventType.request.type}"',
       '"$subscriptionId"',

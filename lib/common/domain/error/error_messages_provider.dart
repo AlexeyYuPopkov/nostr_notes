@@ -14,4 +14,5 @@ abstract interface class ErrorMessagesProvider {
   String get emptyPubkey;
   String get emptyPin;
   String errorInvalidPinFormatMinCount(int minCount);
+  String get noteScreenNoteContentCannotBeEmpty;
 }

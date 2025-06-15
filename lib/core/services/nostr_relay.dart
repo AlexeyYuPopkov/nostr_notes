@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:nostr_notes/core/services/model/base_nostr_event.dart';
 import 'package:nostr_notes/core/services/model/nostr_event.dart';
 import 'package:nostr_notes/core/services/model/nostr_event_eose.dart';
-import 'package:nostr_notes/core/services/model/nostr_req.dart';
 import 'package:nostr_notes/core/services/nostr_client.dart';
 import 'package:nostr_notes/core/services/ws_channel.dart';
 import 'package:rxdart/rxdart.dart';
@@ -29,8 +28,8 @@ class NostrRelay with NostrRelayEventMapper {
 
   Future<void> get ready => _channel.ready;
 
-  void sendEvent(NostrReq req) {
-    _channel.add(req.toJsonString());
+  void sendEvent(BaseNostrEvent req, String subscriptionId) {
+    _channel.add(req.serialized(subscriptionId));
   }
 
   Stream<BaseNostrEvent> get events {

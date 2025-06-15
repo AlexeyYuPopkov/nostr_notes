@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:bip340/bip340.dart' as bip340;
+import 'package:convert/convert.dart';
 
 import 'bech32_tool.dart';
 
@@ -34,6 +37,21 @@ final class KeyTool {
     } catch (e) {
       return null;
     }
+  }
+
+  static String createSig({
+    required String rawMessage,
+    required String privateKey,
+  }) {
+    final aux = random64HexChars();
+    return bip340.sign(privateKey, rawMessage, aux);
+  }
+
+  static String random64HexChars() {
+    final random = Random.secure();
+    final randomBytes = List<int>.generate(32, (i) => random.nextInt(256));
+
+    return hex.encode(randomBytes);
   }
 
   static String _decodeNsecKeyToPrivateKey(String nsecKey) {

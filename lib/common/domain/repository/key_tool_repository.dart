@@ -5,6 +5,10 @@ import 'package:nostr_notes/common/domain/model/session/user_keys.dart';
 abstract class KeyToolRepository {
   UserKeys getUserKeysWithNsec({required String? nsec});
   UserKeys getUserKeysWithPrivateKey({required String? privateKey});
+  String createSig({
+    required String rawMessage,
+    required String privateKey,
+  });
 }
 
 abstract class KeysError extends AppError {
