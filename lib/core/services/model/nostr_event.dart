@@ -46,8 +46,7 @@ final class NostrEvent extends BaseNostrEvent {
   @override
   String toString() => jsonEncode(toJson());
 
-  @override
-  String serialized([String subscriptionId = '']) {
+  String serialized() {
     final result = [
       '"${EventType.event.type}"',
       jsonEncode(toJson()),

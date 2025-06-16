@@ -8,7 +8,6 @@ class NostrReq extends BaseNostrEvent {
     required this.filters,
   });
 
-  @override
   String serialized(String subscriptionId) {
     final filtersStr = [
       '"${EventType.request.type}"',

@@ -1,7 +1,7 @@
 import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/common/domain/event_publisher.dart';
 import 'package:nostr_notes/core/services/model/tag/tag.dart';
-import 'package:nostr_notes/core/services/nip04_service.dart';
+import 'package:nostr_notes/core/services/key_tool/nip04_service.dart';
 import 'package:nostr_notes/core/services/nostr_client.dart';
 import 'package:nostr_notes/core/services/nostr_event_creator.dart';
 import 'package:nostr_notes/core/tools/now.dart';

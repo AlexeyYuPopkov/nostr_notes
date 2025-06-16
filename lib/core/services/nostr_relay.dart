@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:nostr_notes/core/services/channel_factory.dart';
 import 'package:nostr_notes/core/services/model/base_nostr_event.dart';
 import 'package:nostr_notes/core/services/model/nostr_event.dart';
 import 'package:nostr_notes/core/services/model/nostr_event_eose.dart';
-import 'package:nostr_notes/core/services/nostr_client.dart';
+import 'package:nostr_notes/core/services/model/nostr_event_ok.dart';
+import 'package:nostr_notes/core/services/model/nostr_req.dart';
 import 'package:nostr_notes/core/services/ws_channel.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -28,8 +30,12 @@ class NostrRelay with NostrRelayEventMapper {
 
   Future<void> get ready => _channel.ready;
 
-  void sendEvent(BaseNostrEvent req, String subscriptionId) {
+  void sendRequest(NostrReq req, String subscriptionId) {
     _channel.add(req.serialized(subscriptionId));
+  }
+
+  void sendEvent(NostrEvent event) {
+    _channel.add(event.serialized());
   }
 
   Stream<BaseNostrEvent> get events {
@@ -85,6 +91,15 @@ mixin NostrRelayEventMapper {
 
     if (length < 3) {
       return null;
+    }
+
+    if (type == EventType.ok.type) {
+      return NostrEventOk(
+        relay: url,
+        isOk: content[2] as bool? ?? false,
+        subscriptionId: subscriptionId,
+        message: content[3] as String? ?? '',
+      );
     }
 
     final payload = content[2] as Map<String, dynamic>?;

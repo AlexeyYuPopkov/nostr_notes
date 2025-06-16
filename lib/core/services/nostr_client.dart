@@ -1,28 +1,17 @@
 import 'dart:async';
 
+import 'package:nostr_notes/core/services/channel_factory.dart';
 import 'package:nostr_notes/core/services/model/base_nostr_event.dart';
 import 'package:nostr_notes/core/services/model/nostr_event.dart';
+import 'package:nostr_notes/core/services/model/nostr_event_ok.dart';
+import 'package:nostr_notes/core/services/nostr_event_ok_completer_map.dart';
 import 'package:nostr_notes/core/services/nostr_relay.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 import 'model/nostr_req.dart';
-import 'ws_channel.dart';
-
-class ChannelFactory {
-  const ChannelFactory();
-
-  WsChannel create(String url) {
-    return WsChannel(
-      url: url,
-      channel: WebSocketChannel.connect(
-        Uri.parse(url),
-      ),
-    );
-  }
-}
 
 final class NostrClient {
+  static const publishWindow = Duration(seconds: 2);
   NostrClient({
     ChannelFactory? channelFactory,
     Uuid? uuid,
@@ -33,6 +22,7 @@ final class NostrClient {
   final Uuid _uuid;
 
   final _relays = <String, NostrRelay>{};
+  final _eventOkMap = NostrEventOkCompleterMap();
 
   int get count => _relays.length;
 
@@ -55,15 +45,40 @@ final class NostrClient {
   void sendRequestToAll(NostrReq req) {
     final subscriptionId = _uuid.v1();
     for (final relay in _relays.values) {
-      relay.sendEvent(req, subscriptionId);
+      relay.sendRequest(req, subscriptionId);
     }
   }
 
-  void publishEventToAll(NostrEvent event) {
-    final subscriptionId = _uuid.v1();
+  Future<List<NostrEventOk>> publishEventToAll(NostrEvent event) async {
     for (final relay in _relays.values) {
-      relay.sendEvent(event, subscriptionId);
+      _eventOkMap.add(
+        relay: relay.url,
+        event: event,
+        completer: Completer<NostrEventOk>(),
+      );
+      relay.sendEvent(event);
     }
+
+    final resultFuture = Future.wait(
+      [
+        for (final relay in _relays.values)
+          _eventOkMap.getFuture(
+            relay: relay.url,
+            subscriptionId: event.id,
+          ),
+      ].nonNulls,
+    );
+
+    final result = await Future.any([
+      resultFuture,
+      Future.delayed(publishWindow),
+    ]);
+
+    if (result is List<NostrEventOk>) {
+      return result;
+    }
+
+    throw const ErrorNostrClientPublishTimeout();
   }
 
   FutureOr<void> connect() async {
@@ -78,7 +93,17 @@ final class NostrClient {
   Stream<BaseNostrEvent> stream() {
     return Rx.merge([
       for (final relay in _relays.values) relay.events,
-    ]);
+    ]).doOnData(
+      (e) {
+        if (e is NostrEventOk) {
+          final completer = _eventOkMap.remove(
+            relay: e.relay,
+            subscriptionId: e.subscriptionId,
+          );
+          completer?.complete(e);
+        }
+      },
+    );
   }
 
   Future<dynamic> disconnect() {
@@ -86,4 +111,10 @@ final class NostrClient {
       for (final relay in _relays.values) relay.disconnect(),
     ]);
   }
+}
+
+final class ErrorNostrClientPublishTimeout implements Exception {
+  const ErrorNostrClientPublishTimeout();
+  String get message =>
+      'Publishing event to relays timed out after ${NostrClient.publishWindow}';
 }
