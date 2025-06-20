@@ -37,4 +37,8 @@ final class ErrorMessagesProviderImpl implements ErrorMessagesProvider {
   @override
   String get noteScreenNoteContentCannotBeEmpty =>
       _rootContextProvider.l10n.noteScreenErrorNoteContentCannotBeEmpty;
+
+  @override
+  String get errorPublishOperationTimedOut =>
+      _rootContextProvider.l10n.errorPublishOperationTimedOut;
 }

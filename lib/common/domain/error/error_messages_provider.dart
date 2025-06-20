@@ -15,4 +15,5 @@ abstract interface class ErrorMessagesProvider {
   String get emptyPin;
   String errorInvalidPinFormatMinCount(int minCount);
   String get noteScreenNoteContentCannotBeEmpty;
+  String get errorPublishOperationTimedOut;
 }

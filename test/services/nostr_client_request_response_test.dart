@@ -4,14 +4,14 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nostr_notes/core/services/model/nostr_event.dart';
-import 'package:nostr_notes/core/services/model/nostr_event_eose.dart';
-import 'package:nostr_notes/core/services/model/nostr_filter.dart';
-import 'package:nostr_notes/core/services/model/nostr_req.dart';
-import 'package:nostr_notes/core/services/nostr_client.dart';
-import 'package:nostr_notes/core/services/model/base_nostr_event.dart';
+import 'package:nostr_notes/services/model/nostr_event.dart';
+import 'package:nostr_notes/services/model/nostr_event_eose.dart';
+import 'package:nostr_notes/services/model/nostr_filter.dart';
+import 'package:nostr_notes/services/model/nostr_req.dart';
+import 'package:nostr_notes/services/nostr_client.dart';
+import 'package:nostr_notes/services/model/base_nostr_event.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:nostr_notes/core/services/ws_channel.dart';
+import 'package:nostr_notes/services/ws_channel.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/io.dart';
 
@@ -91,17 +91,6 @@ void main() {
         ),
       );
 
-      while (requests.isEmpty) {
-        await Future.delayed(const Duration(milliseconds: 10));
-      }
-
-      expect(requests.length, 1);
-
-      expect(
-        requests[0],
-        r'["REQ","uuid-v1",{"kinds": [4], "limit": 5}]',
-      );
-
       expect(
         client.stream(),
         emitsInOrder([
@@ -138,6 +127,16 @@ void main() {
                 event.relay == 'ws://localhost:${server.port}';
           }),
         ]),
+      );
+      while (requests.isEmpty) {
+        await Future.delayed(const Duration(milliseconds: 10));
+      }
+
+      expect(requests.length, 1);
+
+      expect(
+        requests[0],
+        r'["REQ","uuid-v1",{"kinds":[4],"limit":5}]',
       );
     });
   });

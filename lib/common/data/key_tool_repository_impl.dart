@@ -1,6 +1,6 @@
 import 'package:nostr_notes/common/domain/model/session/user_keys.dart';
 import 'package:nostr_notes/common/domain/repository/key_tool_repository.dart';
-import 'package:nostr_notes/core/services/key_tool/key_tool.dart';
+import 'package:nostr_notes/services/key_tool/key_tool.dart';
 
 final class KeyToolRepositoryImpl implements KeyToolRepository {
   const KeyToolRepositoryImpl();

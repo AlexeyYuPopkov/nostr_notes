@@ -3,14 +3,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nostr_notes/core/services/model/nostr_event_ok.dart';
-import 'package:nostr_notes/core/services/nostr_client.dart';
-import 'package:mocktail/mocktail.dart';
-import 'package:nostr_notes/core/services/nostr_event_creator.dart';
-import 'package:nostr_notes/core/services/ws_channel.dart';
+import 'package:nostr_notes/services/model/nostr_event_ok.dart';
+import 'package:nostr_notes/services/nostr_client.dart';
+import 'package:nostr_notes/services/nostr_event_creator.dart';
 import 'package:web_socket_channel/io.dart';
-
-class MockWSChannel extends Mock implements WsChannel {}
 
 void main() {
   group('NostrClient - publish event', () {
@@ -112,11 +108,11 @@ void main() {
       final subscription = client.stream().listen((e) {});
 
       await expectLater(
-        resultFuture.then((e) => e.length),
+        resultFuture.then((e) => e.events.length),
         completion(1),
       );
       await expectLater(
-        resultFuture.then((e) => e[0]),
+        resultFuture.then((e) => e.events[0]),
         completion(exeptedEvent),
       );
 

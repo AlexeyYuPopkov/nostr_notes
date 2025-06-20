@@ -48,5 +48,6 @@
     "settingsScreenLogout": "Logout and clear data",
     "settingsScreenLogoutConfirmationMessage": "Do you really want to log out and clear all data? This action cannot be undone",
 
-    "noteScreenErrorNoteContentCannotBeEmpty": "Note content cannot be empty"
+    "noteScreenErrorNoteContentCannotBeEmpty": "Note content cannot be empty",
+    "errorPublishOperationTimedOut": "Publish operation timed out"
 }

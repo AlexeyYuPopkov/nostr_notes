@@ -1,17 +1,14 @@
 import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nostr_notes/core/services/channel_factory.dart';
-import 'package:nostr_notes/core/services/nostr_client.dart';
-import 'package:nostr_notes/core/services/model/base_nostr_event.dart';
+import 'package:nostr_notes/services/channel_factory.dart';
+import 'package:nostr_notes/services/nostr_client.dart';
+import 'package:nostr_notes/services/model/base_nostr_event.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:nostr_notes/core/services/ws_channel.dart';
-import 'package:uuid/uuid.dart';
+import 'package:nostr_notes/services/ws_channel.dart';
 
 class MockWSChannel extends Mock implements WsChannel {}
 
 class MockChannelFactory extends Mock implements ChannelFactory {}
-
-class MockUuid extends Mock implements Uuid {}
 
 void main() {
   group('NostrClient - add relays, remove relay', () {
