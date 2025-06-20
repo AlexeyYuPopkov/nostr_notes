@@ -9,11 +9,15 @@ sealed class NoteBase extends Equatable {
 final class Note extends NoteBase {
   @override
   final String content;
+  final DateTime createdAt;
 
-  const Note(this.content);
+  const Note({
+    required this.content,
+    required this.createdAt,
+  });
 
   @override
-  List<Object?> get props => [content];
+  List<Object?> get props => [content, createdAt];
 }
 
 final class DraftNote extends NoteBase {

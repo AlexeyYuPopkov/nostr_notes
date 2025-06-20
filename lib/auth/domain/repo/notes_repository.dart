@@ -5,5 +5,6 @@ abstract interface class NotesRepository {
     required String pubkey,
     required Set<String> relays,
   });
-  Stream<NoteBase> get notesStream;
+  Stream<dynamic> get eventsStream;
+  Future<Iterable<Note>> getNotes({required String pubkey});
 }

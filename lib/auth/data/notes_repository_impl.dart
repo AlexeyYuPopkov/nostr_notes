@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:nostr_notes/app/app_config.dart';
+import 'package:nostr_notes/auth/data/common_event_storage_impl.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/services/model/nostr_event.dart';
@@ -11,16 +12,27 @@ import 'package:rxdart/transformers.dart';
 
 class NotesRepositoryImpl implements NotesRepository {
   final NostrClient client;
+  final CommonEventStorage memoryStorage;
 
   const NotesRepositoryImpl({
     required this.client,
+    required this.memoryStorage,
   });
 
   @override
-  Stream<NoteBase> get notesStream =>
-      client.stream().whereType<NostrEvent>().map((e) {
-        return Note(e.content);
-      });
+  Stream<dynamic> get eventsStream => client
+          .stream()
+          .whereType<NostrEvent>()
+          .bufferTime(
+            const Duration(milliseconds: 50),
+          )
+          .map(
+        (e) {
+          if (e.isNotEmpty) {
+            memoryStorage.addAll(e);
+          }
+        },
+      );
 
   @override
   void sendRequest({
@@ -42,5 +54,17 @@ class NotesRepositoryImpl implements NotesRepository {
         ],
       ),
     );
+  }
+
+  @override
+  Future<Iterable<Note>> getNotes({
+    required String pubkey,
+  }) async {
+    return memoryStorage.getEventsByAuthor(pubkey, 4).map(
+          (e) => Note(
+            content: e.content,
+            createdAt: DateTime.fromMillisecondsSinceEpoch(e.createdAt * 1000),
+          ),
+        );
   }
 }

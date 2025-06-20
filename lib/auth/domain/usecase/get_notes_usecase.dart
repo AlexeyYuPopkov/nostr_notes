@@ -1,35 +1,29 @@
+import 'package:collection/collection.dart';
+import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
-import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
+
 import 'package:nostr_notes/common/domain/error/app_error.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
-import 'package:rxdart/rxdart.dart';
 
-class FetchNotesUsecase {
+class GetNotesUsecase {
   final NotesRepository _notesRepository;
   final SessionUsecase _sessionUsecase;
-  final RelaysListRepo _relaysListRepo;
 
-  FetchNotesUsecase({
+  GetNotesUsecase({
     required NotesRepository notesRepository,
     required SessionUsecase sessionUsecase,
-    required RelaysListRepo relaysListRepo,
   })  : _notesRepository = notesRepository,
-        _sessionUsecase = sessionUsecase,
-        _relaysListRepo = relaysListRepo;
+        _sessionUsecase = sessionUsecase;
 
-  Stream<List<dynamic>> execute() {
+  Future<List<Note>> execute() async {
     final publicKey = _sessionUsecase.currentSession.keys?.publicKey;
     if (publicKey == null || publicKey.isEmpty) {
       throw const AppError.notAuthenticated();
     }
 
-    _notesRepository.sendRequest(
-      pubkey: publicKey,
-      relays: _relaysListRepo.getRelaysList().toSet(),
-    );
-
-    return _notesRepository.eventsStream.bufferTime(
-      const Duration(milliseconds: 300),
+    final result = await _notesRepository.getNotes(pubkey: publicKey);
+    return result.sorted(
+      (a, b) => b.createdAt.compareTo(a.createdAt),
     );
   }
 }

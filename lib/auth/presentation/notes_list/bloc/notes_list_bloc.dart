@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 
 import 'notes_list_data.dart';
 import 'notes_list_event.dart';
@@ -11,6 +12,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   NotesListData get data => state.data;
 
   late final FetchNotesUsecase _fetchNotesUsecase = DiStorage.shared.resolve();
+  late final GetNotesUsecase _getNotesUsecase = DiStorage.shared.resolve();
   StreamSubscription? _notesSubscription;
 
   NotesListBloc()
@@ -33,13 +35,13 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
 
   void _setupHandlers() {
     on<InitialEvent>(_onInitialEvent);
-    on<NotesEvent>(_onNotesEvent);
+    on<GetNotesEvent>(_onGetNotesEvent);
     on<ErrorEvent>(_onErrorEvent);
   }
 
   void _setupSubscription() {
-    _notesSubscription = _fetchNotesUsecase.execute().listen((notes) {
-      add(NotesListEvent.notes(notes: notes));
+    _notesSubscription = _fetchNotesUsecase.execute().listen((items) {
+      add(const NotesListEvent.getNotes());
     }, onError: (error) {
       add(NotesListEvent.error(error: error));
     });
@@ -50,33 +52,25 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     Emitter<NotesListState> emit,
   ) {
     _setupSubscription();
-    // try {
-    //   emit(NotesListState.loading(data: data));
-
-    //   await Future.delayed(const Duration(seconds: 2));
-
-    //   emit(
-    //     NotesListState.common(data: data),
-    //   );
-    // } catch (e) {
-    //   emit(NotesListState.error(e: e, data: data));
-    // }
   }
 
-  void _onNotesEvent(
-    NotesEvent event,
+  void _onGetNotesEvent(
+    GetNotesEvent event,
     Emitter<NotesListState> emit,
-  ) {
-    emit(
-      NotesListState.common(
-        data: data.copyWith(
-          notes: [
-            ...data.notes,
-            ...event.notes,
-          ],
+  ) async {
+    try {
+      final result = await _getNotesUsecase.execute();
+
+      emit(
+        NotesListState.common(
+          data: data.copyWith(
+            notes: result,
+          ),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      emit(NotesListState.error(e: e, data: data));
+    }
   }
 
   void _onErrorEvent(
