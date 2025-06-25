@@ -6,6 +6,7 @@ import 'package:uuid/uuid.dart';
 abstract interface class EventPublisher {
   Future<EventPublisherResult> publishNote({
     required String content,
+    required String summary,
     required String publicKey,
     required String privateKey,
     required String? dTag,

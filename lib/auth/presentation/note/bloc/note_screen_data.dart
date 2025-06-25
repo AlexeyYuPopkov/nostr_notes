@@ -1,26 +1,31 @@
 import 'package:equatable/equatable.dart';
+import 'package:nostr_notes/auth/domain/model/note.dart';
+import 'package:nostr_notes/core/tools/optional_box.dart';
 
 final class NoteScreenData extends Equatable {
-  final String initialText;
+  final OptionalBox<Note> initialNote;
   final String text;
 
-  const NoteScreenData._({required this.initialText, required this.text});
+  const NoteScreenData._({required this.initialNote, required this.text});
 
-  factory NoteScreenData.initial({required String initialText}) {
-    return NoteScreenData._(
-      initialText: initialText,
-      text: initialText,
+  factory NoteScreenData.initial() {
+    return const NoteScreenData._(
+      initialNote: OptionalBox(null),
+      text: '',
     );
   }
 
   @override
-  List<Object?> get props => [text];
+  List<Object?> get props => [initialNote, text];
 
-  bool get isChanged => initialText != text;
+  bool get isChanged => (initialNote.value?.content ?? '') != text;
 
-  NoteScreenData copyWith({String? text}) {
+  NoteScreenData copyWith({
+    OptionalBox<Note>? initialNote,
+    String? text,
+  }) {
     return NoteScreenData._(
-      initialText: initialText,
+      initialNote: initialNote ?? this.initialNote,
       text: text ?? this.text,
     );
   }

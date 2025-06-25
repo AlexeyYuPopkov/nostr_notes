@@ -2,6 +2,7 @@ import 'package:nostr_notes/core/one_to_many_map.dart';
 import 'package:nostr_notes/core/tools/disposable.dart';
 import 'package:nostr_notes/services/model/nostr_event.dart';
 import 'package:nostr_notes/services/model/tag/tag.dart';
+import 'package:nostr_notes/services/model/tag/tag_value.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class CommonEventStorage {
@@ -56,10 +57,17 @@ class CommonEventStorageImpl implements CommonEventStorage, Disposable {
 
     kindIndexes.add(key: event.kind.toString(), value: event.id);
 
-    final aTag = event.getFirstTag(Tag.t);
+    final dTag = event.getFirstTag(Tag.d);
 
-    if (aTag != null && aTag.isNotEmpty) {
-      aTagIndexes.add(key: aTag, value: event.id);
+    if (dTag != null && dTag.isNotEmpty) {
+      aTagIndexes.add(
+        key: TagValue.createATag(
+          kind: event.kind,
+          pubkey: event.pubkey,
+          dTag: dTag,
+        ),
+        value: event.id,
+      );
     }
 
     final pTags = event.getTagsSet(Tag.p);

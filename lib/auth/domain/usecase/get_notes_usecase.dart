@@ -16,12 +16,21 @@ class GetNotesUsecase {
         _sessionUsecase = sessionUsecase;
 
   Future<List<Note>> execute() async {
-    final publicKey = _sessionUsecase.currentSession.keys?.publicKey;
+    final keys = _sessionUsecase.currentSession.keys;
+    final publicKey = keys?.publicKey;
+    final privateKey = keys?.privateKey;
     if (publicKey == null || publicKey.isEmpty) {
       throw const AppError.notAuthenticated();
     }
 
-    final result = await _notesRepository.getNotes(pubkey: publicKey);
+    if (privateKey == null || privateKey.isEmpty) {
+      throw const AppError.notAuthenticated();
+    }
+
+    final result = await _notesRepository.getNotes(
+      pubkey: publicKey,
+      privateKey: privateKey,
+    );
     return result.sorted(
       (a, b) => b.createdAt.compareTo(a.createdAt),
     );

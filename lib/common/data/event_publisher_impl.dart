@@ -1,6 +1,7 @@
 import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/common/domain/event_publisher.dart';
+import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/services/model/tag/tag.dart';
 import 'package:nostr_notes/services/key_tool/nip04_service.dart';
 import 'package:nostr_notes/services/nostr_client.dart';
@@ -22,6 +23,7 @@ final class EventPublisherImpl implements EventPublisher {
   @override
   Future<EventPublisherResult> publishNote({
     required String content,
+    required String summary,
     required String publicKey,
     required String privateKey,
     required String? dTag,
@@ -29,6 +31,11 @@ final class EventPublisherImpl implements EventPublisher {
     Uuid? uuid,
     List<int>? randomBytes,
   }) async {
+    final encryptedSummary = nip04.encryptNip04(
+      content: summary,
+      peerPubkey: publicKey,
+      privateKey: privateKey,
+    );
     final encryptedMessage = nip04.encryptNip04(
       content: content,
       peerPubkey: publicKey,
@@ -37,30 +44,31 @@ final class EventPublisherImpl implements EventPublisher {
 
     assert(
       nip04.decryptNip04(
-            content: encryptedMessage,
+            content: encryptedSummary,
             peerPubkey: publicKey,
             privateKey: privateKey,
           ) ==
-          content,
-      'Decrypt message should be equal to original content',
+          summary,
+      'Decrypt summary should be equal to original summary',
     );
 
     final dTagValue = dTag ?? (uuid ?? const Uuid()).v1();
 
     final List<List<String>> tags = [
       AppConfig.clientTagList(),
-      [Tag.t.name, AppConfig.clientTagValue],
-      [Tag.d.name, dTagValue],
+      [Tag.t.value, AppConfig.clientTagValue],
+      [Tag.d.value, dTagValue],
       [
-        Tag.p.name,
+        Tag.p.value,
         publicKey,
       ],
+      [const SummaryTag().value, encryptedSummary],
     ];
 
     final createdAt = (now ?? const Now()).now();
 
     final event = NostrEventCreator.createEvent(
-      kind: 4,
+      kind: EventKind.note.value,
       content: encryptedMessage,
       createdAt: createdAt,
       tags: tags,

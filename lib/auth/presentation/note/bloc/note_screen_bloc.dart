@@ -1,24 +1,28 @@
-import 'dart:async';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
+import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note/bloc/note_screen_state.dart';
 import 'package:nostr_notes/common/domain/error/app_error.dart';
 import 'package:nostr_notes/common/domain/error/error_messages_provider.dart';
+import 'package:nostr_notes/core/tools/optional_box.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'note_screen_data.dart';
 import 'note_screen_event.dart';
 
 final class NoteScreenBloc extends Bloc<NoteScreenEvent, NoteScreenState> {
+  final PathParams? pathParams;
   NoteScreenData get data => state.data;
+  late final GetNoteUsecase _getNoteUsecase = DiStorage.shared.resolve();
   late final CreateNoteUsecase _createNoteUsecase = DiStorage.shared.resolve();
 
-  NoteScreenBloc()
+  NoteScreenBloc({required this.pathParams})
       : super(
           NoteScreenState.common(
-            data: NoteScreenData.initial(initialText: ''),
+            data: NoteScreenData.initial(),
           ),
         ) {
     _setupHandlers();
@@ -41,13 +45,22 @@ final class NoteScreenBloc extends Bloc<NoteScreenEvent, NoteScreenState> {
     InitialEvent event,
     Emitter<NoteScreenState> emit,
   ) async {
+    final noteId = pathParams?.id;
+    if (noteId == null || noteId.isEmpty) {
+      return;
+    }
     try {
       emit(NoteScreenState.loading(data: data));
 
-      await Future.delayed(const Duration(seconds: 2));
+      final note = await _getNoteUsecase.execute(noteId);
 
       emit(
-        NoteScreenState.common(data: data),
+        NoteScreenState.common(
+          data: data.copyWith(
+            initialNote: OptionalBox(note),
+            text: note?.content ?? '',
+          ),
+        ),
       );
     } catch (e) {
       emit(NoteScreenState.error(e: e, data: data));
@@ -79,7 +92,7 @@ final class NoteScreenBloc extends Bloc<NoteScreenEvent, NoteScreenState> {
 
       await _createNoteUsecase.execute(
         content: data.text,
-        dTag: null,
+        dTag: data.initialNote.value?.dTag,
       );
 
       final newData = data.copyWith(text: data.text);

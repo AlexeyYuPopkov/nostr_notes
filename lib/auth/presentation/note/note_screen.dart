@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/sizes.dart';
+import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note/bloc/note_screen_state.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 
@@ -10,11 +11,10 @@ import 'bloc/note_screen_bloc.dart';
 import 'bloc/note_screen_event.dart';
 
 final class NoteScreen extends StatelessWidget with DialogHelper {
-  final String innitialText;
+  final PathParams? pathParams;
   const NoteScreen({
     super.key,
-    //todo: remove default value
-    this.innitialText = '',
+    this.pathParams,
   });
 
   void _listener(BuildContext context, NoteScreenState state) {
@@ -32,7 +32,7 @@ final class NoteScreen extends StatelessWidget with DialogHelper {
   Widget build(BuildContext context) {
     // final theme = Theme.of(context);
     return BlocProvider(
-      create: (context) => NoteScreenBloc(),
+      create: (context) => NoteScreenBloc(pathParams: pathParams),
       child: BlocConsumer<NoteScreenBloc, NoteScreenState>(
         listener: _listener,
         builder: (context, state) {
@@ -44,7 +44,9 @@ final class NoteScreen extends StatelessWidget with DialogHelper {
               ],
             ),
             body: SafeArea(
-              child: TextField(
+              child: TextFormField(
+                key: ValueKey(state.data.text),
+                initialValue: state.data.text,
                 onChanged: (str) => _onChangeText(context, str),
                 decoration: const InputDecoration(
                   border: InputBorder.none,

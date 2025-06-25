@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/services/model/nostr_event_ok.dart';
 import 'package:nostr_notes/services/nostr_client.dart';
 import 'package:nostr_notes/services/nostr_event_creator.dart';
@@ -37,7 +38,7 @@ void main() {
             const responce = r'''
                   [
                     "OK",
-                    "27c3b73a95dbdefc471d287f55bfc74c5c9e3fbc549f61fb42d916063498f047",
+                    "339bebb0843d7df0498a412b92c33899e61978a27d5ad85b30849a2cf5d186fe",
                     true,
                     ""
                   ]''';
@@ -70,7 +71,7 @@ void main() {
       const privateKey =
           'a98fd7e7adff56cca03795e8dc80bdefbb2133ed0f2cda6e0c95b9dedb89f3a6';
       final event = NostrEventCreator.createEvent(
-        kind: 4,
+        kind: EventKind.note.value,
         content: '123',
         createdAt: DateTime(2025, 6, 16),
         tags: [
@@ -87,7 +88,7 @@ void main() {
       }
 
       const expectedRequest =
-          r'["EVENT",{"kind":4,"id":"27c3b73a95dbdefc471d287f55bfc74c5c9e3fbc549f61fb42d916063498f047","pubkey":"dce0fabd51911a780130715bb4c247df2fe0fe0e1c53df6218fa1e4e041e60e0","created_at":1750021200,"tags":[["p","dce0fabd51911a780130715bb4c247df2fe0fe0e1c53df6218fa1e4e041e60e0"]],"content":"123","sig":"a61a90e8a1cbe7f8f2478bcb62c165cc056dfa9a831e8422018bd981d394285a21d8b45c583678974fcc9a5102266ae5d85b9b476054489934e3409c52c5ff15"}]';
+          r'["EVENT",{"kind":30023,"id":"339bebb0843d7df0498a412b92c33899e61978a27d5ad85b30849a2cf5d186fe","pubkey":"dce0fabd51911a780130715bb4c247df2fe0fe0e1c53df6218fa1e4e041e60e0","created_at":1750021200,"tags":[["p","dce0fabd51911a780130715bb4c247df2fe0fe0e1c53df6218fa1e4e041e60e0"]],"content":"123","sig":"a61a90e8a1cbe7f8f2478bcb62c165cc056dfa9a831e8422018bd981d394285a21d8b45c583678974fcc9a5102266ae5d85b9b476054489934e3409c52c5ff15"}]';
 
       expect(requests.length, 1);
       expect(
@@ -101,7 +102,7 @@ void main() {
         relay: relayUrl,
         isOk: true,
         subscriptionId:
-            '27c3b73a95dbdefc471d287f55bfc74c5c9e3fbc549f61fb42d916063498f047',
+            '339bebb0843d7df0498a412b92c33899e61978a27d5ad85b30849a2cf5d186fe',
         message: '',
       );
 

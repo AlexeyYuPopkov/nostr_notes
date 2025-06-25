@@ -139,7 +139,7 @@ void main() {
           .thenReturn(channel2);
 
       const responce = r'''
-        ["OK","def6550b2414613e6c4ead1a0d2db0da322713d499977f5e0e0b90fcf21e2e39",true,""]
+        ["OK","9d1c1d765e572b5914ed838cba42bb22b9fb50f5ac0532c494caf75bc7363143",true,""]
         ''';
 
       channel1.onAdd = (data, channel) {
@@ -182,13 +182,13 @@ void main() {
 
       const sendedEvent = r'''
           ["EVENT",{
-          "kind":4,
-          "id":"def6550b2414613e6c4ead1a0d2db0da322713d499977f5e0e0b90fcf21e2e39",
+          "kind":30023,
+          "id":"9d1c1d765e572b5914ed838cba42bb22b9fb50f5ac0532c494caf75bc7363143",
           "pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",
           "created_at":1750157400,
-          "tags":[["client","996e10ba"],["t","996e10ba"],["d","uuid-v1"],["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"]],
+          "tags":[["client","996e10ba"],["t","996e10ba"],["d","uuid-v1"],["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"],["summary","encrypted-message"]],
           "content":"encrypted-message",
-          "sig":"bc54ad2f218b2baa36a13adadcfeda5b4d71950164e8f858c218806b19d0f90f3d34f3ccb3b7e368ece2447e26f95c2d58e03b4d4a2bf23f02b361b7751dd2e1"}]
+          "sig":"ceb65b126c335f6659769493ae8c309f9061c9cd11dd34d3e0fa606f2e40d9b5bc26f041a26b8ecf124aaa5d0d3438a21761ebc956a10aa576ea67c916696950"}]
         ''';
 
       expect(channel1.calls.length, 6);
@@ -212,7 +212,7 @@ void main() {
           .thenReturn(channel2);
 
       const responce = r'''
-        ["OK","def6550b2414613e6c4ead1a0d2db0da322713d499977f5e0e0b90fcf21e2e39",true,""]
+        ["OK","9d1c1d765e572b5914ed838cba42bb22b9fb50f5ac0532c494caf75bc7363143",true,""]
         ''';
       channel1.onAdd = (data, channel) {
         channel.mockStream.add(responce);
@@ -249,13 +249,13 @@ void main() {
 
       const sendedEvent = r'''
           ["EVENT",{
-          "kind":4,
-          "id":"def6550b2414613e6c4ead1a0d2db0da322713d499977f5e0e0b90fcf21e2e39",
+          "kind":30023,
+          "id":"9d1c1d765e572b5914ed838cba42bb22b9fb50f5ac0532c494caf75bc7363143",
           "pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",
           "created_at":1750157400,
-          "tags":[["client","996e10ba"],["t","996e10ba"],["d","uuid-v1"],["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"]],
+          "tags":[["client","996e10ba"],["t","996e10ba"],["d","uuid-v1"],["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"],["summary","encrypted-message"]],
           "content":"encrypted-message",
-          "sig":"bc54ad2f218b2baa36a13adadcfeda5b4d71950164e8f858c218806b19d0f90f3d34f3ccb3b7e368ece2447e26f95c2d58e03b4d4a2bf23f02b361b7751dd2e1"}]
+          "sig":"ceb65b126c335f6659769493ae8c309f9061c9cd11dd34d3e0fa606f2e40d9b5bc26f041a26b8ecf124aaa5d0d3438a21761ebc956a10aa576ea67c916696950"}]
         ''';
 
       expect(channel1.calls.length, 6);

@@ -5,9 +5,11 @@ import 'package:nostr_notes/auth/data/relays_list_repo_impl.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/common/data/event_publisher_impl.dart';
 import 'package:nostr_notes/common/domain/event_publisher.dart';
+import 'package:nostr_notes/services/key_tool/nip04_service.dart';
 import 'package:nostr_notes/services/nostr_client.dart';
 
 final class AuthDiScope extends DiScope {
@@ -51,10 +53,17 @@ final class AuthDiScope extends DiScope {
       lifeTime: const LifeTime.single(),
     );
 
+    di.bind<Nip04Service>(
+      () => const Nip04Service(),
+      module: this,
+      lifeTime: const LifeTime.single(),
+    );
+
     di.bind<FetchNotesUsecase>(
       () => FetchNotesUsecase(
         notesRepository: NotesRepositoryImpl(
           client: di.resolve<NostrClient>(),
+          nip04: di.resolve(),
           memoryStorage: di.resolve(),
         ),
         sessionUsecase: di.resolve(),
@@ -68,6 +77,20 @@ final class AuthDiScope extends DiScope {
       () => GetNotesUsecase(
         notesRepository: NotesRepositoryImpl(
           client: di.resolve<NostrClient>(),
+          nip04: di.resolve(),
+          memoryStorage: di.resolve(),
+        ),
+        sessionUsecase: di.resolve(),
+      ),
+      module: this,
+      lifeTime: const LifeTime.prototype(),
+    );
+
+    di.bind<GetNoteUsecase>(
+      () => GetNoteUsecase(
+        notesRepository: NotesRepositoryImpl(
+          client: di.resolve<NostrClient>(),
+          nip04: di.resolve(),
           memoryStorage: di.resolve(),
         ),
         sessionUsecase: di.resolve(),

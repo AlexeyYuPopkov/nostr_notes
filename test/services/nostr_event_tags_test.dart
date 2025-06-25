@@ -63,5 +63,5 @@ final class CustomTag extends BaseTag {
   const CustomTag();
 
   @override
-  String get name => 'custom';
+  String get value => 'custom';
 }

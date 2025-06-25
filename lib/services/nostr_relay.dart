@@ -28,7 +28,13 @@ class NostrRelay with NostrRelayEventMapper {
   @override
   String get url => _channel.url;
 
-  Future<void> get ready => _channel.ready;
+  Future<void> get ready {
+    try {
+      return _channel.ready;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   void sendRequest(NostrReq req, String subscriptionId) {
     _channel.add(req.serialized(subscriptionId));

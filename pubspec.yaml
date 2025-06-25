@@ -46,6 +46,7 @@ dependencies:
   kepler: ^1.0.3
   pointycastle: ^3.6.0
   crypto: ^3.0.6
+  encrypt: ^5.0.3
   convert: ^3.1.2
 
   freezed_annotation: ^3.0.0

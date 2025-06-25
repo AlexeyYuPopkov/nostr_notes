@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
@@ -9,6 +11,7 @@ final _appRouter = AppRouter();
 
 void main() {
   AppDi.bindUnauthModules();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const App());
 }
 
@@ -30,5 +33,15 @@ final class App extends StatelessWidget {
         return child!;
       },
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) {
+        return true;
+      };
   }
 }

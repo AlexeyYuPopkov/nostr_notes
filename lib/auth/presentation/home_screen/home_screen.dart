@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/bloc/home_screen_bloc.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/bloc/home_screen_state.dart';
+import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note/note_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings_screen.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
@@ -73,9 +74,12 @@ final class HomeScreen extends StatelessWidget with DialogHelper {
     return NotesList(
       // items: const [],
       // selectedIndex: null,
-      onTap: (index) {
+      onTap: (note) {
         if (isMobile) {
-          GoRouter.of(context).pushNamed(AppRouterName.note);
+          GoRouter.of(context).pushNamed(
+            AppRouterName.note,
+            queryParameters: PathParams(id: note.dTag).toJson(),
+          );
           // Navigator.of(context).push(
           //   MaterialPageRoute(
           //     builder: (_) => const NoteScreen(),
