@@ -28,7 +28,19 @@ final class Note extends NoteBase {
   });
 
   @override
-  List<Object?> get props => [content, createdAt];
+  List<Object?> get props => [dTag, content, summary, createdAt];
+
+  Note copyWith({
+    String? content,
+    String? summary,
+  }) {
+    return Note(
+      dTag: dTag,
+      content: content ?? this.content,
+      summary: summary ?? this.summary,
+      createdAt: createdAt,
+    );
+  }
 }
 
 // final class NoteDetails extends NoteBase {

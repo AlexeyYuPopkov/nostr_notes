@@ -6,8 +6,10 @@ sealed class Session extends Equatable {
 
   const factory Session.unauth() = Unauth;
   const factory Session.auth(UserKeys keys) = Auth;
-  const factory Session.unlocked(
-      {required UserKeys keys, required String pin}) = Unlocked;
+  const factory Session.unlocked({
+    required UserKeys keys,
+    required String pin,
+  }) = Unlocked;
 
   UserKeys? get keys;
   bool get isAuth;

@@ -15,6 +15,9 @@ final class ErrorMessagesProviderImpl implements ErrorMessagesProvider {
   String get authError => _rootContextProvider.l10n.authError;
 
   @override
+  String get notUnlocked => _rootContextProvider.l10n.notUnlocked;
+
+  @override
   String get emptyNsec => _rootContextProvider.l10n.errorEmptyNsec;
 
   @override

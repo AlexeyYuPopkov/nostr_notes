@@ -15,11 +15,19 @@ class AesEncryptionWithHmac {
   /// Генерация ключей (AES ключ + HMAC ключ + IV) из пароля
   Map<String, Uint8List> _deriveKeys(String password, Uint8List salt) {
     final pbkdf2 = PBKDF2KeyDerivator(HMac(SHA256Digest(), 64))
-      ..init(Pbkdf2Parameters(
-          salt, iterations, keyLength + ivLength + hmacKeyLength));
+      ..init(
+        Pbkdf2Parameters(
+          salt,
+          iterations,
+          keyLength + ivLength + hmacKeyLength,
+        ),
+      );
 
-    final keyMaterial =
-        pbkdf2.process(Uint8List.fromList(utf8.encode(password)));
+    final keyMaterial = pbkdf2.process(
+      Uint8List.fromList(
+        utf8.encode(password),
+      ),
+    );
     return {
       'aesKey': keyMaterial.sublist(0, keyLength),
       'iv': keyMaterial.sublist(keyLength, keyLength + ivLength),
@@ -27,10 +35,19 @@ class AesEncryptionWithHmac {
     };
   }
 
-  /// Шифрование + HMAC
-  String encrypt({required String plaintext, required String password}) {
+  Map<String, Uint8List> createCashe(String password) {
     final salt = _generateRandomBytes(16);
-    final keys = _deriveKeys(password, salt);
+    return _deriveKeys(password, salt);
+  }
+
+  /// Шифрование + HMAC
+  String encrypt({
+    required String plaintext,
+    required String password,
+    Map<String, Uint8List>? cashedKeys,
+  }) {
+    final salt = _generateRandomBytes(16);
+    final keys = cashedKeys ?? _deriveKeys(password, salt);
 
     // Шифруем AES-CBC
     final encrypter = Encrypter(AES(Key(keys['aesKey']!), mode: AESMode.cbc));
@@ -51,7 +68,10 @@ class AesEncryptionWithHmac {
   }
 
   /// Дешифрование + проверка HMAC
-  String decrypt({required String ciphertext, required String password}) {
+  String decrypt(
+      {required String ciphertext,
+      required String password,
+      Map<String, Uint8List>? cashedKeys}) {
     final data = base64.decode(ciphertext);
 
     // Извлекаем составные части
@@ -61,7 +81,7 @@ class AesEncryptionWithHmac {
     final receivedHmac = data.sublist(data.length - 32);
 
     // Проверяем HMAC
-    final keys = _deriveKeys(password, salt);
+    final keys = cashedKeys ?? _deriveKeys(password, salt);
     final dataToHmac = Uint8List.fromList([...salt, ...iv, ...ciphertextBytes]);
 
     final hmac = HMac(SHA256Digest(), 64)..init(KeyParameter(keys['hmacKey']!));

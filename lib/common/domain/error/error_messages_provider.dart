@@ -13,6 +13,7 @@ abstract interface class ErrorMessagesProvider {
   String get invalidNsecFormat;
   String get emptyPubkey;
   String get emptyPin;
+  String get notUnlocked;
   String errorInvalidPinFormatMinCount(int minCount);
   String get noteScreenNoteContentCannotBeEmpty;
   String get errorPublishOperationTimedOut;

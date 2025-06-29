@@ -1,7 +1,7 @@
 {
     "commonButtonBack": "Back",
     "commonButtonOk": "OK",
-     "commonButtonCancel": "Cancel",
+    "commonButtonCancel": "Cancel",
     "commonButtonContinue": "Continue",
     "commonButtonNext": "Next",
     "commonButtonSave": "Save",
@@ -11,6 +11,7 @@
     "commonUndefinedError": "Something went wrong",
     "commonNoDataPlaceholderText": "No data",
     "authError": "Authentication error",
+    "notUnlocked": "The app is not unlocked",
     "onboardingWelcomePageTitle": "Welcome to\nNotesVault",
     "onboardingWelcomePageDescription": "Securely store short notes and passwords\n– encrypted, decentralized, just for you",
     "onboardingWelcomePageOptionMD1": "✏️ **Create** short notes and passwords",

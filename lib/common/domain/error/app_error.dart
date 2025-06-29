@@ -15,6 +15,11 @@ abstract class AppError implements Exception {
     String reason,
   }) = NotAuthenticatedError;
 
+  const factory AppError.notUnlocked({
+    Object? parentError,
+    String reason,
+  }) = NotUnlockedError;
+
   const factory AppError.common({
     required String message,
     Object? parentError,
@@ -52,6 +57,16 @@ final class CommonError extends AppError {
 
 final class NotAuthenticatedError extends AppError {
   const NotAuthenticatedError({
+    super.parentError,
+    super.reason,
+  });
+
+  @override
+  String get message => ErrorMessagesProvider.defaultProvider.authError;
+}
+
+final class NotUnlockedError extends AppError {
+  const NotUnlockedError({
     super.parentError,
     super.reason,
   });
