@@ -1,15 +1,20 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:di_storage/di_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nostr_notes/auth/domain/repo/crypto_algorithm_type.dart';
+import 'package:nostr_notes/auth/domain/repo/crypto_repo.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
+import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/data/event_publisher_impl.dart';
+import 'package:nostr_notes/common/domain/error/error_messages_provider.dart';
 import 'package:nostr_notes/common/domain/event_publisher.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/model/session/user_keys.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/services/channel_factory.dart';
-import 'package:nostr_notes/services/key_tool/nip04_service.dart';
 import 'package:nostr_notes/services/nostr_client.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostr_notes/services/ws_channel.dart';
@@ -17,9 +22,9 @@ import 'package:nostr_notes/core/tools/now.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../tools/mock_error_messages_provider.dart';
 import '../../tools/some_moked_data.dart';
 
-// class MockWSChannel extends Mock implements WsChannel {}
 final class MockWSChannel implements WsChannel {
   final String _url;
 
@@ -66,7 +71,28 @@ class MockChannelFactory extends Mock implements ChannelFactory {}
 
 class MockUuid extends Mock implements Uuid {}
 
-class MockNip04Service extends Mock implements Nip04Service {}
+class MockCryptoRepo implements CryptoRepo {
+  @override
+  FutureOr<CryptoAlgorithmType> createCache(
+      {required CryptoAlgorithmType algorithmType}) {
+    return const CryptoAlgorithmType.nip44(
+      privateKey: '',
+      peerPubkey: '',
+    );
+  }
+
+  @override
+  FutureOr<String> decryptMessage(
+      {required String text, required CryptoAlgorithmType algorithmType}) {
+    return 'message';
+  }
+
+  @override
+  FutureOr<String> encryptMessage(
+      {required String text, required CryptoAlgorithmType algorithmType}) {
+    return 'encrypted-message';
+  }
+}
 
 class MockNow implements Now {
   @override
@@ -100,29 +126,39 @@ void main() {
     late CreateNoteUsecase sut;
     final mockNow = MockNow();
     final mockUuid = MockUuid();
-    final mockNip04Service = MockNip04Service();
+    final mockCryptoRepo = MockCryptoRepo();
 
     setUp(() {
+      DiStorage.shared.bind<ErrorMessagesProvider>(
+        () => const MockErrorMessagesProvider(),
+        module: null,
+        lifeTime: const LifeTime.single(),
+      );
       channelFactory = MockChannelFactory();
       channel1 = MockWSChannel(url: MockRelaysListRepo.relayUrl1);
       channel2 = MockWSChannel(url: MockRelaysListRepo.relayUrl2);
       client = NostrClient(channelFactory: channelFactory);
 
-      sut = CreateNoteUsecase(
-        sessionUsecase: SessionUsecase()
-          ..setSession(
-            const Unlocked(
-              keys: UserKeys(
-                publicKey: SomeMokedData.publicKey,
-                privateKey: SomeMokedData.privateKey,
-              ),
-              pin: '1234',
+      final sessionUsecase = SessionUsecase()
+        ..setSession(
+          const Unlocked(
+            keys: UserKeys(
+              publicKey: SomeMokedData.publicKey,
+              privateKey: SomeMokedData.privateKey,
             ),
+            pin: '1234',
           ),
+        );
+
+      sut = CreateNoteUsecase(
+        sessionUsecase: sessionUsecase,
         eventPublisher: EventPublisherImpl(
           nostrClient: client,
           relaysListRepo: const MockRelaysListRepo(),
-          nip04: mockNip04Service,
+        ),
+        noteCryptoUseCase: NoteCryptoUseCase(
+          sessionUsecase: sessionUsecase,
+          cryptoRepo: mockCryptoRepo,
         ),
       );
     });
@@ -149,22 +185,6 @@ void main() {
       channel2.onAdd = (data, channel) {
         channel.mockStream.add(responce);
       };
-
-      when(
-        () => mockNip04Service.encryptNip04(
-          content: 'message',
-          peerPubkey: SomeMokedData.publicKey,
-          privateKey: SomeMokedData.privateKey,
-        ),
-      ).thenReturn('encrypted-message');
-
-      when(
-        () => mockNip04Service.decryptNip04(
-          content: 'encrypted-message',
-          peerPubkey: SomeMokedData.publicKey,
-          privateKey: SomeMokedData.privateKey,
-        ),
-      ).thenReturn('message');
 
       final result = await sut.execute(
         content: 'message',
@@ -217,22 +237,6 @@ void main() {
       channel1.onAdd = (data, channel) {
         channel.mockStream.add(responce);
       };
-
-      when(
-        () => mockNip04Service.encryptNip04(
-          content: 'message',
-          peerPubkey: SomeMokedData.publicKey,
-          privateKey: SomeMokedData.privateKey,
-        ),
-      ).thenReturn('encrypted-message');
-
-      when(
-        () => mockNip04Service.decryptNip04(
-          content: 'encrypted-message',
-          peerPubkey: SomeMokedData.publicKey,
-          privateKey: SomeMokedData.privateKey,
-        ),
-      ).thenReturn('message');
 
       final result = await sut.execute(
         content: 'message',

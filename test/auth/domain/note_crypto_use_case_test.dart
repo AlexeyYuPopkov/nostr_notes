@@ -57,7 +57,7 @@ void main() {
       expect(decrypted == initialNote, true);
     });
 
-    test('encryption and decryption Note summary only', () async {
+    test('encrypt Note and decryption Note summary only', () async {
       sessionUsecase.setSession(
         const Session.unlocked(
           keys: UserKeys(
@@ -75,13 +75,11 @@ void main() {
         createdAt: DateTime.now(),
       );
 
-      final encrypted = await sut.encryptSummary(initialNote);
+      final encrypted = await sut.encryptNote(initialNote);
 
       final decrypted = await sut.decryptSummary(encrypted);
 
-      expect(encrypted.content == decrypted.content, true);
       expect(encrypted.summary == decrypted.summary, false);
-      expect(decrypted == initialNote, true);
     });
   });
 

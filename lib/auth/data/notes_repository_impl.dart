@@ -6,7 +6,6 @@ import 'package:nostr_notes/auth/data/common_event_storage_impl.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/core/event_kind.dart';
-import 'package:nostr_notes/services/key_tool/nip04_service.dart';
 import 'package:nostr_notes/services/model/nostr_event.dart';
 import 'package:nostr_notes/services/model/nostr_filter.dart';
 import 'package:nostr_notes/services/model/nostr_req.dart';
@@ -17,12 +16,10 @@ import 'package:rxdart/transformers.dart';
 
 class NotesRepositoryImpl implements NotesRepository {
   final NostrClient client;
-  final Nip04Service nip04;
   final CommonEventStorage memoryStorage;
 
   const NotesRepositoryImpl({
     required this.client,
-    required this.nip04,
     required this.memoryStorage,
   });
 
@@ -85,18 +82,10 @@ class NotesRepositoryImpl implements NotesRepository {
         }
         final summaryTag = e.getFirstTag(const SummaryTag()) ?? '';
 
-        final summary = summaryTag.isEmpty
-            ? ''
-            : nip04.decryptNip04(
-                content: summaryTag,
-                peerPubkey: e.pubkey,
-                privateKey: privateKey,
-              );
-
         return Note(
           dTag: dTag,
           content: e.content,
-          summary: summary,
+          summary: summaryTag,
           createdAt: DateTime.fromMillisecondsSinceEpoch(e.createdAt * 1000),
         );
       },
@@ -133,24 +122,10 @@ class NotesRepositoryImpl implements NotesRepository {
 
     final summaryTag = e.getFirstTag(const SummaryTag()) ?? '';
 
-    final summary = summaryTag.isEmpty
-        ? ''
-        : nip04.decryptNip04(
-            content: summaryTag,
-            peerPubkey: e.pubkey,
-            privateKey: privateKey,
-          );
-
-    final content = nip04.decryptNip04(
-      content: e.content,
-      peerPubkey: e.pubkey,
-      privateKey: privateKey,
-    );
-
     return Note(
       dTag: dTag,
-      content: content,
-      summary: summary,
+      content: e.content,
+      summary: summaryTag,
       createdAt: DateTime.fromMillisecondsSinceEpoch(e.createdAt * 1000),
     );
   }

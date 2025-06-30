@@ -1,12 +1,15 @@
 import 'package:di_storage/di_storage.dart';
 import 'package:nostr_notes/auth/data/common_event_storage_impl.dart';
+import 'package:nostr_notes/auth/data/crypto_repo_impl.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/data/relays_list_repo_impl.dart';
+import 'package:nostr_notes/auth/domain/repo/crypto_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/data/event_publisher_impl.dart';
 import 'package:nostr_notes/common/domain/event_publisher.dart';
 import 'package:nostr_notes/services/key_tool/nip04_service.dart';
@@ -29,6 +32,12 @@ final class AuthDiScope extends DiScope {
       lifeTime: const LifeTime.prototype(),
     );
 
+    di.bind<CryptoRepo>(
+      () => const CryptoRepoImpl(),
+      module: this,
+      lifeTime: const LifeTime.single(),
+    );
+
     di.bind<EventPublisher>(
       () => EventPublisherImpl(
         nostrClient: di.resolve(),
@@ -42,6 +51,7 @@ final class AuthDiScope extends DiScope {
       () => CreateNoteUsecase(
         sessionUsecase: di.resolve(),
         eventPublisher: di.resolve(),
+        noteCryptoUseCase: di.resolve<NoteCryptoUseCase>(),
       ),
       module: this,
       lifeTime: const LifeTime.prototype(),
@@ -63,7 +73,6 @@ final class AuthDiScope extends DiScope {
       () => FetchNotesUsecase(
         notesRepository: NotesRepositoryImpl(
           client: di.resolve<NostrClient>(),
-          nip04: di.resolve(),
           memoryStorage: di.resolve(),
         ),
         sessionUsecase: di.resolve(),
@@ -73,14 +82,23 @@ final class AuthDiScope extends DiScope {
       lifeTime: const LifeTime.prototype(),
     );
 
+    di.bind<NoteCryptoUseCase>(
+      () => NoteCryptoUseCase(
+        sessionUsecase: di.resolve(),
+        cryptoRepo: di.resolve(),
+      ),
+      module: this,
+      lifeTime: const LifeTime.prototype(),
+    );
+
     di.bind<GetNotesUsecase>(
       () => GetNotesUsecase(
         notesRepository: NotesRepositoryImpl(
           client: di.resolve<NostrClient>(),
-          nip04: di.resolve(),
           memoryStorage: di.resolve(),
         ),
         sessionUsecase: di.resolve(),
+        noteCryptoUseCase: di.resolve(),
       ),
       module: this,
       lifeTime: const LifeTime.prototype(),
@@ -90,10 +108,10 @@ final class AuthDiScope extends DiScope {
       () => GetNoteUsecase(
         notesRepository: NotesRepositoryImpl(
           client: di.resolve<NostrClient>(),
-          nip04: di.resolve(),
           memoryStorage: di.resolve(),
         ),
         sessionUsecase: di.resolve(),
+        noteCryptoUseCase: di.resolve(),
       ),
       module: this,
       lifeTime: const LifeTime.prototype(),

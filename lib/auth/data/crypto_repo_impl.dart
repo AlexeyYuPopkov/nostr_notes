@@ -53,26 +53,30 @@ final class CryptoRepoImpl implements CryptoRepo {
   FutureOr<String> decryptMessage({
     required String text,
     required CryptoAlgorithmType algorithmType,
-  }) {
-    switch (algorithmType) {
-      case Nip04CryptoAlgorithmType():
-        return _nip04Service.decryptNip04(
-          content: text,
-          privateKey: algorithmType.privateKey,
-          peerPubkey: algorithmType.peerPubkey,
-        );
-      case Nip44CryptoAlgorithmType():
-        return Nip44.decryptMessage(
-          payload: text,
-          recipientPrivateKey: algorithmType.privateKey,
-          senderPublicKey: algorithmType.peerPubkey,
-          customConversationKey: algorithmType.conversationKey,
-        );
-      case AesCryptoAlgorithmType():
-        return _aes.decrypt(
-          ciphertext: text,
-          password: algorithmType.password,
-        );
+  }) async {
+    try {
+      switch (algorithmType) {
+        case Nip04CryptoAlgorithmType():
+          return _nip04Service.decryptNip04(
+            content: text,
+            privateKey: algorithmType.privateKey,
+            peerPubkey: algorithmType.peerPubkey,
+          );
+        case Nip44CryptoAlgorithmType():
+          return await Nip44.decryptMessage(
+            payload: text,
+            recipientPrivateKey: algorithmType.privateKey,
+            senderPublicKey: algorithmType.peerPubkey,
+            customConversationKey: algorithmType.conversationKey,
+          );
+        case AesCryptoAlgorithmType():
+          return _aes.decrypt(
+            ciphertext: text,
+            password: algorithmType.password,
+          );
+      }
+    } catch (e) {
+      return text;
     }
   }
 

@@ -16,6 +16,7 @@ final class NoteCryptoUseCase {
   NoteCryptoUseCase({
     required CryptoRepo cryptoRepo,
     required SessionUsecase sessionUsecase,
+    bool useCache = true,
   })  : _cryptoRepo = cryptoRepo,
         _sessionUsecase = sessionUsecase;
 
@@ -51,29 +52,29 @@ final class NoteCryptoUseCase {
     );
   }
 
-  Future<Note> encryptSummary(Note note) async {
-    final pin = _getPin();
+  // Future<Note> encryptSummary(Note note) async {
+  //   final pin = _getPin();
 
-    final privateKey = _getPrivateKey();
-    final peerPubkey = _getPeerPubkey();
+  //   final privateKey = _getPrivateKey();
+  //   final peerPubkey = _getPeerPubkey();
 
-    final session = _sessionUsecase.currentSession;
+  //   final session = _sessionUsecase.currentSession;
 
-    final cacheNip44 = nip44Expando[session] ??= await _cryptoRepo.createCache(
-      algorithmType: CryptoAlgorithmType.nip44(
-        privateKey: privateKey,
-        peerPubkey: peerPubkey,
-        additionalPassword: pin,
-      ),
-    );
+  //   final cacheNip44 = nip44Expando[session] ??= await _cryptoRepo.createCache(
+  //     algorithmType: CryptoAlgorithmType.nip44(
+  //       privateKey: privateKey,
+  //       peerPubkey: peerPubkey,
+  //       additionalPassword: pin,
+  //     ),
+  //   );
 
-    final encryptedSummary = await _cryptoRepo.encryptMessage(
-      text: note.summary,
-      algorithmType: cacheNip44,
-    );
+  //   final encryptedSummary = await _cryptoRepo.encryptMessage(
+  //     text: note.summary,
+  //     algorithmType: cacheNip44,
+  //   );
 
-    return note.copyWith(summary: encryptedSummary);
-  }
+  //   return note.copyWith(summary: encryptedSummary);
+  // }
 
   Future<Note> decryptNote(Note note) async {
     final privateKey = _getPrivateKey();
