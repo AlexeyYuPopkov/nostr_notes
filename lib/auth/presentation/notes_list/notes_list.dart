@@ -46,7 +46,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
               itemBuilder: (context, index) {
                 final note = state.data.notes[index];
                 return ListTile(
-                  title: Text(note.summary),
+                  title: Text(note.summary.byStripMarkDownSymbols()),
                   subtitle: Text(
                     DateFormatter.formatDateTimeOrEmpty(note.createdAt),
                   ),
@@ -59,6 +59,12 @@ final class NotesList extends StatelessWidget with DialogHelper {
         },
       ),
     );
+  }
+}
+
+extension on String {
+  String byStripMarkDownSymbols() {
+    return replaceAll(RegExp(r'[#*`~]'), '');
   }
 }
 

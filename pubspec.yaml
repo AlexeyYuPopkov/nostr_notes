@@ -68,6 +68,9 @@ dependencies:
   di_storage: ^2.0.1
 
   flutter_markdown: ^0.7.7+1
+  flutter_highlight: ^0.7.0
+  # zefyrka: ^1.6.0
+  # notus_format: ^1.0.3
   # markdown_editor_plus: ^0.2.15
   # flutter_markdown_editor: ^2.0.0
   # super_editor: #^0.2.7
