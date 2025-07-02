@@ -22,6 +22,10 @@ sealed class NoteScreenState extends Equatable {
     required NoteScreenData data,
     required Object e,
   }) = ErrorState;
+
+  const factory NoteScreenState.didSave({
+    required NoteScreenData data,
+  }) = DidSaveState;
 }
 
 final class CommonState extends NoteScreenState {
@@ -38,4 +42,8 @@ final class ErrorState extends NoteScreenState {
     required super.data,
     required this.e,
   });
+}
+
+final class DidSaveState extends NoteScreenState {
+  const DidSaveState({required super.data});
 }

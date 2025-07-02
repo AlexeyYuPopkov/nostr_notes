@@ -1,101 +1,88 @@
-import 'package:nostr_notes/app/app_config.dart';
-import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
-import 'package:nostr_notes/common/domain/event_publisher.dart';
-import 'package:nostr_notes/core/event_kind.dart';
-import 'package:nostr_notes/services/model/tag/tag.dart';
-import 'package:nostr_notes/services/nostr_client.dart';
-import 'package:nostr_notes/services/nostr_event_creator.dart';
-import 'package:nostr_notes/core/tools/now.dart';
-import 'package:uuid/uuid.dart';
+// import 'package:nostr_notes/app/app_config.dart';
+// import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
+// import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
+// import 'package:nostr_notes/common/domain/error/app_error.dart';
+// import 'package:nostr_notes/common/domain/event_publisher.dart';
+// import 'package:nostr_notes/core/event_kind.dart';
+// import 'package:nostr_notes/core/tools/result.dart';
+// import 'package:nostr_notes/services/model/tag/tag.dart';
+// import 'package:nostr_notes/services/nostr_client.dart';
+// import 'package:nostr_notes/services/nostr_event_creator.dart';
+// import 'package:nostr_notes/core/tools/now.dart';
+// import 'package:uuid/uuid.dart';
 
-final class EventPublisherImpl implements EventPublisher {
-  final NostrClient nostrClient;
-  final RelaysListRepo relaysListRepo;
+// final class EventPublisherImpl implements EventPublisher {
+//   final NostrClient nostrClient;
+//   final RelaysListRepo relaysListRepo;
 
-  const EventPublisherImpl({
-    required this.nostrClient,
-    required this.relaysListRepo,
-  });
+//   const EventPublisherImpl({
+//     required this.nostrClient,
+//     required this.relaysListRepo,
+//   });
 
-  @override
-  Future<EventPublisherResult> publishNote({
-    required String content,
-    required String summary,
-    required String publicKey,
-    required String privateKey,
-    required String? dTag,
-    Now? now,
-    Uuid? uuid,
-    List<int>? randomBytes,
-  }) async {
-    // final encryptedSummary = nip04.encryptNip04(
-    //   content: summary,
-    //   peerPubkey: publicKey,
-    //   privateKey: privateKey,
-    // );
-    // final encryptedMessage = nip04.encryptNip04(
-    //   content: content,
-    //   peerPubkey: publicKey,
-    //   privateKey: privateKey,
-    // );
+//   @override
+//   Future<EventPublisherResult> publishNote({
+//     required String content,
+//     required String summary,
+//     required String publicKey,
+//     required String privateKey,
+//     required String? dTag,
+//     Now? now,
+//     Uuid? uuid,
+//     List<int>? randomBytes,
+//   }) async {
+//     final dTagValue = dTag ?? (uuid ?? const Uuid()).v1();
 
-    // assert(
-    //   nip04.decryptNip04(
-    //         content: encryptedSummary,
-    //         peerPubkey: publicKey,
-    //         privateKey: privateKey,
-    //       ) ==
-    //       summary,
-    //   'Decrypt summary should be equal to original summary',
-    // );
+//     final List<List<String>> tags = [
+//       AppConfig.clientTagList(),
+//       [Tag.t.value, AppConfig.clientTagValue],
+//       [Tag.d.value, dTagValue],
+//       [
+//         Tag.p.value,
+//         publicKey,
+//       ],
+//       [const SummaryTag().value, summary],
+//     ];
 
-    final dTagValue = dTag ?? (uuid ?? const Uuid()).v1();
+//     final createdAt = (now ?? const Now()).now();
 
-    final List<List<String>> tags = [
-      AppConfig.clientTagList(),
-      [Tag.t.value, AppConfig.clientTagValue],
-      [Tag.d.value, dTagValue],
-      [
-        Tag.p.value,
-        publicKey,
-      ],
-      [const SummaryTag().value, summary],
-    ];
+//     final event = NostrEventCreator.createEvent(
+//       kind: EventKind.note.value,
+//       content: content,
+//       createdAt: createdAt,
+//       tags: tags,
+//       pubkey: publicKey,
+//       privateKey: privateKey,
+//       randomBytes: randomBytes,
+//     );
 
-    final createdAt = (now ?? const Now()).now();
+//     for (final relay in relaysListRepo.getRelaysList()) {
+//       nostrClient.addRelay(relay);
+//     }
 
-    final event = NostrEventCreator.createEvent(
-      kind: EventKind.note.value,
-      content: content,
-      createdAt: createdAt,
-      tags: tags,
-      pubkey: publicKey,
-      privateKey: privateKey,
-      randomBytes: randomBytes,
-    );
-    // jsonEncode(event.toJson());
-    for (final relay in relaysListRepo.getRelaysList()) {
-      nostrClient.addRelay(relay);
-    }
+//     await nostrClient.connect();
 
-    await nostrClient.connect();
+//     final result = await nostrClient.publishEventToAll(event);
 
-    final result = await nostrClient.publishEventToAll(event);
+//     final timeoutError = result.timeoutError;
+//     final resultNote = NoteMapper.fromNostrEvent(result.targetEvent);
 
-    final timeoutError = result.timeoutError;
+//     if (resultNote == null) {
+//       throw const AppError.undefined();
+//     }
 
-    return EventPublisherResult(
-      reports: result.events
-          .map(
-            (e) => PublishReport(
-              relay: e.relay,
-              errorMessage: e.message,
-            ),
-          )
-          .toList(),
-      timeoutError: timeoutError == null
-          ? null
-          : PublishTimeoutError(parentError: timeoutError),
-    );
-  }
-}
+//     return EventPublisherResult(
+//       reports: result.events
+//           .map(
+//             (e) => PublishReport(
+//               relay: e.relay,
+//               errorMessage: e.message,
+//             ),
+//           )
+//           .toList(),
+//       result: timeoutError == null
+//           ? Success(resultNote)
+//           : Failure(PublishTimeoutError(parentError: timeoutError)),
+//     );
+//   }
+// }

@@ -1,11 +1,11 @@
-sealed class Result<T> {}
+sealed class Result<T, E> {}
 
-final class Success<T> extends Result<T> {
+final class Success<T> extends Result<T, Never> {
   final T value;
   Success(this.value);
 }
 
-final class Failure<T> extends Result<T> {
-  final Object error;
+final class Failure<E> extends Result<Never, E> {
+  final E error;
   Failure(this.error);
 }

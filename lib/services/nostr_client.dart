@@ -91,9 +91,17 @@ final class NostrClient {
     ]);
 
     if (result is ErrorNostrClientPublishTimeout) {
-      return PublishEventReport(events: okEvents, timeoutError: result);
+      return PublishEventReport(
+        events: okEvents,
+        timeoutError: result,
+        targetEvent: event,
+      );
     } else {
-      return PublishEventReport(events: okEvents, timeoutError: null);
+      return PublishEventReport(
+        events: okEvents,
+        timeoutError: null,
+        targetEvent: event,
+      );
     }
   }
 
@@ -149,9 +157,11 @@ final class ErrorNostrClientPublishTimeout implements Exception {
 final class PublishEventReport {
   final ErrorNostrClientPublishTimeout? timeoutError;
   final List<NostrEventOk> events;
+  final NostrEvent targetEvent;
 
   const PublishEventReport({
     required this.events,
     required this.timeoutError,
+    required this.targetEvent,
   });
 }

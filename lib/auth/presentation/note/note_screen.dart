@@ -26,19 +26,25 @@ final class NoteScreen extends StatelessWidget with DialogHelper {
       case ErrorState():
         showError(context, error: state.e);
         break;
+      case DidSaveState():
+        break;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BlocProvider(
       create: (context) => NoteScreenBloc(pathParams: pathParams),
       child: BlocConsumer<NoteScreenBloc, NoteScreenState>(
         listener: _listener,
         builder: (context, state) {
           return Scaffold(
+            backgroundColor: theme.colorScheme.surface,
             appBar: AppBar(
               actions: const [
+                // _EditButton(),
+                // SizedBox(width: Sizes.indent2x),
                 _SaveButton(),
                 SizedBox(width: Sizes.indent2x),
               ],
@@ -72,13 +78,6 @@ final class _FormState extends State<_Form> {
   void initState() {
     super.initState();
     _controller.addListener(_onChangeText);
-    _focusNode.addListener(() {
-      if (!_focusNode.hasFocus && hasFocus) {
-        setState(() {
-          hasFocus = false;
-        });
-      }
-    });
   }
 
   @override
@@ -90,57 +89,66 @@ final class _FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: () {
-        setState(() {
-          hasFocus = !hasFocus;
-        });
-      },
-      child: BlocConsumer<NoteScreenBloc, NoteScreenState>(
-        listenWhen: (a, b) => a.data.text != b.data.text,
-        buildWhen: (a, b) =>
-            a is InitiaslLoadingState != b is InitiaslLoadingState,
-        listener: (context, state) {
-          if (state is CommonState) {
-            _controller.text = state.data.text;
+    return BlocConsumer<NoteScreenBloc, NoteScreenState>(
+      listenWhen: (a, b) =>
+          a.data.text != b.data.text || a.data.editMode != b.data.editMode,
+      buildWhen: (a, b) =>
+          a is InitiaslLoadingState != b is InitiaslLoadingState ||
+          a.data.editMode != b.data.editMode,
+      listener: (context, state) {
+        if (state is CommonState) {
+          _controller.text = state.data.text;
+        }
+
+        if (state.data.editMode != _focusNode.hasFocus) {
+          if (state.data.editMode) {
+            _focusNode.requestFocus();
+          } else {
+            _focusNode.unfocus();
           }
-        },
-        builder: (context, state) {
-          return AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            child: state is InitiaslLoadingState
-                ? const SizedBox()
-                : hasFocus
-                    ? TextFormField(
-                        controller: _controller,
-                        focusNode: _focusNode,
-                        style: const TextStyle(fontSize: 16),
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.all(Sizes.indent2x),
-                        ),
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        minLines: null,
-                        expands: true,
-                        onTapOutside: (event) {
-                          FocusScope.of(context).unfocus();
-                        },
-                      )
-                    : Markdown(
+        }
+      },
+      builder: (context, state) {
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: state is InitiaslLoadingState
+              ? const SizedBox()
+              : state.data.editMode
+                  ? TextFormField(
+                      controller: _controller,
+                      focusNode: _focusNode,
+                      style: const TextStyle(fontSize: 16),
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.all(Sizes.indent2x),
+                      ),
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      minLines: null,
+                      expands: true,
+                      onTapOutside: (event) {
+                        FocusScope.of(context).unfocus();
+                      },
+                    )
+                  : GestureDetector(
+                      onTap: () {
+                        FocusScope.of(context).unfocus();
+                      },
+                      child: Markdown(
                         data: _controller.text,
                         padding: const EdgeInsets.all(12.0),
+                        selectable: true,
                         styleSheet: MarkdownStyleSheet(
                           p: const TextStyle(fontSize: 16),
                           strong: const TextStyle(fontWeight: FontWeight.bold),
                           em: const TextStyle(fontStyle: FontStyle.italic),
                         ),
                       ),
-          );
-        },
-      ),
+                    ),
+        );
+      },
     );
   }
 
@@ -156,46 +164,49 @@ final class _SaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<NoteScreenBloc, NoteScreenState, bool>(
-      selector: (state) {
-        return state.data.isChanged;
-      },
-      builder: (context, isEnabled) {
-        return CupertinoButton(
-          minSize: Sizes.zero,
-          padding: EdgeInsets.zero,
-          onPressed: isEnabled ? () => _onSave(context) : null,
-          child: Text(context.l10n.commonButtonSave),
-        );
+    return BlocBuilder<NoteScreenBloc, NoteScreenState>(
+      buildWhen: (a, b) =>
+          a.data.editMode != b.data.editMode ||
+          a.data.isChanged != b.data.isChanged,
+      builder: (context, state) {
+        if (state.data.editMode) {
+          return CupertinoButton(
+            minSize: Sizes.zero,
+            padding: EdgeInsets.zero,
+            onPressed: () => _onSave(
+              context,
+              state.data.isChanged,
+            ),
+            child: Text(
+              state.data.isChanged
+                  ? context.l10n.commonButtonSave
+                  : context.l10n.commonButtonDone,
+            ),
+          );
+        } else {
+          return CupertinoButton(
+            minSize: Sizes.zero,
+            padding: EdgeInsets.zero,
+            onPressed: () {
+              context.read<NoteScreenBloc>().add(
+                    const NoteScreenEvent.changeEditMode(true),
+                  );
+            },
+            child: Text(context.l10n.commonButtonEdit),
+          );
+        }
       },
     );
   }
 
-  void _onSave(BuildContext context) {
+  void _onSave(BuildContext context, bool isChanged) {
     FocusScope.of(context).unfocus();
-    context.read<NoteScreenBloc>().add(const NoteScreenEvent.saveNote());
+    if (isChanged) {
+      context.read<NoteScreenBloc>().add(const NoteScreenEvent.saveNote());
+    } else {
+      context.read<NoteScreenBloc>().add(
+            const NoteScreenEvent.changeEditMode(false),
+          );
+    }
   }
 }
-
-// final class _Shimmers extends StatelessWidget {
-//   const _Shimmers();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     const text = '''
-// Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-// tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-// quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-// Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-// Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-// ''';
-//     return const Padding(
-//       padding: EdgeInsets.symmetric(horizontal: Sizes.indent2x),
-//       child: CommonShimmer(
-//         child: Markdown(
-//           data: text,
-//         ),
-//       ),
-//     );
-//   }
-// }

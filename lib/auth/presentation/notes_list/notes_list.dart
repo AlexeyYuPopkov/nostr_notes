@@ -49,7 +49,11 @@ final class NotesList extends StatelessWidget with DialogHelper {
                 itemBuilder: (context, index) {
                   final note = state.data.notes[index];
                   return ListTile(
-                    title: Text(note.summary),
+                    title: Text(
+                      note.summary,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     subtitle: Text(
                       DateFormatter.formatDateTimeOrEmpty(note.createdAt),
                     ),

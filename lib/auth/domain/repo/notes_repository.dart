@@ -1,4 +1,7 @@
 import 'package:nostr_notes/auth/domain/model/note.dart';
+import 'package:nostr_notes/common/domain/event_publisher.dart';
+import 'package:nostr_notes/core/tools/now.dart';
+import 'package:uuid/uuid.dart';
 
 abstract interface class NotesRepository {
   void sendRequest({
@@ -18,5 +21,14 @@ abstract interface class NotesRepository {
     required String pubkey,
     required String privateKey,
     required String id,
+  });
+
+  Future<EventPublisherResult> publishNote({
+    required Note note,
+    required String pubkey,
+    required String privateKey,
+    Now? now,
+    Uuid? uuid,
+    List<int>? randomBytes,
   });
 }

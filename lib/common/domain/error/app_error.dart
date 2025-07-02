@@ -26,6 +26,11 @@ abstract class AppError implements Exception {
     String reason,
   }) = CommonError;
 
+  const factory AppError.undefined({
+    Object? parentError,
+    String reason,
+  }) = UndefinedError;
+
   @override
   String toString() {
     return [
@@ -53,6 +58,16 @@ final class CommonError extends AppError {
     super.parentError,
     super.reason,
   });
+}
+
+final class UndefinedError extends AppError {
+  const UndefinedError({
+    super.parentError,
+    super.reason,
+  });
+
+  @override
+  String get message => ErrorMessagesProvider.defaultProvider.commonError;
 }
 
 final class NotAuthenticatedError extends AppError {

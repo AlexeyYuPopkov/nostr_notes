@@ -1,4 +1,5 @@
 import 'package:nostr_notes/auth/domain/model/note.dart';
+import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/domain/error/app_error.dart';
 import 'package:nostr_notes/common/domain/event_publisher.dart';
@@ -9,16 +10,19 @@ import 'package:uuid/uuid.dart';
 final class CreateNoteUsecase {
   static const summaryLength = 100;
   final SessionUsecase _sessionUsecase;
-  final EventPublisher _eventPublisher;
+  // final EventPublisher _eventPublisher;
   final NoteCryptoUseCase _noteCryptoUseCase;
+  final NotesRepository _notesRepository;
 
   CreateNoteUsecase({
     required SessionUsecase sessionUsecase,
-    required EventPublisher eventPublisher,
+    // required EventPublisher eventPublisher,
     required NoteCryptoUseCase noteCryptoUseCase,
+    required NotesRepository notesRepository,
   })  : _sessionUsecase = sessionUsecase,
-        _eventPublisher = eventPublisher,
-        _noteCryptoUseCase = noteCryptoUseCase;
+        // _eventPublisher = eventPublisher,
+        _noteCryptoUseCase = noteCryptoUseCase,
+        _notesRepository = notesRepository;
 
   Future<EventPublisherResult> execute({
     // required Note note,
@@ -34,7 +38,7 @@ final class CreateNoteUsecase {
     }
 
     final note = Note(
-      dTag: '',
+      dTag: dTag ?? '',
       content: content,
       summary: '',
       createdAt: DateTime.fromMicrosecondsSinceEpoch(0),
@@ -50,15 +54,28 @@ final class CreateNoteUsecase {
       ),
     );
 
-    return _eventPublisher.publishNote(
-      content: encryptedNote.content,
-      summary: encryptedNote.summary,
-      publicKey: keys.publicKey,
+    final result = await _notesRepository.publishNote(
+      note: encryptedNote,
+      pubkey: keys.publicKey,
       privateKey: keys.privateKey,
-      dTag: dTag,
       now: now,
       uuid: uuid,
       randomBytes: randomBytes,
+    );
+
+    final targetNote = result.targetNote;
+    if (targetNote == null) {
+      return result;
+    }
+
+    final decryptedNote = await _noteCryptoUseCase.decryptNote(
+      targetNote,
+    );
+
+    return EventPublisherResult(
+      reports: result.reports,
+      targetNote: decryptedNote,
+      error: result.error,
     );
   }
 }

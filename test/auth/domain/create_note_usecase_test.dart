@@ -3,12 +3,14 @@ import 'dart:convert';
 
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nostr_notes/auth/data/common_event_storage_impl.dart';
+import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
+import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/repo/crypto_algorithm_type.dart';
 import 'package:nostr_notes/auth/domain/repo/crypto_repo.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
-import 'package:nostr_notes/common/data/event_publisher_impl.dart';
 import 'package:nostr_notes/common/domain/error/error_messages_provider.dart';
 import 'package:nostr_notes/common/domain/event_publisher.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
@@ -152,13 +154,18 @@ void main() {
 
       sut = CreateNoteUsecase(
         sessionUsecase: sessionUsecase,
-        eventPublisher: EventPublisherImpl(
-          nostrClient: client,
-          relaysListRepo: const MockRelaysListRepo(),
-        ),
+        // eventPublisher: EventPublisherImpl(
+        //   nostrClient: client,
+        //   relaysListRepo: const MockRelaysListRepo(),
+        // ),
         noteCryptoUseCase: NoteCryptoUseCase(
           sessionUsecase: sessionUsecase,
           cryptoRepo: mockCryptoRepo,
+        ),
+        notesRepository: NotesRepositoryImpl(
+          client: client,
+          memoryStorage: CommonEventStorageImpl(),
+          relaysListRepo: const MockRelaysListRepo(),
         ),
       );
     });
@@ -195,7 +202,7 @@ void main() {
       );
 
       expect(result, isA<EventPublisherResult>());
-      expect(result.timeoutError == null, true);
+      expect(result.targetNote is Note, true);
       expect(result.reports.length, 2);
       expect(result.reports[0].errorMessage, '');
       expect(result.reports[1].errorMessage, '');
@@ -247,7 +254,7 @@ void main() {
       );
 
       expect(result, isA<EventPublisherResult>());
-      expect(result.timeoutError, isA<PublishTimeoutError>());
+      expect(result.error, isA<PublishTimeoutError>());
       expect(result.reports.length, 1);
       expect(result.reports[0].errorMessage, '');
 

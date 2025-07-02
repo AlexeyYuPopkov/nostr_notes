@@ -1,6 +1,7 @@
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
@@ -39,6 +40,7 @@ final class NoteScreenBloc extends Bloc<NoteScreenEvent, NoteScreenState> {
           events.debounceTime(Durations.short3).switchMap(mapper),
     );
     on<SaveNoteEvent>(_onSaveNoteEvent);
+    on<ChangeEditModeEvent>(_onChangeEditModeEvent);
   }
 
   void _onInitialEvent(
@@ -90,15 +92,48 @@ final class NoteScreenBloc extends Bloc<NoteScreenEvent, NoteScreenState> {
 
       emit(NoteScreenState.initialLoading(data: data));
 
-      await _createNoteUsecase.execute(
-        content: data.text,
+      final result = await _createNoteUsecase.execute(
+        content: trimmedText,
         dTag: data.initialNote.value?.dTag,
       );
 
-      final newData = data.copyWith(text: data.text);
-      emit(NoteScreenState.common(data: newData));
+      final targetNote = result.targetNote;
+
+      if (targetNote is Note) {
+        final newData = data.copyWith(text: data.text);
+        emit(
+          NoteScreenState.didSave(
+            data: newData.copyWith(
+              initialNote: OptionalBox(targetNote),
+              editMode: false,
+            ),
+          ),
+        );
+
+        add(const InitialEvent());
+      } else {
+        throw const AppError.undefined();
+      }
     } catch (e) {
-      emit(NoteScreenState.error(e: e, data: data));
+      emit(
+        NoteScreenState.error(
+          e: e,
+          data: data.copyWith(
+            editMode: false,
+          ),
+        ),
+      );
     }
+  }
+
+  void _onChangeEditModeEvent(
+    ChangeEditModeEvent event,
+    Emitter<NoteScreenState> emit,
+  ) {
+    emit(
+      NoteScreenState.common(
+        data: data.copyWith(editMode: event.editMode),
+      ),
+    );
   }
 }

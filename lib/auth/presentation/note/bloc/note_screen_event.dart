@@ -6,6 +6,8 @@ sealed class NoteScreenEvent extends Equatable {
   const factory NoteScreenEvent.initial() = InitialEvent;
   const factory NoteScreenEvent.didChangeText(String text) = DidChangeTextEvent;
   const factory NoteScreenEvent.saveNote() = SaveNoteEvent;
+  const factory NoteScreenEvent.changeEditMode(bool editMode) =
+      ChangeEditModeEvent;
 
   @override
   List<Object?> get props => const [];
@@ -26,4 +28,10 @@ final class DidChangeTextEvent extends NoteScreenEvent {
 
 final class SaveNoteEvent extends NoteScreenEvent {
   const SaveNoteEvent();
+}
+
+final class ChangeEditModeEvent extends NoteScreenEvent {
+  final bool editMode;
+
+  const ChangeEditModeEvent(this.editMode);
 }

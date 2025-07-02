@@ -1,3 +1,4 @@
+import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/domain/error/app_error.dart';
 import 'package:nostr_notes/common/domain/error/error_messages_provider.dart';
 import 'package:nostr_notes/core/tools/now.dart';
@@ -18,11 +19,13 @@ abstract interface class EventPublisher {
 
 final class EventPublisherResult {
   final List<PublishReport> reports;
-  final PublishTimeoutError? timeoutError;
+  final Note? targetNote;
+  final PublishTimeoutError? error;
 
   const EventPublisherResult({
     required this.reports,
-    required this.timeoutError,
+    required this.targetNote,
+    required this.error,
   });
 }
 
