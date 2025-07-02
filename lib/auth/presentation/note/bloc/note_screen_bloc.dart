@@ -50,7 +50,7 @@ final class NoteScreenBloc extends Bloc<NoteScreenEvent, NoteScreenState> {
       return;
     }
     try {
-      emit(NoteScreenState.loading(data: data));
+      emit(NoteScreenState.initialLoading(data: data));
 
       final note = await _getNoteUsecase.execute(noteId);
 
@@ -88,7 +88,7 @@ final class NoteScreenBloc extends Bloc<NoteScreenEvent, NoteScreenState> {
         throw AppError.common(message: message);
       }
 
-      emit(NoteScreenState.loading(data: data));
+      emit(NoteScreenState.initialLoading(data: data));
 
       await _createNoteUsecase.execute(
         content: data.text,

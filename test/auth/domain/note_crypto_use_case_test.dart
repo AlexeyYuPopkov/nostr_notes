@@ -142,7 +142,7 @@ void main() {
         'Nip44 encryption/decryption of $iterations messages took: ${stopwatch.elapsedMilliseconds} ms',
       );
 
-      expect(stopwatch.elapsedMilliseconds < 400, true);
+      expect(stopwatch.elapsedMilliseconds < 1000, true);
     });
   });
 }

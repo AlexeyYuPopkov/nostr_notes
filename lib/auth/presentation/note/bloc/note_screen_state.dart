@@ -14,9 +14,9 @@ sealed class NoteScreenState extends Equatable {
     required NoteScreenData data,
   }) = CommonState;
 
-  const factory NoteScreenState.loading({
+  const factory NoteScreenState.initialLoading({
     required NoteScreenData data,
-  }) = LoadingState;
+  }) = InitiaslLoadingState;
 
   const factory NoteScreenState.error({
     required NoteScreenData data,
@@ -28,8 +28,8 @@ final class CommonState extends NoteScreenState {
   const CommonState({required super.data});
 }
 
-final class LoadingState extends NoteScreenState {
-  const LoadingState({required super.data});
+final class InitiaslLoadingState extends NoteScreenState {
+  const InitiaslLoadingState({required super.data});
 }
 
 final class ErrorState extends NoteScreenState {

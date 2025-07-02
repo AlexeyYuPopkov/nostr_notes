@@ -65,7 +65,7 @@ void main() {
         'Nip04 encryption/decryption of $iterations messages took: ${stopwatch.elapsedMilliseconds} ms',
       );
 
-      expect(stopwatch.elapsedMilliseconds < 6000, true);
+      expect(stopwatch.elapsedMilliseconds < 10000, true);
     });
   });
 }

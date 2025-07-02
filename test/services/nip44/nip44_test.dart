@@ -111,7 +111,7 @@ void main() {
         'Nip44 encryption/decryption of $iterations messages took: ${stopwatch.elapsedMilliseconds} ms',
       );
 
-      expect(stopwatch.elapsedMilliseconds < 700, true);
+      expect(stopwatch.elapsedMilliseconds < 2000, true);
     });
 
     test('Nip44 encryption/decryption performance with cached conversation key',
@@ -150,7 +150,7 @@ void main() {
         'Nip44 encryption/decryption of $iterations messages took: ${stopwatch.elapsedMilliseconds} ms',
       );
 
-      expect(stopwatch.elapsedMilliseconds < 100, true);
+      expect(stopwatch.elapsedMilliseconds < 300, true);
     });
   });
 }

@@ -9,6 +9,7 @@ import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_formatter.dart';
 
 import 'bloc/notes_list_bloc.dart';
+import 'bloc/notes_list_event.dart';
 import 'bloc/notes_list_state.dart';
 
 final class NotesList extends StatelessWidget with DialogHelper {
@@ -41,30 +42,31 @@ final class NotesList extends StatelessWidget with DialogHelper {
               title: const Text('Заметки'),
               actions: const [_NewNote()],
             ),
-            body: ListView.builder(
-              itemCount: state.data.notes.length,
-              itemBuilder: (context, index) {
-                final note = state.data.notes[index];
-                return ListTile(
-                  title: Text(note.summary.byStripMarkDownSymbols()),
-                  subtitle: Text(
-                    DateFormatter.formatDateTimeOrEmpty(note.createdAt),
-                  ),
-                  selected: false, //selectedIndex == index,
-                  onTap: () => onTap(note),
-                );
-              },
+            body: RefreshIndicator(
+              onRefresh: () async => _onRefresh(context),
+              child: ListView.builder(
+                itemCount: state.data.notes.length,
+                itemBuilder: (context, index) {
+                  final note = state.data.notes[index];
+                  return ListTile(
+                    title: Text(note.summary),
+                    subtitle: Text(
+                      DateFormatter.formatDateTimeOrEmpty(note.createdAt),
+                    ),
+                    selected: false, //selectedIndex == index,
+                    onTap: () => onTap(note),
+                  );
+                },
+              ),
             ),
           );
         },
       ),
     );
   }
-}
 
-extension on String {
-  String byStripMarkDownSymbols() {
-    return replaceAll(RegExp(r'[#*`~]'), '');
+  void _onRefresh(BuildContext context) {
+    context.read<NotesListBloc>().add(const NotesListEvent.initial());
   }
 }
 

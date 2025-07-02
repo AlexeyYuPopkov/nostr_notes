@@ -3,6 +3,7 @@ import 'package:nostr_notes/app/sizes.dart';
 
 import 'app_color_scheme.dart';
 import 'app_text_theme.dart';
+import 'shimmer_colors.dart';
 
 final class AppTheme {
   const AppTheme();
@@ -66,6 +67,9 @@ final class AppTheme {
       elevation: 2,
       margin: const EdgeInsets.all(Sizes.indent),
     ),
+    extensions: [
+      ShimmerColors.fromBrightness(Brightness.light),
+    ],
   );
 
   static final dark = ThemeData(

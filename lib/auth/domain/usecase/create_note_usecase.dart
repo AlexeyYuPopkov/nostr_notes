@@ -46,7 +46,7 @@ final class CreateNoteUsecase {
 
     final encryptedNote = await _noteCryptoUseCase.encryptNote(
       note.copyWith(
-        summary: summary,
+        summary: summary.byStripMarkDownSymbols(),
       ),
     );
 
@@ -60,5 +60,11 @@ final class CreateNoteUsecase {
       uuid: uuid,
       randomBytes: randomBytes,
     );
+  }
+}
+
+extension on String {
+  String byStripMarkDownSymbols() {
+    return replaceAll(RegExp(r'[#*`~]'), '');
   }
 }

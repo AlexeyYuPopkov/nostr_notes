@@ -5,6 +5,7 @@ sealed class NotesListEvent extends Equatable {
 
   const factory NotesListEvent.initial() = InitialEvent;
   const factory NotesListEvent.getNotes() = GetNotesEvent;
+  const factory NotesListEvent.refresh() = RefreshEvent;
   const factory NotesListEvent.error({required Object error}) = ErrorEvent;
 
   @override
@@ -17,6 +18,10 @@ final class InitialEvent extends NotesListEvent {
 
 final class GetNotesEvent extends NotesListEvent {
   const GetNotesEvent();
+}
+
+final class RefreshEvent extends NotesListEvent {
+  const RefreshEvent();
 }
 
 final class ErrorEvent extends NotesListEvent {

@@ -35,11 +35,14 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
 
   void _setupHandlers() {
     on<InitialEvent>(_onInitialEvent);
+
     on<GetNotesEvent>(_onGetNotesEvent);
     on<ErrorEvent>(_onErrorEvent);
   }
 
   void _setupSubscription() {
+    _notesSubscription?.cancel();
+    _notesSubscription = null;
     _notesSubscription = _fetchNotesUsecase.execute().listen((items) {
       add(const NotesListEvent.getNotes());
     }, onError: (error) {

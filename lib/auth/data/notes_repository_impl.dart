@@ -6,6 +6,7 @@ import 'package:nostr_notes/auth/data/common_event_storage_impl.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/core/event_kind.dart';
+import 'package:nostr_notes/core/tools/date_time_helper.dart';
 import 'package:nostr_notes/services/model/nostr_event.dart';
 import 'package:nostr_notes/services/model/nostr_filter.dart';
 import 'package:nostr_notes/services/model/nostr_req.dart';
@@ -45,6 +46,7 @@ class NotesRepositoryImpl implements NotesRepository {
   void sendRequest({
     required String pubkey,
     required Set<String> relays,
+    DateTime? until,
   }) {
     client.addRelays(relays);
 
@@ -57,6 +59,7 @@ class NotesRepositoryImpl implements NotesRepository {
             authors: [pubkey],
             p: [pubkey],
             t: [AppConfig.clientTagValue],
+            until: until?.toSecondsSinceEpoch(),
           ),
         ],
       ),
