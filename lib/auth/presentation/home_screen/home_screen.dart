@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
+import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/bloc/home_screen_bloc.dart';
+import 'package:nostr_notes/auth/presentation/home_screen/bloc/home_screen_event.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/bloc/home_screen_state.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note/note_screen.dart';
@@ -22,6 +24,17 @@ final class HomeScreen extends StatelessWidget with DialogHelper {
       case ErrorState():
         showError(context, error: state.e);
         break;
+      case DidSelectNote():
+        if (state.isMobile) {
+          GoRouter.of(context).pushNamed(
+            AppRouterName.note,
+            queryParameters: PathParams(
+              id: state.data.selectedNoteDTag,
+            ).toJson(),
+          );
+        } else {
+          // setState(() => selectedIndex = index);
+        }
     }
   }
 
@@ -47,17 +60,50 @@ final class HomeScreen extends StatelessWidget with DialogHelper {
                     children: [
                       SizedBox(
                         width: 300,
-                        child: _buildList(context),
+                        child: _buildList(
+                          context,
+                          isMobile: false,
+                          selectedNoteDTag: state.data.selectedNoteDTag,
+                        ),
                       ),
                       const VerticalDivider(width: 1),
-                      const Expanded(
-                        child: NoteScreen(),
+                      Expanded(
+                        child: BlocSelector<HomeScreenBloc, HomeScreenState,
+                            String>(
+                          selector: (state) => state.data.selectedNoteDTag,
+                          builder: (context, selectedNoteDTag) {
+                            return selectedNoteDTag.isEmpty
+                                ? Padding(
+                                    padding:
+                                        const EdgeInsets.all(Sizes.indent2x),
+                                    child: Center(
+                                      child: Text(
+                                        'Выберите заметку или создайте новую',
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge,
+                                      ),
+                                    ),
+                                  )
+                                : NoteScreen(
+                                    key: ValueKey(selectedNoteDTag),
+                                    pathParams: PathParams(
+                                      id: selectedNoteDTag,
+                                    ),
+                                  );
+                          },
+                        ),
                       ),
                     ],
                   );
                 }
                 // Mobile: only list, details via Navigator
-                return _buildList(context, isMobile: true);
+                return _buildList(
+                  context,
+                  isMobile: true,
+                  selectedNoteDTag: state.data.selectedNoteDTag,
+                );
               },
             ),
           );
@@ -70,24 +116,33 @@ final class HomeScreen extends StatelessWidget with DialogHelper {
     Scaffold.of(context).openEndDrawer();
   }
 
-  Widget _buildList(BuildContext context, {bool isMobile = false}) {
+  Widget _buildList(
+    BuildContext context, {
+    required bool isMobile,
+    required String selectedNoteDTag,
+  }) {
     return NotesList(
-      // items: const [],
-      // selectedIndex: null,
+      selectedNoteDTag: selectedNoteDTag,
       onTap: (note) {
-        if (isMobile) {
-          GoRouter.of(context).pushNamed(
-            AppRouterName.note,
-            queryParameters: PathParams(id: note.dTag).toJson(),
-          );
-          // Navigator.of(context).push(
-          //   MaterialPageRoute(
-          //     builder: (_) => const NoteScreen(),
-          //   ),
-          // );
-        } else {
-          // setState(() => selectedIndex = index);
-        }
+        context.read<HomeScreenBloc>().add(
+              SelectNoteEvent(
+                selectedNoteDTag: note.dTag,
+                isMobile: isMobile,
+              ),
+            );
+        // if (isMobile) {
+        //   GoRouter.of(context).pushNamed(
+        //     AppRouterName.note,
+        //     queryParameters: PathParams(id: note.dTag).toJson(),
+        //   );
+        //   // Navigator.of(context).push(
+        //   //   MaterialPageRoute(
+        //   //     builder: (_) => const NoteScreen(),
+        //   //   ),
+        //   // );
+        // } else {
+        //   // setState(() => selectedIndex = index);
+        // }
       },
     );
   }

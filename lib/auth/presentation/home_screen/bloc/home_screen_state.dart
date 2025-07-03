@@ -21,6 +21,11 @@ sealed class HomeScreenState extends Equatable {
     required HomeScreenData data,
     required Object e,
   }) = ErrorState;
+
+  const factory HomeScreenState.didSelectNote({
+    required HomeScreenData data,
+    required bool isMobile,
+  }) = DidSelectNote;
 }
 
 final class CommonState extends HomeScreenState {
@@ -37,4 +42,9 @@ final class ErrorState extends HomeScreenState {
     required super.data,
     required this.e,
   });
+}
+
+final class DidSelectNote extends HomeScreenState {
+  final bool isMobile;
+  const DidSelectNote({required super.data, required this.isMobile});
 }

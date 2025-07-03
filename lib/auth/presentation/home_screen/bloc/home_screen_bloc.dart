@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'home_screen_data.dart';
 import 'home_screen_event.dart';
@@ -14,25 +13,24 @@ final class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
           ),
         ) {
     _setupHandlers();
-
-    add(const HomeScreenEvent.initial());
   }
 
   void _setupHandlers() {
-    on<InitialEvent>(_onInitialEvent);
+    on<SelectNoteEvent>(_onSelectNoteEvent);
   }
 
-  void _onInitialEvent(
-    InitialEvent event,
+  void _onSelectNoteEvent(
+    SelectNoteEvent event,
     Emitter<HomeScreenState> emit,
   ) async {
     try {
-      emit(HomeScreenState.loading(data: data));
-
-      await Future.delayed(const Duration(seconds: 2));
-
       emit(
-        HomeScreenState.common(data: data),
+        HomeScreenState.didSelectNote(
+          isMobile: event.isMobile,
+          data: data.copyWith(
+            selectedNoteDTag: event.selectedNoteDTag,
+          ),
+        ),
       );
     } catch (e) {
       emit(HomeScreenState.error(e: e, data: data));

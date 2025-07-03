@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:collection/collection.dart';
 import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/data/common_event_storage_impl.dart';
 import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
@@ -103,13 +102,10 @@ class NotesRepositoryImpl implements NotesRepository {
       pubkey: pubkey,
       dTag: id,
     );
-    final e = memoryStorage
-        .getEventsByATag(
-          aTag,
-          EventKind.note.value,
-        )
-        .sorted((a, b) => b.createdAt.compareTo(a.createdAt))
-        .firstOrNull;
+    final e = memoryStorage.getEventsByATag(
+      aTag,
+      EventKind.note.value,
+    );
 
     return e == null ? null : NoteMapper.fromNostrEvent(e);
   }

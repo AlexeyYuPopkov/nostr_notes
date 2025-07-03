@@ -10,10 +10,26 @@ abstract class CommonEventStorage {
   void addAll(Iterable<NostrEvent> events);
   void add(NostrEvent event);
   NostrEvent? getById(String id);
-  Iterable<NostrEvent> getEventsByATag(String aTag, int kind);
+  NostrEvent? getEventsByATag(String aTag, int kind);
   Iterable<NostrEvent> getEventsByPTag(String pTag, int kind);
   Iterable<NostrEvent> getEventsByTTag(String tTag, int kind);
   Iterable<NostrEvent> getEventsByAuthor(String author, int kind);
+}
+
+final class OneToLatest {
+  final Map<String, NostrEvent> _storage = {};
+
+  NostrEvent? add(String key, NostrEvent event) {
+    final old = _storage[key];
+    if (old != null && old.createdAt > event.createdAt) {
+      return null;
+    }
+    _storage[key] = event;
+
+    return old;
+  }
+
+  NostrEvent? get({required String key}) => _storage[key];
 }
 
 class CommonEventStorageImpl implements CommonEventStorage, Disposable {
@@ -25,7 +41,7 @@ class CommonEventStorageImpl implements CommonEventStorage, Disposable {
   final OneToManyMap kindIndexes = OneToManyMap();
 
   /// key - a-tag, value - nostr event id
-  final OneToManyMap aTagIndexes = OneToManyMap();
+  final OneToLatest aTagIndexes = OneToLatest();
 
   /// key - p-tag, value - nostr event id
   final OneToManyMap pTagIndexes = OneToManyMap();
@@ -60,14 +76,16 @@ class CommonEventStorageImpl implements CommonEventStorage, Disposable {
     final dTag = event.getFirstTag(Tag.d);
 
     if (dTag != null && dTag.isNotEmpty) {
-      aTagIndexes.add(
-        key: TagValue.createATag(
-          kind: event.kind,
-          pubkey: event.pubkey,
-          dTag: dTag,
-        ),
-        value: event.id,
+      final aTag = TagValue.createATag(
+        kind: event.kind,
+        pubkey: event.pubkey,
+        dTag: dTag,
       );
+      final old = aTagIndexes.add(aTag, event);
+
+      if (old != null && old.id != event.id) {
+        _storage.remove(old.id);
+      }
     }
 
     final pTags = event.getTagsSet(Tag.p);
@@ -99,11 +117,9 @@ class CommonEventStorageImpl implements CommonEventStorage, Disposable {
   }
 
   @override
-  Iterable<NostrEvent> getEventsByATag(String aTag, int kind) {
-    final eventIds = aTagIndexes.get(key: aTag);
-    return eventIds.map((e) => _storage[e]).nonNulls.where(
-          (e) => e.kind == kind,
-        );
+  NostrEvent? getEventsByATag(String aTag, int kind) {
+    final result = aTagIndexes.get(key: aTag);
+    return result;
   }
 
   @override

@@ -13,9 +13,11 @@ import 'bloc/notes_list_event.dart';
 import 'bloc/notes_list_state.dart';
 
 final class NotesList extends StatelessWidget with DialogHelper {
+  final String? selectedNoteDTag;
   final ValueChanged<NoteBase> onTap;
   const NotesList({
     super.key,
+    required this.selectedNoteDTag,
     required this.onTap,
   });
 
@@ -57,7 +59,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
                     subtitle: Text(
                       DateFormatter.formatDateTimeOrEmpty(note.createdAt),
                     ),
-                    selected: false, //selectedIndex == index,
+                    selected: note.dTag == selectedNoteDTag,
                     onTap: () => onTap(note),
                   );
                 },
