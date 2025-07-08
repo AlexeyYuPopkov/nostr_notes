@@ -25,6 +25,12 @@ final class AppTextTheme {
         fontWeight: FontWeight.w600,
         letterSpacing: letterSpacing,
       ),
+      titleSmall: TextStyle(
+        color: color,
+        fontSize: TextSizes.normal,
+        fontWeight: FontWeight.w600,
+        letterSpacing: letterSpacing,
+      ),
       bodyLarge: TextStyle(
         color: color,
         fontSize: TextSizes.normal,
@@ -33,6 +39,11 @@ final class AppTextTheme {
       bodyMedium: TextStyle(
         color: color,
         fontSize: TextSizes.small,
+        letterSpacing: letterSpacing,
+      ),
+      bodySmall: TextStyle(
+        color: color,
+        fontSize: TextSizes.tiny,
         letterSpacing: letterSpacing,
       ),
     );

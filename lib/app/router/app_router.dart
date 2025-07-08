@@ -52,20 +52,30 @@ final class AppRouter {
           return const OnboardingScreen();
         },
       ),
-      GoRoute(
-        name: AppRouterName.home,
-        path: AppRouterPath.home,
-        builder: (BuildContext context, GoRouterState state) {
-          return const HomeScreen();
+      ShellRoute(
+        builder: (context, state, child) {
+          return HomeScreen(
+            hasNote: state.fullPath?.contains('note') == true,
+            child: child,
+          );
         },
         routes: [
           GoRoute(
-            name: AppRouterName.note,
-            path: AppRouterName.note,
+            name: AppRouterName.home,
+            path: AppRouterPath.home,
             builder: (BuildContext context, GoRouterState state) {
-              final params = PathParams.fromJson(state.uri.queryParameters);
-              return NoteScreen(pathParams: params);
+              return const NewNotePromptPlaceholder();
             },
+            routes: [
+              GoRoute(
+                name: AppRouterName.note,
+                path: AppRouterName.note,
+                builder: (BuildContext context, GoRouterState state) {
+                  final params = PathParams.fromJson(state.uri.queryParameters);
+                  return NoteScreen(pathParams: params);
+                },
+              ),
+            ],
           ),
         ],
       ),

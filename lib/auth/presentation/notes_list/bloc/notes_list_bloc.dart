@@ -54,6 +54,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     InitialEvent event,
     Emitter<NotesListState> emit,
   ) {
+    emit(NotesListState.loading(data: data));
     _setupSubscription();
   }
 

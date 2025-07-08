@@ -103,6 +103,9 @@ final class TextSizes {
   /// [small = 14.0]
   static const small = 14.0;
 
+  /// [tiny = 12.0]
+  static const tiny = 12.0;
+
   /// [error = 13.0]
   static const error = 13.0;
 }
