@@ -143,6 +143,10 @@ Uint8List _decryptRaw(
   final iv =
       b64IV.length > 6 ? base64.decode(b64IV) : Uint8List.fromList(secretIV[1]);
 
+  if (kIsWeb) {
+    //...
+  }
+
   final CipherParameters params = PaddedBlockCipherParameters(
     ParametersWithIV(KeyParameter(key), iv),
     null,

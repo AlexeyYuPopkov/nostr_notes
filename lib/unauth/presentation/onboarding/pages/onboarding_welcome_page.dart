@@ -6,6 +6,7 @@ import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/common/presentation/buttons/prymary_button.dart';
+import 'package:nostr_notes/experimental/some_func_widget.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
 
 import '../bloc/onboarding_screen_bloc.dart';
@@ -40,6 +41,7 @@ final class OnboardingWelcomePage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
+          const SomeFuncWidget(),
           const SizedBox(height: Sizes.indentVariant4x),
           Center(
             child: Text(

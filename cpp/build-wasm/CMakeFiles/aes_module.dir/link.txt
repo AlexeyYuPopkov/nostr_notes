@@ -1,0 +1,1 @@
+/opt/homebrew/Cellar/emscripten/4.0.11/libexec/em++ -g -O0 -sSTANDALONE_WASM "-sEXPORTED_FUNCTIONS=[\"_someFunction\",\"_encryptAes256Cbc\",\"_decryptAes256Cbc\",\"_freeMemory\",\"_malloc\", \"_free\"]" -sERROR_ON_UNDEFINED_SYMBOLS=0 --no-entry @CMakeFiles/aes_module.dir/objects1.rsp -o aes_module.wasm
