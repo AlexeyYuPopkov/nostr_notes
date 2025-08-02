@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nostr_notes/services/key_tool/nip04_service.dart';
+import 'package:nostr_notes/experimental/aes_cbc_repo.dart';
+import 'package:nostr_notes/services/key_tool/nip04_encryptor.dart';
 
 void main() {
   const text = 'Lorem ipsum dolor sit amet consectetur adipiscing elit. '
@@ -11,19 +12,42 @@ void main() {
   const publicKey =
       '5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee';
 
-  const sut = Nip04Service();
+  const encryptorSut = Nip04Encryptor();
+  late Nip04Decryptor decryptorSut;
+
+  setUp(() async {
+    // if (kIsWeb) {
+    //   di.bind<AesCbcRepo>(
+    //     () => AesCbcImplWeb(),
+    //     module: this,
+    //     lifeTime: const LifeTime.single(),
+    //   );
+    // } else {
+    //   di.bind<AesCbcRepo>(
+    //     () => AesCbcImplMobile(),
+    //     module: this,
+    //     lifeTime: const LifeTime.single(),
+    //   );
+    // }
+
+    final wasmAesCbc = AesCbcRepo.create();
+
+    await wasmAesCbc.init();
+
+    decryptorSut = Nip04Decryptor(wasmAesCbc: wasmAesCbc);
+  });
 
   group('Nip04Service', () {
     test('Nip04 encryption and decryption', () {
       const message = text;
 
-      final encrypted = sut.encryptNip04(
+      final encrypted = encryptorSut.encryptNip04(
         content: message,
         peerPubkey: publicKey,
         privateKey: privateKey,
       );
 
-      final decrypted = sut.decryptNip04(
+      final decrypted = decryptorSut.decryptNip04(
         content: encrypted,
         peerPubkey: publicKey,
         privateKey: privateKey,
@@ -45,13 +69,13 @@ void main() {
       final stopwatch = Stopwatch()..start();
 
       for (var i = 0; i < iterations; i++) {
-        final encrypted = sut.encryptNip04(
+        final encrypted = encryptorSut.encryptNip04(
           content: '$text $i',
           privateKey: privateKey,
           peerPubkey: publicKey,
         );
 
-        final decrypted = sut.decryptNip04(
+        final decrypted = decryptorSut.decryptNip04(
           content: encrypted,
           privateKey: privateKey,
           peerPubkey: publicKey,

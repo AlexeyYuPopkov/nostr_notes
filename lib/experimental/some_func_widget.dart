@@ -1,9 +1,10 @@
 import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/services/key_tool/nip04_service_variant.dart';
+import 'package:nostr_notes/services/key_tool/nip04_encryptor.dart';
 
 import 'aes_cbc_repo.dart';
 
@@ -15,9 +16,9 @@ class SomeFuncWidget extends StatefulWidget {
 }
 
 class _SomeFuncWidgetState extends State<SomeFuncWidget> {
-  late final AesCbcRepo _impl;
+  late final AesCbcRepo _impl = DiStorage.shared.resolve<AesCbcRepo>();
 
-  late final _nip04ServiceVariant = Nip04ServiceVariant(wasmAesCbc: _impl);
+  late final _nip04Decryptor = Nip04Decryptor(wasmAesCbc: _impl);
 
   String text = 'loading...';
 
@@ -30,8 +31,7 @@ class _SomeFuncWidgetState extends State<SomeFuncWidget> {
   }
 
   void _init() async {
-    _impl = await AesCbcFactory.create();
-
+    await _impl.init();
     setState(() {
       final res = _impl.someFunction(2.0);
       text = 'Result: ${res.toString()}';
@@ -65,7 +65,7 @@ class _SomeFuncWidgetState extends State<SomeFuncWidget> {
     //   privateKey: privateKey,
     // );
 
-    final decrypted = _nip04ServiceVariant.decryptNip04(
+    final decrypted = _nip04Decryptor.decryptNip04(
       content: src,
       peerPubkey: publicKey,
       privateKey: privateKey,

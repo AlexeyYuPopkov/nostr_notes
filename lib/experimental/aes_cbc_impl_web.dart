@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 import 'package:wasm_ffi/ffi.dart' as wasm;
@@ -8,6 +9,7 @@ import 'aes_cbc_repo.dart';
 
 final class AesCbcImplWeb implements AesCbcRepo {
   static AesCbcImplWeb? _instance;
+  static bool _isInit = false;
 
   late final wasm.DynamicLibrary _lib;
   late final double Function(double) someFunc;
@@ -33,8 +35,6 @@ final class AesCbcImplWeb implements AesCbcRepo {
     wasm.Pointer<wasm.Pointer<wasm.Uint8>>,
   ) _encryptAes256CbcWasm;
 
-  bool _isInit = false;
-
   // late final Pointer<Uint8> Function(int) _malloc;
   // late final void Function(Pointer<Uint8>) _free;
 
@@ -44,14 +44,20 @@ final class AesCbcImplWeb implements AesCbcRepo {
     return _instance ??= AesCbcImplWeb._();
   }
 
+  @override
   Future<void> init() async {
     if (_isInit) {
-      log('WASM library already initialized', name: 'Wasm');
+      log('WASM library already initialized', name: 'WASM');
       return;
     }
 
+    _isInit = true;
+
     try {
-      _lib = await wasm.DynamicLibrary.open('assets/wasm/aes_module.wasm');
+      log('WASM library already try init', name: 'WASM');
+      await wasm.DynamicLibrary.open('assets/wasm/aes_module.wasm').then((lib) {
+        _lib = lib;
+      });
 
       someFunc = createSomeFunc(_lib);
 
@@ -82,7 +88,7 @@ final class AesCbcImplWeb implements AesCbcRepo {
                     wasm.Pointer<wasm.Uint8>,
                     wasm.Pointer<wasm.Uint8>,
                     wasm.Pointer<wasm.Pointer<wasm.Uint8>>,
-                  )>>('decryptAes256Cbc')
+                  )>>('encryptAes256Cbc')
           .asFunction<
               int Function(
                 wasm.Pointer<wasm.Uint8>,
@@ -92,7 +98,6 @@ final class AesCbcImplWeb implements AesCbcRepo {
               )>();
 
       log('WASM library loaded successfully', name: 'Wasm');
-      _isInit = true;
     } catch (e) {
       log('Failed to load WASM library: $e', name: 'Wasm');
       rethrow;
@@ -118,11 +123,6 @@ final class AesCbcImplWeb implements AesCbcRepo {
       (arena) {
         // 1. Копируем входные данные в память WASM
         final ptrCipher = arena.allocate<wasm.Uint8>(ciphertext.length);
-
-        log(
-          'cipher.ptr = ${ptrCipher.address}, len = ${ciphertext.length}',
-          name: 'Wasm',
-        );
 
         ptrCipher.asTypedList(ciphertext.length).setAll(0, ciphertext);
 
@@ -151,10 +151,10 @@ final class AesCbcImplWeb implements AesCbcRepo {
         final result = resultPtr.asTypedList(resultLen);
         _freeMemoryWasm(resultPtr); // 🔥 Освобождение на стороне WASM
 
-        // log(
-        //   'resultString: ${utf8.decode(result)}',
-        //   name: 'Wasm',
-        // );
+        log(
+          'WASM decrypted: ${utf8.decode(result)}',
+          name: 'WASM',
+        );
 
         return Uint8List.fromList(result); // копия, безопасная в Dart
       },
@@ -228,4 +228,7 @@ final class AesCbcImplMobile implements AesCbcRepo {
   }) {
     throw UnimplementedError();
   }
+
+  @override
+  FutureOr<void> init() {}
 }

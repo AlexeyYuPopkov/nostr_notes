@@ -19,23 +19,12 @@ if("${CMAKE_SYSTEM_NAME}" STREQUAL "Emscripten")
 
     set(CMAKE_EXECUTABLE_SUFFIX ".wasm")
 
-    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s EXPORTED_FUNCTIONS='[\"_someFunction\",\"_encryptAes256Cbc\", \"_decryptAes256Cbc\", \"_malloc\", \"_free\"]'")
-    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s EXPORTED_RUNTIME_METHODS='[\"ccall\", \"cwrap\"]'")
-
     # Добавляем tiny-AES и обёртку
     add_executable(aes_module
         src/aes.c
         src/aes_256_cbc.cpp
         # src/wrapper.cpp
     )
-
-    # target_link_options(aes_module PRIVATE
-    #     "-sWASM=1"
-    #     "-sMODULARIZE=1"
-    #     "-sENVIRONMENT=web"
-    #     "-sEXPORTED_FUNCTIONS=[\"_encryptAes256Cbc\",\"_decryptAes256Cbc\",\"_malloc\",\"_free\"]"
-    #     "-sEXPORTED_RUNTIME_METHODS=[\"ccall\",\"cwrap\"]"
-    # )
 
     target_link_options(aes_module PRIVATE
         "-sSTANDALONE_WASM"
@@ -61,8 +50,6 @@ else()
         src/aes_256_cbc.cpp
         src/aes.c  # Добавляем AES реализацию
     )
-    # target_include_directories(aes_256_cbc_lib)
-    # target_link_libraries(aes_256_cbc_lib)
 
     # Основной исполняемый файл
     add_executable(main src/main.cpp)
@@ -77,11 +64,14 @@ else()
 
     # Тестовый бинарник
     add_executable(tests tests/test_main.cpp)
+    add_executable(test_aes_256_cbc tests/test_aes_256_cbc.cpp)
     target_link_libraries(tests PRIVATE aes_256_cbc_lib Catch2::Catch2WithMain)
+    target_link_libraries(test_aes_256_cbc PRIVATE aes_256_cbc_lib Catch2::Catch2WithMain)
 
     # Регистрируем тесты для ctest
     include(CTest)
     include(Catch)
     catch_discover_tests(tests)
+    catch_discover_tests(test_aes_256_cbc)
 
 endif()

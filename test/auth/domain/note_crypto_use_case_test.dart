@@ -6,6 +6,8 @@ import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/model/session/user_keys.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
+import 'package:nostr_notes/experimental/aes_cbc_repo.dart';
+import 'package:nostr_notes/services/key_tool/nip04_encryptor.dart';
 
 void main() {
   const text = 'Lorem ipsum dolor sit amet consectetur adipiscing elit. '
@@ -22,10 +24,18 @@ void main() {
     late SessionUsecase sessionUsecase;
     late NoteCryptoUseCase sut;
 
-    setUp(() {
+    setUp(() async {
       sessionUsecase = SessionUsecase();
+
+      final wasmAesCbc = AesCbcRepo.create();
+
+      await wasmAesCbc.init();
+
       sut = NoteCryptoUseCase(
-        cryptoRepo: const CryptoRepoImpl(),
+        cryptoRepo: CryptoRepoImpl(
+          nip04Encryptor: const Nip04Encryptor(),
+          nip04Decryptor: Nip04Decryptor(wasmAesCbc: wasmAesCbc),
+        ),
         sessionUsecase: sessionUsecase,
       );
     });
@@ -87,10 +97,16 @@ void main() {
     late SessionUsecase sessionUsecase;
     late NoteCryptoUseCase sut;
 
-    setUp(() {
+    setUp(() async {
       sessionUsecase = SessionUsecase();
+      final wasmAesCbc = AesCbcRepo.create();
+
+      await wasmAesCbc.init();
       sut = NoteCryptoUseCase(
-        cryptoRepo: const CryptoRepoImpl(),
+        cryptoRepo: CryptoRepoImpl(
+          nip04Encryptor: const Nip04Encryptor(),
+          nip04Decryptor: Nip04Decryptor(wasmAesCbc: wasmAesCbc),
+        ),
         sessionUsecase: sessionUsecase,
       );
     });

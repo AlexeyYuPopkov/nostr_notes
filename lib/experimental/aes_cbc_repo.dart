@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
-
 import 'aes_cbc_impl_mobile.dart'
     if (dart.library.js_interop) 'aes_cbc_impl_web.dart';
 
@@ -18,14 +17,12 @@ abstract interface class AesCbcRepo {
     required Uint8List key,
     required Uint8List iv,
   });
-}
 
-final class AesCbcFactory {
-  static FutureOr<AesCbcRepo> create() async {
+  FutureOr<void> init();
+
+  factory AesCbcRepo.create() {
     if (kIsWeb) {
-      final result = AesCbcImplWeb();
-      await result.init();
-      return result;
+      return AesCbcImplWeb();
     } else {
       return AesCbcImplMobile();
     }

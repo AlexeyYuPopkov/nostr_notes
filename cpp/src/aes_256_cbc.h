@@ -1,6 +1,6 @@
 #ifndef AES_256_CBC_H
 #define AES_256_CBC_H
-
+#define AES256 1 
 extern "C"
 {
 #include "aes.h"

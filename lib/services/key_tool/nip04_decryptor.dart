@@ -1,0 +1,137 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'package:flutter/foundation.dart';
+import 'package:kepler/kepler.dart';
+import 'package:nostr_notes/experimental/aes_cbc_repo.dart';
+import 'package:pointycastle/export.dart';
+
+final class Nip04Decryptor {
+  final AesCbcRepo wasmAesCbc;
+
+  const Nip04Decryptor({required this.wasmAesCbc});
+
+  String decryptNip04({
+    required String content,
+    required String peerPubkey,
+    required String privateKey,
+  }) {
+    final ivIndex = content.indexOf('?iv=');
+    if (ivIndex <= 0) {
+      if (kDebugMode) {
+        print('Invalid content for dm, could not get ivIndex: $content');
+      }
+      return '';
+    }
+    final iv = content.substring(ivIndex + '?iv='.length, content.length);
+    final encString = content.substring(0, ivIndex);
+    final result = _decrypt(privateKey, '02$peerPubkey', encString, iv);
+
+    log(
+      'result: $result',
+      name: 'WASM',
+    );
+
+    return result;
+  }
+
+// pointy castle source https://github.com/PointyCastle/pointycastle/blob/master/tutorials/aes-cbc.md
+// https://github.com/bcgit/pc-dart/blob/master/tutorials/aes-cbc.md
+// 3 https://github.com/Dhuliang/flutter-bsv/blob/42a2d92ec6bb9ee3231878ffe684e1b7940c7d49/lib/src/aescbc.dart
+
+  /// Decrypt data using self private key
+  String _decrypt(
+    String privateString,
+    String publicString,
+    String b64encoded, [
+    String b64IV = '',
+  ]) {
+    final deData = base64.decode(b64encoded);
+    // final rawData = _decryptRaw(privateString, publicString, deData, b64IV);
+
+    if (kIsWeb) {
+      try {
+        return const Utf8Decoder().convert(
+          _decryptRawWeb(privateString, publicString, deData, b64IV),
+        );
+      } catch (e) {
+        assert(false, 'Error decrypting with wasmAesCbc: $e');
+        return const Utf8Decoder().convert(
+          _decryptRaw(privateString, publicString, deData, b64IV),
+        );
+      }
+    } else {
+      return const Utf8Decoder().convert(
+        _decryptRaw(privateString, publicString, deData, b64IV),
+      );
+    }
+  }
+
+  Uint8List _decryptRawWeb(
+    String privateString,
+    String publicString,
+    Uint8List cipherText, [
+    String b64IV = '',
+  ]) {
+    final byteSecret = Kepler.byteSecret(privateString, publicString);
+    final secretIV = byteSecret;
+    final key = Uint8List.fromList(secretIV[0]);
+    final iv = b64IV.length > 6
+        ? base64.decode(b64IV)
+        : Uint8List.fromList(secretIV[1]);
+
+    final result = wasmAesCbc.decryptAes256Cbc(
+      ciphertext: cipherText,
+      key: key,
+      iv: iv,
+    );
+
+    return result;
+  }
+
+  Uint8List _decryptRaw(
+    String privateString,
+    String publicString,
+    Uint8List cipherText, [
+    String b64IV = '',
+  ]) {
+    final byteSecret = Kepler.byteSecret(privateString, publicString);
+    final secretIV = byteSecret;
+    final key = Uint8List.fromList(secretIV[0]);
+    final iv = b64IV.length > 6
+        ? base64.decode(b64IV)
+        : Uint8List.fromList(secretIV[1]);
+
+    final CipherParameters params = PaddedBlockCipherParameters(
+      ParametersWithIV(KeyParameter(key), iv),
+      null,
+    );
+
+    final cipherImpl =
+        PaddedBlockCipherImpl(PKCS7Padding(), CBCBlockCipher(AESEngine()));
+
+    cipherImpl.init(
+      false,
+      params
+          as PaddedBlockCipherParameters<CipherParameters?, CipherParameters?>,
+    );
+    final finalPlainText = Uint8List(cipherText.length); // allocate space
+
+    var offset = 0;
+    while (offset < cipherText.length - 16) {
+      offset +=
+          cipherImpl.processBlock(cipherText, offset, finalPlainText, offset);
+    }
+    //remove padding
+    offset += cipherImpl.doFinal(cipherText, offset, finalPlainText, offset);
+    final pointyCastleResult = finalPlainText.sublist(0, offset);
+
+    return pointyCastleResult;
+  }
+}
+
+// extension on Uint8List {
+//   String toCFormat() {
+//     return map((b) => '0x${b.toRadixString(16).padLeft(2, '0').toUpperCase()}')
+//         .join(', ');
+//   }
+// }

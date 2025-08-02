@@ -1,0 +1,5 @@
+if(EXISTS "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build/test_aes_256_cbc-b12d07c_tests.cmake")
+  include("/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build/test_aes_256_cbc-b12d07c_tests.cmake")
+else()
+  add_test(test_aes_256_cbc_NOT_BUILT-b12d07c test_aes_256_cbc_NOT_BUILT-b12d07c)
+endif()

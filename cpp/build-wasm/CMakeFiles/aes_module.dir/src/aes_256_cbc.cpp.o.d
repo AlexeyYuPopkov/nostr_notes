@@ -48,4 +48,8 @@ CMakeFiles/aes_module.dir/src/aes_256_cbc.cpp.o: \
   /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/string.h \
   /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/string.h \
   /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/strings.h \
-  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/cstdlib
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/cstdlib \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/cstdio \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/stdio.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/stdio.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/wasi/api.h

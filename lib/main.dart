@@ -9,8 +9,8 @@ import 'package:nostr_notes/common/data/root_context_provider/root_context_provi
 
 final _appRouter = AppRouter();
 
-void main() {
-  AppDi.bindUnauthModules();
+void main() async {
+  await AppDi.bindUnauthModules();
   HttpOverrides.global = MyHttpOverrides();
   runApp(const App());
 }

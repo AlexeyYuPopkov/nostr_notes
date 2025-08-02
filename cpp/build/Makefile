@@ -166,6 +166,19 @@ tests/fast:
 .PHONY : tests/fast
 
 #=============================================================================
+# Target rules for targets named test_aes_256_cbc
+
+# Build rule for target.
+test_aes_256_cbc: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_aes_256_cbc
+.PHONY : test_aes_256_cbc
+
+# fast build rule for target.
+test_aes_256_cbc/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_aes_256_cbc.dir/build.make CMakeFiles/test_aes_256_cbc.dir/build
+.PHONY : test_aes_256_cbc/fast
+
+#=============================================================================
 # Target rules for targets named Experimental
 
 # Build rule for target.
@@ -601,6 +614,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+tests/test_aes_256_cbc.o: tests/test_aes_256_cbc.cpp.o
+.PHONY : tests/test_aes_256_cbc.o
+
+# target to build an object file
+tests/test_aes_256_cbc.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_aes_256_cbc.dir/build.make CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.o
+.PHONY : tests/test_aes_256_cbc.cpp.o
+
+tests/test_aes_256_cbc.i: tests/test_aes_256_cbc.cpp.i
+.PHONY : tests/test_aes_256_cbc.i
+
+# target to preprocess a source file
+tests/test_aes_256_cbc.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_aes_256_cbc.dir/build.make CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.i
+.PHONY : tests/test_aes_256_cbc.cpp.i
+
+tests/test_aes_256_cbc.s: tests/test_aes_256_cbc.cpp.s
+.PHONY : tests/test_aes_256_cbc.s
+
+# target to generate assembly for a file
+tests/test_aes_256_cbc.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_aes_256_cbc.dir/build.make CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.s
+.PHONY : tests/test_aes_256_cbc.cpp.s
+
 tests/test_main.o: tests/test_main.cpp.o
 .PHONY : tests/test_main.o
 
@@ -664,6 +701,7 @@ help:
 	@echo "... NightlyUpdate"
 	@echo "... aes_256_cbc_lib"
 	@echo "... main"
+	@echo "... test_aes_256_cbc"
 	@echo "... tests"
 	@echo "... src/aes.o"
 	@echo "... src/aes.i"
@@ -674,6 +712,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... tests/test_aes_256_cbc.o"
+	@echo "... tests/test_aes_256_cbc.i"
+	@echo "... tests/test_aes_256_cbc.s"
 	@echo "... tests/test_main.o"
 	@echo "... tests/test_main.i"
 	@echo "... tests/test_main.s"

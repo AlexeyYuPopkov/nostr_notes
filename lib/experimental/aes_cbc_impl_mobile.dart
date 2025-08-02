@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'aes_cbc_repo.dart';
@@ -25,11 +26,15 @@ final class AesCbcImplMobile implements AesCbcRepo {
   }) {
     throw UnimplementedError();
   }
+
+  @override
+  FutureOr<void> init() {}
 }
 
 final class AesCbcImplWeb implements AesCbcRepo {
   AesCbcImplWeb();
 
+  @override
   Future<void> init() async {}
 
   @override

@@ -1,12 +1,8 @@
 {
-  "testMate.cpp.test.advancedExecutables": [
-    {
-      "name": "tests",
-      "pattern": "build/tests",
-      "framework": "catch2"
-    }
-  ],
-  "testMate.cpp.log.logfile": "testmate.log",
+  "testMate.cpp.test.executables": "build/{tests,test_*}",
+  "testMate.cpp.test.workingDirectory": "${workspaceFolder}",
+  "testMate.cpp.discovery.loadOnStartup": true,
+  "testMate.cpp.log.logpanel": true,
   "testMate.verboseOutput": true,
   "files.associations": {
     "iostream": "cpp",
@@ -57,6 +53,7 @@
     "unordered_map": "cpp",
     "variant": "cpp",
     "vector": "cpp",
-    "algorithm": "cpp"
+    "algorithm": "cpp",
+    "iomanip": "cpp"
   }
 }

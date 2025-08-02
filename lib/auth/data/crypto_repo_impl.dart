@@ -6,20 +6,24 @@ import 'package:crypto/crypto.dart';
 import 'package:nostr_notes/auth/domain/repo/crypto_repo.dart';
 import 'package:nostr_notes/common/data/service/aes_encryption_with_hmac.dart';
 import 'package:nostr_notes/auth/domain/repo/crypto_algorithm_type.dart';
-import 'package:nostr_notes/services/key_tool/nip04_service.dart';
+import 'package:nostr_notes/services/key_tool/nip04_encryptor.dart';
 import 'package:nostr_notes/services/key_tool/nip44/nip44.dart';
 import 'package:pointycastle/key_derivators/api.dart';
 import 'package:pointycastle/key_derivators/scrypt.dart';
 
 final class CryptoRepoImpl implements CryptoRepo {
-  final Nip04Service _nip04Service;
+  final Nip04Decryptor _nip04Decryptor;
+  final Nip04Encryptor _nip04Encryptor;
+
   final AesEncryptionWithHmac _aes;
 
   const CryptoRepoImpl({
-    Nip04Service nip04Service = const Nip04Service(),
+    required Nip04Decryptor nip04Decryptor,
+    required Nip04Encryptor nip04Encryptor,
     AesEncryptionWithHmac aes = const AesEncryptionWithHmac(),
   })  : _aes = aes,
-        _nip04Service = nip04Service;
+        _nip04Decryptor = nip04Decryptor,
+        _nip04Encryptor = nip04Encryptor;
 
   @override
   FutureOr<String> encryptMessage({
@@ -28,7 +32,7 @@ final class CryptoRepoImpl implements CryptoRepo {
   }) {
     switch (algorithmType) {
       case Nip04CryptoAlgorithmType():
-        return _nip04Service.encryptNip04(
+        return _nip04Encryptor.encryptNip04(
           content: text,
           privateKey: algorithmType.privateKey,
           peerPubkey: algorithmType.peerPubkey,
@@ -57,7 +61,7 @@ final class CryptoRepoImpl implements CryptoRepo {
     try {
       switch (algorithmType) {
         case Nip04CryptoAlgorithmType():
-          return _nip04Service.decryptNip04(
+          return _nip04Decryptor.decryptNip04(
             content: text,
             privateKey: algorithmType.privateKey,
             peerPubkey: algorithmType.peerPubkey,
