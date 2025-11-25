@@ -1,19 +1,17 @@
-
 #include "aes_256_cbc.h"
 #include "aes.h"
-#include <cstring>
+// #include <cstring>
 #include <cstdlib>
 #include <cstdio>
+// #include <iostream>
+// #include <sstream>
+#include "tools.h"
 
 // 256-bit = 32 bytes
 #define KEY_SIZE 32
 #define IV_SIZE 16
 #define BLOCK_SIZE 16
-#define AES256 1 
-double someFunction(double params)
-{
-    return params * 2;
-}
+#define AES256 1
 
 unsigned int encryptAes256Cbc(unsigned char *plaintext,
                               unsigned char *key,
@@ -50,51 +48,62 @@ unsigned int encryptAes256Cbc(unsigned char *plaintext,
     return padded_len;
 }
 
-unsigned int decryptAes256Cbc(unsigned char *ciphertext,
-                              unsigned char *key,
-                              unsigned char *iv,
+unsigned int decryptAes256Cbc(const unsigned char *ciphertext,
+                              const unsigned char *key,
+                              const unsigned char *iv,
                               unsigned char **result,
-                              int ciphertext_len)
+                              int input_len)
 {
-    // Выделяем память для результата
-    *result = (unsigned char *)malloc(ciphertext_len);
-    if (*result == nullptr) {
+    int output_Len = input_len;
+    // Allocate zero-initialized memory for the result
+    unsigned char *plaintext = (unsigned char *)calloc(output_Len, 1);
+    if (plaintext == nullptr)
+    {
         return 0;
     }
 
-    // Копируем зашифрованные данные в результат
-    memcpy(*result, ciphertext, ciphertext_len);
+    // Copy ciphertext to result buffer
+    memcpy(plaintext, ciphertext, input_len);
 
     // Инициализируем AES контекст
     struct AES_ctx ctx;
     AES_init_ctx_iv(&ctx, key, iv);
 
     // Расшифровываем данные
-    AES_CBC_decrypt_buffer(&ctx, *result, ciphertext_len);
+    AES_CBC_decrypt_buffer(&ctx, plaintext, input_len);
 
-    // Remove PKCS7 padding
-    if (ciphertext_len > 0) {
-        int padding = (*result)[ciphertext_len - 1];
-        if (padding > 0 && padding <= BLOCK_SIZE) {
-            // Check all padding bytes
+    // Remove PKCS7 padding and clear sensitive data
+    if (output_Len > 0)
+    {
+        int padding = plaintext[output_Len - 1];
+        if (padding > 0 && padding <= BLOCK_SIZE)
+        {
+            // Check all padding bytes (optional, for strict validation)
             bool valid = true;
-            for (int i = ciphertext_len - padding; i < ciphertext_len; ++i) {
-                if ((*result)[i] != padding) {
+            for (int i = output_Len - padding; i < output_Len; ++i)
+            {
+                if (plaintext[i] != padding)
+                {
                     valid = false;
                     break;
                 }
             }
-            if (valid) {
-                ciphertext_len -= padding;
+            if (valid)
+            {
+                output_Len -= padding;
+                memset(plaintext + output_Len, 0, padding);
             }
         }
     }
 
-    return ciphertext_len;
+    *result = plaintext;
+    return output_Len;
 }
 
-void freeMemory(unsigned char* ptr) {
-    if (ptr != nullptr) {
+void freeMemory(unsigned char *ptr)
+{
+    if (ptr != nullptr)
+    {
         free(ptr);
     }
 }

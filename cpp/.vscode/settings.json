@@ -54,6 +54,11 @@
     "variant": "cpp",
     "vector": "cpp",
     "algorithm": "cpp",
-    "iomanip": "cpp"
+    "iomanip": "cpp",
+    "cstddef": "cpp"
+  },
+  "[dart]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
   }
 }

@@ -1,0 +1,5 @@
+if(EXISTS "/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/test_nip04-b12d07c_tests.cmake")
+  include("/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/test_nip04-b12d07c_tests.cmake")
+else()
+  add_test(test_nip04_NOT_BUILT-b12d07c test_nip04_NOT_BUILT-b12d07c)
+endif()

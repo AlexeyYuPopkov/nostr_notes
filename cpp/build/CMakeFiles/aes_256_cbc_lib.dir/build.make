@@ -53,10 +53,10 @@ RM = /opt/homebrew/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp
+CMAKE_SOURCE_DIR = /Users/alekseypopkov/Doc/upwork/gathr_1/cpp
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build
+CMAKE_BINARY_DIR = /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/aes_256_cbc_lib.dir/depend.make
@@ -73,46 +73,142 @@ CMakeFiles/aes_256_cbc_lib.dir/codegen:
 .PHONY : CMakeFiles/aes_256_cbc_lib.dir/codegen
 
 CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.o: CMakeFiles/aes_256_cbc_lib.dir/flags.make
-CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.o: /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src/aes_256_cbc.cpp
+CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.o: /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/aes_256_cbc.cpp
 CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.o: CMakeFiles/aes_256_cbc_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.o -MF CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.o.d -o CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src/aes_256_cbc.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.o -MF CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.o.d -o CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.o -c /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/aes_256_cbc.cpp
 
 CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src/aes_256_cbc.cpp > CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/aes_256_cbc.cpp > CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.i
 
 CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src/aes_256_cbc.cpp -o CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/aes_256_cbc.cpp -o CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.s
 
 CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.o: CMakeFiles/aes_256_cbc_lib.dir/flags.make
-CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.o: /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src/aes.c
+CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.o: /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/aes.c
 CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.o: CMakeFiles/aes_256_cbc_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.o -MF CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.o.d -o CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src/aes.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.o -MF CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.o.d -o CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.o -c /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/aes.c
 
 CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src/aes.c > CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/aes.c > CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.i
 
 CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src/aes.c -o CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/aes.c -o CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.s
+
+CMakeFiles/aes_256_cbc_lib.dir/src/secp_wrapper.cpp.o: CMakeFiles/aes_256_cbc_lib.dir/flags.make
+CMakeFiles/aes_256_cbc_lib.dir/src/secp_wrapper.cpp.o: /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/secp_wrapper.cpp
+CMakeFiles/aes_256_cbc_lib.dir/src/secp_wrapper.cpp.o: CMakeFiles/aes_256_cbc_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/aes_256_cbc_lib.dir/src/secp_wrapper.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/aes_256_cbc_lib.dir/src/secp_wrapper.cpp.o -MF CMakeFiles/aes_256_cbc_lib.dir/src/secp_wrapper.cpp.o.d -o CMakeFiles/aes_256_cbc_lib.dir/src/secp_wrapper.cpp.o -c /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/secp_wrapper.cpp
+
+CMakeFiles/aes_256_cbc_lib.dir/src/secp_wrapper.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aes_256_cbc_lib.dir/src/secp_wrapper.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/secp_wrapper.cpp > CMakeFiles/aes_256_cbc_lib.dir/src/secp_wrapper.cpp.i
+
+CMakeFiles/aes_256_cbc_lib.dir/src/secp_wrapper.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aes_256_cbc_lib.dir/src/secp_wrapper.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/secp_wrapper.cpp -o CMakeFiles/aes_256_cbc_lib.dir/src/secp_wrapper.cpp.s
+
+CMakeFiles/aes_256_cbc_lib.dir/src/nip04.cpp.o: CMakeFiles/aes_256_cbc_lib.dir/flags.make
+CMakeFiles/aes_256_cbc_lib.dir/src/nip04.cpp.o: /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/nip04.cpp
+CMakeFiles/aes_256_cbc_lib.dir/src/nip04.cpp.o: CMakeFiles/aes_256_cbc_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/aes_256_cbc_lib.dir/src/nip04.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/aes_256_cbc_lib.dir/src/nip04.cpp.o -MF CMakeFiles/aes_256_cbc_lib.dir/src/nip04.cpp.o.d -o CMakeFiles/aes_256_cbc_lib.dir/src/nip04.cpp.o -c /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/nip04.cpp
+
+CMakeFiles/aes_256_cbc_lib.dir/src/nip04.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aes_256_cbc_lib.dir/src/nip04.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/nip04.cpp > CMakeFiles/aes_256_cbc_lib.dir/src/nip04.cpp.i
+
+CMakeFiles/aes_256_cbc_lib.dir/src/nip04.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aes_256_cbc_lib.dir/src/nip04.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/nip04.cpp -o CMakeFiles/aes_256_cbc_lib.dir/src/nip04.cpp.s
+
+CMakeFiles/aes_256_cbc_lib.dir/src/tools.cpp.o: CMakeFiles/aes_256_cbc_lib.dir/flags.make
+CMakeFiles/aes_256_cbc_lib.dir/src/tools.cpp.o: /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/tools.cpp
+CMakeFiles/aes_256_cbc_lib.dir/src/tools.cpp.o: CMakeFiles/aes_256_cbc_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/aes_256_cbc_lib.dir/src/tools.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/aes_256_cbc_lib.dir/src/tools.cpp.o -MF CMakeFiles/aes_256_cbc_lib.dir/src/tools.cpp.o.d -o CMakeFiles/aes_256_cbc_lib.dir/src/tools.cpp.o -c /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/tools.cpp
+
+CMakeFiles/aes_256_cbc_lib.dir/src/tools.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aes_256_cbc_lib.dir/src/tools.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/tools.cpp > CMakeFiles/aes_256_cbc_lib.dir/src/tools.cpp.i
+
+CMakeFiles/aes_256_cbc_lib.dir/src/tools.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aes_256_cbc_lib.dir/src/tools.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/tools.cpp -o CMakeFiles/aes_256_cbc_lib.dir/src/tools.cpp.s
+
+CMakeFiles/aes_256_cbc_lib.dir/src/base64/base64.c.o: CMakeFiles/aes_256_cbc_lib.dir/flags.make
+CMakeFiles/aes_256_cbc_lib.dir/src/base64/base64.c.o: /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/base64/base64.c
+CMakeFiles/aes_256_cbc_lib.dir/src/base64/base64.c.o: CMakeFiles/aes_256_cbc_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/aes_256_cbc_lib.dir/src/base64/base64.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/aes_256_cbc_lib.dir/src/base64/base64.c.o -MF CMakeFiles/aes_256_cbc_lib.dir/src/base64/base64.c.o.d -o CMakeFiles/aes_256_cbc_lib.dir/src/base64/base64.c.o -c /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/base64/base64.c
+
+CMakeFiles/aes_256_cbc_lib.dir/src/base64/base64.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/aes_256_cbc_lib.dir/src/base64/base64.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/base64/base64.c > CMakeFiles/aes_256_cbc_lib.dir/src/base64/base64.c.i
+
+CMakeFiles/aes_256_cbc_lib.dir/src/base64/base64.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/aes_256_cbc_lib.dir/src/base64/base64.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/base64/base64.c -o CMakeFiles/aes_256_cbc_lib.dir/src/base64/base64.c.s
+
+CMakeFiles/aes_256_cbc_lib.dir/src/base64/cencode.c.o: CMakeFiles/aes_256_cbc_lib.dir/flags.make
+CMakeFiles/aes_256_cbc_lib.dir/src/base64/cencode.c.o: /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/base64/cencode.c
+CMakeFiles/aes_256_cbc_lib.dir/src/base64/cencode.c.o: CMakeFiles/aes_256_cbc_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/aes_256_cbc_lib.dir/src/base64/cencode.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/aes_256_cbc_lib.dir/src/base64/cencode.c.o -MF CMakeFiles/aes_256_cbc_lib.dir/src/base64/cencode.c.o.d -o CMakeFiles/aes_256_cbc_lib.dir/src/base64/cencode.c.o -c /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/base64/cencode.c
+
+CMakeFiles/aes_256_cbc_lib.dir/src/base64/cencode.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/aes_256_cbc_lib.dir/src/base64/cencode.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/base64/cencode.c > CMakeFiles/aes_256_cbc_lib.dir/src/base64/cencode.c.i
+
+CMakeFiles/aes_256_cbc_lib.dir/src/base64/cencode.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/aes_256_cbc_lib.dir/src/base64/cencode.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/base64/cencode.c -o CMakeFiles/aes_256_cbc_lib.dir/src/base64/cencode.c.s
+
+CMakeFiles/aes_256_cbc_lib.dir/src/base64/cdecode.c.o: CMakeFiles/aes_256_cbc_lib.dir/flags.make
+CMakeFiles/aes_256_cbc_lib.dir/src/base64/cdecode.c.o: /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/base64/cdecode.c
+CMakeFiles/aes_256_cbc_lib.dir/src/base64/cdecode.c.o: CMakeFiles/aes_256_cbc_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/aes_256_cbc_lib.dir/src/base64/cdecode.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/aes_256_cbc_lib.dir/src/base64/cdecode.c.o -MF CMakeFiles/aes_256_cbc_lib.dir/src/base64/cdecode.c.o.d -o CMakeFiles/aes_256_cbc_lib.dir/src/base64/cdecode.c.o -c /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/base64/cdecode.c
+
+CMakeFiles/aes_256_cbc_lib.dir/src/base64/cdecode.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/aes_256_cbc_lib.dir/src/base64/cdecode.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/base64/cdecode.c > CMakeFiles/aes_256_cbc_lib.dir/src/base64/cdecode.c.i
+
+CMakeFiles/aes_256_cbc_lib.dir/src/base64/cdecode.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/aes_256_cbc_lib.dir/src/base64/cdecode.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/base64/cdecode.c -o CMakeFiles/aes_256_cbc_lib.dir/src/base64/cdecode.c.s
 
 # Object files for target aes_256_cbc_lib
 aes_256_cbc_lib_OBJECTS = \
 "CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.o" \
-"CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.o"
+"CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.o" \
+"CMakeFiles/aes_256_cbc_lib.dir/src/secp_wrapper.cpp.o" \
+"CMakeFiles/aes_256_cbc_lib.dir/src/nip04.cpp.o" \
+"CMakeFiles/aes_256_cbc_lib.dir/src/tools.cpp.o" \
+"CMakeFiles/aes_256_cbc_lib.dir/src/base64/base64.c.o" \
+"CMakeFiles/aes_256_cbc_lib.dir/src/base64/cencode.c.o" \
+"CMakeFiles/aes_256_cbc_lib.dir/src/base64/cdecode.c.o"
 
 # External object files for target aes_256_cbc_lib
 aes_256_cbc_lib_EXTERNAL_OBJECTS =
 
 libaes_256_cbc_lib.a: CMakeFiles/aes_256_cbc_lib.dir/src/aes_256_cbc.cpp.o
 libaes_256_cbc_lib.a: CMakeFiles/aes_256_cbc_lib.dir/src/aes.c.o
+libaes_256_cbc_lib.a: CMakeFiles/aes_256_cbc_lib.dir/src/secp_wrapper.cpp.o
+libaes_256_cbc_lib.a: CMakeFiles/aes_256_cbc_lib.dir/src/nip04.cpp.o
+libaes_256_cbc_lib.a: CMakeFiles/aes_256_cbc_lib.dir/src/tools.cpp.o
+libaes_256_cbc_lib.a: CMakeFiles/aes_256_cbc_lib.dir/src/base64/base64.c.o
+libaes_256_cbc_lib.a: CMakeFiles/aes_256_cbc_lib.dir/src/base64/cencode.c.o
+libaes_256_cbc_lib.a: CMakeFiles/aes_256_cbc_lib.dir/src/base64/cdecode.c.o
 libaes_256_cbc_lib.a: CMakeFiles/aes_256_cbc_lib.dir/build.make
 libaes_256_cbc_lib.a: CMakeFiles/aes_256_cbc_lib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libaes_256_cbc_lib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX static library libaes_256_cbc_lib.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/aes_256_cbc_lib.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/aes_256_cbc_lib.dir/link.txt --verbose=$(VERBOSE)
 
@@ -125,6 +221,6 @@ CMakeFiles/aes_256_cbc_lib.dir/clean:
 .PHONY : CMakeFiles/aes_256_cbc_lib.dir/clean
 
 CMakeFiles/aes_256_cbc_lib.dir/depend:
-	cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build/CMakeFiles/aes_256_cbc_lib.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/alekseypopkov/Doc/upwork/gathr_1/cpp /Users/alekseypopkov/Doc/upwork/gathr_1/cpp /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/CMakeFiles/aes_256_cbc_lib.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/aes_256_cbc_lib.dir/depend
 

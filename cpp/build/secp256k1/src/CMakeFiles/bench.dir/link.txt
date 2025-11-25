@@ -1,0 +1,1 @@
+/usr/bin/cc -g -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/bench.dir/bench.c.o -o ../bin/bench  ../lib/libsecp256k1.a

@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -O0 -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/test_nip04.dir/tests/test_nip04.cpp.o -o test_nip04  libaes_256_cbc_lib.a /opt/homebrew/lib/libCatch2Main.a secp256k1/lib/libsecp256k1.a /opt/homebrew/lib/libCatch2.a

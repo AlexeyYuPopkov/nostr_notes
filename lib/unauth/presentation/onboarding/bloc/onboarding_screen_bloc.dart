@@ -106,7 +106,7 @@ final class OnboardingScreenBloc
       emit(OnboardingScreenState.loading(data: data));
       event.vm.setLoading();
 
-      await pinUsecase.execute(pin: event.pin);
+      await pinUsecase.execute(pin: event.pin, usePin: event.usePin);
 
       emit(
         OnboardingScreenState.didUnlock(data: data),

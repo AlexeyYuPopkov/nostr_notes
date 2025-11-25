@@ -48,7 +48,7 @@ TEST_CASE("Decryption AES 256 CBC tests", "[decryptAes256Cbc]")
     unsigned char *plaintext;
     size_t cipherTextLen = sizeof(ciphertext) / sizeof(ciphertext[0]);
 
-    std::cout << std::string(reinterpret_cast<char *>(ciphertext), cipherTextLen) << std::endl;
+    // std::cout << std::string(reinterpret_cast<char *>(ciphertext), cipherTextLen) << std::endl;
 
     unsigned int plaintextLen = decryptAes256Cbc(ciphertext, key, iv, &plaintext, cipherTextLen);
 

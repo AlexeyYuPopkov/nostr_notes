@@ -1,0 +1,28 @@
+CMakeFiles/crypto_module.dir/src/base64/base64.c.o: \
+  /Users/alekseypopkov/Doc/upwork/gathr/cpp/src/base64/base64.c \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/stdio.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/wasi/api.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/stddef.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/stddef.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/__stddef_header_macro.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/__stddef_ptrdiff_t.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/__stddef_size_t.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/__stddef_wchar_t.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/__stddef_null.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/__stddef_max_align_t.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/__stddef_offsetof.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/stdint.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/stdint.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/bits/alltypes.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/bits/stdint.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/features.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/compat/stdlib.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/stdlib.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/alloca.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/compat/string.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/string.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/strings.h \
+  /Users/alekseypopkov/Doc/upwork/gathr/cpp/src/base64/cencode.h \
+  /Users/alekseypopkov/Doc/upwork/gathr/cpp/src/base64/ccommon.h \
+  /Users/alekseypopkov/Doc/upwork/gathr/cpp/src/base64/cdecode.h \
+  /Users/alekseypopkov/Doc/upwork/gathr/cpp/src/base64/base64.h

@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/auth/data/common_event_storage_impl.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
-import 'package:nostr_notes/auth/domain/repo/crypto_algorithm_type.dart';
-import 'package:nostr_notes/auth/domain/repo/crypto_repo.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
@@ -17,6 +16,7 @@ import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/model/session/user_keys.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/services/channel_factory.dart';
+import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
 import 'package:nostr_notes/services/nostr_client.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostr_notes/services/ws_channel.dart';
@@ -73,27 +73,34 @@ class MockChannelFactory extends Mock implements ChannelFactory {}
 
 class MockUuid extends Mock implements Uuid {}
 
-class MockCryptoRepo implements CryptoRepo {
+class MockCryptoRepo implements CryptoService {
   @override
-  FutureOr<CryptoAlgorithmType> createCache(
-      {required CryptoAlgorithmType algorithmType}) {
-    return const CryptoAlgorithmType.nip44(
-      privateKey: '',
-      peerPubkey: '',
-    );
-  }
-
-  @override
-  FutureOr<String> decryptMessage(
-      {required String text, required CryptoAlgorithmType algorithmType}) {
+  Future<String> decryptNip44({
+    required String payload,
+    required Uint8List conversationKey,
+  }) async {
     return 'message';
   }
 
   @override
-  FutureOr<String> encryptMessage(
-      {required String text, required CryptoAlgorithmType algorithmType}) {
+  Uint8List deriveKeys(
+      {required String senderPrivateKey,
+      required String recipientPublicKey,
+      Uint8List Function(Uint8List p1)? extraDerivation}) {
+    return Uint8List.fromList(List<int>.generate(32, (i) => i));
+  }
+
+  @override
+  Future<String> encryptNip44({
+    required String plaintext,
+    required Uint8List conversationKey,
+    Uint8List? customNonce,
+  }) async {
     return 'encrypted-message';
   }
+
+  @override
+  FutureOr<void> init() {}
 }
 
 class MockNow implements Now {
@@ -128,7 +135,7 @@ void main() {
     late CreateNoteUsecase sut;
     final mockNow = MockNow();
     final mockUuid = MockUuid();
-    final mockCryptoRepo = MockCryptoRepo();
+    final mockCryptoService = MockCryptoRepo();
 
     setUp(() {
       DiStorage.shared.bind<ErrorMessagesProvider>(
@@ -160,7 +167,7 @@ void main() {
         // ),
         noteCryptoUseCase: NoteCryptoUseCase(
           sessionUsecase: sessionUsecase,
-          cryptoRepo: mockCryptoRepo,
+          cryptoService: mockCryptoService,
         ),
         notesRepository: NotesRepositoryImpl(
           client: client,

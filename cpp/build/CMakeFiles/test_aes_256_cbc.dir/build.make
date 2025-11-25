@@ -53,10 +53,10 @@ RM = /opt/homebrew/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp
+CMAKE_SOURCE_DIR = /Users/alekseypopkov/Doc/upwork/gathr_1/cpp
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build
+CMAKE_BINARY_DIR = /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/test_aes_256_cbc.dir/depend.make
@@ -73,18 +73,18 @@ CMakeFiles/test_aes_256_cbc.dir/codegen:
 .PHONY : CMakeFiles/test_aes_256_cbc.dir/codegen
 
 CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.o: CMakeFiles/test_aes_256_cbc.dir/flags.make
-CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.o: /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/tests/test_aes_256_cbc.cpp
+CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.o: /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/tests/test_aes_256_cbc.cpp
 CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.o: CMakeFiles/test_aes_256_cbc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.o -MF CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.o.d -o CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/tests/test_aes_256_cbc.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.o -MF CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.o.d -o CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.o -c /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/tests/test_aes_256_cbc.cpp
 
 CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/tests/test_aes_256_cbc.cpp > CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/tests/test_aes_256_cbc.cpp > CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.i
 
 CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/tests/test_aes_256_cbc.cpp -o CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/tests/test_aes_256_cbc.cpp -o CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.s
 
 # Object files for target test_aes_256_cbc
 test_aes_256_cbc_OBJECTS = \
@@ -97,11 +97,12 @@ test_aes_256_cbc: CMakeFiles/test_aes_256_cbc.dir/tests/test_aes_256_cbc.cpp.o
 test_aes_256_cbc: CMakeFiles/test_aes_256_cbc.dir/build.make
 test_aes_256_cbc: libaes_256_cbc_lib.a
 test_aes_256_cbc: /opt/homebrew/lib/libCatch2Main.a
+test_aes_256_cbc: secp256k1/lib/libsecp256k1.a
 test_aes_256_cbc: /opt/homebrew/lib/libCatch2.a
 test_aes_256_cbc: CMakeFiles/test_aes_256_cbc.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable test_aes_256_cbc"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable test_aes_256_cbc"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_aes_256_cbc.dir/link.txt --verbose=$(VERBOSE)
-	/opt/homebrew/bin/cmake -D TEST_TARGET=test_aes_256_cbc -D TEST_EXECUTABLE=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build/test_aes_256_cbc -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build -D TEST_SPEC= -D TEST_EXTRA_ARGS= -D "TEST_PROPERTIES=SKIP_RETURN_CODE;4" -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_LIST=test_aes_256_cbc_TESTS -D TEST_REPORTER= -D TEST_OUTPUT_DIR= -D TEST_OUTPUT_PREFIX= -D TEST_OUTPUT_SUFFIX= -D TEST_DL_PATHS= -D TEST_DL_FRAMEWORK_PATHS= -D CTEST_FILE=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build/test_aes_256_cbc-b12d07c_tests.cmake -D ADD_TAGS_AS_LABELS=FALSE -P /opt/homebrew/lib/cmake/Catch2/CatchAddTests.cmake
+	/opt/homebrew/bin/cmake -D TEST_TARGET=test_aes_256_cbc -D TEST_EXECUTABLE=/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/test_aes_256_cbc -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build -D TEST_SPEC= -D TEST_EXTRA_ARGS= -D "TEST_PROPERTIES=SKIP_RETURN_CODE;4" -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_LIST=test_aes_256_cbc_TESTS -D TEST_REPORTER= -D TEST_OUTPUT_DIR= -D TEST_OUTPUT_PREFIX= -D TEST_OUTPUT_SUFFIX= -D TEST_DL_PATHS= -D TEST_DL_FRAMEWORK_PATHS= -D CTEST_FILE=/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/test_aes_256_cbc-b12d07c_tests.cmake -D ADD_TAGS_AS_LABELS=FALSE -P /opt/homebrew/lib/cmake/Catch2/CatchAddTests.cmake
 
 # Rule to build all files generated by this target.
 CMakeFiles/test_aes_256_cbc.dir/build: test_aes_256_cbc
@@ -112,6 +113,6 @@ CMakeFiles/test_aes_256_cbc.dir/clean:
 .PHONY : CMakeFiles/test_aes_256_cbc.dir/clean
 
 CMakeFiles/test_aes_256_cbc.dir/depend:
-	cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build/CMakeFiles/test_aes_256_cbc.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/alekseypopkov/Doc/upwork/gathr_1/cpp /Users/alekseypopkov/Doc/upwork/gathr_1/cpp /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/CMakeFiles/test_aes_256_cbc.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/test_aes_256_cbc.dir/depend
 

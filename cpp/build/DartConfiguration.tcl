@@ -4,14 +4,14 @@
 
 
 # Configuration directories and files
-SourceDirectory: /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp
-BuildDirectory: /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build
+SourceDirectory: /Users/alekseypopkov/Doc/upwork/gathr_1/cpp
+BuildDirectory: /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: MacBook-Air-Aleksej-2.local
+Site: MacBook-Air-Aleksej-3.local
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
 BuildName: Darwin-c++
@@ -27,7 +27,7 @@ SubmitInactivityTimeout:
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "/opt/homebrew/bin/cmake" "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp"
+ConfigureCommand: "/opt/homebrew/bin/cmake" "/Users/alekseypopkov/Doc/upwork/gathr_1/cpp"
 MakeCommand: /opt/homebrew/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 
@@ -64,7 +64,7 @@ UpdateType:
 
 # Compiler info
 Compiler: /usr/bin/c++
-CompilerVersion: 17.0.0.17000013
+CompilerVersion: 17.0.0.17000319
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 

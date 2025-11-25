@@ -29,6 +29,7 @@
     "onboardingPinPageTitle": "Set a PIN or password",
     "onboardingPinPageDescription": "This is used for an additional layer of encryption – even if someone obtains your nsec, your notes will remain protected",
     "onboardingPinPageTextFieldHint": "PIN or password",
+    "onboardingPinPageLabelCheckboxUsePin": "Use pin to unlock app",
 
     "errorEmptyNsec": "NSEC key cannot be empty",
     "errorInvalidNsecFormat": "Invalid NSEC key format",

@@ -1,13 +1,12 @@
-import 'package:flutter/foundation.dart';
+import 'dart:developer';
+
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nostr_notes/auth/data/crypto_repo_impl.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/model/session/user_keys.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
-import 'package:nostr_notes/experimental/aes_cbc_repo.dart';
-import 'package:nostr_notes/services/key_tool/nip04_encryptor.dart';
+import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
 
 void main() {
   const text = 'Lorem ipsum dolor sit amet consectetur adipiscing elit. '
@@ -27,22 +26,19 @@ void main() {
     setUp(() async {
       sessionUsecase = SessionUsecase();
 
-      final wasmAesCbc = AesCbcRepo.create();
+      final cryptoService = CryptoService.create();
 
-      await wasmAesCbc.init();
+      await cryptoService.init();
 
       sut = NoteCryptoUseCase(
-        cryptoRepo: CryptoRepoImpl(
-          nip04Encryptor: const Nip04Encryptor(),
-          nip04Decryptor: Nip04Decryptor(wasmAesCbc: wasmAesCbc),
-        ),
+        cryptoService: cryptoService,
         sessionUsecase: sessionUsecase,
       );
     });
 
     tearDown(() => sessionUsecase.dispose());
 
-    test('encryption and decryption Note', () async {
+    test('encryption and decryption Note. With Pin', () async {
       sessionUsecase.setSession(
         const Session.unlocked(
           keys: UserKeys(
@@ -67,7 +63,7 @@ void main() {
       expect(decrypted == initialNote, true);
     });
 
-    test('encrypt Note and decryption Note summary only', () async {
+    test('encrypt Note and decryption Note summary only. With Pin', () async {
       sessionUsecase.setSession(
         const Session.unlocked(
           keys: UserKeys(
@@ -75,6 +71,57 @@ void main() {
             publicKey: publicKey,
           ),
           pin: pin,
+        ),
+      );
+
+      final initialNote = Note(
+        dTag: 'dTag',
+        content: text,
+        summary: summary,
+        createdAt: DateTime.now(),
+      );
+
+      final encrypted = await sut.encryptNote(initialNote);
+
+      final decrypted = await sut.decryptSummary(encrypted);
+
+      expect(encrypted.summary == decrypted.summary, false);
+    });
+
+    test('encryption and decryption Note. Without Pin', () async {
+      sessionUsecase.setSession(
+        const Session.unlocked(
+          keys: UserKeys(
+            privateKey: privateKey,
+            publicKey: publicKey,
+          ),
+          pin: '',
+        ),
+      );
+
+      final initialNote = Note(
+        dTag: 'dTag',
+        content: text,
+        summary: summary,
+        createdAt: DateTime.now(),
+      );
+
+      final encrypted = await sut.encryptNote(initialNote);
+
+      final decrypted = await sut.decryptNote(encrypted);
+
+      expect(decrypted == initialNote, true);
+    });
+
+    test('encrypt Note and decryption Note summary only. Without Pin',
+        () async {
+      sessionUsecase.setSession(
+        const Session.unlocked(
+          keys: UserKeys(
+            privateKey: privateKey,
+            publicKey: publicKey,
+          ),
+          pin: '',
         ),
       );
 
@@ -99,14 +146,12 @@ void main() {
 
     setUp(() async {
       sessionUsecase = SessionUsecase();
-      final wasmAesCbc = AesCbcRepo.create();
+      final cryptoService = CryptoService.create();
 
-      await wasmAesCbc.init();
+      await cryptoService.init();
+
       sut = NoteCryptoUseCase(
-        cryptoRepo: CryptoRepoImpl(
-          nip04Encryptor: const Nip04Encryptor(),
-          nip04Decryptor: Nip04Decryptor(wasmAesCbc: wasmAesCbc),
-        ),
+        cryptoService: cryptoService,
         sessionUsecase: sessionUsecase,
       );
     });
@@ -154,7 +199,7 @@ void main() {
       }
 
       stopwatch.stop();
-      debugPrint(
+      log(
         'Nip44 encryption/decryption of $iterations messages took: ${stopwatch.elapsedMilliseconds} ms',
       );
 

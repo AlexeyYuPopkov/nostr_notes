@@ -13,10 +13,11 @@ sealed class OnboardingScreenEvent extends Equatable {
     LoadingButtonVM vm,
   ) = OnNsecEvent;
 
-  const factory OnboardingScreenEvent.onPin(
-    String pin,
-    LoadingButtonVM vm,
-  ) = OnPinEvent;
+  const factory OnboardingScreenEvent.onPin({
+    required String pin,
+    required LoadingButtonVM vm,
+    required bool usePin,
+  }) = OnPinEvent;
 
   @override
   List<Object?> get props => const [];
@@ -39,6 +40,7 @@ final class OnNsecEvent extends OnboardingScreenEvent {
 
 final class OnPinEvent extends OnboardingScreenEvent {
   final String pin;
+  final bool usePin;
   final LoadingButtonVM vm;
-  const OnPinEvent(this.pin, this.vm);
+  const OnPinEvent({required this.pin, required this.vm, required this.usePin});
 }

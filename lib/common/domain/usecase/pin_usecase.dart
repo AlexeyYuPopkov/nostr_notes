@@ -10,8 +10,8 @@ final class PinUsecase {
   const PinUsecase({required SessionUsecase sessionUsecase})
       : _sessionUsecase = sessionUsecase;
 
-  Future<void> execute({required String pin}) async {
-    final validationError = validate(pin);
+  Future<void> execute({required String pin, required bool usePin}) async {
+    final validationError = validate(pin, usePin);
     if (validationError != null) {
       throw validationError;
     }
@@ -32,7 +32,10 @@ final class PinUsecase {
     }
   }
 
-  PinError? validate(String? pin) {
+  PinError? validate(String? pin, bool usePin) {
+    if (!usePin) {
+      return null;
+    }
     if (pin == null || pin.isEmpty) {
       return const PinErrorEmpty();
     }
@@ -61,7 +64,7 @@ final class PinErrorEmpty extends PinError {
   // String get message => ErrorMessagesProvider.defaultProvider.errorEmptyPin;
 
   @override
-  String get message => ErrorMessagesProvider.defaultProvider.emptyPubkey;
+  String get message => ErrorMessagesProvider.defaultProvider.emptyPin;
 }
 
 final class PinErrorMinLength extends PinError {

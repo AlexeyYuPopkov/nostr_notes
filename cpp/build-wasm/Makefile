@@ -57,10 +57,10 @@ RM = /opt/homebrew/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp
+CMAKE_SOURCE_DIR = /Users/alekseypopkov/Doc/upwork/gathr/cpp
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build-wasm
+CMAKE_BINARY_DIR = /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build-wasm/CMakeFiles /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build-wasm//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build-wasm/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -117,24 +117,128 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named aes_module
+# Target rules for targets named crypto_module
 
 # Build rule for target.
-aes_module: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 aes_module
-.PHONY : aes_module
+crypto_module: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 crypto_module
+.PHONY : crypto_module
 
 # fast build rule for target.
-aes_module/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/aes_module.dir/build.make CMakeFiles/aes_module.dir/build
-.PHONY : aes_module/fast
+crypto_module/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/build
+.PHONY : crypto_module/fast
+
+#=============================================================================
+# Target rules for targets named secp256k1
+
+# Build rule for target.
+secp256k1: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 secp256k1
+.PHONY : secp256k1
+
+# fast build rule for target.
+secp256k1/fast:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/secp256k1.dir/build.make secp256k1/src/CMakeFiles/secp256k1.dir/build
+.PHONY : secp256k1/fast
+
+#=============================================================================
+# Target rules for targets named secp256k1_precomputed
+
+# Build rule for target.
+secp256k1_precomputed: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 secp256k1_precomputed
+.PHONY : secp256k1_precomputed
+
+# fast build rule for target.
+secp256k1_precomputed/fast:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/build.make secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/build
+.PHONY : secp256k1_precomputed/fast
+
+#=============================================================================
+# Target rules for targets named bench
+
+# Build rule for target.
+bench: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 bench
+.PHONY : bench
+
+# fast build rule for target.
+bench/fast:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/bench.dir/build.make secp256k1/src/CMakeFiles/bench.dir/build
+.PHONY : bench/fast
+
+#=============================================================================
+# Target rules for targets named bench_internal
+
+# Build rule for target.
+bench_internal: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 bench_internal
+.PHONY : bench_internal
+
+# fast build rule for target.
+bench_internal/fast:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/bench_internal.dir/build.make secp256k1/src/CMakeFiles/bench_internal.dir/build
+.PHONY : bench_internal/fast
+
+#=============================================================================
+# Target rules for targets named bench_ecmult
+
+# Build rule for target.
+bench_ecmult: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 bench_ecmult
+.PHONY : bench_ecmult
+
+# fast build rule for target.
+bench_ecmult/fast:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/bench_ecmult.dir/build.make secp256k1/src/CMakeFiles/bench_ecmult.dir/build
+.PHONY : bench_ecmult/fast
+
+#=============================================================================
+# Target rules for targets named noverify_tests
+
+# Build rule for target.
+noverify_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 noverify_tests
+.PHONY : noverify_tests
+
+# fast build rule for target.
+noverify_tests/fast:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/noverify_tests.dir/build.make secp256k1/src/CMakeFiles/noverify_tests.dir/build
+.PHONY : noverify_tests/fast
+
+#=============================================================================
+# Target rules for targets named tests
+
+# Build rule for target.
+tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests
+.PHONY : tests
+
+# fast build rule for target.
+tests/fast:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/tests.dir/build.make secp256k1/src/CMakeFiles/tests.dir/build
+.PHONY : tests/fast
+
+#=============================================================================
+# Target rules for targets named exhaustive_tests
+
+# Build rule for target.
+exhaustive_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 exhaustive_tests
+.PHONY : exhaustive_tests
+
+# fast build rule for target.
+exhaustive_tests/fast:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/exhaustive_tests.dir/build.make secp256k1/src/CMakeFiles/exhaustive_tests.dir/build
+.PHONY : exhaustive_tests/fast
 
 src/aes.o: src/aes.c.o
 .PHONY : src/aes.o
 
 # target to build an object file
 src/aes.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/aes_module.dir/build.make CMakeFiles/aes_module.dir/src/aes.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/aes.c.o
 .PHONY : src/aes.c.o
 
 src/aes.i: src/aes.c.i
@@ -142,7 +246,7 @@ src/aes.i: src/aes.c.i
 
 # target to preprocess a source file
 src/aes.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/aes_module.dir/build.make CMakeFiles/aes_module.dir/src/aes.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/aes.c.i
 .PHONY : src/aes.c.i
 
 src/aes.s: src/aes.c.s
@@ -150,7 +254,7 @@ src/aes.s: src/aes.c.s
 
 # target to generate assembly for a file
 src/aes.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/aes_module.dir/build.make CMakeFiles/aes_module.dir/src/aes.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/aes.c.s
 .PHONY : src/aes.c.s
 
 src/aes_256_cbc.o: src/aes_256_cbc.cpp.o
@@ -158,7 +262,7 @@ src/aes_256_cbc.o: src/aes_256_cbc.cpp.o
 
 # target to build an object file
 src/aes_256_cbc.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/aes_module.dir/build.make CMakeFiles/aes_module.dir/src/aes_256_cbc.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/aes_256_cbc.cpp.o
 .PHONY : src/aes_256_cbc.cpp.o
 
 src/aes_256_cbc.i: src/aes_256_cbc.cpp.i
@@ -166,7 +270,7 @@ src/aes_256_cbc.i: src/aes_256_cbc.cpp.i
 
 # target to preprocess a source file
 src/aes_256_cbc.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/aes_module.dir/build.make CMakeFiles/aes_module.dir/src/aes_256_cbc.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/aes_256_cbc.cpp.i
 .PHONY : src/aes_256_cbc.cpp.i
 
 src/aes_256_cbc.s: src/aes_256_cbc.cpp.s
@@ -174,8 +278,128 @@ src/aes_256_cbc.s: src/aes_256_cbc.cpp.s
 
 # target to generate assembly for a file
 src/aes_256_cbc.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/aes_module.dir/build.make CMakeFiles/aes_module.dir/src/aes_256_cbc.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/aes_256_cbc.cpp.s
 .PHONY : src/aes_256_cbc.cpp.s
+
+src/base64/base64.o: src/base64/base64.c.o
+.PHONY : src/base64/base64.o
+
+# target to build an object file
+src/base64/base64.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/base64/base64.c.o
+.PHONY : src/base64/base64.c.o
+
+src/base64/base64.i: src/base64/base64.c.i
+.PHONY : src/base64/base64.i
+
+# target to preprocess a source file
+src/base64/base64.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/base64/base64.c.i
+.PHONY : src/base64/base64.c.i
+
+src/base64/base64.s: src/base64/base64.c.s
+.PHONY : src/base64/base64.s
+
+# target to generate assembly for a file
+src/base64/base64.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/base64/base64.c.s
+.PHONY : src/base64/base64.c.s
+
+src/base64/cdecode.o: src/base64/cdecode.c.o
+.PHONY : src/base64/cdecode.o
+
+# target to build an object file
+src/base64/cdecode.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/base64/cdecode.c.o
+.PHONY : src/base64/cdecode.c.o
+
+src/base64/cdecode.i: src/base64/cdecode.c.i
+.PHONY : src/base64/cdecode.i
+
+# target to preprocess a source file
+src/base64/cdecode.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/base64/cdecode.c.i
+.PHONY : src/base64/cdecode.c.i
+
+src/base64/cdecode.s: src/base64/cdecode.c.s
+.PHONY : src/base64/cdecode.s
+
+# target to generate assembly for a file
+src/base64/cdecode.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/base64/cdecode.c.s
+.PHONY : src/base64/cdecode.c.s
+
+src/base64/cencode.o: src/base64/cencode.c.o
+.PHONY : src/base64/cencode.o
+
+# target to build an object file
+src/base64/cencode.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/base64/cencode.c.o
+.PHONY : src/base64/cencode.c.o
+
+src/base64/cencode.i: src/base64/cencode.c.i
+.PHONY : src/base64/cencode.i
+
+# target to preprocess a source file
+src/base64/cencode.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/base64/cencode.c.i
+.PHONY : src/base64/cencode.c.i
+
+src/base64/cencode.s: src/base64/cencode.c.s
+.PHONY : src/base64/cencode.s
+
+# target to generate assembly for a file
+src/base64/cencode.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/base64/cencode.c.s
+.PHONY : src/base64/cencode.c.s
+
+src/nip04.o: src/nip04.cpp.o
+.PHONY : src/nip04.o
+
+# target to build an object file
+src/nip04.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/nip04.cpp.o
+.PHONY : src/nip04.cpp.o
+
+src/nip04.i: src/nip04.cpp.i
+.PHONY : src/nip04.i
+
+# target to preprocess a source file
+src/nip04.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/nip04.cpp.i
+.PHONY : src/nip04.cpp.i
+
+src/nip04.s: src/nip04.cpp.s
+.PHONY : src/nip04.s
+
+# target to generate assembly for a file
+src/nip04.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/nip04.cpp.s
+.PHONY : src/nip04.cpp.s
+
+src/secp_wrapper.o: src/secp_wrapper.cpp.o
+.PHONY : src/secp_wrapper.o
+
+# target to build an object file
+src/secp_wrapper.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/secp_wrapper.cpp.o
+.PHONY : src/secp_wrapper.cpp.o
+
+src/secp_wrapper.i: src/secp_wrapper.cpp.i
+.PHONY : src/secp_wrapper.i
+
+# target to preprocess a source file
+src/secp_wrapper.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/secp_wrapper.cpp.i
+.PHONY : src/secp_wrapper.cpp.i
+
+src/secp_wrapper.s: src/secp_wrapper.cpp.s
+.PHONY : src/secp_wrapper.s
+
+# target to generate assembly for a file
+src/secp_wrapper.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/src/secp_wrapper.cpp.s
+.PHONY : src/secp_wrapper.cpp.s
 
 # Help Target
 help:
@@ -185,13 +409,36 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... aes_module"
+	@echo "... bench"
+	@echo "... bench_ecmult"
+	@echo "... bench_internal"
+	@echo "... crypto_module"
+	@echo "... exhaustive_tests"
+	@echo "... noverify_tests"
+	@echo "... secp256k1"
+	@echo "... secp256k1_precomputed"
+	@echo "... tests"
 	@echo "... src/aes.o"
 	@echo "... src/aes.i"
 	@echo "... src/aes.s"
 	@echo "... src/aes_256_cbc.o"
 	@echo "... src/aes_256_cbc.i"
 	@echo "... src/aes_256_cbc.s"
+	@echo "... src/base64/base64.o"
+	@echo "... src/base64/base64.i"
+	@echo "... src/base64/base64.s"
+	@echo "... src/base64/cdecode.o"
+	@echo "... src/base64/cdecode.i"
+	@echo "... src/base64/cdecode.s"
+	@echo "... src/base64/cencode.o"
+	@echo "... src/base64/cencode.i"
+	@echo "... src/base64/cencode.s"
+	@echo "... src/nip04.o"
+	@echo "... src/nip04.i"
+	@echo "... src/nip04.s"
+	@echo "... src/secp_wrapper.o"
+	@echo "... src/secp_wrapper.i"
+	@echo "... src/secp_wrapper.s"
 .PHONY : help
 
 

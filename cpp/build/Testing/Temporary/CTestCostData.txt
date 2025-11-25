@@ -1,3 +1,0 @@
-someFunction tests 1 0.00448217
-Decryption AES 256 CBC tests 1 0.00349667
----

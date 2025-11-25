@@ -54,61 +54,377 @@ RM = /opt/homebrew/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp
+CMAKE_SOURCE_DIR = /Users/alekseypopkov/Doc/upwork/gathr/cpp
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build-wasm
+CMAKE_BINARY_DIR = /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/aes_module.dir/all
+all: CMakeFiles/crypto_module.dir/all
+all: secp256k1/all
 .PHONY : all
 
 # The main recursive "codegen" target.
-codegen: CMakeFiles/aes_module.dir/codegen
+codegen: CMakeFiles/crypto_module.dir/codegen
+codegen: secp256k1/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: secp256k1/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/aes_module.dir/clean
+clean: CMakeFiles/crypto_module.dir/clean
+clean: secp256k1/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/aes_module.dir
+# Directory level rules for directory secp256k1
+
+# Recursive "all" directory target.
+secp256k1/all: secp256k1/src/all
+.PHONY : secp256k1/all
+
+# Recursive "codegen" directory target.
+secp256k1/codegen: secp256k1/src/codegen
+.PHONY : secp256k1/codegen
+
+# Recursive "preinstall" directory target.
+secp256k1/preinstall: secp256k1/src/preinstall
+.PHONY : secp256k1/preinstall
+
+# Recursive "clean" directory target.
+secp256k1/clean: secp256k1/src/clean
+.PHONY : secp256k1/clean
+
+#=============================================================================
+# Directory level rules for directory secp256k1/src
+
+# Recursive "all" directory target.
+secp256k1/src/all: secp256k1/src/CMakeFiles/secp256k1.dir/all
+secp256k1/src/all: secp256k1/src/CMakeFiles/bench.dir/all
+secp256k1/src/all: secp256k1/src/CMakeFiles/bench_internal.dir/all
+secp256k1/src/all: secp256k1/src/CMakeFiles/bench_ecmult.dir/all
+secp256k1/src/all: secp256k1/src/CMakeFiles/noverify_tests.dir/all
+secp256k1/src/all: secp256k1/src/CMakeFiles/tests.dir/all
+secp256k1/src/all: secp256k1/src/CMakeFiles/exhaustive_tests.dir/all
+.PHONY : secp256k1/src/all
+
+# Recursive "codegen" directory target.
+secp256k1/src/codegen: secp256k1/src/CMakeFiles/secp256k1.dir/codegen
+secp256k1/src/codegen: secp256k1/src/CMakeFiles/bench.dir/codegen
+secp256k1/src/codegen: secp256k1/src/CMakeFiles/bench_internal.dir/codegen
+secp256k1/src/codegen: secp256k1/src/CMakeFiles/bench_ecmult.dir/codegen
+secp256k1/src/codegen: secp256k1/src/CMakeFiles/noverify_tests.dir/codegen
+secp256k1/src/codegen: secp256k1/src/CMakeFiles/tests.dir/codegen
+secp256k1/src/codegen: secp256k1/src/CMakeFiles/exhaustive_tests.dir/codegen
+.PHONY : secp256k1/src/codegen
+
+# Recursive "preinstall" directory target.
+secp256k1/src/preinstall:
+.PHONY : secp256k1/src/preinstall
+
+# Recursive "clean" directory target.
+secp256k1/src/clean: secp256k1/src/CMakeFiles/secp256k1.dir/clean
+secp256k1/src/clean: secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/clean
+secp256k1/src/clean: secp256k1/src/CMakeFiles/bench.dir/clean
+secp256k1/src/clean: secp256k1/src/CMakeFiles/bench_internal.dir/clean
+secp256k1/src/clean: secp256k1/src/CMakeFiles/bench_ecmult.dir/clean
+secp256k1/src/clean: secp256k1/src/CMakeFiles/noverify_tests.dir/clean
+secp256k1/src/clean: secp256k1/src/CMakeFiles/tests.dir/clean
+secp256k1/src/clean: secp256k1/src/CMakeFiles/exhaustive_tests.dir/clean
+.PHONY : secp256k1/src/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/crypto_module.dir
 
 # All Build rule for target.
-CMakeFiles/aes_module.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/aes_module.dir/build.make CMakeFiles/aes_module.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/aes_module.dir/build.make CMakeFiles/aes_module.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build-wasm/CMakeFiles --progress-num=1,2,3 "Built target aes_module"
-.PHONY : CMakeFiles/aes_module.dir/all
+CMakeFiles/crypto_module.dir/all: secp256k1/src/CMakeFiles/secp256k1.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=7,8,9,10,11,12,13,14 "Built target crypto_module"
+.PHONY : CMakeFiles/crypto_module.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/aes_module.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build-wasm/CMakeFiles 3
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/aes_module.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build-wasm/CMakeFiles 0
-.PHONY : CMakeFiles/aes_module.dir/rule
+CMakeFiles/crypto_module.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 12
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/crypto_module.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 0
+.PHONY : CMakeFiles/crypto_module.dir/rule
 
 # Convenience name for target.
-aes_module: CMakeFiles/aes_module.dir/rule
-.PHONY : aes_module
+crypto_module: CMakeFiles/crypto_module.dir/rule
+.PHONY : crypto_module
 
 # codegen rule for target.
-CMakeFiles/aes_module.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/aes_module.dir/build.make CMakeFiles/aes_module.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build-wasm/CMakeFiles --progress-num=1,2,3 "Finished codegen for target aes_module"
-.PHONY : CMakeFiles/aes_module.dir/codegen
+CMakeFiles/crypto_module.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=7,8,9,10,11,12,13,14 "Finished codegen for target crypto_module"
+.PHONY : CMakeFiles/crypto_module.dir/codegen
 
 # clean rule for target.
-CMakeFiles/aes_module.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/aes_module.dir/build.make CMakeFiles/aes_module.dir/clean
-.PHONY : CMakeFiles/aes_module.dir/clean
+CMakeFiles/crypto_module.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/crypto_module.dir/build.make CMakeFiles/crypto_module.dir/clean
+.PHONY : CMakeFiles/crypto_module.dir/clean
+
+#=============================================================================
+# Target rules for target secp256k1/src/CMakeFiles/secp256k1.dir
+
+# All Build rule for target.
+secp256k1/src/CMakeFiles/secp256k1.dir/all: secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/all
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/secp256k1.dir/build.make secp256k1/src/CMakeFiles/secp256k1.dir/depend
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/secp256k1.dir/build.make secp256k1/src/CMakeFiles/secp256k1.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=19,20 "Built target secp256k1"
+.PHONY : secp256k1/src/CMakeFiles/secp256k1.dir/all
+
+# Build rule for subdir invocation for target.
+secp256k1/src/CMakeFiles/secp256k1.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 secp256k1/src/CMakeFiles/secp256k1.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 0
+.PHONY : secp256k1/src/CMakeFiles/secp256k1.dir/rule
+
+# Convenience name for target.
+secp256k1: secp256k1/src/CMakeFiles/secp256k1.dir/rule
+.PHONY : secp256k1
+
+# codegen rule for target.
+secp256k1/src/CMakeFiles/secp256k1.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/secp256k1.dir/build.make secp256k1/src/CMakeFiles/secp256k1.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=19,20 "Finished codegen for target secp256k1"
+.PHONY : secp256k1/src/CMakeFiles/secp256k1.dir/codegen
+
+# clean rule for target.
+secp256k1/src/CMakeFiles/secp256k1.dir/clean:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/secp256k1.dir/build.make secp256k1/src/CMakeFiles/secp256k1.dir/clean
+.PHONY : secp256k1/src/CMakeFiles/secp256k1.dir/clean
+
+#=============================================================================
+# Target rules for target secp256k1/src/CMakeFiles/secp256k1_precomputed.dir
+
+# All Build rule for target.
+secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/all:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/build.make secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/depend
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/build.make secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=21,22 "Built target secp256k1_precomputed"
+.PHONY : secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/all
+
+# Build rule for subdir invocation for target.
+secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 0
+.PHONY : secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/rule
+
+# Convenience name for target.
+secp256k1_precomputed: secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/rule
+.PHONY : secp256k1_precomputed
+
+# codegen rule for target.
+secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/build.make secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=21,22 "Finished codegen for target secp256k1_precomputed"
+.PHONY : secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/codegen
+
+# clean rule for target.
+secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/clean:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/build.make secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/clean
+.PHONY : secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/clean
+
+#=============================================================================
+# Target rules for target secp256k1/src/CMakeFiles/bench.dir
+
+# All Build rule for target.
+secp256k1/src/CMakeFiles/bench.dir/all: secp256k1/src/CMakeFiles/secp256k1.dir/all
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/bench.dir/build.make secp256k1/src/CMakeFiles/bench.dir/depend
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/bench.dir/build.make secp256k1/src/CMakeFiles/bench.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=1,2 "Built target bench"
+.PHONY : secp256k1/src/CMakeFiles/bench.dir/all
+
+# Build rule for subdir invocation for target.
+secp256k1/src/CMakeFiles/bench.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 secp256k1/src/CMakeFiles/bench.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 0
+.PHONY : secp256k1/src/CMakeFiles/bench.dir/rule
+
+# Convenience name for target.
+bench: secp256k1/src/CMakeFiles/bench.dir/rule
+.PHONY : bench
+
+# codegen rule for target.
+secp256k1/src/CMakeFiles/bench.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/bench.dir/build.make secp256k1/src/CMakeFiles/bench.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=1,2 "Finished codegen for target bench"
+.PHONY : secp256k1/src/CMakeFiles/bench.dir/codegen
+
+# clean rule for target.
+secp256k1/src/CMakeFiles/bench.dir/clean:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/bench.dir/build.make secp256k1/src/CMakeFiles/bench.dir/clean
+.PHONY : secp256k1/src/CMakeFiles/bench.dir/clean
+
+#=============================================================================
+# Target rules for target secp256k1/src/CMakeFiles/bench_internal.dir
+
+# All Build rule for target.
+secp256k1/src/CMakeFiles/bench_internal.dir/all: secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/all
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/bench_internal.dir/build.make secp256k1/src/CMakeFiles/bench_internal.dir/depend
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/bench_internal.dir/build.make secp256k1/src/CMakeFiles/bench_internal.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=5,6 "Built target bench_internal"
+.PHONY : secp256k1/src/CMakeFiles/bench_internal.dir/all
+
+# Build rule for subdir invocation for target.
+secp256k1/src/CMakeFiles/bench_internal.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 secp256k1/src/CMakeFiles/bench_internal.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 0
+.PHONY : secp256k1/src/CMakeFiles/bench_internal.dir/rule
+
+# Convenience name for target.
+bench_internal: secp256k1/src/CMakeFiles/bench_internal.dir/rule
+.PHONY : bench_internal
+
+# codegen rule for target.
+secp256k1/src/CMakeFiles/bench_internal.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/bench_internal.dir/build.make secp256k1/src/CMakeFiles/bench_internal.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=5,6 "Finished codegen for target bench_internal"
+.PHONY : secp256k1/src/CMakeFiles/bench_internal.dir/codegen
+
+# clean rule for target.
+secp256k1/src/CMakeFiles/bench_internal.dir/clean:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/bench_internal.dir/build.make secp256k1/src/CMakeFiles/bench_internal.dir/clean
+.PHONY : secp256k1/src/CMakeFiles/bench_internal.dir/clean
+
+#=============================================================================
+# Target rules for target secp256k1/src/CMakeFiles/bench_ecmult.dir
+
+# All Build rule for target.
+secp256k1/src/CMakeFiles/bench_ecmult.dir/all: secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/all
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/bench_ecmult.dir/build.make secp256k1/src/CMakeFiles/bench_ecmult.dir/depend
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/bench_ecmult.dir/build.make secp256k1/src/CMakeFiles/bench_ecmult.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=3,4 "Built target bench_ecmult"
+.PHONY : secp256k1/src/CMakeFiles/bench_ecmult.dir/all
+
+# Build rule for subdir invocation for target.
+secp256k1/src/CMakeFiles/bench_ecmult.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 secp256k1/src/CMakeFiles/bench_ecmult.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 0
+.PHONY : secp256k1/src/CMakeFiles/bench_ecmult.dir/rule
+
+# Convenience name for target.
+bench_ecmult: secp256k1/src/CMakeFiles/bench_ecmult.dir/rule
+.PHONY : bench_ecmult
+
+# codegen rule for target.
+secp256k1/src/CMakeFiles/bench_ecmult.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/bench_ecmult.dir/build.make secp256k1/src/CMakeFiles/bench_ecmult.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=3,4 "Finished codegen for target bench_ecmult"
+.PHONY : secp256k1/src/CMakeFiles/bench_ecmult.dir/codegen
+
+# clean rule for target.
+secp256k1/src/CMakeFiles/bench_ecmult.dir/clean:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/bench_ecmult.dir/build.make secp256k1/src/CMakeFiles/bench_ecmult.dir/clean
+.PHONY : secp256k1/src/CMakeFiles/bench_ecmult.dir/clean
+
+#=============================================================================
+# Target rules for target secp256k1/src/CMakeFiles/noverify_tests.dir
+
+# All Build rule for target.
+secp256k1/src/CMakeFiles/noverify_tests.dir/all: secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/all
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/noverify_tests.dir/build.make secp256k1/src/CMakeFiles/noverify_tests.dir/depend
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/noverify_tests.dir/build.make secp256k1/src/CMakeFiles/noverify_tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=17,18 "Built target noverify_tests"
+.PHONY : secp256k1/src/CMakeFiles/noverify_tests.dir/all
+
+# Build rule for subdir invocation for target.
+secp256k1/src/CMakeFiles/noverify_tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 secp256k1/src/CMakeFiles/noverify_tests.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 0
+.PHONY : secp256k1/src/CMakeFiles/noverify_tests.dir/rule
+
+# Convenience name for target.
+noverify_tests: secp256k1/src/CMakeFiles/noverify_tests.dir/rule
+.PHONY : noverify_tests
+
+# codegen rule for target.
+secp256k1/src/CMakeFiles/noverify_tests.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/noverify_tests.dir/build.make secp256k1/src/CMakeFiles/noverify_tests.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=17,18 "Finished codegen for target noverify_tests"
+.PHONY : secp256k1/src/CMakeFiles/noverify_tests.dir/codegen
+
+# clean rule for target.
+secp256k1/src/CMakeFiles/noverify_tests.dir/clean:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/noverify_tests.dir/build.make secp256k1/src/CMakeFiles/noverify_tests.dir/clean
+.PHONY : secp256k1/src/CMakeFiles/noverify_tests.dir/clean
+
+#=============================================================================
+# Target rules for target secp256k1/src/CMakeFiles/tests.dir
+
+# All Build rule for target.
+secp256k1/src/CMakeFiles/tests.dir/all: secp256k1/src/CMakeFiles/secp256k1_precomputed.dir/all
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/tests.dir/build.make secp256k1/src/CMakeFiles/tests.dir/depend
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/tests.dir/build.make secp256k1/src/CMakeFiles/tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=23,24 "Built target tests"
+.PHONY : secp256k1/src/CMakeFiles/tests.dir/all
+
+# Build rule for subdir invocation for target.
+secp256k1/src/CMakeFiles/tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 secp256k1/src/CMakeFiles/tests.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 0
+.PHONY : secp256k1/src/CMakeFiles/tests.dir/rule
+
+# Convenience name for target.
+tests: secp256k1/src/CMakeFiles/tests.dir/rule
+.PHONY : tests
+
+# codegen rule for target.
+secp256k1/src/CMakeFiles/tests.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/tests.dir/build.make secp256k1/src/CMakeFiles/tests.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=23,24 "Finished codegen for target tests"
+.PHONY : secp256k1/src/CMakeFiles/tests.dir/codegen
+
+# clean rule for target.
+secp256k1/src/CMakeFiles/tests.dir/clean:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/tests.dir/build.make secp256k1/src/CMakeFiles/tests.dir/clean
+.PHONY : secp256k1/src/CMakeFiles/tests.dir/clean
+
+#=============================================================================
+# Target rules for target secp256k1/src/CMakeFiles/exhaustive_tests.dir
+
+# All Build rule for target.
+secp256k1/src/CMakeFiles/exhaustive_tests.dir/all:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/exhaustive_tests.dir/build.make secp256k1/src/CMakeFiles/exhaustive_tests.dir/depend
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/exhaustive_tests.dir/build.make secp256k1/src/CMakeFiles/exhaustive_tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=15,16 "Built target exhaustive_tests"
+.PHONY : secp256k1/src/CMakeFiles/exhaustive_tests.dir/all
+
+# Build rule for subdir invocation for target.
+secp256k1/src/CMakeFiles/exhaustive_tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 secp256k1/src/CMakeFiles/exhaustive_tests.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles 0
+.PHONY : secp256k1/src/CMakeFiles/exhaustive_tests.dir/rule
+
+# Convenience name for target.
+exhaustive_tests: secp256k1/src/CMakeFiles/exhaustive_tests.dir/rule
+.PHONY : exhaustive_tests
+
+# codegen rule for target.
+secp256k1/src/CMakeFiles/exhaustive_tests.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/exhaustive_tests.dir/build.make secp256k1/src/CMakeFiles/exhaustive_tests.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles --progress-num=15,16 "Finished codegen for target exhaustive_tests"
+.PHONY : secp256k1/src/CMakeFiles/exhaustive_tests.dir/codegen
+
+# clean rule for target.
+secp256k1/src/CMakeFiles/exhaustive_tests.dir/clean:
+	$(MAKE) $(MAKESILENT) -f secp256k1/src/CMakeFiles/exhaustive_tests.dir/build.make secp256k1/src/CMakeFiles/exhaustive_tests.dir/clean
+.PHONY : secp256k1/src/CMakeFiles/exhaustive_tests.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

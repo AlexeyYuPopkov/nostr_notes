@@ -9,8 +9,7 @@ import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
-import 'package:nostr_notes/experimental/aes_cbc_repo.dart';
-import 'package:nostr_notes/services/key_tool/nip04_encryptor.dart';
+
 // import 'package:nostr_notes/services/key_tool/nip04_service.dart';
 import 'package:nostr_notes/services/nostr_client.dart';
 
@@ -57,17 +56,17 @@ final class AuthDiScope extends DiScope {
       lifeTime: const LifeTime.single(),
     );
 
-    di.bind<Nip04Decryptor>(
-      () => Nip04Decryptor(wasmAesCbc: di.resolve<AesCbcRepo>()),
-      module: this,
-      lifeTime: const LifeTime.single(),
-    );
+    // di.bind<Nip04Decryptor>(
+    //   () => Nip04Decryptor(wasmAesCbc: di.resolve<AesCbcRepo>()),
+    //   module: this,
+    //   lifeTime: const LifeTime.single(),
+    // );
 
-    di.bind<Nip04Encryptor>(
-      () => const Nip04Encryptor(),
-      module: this,
-      lifeTime: const LifeTime.single(),
-    );
+    // di.bind<Nip04Encryptor>(
+    //   () => const Nip04Encryptor(),
+    //   module: this,
+    //   lifeTime: const LifeTime.single(),
+    // );
 
     di.bind<NotesRepository>(
       () => NotesRepositoryImpl(
@@ -92,7 +91,7 @@ final class AuthDiScope extends DiScope {
     di.bind<NoteCryptoUseCase>(
       () => NoteCryptoUseCase(
         sessionUsecase: di.resolve(),
-        cryptoRepo: di.resolve(),
+        cryptoService: di.resolve(),
       ),
       module: this,
       lifeTime: const LifeTime.prototype(),

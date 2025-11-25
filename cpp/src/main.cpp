@@ -65,7 +65,8 @@ int main()
         cout << "FAILURE!" << endl;
     }
 
-    freeMemory(plaintext);
+    // freeMemory(plaintext);
+    free(plaintext);
     cout << AES256 << endl;
     return 0;
 }

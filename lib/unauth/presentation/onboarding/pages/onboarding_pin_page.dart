@@ -14,9 +14,6 @@ import '../validators/pin_validator.dart';
 import '../widgets/onboarding_text_field.dart';
 
 final class OnboardingPinPage extends StatefulWidget {
-  static final _formKey = GlobalKey<FormState>(
-    debugLabel: 'OnboardingPinPage.FormKey',
-  );
   const OnboardingPinPage({super.key});
 
   @override
@@ -25,6 +22,12 @@ final class OnboardingPinPage extends StatefulWidget {
 
 final class _OnboardingPinPageState extends State<OnboardingPinPage>
     with PinValidator {
+  final _formKey = GlobalKey<FormState>(
+    debugLabel: 'OnboardingPinPage.FormKey',
+  );
+
+  bool _isUsePin = true;
+
   late final PinUsecase _pinUsecase =
       context.read<OnboardingScreenBloc>().pinUsecase;
 
@@ -69,12 +72,30 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
           ),
           const SizedBox(height: Sizes.indentVariant4x),
           Form(
-            key: OnboardingPinPage._formKey,
-            child: OnboardingTextFormField(
-              initialValue: _controller.text,
-              controller: _controller,
-              hint: l10n.onboardingPinPageTextFieldHint,
-              validator: (str) => validatePin(context, str),
+            key: _formKey,
+            child: Column(
+              children: [
+                OnboardingTextFormField(
+                  initialValue: _controller.text,
+                  isEnabled: _isUsePin,
+                  controller: _controller,
+                  hint: l10n.onboardingPinPageTextFieldHint,
+                  validator: (str) =>
+                      validatePin(context, str, usePin: _isUsePin),
+                ),
+                FormField<bool>(
+                  initialValue: false,
+                  builder: (field) => Align(
+                    alignment: Alignment.centerLeft,
+                    child: CheckboxListTile(
+                      value: _isUsePin,
+                      contentPadding: EdgeInsets.zero,
+                      onChanged: (e) => _onCheckboxChanged(context, field, e),
+                      title: Text(l10n.onboardingPinPageLabelCheckboxUsePin),
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
           const SizedBox(height: Sizes.indentVariant4x),
@@ -98,14 +119,22 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
     );
   }
 
+  void _onCheckboxChanged(
+      BuildContext context, FormFieldState<bool> field, bool? value) {
+    _formKey.currentState?.reset();
+    field.didChange(value);
+    setState(() => _isUsePin = value ?? true);
+  }
+
   void _onNext(BuildContext context, LoadingButtonVM vm) {
-    final isValid =
-        OnboardingPinPage._formKey.currentState?.validate() ?? false;
+    final isValid = _formKey.currentState?.validate() ?? false;
     if (isValid) {
-      OnboardingPinPage._formKey.currentState?.save();
-      context
-          .read<OnboardingScreenBloc>()
-          .add(OnboardingScreenEvent.onPin(_controller.text, vm));
+      _formKey.currentState?.save();
+      context.read<OnboardingScreenBloc>().add(OnboardingScreenEvent.onPin(
+            pin: _controller.text,
+            vm: vm,
+            usePin: _isUsePin,
+          ));
     }
   }
 }

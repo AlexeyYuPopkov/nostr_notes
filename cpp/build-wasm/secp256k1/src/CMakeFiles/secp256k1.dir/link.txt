@@ -1,0 +1,2 @@
+/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emar qc ../lib/libsecp256k1.a CMakeFiles/secp256k1.dir/secp256k1.c.o CMakeFiles/secp256k1_precomputed.dir/precomputed_ecmult.c.o CMakeFiles/secp256k1_precomputed.dir/precomputed_ecmult_gen.c.o
+/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emranlib ../lib/libsecp256k1.a

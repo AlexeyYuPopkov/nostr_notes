@@ -5,7 +5,7 @@
 # compile CXX with /usr/bin/c++
 C_DEFINES = 
 
-C_INCLUDES = -I/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src
+C_INCLUDES = -I/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src -I/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/secp256k1/include -I/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/base64
 
 C_FLAGSarm64 = -g -arch arm64
 
@@ -13,7 +13,7 @@ C_FLAGS = -g -arch arm64
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src
+CXX_INCLUDES = -I/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src -I/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/secp256k1/include -I/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/base64
 
 CXX_FLAGSarm64 = -g -O0 -std=gnu++17 -arch arm64
 

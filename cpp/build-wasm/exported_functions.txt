@@ -1,0 +1,11 @@
+
+        _encryptAes256Cbc
+        _decryptAes256Cbc
+        _deriveSharedKey
+        _freeMemory
+        _nip04encrypt
+        _nip04decrypt
+        _nip04decryptOld
+        _malloc
+        _free
+        

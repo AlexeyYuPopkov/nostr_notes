@@ -1,0 +1,37 @@
+CMakeFiles/crypto_module.dir/src/secp_wrapper.cpp.o: \
+  /Users/alekseypopkov/Doc/upwork/gathr/cpp/src/secp_wrapper.cpp \
+  /Users/alekseypopkov/Doc/upwork/gathr/cpp/src/secp_wrapper.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/cstring \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/__config \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/__config_site \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/__configuration/abi.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/__configuration/compiler.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/__configuration/platform.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/__configuration/availability.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/__configuration/language.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/__cstddef/size_t.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/__type_traits/is_constant_evaluated.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/compat/string.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/string.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/string.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/features.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/bits/alltypes.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/strings.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/cstdlib \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/compat/stdlib.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/stdlib.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/stdlib.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/alloca.h \
+  /Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/include/secp256k1.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/c++/v1/stddef.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/stddef.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/cache/sysroot/include/stddef.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/__stddef_header_macro.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/__stddef_ptrdiff_t.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/__stddef_size_t.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/__stddef_wchar_t.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/__stddef_null.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/__stddef_nullptr_t.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/__stddef_max_align_t.h \
+  /opt/homebrew/Cellar/emscripten/4.0.11/libexec/llvm/lib/clang/21/include/__stddef_offsetof.h \
+  /Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/include/secp256k1_ecdh.h

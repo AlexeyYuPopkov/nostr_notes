@@ -53,10 +53,10 @@ RM = /opt/homebrew/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp
+CMAKE_SOURCE_DIR = /Users/alekseypopkov/Doc/upwork/gathr_1/cpp
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build
+CMAKE_BINARY_DIR = /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build
 
 # Utility rule file for ExperimentalMemCheck.
 
@@ -85,6 +85,6 @@ CMakeFiles/ExperimentalMemCheck.dir/clean:
 .PHONY : CMakeFiles/ExperimentalMemCheck.dir/clean
 
 CMakeFiles/ExperimentalMemCheck.dir/depend:
-	cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build/CMakeFiles/ExperimentalMemCheck.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/alekseypopkov/Doc/upwork/gathr_1/cpp /Users/alekseypopkov/Doc/upwork/gathr_1/cpp /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build /Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/CMakeFiles/ExperimentalMemCheck.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/ExperimentalMemCheck.dir/depend
 

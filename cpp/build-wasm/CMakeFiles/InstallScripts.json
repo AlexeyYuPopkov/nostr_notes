@@ -1,7 +1,9 @@
 {
 	"InstallScripts" : 
 	[
-		"/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/build-wasm/cmake_install.cmake"
+		"/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/cmake_install.cmake",
+		"/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/secp256k1/cmake_install.cmake",
+		"/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/secp256k1/src/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

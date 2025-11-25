@@ -103,4 +103,4 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/wasm/aes_module.wasm
+    - assets/wasm/crypto_module.wasm

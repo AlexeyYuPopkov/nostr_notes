@@ -1,0 +1,1 @@
+/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -g @CMakeFiles/bench.dir/objects1.rsp -o ../bin/bench.js @CMakeFiles/bench.dir/linkLibs.rsp

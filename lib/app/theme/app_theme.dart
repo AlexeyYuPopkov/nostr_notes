@@ -59,7 +59,7 @@ final class AppTheme {
         textStyle: const TextStyle(fontWeight: FontWeight.w600),
       ),
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: AppColorScheme.light.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Sizes.radiusVariant),
@@ -123,7 +123,7 @@ final class AppTheme {
         textStyle: const TextStyle(fontWeight: FontWeight.w600),
       ),
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: AppColorScheme.dark.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Sizes.radiusVariant),

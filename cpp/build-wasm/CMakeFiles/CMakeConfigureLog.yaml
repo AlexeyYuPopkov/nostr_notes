@@ -8,5 +8,557 @@ events:
       - "CMakeLists.txt:2 (project)"
     message: |
       The target system is: Emscripten - 1 - x86
-      The host system is: Darwin - 24.5.0 - arm64
+      The host system is: Darwin - 24.6.0 - arm64
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "secp256k1/cmake/CheckX86_64Assembly.cmake:4 (check_c_source_compiles)"
+      - "secp256k1/CMakeLists.txt:104 (check_x86_64_assembly)"
+    checks:
+      - "Performing Test HAVE_X86_64_ASM"
+    directories:
+      source: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-jmLgZ1"
+      binary: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-jmLgZ1"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/cmake"
+    buildResult:
+      variable: "HAVE_X86_64_ASM"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-jmLgZ1'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_96322/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_96322.dir/build.make CMakeFiles/cmTC_96322.dir/build
+        Building C object CMakeFiles/cmTC_96322.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -DHAVE_X86_64_ASM  -std=c90 -MD -MT CMakeFiles/cmTC_96322.dir/src.c.o -MF CMakeFiles/cmTC_96322.dir/src.c.o.d -o CMakeFiles/cmTC_96322.dir/src.c.o -c /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-jmLgZ1/src.c
+        /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-jmLgZ1/src.c:7:65: error: invalid output constraint '+a' in asm
+            7 |       __asm__ __volatile__("movq $0x100000000,%1; mulq %%rsi" : "+a"(a) : "S"(tmp) : "cc", "%rdx");
+              |                                                                 ^
+        1 error generated.
+        make[1]: *** [CMakeFiles/cmTC_96322.dir/src.c.o] Error 1
+        make: *** [cmTC_96322/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "secp256k1/CMakeLists.txt:206 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WALL"
+    directories:
+      source: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-yiKfHn"
+      binary: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-yiKfHn"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/cmake"
+    buildResult:
+      variable: "C_SUPPORTS__WALL"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-yiKfHn'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_70ad9/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_70ad9.dir/build.make CMakeFiles/cmTC_70ad9.dir/build
+        Building C object CMakeFiles/cmTC_70ad9.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -DC_SUPPORTS__WALL  -Werror -std=c90   -Wall -MD -MT CMakeFiles/cmTC_70ad9.dir/src.c.o -MF CMakeFiles/cmTC_70ad9.dir/src.c.o.d -o CMakeFiles/cmTC_70ad9.dir/src.c.o -c /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-yiKfHn/src.c
+        Linking C static library libcmTC_70ad9.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_70ad9.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_70ad9.dir/link.txt --verbose=1
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emar qc libcmTC_70ad9.a CMakeFiles/cmTC_70ad9.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emranlib libcmTC_70ad9.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "secp256k1/CMakeLists.txt:215 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__PEDANTIC"
+    directories:
+      source: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-8Z7dAs"
+      binary: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-8Z7dAs"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/cmake"
+    buildResult:
+      variable: "C_SUPPORTS__PEDANTIC"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-8Z7dAs'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_2ee44/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_2ee44.dir/build.make CMakeFiles/cmTC_2ee44.dir/build
+        Building C object CMakeFiles/cmTC_2ee44.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -DC_SUPPORTS__PEDANTIC  -Werror -std=c90   -pedantic -MD -MT CMakeFiles/cmTC_2ee44.dir/src.c.o -MF CMakeFiles/cmTC_2ee44.dir/src.c.o.d -o CMakeFiles/cmTC_2ee44.dir/src.c.o -c /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-8Z7dAs/src.c
+        Linking C static library libcmTC_2ee44.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_2ee44.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2ee44.dir/link.txt --verbose=1
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emar qc libcmTC_2ee44.a CMakeFiles/cmTC_2ee44.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emranlib libcmTC_2ee44.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "secp256k1/CMakeLists.txt:216 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WCAST_ALIGN"
+    directories:
+      source: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-zGYL1B"
+      binary: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-zGYL1B"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/cmake"
+    buildResult:
+      variable: "C_SUPPORTS__WCAST_ALIGN"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-zGYL1B'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_549e3/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_549e3.dir/build.make CMakeFiles/cmTC_549e3.dir/build
+        Building C object CMakeFiles/cmTC_549e3.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -DC_SUPPORTS__WCAST_ALIGN  -Werror -std=c90   -Wcast-align -MD -MT CMakeFiles/cmTC_549e3.dir/src.c.o -MF CMakeFiles/cmTC_549e3.dir/src.c.o.d -o CMakeFiles/cmTC_549e3.dir/src.c.o -c /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-zGYL1B/src.c
+        Linking C static library libcmTC_549e3.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_549e3.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_549e3.dir/link.txt --verbose=1
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emar qc libcmTC_549e3.a CMakeFiles/cmTC_549e3.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emranlib libcmTC_549e3.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "secp256k1/CMakeLists.txt:217 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WCAST_ALIGN_STRICT"
+    directories:
+      source: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-NI3fL7"
+      binary: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-NI3fL7"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/cmake"
+    buildResult:
+      variable: "C_SUPPORTS__WCAST_ALIGN_STRICT"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-NI3fL7'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_1f640/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_1f640.dir/build.make CMakeFiles/cmTC_1f640.dir/build
+        Building C object CMakeFiles/cmTC_1f640.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -DC_SUPPORTS__WCAST_ALIGN_STRICT  -Werror -std=c90   -Wcast-align=strict -MD -MT CMakeFiles/cmTC_1f640.dir/src.c.o -MF CMakeFiles/cmTC_1f640.dir/src.c.o.d -o CMakeFiles/cmTC_1f640.dir/src.c.o -c /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-NI3fL7/src.c
+        error: unknown warning option '-Wcast-align=strict'; did you mean '-Wcast-align'? [-Werror,-Wunknown-warning-option]
+        make[1]: *** [CMakeFiles/cmTC_1f640.dir/src.c.o] Error 1
+        make: *** [cmTC_1f640/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "secp256k1/CMakeLists.txt:218 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WCONDITIONAL_UNINITIALIZED"
+    directories:
+      source: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-yvOTIC"
+      binary: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-yvOTIC"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/cmake"
+    buildResult:
+      variable: "C_SUPPORTS__WCONDITIONAL_UNINITIALIZED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-yvOTIC'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_a0da6/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_a0da6.dir/build.make CMakeFiles/cmTC_a0da6.dir/build
+        Building C object CMakeFiles/cmTC_a0da6.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -DC_SUPPORTS__WCONDITIONAL_UNINITIALIZED  -Werror -std=c90   -Wconditional-uninitialized -MD -MT CMakeFiles/cmTC_a0da6.dir/src.c.o -MF CMakeFiles/cmTC_a0da6.dir/src.c.o.d -o CMakeFiles/cmTC_a0da6.dir/src.c.o -c /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-yvOTIC/src.c
+        Linking C static library libcmTC_a0da6.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_a0da6.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a0da6.dir/link.txt --verbose=1
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emar qc libcmTC_a0da6.a CMakeFiles/cmTC_a0da6.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emranlib libcmTC_a0da6.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "secp256k1/CMakeLists.txt:219 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WEXTRA"
+    directories:
+      source: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-BNQn9j"
+      binary: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-BNQn9j"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/cmake"
+    buildResult:
+      variable: "C_SUPPORTS__WEXTRA"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-BNQn9j'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_c5247/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_c5247.dir/build.make CMakeFiles/cmTC_c5247.dir/build
+        Building C object CMakeFiles/cmTC_c5247.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -DC_SUPPORTS__WEXTRA  -Werror -std=c90   -Wextra -MD -MT CMakeFiles/cmTC_c5247.dir/src.c.o -MF CMakeFiles/cmTC_c5247.dir/src.c.o.d -o CMakeFiles/cmTC_c5247.dir/src.c.o -c /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-BNQn9j/src.c
+        Linking C static library libcmTC_c5247.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_c5247.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c5247.dir/link.txt --verbose=1
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emar qc libcmTC_c5247.a CMakeFiles/cmTC_c5247.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emranlib libcmTC_c5247.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "secp256k1/CMakeLists.txt:220 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WNESTED_EXTERNS"
+    directories:
+      source: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-vHP3w7"
+      binary: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-vHP3w7"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/cmake"
+    buildResult:
+      variable: "C_SUPPORTS__WNESTED_EXTERNS"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-vHP3w7'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_085fc/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_085fc.dir/build.make CMakeFiles/cmTC_085fc.dir/build
+        Building C object CMakeFiles/cmTC_085fc.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -DC_SUPPORTS__WNESTED_EXTERNS  -Werror -std=c90   -Wnested-externs -MD -MT CMakeFiles/cmTC_085fc.dir/src.c.o -MF CMakeFiles/cmTC_085fc.dir/src.c.o.d -o CMakeFiles/cmTC_085fc.dir/src.c.o -c /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-vHP3w7/src.c
+        Linking C static library libcmTC_085fc.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_085fc.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_085fc.dir/link.txt --verbose=1
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emar qc libcmTC_085fc.a CMakeFiles/cmTC_085fc.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emranlib libcmTC_085fc.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "secp256k1/CMakeLists.txt:221 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WNO_LONG_LONG"
+    directories:
+      source: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-R7y71S"
+      binary: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-R7y71S"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/cmake"
+    buildResult:
+      variable: "C_SUPPORTS__WNO_LONG_LONG"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-R7y71S'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_226cb/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_226cb.dir/build.make CMakeFiles/cmTC_226cb.dir/build
+        Building C object CMakeFiles/cmTC_226cb.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -DC_SUPPORTS__WNO_LONG_LONG  -Werror -std=c90   -Wno-long-long -MD -MT CMakeFiles/cmTC_226cb.dir/src.c.o -MF CMakeFiles/cmTC_226cb.dir/src.c.o.d -o CMakeFiles/cmTC_226cb.dir/src.c.o -c /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-R7y71S/src.c
+        Linking C static library libcmTC_226cb.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_226cb.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_226cb.dir/link.txt --verbose=1
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emar qc libcmTC_226cb.a CMakeFiles/cmTC_226cb.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emranlib libcmTC_226cb.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "secp256k1/CMakeLists.txt:222 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WNO_OVERLENGTH_STRINGS"
+    directories:
+      source: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-hDI7cw"
+      binary: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-hDI7cw"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/cmake"
+    buildResult:
+      variable: "C_SUPPORTS__WNO_OVERLENGTH_STRINGS"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-hDI7cw'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_7c703/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_7c703.dir/build.make CMakeFiles/cmTC_7c703.dir/build
+        Building C object CMakeFiles/cmTC_7c703.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -DC_SUPPORTS__WNO_OVERLENGTH_STRINGS  -Werror -std=c90   -Wno-overlength-strings -MD -MT CMakeFiles/cmTC_7c703.dir/src.c.o -MF CMakeFiles/cmTC_7c703.dir/src.c.o.d -o CMakeFiles/cmTC_7c703.dir/src.c.o -c /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-hDI7cw/src.c
+        Linking C static library libcmTC_7c703.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_7c703.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7c703.dir/link.txt --verbose=1
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emar qc libcmTC_7c703.a CMakeFiles/cmTC_7c703.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emranlib libcmTC_7c703.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "secp256k1/CMakeLists.txt:223 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WNO_UNUSED_FUNCTION"
+    directories:
+      source: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-FPh550"
+      binary: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-FPh550"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/cmake"
+    buildResult:
+      variable: "C_SUPPORTS__WNO_UNUSED_FUNCTION"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-FPh550'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_35f2e/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_35f2e.dir/build.make CMakeFiles/cmTC_35f2e.dir/build
+        Building C object CMakeFiles/cmTC_35f2e.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -DC_SUPPORTS__WNO_UNUSED_FUNCTION  -Werror -std=c90   -Wno-unused-function -MD -MT CMakeFiles/cmTC_35f2e.dir/src.c.o -MF CMakeFiles/cmTC_35f2e.dir/src.c.o.d -o CMakeFiles/cmTC_35f2e.dir/src.c.o -c /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-FPh550/src.c
+        Linking C static library libcmTC_35f2e.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_35f2e.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_35f2e.dir/link.txt --verbose=1
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emar qc libcmTC_35f2e.a CMakeFiles/cmTC_35f2e.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emranlib libcmTC_35f2e.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "secp256k1/CMakeLists.txt:224 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WRESERVED_IDENTIFIER"
+    directories:
+      source: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-zkq7nf"
+      binary: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-zkq7nf"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/cmake"
+    buildResult:
+      variable: "C_SUPPORTS__WRESERVED_IDENTIFIER"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-zkq7nf'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_abf8e/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_abf8e.dir/build.make CMakeFiles/cmTC_abf8e.dir/build
+        Building C object CMakeFiles/cmTC_abf8e.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -DC_SUPPORTS__WRESERVED_IDENTIFIER  -Werror -std=c90   -Wreserved-identifier -MD -MT CMakeFiles/cmTC_abf8e.dir/src.c.o -MF CMakeFiles/cmTC_abf8e.dir/src.c.o.d -o CMakeFiles/cmTC_abf8e.dir/src.c.o -c /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-zkq7nf/src.c
+        Linking C static library libcmTC_abf8e.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_abf8e.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_abf8e.dir/link.txt --verbose=1
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emar qc libcmTC_abf8e.a CMakeFiles/cmTC_abf8e.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emranlib libcmTC_abf8e.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "secp256k1/CMakeLists.txt:225 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WSHADOW"
+    directories:
+      source: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-HZfYQQ"
+      binary: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-HZfYQQ"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/cmake"
+    buildResult:
+      variable: "C_SUPPORTS__WSHADOW"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-HZfYQQ'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_eca40/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_eca40.dir/build.make CMakeFiles/cmTC_eca40.dir/build
+        Building C object CMakeFiles/cmTC_eca40.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -DC_SUPPORTS__WSHADOW  -Werror -std=c90   -Wshadow -MD -MT CMakeFiles/cmTC_eca40.dir/src.c.o -MF CMakeFiles/cmTC_eca40.dir/src.c.o.d -o CMakeFiles/cmTC_eca40.dir/src.c.o -c /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-HZfYQQ/src.c
+        Linking C static library libcmTC_eca40.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_eca40.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eca40.dir/link.txt --verbose=1
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emar qc libcmTC_eca40.a CMakeFiles/cmTC_eca40.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emranlib libcmTC_eca40.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "secp256k1/CMakeLists.txt:226 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WSTRICT_PROTOTYPES"
+    directories:
+      source: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-QLH0nB"
+      binary: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-QLH0nB"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/cmake"
+    buildResult:
+      variable: "C_SUPPORTS__WSTRICT_PROTOTYPES"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-QLH0nB'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_15736/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_15736.dir/build.make CMakeFiles/cmTC_15736.dir/build
+        Building C object CMakeFiles/cmTC_15736.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -DC_SUPPORTS__WSTRICT_PROTOTYPES  -Werror -std=c90   -Wstrict-prototypes -MD -MT CMakeFiles/cmTC_15736.dir/src.c.o -MF CMakeFiles/cmTC_15736.dir/src.c.o.d -o CMakeFiles/cmTC_15736.dir/src.c.o -c /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-QLH0nB/src.c
+        Linking C static library libcmTC_15736.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_15736.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_15736.dir/link.txt --verbose=1
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emar qc libcmTC_15736.a CMakeFiles/cmTC_15736.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emranlib libcmTC_15736.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "secp256k1/CMakeLists.txt:227 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WUNDEF"
+    directories:
+      source: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-AsPB86"
+      binary: "/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-AsPB86"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/opt/homebrew/Cellar/emscripten/4.0.11/libexec/cmake/Modules;/Users/alekseypopkov/Doc/upwork/gathr/cpp/secp256k1/cmake"
+    buildResult:
+      variable: "C_SUPPORTS__WUNDEF"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-AsPB86'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_6999a/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_6999a.dir/build.make CMakeFiles/cmTC_6999a.dir/build
+        Building C object CMakeFiles/cmTC_6999a.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -DC_SUPPORTS__WUNDEF  -Werror -std=c90   -Wundef -MD -MT CMakeFiles/cmTC_6999a.dir/src.c.o -MF CMakeFiles/cmTC_6999a.dir/src.c.o.d -o CMakeFiles/cmTC_6999a.dir/src.c.o -c /Users/alekseypopkov/Doc/upwork/gathr/cpp/build-wasm/CMakeFiles/CMakeScratch/TryCompile-AsPB86/src.c
+        Linking C static library libcmTC_6999a.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_6999a.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6999a.dir/link.txt --verbose=1
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emar qc libcmTC_6999a.a CMakeFiles/cmTC_6999a.dir/src.c.o
+        /opt/homebrew/Cellar/emscripten/4.0.11/libexec/emranlib libcmTC_6999a.a
+        
+      exitCode: 0
 ...

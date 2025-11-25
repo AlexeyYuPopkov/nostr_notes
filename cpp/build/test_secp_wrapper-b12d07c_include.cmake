@@ -1,0 +1,5 @@
+if(EXISTS "/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/test_secp_wrapper-b12d07c_tests.cmake")
+  include("/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/build/test_secp_wrapper-b12d07c_tests.cmake")
+else()
+  add_test(test_secp_wrapper_NOT_BUILT-b12d07c test_secp_wrapper_NOT_BUILT-b12d07c)
+endif()

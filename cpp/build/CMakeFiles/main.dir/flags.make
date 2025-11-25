@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src
+CXX_INCLUDES = -I/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src -I/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/secp256k1/include -I/Users/alekseypopkov/Doc/upwork/gathr_1/cpp/src/base64
 
 CXX_FLAGSarm64 = -g -O0 -std=gnu++17 -arch arm64
 

@@ -171,7 +171,7 @@ final class _SaveButton extends StatelessWidget {
       builder: (context, state) {
         if (state.data.editMode) {
           return CupertinoButton(
-            minSize: Sizes.zero,
+            minimumSize: Size.zero,
             padding: EdgeInsets.zero,
             onPressed: () => _onSave(
               context,
@@ -185,7 +185,7 @@ final class _SaveButton extends StatelessWidget {
           );
         } else {
           return CupertinoButton(
-            minSize: Sizes.zero,
+            minimumSize: Size.zero,
             padding: EdgeInsets.zero,
             onPressed: () {
               context.read<NoteScreenBloc>().add(

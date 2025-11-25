@@ -1,0 +1,1 @@
+/opt/homebrew/Cellar/emscripten/4.0.11/libexec/emcc -g @CMakeFiles/bench_ecmult.dir/objects1.rsp -o ../bin/bench_ecmult.js
