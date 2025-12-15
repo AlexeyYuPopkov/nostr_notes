@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:di_storage/di_storage.dart';
+import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/data/error/error_messages_provider_impl.dart';
 import 'package:nostr_notes/common/data/key_tool_repository_impl.dart';
 import 'package:nostr_notes/common/data/root_context_provider/root_context_provider.dart';
@@ -70,6 +71,15 @@ final class CryptoDiModule extends DiScope {
 
     di.bind<CryptoService>(
       () => cryptoService,
+      module: this,
+      lifeTime: const LifeTime.single(),
+    );
+
+    di.bind<ExtraDerivation>(
+      () => ExtraDerivation(
+        cryptoService: di.resolve(),
+        sessionUsecase: di.resolve(),
+      ),
       module: this,
       lifeTime: const LifeTime.single(),
     );
