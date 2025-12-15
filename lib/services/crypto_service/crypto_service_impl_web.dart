@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:js_interop';
 import 'dart:typed_data';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
+import 'package:nostr_notes/services/hex_to_bytes.dart';
 import 'package:nostr_notes/services/nip44/nip44.dart';
 import 'package:wasm_ffi/ffi.dart' as wasm;
 import 'package:wasm_ffi/ffi_utils.dart' as wasm_utils;
@@ -15,7 +16,7 @@ final class IsWasmAvailable {
   bool get isAvailable => true; // webAssembly != null;
 }
 
-final class CryptoServiceImplWeb implements CryptoService {
+final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
   static CryptoServiceImplWeb? _instance;
   static bool _isInit = false;
 
@@ -79,40 +80,47 @@ final class CryptoServiceImplWeb implements CryptoService {
     required String recipientPublicKey,
     Uint8List Function(Uint8List p1)? extraDerivation,
   }) {
-    // return _mobileNip44.deriveKeys(
-    //     senderPrivateKey: senderPrivateKey,
-    //     recipientPublicKey: recipientPublicKey);
+    final key = spec256k1(
+      senderPrivateKey: HexToBytes.hexToBytes(senderPrivateKey),
+      recipientPublicKey: HexToBytes.hexToBytes(
+          recipientPublicKey), // HexToBytes.hexToBytes('02$recipientPublicKey'),
+    ).sublist(0, 32);
 
-    // final r2 = _deriveKeys(
-    //   senderPrivateKey: senderPrivateKey,
-    //   recipientPublicKey: recipientPublicKey,
-    // );
+    if (extraDerivation == null) {
+      return key;
+    }
 
-    // return r2.sublist(0, 32);
-    return extraDerivation == null
-        ? _deriveKeys(
-            senderPrivateKey: senderPrivateKey,
-            recipientPublicKey: recipientPublicKey,
-          )
-        : extraDerivation(
-            _deriveKeys(
-              senderPrivateKey: senderPrivateKey,
-              recipientPublicKey: recipientPublicKey,
-            ),
-          );
+    final resut = extraDerivation(key);
+
+    return resut;
   }
 
-  Uint8List _deriveKeys({
-    required String senderPrivateKey,
-    required String recipientPublicKey,
+  @override
+  Uint8List spec256k1({
+    required Uint8List senderPrivateKey,
+    required Uint8List recipientPublicKey,
   }) {
+    // `2` mean compressed public key. (Format: 02 + X coordinate)
+    final key = _spec256k1(
+      senderPrivateKey: senderPrivateKey,
+      recipientPublicKey: Uint8List.fromList([2, ...recipientPublicKey]),
+    ).sublist(0, 32);
+    return key;
+  }
+
+  Uint8List _spec256k1({
+    required Uint8List senderPrivateKey,
+    required Uint8List recipientPublicKey,
+  }) {
+    final stopwatch = Stopwatch()..start();
+
     return wasm_utils.using((arena) {
-      final privateKey = senderPrivateKey.hexToBytes();
+      final privateKey = senderPrivateKey;
       final privateKeyLength = privateKey.length;
       final ptrPrivKey = arena.allocate<wasm.Uint8>(privateKeyLength);
       ptrPrivKey.asTypedList(privateKeyLength).setAll(0, privateKey);
 
-      final publicKey = ('02$recipientPublicKey').hexToBytes();
+      final publicKey = recipientPublicKey;
       final publicKeyLength = publicKey.length;
       final ptrPubKey = arena.allocate<wasm.Uint8>(publicKeyLength);
       ptrPubKey.asTypedList(publicKeyLength).setAll(0, publicKey);
@@ -136,10 +144,23 @@ final class CryptoServiceImplWeb implements CryptoService {
       // RU: Создаём копию результата и освобождаем память
       // EN: Create a copy of the result and free memory
       final result = resultPtr.asTypedList(resultLen);
-
+      log(
+        'WASM deriveKeys took: ${stopwatch.elapsedMilliseconds} ms',
+        name: 'Crypto',
+      );
       return result;
     }, _lib.allocator);
   }
+
+  // Uint8List _deriveKeys({
+  //   required String senderPrivateKey,
+  //   required String recipientPublicKey,
+  // }) {
+  //   return _deriveKeysHex(
+  //     senderPrivateKey: hexToBytes(senderPrivateKey),
+  //     recipientPublicKey: hexToBytes('02$recipientPublicKey'),
+  //   );
+  // }
 
   @override
   Future<String> decryptNip44({
@@ -196,15 +217,11 @@ final class CryptoServiceImplMobile implements CryptoService {
   }) {
     throw UnimplementedError();
   }
-}
 
-extension on String {
-  Uint8List hexToBytes() {
-    final theLength = length;
-    final result = Uint8List(theLength ~/ 2);
-    for (int i = 0; i < theLength; i += 2) {
-      result[i ~/ 2] = int.parse(substring(i, i + 2), radix: 16);
-    }
-    return result;
-  }
+  @override
+  Uint8List spec256k1({
+    required Uint8List senderPrivateKey,
+    required Uint8List recipientPublicKey,
+  }) =>
+      throw UnimplementedError();
 }

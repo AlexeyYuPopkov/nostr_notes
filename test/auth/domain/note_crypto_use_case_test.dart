@@ -27,12 +27,17 @@ void main() {
       sessionUsecase = SessionUsecase();
 
       final cryptoService = CryptoService.create();
+      final extraDerivation = ExtraDerivation(
+        cryptoService: cryptoService,
+        sessionUsecase: sessionUsecase,
+      );
 
       await cryptoService.init();
 
       sut = NoteCryptoUseCase(
         cryptoService: cryptoService,
         sessionUsecase: sessionUsecase,
+        extraDerivation: extraDerivation,
       );
     });
 
@@ -147,12 +152,17 @@ void main() {
     setUp(() async {
       sessionUsecase = SessionUsecase();
       final cryptoService = CryptoService.create();
+      final extraDerivation = ExtraDerivation(
+        cryptoService: cryptoService,
+        sessionUsecase: sessionUsecase,
+      );
 
       await cryptoService.init();
 
       sut = NoteCryptoUseCase(
         cryptoService: cryptoService,
         sessionUsecase: sessionUsecase,
+        extraDerivation: extraDerivation,
       );
     });
 

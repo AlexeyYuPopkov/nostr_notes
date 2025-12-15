@@ -71,11 +71,16 @@ dependencies:
   shimmer: ^3.0.0
   flutter_markdown: ^0.7.7+1
   flutter_highlight: ^0.7.0
+  flutter_quill: ^11.5.0
+  markdown_quill: ^4.3.0
   # zefyrka: ^1.6.0
   # notus_format: ^1.0.3
   # markdown_editor_plus: ^0.2.15
   # flutter_markdown_editor: ^2.0.0
   # super_editor: #^0.2.7
+
+dependency_overrides:
+  win32: 5.14.0
 
 dev_dependencies:
   flutter_test:

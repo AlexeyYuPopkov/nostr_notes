@@ -11,6 +11,11 @@ abstract interface class CryptoService {
     Uint8List Function(Uint8List)? extraDerivation,
   });
 
+  Uint8List spec256k1({
+    required Uint8List senderPrivateKey,
+    required Uint8List recipientPublicKey,
+  });
+
   Future<String> encryptNip44({
     required String plaintext,
     required Uint8List conversationKey,
@@ -30,7 +35,7 @@ abstract interface class CryptoService {
     if (kIsWeb && const IsWasmAvailable().isAvailable) {
       return CryptoServiceImplWeb();
     } else {
-      return CryptoServiceImplMobile();
+      return const CryptoServiceImplMobile();
     }
   }
 }

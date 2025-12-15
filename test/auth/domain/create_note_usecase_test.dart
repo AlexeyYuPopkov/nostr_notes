@@ -83,10 +83,11 @@ class MockCryptoRepo implements CryptoService {
   }
 
   @override
-  Uint8List deriveKeys(
-      {required String senderPrivateKey,
-      required String recipientPublicKey,
-      Uint8List Function(Uint8List p1)? extraDerivation}) {
+  Uint8List deriveKeys({
+    required String senderPrivateKey,
+    required String recipientPublicKey,
+    Uint8List Function(Uint8List p1)? extraDerivation,
+  }) {
     return Uint8List.fromList(List<int>.generate(32, (i) => i));
   }
 
@@ -101,6 +102,22 @@ class MockCryptoRepo implements CryptoService {
 
   @override
   FutureOr<void> init() {}
+
+  @override
+  Uint8List spec256k1({
+    required Uint8List senderPrivateKey,
+    required Uint8List recipientPublicKey,
+  }) {
+    // TODO: implement spec256k1
+    throw UnimplementedError();
+  }
+}
+
+class MockExtraDerivation implements ExtraDerivation {
+  @override
+  Uint8List Function(Uint8List)? execute(String? password) {
+    return null;
+  }
 }
 
 class MockNow implements Now {
@@ -168,6 +185,7 @@ void main() {
         noteCryptoUseCase: NoteCryptoUseCase(
           sessionUsecase: sessionUsecase,
           cryptoService: mockCryptoService,
+          extraDerivation: MockExtraDerivation(),
         ),
         notesRepository: NotesRepositoryImpl(
           client: client,

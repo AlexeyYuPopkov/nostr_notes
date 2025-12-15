@@ -92,9 +92,10 @@ final class AuthDiScope extends DiScope {
       () => NoteCryptoUseCase(
         sessionUsecase: di.resolve(),
         cryptoService: di.resolve(),
+        extraDerivation: di.resolve(),
       ),
       module: this,
-      lifeTime: const LifeTime.prototype(),
+      lifeTime: const LifeTime.single(),
     );
 
     di.bind<GetNotesUsecase>(

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/theme/app_theme.dart';
@@ -25,7 +26,10 @@ final class App extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
-      localizationsDelegates: Localization.localizationsDelegates,
+      localizationsDelegates: const [
+        ...Localization.localizationsDelegates,
+        FlutterQuillLocalizations.delegate
+      ],
       supportedLocales: Localization.supportedLocales,
       routerConfig: _appRouter.router,
       builder: (context, child) {
