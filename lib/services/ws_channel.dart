@@ -4,11 +4,9 @@ class WsChannel {
   final String _url;
   final WebSocketChannel _channel;
 
-  const WsChannel({
-    required String url,
-    required WebSocketChannel channel,
-  })  : _url = url,
-        _channel = channel;
+  const WsChannel({required String url, required WebSocketChannel channel})
+    : _url = url,
+      _channel = channel;
 
   String get url => _url;
 

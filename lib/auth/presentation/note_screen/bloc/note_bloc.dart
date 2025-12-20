@@ -29,11 +29,7 @@ final class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
   NoteBlocData get data => state.data;
 
   NoteBloc({required this.pathParams})
-      : super(
-          NoteBlocState.common(
-            data: NoteBlocData.initial(),
-          ),
-        ) {
+    : super(NoteBlocState.common(data: NoteBlocData.initial())) {
     _setupHandlers();
 
     add(const NoteBlocEvent.initial());
@@ -53,10 +49,7 @@ final class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
     on<ShouldCheckChanges>(_onShouldCheckChanges);
   }
 
-  void _onInitialEvent(
-    InitialEvent event,
-    Emitter<NoteBlocState> emit,
-  ) async {
+  void _onInitialEvent(InitialEvent event, Emitter<NoteBlocState> emit) async {
     final noteId = pathParams?.id;
     if (noteId == null || noteId.isEmpty) {
       return;
@@ -69,15 +62,11 @@ final class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
       final _ = mdDocument.parse(str);
       final mdToDelta = MarkdownToDelta(markdownDocument: mdDocument);
 
-      controller.document = Document.fromDelta(
-        mdToDelta.convert(str),
-      );
+      controller.document = Document.fromDelta(mdToDelta.convert(str));
 
       emit(
         NoteBlocState.common(
-          data: data.copyWith(
-            initialNote: OptionalBox(note),
-          ),
+          data: data.copyWith(initialNote: OptionalBox(note)),
         ),
       );
 
@@ -89,10 +78,7 @@ final class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
     }
   }
 
-  void _onSaveEvent(
-    SaveEvent event,
-    Emitter<NoteBlocState> emit,
-  ) async {
+  void _onSaveEvent(SaveEvent event, Emitter<NoteBlocState> emit) async {
     try {
       final deltaToMd = DeltaToMarkdown();
 
@@ -106,7 +92,8 @@ final class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
 
       if (trimmedText.isEmpty) {
         final message = ErrorMessagesProvider
-            .defaultProvider.noteScreenNoteContentCannotBeEmpty;
+            .defaultProvider
+            .noteScreenNoteContentCannotBeEmpty;
         throw AppError.common(message: message);
       }
 
@@ -122,9 +109,7 @@ final class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
       if (newNote is Note) {
         emit(
           NoteBlocState.didSave(
-            data: data.copyWith(
-              initialNote: OptionalBox(newNote),
-            ),
+            data: data.copyWith(initialNote: OptionalBox(newNote)),
           ),
         );
 

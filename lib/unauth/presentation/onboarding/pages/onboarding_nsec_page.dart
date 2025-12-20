@@ -27,8 +27,9 @@ final class _OnboardingNsecPageState extends State<OnboardingNsecPage>
     with NsecValidator {
   late final _controller = TextEditingController();
 
-  late final AuthUsecase _authUsecase =
-      context.read<OnboardingScreenBloc>().authUsecase;
+  late final AuthUsecase _authUsecase = context
+      .read<OnboardingScreenBloc>()
+      .authUsecase;
 
   @override
   AuthUsecase getAuthUsecase(BuildContext context) => _authUsecase;
@@ -92,7 +93,7 @@ final class _OnboardingNsecPageState extends State<OnboardingNsecPage>
               title: l10n.commonButtonNext,
               onTap: (vm) => _onNext(context, vm),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -103,9 +104,9 @@ final class _OnboardingNsecPageState extends State<OnboardingNsecPage>
         OnboardingNsecPage._formKey.currentState?.validate() ?? false;
     if (isValid) {
       OnboardingNsecPage._formKey.currentState?.save();
-      context
-          .read<OnboardingScreenBloc>()
-          .add(OnboardingScreenEvent.onNsec(_controller.text, vm));
+      context.read<OnboardingScreenBloc>().add(
+        OnboardingScreenEvent.onNsec(_controller.text, vm),
+      );
     }
   }
 }

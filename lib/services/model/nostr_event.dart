@@ -49,10 +49,7 @@ final class NostrEvent extends BaseNostrEvent {
   String toString() => jsonEncode(toJson());
 
   String serialized() {
-    final result = jsonEncode([
-      EventType.event.type,
-      toJson(),
-    ]);
+    final result = jsonEncode([EventType.event.type, toJson()]);
 
     return result;
   }

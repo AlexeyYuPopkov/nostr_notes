@@ -28,10 +28,7 @@ final class NostrFilter {
   final int? limit;
   @JsonKey(name: 'search', defaultValue: null)
   final String? search;
-  @JsonKey(
-    name: 'additional',
-    defaultValue: null,
-  )
+  @JsonKey(name: 'additional', defaultValue: null)
   final Map<String, dynamic>? additional;
 
   const NostrFilter({
@@ -76,17 +73,6 @@ final class NostrFilter {
   }
 
   @override
-  int get hashCode => Object.hash(
-        kinds,
-        ids,
-        authors,
-        e,
-        t,
-        p,
-        a,
-        since,
-        until,
-        limit,
-        search,
-      );
+  int get hashCode =>
+      Object.hash(kinds, ids, authors, e, t, p, a, since, until, limit, search);
 }

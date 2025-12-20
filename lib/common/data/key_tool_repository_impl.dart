@@ -23,10 +23,7 @@ final class KeyToolRepositoryImpl implements KeyToolRepository {
       throw const EmptyPubkeyError();
     }
 
-    return UserKeys(
-      publicKey: pubKey,
-      privateKey: privateKey,
-    );
+    return UserKeys(publicKey: pubKey, privateKey: privateKey);
   }
 
   @override
@@ -42,20 +39,11 @@ final class KeyToolRepositoryImpl implements KeyToolRepository {
       throw const InvalidPrivateKeyError();
     }
 
-    return UserKeys(
-      publicKey: pubKey,
-      privateKey: privateKeyTrimmed,
-    );
+    return UserKeys(publicKey: pubKey, privateKey: privateKeyTrimmed);
   }
 
   @override
-  String createSig({
-    required String rawMessage,
-    required String privateKey,
-  }) {
-    return KeyTool.createSig(
-      rawMessage: rawMessage,
-      privateKey: privateKey,
-    );
+  String createSig({required String rawMessage, required String privateKey}) {
+    return KeyTool.createSig(rawMessage: rawMessage, privateKey: privateKey);
   }
 }

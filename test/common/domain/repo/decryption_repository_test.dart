@@ -40,10 +40,7 @@ void main() {
         password: '4321',
       );
 
-      final result = sut.decrypt(
-        ciphertext: encrypted,
-        password: '1234',
-      );
+      final result = sut.decrypt(ciphertext: encrypted, password: '1234');
 
       expect(encrypted, isA<String>());
       expect(encrypted.isNotEmpty, true);

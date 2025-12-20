@@ -8,10 +8,8 @@ sealed class OnboardingScreenEvent extends Equatable {
   const factory OnboardingScreenEvent.initial() = InitialEvent;
 
   const factory OnboardingScreenEvent.onStep(OnboardingStep step) = OnStepEvent;
-  const factory OnboardingScreenEvent.onNsec(
-    String nsec,
-    LoadingButtonVM vm,
-  ) = OnNsecEvent;
+  const factory OnboardingScreenEvent.onNsec(String nsec, LoadingButtonVM vm) =
+      OnNsecEvent;
 
   const factory OnboardingScreenEvent.onPin({
     required String pin,

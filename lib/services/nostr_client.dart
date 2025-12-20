@@ -12,11 +12,9 @@ import 'model/nostr_req.dart';
 
 final class NostrClient {
   static const publishWindow = Duration(seconds: 2);
-  NostrClient({
-    ChannelFactory? channelFactory,
-    Uuid? uuid,
-  })  : _channelFactory = channelFactory ?? const ChannelFactory(),
-        _uuid = uuid ?? const Uuid();
+  NostrClient({ChannelFactory? channelFactory, Uuid? uuid})
+    : _channelFactory = channelFactory ?? const ChannelFactory(),
+      _uuid = uuid ?? const Uuid();
 
   final ChannelFactory _channelFactory;
   final Uuid _uuid;
@@ -72,22 +70,17 @@ final class NostrClient {
     final futures = [
       for (final relay in _relays.values)
         _eventOkMap
-            .getFuture(
-              relay: relay.url,
-              subscriptionId: event.id,
-            )
-            ?.then(
-              (e) => okEvents.add(e),
-            ),
+            .getFuture(relay: relay.url, subscriptionId: event.id)
+            ?.then((e) => okEvents.add(e)),
     ].nonNulls;
 
     final resultFuture = Future.wait(futures);
 
     final result = await Future.any([
       resultFuture,
-      Future.delayed(publishWindow).then(
-        (_) => const ErrorNostrClientPublishTimeout(),
-      ),
+      Future.delayed(
+        publishWindow,
+      ).then((_) => const ErrorNostrClientPublishTimeout()),
     ]);
 
     if (result is ErrorNostrClientPublishTimeout) {
@@ -111,22 +104,18 @@ final class NostrClient {
       _streamSubscription = null;
       _stream = null;
 
-      await Future.wait([
-        for (final relay in _relays.values) relay.ready,
-      ]);
+      await Future.wait([for (final relay in _relays.values) relay.ready]);
       _isConnected = true;
 
-      _streamSubscription = stream().listen(
-        (e) {
-          if (e is NostrEventOk) {
-            final completer = _eventOkMap.remove(
-              relay: e.relay,
-              subscriptionId: e.subscriptionId,
-            );
-            completer?.complete(e);
-          }
-        },
-      );
+      _streamSubscription = stream().listen((e) {
+        if (e is NostrEventOk) {
+          final completer = _eventOkMap.remove(
+            relay: e.relay,
+            subscriptionId: e.subscriptionId,
+          );
+          completer?.complete(e);
+        }
+      });
     }
   }
 

@@ -15,9 +15,9 @@ final class AuthUsecase {
     required SecureStorage secureStorage,
     required SessionUsecase sessionUsecase,
     required KeyToolRepository keyToolRepository,
-  })  : _secureStorage = secureStorage,
-        _sessionUsecase = sessionUsecase,
-        _keyToolRepository = keyToolRepository;
+  }) : _secureStorage = secureStorage,
+       _sessionUsecase = sessionUsecase,
+       _keyToolRepository = keyToolRepository;
 
   Stream<Session> get session => _sessionUsecase.sessionStream;
 
@@ -28,9 +28,7 @@ final class AuthUsecase {
     final currentSession = _sessionUsecase.currentSession;
     switch (currentSession) {
       case Unauth():
-        _sessionUsecase.setSession(
-          currentSession.toAuth(keys: userKeys),
-        );
+        _sessionUsecase.setSession(currentSession.toAuth(keys: userKeys));
         break;
       case Auth():
       case Unlocked():

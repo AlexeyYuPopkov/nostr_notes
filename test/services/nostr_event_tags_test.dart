@@ -47,10 +47,12 @@ void main() {
         ],
       );
 
-      expect(
-        event.getTagsSet(Tag.p),
-        {'pubkey1', 'pubkey2', 'pubkey3', 'extra'},
-      );
+      expect(event.getTagsSet(Tag.p), {
+        'pubkey1',
+        'pubkey2',
+        'pubkey3',
+        'extra',
+      });
       expect(event.getTagsSet(Tag.e), {'e1', 'e2', 'e3'});
       expect(event.getTagsSet(Tag.t), {'t1', 't2', 't3'});
       expect(event.getTagsSet(Tag.a), <String>{});

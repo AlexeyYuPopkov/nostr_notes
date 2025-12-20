@@ -9,7 +9,8 @@ import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
 
 void main() {
-  const text = 'Lorem ipsum dolor sit amet consectetur adipiscing elit. '
+  const text =
+      'Lorem ipsum dolor sit amet consectetur adipiscing elit. '
       'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
   const summary = 'Summary of the note';
 
@@ -46,10 +47,7 @@ void main() {
     test('encryption and decryption Note. With Pin', () async {
       sessionUsecase.setSession(
         const Session.unlocked(
-          keys: UserKeys(
-            privateKey: privateKey,
-            publicKey: publicKey,
-          ),
+          keys: UserKeys(privateKey: privateKey, publicKey: publicKey),
           pin: pin,
         ),
       );
@@ -71,10 +69,7 @@ void main() {
     test('encrypt Note and decryption Note summary only. With Pin', () async {
       sessionUsecase.setSession(
         const Session.unlocked(
-          keys: UserKeys(
-            privateKey: privateKey,
-            publicKey: publicKey,
-          ),
+          keys: UserKeys(privateKey: privateKey, publicKey: publicKey),
           pin: pin,
         ),
       );
@@ -96,10 +91,7 @@ void main() {
     test('encryption and decryption Note. Without Pin', () async {
       sessionUsecase.setSession(
         const Session.unlocked(
-          keys: UserKeys(
-            privateKey: privateKey,
-            publicKey: publicKey,
-          ),
+          keys: UserKeys(privateKey: privateKey, publicKey: publicKey),
           pin: '',
         ),
       );
@@ -118,31 +110,30 @@ void main() {
       expect(decrypted == initialNote, true);
     });
 
-    test('encrypt Note and decryption Note summary only. Without Pin',
-        () async {
-      sessionUsecase.setSession(
-        const Session.unlocked(
-          keys: UserKeys(
-            privateKey: privateKey,
-            publicKey: publicKey,
+    test(
+      'encrypt Note and decryption Note summary only. Without Pin',
+      () async {
+        sessionUsecase.setSession(
+          const Session.unlocked(
+            keys: UserKeys(privateKey: privateKey, publicKey: publicKey),
+            pin: '',
           ),
-          pin: '',
-        ),
-      );
+        );
 
-      final initialNote = Note(
-        dTag: 'dTag',
-        content: text,
-        summary: summary,
-        createdAt: DateTime.now(),
-      );
+        final initialNote = Note(
+          dTag: 'dTag',
+          content: text,
+          summary: summary,
+          createdAt: DateTime.now(),
+        );
 
-      final encrypted = await sut.encryptNote(initialNote);
+        final encrypted = await sut.encryptNote(initialNote);
 
-      final decrypted = await sut.decryptSummary(encrypted);
+        final decrypted = await sut.decryptSummary(encrypted);
 
-      expect(encrypted.summary == decrypted.summary, false);
-    });
+        expect(encrypted.summary == decrypted.summary, false);
+      },
+    );
   });
 
   group('SessionUsecase performance', () {
@@ -181,10 +172,7 @@ void main() {
 
       sessionUsecase.setSession(
         const Session.unlocked(
-          keys: UserKeys(
-            privateKey: privateKey,
-            publicKey: publicKey,
-          ),
+          keys: UserKeys(privateKey: privateKey, publicKey: publicKey),
           pin: pin,
         ),
       );

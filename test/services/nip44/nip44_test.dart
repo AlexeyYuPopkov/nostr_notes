@@ -3,7 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/services/nip44/nip44.dart';
 
 void main() {
-  const text = 'Lorem ipsum dolor sit amet consectetur adipiscing elit. '
+  const text =
+      'Lorem ipsum dolor sit amet consectetur adipiscing elit. '
       'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
   group('Nip44', () {
     final Nip44 sut = const Nip44();
@@ -100,50 +101,52 @@ void main() {
       expect(stopwatch.elapsedMilliseconds < 2000, true);
     });
 
-    test('Nip44 encryption/decryption performance with cached conversation key',
-        () async {
-      const privateKey =
-          '49b3084ebe2d6a1c1c9f68be41c89593c7a1d0a80e23f259df341bfa8e5b5bd8';
-      const publicKey =
-          '5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee';
+    test(
+      'Nip44 encryption/decryption performance with cached conversation key',
+      () async {
+        const privateKey =
+            '49b3084ebe2d6a1c1c9f68be41c89593c7a1d0a80e23f259df341bfa8e5b5bd8';
+        const publicKey =
+            '5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee';
 
-      // final sharedSecret = Nip44.computeSharedSecret(privateKey, publicKey);
-      // final conversationKey = Nip44.deriveConversationKey(sharedSecret);
+        // final sharedSecret = Nip44.computeSharedSecret(privateKey, publicKey);
+        // final conversationKey = Nip44.deriveConversationKey(sharedSecret);
 
-      final Uint8List conversationKey = sut.deriveKeys(
-        senderPrivateKey: privateKey,
-        recipientPublicKey: publicKey,
-      );
-
-      const iterations = 100;
-      final stopwatch = Stopwatch()..start();
-
-      for (var i = 0; i < iterations; i++) {
-        final encrypted = await sut.encryptMessage(
-          plaintext: '$text $i',
-          conversationKey: conversationKey,
-          // senderPrivateKey: privateKey,
-          // recipientPublicKey: publicKey,
-          // customConversationKey: conversationKey,
+        final Uint8List conversationKey = sut.deriveKeys(
+          senderPrivateKey: privateKey,
+          recipientPublicKey: publicKey,
         );
 
-        final decrypted = await sut.decryptMessage(
-          payload: encrypted,
-          conversationKey: conversationKey,
-          // recipientPrivateKey: privateKey,
-          // senderPublicKey: publicKey,
-          // customConversationKey: conversationKey,
+        const iterations = 100;
+        final stopwatch = Stopwatch()..start();
+
+        for (var i = 0; i < iterations; i++) {
+          final encrypted = await sut.encryptMessage(
+            plaintext: '$text $i',
+            conversationKey: conversationKey,
+            // senderPrivateKey: privateKey,
+            // recipientPublicKey: publicKey,
+            // customConversationKey: conversationKey,
+          );
+
+          final decrypted = await sut.decryptMessage(
+            payload: encrypted,
+            conversationKey: conversationKey,
+            // recipientPrivateKey: privateKey,
+            // senderPublicKey: publicKey,
+            // customConversationKey: conversationKey,
+          );
+
+          expect(decrypted, '$text $i');
+        }
+
+        stopwatch.stop();
+        debugPrint(
+          'Nip44 encryption/decryption of $iterations messages took: ${stopwatch.elapsedMilliseconds} ms',
         );
 
-        expect(decrypted, '$text $i');
-      }
-
-      stopwatch.stop();
-      debugPrint(
-        'Nip44 encryption/decryption of $iterations messages took: ${stopwatch.elapsedMilliseconds} ms',
-      );
-
-      expect(stopwatch.elapsedMilliseconds < 300, true);
-    });
+        expect(stopwatch.elapsedMilliseconds < 300, true);
+      },
+    );
   });
 }

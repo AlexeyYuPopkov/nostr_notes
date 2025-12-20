@@ -15,10 +15,10 @@ class FetchNotesUsecase {
     required SessionUsecase sessionUsecase,
     required RelaysListRepo relaysListRepo,
     Now now = const Now(),
-  })  : _notesRepository = notesRepository,
-        _sessionUsecase = sessionUsecase,
-        _relaysListRepo = relaysListRepo,
-        _now = now;
+  }) : _notesRepository = notesRepository,
+       _sessionUsecase = sessionUsecase,
+       _relaysListRepo = relaysListRepo,
+       _now = now;
 
   Stream<List<dynamic>> execute() {
     final publicKey = _sessionUsecase.currentSession.keys?.publicKey;

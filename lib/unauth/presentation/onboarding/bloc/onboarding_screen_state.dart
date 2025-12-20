@@ -42,8 +42,5 @@ final class DidUnlockState extends OnboardingScreenState {
 
 final class ErrorState extends OnboardingScreenState {
   final Object e;
-  const ErrorState({
-    required super.data,
-    required this.e,
-  });
+  const ErrorState({required super.data, required this.e});
 }

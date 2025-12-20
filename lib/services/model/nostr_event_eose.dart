@@ -11,12 +11,6 @@ final class NostrEventEose extends BaseNostrEvent {
   EventType get eventType => EventType.eose;
 
   String serialized(String subscriptionId) {
-    return jsonEncode(
-      [
-        EventType.request.type,
-        subscriptionId,
-        relay,
-      ],
-    );
+    return jsonEncode([EventType.request.type, subscriptionId, relay]);
   }
 }

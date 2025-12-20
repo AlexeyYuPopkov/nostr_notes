@@ -138,10 +138,7 @@ final class _Shimmer extends StatelessWidget {
       height: _List.itemHeight,
       child: ListTile(
         title: CommonShimmer(
-          child: SizedBox(
-            height: _List.titleHeight,
-            width: double.infinity,
-          ),
+          child: SizedBox(height: _List.titleHeight, width: double.infinity),
         ),
         subtitle: Padding(
           padding: EdgeInsets.only(top: Sizes.halfIndent),
@@ -163,10 +160,7 @@ final class _NewNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      child: const Icon(
-        Icons.edit_note,
-        size: Sizes.icon,
-      ),
+      child: const Icon(Icons.edit_note, size: Sizes.icon),
       onPressed: () => _onNewNote(context),
     );
   }

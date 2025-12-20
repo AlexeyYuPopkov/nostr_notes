@@ -15,9 +15,9 @@ class GetNotesUsecase {
     required NotesRepository notesRepository,
     required SessionUsecase sessionUsecase,
     required NoteCryptoUseCase noteCryptoUseCase,
-  })  : _notesRepository = notesRepository,
-        _sessionUsecase = sessionUsecase,
-        _noteCryptoUseCase = noteCryptoUseCase;
+  }) : _notesRepository = notesRepository,
+       _sessionUsecase = sessionUsecase,
+       _noteCryptoUseCase = noteCryptoUseCase;
 
   Future<List<Note>> execute() async {
     final keys = _sessionUsecase.currentSession.keys;
@@ -37,8 +37,6 @@ class GetNotesUsecase {
     );
     return [
       for (final note in result) await _noteCryptoUseCase.decryptSummary(note),
-    ].sorted(
-      (a, b) => b.createdAt.compareTo(a.createdAt),
-    );
+    ].sorted((a, b) => b.createdAt.compareTo(a.createdAt));
   }
 }

@@ -4,11 +4,7 @@ import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_pin_
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_welcome_page.dart';
 
 sealed class OnboardingStep {
-  static const pages = [
-    OnboardingWelcome(),
-    OnboardingNsec(),
-    OnboardingPin(),
-  ];
+  static const pages = [OnboardingWelcome(), OnboardingNsec(), OnboardingPin()];
 
   const OnboardingStep();
 

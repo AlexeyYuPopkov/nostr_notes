@@ -5,20 +5,15 @@ abstract class AppError implements Exception {
   final String reason;
   final Object? parentError;
 
-  const AppError({
-    this.reason = '',
-    this.parentError,
-  });
+  const AppError({this.reason = '', this.parentError});
 
   const factory AppError.notAuthenticated({
     Object? parentError,
     String reason,
   }) = NotAuthenticatedError;
 
-  const factory AppError.notUnlocked({
-    Object? parentError,
-    String reason,
-  }) = NotUnlockedError;
+  const factory AppError.notUnlocked({Object? parentError, String reason}) =
+      NotUnlockedError;
 
   const factory AppError.common({
     required String message,
@@ -26,10 +21,8 @@ abstract class AppError implements Exception {
     String reason,
   }) = CommonError;
 
-  const factory AppError.undefined({
-    Object? parentError,
-    String reason,
-  }) = UndefinedError;
+  const factory AppError.undefined({Object? parentError, String reason}) =
+      UndefinedError;
 
   @override
   String toString() {
@@ -42,8 +35,9 @@ abstract class AppError implements Exception {
   }
 
   static String? getMessageOrNull(Object error) {
-    final message =
-        error is AppError && error.message.isNotEmpty ? error.message : null;
+    final message = error is AppError && error.message.isNotEmpty
+        ? error.message
+        : null;
 
     return message;
   }
@@ -53,38 +47,25 @@ final class CommonError extends AppError {
   @override
   final String message;
 
-  const CommonError({
-    required this.message,
-    super.parentError,
-    super.reason,
-  });
+  const CommonError({required this.message, super.parentError, super.reason});
 }
 
 final class UndefinedError extends AppError {
-  const UndefinedError({
-    super.parentError,
-    super.reason,
-  });
+  const UndefinedError({super.parentError, super.reason});
 
   @override
   String get message => ErrorMessagesProvider.defaultProvider.commonError;
 }
 
 final class NotAuthenticatedError extends AppError {
-  const NotAuthenticatedError({
-    super.parentError,
-    super.reason,
-  });
+  const NotAuthenticatedError({super.parentError, super.reason});
 
   @override
   String get message => ErrorMessagesProvider.defaultProvider.authError;
 }
 
 final class NotUnlockedError extends AppError {
-  const NotUnlockedError({
-    super.parentError,
-    super.reason,
-  });
+  const NotUnlockedError({super.parentError, super.reason});
 
   @override
   String get message => ErrorMessagesProvider.defaultProvider.authError;
