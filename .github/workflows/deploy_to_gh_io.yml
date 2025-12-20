@@ -27,10 +27,10 @@ jobs:
       - name: Build web
         run: flutter build web --release
 
-      - name: Setup SSH key
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_GH_PAGES }}
+      # - name: Setup SSH key
+      #   uses: webfactory/ssh-agent@v0.9.0
+      #   with:
+      #     ssh-private-key: ${{ secrets.DEPLOY_GH_PAGES }}
 
       - name: Deploy to GH Pages repo
         uses: peaceiris/actions-gh-pages@v4
