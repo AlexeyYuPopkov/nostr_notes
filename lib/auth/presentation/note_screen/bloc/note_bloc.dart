@@ -50,11 +50,12 @@ final class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
   }
 
   void _onInitialEvent(InitialEvent event, Emitter<NoteBlocState> emit) async {
-    final noteId = pathParams?.id;
-    if (noteId == null || noteId.isEmpty) {
-      return;
-    }
     try {
+      final noteId = pathParams?.id;
+      if (noteId == null || noteId.isEmpty) {
+        return;
+      }
+
       final note = await _getNoteUsecase.execute(noteId);
       final str = note?.content ?? '';
 
@@ -69,12 +70,14 @@ final class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
           data: data.copyWith(initialNote: OptionalBox(note)),
         ),
       );
-
-      _controllerSubscription = controller.changes
-          .debounceTime(const Duration(milliseconds: 300))
-          .listen((_) => add(const NoteBlocEvent.shouldCheckChanges()));
     } catch (e) {
       emit(NoteBlocState.error(e: e, data: data));
+    } finally {
+      _controllerSubscription = controller.changes
+          .debounceTime(const Duration(milliseconds: 300))
+          .listen((_) {
+            add(const NoteBlocEvent.shouldCheckChanges());
+          });
     }
   }
 
