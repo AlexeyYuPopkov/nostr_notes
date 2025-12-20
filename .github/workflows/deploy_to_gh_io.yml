@@ -3,7 +3,10 @@ name: Deploy Flutter Web to GH Pages Repo
 on:
   push:
     branches:
-      - main  
+      - main
+
+# on:
+#   workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -24,12 +27,17 @@ jobs:
       - name: Build web
         run: flutter build web --release
 
+      # - name: Setup SSH key
+      #   uses: webfactory/ssh-agent@v0.9.0
+      #   with:
+      #     ssh-private-key: ${{ secrets.DEPLOY_GH_PAGES }}
+
       - name: Deploy to GH Pages repo
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.PAGES_TOKEN }}
+          deploy_key: ${{ secrets.DEPLOY_GH_PAGES }}
           publish_dir: ./build/web
           external_repository: AlexeyYuPopkov/AlexeyYuPopkov.github.io
-          publish_branch: master   # или main, если твоя gh-pages репа на main
+          publish_branch: master   
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
