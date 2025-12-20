@@ -3,10 +3,7 @@ import 'package:nostr_notes/common/domain/error/app_error.dart';
 abstract interface class DecryptionRepository {
   const DecryptionRepository();
 
-  Future<String> encrypt({
-    required String plaintext,
-    required String password,
-  });
+  Future<String> encrypt({required String plaintext, required String password});
 
   Future<String> decrypt({
     required String ciphertext,

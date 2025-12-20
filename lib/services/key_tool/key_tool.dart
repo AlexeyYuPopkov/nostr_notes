@@ -48,14 +48,9 @@ final class KeyTool {
     return bip340.sign(privateKey, rawMessage, aux);
   }
 
-  static String random64HexChars({
-    List<int>? randomBytes,
-  }) {
+  static String random64HexChars({List<int>? randomBytes}) {
     final bytes = randomBytes ?? _generateRandomBytes(32);
-    assert(
-      bytes.length == 32,
-      'Random bytes should be exactly 32 bytes long',
-    );
+    assert(bytes.length == 32, 'Random bytes should be exactly 32 bytes long');
     return hex.encode(bytes);
   }
 

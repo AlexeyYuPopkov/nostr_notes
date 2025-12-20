@@ -19,23 +19,20 @@ final class AppRouter {
   late final StreamSubscription sessionSubscription;
   final ScreensAssembly _screensAssembly;
 
-  AppRouter({
-    ScreensAssembly screensAssembly = const AppScreensAssembly(),
-  }) : _screensAssembly = screensAssembly {
-    authUsecase.restore().then(
-          (_) => _createSessionSubscription(),
-        );
+  AppRouter({ScreensAssembly screensAssembly = const AppScreensAssembly()})
+    : _screensAssembly = screensAssembly {
+    authUsecase.restore().then((_) => _createSessionSubscription());
   }
 
   void _createSessionSubscription() {
     sessionSubscription = session.sessionStream
         .distinct((a, b) => a.isUnlocked == b.isUnlocked)
         .listen((session) {
-      if (session.isAuth && session.isUnlocked) {
-        AppDi.bindAuthModules();
-      }
-      _router.refresh();
-    });
+          if (session.isAuth && session.isUnlocked) {
+            AppDi.bindAuthModules();
+          }
+          _router.refresh();
+        });
   }
 
   late final _router = GoRouter(

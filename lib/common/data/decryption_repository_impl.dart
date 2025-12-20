@@ -13,17 +13,12 @@ final class DecryptionRepositoryImpl implements DecryptionRepository {
     required String password,
   }) async {
     try {
-      return service.decrypt(
-        ciphertext: ciphertext,
-        password: password,
-      );
+      return service.decrypt(ciphertext: ciphertext, password: password);
     } catch (e) {
       if (e is HmacVerificationException) {
         throw DecryptionRepositoryHmacException(parentError: e);
       } else {
-        throw DecryptionRepositorySomethingWrongException(
-          parentError: e,
-        );
+        throw DecryptionRepositorySomethingWrongException(parentError: e);
       }
     }
   }
@@ -33,9 +28,6 @@ final class DecryptionRepositoryImpl implements DecryptionRepository {
     required String plaintext,
     required String password,
   }) async {
-    return service.encrypt(
-      plaintext: plaintext,
-      password: password,
-    );
+    return service.encrypt(plaintext: plaintext, password: password);
   }
 }

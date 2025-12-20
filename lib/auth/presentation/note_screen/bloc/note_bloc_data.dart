@@ -18,10 +18,7 @@ final class NoteBlocData extends Equatable {
   @override
   List<Object?> get props => [initialNote, hasChanges];
 
-  NoteBlocData copyWith({
-    OptionalBox<Note>? initialNote,
-    bool? hasChanges,
-  }) {
+  NoteBlocData copyWith({OptionalBox<Note>? initialNote, bool? hasChanges}) {
     return NoteBlocData._(
       initialNote: initialNote ?? this.initialNote,
       hasChanges: hasChanges ?? this.hasChanges,

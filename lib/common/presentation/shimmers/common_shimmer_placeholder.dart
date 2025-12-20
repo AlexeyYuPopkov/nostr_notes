@@ -19,12 +19,9 @@ final class CommonShimmerPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CommonShimmer(
-        borderRadius: borderRadius,
-        child: SizedBox(
-          width: size.width,
-          height: size.height,
-        ),
-      );
+    borderRadius: borderRadius,
+    child: SizedBox(width: size.width, height: size.height),
+  );
 }
 
 final class CommonShimmer extends StatelessWidget {
@@ -65,10 +62,7 @@ final class CommonShimmer extends StatelessWidget {
 final class ShimmerAvatar extends StatelessWidget {
   final double avatarSize;
 
-  const ShimmerAvatar({
-    super.key,
-    required this.avatarSize,
-  });
+  const ShimmerAvatar({super.key, required this.avatarSize});
 
   @override
   Widget build(BuildContext context) {
@@ -81,10 +75,7 @@ final class ShimmerAvatar extends StatelessWidget {
         highlightColor: shimmerColors.highlightColor,
         child: ColoredBox(
           color: shimmerColors.decorationColor,
-          child: SizedBox(
-            width: avatarSize,
-            height: avatarSize,
-          ),
+          child: SizedBox(width: avatarSize, height: avatarSize),
         ),
       ),
     );

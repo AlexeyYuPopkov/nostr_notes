@@ -4,8 +4,11 @@ import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 mixin PinValidator {
   PinUsecase getPinUsecase(BuildContext context);
 
-  String? validatePin(BuildContext context, String? str,
-      {required bool usePin}) {
+  String? validatePin(
+    BuildContext context,
+    String? str, {
+    required bool usePin,
+  }) {
     return getPinUsecase(context).validate(str, usePin)?.message;
   }
 }

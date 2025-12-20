@@ -6,19 +6,13 @@ final class NotesListData extends Equatable {
   const NotesListData._({required this.notes});
 
   factory NotesListData.initial() {
-    return const NotesListData._(
-      notes: [],
-    );
+    return const NotesListData._(notes: []);
   }
 
   @override
   List<Object?> get props => [notes];
 
-  NotesListData copyWith({
-    List<NoteBase>? notes,
-  }) {
-    return NotesListData._(
-      notes: notes ?? this.notes,
-    );
+  NotesListData copyWith({List<NoteBase>? notes}) {
+    return NotesListData._(notes: notes ?? this.notes);
   }
 }

@@ -34,9 +34,7 @@ final class MockWSChannel implements WsChannel {
 
   void Function(dynamic data, MockWSChannel channel)? onAdd;
 
-  MockWSChannel({
-    required String url,
-  }) : _url = url;
+  MockWSChannel({required String url}) : _url = url;
 
   final mockStream = PublishSubject<String>();
 
@@ -135,10 +133,7 @@ class MockRelaysListRepo implements RelaysListRepo {
 
   @override
   List<String> getRelaysList() {
-    return [
-      relayUrl1,
-      relayUrl2,
-    ];
+    return [relayUrl1, relayUrl2];
   }
 }
 
@@ -201,10 +196,12 @@ void main() {
 
     test('successful note creation', () async {
       when(() => mockUuid.v1()).thenReturn('uuid-v1');
-      when(() => channelFactory.create(MockRelaysListRepo.relayUrl1))
-          .thenReturn(channel1);
-      when(() => channelFactory.create(MockRelaysListRepo.relayUrl2))
-          .thenReturn(channel2);
+      when(
+        () => channelFactory.create(MockRelaysListRepo.relayUrl1),
+      ).thenReturn(channel1);
+      when(
+        () => channelFactory.create(MockRelaysListRepo.relayUrl2),
+      ).thenReturn(channel2);
 
       const responce = r'''
         ["OK","9d1c1d765e572b5914ed838cba42bb22b9fb50f5ac0532c494caf75bc7363143",true,""]
@@ -248,42 +245,41 @@ void main() {
       expect(channel1.calls[0], {'ready': ''});
       expect(channel1.calls[1], {'stream': ''});
       expect(channel1.calls[2], {'url': ''});
-      expect(
-        jsonDecode(channel1.calls[3]['add']),
-        jsonDecode(sendedEvent),
-      );
+      expect(jsonDecode(channel1.calls[3]['add']), jsonDecode(sendedEvent));
     });
 
     test(
-        'successful note creation on 1nd relay from 2 and no responce from 2nd relay',
-        () async {
-      when(() => mockUuid.v1()).thenReturn('uuid-v1');
-      when(() => channelFactory.create(MockRelaysListRepo.relayUrl1))
-          .thenReturn(channel1);
-      when(() => channelFactory.create(MockRelaysListRepo.relayUrl2))
-          .thenReturn(channel2);
+      'successful note creation on 1nd relay from 2 and no responce from 2nd relay',
+      () async {
+        when(() => mockUuid.v1()).thenReturn('uuid-v1');
+        when(
+          () => channelFactory.create(MockRelaysListRepo.relayUrl1),
+        ).thenReturn(channel1);
+        when(
+          () => channelFactory.create(MockRelaysListRepo.relayUrl2),
+        ).thenReturn(channel2);
 
-      const responce = r'''
+        const responce = r'''
         ["OK","9d1c1d765e572b5914ed838cba42bb22b9fb50f5ac0532c494caf75bc7363143",true,""]
         ''';
-      channel1.onAdd = (data, channel) {
-        channel.mockStream.add(responce);
-      };
+        channel1.onAdd = (data, channel) {
+          channel.mockStream.add(responce);
+        };
 
-      final result = await sut.execute(
-        content: 'message',
-        dTag: null,
-        now: mockNow,
-        uuid: mockUuid,
-        randomBytes: SomeMokedData.randomBytes,
-      );
+        final result = await sut.execute(
+          content: 'message',
+          dTag: null,
+          now: mockNow,
+          uuid: mockUuid,
+          randomBytes: SomeMokedData.randomBytes,
+        );
 
-      expect(result, isA<EventPublisherResult>());
-      expect(result.error, isA<PublishTimeoutError>());
-      expect(result.reports.length, 1);
-      expect(result.reports[0].errorMessage, '');
+        expect(result, isA<EventPublisherResult>());
+        expect(result.error, isA<PublishTimeoutError>());
+        expect(result.reports.length, 1);
+        expect(result.reports[0].errorMessage, '');
 
-      const sendedEvent = r'''
+        const sendedEvent = r'''
           ["EVENT",{
           "kind":30023,
           "id":"9d1c1d765e572b5914ed838cba42bb22b9fb50f5ac0532c494caf75bc7363143",
@@ -294,15 +290,13 @@ void main() {
           "sig":"ceb65b126c335f6659769493ae8c309f9061c9cd11dd34d3e0fa606f2e40d9b5bc26f041a26b8ecf124aaa5d0d3438a21761ebc956a10aa576ea67c916696950"}]
         ''';
 
-      expect(channel1.calls.length, 6);
-      expect(channel2.calls.length, 5);
-      expect(channel1.calls[0], {'ready': ''});
-      expect(channel1.calls[1], {'stream': ''});
-      expect(channel1.calls[2], {'url': ''});
-      expect(
-        jsonDecode(channel1.calls[3]['add']),
-        jsonDecode(sendedEvent),
-      );
-    });
+        expect(channel1.calls.length, 6);
+        expect(channel2.calls.length, 5);
+        expect(channel1.calls[0], {'ready': ''});
+        expect(channel1.calls[1], {'stream': ''});
+        expect(channel1.calls[2], {'url': ''});
+        expect(jsonDecode(channel1.calls[3]['add']), jsonDecode(sendedEvent));
+      },
+    );
   });
 }

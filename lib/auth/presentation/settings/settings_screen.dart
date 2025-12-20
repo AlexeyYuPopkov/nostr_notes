@@ -25,9 +25,7 @@ final class SettingsScreen extends StatelessWidget with DialogHelper {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.settingsScreenTitle),
-      ),
+      appBar: AppBar(title: Text(context.l10n.settingsScreenTitle)),
       body: SafeArea(
         child: BlocProvider(
           create: (context) => SettingsScreenBloc(),

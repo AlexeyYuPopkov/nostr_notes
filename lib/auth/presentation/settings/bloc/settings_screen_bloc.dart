@@ -15,11 +15,7 @@ final class SettingsScreenBloc
   SettingsScreenData get data => state.data;
 
   SettingsScreenBloc()
-      : super(
-          SettingsScreenState.common(
-            data: SettingsScreenData.initial(),
-          ),
-        ) {
+    : super(SettingsScreenState.common(data: SettingsScreenData.initial())) {
     _setupHandlers();
   }
 
@@ -28,10 +24,7 @@ final class SettingsScreenBloc
     on<LogoutEvent>(_onLogoutEvent);
   }
 
-  void _onExitEvent(
-    ExitEvent event,
-    Emitter<SettingsScreenState> emit,
-  ) async {
+  void _onExitEvent(ExitEvent event, Emitter<SettingsScreenState> emit) async {
     try {
       emit(SettingsScreenState.loading(data: data));
 

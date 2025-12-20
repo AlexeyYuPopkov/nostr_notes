@@ -48,14 +48,7 @@ final class NostrEventCreator {
     required List tags,
     required String pubkey,
   }) {
-    final data = [
-      0,
-      pubkey,
-      createdAt,
-      kind,
-      tags,
-      content,
-    ];
+    final data = [0, pubkey, createdAt, kind, tags, content];
 
     final serializedEvent = jsonEncode(data);
     final bytes = utf8.encode(serializedEvent);

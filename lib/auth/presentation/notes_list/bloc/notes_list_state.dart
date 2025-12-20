@@ -10,13 +10,11 @@ sealed class NotesListState extends Equatable {
   @override
   List<Object?> get props => [data];
 
-  const factory NotesListState.common({
-    required NotesListData data,
-  }) = CommonState;
+  const factory NotesListState.common({required NotesListData data}) =
+      CommonState;
 
-  const factory NotesListState.loading({
-    required NotesListData data,
-  }) = LoadingState;
+  const factory NotesListState.loading({required NotesListData data}) =
+      LoadingState;
 
   const factory NotesListState.error({
     required NotesListData data,
@@ -34,8 +32,5 @@ final class LoadingState extends NotesListState {
 
 final class ErrorState extends NotesListState {
   final Object e;
-  const ErrorState({
-    required super.data,
-    required this.e,
-  });
+  const ErrorState({required super.data, required this.e});
 }

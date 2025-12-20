@@ -14,10 +14,7 @@ final class DeriveKeys with HexToBytes {
     required String recipientPublicKey,
     Uint8List Function(Uint8List)? extraDerivation,
   }) {
-    final key = spec256k1(
-      senderPrivateKey,
-      recipientPublicKey,
-    );
+    final key = spec256k1(senderPrivateKey, recipientPublicKey);
 
     if (extraDerivation == null) {
       return key;
@@ -38,10 +35,7 @@ final class DeriveKeys with HexToBytes {
     );
   }
 
-  static Uint8List spec256k1(
-    String privateKeyHex,
-    String publicKeyHex,
-  ) {
+  static Uint8List spec256k1(String privateKeyHex, String publicKeyHex) {
     final ec = getS256();
     final privateKey = PrivateKey.fromHex(ec, privateKeyHex);
     final publicKey = PublicKey.fromHex(ec, checkPublicKey(publicKeyHex));

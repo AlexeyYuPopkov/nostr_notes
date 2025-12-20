@@ -6,16 +6,11 @@ final class SecureStorageImpl implements SecureStorage {
   SecureStorageImpl();
 
   @override
-  Future<String> getValue({
-    required String key,
-  }) async =>
+  Future<String> getValue({required String key}) async =>
       await storage.read(key: key) ?? '';
 
   @override
-  Future<void> setValue({
-    required String key,
-    required String value,
-  }) async =>
+  Future<void> setValue({required String key, required String value}) async =>
       await storage.write(key: key, value: value);
 
   @override

@@ -8,7 +8,7 @@ final class PinUsecase {
   final SessionUsecase _sessionUsecase;
 
   const PinUsecase({required SessionUsecase sessionUsecase})
-      : _sessionUsecase = sessionUsecase;
+    : _sessionUsecase = sessionUsecase;
 
   Future<void> execute({required String pin, required bool usePin}) async {
     final validationError = validate(pin, usePin);
@@ -22,9 +22,7 @@ final class PinUsecase {
         throw const AppError.notAuthenticated();
 
       case Auth():
-        _sessionUsecase.setSession(
-          session.toUnlocked(pin: pin.trim()),
-        );
+        _sessionUsecase.setSession(session.toUnlocked(pin: pin.trim()));
         break;
       case Unlocked():
         assert(false, 'Session should not be Unlocked when setting a pin');
@@ -70,10 +68,9 @@ final class PinErrorEmpty extends PinError {
 final class PinErrorMinLength extends PinError {
   final int expectedMinCount;
   const PinErrorMinLength(this.expectedMinCount)
-      : super(
-          reason:
-              'PIN must be at least ${PinUsecase.minLength} characters long',
-        );
+    : super(
+        reason: 'PIN must be at least ${PinUsecase.minLength} characters long',
+      );
 
   @override
   String get message => ErrorMessagesProvider.defaultProvider

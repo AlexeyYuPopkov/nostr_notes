@@ -35,21 +35,18 @@ class NotesRepositoryImpl implements NotesRepository {
 
   @override
   Stream<List> get eventsStream => client
-          .stream()
-          .whereType<NostrEvent>()
-          .bufferTime(
-            const Duration(milliseconds: 100),
-          )
-          .where((e) {
+      .stream()
+      .whereType<NostrEvent>()
+      .bufferTime(const Duration(milliseconds: 100))
+      .where((e) {
         return e.isNotEmpty;
-      }).map(
-        (e) {
-          if (e.isNotEmpty) {
-            memoryStorage.addAll(e);
-          }
-          return e;
-        },
-      );
+      })
+      .map((e) {
+        if (e.isNotEmpty) {
+          memoryStorage.addAll(e);
+        }
+        return e;
+      });
 
   @override
   void sendRequest({
@@ -81,13 +78,8 @@ class NotesRepositoryImpl implements NotesRepository {
     required String privateKey,
   }) async {
     return memoryStorage
-        .getEventsByAuthor(
-          pubkey,
-          EventKind.note.value,
-        )
-        .map(
-          (e) => NoteMapper.fromNostrEvent(e),
-        )
+        .getEventsByAuthor(pubkey, EventKind.note.value)
+        .map((e) => NoteMapper.fromNostrEvent(e))
         .nonNulls;
   }
 
@@ -102,10 +94,7 @@ class NotesRepositoryImpl implements NotesRepository {
       pubkey: pubkey,
       dTag: id,
     );
-    final e = memoryStorage.getEventsByATag(
-      aTag,
-      EventKind.note.value,
-    );
+    final e = memoryStorage.getEventsByATag(aTag, EventKind.note.value);
 
     return e == null ? null : NoteMapper.fromNostrEvent(e);
   }
@@ -119,17 +108,15 @@ class NotesRepositoryImpl implements NotesRepository {
     Uuid? uuid,
     List<int>? randomBytes,
   }) async {
-    final dTagValue =
-        note.dTag.isNotEmpty ? note.dTag : (uuid ?? const Uuid()).v1();
+    final dTagValue = note.dTag.isNotEmpty
+        ? note.dTag
+        : (uuid ?? const Uuid()).v1();
 
     final List<List<String>> tags = [
       AppConfig.clientTagList(),
       [Tag.t.value, AppConfig.clientTagValue],
       [Tag.d.value, dTagValue],
-      [
-        Tag.p.value,
-        pubkey,
-      ],
+      [Tag.p.value, pubkey],
       [const SummaryTag().value, note.summary],
     ];
 
@@ -171,12 +158,7 @@ class NotesRepositoryImpl implements NotesRepository {
 
     return EventPublisherResult(
       reports: result.events
-          .map(
-            (e) => PublishReport(
-              relay: e.relay,
-              errorMessage: e.message,
-            ),
-          )
+          .map((e) => PublishReport(relay: e.relay, errorMessage: e.message))
           .toList(),
       targetNote: resultNote,
       error: timeoutError == null

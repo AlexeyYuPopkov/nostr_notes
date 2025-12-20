@@ -12,10 +12,7 @@ import 'bloc/onboarding_screen_state.dart';
 final class OnboardingScreen extends StatelessWidget with DialogHelper {
   const OnboardingScreen({super.key});
 
-  void _listener(
-    BuildContext context,
-    OnboardingScreenState state,
-  ) {
+  void _listener(BuildContext context, OnboardingScreenState state) {
     switch (state) {
       case CommonState():
         break;
@@ -25,9 +22,7 @@ final class OnboardingScreen extends StatelessWidget with DialogHelper {
         showError(context, error: state.e);
         break;
       case DidUnlockState():
-        GoRouter.of(context).pushReplacementNamed(
-          AppRouterName.home,
-        );
+        GoRouter.of(context).pushReplacementNamed(AppRouterName.home);
         break;
     }
   }
@@ -44,9 +39,9 @@ final class OnboardingScreen extends StatelessWidget with DialogHelper {
             child: BlocListener<OnboardingScreenBloc, OnboardingScreenState>(
               listenWhen: (a, b) => a.data.step != b.data.step,
               listener: (context, state) {
-                DefaultTabController.of(context).animateTo(
-                  OnboardingStep.pages.indexOf(state.data.step),
-                );
+                DefaultTabController.of(
+                  context,
+                ).animateTo(OnboardingStep.pages.indexOf(state.data.step));
               },
               child: BlocConsumer<OnboardingScreenBloc, OnboardingScreenState>(
                 listener: _listener,

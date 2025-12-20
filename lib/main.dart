@@ -28,7 +28,7 @@ final class App extends StatelessWidget {
       themeMode: ThemeMode.system,
       localizationsDelegates: const [
         ...Localization.localizationsDelegates,
-        FlutterQuillLocalizations.delegate
+        FlutterQuillLocalizations.delegate,
       ],
       supportedLocales: Localization.supportedLocales,
       routerConfig: _appRouter.router,

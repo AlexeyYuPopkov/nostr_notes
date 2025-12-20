@@ -19,10 +19,7 @@ void main() {
       );
     });
     test('[tryDecodeNsecKeyToPrivateKey]. Returns Private key', () {
-      expect(
-        KeyTool.tryDecodeNsecKeyToPrivateKey(nsecKey),
-        privateKey,
-      );
+      expect(KeyTool.tryDecodeNsecKeyToPrivateKey(nsecKey), privateKey);
     });
 
     test('[tryGetPubKey]. Returns null for wrong input', () {
@@ -33,10 +30,7 @@ void main() {
     });
 
     test('[tryGetPubKey]. Returns Public key', () {
-      expect(
-        KeyTool.tryGetPubKey(privateKey: privateKey),
-        publicKey,
-      );
+      expect(KeyTool.tryGetPubKey(privateKey: privateKey), publicKey);
     });
   });
 }

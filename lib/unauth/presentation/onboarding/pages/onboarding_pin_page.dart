@@ -28,8 +28,9 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
 
   bool _isUsePin = true;
 
-  late final PinUsecase _pinUsecase =
-      context.read<OnboardingScreenBloc>().pinUsecase;
+  late final PinUsecase _pinUsecase = context
+      .read<OnboardingScreenBloc>()
+      .pinUsecase;
 
   @override
   PinUsecase getPinUsecase(BuildContext context) => _pinUsecase;
@@ -94,7 +95,7 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
                       title: Text(l10n.onboardingPinPageLabelCheckboxUsePin),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -113,14 +114,17 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
               title: l10n.commonButtonDone,
               onTap: (vm) => _onNext(context, vm),
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
   void _onCheckboxChanged(
-      BuildContext context, FormFieldState<bool> field, bool? value) {
+    BuildContext context,
+    FormFieldState<bool> field,
+    bool? value,
+  ) {
     _formKey.currentState?.reset();
     field.didChange(value);
     setState(() => _isUsePin = value ?? true);
@@ -130,11 +134,13 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
     final isValid = _formKey.currentState?.validate() ?? false;
     if (isValid) {
       _formKey.currentState?.save();
-      context.read<OnboardingScreenBloc>().add(OnboardingScreenEvent.onPin(
-            pin: _controller.text,
-            vm: vm,
-            usePin: _isUsePin,
-          ));
+      context.read<OnboardingScreenBloc>().add(
+        OnboardingScreenEvent.onPin(
+          pin: _controller.text,
+          vm: vm,
+          usePin: _isUsePin,
+        ),
+      );
     }
   }
 }

@@ -6,15 +6,13 @@ import 'package:nostr_notes/services/model/nostr_filter.dart';
 class NostrReq extends BaseNostrEvent {
   final List<NostrFilter> filters;
 
-  const NostrReq({
-    required this.filters,
-  });
+  const NostrReq({required this.filters});
 
   String serialized(String subscriptionId) {
     final result = jsonEncode([
       EventType.request.type,
       subscriptionId,
-      ...filters.map((e) => e.toJson())
+      ...filters.map((e) => e.toJson()),
     ]);
 
     return result;

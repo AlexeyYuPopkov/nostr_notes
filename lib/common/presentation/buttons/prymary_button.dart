@@ -4,11 +4,7 @@ final class PrymaryButton extends StatelessWidget {
   final String title;
   final VoidCallback? onTap;
 
-  const PrymaryButton({
-    super.key,
-    required this.title,
-    this.onTap,
-  });
+  const PrymaryButton({super.key, required this.title, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +12,7 @@ final class PrymaryButton extends StatelessWidget {
       onPressed: onTap,
       child: ConstrainedBox(
         constraints: const BoxConstraints(minWidth: 100.0),
-        child: Text(
-          title,
-          textAlign: TextAlign.center,
-        ),
+        child: Text(title, textAlign: TextAlign.center),
       ),
     );
   }

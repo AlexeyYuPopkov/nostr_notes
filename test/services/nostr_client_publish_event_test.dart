@@ -24,9 +24,9 @@ void main() {
         shared: true,
       );
 
-      subscription = server
-          .transform(WebSocketTransformer())
-          .listen((WebSocket webSocket) {
+      subscription = server.transform(WebSocketTransformer()).listen((
+        WebSocket webSocket,
+      ) {
         final channel = IOWebSocketChannel(webSocket);
 
         channel.stream.listen((request) {

@@ -38,6 +38,6 @@ final class SomeMokedData {
     185,
     91,
     204,
-    57
+    57,
   ];
 }

@@ -7,10 +7,7 @@ import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 import '../bloc/settings_screen_event.dart';
 
 abstract class SettingsItem {
-  static const items = [
-    SettingsItemLogout(),
-    SettingsItemLogoutAndClear(),
-  ];
+  static const items = [SettingsItemLogout(), SettingsItemLogoutAndClear()];
 
   const SettingsItem();
 
@@ -44,9 +41,9 @@ final class SettingsItemLogoutAndClear extends SettingsItem with DialogHelper {
     );
 
     if (result == true && context.mounted) {
-      context
-          .read<SettingsScreenBloc>()
-          .add(const SettingsScreenEvent.logout());
+      context.read<SettingsScreenBloc>().add(
+        const SettingsScreenEvent.logout(),
+      );
     }
   }
 }

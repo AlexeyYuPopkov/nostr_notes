@@ -19,15 +19,14 @@ void main() {
         search: 'query',
       );
 
-      const nostrReq = NostrReq(
-        filters: [filter],
-      );
+      const nostrReq = NostrReq(filters: [filter]);
 
       final nostrReqStr = nostrReq.serialized('subscriptionId');
 
       expect(nostrReqStr, isA<String>());
 
-      const expected = r'["REQ","subscriptionId",'
+      const expected =
+          r'["REQ","subscriptionId",'
           r'{"kinds":[1,2],'
           r'"ids":["id1","id2"],'
           r'"authors":["author1","author2"],'
@@ -49,15 +48,14 @@ void main() {
         },
       );
 
-      const nostrReq = NostrReq(
-        filters: [filter],
-      );
+      const nostrReq = NostrReq(filters: [filter]);
 
       final nostrReqStr = nostrReq.serialized('subscriptionId');
 
       expect(nostrReqStr, isA<String>());
 
-      const expected = r'["REQ",'
+      const expected =
+          r'["REQ",'
           r'"subscriptionId",'
           r'{"kinds":[1,2],'
           r'"#customKey1":"customValue1",'

@@ -28,7 +28,8 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
     wasm.Pointer<wasm.Uint8>,
     wasm.Pointer<wasm.Uint8>,
     wasm.Pointer<wasm.Pointer<wasm.Uint8>>,
-  ) _deriveSharedKeyWasm;
+  )
+  _deriveSharedKeyWasm;
 
   CryptoServiceImplWeb._();
 
@@ -54,18 +55,21 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
 
       _deriveSharedKeyWasm = _lib
           .lookup<
-              wasm.NativeFunction<
-                  int Function(
-                    wasm.Pointer<wasm.Uint8>,
-                    wasm.Pointer<wasm.Uint8>,
-                    wasm.Pointer<wasm.Pointer<wasm.Uint8>>,
-                  )>>('deriveSharedKey')
-          .asFunction<
+            wasm.NativeFunction<
               int Function(
                 wasm.Pointer<wasm.Uint8>,
                 wasm.Pointer<wasm.Uint8>,
                 wasm.Pointer<wasm.Pointer<wasm.Uint8>>,
-              )>();
+              )
+            >
+          >('deriveSharedKey')
+          .asFunction<
+            int Function(
+              wasm.Pointer<wasm.Uint8>,
+              wasm.Pointer<wasm.Uint8>,
+              wasm.Pointer<wasm.Pointer<wasm.Uint8>>,
+            )
+          >();
 
       log('WASM library loaded successfully', name: 'Wasm');
     } catch (e) {
@@ -83,7 +87,8 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
     final key = spec256k1(
       senderPrivateKey: HexToBytes.hexToBytes(senderPrivateKey),
       recipientPublicKey: HexToBytes.hexToBytes(
-          recipientPublicKey), // HexToBytes.hexToBytes('02$recipientPublicKey'),
+        recipientPublicKey,
+      ), // HexToBytes.hexToBytes('02$recipientPublicKey'),
     ).sublist(0, 32);
 
     if (extraDerivation == null) {
@@ -222,6 +227,5 @@ final class CryptoServiceImplMobile implements CryptoService {
   Uint8List spec256k1({
     required Uint8List senderPrivateKey,
     required Uint8List recipientPublicKey,
-  }) =>
-      throw UnimplementedError();
+  }) => throw UnimplementedError();
 }

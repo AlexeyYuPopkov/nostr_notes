@@ -125,25 +125,28 @@ class CommonEventStorageImpl implements CommonEventStorage, Disposable {
   @override
   Iterable<NostrEvent> getEventsByPTag(String pTag, int kind) {
     final eventIds = pTagIndexes.get(key: pTag);
-    return eventIds.map((e) => _storage[e]).nonNulls.where(
-          (e) => e.kind == kind,
-        );
+    return eventIds
+        .map((e) => _storage[e])
+        .nonNulls
+        .where((e) => e.kind == kind);
   }
 
   @override
   Iterable<NostrEvent> getEventsByTTag(String tTag, int kind) {
     final eventIds = tTagIndexes.get(key: tTag);
-    return eventIds.map((e) => _storage[e]).nonNulls.where(
-          (e) => e.kind == kind,
-        );
+    return eventIds
+        .map((e) => _storage[e])
+        .nonNulls
+        .where((e) => e.kind == kind);
   }
 
   @override
   Iterable<NostrEvent> getEventsByAuthor(String author, int kind) {
     final eventIds = authorIndexes.get(key: author);
-    return eventIds.map((e) => _storage[e]).nonNulls.where(
-          (e) => e.kind == kind,
-        );
+    return eventIds
+        .map((e) => _storage[e])
+        .nonNulls
+        .where((e) => e.kind == kind);
   }
 
   @override
