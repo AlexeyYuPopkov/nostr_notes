@@ -35,7 +35,7 @@ jobs:
       - name: Deploy to GH Pages repo
         uses: peaceiris/actions-gh-pages@v4
         with:
-          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          deploy_key: ${{ secrets.DEPLOY_GH_PAGES }}
           publish_dir: ./build/web
           external_repository: AlexeyYuPopkov/AlexeyYuPopkov.github.io
           publish_branch: master   
