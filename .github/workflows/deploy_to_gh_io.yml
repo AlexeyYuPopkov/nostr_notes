@@ -1,22 +1,22 @@
-name: Deploy Flutter Web to GitHub Pages
+name: Deploy Flutter Web to GH Pages Repo
 
 on:
   push:
     branches:
-      - main   # или твоя основная ветка
+      - main  
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout source repo
         uses: actions/checkout@v4
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.38.1' # или нужная версия
+          flutter-version: '3.38.1' 
 
       - name: Install dependencies
         run: flutter pub get
@@ -24,8 +24,12 @@ jobs:
       - name: Build web
         run: flutter build web --release
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GH Pages repo
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAGES_TOKEN }}
           publish_dir: ./build/web
+          external_repository: AlexeyYuPopkov/AlexeyYuPopkov.github.io
+          publish_branch: master   # или main, если твоя gh-pages репа на main
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
