@@ -49,9 +49,14 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     );
   }
 
-  void _onInitialEvent(InitialEvent event, Emitter<NotesListState> emit) {
+  void _onInitialEvent(InitialEvent event, Emitter<NotesListState> emit) async {
     emit(NotesListState.loading(data: data));
+
     _setupSubscription();
+
+    // TODO: hotfix; needs to handle eose
+    await Future.delayed(const Duration(seconds: 1));
+    emit(NotesListState.common(data: data));
   }
 
   void _onGetNotesEvent(
