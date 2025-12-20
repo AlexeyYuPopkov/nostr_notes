@@ -12,17 +12,13 @@ import 'package:rxdart/rxdart.dart';
 class NostrRelay with NostrRelayEventMapper {
   final WsChannel _channel;
 
-  NostrRelay._({
-    required WsChannel channel,
-  }) : _channel = channel;
+  NostrRelay._({required WsChannel channel}) : _channel = channel;
 
   factory NostrRelay({
     required String url,
     required ChannelFactory channelFactory,
   }) {
-    return NostrRelay._(
-      channel: channelFactory.create(url),
-    );
+    return NostrRelay._(channel: channelFactory.create(url));
   }
 
   @override

@@ -14,18 +14,16 @@ final class NoteCryptoUseCase {
   final SessionUsecase _sessionUsecase;
   final ExtraDerivation _extraDerivation;
 
-  final nip44Expando = Expando<Uint8List>(
-    'NoteCryptoUseCase.nip44Cache',
-  );
+  final nip44Expando = Expando<Uint8List>('NoteCryptoUseCase.nip44Cache');
 
   NoteCryptoUseCase({
     required CryptoService cryptoService,
     required SessionUsecase sessionUsecase,
     required ExtraDerivation extraDerivation,
     bool useCache = true,
-  })  : _cryptoService = cryptoService,
-        _sessionUsecase = sessionUsecase,
-        _extraDerivation = extraDerivation;
+  }) : _cryptoService = cryptoService,
+       _sessionUsecase = sessionUsecase,
+       _extraDerivation = extraDerivation;
 
   Future<Note> encryptNote(Note note) async {
     final pin = _getPin();
@@ -53,10 +51,7 @@ final class NoteCryptoUseCase {
       conversationKey: conversationKey,
     );
 
-    return note.copyWith(
-      content: encryptedContent,
-      summary: encryptedSummary,
-    );
+    return note.copyWith(content: encryptedContent, summary: encryptedSummary);
   }
 
   Future<Note> decryptNote(Note note) async {
@@ -94,10 +89,7 @@ final class NoteCryptoUseCase {
       name: 'Crypto',
     );
 
-    return note.copyWith(
-      content: decryptedContent,
-      summary: decryptedSummary,
-    );
+    return note.copyWith(content: decryptedContent, summary: decryptedSummary);
   }
 
   Future<Note> decryptSummary(Note note) async {
@@ -177,15 +169,13 @@ class ExtraDerivation {
   final CryptoService _cryptoService;
   final SessionUsecase _sessionUsecase;
 
-  final _expando = Expando<Uint8List>(
-    'ExtraDerivation.passwordToKeyCache',
-  );
+  final _expando = Expando<Uint8List>('ExtraDerivation.passwordToKeyCache');
 
   ExtraDerivation({
     required CryptoService cryptoService,
     required SessionUsecase sessionUsecase,
-  })  : _cryptoService = cryptoService,
-        _sessionUsecase = sessionUsecase;
+  }) : _cryptoService = cryptoService,
+       _sessionUsecase = sessionUsecase;
 
   Uint8List Function(Uint8List)? execute(String? password) {
     // return null;

@@ -17,8 +17,9 @@ final class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late final _client = NostrClient();
 
-  late final channel =
-      WebSocketChannel.connect(Uri.parse('wss://testing.gathr.gives'));
+  late final channel = WebSocketChannel.connect(
+    Uri.parse('wss://testing.gathr.gives'),
+  );
 
   StreamSubscription? _subscription;
 
@@ -34,33 +35,34 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _connect() async {
     await _client.connect();
-    _subscription = _client.stream().listen((event) {
-      // Handle incoming events
-      // ignore: avoid_print
-      print('Received event: $event');
-
-      if (event is NostrEventEose) {
-        // Handle EOSE event
+    _subscription = _client.stream().listen(
+      (event) {
+        // Handle incoming events
         // ignore: avoid_print
-        print('Received EOSE event: ${event.relay}');
-      }
-    }, onError: (error) {
-      // Handle errors
-      // ignore: avoid_print
-      print('Error: $error');
-    }, onDone: () {
-      // Handle stream completion
-      // ignore: avoid_print
-      print('Stream closed');
-    });
+        print('Received event: $event');
+
+        if (event is NostrEventEose) {
+          // Handle EOSE event
+          // ignore: avoid_print
+          print('Received EOSE event: ${event.relay}');
+        }
+      },
+      onError: (error) {
+        // Handle errors
+        // ignore: avoid_print
+        print('Error: $error');
+      },
+      onDone: () {
+        // Handle stream completion
+        // ignore: avoid_print
+        print('Stream closed');
+      },
+    );
 
     _client.sendRequestToAll(
       const NostrReq(
         filters: [
-          NostrFilter(
-            kinds: [4],
-            limit: 5,
-          ),
+          NostrFilter(kinds: [4], limit: 5),
         ],
       ),
     );
@@ -75,10 +77,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('123'),
-      ),
-    );
+    return const Scaffold(body: Center(child: Text('123')));
   }
 }

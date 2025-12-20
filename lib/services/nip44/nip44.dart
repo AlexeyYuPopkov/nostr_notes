@@ -8,7 +8,7 @@ final class Nip44 {
   final DeriveKeys _deriveKeys;
 
   const Nip44([DeriveKeys deriveKeys = const DeriveKeys()])
-      : _deriveKeys = deriveKeys;
+    : _deriveKeys = deriveKeys;
 
   Uint8List deriveKeys({
     required String senderPrivateKey,
@@ -97,8 +97,11 @@ final class Nip44 {
     verifyMac(hmacKey, nonce, ciphertext, mac);
 
     // Step 6: Decrypt
-    final paddedPlaintext =
-        await decryptChaCha20(chachaKey, chachaNonce, ciphertext);
+    final paddedPlaintext = await decryptChaCha20(
+      chachaKey,
+      chachaNonce,
+      ciphertext,
+    );
 
     // Step 7: Unpad Plaintext
     final plaintextBytes = unpad(paddedPlaintext);

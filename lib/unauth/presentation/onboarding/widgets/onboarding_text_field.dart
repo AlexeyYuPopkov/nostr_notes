@@ -10,17 +10,17 @@ final class OnboardingTextFormField extends FormField<String> {
     required String hint,
     bool isEnabled = true,
   }) : super(
-          builder: (FormFieldState<String> state) => OnboardingTextField(
-            controller: controller,
-            hint: hint,
-            errorText: state.errorText,
-            validator: validator,
-            isEnabled: isEnabled,
-            onChanged: (value) {
-              state.didChange(value);
-            },
-          ),
-        );
+         builder: (FormFieldState<String> state) => OnboardingTextField(
+           controller: controller,
+           hint: hint,
+           errorText: state.errorText,
+           validator: validator,
+           isEnabled: isEnabled,
+           onChanged: (value) {
+             state.didChange(value);
+           },
+         ),
+       );
 }
 
 final class OnboardingTextField extends StatelessWidget {
@@ -50,9 +50,7 @@ final class OnboardingTextField extends StatelessWidget {
           controller: controller,
           onChanged: onChanged,
           enabled: isEnabled,
-          decoration: InputDecoration(
-            hintText: hint,
-          ),
+          decoration: InputDecoration(hintText: hint),
           textAlign: TextAlign.center,
           onTapOutside: (e) => FocusScope.of(context).unfocus(),
         ),

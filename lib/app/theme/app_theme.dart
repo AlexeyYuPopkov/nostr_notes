@@ -67,9 +67,7 @@ final class AppTheme {
       elevation: 2,
       margin: const EdgeInsets.all(Sizes.indent),
     ),
-    extensions: [
-      ShimmerColors.fromBrightness(Brightness.light),
-    ],
+    extensions: [ShimmerColors.fromBrightness(Brightness.light)],
   );
 
   static final dark = ThemeData(

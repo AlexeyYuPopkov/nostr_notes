@@ -4,9 +4,6 @@ final class RelaysListRepoImpl implements RelaysListRepo {
   const RelaysListRepoImpl();
   @override
   List<String> getRelaysList() {
-    return [
-      'wss://relay.nostr.band/all',
-      'wss://relay.damus.io',
-    ];
+    return ['wss://relay.nostr.band/all', 'wss://relay.damus.io'];
   }
 }

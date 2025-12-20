@@ -9,9 +9,7 @@ final class PathParams {
   @JsonKey(name: 'id', defaultValue: '')
   final String id;
 
-  const PathParams({
-    required this.id,
-  });
+  const PathParams({required this.id});
 
   factory PathParams.fromJson(Map<String, String> json) =>
       _$PathParamsFromJson(json);

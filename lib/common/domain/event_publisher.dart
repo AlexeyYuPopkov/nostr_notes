@@ -33,16 +33,12 @@ final class PublishReport {
   final String relay;
   final String errorMessage;
 
-  const PublishReport({
-    required this.relay,
-    required this.errorMessage,
-  });
+  const PublishReport({required this.relay, required this.errorMessage});
 }
 
 final class PublishTimeoutError extends AppError {
-  const PublishTimeoutError({
-    super.parentError,
-  }) : super(reason: 'Publish operation timed out');
+  const PublishTimeoutError({super.parentError})
+    : super(reason: 'Publish operation timed out');
 
   @override
   String get message =>

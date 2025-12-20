@@ -18,11 +18,9 @@ final class OnboardingScreenBloc
   late final StreamSubscription sessionSubscription;
 
   OnboardingScreenBloc()
-      : super(
-          OnboardingScreenState.common(
-            data: OnboardingScreenData.initial(),
-          ),
-        ) {
+    : super(
+        OnboardingScreenState.common(data: OnboardingScreenData.initial()),
+      ) {
     _setupHandlers();
     _setupSubscriptions();
     add(const OnboardingScreenEvent.initial());
@@ -32,10 +30,10 @@ final class OnboardingScreenBloc
     sessionSubscription = authUsecase.session
         .distinct((a, b) => a.isAuth == b.isAuth)
         .listen((session) {
-      if (session.isAuth) {
-        add(const OnboardingScreenEvent.onStep(OnboardingPin()));
-      }
-    });
+          if (session.isAuth) {
+            add(const OnboardingScreenEvent.onStep(OnboardingPin()));
+          }
+        });
   }
 
   void _setupHandlers() {
@@ -60,9 +58,7 @@ final class OnboardingScreenBloc
 
       await Future.delayed(const Duration(seconds: 2));
 
-      emit(
-        OnboardingScreenState.common(data: data),
-      );
+      emit(OnboardingScreenState.common(data: data));
     } catch (e) {
       emit(OnboardingScreenState.error(e: e, data: data));
     }
@@ -72,11 +68,7 @@ final class OnboardingScreenBloc
     OnStepEvent event,
     Emitter<OnboardingScreenState> emit,
   ) {
-    emit(
-      OnboardingScreenState.common(
-        data: data.copyWith(step: event.step),
-      ),
-    );
+    emit(OnboardingScreenState.common(data: data.copyWith(step: event.step)));
   }
 
   void _onOnNsecEvent(
@@ -89,9 +81,7 @@ final class OnboardingScreenBloc
 
       await authUsecase.execute(nsec: event.nsec);
 
-      emit(
-        OnboardingScreenState.common(data: data),
-      );
+      emit(OnboardingScreenState.common(data: data));
     } catch (e) {
       event.vm.setCompleted();
       emit(OnboardingScreenState.error(e: e, data: data));
@@ -108,9 +98,7 @@ final class OnboardingScreenBloc
 
       await pinUsecase.execute(pin: event.pin, usePin: event.usePin);
 
-      emit(
-        OnboardingScreenState.didUnlock(data: data),
-      );
+      emit(OnboardingScreenState.didUnlock(data: data));
     } catch (e) {
       event.vm.setCompleted();
       emit(OnboardingScreenState.error(e: e, data: data));

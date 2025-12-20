@@ -16,11 +16,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   StreamSubscription? _notesSubscription;
 
   NotesListBloc()
-      : super(
-          NotesListState.common(
-            data: NotesListData.initial(),
-          ),
-        ) {
+    : super(NotesListState.common(data: NotesListData.initial())) {
     _setupHandlers();
 
     add(const NotesListEvent.initial());
@@ -43,17 +39,17 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   void _setupSubscription() {
     _notesSubscription?.cancel();
     _notesSubscription = null;
-    _notesSubscription = _fetchNotesUsecase.execute().listen((items) {
-      add(const NotesListEvent.getNotes());
-    }, onError: (error) {
-      add(NotesListEvent.error(error: error));
-    });
+    _notesSubscription = _fetchNotesUsecase.execute().listen(
+      (items) {
+        add(const NotesListEvent.getNotes());
+      },
+      onError: (error) {
+        add(NotesListEvent.error(error: error));
+      },
+    );
   }
 
-  void _onInitialEvent(
-    InitialEvent event,
-    Emitter<NotesListState> emit,
-  ) {
+  void _onInitialEvent(InitialEvent event, Emitter<NotesListState> emit) {
     emit(NotesListState.loading(data: data));
     _setupSubscription();
   }
@@ -65,22 +61,13 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     try {
       final result = await _getNotesUsecase.execute();
 
-      emit(
-        NotesListState.common(
-          data: data.copyWith(
-            notes: result,
-          ),
-        ),
-      );
+      emit(NotesListState.common(data: data.copyWith(notes: result)));
     } catch (e) {
       emit(NotesListState.error(e: e, data: data));
     }
   }
 
-  void _onErrorEvent(
-    ErrorEvent event,
-    Emitter<NotesListState> emit,
-  ) {
+  void _onErrorEvent(ErrorEvent event, Emitter<NotesListState> emit) {
     emit(NotesListState.error(data: data, e: event.error));
   }
 }

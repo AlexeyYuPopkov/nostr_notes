@@ -9,22 +9,19 @@ sealed class NoteBlocState extends Equatable {
   @override
   List<Object?> get props => [data];
 
-  const factory NoteBlocState.common({
-    required NoteBlocData data,
-  }) = CommonState;
+  const factory NoteBlocState.common({required NoteBlocData data}) =
+      CommonState;
 
-  const factory NoteBlocState.loading({
-    required NoteBlocData data,
-  }) = LoadingState;
+  const factory NoteBlocState.loading({required NoteBlocData data}) =
+      LoadingState;
 
   const factory NoteBlocState.error({
     required NoteBlocData data,
     required Object e,
   }) = ErrorState;
 
-  const factory NoteBlocState.didSave({
-    required NoteBlocData data,
-  }) = DidSaveState;
+  const factory NoteBlocState.didSave({required NoteBlocData data}) =
+      DidSaveState;
 }
 
 final class CommonState extends NoteBlocState {
@@ -37,10 +34,7 @@ final class LoadingState extends NoteBlocState {
 
 final class ErrorState extends NoteBlocState {
   final Object e;
-  const ErrorState({
-    required super.data,
-    required this.e,
-  });
+  const ErrorState({required super.data, required this.e});
 }
 
 final class DidSaveState extends NoteBlocState {

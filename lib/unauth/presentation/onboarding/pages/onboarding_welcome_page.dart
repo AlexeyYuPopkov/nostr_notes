@@ -69,7 +69,7 @@ final class OnboardingWelcomePage extends StatelessWidget {
               title: l10n.onboardingWelcomeButtonNext,
               onTap: () => _onNext(context),
             ),
-          )
+          ),
         ],
       ),
     );

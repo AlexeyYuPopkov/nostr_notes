@@ -37,18 +37,11 @@ void main() {
 
       expect(client.count, 2);
 
-      when(() => channel1.stream).thenAnswer(
-        (_) => Stream.fromIterable([]),
-      );
+      when(() => channel1.stream).thenAnswer((_) => Stream.fromIterable([]));
 
-      when(() => channel2.stream).thenAnswer(
-        (_) => Stream.fromIterable([]),
-      );
+      when(() => channel2.stream).thenAnswer((_) => Stream.fromIterable([]));
 
-      expect(
-        client.stream(),
-        isA<Stream<BaseNostrEvent>>(),
-      );
+      expect(client.stream(), isA<Stream<BaseNostrEvent>>());
 
       when(() => channel1.ready).thenAnswer((_) => Future.value());
       when(() => channel2.ready).thenAnswer((_) => Future.value());

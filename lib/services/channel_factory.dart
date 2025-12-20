@@ -7,9 +7,7 @@ class ChannelFactory {
   WsChannel create(String url) {
     return WsChannel(
       url: url,
-      channel: WebSocketChannel.connect(
-        Uri.parse(url),
-      ),
+      channel: WebSocketChannel.connect(Uri.parse(url)),
     );
   }
 }

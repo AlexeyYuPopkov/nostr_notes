@@ -30,10 +30,7 @@ final class Note extends NoteBase {
   @override
   List<Object?> get props => [dTag, content, summary, createdAt];
 
-  Note copyWith({
-    String? content,
-    String? summary,
-  }) {
+  Note copyWith({String? content, String? summary}) {
     return Note(
       dTag: dTag,
       content: content ?? this.content,

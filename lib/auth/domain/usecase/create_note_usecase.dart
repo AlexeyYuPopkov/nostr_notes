@@ -19,10 +19,10 @@ final class CreateNoteUsecase {
     // required EventPublisher eventPublisher,
     required NoteCryptoUseCase noteCryptoUseCase,
     required NotesRepository notesRepository,
-  })  : _sessionUsecase = sessionUsecase,
-        // _eventPublisher = eventPublisher,
-        _noteCryptoUseCase = noteCryptoUseCase,
-        _notesRepository = notesRepository;
+  }) : _sessionUsecase = sessionUsecase,
+       // _eventPublisher = eventPublisher,
+       _noteCryptoUseCase = noteCryptoUseCase,
+       _notesRepository = notesRepository;
 
   Future<EventPublisherResult> execute({
     // required Note note,
@@ -49,9 +49,7 @@ final class CreateNoteUsecase {
         : note.content;
 
     final encryptedNote = await _noteCryptoUseCase.encryptNote(
-      note.copyWith(
-        summary: summary.byStripMarkDownSymbols(),
-      ),
+      note.copyWith(summary: summary.byStripMarkDownSymbols()),
     );
 
     final result = await _notesRepository.publishNote(
@@ -68,9 +66,7 @@ final class CreateNoteUsecase {
       return result;
     }
 
-    final decryptedNote = await _noteCryptoUseCase.decryptNote(
-      targetNote,
-    );
+    final decryptedNote = await _noteCryptoUseCase.decryptNote(targetNote);
 
     return EventPublisherResult(
       reports: result.reports,

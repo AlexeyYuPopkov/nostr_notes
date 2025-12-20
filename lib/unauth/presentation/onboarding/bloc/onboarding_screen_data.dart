@@ -6,19 +6,13 @@ final class OnboardingScreenData extends Equatable {
   const OnboardingScreenData._({required this.step});
 
   factory OnboardingScreenData.initial() {
-    return const OnboardingScreenData._(
-      step: OnboardingWelcome(),
-    );
+    return const OnboardingScreenData._(step: OnboardingWelcome());
   }
 
   @override
   List<Object?> get props => [step];
 
-  OnboardingScreenData copyWith({
-    OnboardingStep? step,
-  }) {
-    return OnboardingScreenData._(
-      step: step ?? this.step,
-    );
+  OnboardingScreenData copyWith({OnboardingStep? step}) {
+    return OnboardingScreenData._(step: step ?? this.step);
   }
 }

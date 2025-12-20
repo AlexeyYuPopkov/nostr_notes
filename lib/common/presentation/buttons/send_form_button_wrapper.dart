@@ -29,10 +29,7 @@ final class SendFormButtonWrapper extends StatelessWidget {
             Center(
               child: SizedBox(
                 width: minWidth,
-                child: Opacity(
-                  opacity: isEnabled ? 1 : 0.5,
-                  child: child,
-                ),
+                child: Opacity(opacity: isEnabled ? 1 : 0.5, child: child),
               ),
             ),
             if (isLoading)
@@ -42,13 +39,11 @@ final class SendFormButtonWrapper extends StatelessWidget {
                     height: loaderIndicatorSize,
                     width: loaderIndicatorSize,
                     child: RepaintBoundary(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                      ),
+                      child: CircularProgressIndicator(strokeWidth: 2),
                     ),
                   ),
                 ),
-              )
+              ),
           ],
         ),
       ),

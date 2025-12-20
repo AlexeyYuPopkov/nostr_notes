@@ -15,7 +15,7 @@ final class CryptoServiceImplMobile implements CryptoService {
   final _mobileNip44 = const Nip44();
 
   const CryptoServiceImplMobile([DeriveKeys deriveKeys = const DeriveKeys()])
-      : _deriveKeys = deriveKeys;
+    : _deriveKeys = deriveKeys;
 
   @override
   FutureOr<void> init() {}
@@ -105,6 +105,5 @@ final class CryptoServiceImplWeb implements CryptoService {
   Uint8List spec256k1({
     required Uint8List senderPrivateKey,
     required Uint8List recipientPublicKey,
-  }) =>
-      throw UnimplementedError();
+  }) => throw UnimplementedError();
 }

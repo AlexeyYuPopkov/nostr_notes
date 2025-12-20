@@ -35,9 +35,9 @@ void main() {
         shared: true,
       );
 
-      subscription = server
-          .transform(WebSocketTransformer())
-          .listen((WebSocket webSocket) {
+      subscription = server.transform(WebSocketTransformer()).listen((
+        WebSocket webSocket,
+      ) {
         final channel = IOWebSocketChannel(webSocket);
 
         channel.stream.listen((request) {
@@ -52,9 +52,7 @@ void main() {
             channel.sink.add(
               r'["EVENT","uuid-v1",{"id":"b6429ba094aa41ef040241f46b8390eb3ac7d42dd780558ccd20fb02fc0bbdba","pubkey":"3c316a662b851c0c2292a22099e0a7ef3a34234024987a669d2bd711bb42e850","content":"OeXjJDJTkdPs6paEqpAHjHuqMdMaaXDurwtXlofVeUzSsR88S5jd8nfVmh0COa21A5s9MpJSf1C/2OmmrL3RC9nl2jsE+HJNpcApikym/Skb/G+ADpcdLAkVk6PnFRJLLgPzmr2MOAn43JpAaFJLDw==?iv=3jyYiIaWabIyJrZyDEwXaw==","sig":"e2a62bea9de72b214f74c5f40bdf98e4e4cdb063de15e28cf28f9f6f0f65fcee24560fdd94f2073b124f25297fc89cdf6d2f31f46a3b658501188846ff38f569","kind":4,"created_at":1747690210,"tags":[["p","c04b100da6f8e89863f904e2a53c9ebb8902d2d6b9ae96d2187987c5effa5093"]]}]',
             );
-            channel.sink.add(
-              r'["EOSE","uuid-v1"]',
-            );
+            channel.sink.add(r'["EOSE","uuid-v1"]');
           }
         });
       });
@@ -83,10 +81,7 @@ void main() {
       client.sendRequestToAll(
         const NostrReq(
           filters: [
-            NostrFilter(
-              kinds: [4],
-              limit: 5,
-            ),
+            NostrFilter(kinds: [4], limit: 5),
           ],
         ),
       );
@@ -134,10 +129,7 @@ void main() {
 
       expect(requests.length, 1);
 
-      expect(
-        requests[0],
-        r'["REQ","uuid-v1",{"kinds":[4],"limit":5}]',
-      );
+      expect(requests[0], r'["REQ","uuid-v1",{"kinds":[4],"limit":5}]');
     });
   });
 }

@@ -14,10 +14,7 @@ final class NoteScreenV2 extends StatelessWidget with DialogHelper {
   final PathParams? pathParams;
   final config = _Config();
 
-  NoteScreenV2({
-    super.key,
-    this.pathParams,
-  });
+  NoteScreenV2({super.key, this.pathParams});
 
   void _listener(BuildContext context, NoteBlocState state) {
     switch (state) {
@@ -29,11 +26,9 @@ final class NoteScreenV2 extends StatelessWidget with DialogHelper {
         showError(context, error: state.e);
         break;
       case DidSaveState():
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Saved successfully'),
-          ),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Saved successfully')));
         break;
     }
   }
@@ -42,9 +37,7 @@ final class NoteScreenV2 extends StatelessWidget with DialogHelper {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return BlocProvider(
-      create: (context) => NoteBloc(
-        pathParams: pathParams,
-      ),
+      create: (context) => NoteBloc(pathParams: pathParams),
       child: BlocConsumer<NoteBloc, NoteBlocState>(
         listener: _listener,
         builder: (context, state) {
@@ -140,46 +133,46 @@ final class _Config {
   _Config();
 
   QuillSimpleToolbarConfig get config => const QuillSimpleToolbarConfig(
-        toolbarIconAlignment: WrapAlignment.start,
-        toolbarIconCrossAlignment: WrapCrossAlignment.start,
-        multiRowsDisplay: false,
-        showDividers: false,
-        showFontFamily: false,
-        showFontSize: true,
-        showBoldButton: true,
-        showItalicButton: false,
-        showSmallButton: false,
-        showUnderLineButton: false,
-        showLineHeightButton: false,
-        showStrikeThrough: false,
-        showInlineCode: false,
-        showColorButton: false,
-        showBackgroundColorButton: false,
-        showClearFormat: true,
-        showAlignmentButtons: false,
-        showLeftAlignment: false,
-        showCenterAlignment: false,
-        showRightAlignment: false,
-        showJustifyAlignment: false,
-        showHeaderStyle: false,
-        showListNumbers: true,
-        showListBullets: false,
-        showListCheck: false,
-        showCodeBlock: true,
-        showQuote: false,
-        showIndent: false,
-        showLink: false,
-        showUndo: true,
-        showRedo: true,
-        showDirection: false,
-        showSearchButton: false,
-        showSubscript: false,
-        showSuperscript: false,
-        //@experimental
-        // showClipboardCut: true,
-        //@experimental
-        // showClipboardCopy: true,
-        //@experimental
-        // showClipboardPaste: true,
-      );
+    toolbarIconAlignment: WrapAlignment.start,
+    toolbarIconCrossAlignment: WrapCrossAlignment.start,
+    multiRowsDisplay: false,
+    showDividers: false,
+    showFontFamily: false,
+    showFontSize: true,
+    showBoldButton: true,
+    showItalicButton: false,
+    showSmallButton: false,
+    showUnderLineButton: false,
+    showLineHeightButton: false,
+    showStrikeThrough: false,
+    showInlineCode: false,
+    showColorButton: false,
+    showBackgroundColorButton: false,
+    showClearFormat: true,
+    showAlignmentButtons: false,
+    showLeftAlignment: false,
+    showCenterAlignment: false,
+    showRightAlignment: false,
+    showJustifyAlignment: false,
+    showHeaderStyle: false,
+    showListNumbers: true,
+    showListBullets: false,
+    showListCheck: false,
+    showCodeBlock: true,
+    showQuote: false,
+    showIndent: false,
+    showLink: false,
+    showUndo: true,
+    showRedo: true,
+    showDirection: false,
+    showSearchButton: false,
+    showSubscript: false,
+    showSuperscript: false,
+    //@experimental
+    // showClipboardCut: true,
+    //@experimental
+    // showClipboardCopy: true,
+    //@experimental
+    // showClipboardPaste: true,
+  );
 }

@@ -10,9 +10,8 @@ sealed class SettingsScreenState extends Equatable {
   @override
   List<Object?> get props => [data];
 
-  const factory SettingsScreenState.common({
-    required SettingsScreenData data,
-  }) = CommonState;
+  const factory SettingsScreenState.common({required SettingsScreenData data}) =
+      CommonState;
 
   const factory SettingsScreenState.loading({
     required SettingsScreenData data,
@@ -34,8 +33,5 @@ final class LoadingState extends SettingsScreenState {
 
 final class ErrorState extends SettingsScreenState {
   final Object e;
-  const ErrorState({
-    required super.data,
-    required this.e,
-  });
+  const ErrorState({required super.data, required this.e});
 }

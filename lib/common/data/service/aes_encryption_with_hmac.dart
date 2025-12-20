@@ -24,9 +24,7 @@ class AesEncryptionWithHmac {
       );
 
     final keyMaterial = pbkdf2.process(
-      Uint8List.fromList(
-        utf8.encode(password),
-      ),
+      Uint8List.fromList(utf8.encode(password)),
     );
     return {
       'aesKey': keyMaterial.sublist(0, keyLength),
@@ -54,8 +52,11 @@ class AesEncryptionWithHmac {
     final encrypted = encrypter.encrypt(plaintext, iv: IV(keys['iv']!));
 
     // Формируем данные: salt + IV + ciphertext
-    final dataToHmac =
-        Uint8List.fromList([...salt, ...keys['iv']!, ...encrypted.bytes]);
+    final dataToHmac = Uint8List.fromList([
+      ...salt,
+      ...keys['iv']!,
+      ...encrypted.bytes,
+    ]);
 
     // Вычисляем HMAC-SHA256
     final hmac = HMac(SHA256Digest(), 64)..init(KeyParameter(keys['hmacKey']!));
@@ -68,10 +69,11 @@ class AesEncryptionWithHmac {
   }
 
   /// Дешифрование + проверка HMAC
-  String decrypt(
-      {required String ciphertext,
-      required String password,
-      Map<String, Uint8List>? cashedKeys}) {
+  String decrypt({
+    required String ciphertext,
+    required String password,
+    Map<String, Uint8List>? cashedKeys,
+  }) {
     final data = base64.decode(ciphertext);
 
     // Извлекаем составные части
@@ -102,7 +104,8 @@ class AesEncryptionWithHmac {
   static Uint8List _generateRandomBytes(int length) {
     final random = Random.secure();
     return Uint8List.fromList(
-        List.generate(length, (_) => random.nextInt(256)));
+      List.generate(length, (_) => random.nextInt(256)),
+    );
   }
 
   /// Сравнение HMAC (защищённое от атак по времени)

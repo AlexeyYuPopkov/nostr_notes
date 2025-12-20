@@ -27,10 +27,5 @@ final class NostrEventOk extends BaseNostrEvent {
   }
 
   @override
-  int get hashCode => Object.hash(
-        relay,
-        isOk,
-        subscriptionId,
-        message,
-      );
+  int get hashCode => Object.hash(relay, isOk, subscriptionId, message);
 }
