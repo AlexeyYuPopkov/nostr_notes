@@ -1,12 +1,12 @@
 name: Deploy Flutter Web to GH Pages Repo
 
-# on:
-#   push:
-#     branches:
-#       - main
-
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+# on:
+#   workflow_dispatch:
 
 jobs:
   build-and-deploy:
