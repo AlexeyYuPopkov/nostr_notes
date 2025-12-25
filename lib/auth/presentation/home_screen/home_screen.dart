@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:nostr_notes/app/router/app_router_path.dart';
+import 'package:nostr_notes/app/router/app_route/route_handler.dart';
+import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings_screen.dart';
 
 import '../notes_list/notes_list.dart';
@@ -42,9 +41,9 @@ final class HomeScreen extends StatelessWidget {
                       child: NotesList(
                         selectedNoteDTag: null,
                         onTap: (note) {
-                          GoRouter.of(context).pushReplacementNamed(
-                            AppRouterName.note,
-                            queryParameters: PathParams(id: note.dTag).toJson(),
+                          RouteHandler.of(context)?.onRoute(
+                            NotePreviewRoute(noteId: note.dTag),
+                            context,
                           );
                         },
                       ),
@@ -58,9 +57,9 @@ final class HomeScreen extends StatelessWidget {
                     NotesList(
                       selectedNoteDTag: null,
                       onTap: (note) {
-                        GoRouter.of(context).pushReplacementNamed(
-                          AppRouterName.note,
-                          queryParameters: PathParams(id: note.dTag).toJson(),
+                        RouteHandler.of(context)?.onRoute(
+                          NotePreviewRoute(noteId: note.dTag),
+                          context,
                         );
                       },
                     ),

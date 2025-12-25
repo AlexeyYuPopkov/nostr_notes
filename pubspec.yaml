@@ -50,7 +50,7 @@ dependencies:
   cryptography: ^2.7.0
   encrypt: ^5.0.3
   convert: ^3.1.2
-  elliptic: ^0.3.11
+  elliptic: ^0.3.12
   # cryptography_plus: ^2.7.0
   # cryptography_flutter_plus: ^2.3.2 
 
@@ -70,6 +70,7 @@ dependencies:
 
   shimmer: ^3.0.0
   flutter_markdown: ^0.7.7+1
+  gpt_markdown: ^1.1.5
   flutter_highlight: ^0.7.0
   flutter_quill: ^11.5.0
   markdown_quill: ^4.3.0
