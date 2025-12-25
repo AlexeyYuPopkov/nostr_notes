@@ -11,7 +11,7 @@ final class PathParams {
 
   const PathParams({required this.id});
 
-  factory PathParams.fromJson(Map<String, String> json) =>
+  factory PathParams.fromJson(Map<String, dynamic> json) =>
       _$PathParamsFromJson(json);
 
   Map<String, dynamic> toJson() => _$PathParamsToJson(this);

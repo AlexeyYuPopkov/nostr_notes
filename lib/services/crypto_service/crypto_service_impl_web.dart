@@ -29,7 +29,7 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
     wasm.Pointer<wasm.Uint8>,
     wasm.Pointer<wasm.Pointer<wasm.Uint8>>,
   )
-  _deriveSharedKeyWasm;
+  _spec256k1Wasm;
 
   CryptoServiceImplWeb._();
 
@@ -53,7 +53,7 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
         'assets/assets/wasm/crypto_module.wasm',
       );
 
-      _deriveSharedKeyWasm = _lib
+      _spec256k1Wasm = _lib
           .lookup<
             wasm.NativeFunction<
               int Function(
@@ -134,13 +134,9 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
       // EN: Allocate pointer for output buffer: unsigned char** result
       final ptrResultPtr = arena.allocate<wasm.Pointer<wasm.Uint8>>(1);
 
-      // RU: Вызов C-функции: int nip04encrypt(..., resultPtr)
-      // EN: Call C function: int nip04encrypt(..., resultPtr)
-      final resultLen = _deriveSharedKeyWasm(
-        ptrPrivKey,
-        ptrPubKey,
-        ptrResultPtr,
-      );
+      // RU: Вызов C-функции
+      // EN: Call C function
+      final resultLen = _spec256k1Wasm(ptrPrivKey, ptrPubKey, ptrResultPtr);
 
       // RU: Получаем реальный указатель на буфер из resultPtr
       // EN: Get the actual pointer to the buffer from resultPtr
@@ -156,16 +152,6 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
       return result;
     }, _lib.allocator);
   }
-
-  // Uint8List _deriveKeys({
-  //   required String senderPrivateKey,
-  //   required String recipientPublicKey,
-  // }) {
-  //   return _deriveKeysHex(
-  //     senderPrivateKey: hexToBytes(senderPrivateKey),
-  //     recipientPublicKey: hexToBytes('02$recipientPublicKey'),
-  //   );
-  // }
 
   @override
   Future<String> decryptNip44({

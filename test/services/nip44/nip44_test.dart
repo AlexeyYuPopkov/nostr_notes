@@ -8,6 +8,31 @@ void main() {
       'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
   group('Nip44', () {
     final Nip44 sut = const Nip44();
+
+    test('Nip44 decryption', () async {
+      const privateKey =
+          '49b3084ebe2d6a1c1c9f68be41c89593c7a1d0a80e23f259df341bfa8e5b5bd8';
+      const publicKey =
+          '5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee';
+
+      const encrypted =
+          'AuowxCPpvJQSzquuL60ZnDvJO+/uz+teYlZQ85pyzvYL9ytRBFL43hIRMucj0GMXAGLLvGVNdR+YAyORsqNx++TBeA1Eyvfbm8/xkFkz9tA/wE2u6jQOajp2wwItcSiONOszncTy1vZynIfUWj12PmbZJszCSZfUSCW6JdVoTQlQiEpK09m9TMQYRDZa9ZYMNrCidRt8Mz1HHboNzp4MXZPYekDavyAc4RdvCR0Ekp56dPaK7YfaDH5DC0Q9qPjSwD0d';
+
+      final Uint8List conversationKey = sut.deriveKeys(
+        senderPrivateKey: privateKey,
+        recipientPublicKey: publicKey,
+      );
+
+      final decrypted = await sut.decryptMessage(
+        payload: encrypted,
+        conversationKey: conversationKey,
+      );
+
+      expect(encrypted != text, true);
+      expect(decrypted, text);
+    });
+
+    //
     test('Nip44 encryption and decryption', () async {
       const privateKey =
           '49b3084ebe2d6a1c1c9f68be41c89593c7a1d0a80e23f259df341bfa8e5b5bd8';
@@ -32,35 +57,6 @@ void main() {
       expect(encrypted != text, true);
       expect(decrypted, text);
     });
-
-    // test('Nip44 + AES + cached conversation key', () async {
-    //   const privateKey =
-    //       '49b3084ebe2d6a1c1c9f68be41c89593c7a1d0a80e23f259df341bfa8e5b5bd8';
-    //   const publicKey =
-    //       '5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee';
-
-    //   // Step 1: Compute Shared Secret
-    //   final sharedSecret = Nip44.computeSharedSecret(privateKey, publicKey);
-
-    //   // Step 2: Derive Conversation Key
-    //   final conversationKey = Nip44.deriveConversationKey(sharedSecret);
-
-    //   final encrypted = await Nip44.encryptMessage(
-    //     plaintext: text,
-    //     senderPrivateKey: privateKey,
-    //     recipientPublicKey: publicKey,
-    //     customConversationKey: conversationKey,
-    //   );
-
-    //   final decrypted = await Nip44.decryptMessage(
-    //     payload: encrypted,
-    //     recipientPrivateKey: privateKey,
-    //     senderPublicKey: publicKey,
-    //   );
-
-    //   expect(encrypted != text, true);
-    //   expect(decrypted == text, true);
-    // });
   });
 
   group('Nip44 encryption/decryption performance', () {
@@ -109,9 +105,6 @@ void main() {
         const publicKey =
             '5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee';
 
-        // final sharedSecret = Nip44.computeSharedSecret(privateKey, publicKey);
-        // final conversationKey = Nip44.deriveConversationKey(sharedSecret);
-
         final Uint8List conversationKey = sut.deriveKeys(
           senderPrivateKey: privateKey,
           recipientPublicKey: publicKey,
@@ -124,17 +117,11 @@ void main() {
           final encrypted = await sut.encryptMessage(
             plaintext: '$text $i',
             conversationKey: conversationKey,
-            // senderPrivateKey: privateKey,
-            // recipientPublicKey: publicKey,
-            // customConversationKey: conversationKey,
           );
 
           final decrypted = await sut.decryptMessage(
             payload: encrypted,
             conversationKey: conversationKey,
-            // recipientPrivateKey: privateKey,
-            // senderPublicKey: publicKey,
-            // customConversationKey: conversationKey,
           );
 
           expect(decrypted, '$text $i');
