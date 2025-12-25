@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:elliptic/ecdh.dart';
 import 'package:elliptic/elliptic.dart';
 import 'package:flutter/foundation.dart';
@@ -57,14 +55,14 @@ final class DeriveKeys with HexToBytes {
     return Uint8List.fromList(sec);
   }
 
-  static Uint8List deriveConversationKey(Uint8List sharedSecret) {
-    final salt = utf8.encode('nip44-v2');
+  // static Uint8List deriveConversationKey(Uint8List sharedSecret) {
+  //   final salt = utf8.encode('nip44-v2');
 
-    final conversationKey = hkdfExtract(
-      ikm: sharedSecret,
-      salt: Uint8List.fromList(salt),
-    );
+  //   final conversationKey = hkdfExtract(
+  //     ikm: sharedSecret,
+  //     salt: Uint8List.fromList(salt),
+  //   );
 
-    return conversationKey;
-  }
+  //   return conversationKey;
+  // }
 }
