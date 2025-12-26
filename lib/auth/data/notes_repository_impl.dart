@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/data/common_event_storage_impl.dart';
@@ -136,7 +137,11 @@ class NotesRepositoryImpl implements NotesRepository {
       client.addRelay(relay);
     }
 
-    await client.connect();
+    try {
+      await client.connect();
+    } catch (e) {
+      log('NostrRelay.ready error: $e', name: 'Nostr');
+    }
 
     final result = await client.publishEventToAll(event);
 
