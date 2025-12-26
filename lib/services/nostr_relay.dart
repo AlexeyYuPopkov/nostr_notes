@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:nostr_notes/services/channel_factory.dart';
 import 'package:nostr_notes/services/model/base_nostr_event.dart';
@@ -28,6 +29,7 @@ class NostrRelay with NostrRelayEventMapper {
     try {
       return _channel.ready;
     } catch (e) {
+      log('NostrRelay.ready error: $e; $url', name: 'Nostr');
       rethrow;
     }
   }
