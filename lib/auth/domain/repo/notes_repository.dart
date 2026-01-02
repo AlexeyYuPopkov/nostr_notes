@@ -1,5 +1,4 @@
 import 'package:nostr_notes/auth/domain/model/note.dart';
-import 'package:nostr_notes/common/domain/event_publisher.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:uuid/uuid.dart';
 
@@ -23,7 +22,7 @@ abstract interface class NotesRepository {
     required String id,
   });
 
-  Future<EventPublisherResult> publishNote({
+  Future<NotePublisherReport> publishNote({
     required Note note,
     required String pubkey,
     required String privateKey,
@@ -31,4 +30,27 @@ abstract interface class NotesRepository {
     Uuid? uuid,
     List<int>? randomBytes,
   });
+}
+
+final class NotePublisherReport {
+  final Duration? exceededTimeout;
+  final List<String> successfulRelays;
+  final List<String> closedRelays;
+  final Note? note;
+
+  NotePublisherReport({
+    required this.exceededTimeout,
+    required this.successfulRelays,
+    required this.closedRelays,
+    required this.note,
+  });
+
+  NotePublisherReport copyWith({Note? note}) {
+    return NotePublisherReport(
+      exceededTimeout: exceededTimeout,
+      successfulRelays: successfulRelays,
+      closedRelays: closedRelays,
+      note: note ?? this.note,
+    );
+  }
 }

@@ -107,7 +107,7 @@ final class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
         dTag: data.initialNote.value?.dTag,
       );
 
-      final newNote = result.targetNote;
+      final newNote = result.note;
 
       if (newNote is Note) {
         emit(

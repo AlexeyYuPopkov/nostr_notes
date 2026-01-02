@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/data/common_event_storage_impl.dart';
@@ -8,7 +7,6 @@ import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/common/domain/error/app_error.dart';
-import 'package:nostr_notes/common/domain/event_publisher.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/core/tools/date_time_helper.dart';
 import 'package:nostr_notes/core/tools/now.dart';
@@ -17,8 +15,9 @@ import 'package:nostr_notes/services/model/nostr_filter.dart';
 import 'package:nostr_notes/services/model/nostr_req.dart';
 import 'package:nostr_notes/services/model/tag/tag.dart';
 import 'package:nostr_notes/services/model/tag/tag_value.dart';
-import 'package:nostr_notes/services/nostr_client.dart';
-import 'package:nostr_notes/services/nostr_event_creator.dart';
+import 'package:nostr_notes/services/nostr_client/nostr_client.dart';
+import 'package:nostr_notes/services/nostr_client/nostr_event_creator.dart';
+import 'package:nostr_notes/services/nostr_client/nostr_publisher.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:uuid/uuid.dart';
 
@@ -54,10 +53,10 @@ class NotesRepositoryImpl implements NotesRepository {
     required String pubkey,
     required Set<String> relays,
     DateTime? until,
-  }) {
-    client.addRelays(relays);
+  }) async {
+    await client.addRelays(relays);
 
-    client.connect();
+    // client.connect();
     client.sendRequestToAll(
       NostrReq(
         filters: [
@@ -101,7 +100,7 @@ class NotesRepositoryImpl implements NotesRepository {
   }
 
   @override
-  Future<EventPublisherResult> publishNote({
+  Future<NotePublisherReport> publishNote({
     required Note note,
     required String pubkey,
     required String privateKey,
@@ -134,20 +133,32 @@ class NotesRepositoryImpl implements NotesRepository {
     );
 
     for (final relay in _relaysListRepo.getRelaysList()) {
-      client.addRelay(relay);
+      await client.addRelay(relay);
     }
 
-    try {
-      await client.connect();
-    } catch (e) {
-      log('NostrRelay.ready error: $e', name: 'Nostr');
+    // if (!client.isConnected) {
+    //   try {
+    //     // await client.connect();
+    //   } catch (e) {
+    //     log('NostrRelay.ready error: $e', name: 'Nostr');
+    //   }
+    // }
+
+    final publisher = NostrPublisher(client: client, event: event);
+
+    final report = await publisher.execute();
+
+    // final result = await client.publishEventToAll(event);
+
+    // final timeoutError = result.timeoutError;
+
+    if (report.error is NotPublished) {
+      throw report.error!;
     }
 
-    final result = await client.publishEventToAll(event);
+    memoryStorage.add(report.event);
 
-    final timeoutError = result.timeoutError;
-
-    memoryStorage.add(result.targetEvent);
+    // memoryStorage.add(report.event);
 
     // final resultNote = await getNote(
     //   pubkey: pubkey,
@@ -155,20 +166,33 @@ class NotesRepositoryImpl implements NotesRepository {
     //   id: note.dTag,
     // );
 
-    final resultNote = NoteMapper.fromNostrEvent(result.targetEvent);
+    final resultNote = NoteMapper.fromNostrEvent(report.event);
 
     if (resultNote == null) {
       throw const AppError.undefined();
     }
 
-    return EventPublisherResult(
-      reports: result.events
-          .map((e) => PublishReport(relay: e.relay, errorMessage: e.message))
-          .toList(),
-      targetNote: resultNote,
-      error: timeoutError == null
-          ? null
-          : PublishTimeoutError(parentError: timeoutError),
+    return report.toEventPublisherReport(resultNote);
+
+    // EventPublisherResult(
+    //   reports: result.events
+    //       .map((e) => PublishReport(relay: e.relay, errorMessage: e.message))
+    //       .toList(),
+    //   targetNote: resultNote,
+    //   error: timeoutError == null
+    //       ? null
+    //       : PublishTimeoutError(parentError: timeoutError),
+    // );
+  }
+}
+
+extension on PublishEventReport {
+  NotePublisherReport toEventPublisherReport(Note? note) {
+    return NotePublisherReport(
+      exceededTimeout: exceededTimeout,
+      successfulRelays: events.map((e) => e.relay).toList(),
+      closedRelays: close.map((e) => e.relay).toList(),
+      note: note,
     );
   }
 }
