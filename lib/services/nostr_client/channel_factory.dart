@@ -1,5 +1,6 @@
-import 'package:nostr_notes/services/ws_channel.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+
+import 'ws_channel.dart';
 
 class ChannelFactory {
   const ChannelFactory();

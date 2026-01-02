@@ -5,8 +5,9 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/services/model/nostr_event_ok.dart';
-import 'package:nostr_notes/services/nostr_client.dart';
-import 'package:nostr_notes/services/nostr_event_creator.dart';
+import 'package:nostr_notes/services/nostr_client/nostr_client.dart';
+import 'package:nostr_notes/services/nostr_client/nostr_event_creator.dart';
+import 'package:nostr_notes/services/nostr_client/nostr_publisher.dart';
 import 'package:web_socket_channel/io.dart';
 
 void main() {
@@ -35,13 +36,9 @@ void main() {
           }
 
           if (requests.length == 1) {
-            const responce = r'''
-                  [
-                    "OK",
-                    "339bebb0843d7df0498a412b92c33899e61978a27d5ad85b30849a2cf5d186fe",
-                    true,
-                    ""
-                  ]''';
+            const responce = r''' [
+                "OK", "339bebb0843d7df0498a412b92c33899e61978a27d5ad85b30849a2cf5d186fe", true, "" 
+                    ]''';
             channel.sink.add(responce);
           }
         });
@@ -60,11 +57,11 @@ void main() {
 
     test('request - responce', () async {
       final relayUrl = 'ws://localhost:${server.port}';
-      client.addRelay(relayUrl);
+      await client.addRelay(relayUrl);
 
       expect(client.count, 1);
 
-      await client.connect();
+      // await client.connect();
 
       const publicKey =
           'dce0fabd51911a780130715bb4c247df2fe0fe0e1c53df6218fa1e4e041e60e0';
@@ -81,7 +78,9 @@ void main() {
         privateKey: privateKey,
       );
 
-      final resultFuture = client.publishEventToAll(event);
+      final publisher = NostrPublisher(client: client, event: event);
+
+      final reportFuture = publisher.execute();
 
       while (requests.isEmpty) {
         await Future.delayed(const Duration(milliseconds: 1));
@@ -101,7 +100,7 @@ void main() {
       final exeptedEvent = NostrEventOk(
         relay: relayUrl,
         isOk: true,
-        subscriptionId:
+        eventId:
             '339bebb0843d7df0498a412b92c33899e61978a27d5ad85b30849a2cf5d186fe',
         message: '',
       );
@@ -109,11 +108,11 @@ void main() {
       final subscription = client.stream().listen((e) {});
 
       await expectLater(
-        resultFuture.then((e) => e.events.length),
+        reportFuture.then((e) => e.events.length),
         completion(1),
       );
       await expectLater(
-        resultFuture.then((e) => e.events[0]),
+        reportFuture.then((e) => e.events[0]),
         completion(exeptedEvent),
       );
 

@@ -7,65 +7,24 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/auth/data/common_event_storage_impl.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
+import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/domain/error/error_messages_provider.dart';
-import 'package:nostr_notes/common/domain/event_publisher.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/model/session/user_keys.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
-import 'package:nostr_notes/services/channel_factory.dart';
+import 'package:nostr_notes/services/nostr_client/channel_factory.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
-import 'package:nostr_notes/services/nostr_client.dart';
+import 'package:nostr_notes/services/nostr_client/nostr_client.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:nostr_notes/services/ws_channel.dart';
 import 'package:nostr_notes/core/tools/now.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../tools/mock_error_messages_provider.dart';
+import '../../tools/mock_wschannel.dart';
 import '../../tools/some_moked_data.dart';
-
-final class MockWSChannel implements WsChannel {
-  final String _url;
-
-  final List<Map<String, dynamic>> calls = [];
-
-  void Function(dynamic data, MockWSChannel channel)? onAdd;
-
-  MockWSChannel({required String url}) : _url = url;
-
-  final mockStream = PublishSubject<String>();
-
-  @override
-  void add(data) {
-    calls.add({'add': data});
-    onAdd?.call(data, this);
-  }
-
-  @override
-  Future disconnect() async {
-    calls.add({'disconnect': ''});
-  }
-
-  @override
-  Future<void> get ready async {
-    calls.add({'ready': ''});
-  }
-
-  @override
-  Stream get stream {
-    calls.add({'stream': ''});
-    return mockStream;
-  }
-
-  @override
-  String get url {
-    calls.add({'url': ''});
-    return _url;
-  }
-}
 
 class MockChannelFactory extends Mock implements ChannelFactory {}
 
@@ -158,7 +117,7 @@ void main() {
       channelFactory = MockChannelFactory();
       channel1 = MockWSChannel(url: MockRelaysListRepo.relayUrl1);
       channel2 = MockWSChannel(url: MockRelaysListRepo.relayUrl2);
-      client = NostrClient(channelFactory: channelFactory);
+      client = NostrClient(channelFactory: channelFactory, uuid: mockUuid);
 
       final sessionUsecase = SessionUsecase()
         ..setSession(
@@ -195,6 +154,8 @@ void main() {
     });
 
     test('successful note creation', () async {
+      const eventId =
+          '9d1c1d765e572b5914ed838cba42bb22b9fb50f5ac0532c494caf75bc7363143';
       when(() => mockUuid.v1()).thenReturn('uuid-v1');
       when(
         () => channelFactory.create(MockRelaysListRepo.relayUrl1),
@@ -203,9 +164,7 @@ void main() {
         () => channelFactory.create(MockRelaysListRepo.relayUrl2),
       ).thenReturn(channel2);
 
-      const responce = r'''
-        ["OK","9d1c1d765e572b5914ed838cba42bb22b9fb50f5ac0532c494caf75bc7363143",true,""]
-        ''';
+      const responce = '''["OK","$eventId",true,""]''';
 
       channel1.onAdd = (data, channel) {
         channel.mockStream.add(responce);
@@ -223,11 +182,11 @@ void main() {
         randomBytes: SomeMokedData.randomBytes,
       );
 
-      expect(result, isA<EventPublisherResult>());
-      expect(result.targetNote is Note, true);
-      expect(result.reports.length, 2);
-      expect(result.reports[0].errorMessage, '');
-      expect(result.reports[1].errorMessage, '');
+      expect(result, isA<NotePublisherReport>());
+      expect(result.note is Note, true);
+      expect(result.successfulRelays.length, 2);
+      expect(result.closedRelays.isEmpty, isTrue);
+      expect(result.exceededTimeout, isNull);
 
       const sendedEvent = r'''
           ["EVENT",{
@@ -240,17 +199,28 @@ void main() {
           "sig":"ceb65b126c335f6659769493ae8c309f9061c9cd11dd34d3e0fa606f2e40d9b5bc26f041a26b8ecf124aaa5d0d3438a21761ebc956a10aa576ea67c916696950"}]
         ''';
 
-      expect(channel1.calls.length, 6);
-      expect(channel1.calls, equals(channel2.calls));
-      expect(channel1.calls[0], {'ready': ''});
-      expect(channel1.calls[1], {'stream': ''});
-      expect(channel1.calls[2], {'url': ''});
-      expect(jsonDecode(channel1.calls[3]['add']), jsonDecode(sendedEvent));
+      final eventJson = jsonDecode(sendedEvent);
+
+      expect(channel1.calls.length, 3);
+      expect(channel2.calls.length, 3);
+
+      expect(channel1.verifyReadyCalled(), 1);
+      expect(channel1.verifyStreamCalled(), 1);
+      expect(channel1.verifyAddCalled(), 1);
+
+      expect(channel2.verifyReadyCalled(), 1);
+      expect(channel2.verifyStreamCalled(), 1);
+      expect(channel2.verifyAddCalled(), 1);
+
+      expect(jsonDecode(channel1.calls[2].value), eventJson);
+      expect(jsonDecode(channel2.calls[2].value), eventJson);
     });
 
     test(
       'successful note creation on 1nd relay from 2 and no responce from 2nd relay',
       () async {
+        const eventId =
+            '9d1c1d765e572b5914ed838cba42bb22b9fb50f5ac0532c494caf75bc7363143';
         when(() => mockUuid.v1()).thenReturn('uuid-v1');
         when(
           () => channelFactory.create(MockRelaysListRepo.relayUrl1),
@@ -259,9 +229,8 @@ void main() {
           () => channelFactory.create(MockRelaysListRepo.relayUrl2),
         ).thenReturn(channel2);
 
-        const responce = r'''
-        ["OK","9d1c1d765e572b5914ed838cba42bb22b9fb50f5ac0532c494caf75bc7363143",true,""]
-        ''';
+        const responce = '''["OK","$eventId",true,""]''';
+
         channel1.onAdd = (data, channel) {
           channel.mockStream.add(responce);
         };
@@ -274,10 +243,11 @@ void main() {
           randomBytes: SomeMokedData.randomBytes,
         );
 
-        expect(result, isA<EventPublisherResult>());
-        expect(result.error, isA<PublishTimeoutError>());
-        expect(result.reports.length, 1);
-        expect(result.reports[0].errorMessage, '');
+        expect(result, isA<NotePublisherReport>());
+        expect(result.note is Note, true);
+        expect(result.successfulRelays.length, 1);
+        expect(result.closedRelays.length, 0);
+        expect(result.exceededTimeout, isNotNull);
 
         const sendedEvent = r'''
           ["EVENT",{
@@ -290,12 +260,14 @@ void main() {
           "sig":"ceb65b126c335f6659769493ae8c309f9061c9cd11dd34d3e0fa606f2e40d9b5bc26f041a26b8ecf124aaa5d0d3438a21761ebc956a10aa576ea67c916696950"}]
         ''';
 
-        expect(channel1.calls.length, 6);
-        expect(channel2.calls.length, 5);
-        expect(channel1.calls[0], {'ready': ''});
-        expect(channel1.calls[1], {'stream': ''});
-        expect(channel1.calls[2], {'url': ''});
-        expect(jsonDecode(channel1.calls[3]['add']), jsonDecode(sendedEvent));
+        final eventJson = jsonDecode(sendedEvent);
+
+        expect(channel1.calls.length, 3);
+
+        expect(channel1.verifyReadyCalled(), 1);
+        expect(channel1.verifyStreamCalled(), 1);
+        expect(channel1.verifyAddCalled(), 1);
+        expect(jsonDecode(channel1.calls[2].value), eventJson);
       },
     );
   });
