@@ -3,13 +3,13 @@ import 'package:nostr_notes/services/model/base_nostr_event.dart';
 final class NostrEventOk extends BaseNostrEvent {
   final String relay;
   final bool isOk;
-  final String subscriptionId;
+  final String eventId;
   final String message;
 
   const NostrEventOk({
     required this.relay,
     required this.isOk,
-    required this.subscriptionId,
+    required this.eventId,
     required this.message,
   });
 
@@ -22,10 +22,10 @@ final class NostrEventOk extends BaseNostrEvent {
     return other is NostrEventOk &&
         other.relay == relay &&
         other.isOk == isOk &&
-        other.subscriptionId == subscriptionId &&
+        other.eventId == eventId &&
         other.message == message;
   }
 
   @override
-  int get hashCode => Object.hash(relay, isOk, subscriptionId, message);
+  int get hashCode => Object.hash(relay, isOk, eventId, message);
 }

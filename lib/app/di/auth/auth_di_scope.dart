@@ -11,7 +11,7 @@ import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 
 // import 'package:nostr_notes/services/key_tool/nip04_service.dart';
-import 'package:nostr_notes/services/nostr_client.dart';
+import 'package:nostr_notes/services/nostr_client/nostr_client.dart';
 
 final class AuthDiScope extends DiScope {
   const AuthDiScope();
