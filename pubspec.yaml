@@ -80,6 +80,7 @@ dependencies:
   # flutter_markdown_editor: ^2.0.0
   # super_editor: #^0.2.7
 
+  markdown: any
 dependency_overrides:
   win32: 5.14.0
 

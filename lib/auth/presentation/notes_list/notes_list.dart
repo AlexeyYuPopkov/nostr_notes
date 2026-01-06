@@ -6,12 +6,11 @@ import 'package:nostr_notes/app/router/app_router_path.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
-import 'package:nostr_notes/common/presentation/formatters/date_formatter.dart';
-import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
 
 import 'bloc/notes_list_bloc.dart';
 import 'bloc/notes_list_event.dart';
 import 'bloc/notes_list_state.dart';
+import 'widgets/notes_list_card.dart';
 
 final class NotesList extends StatelessWidget with DialogHelper {
   final String? selectedNoteDTag;
@@ -66,9 +65,9 @@ final class NotesList extends StatelessWidget with DialogHelper {
 }
 
 final class _List extends StatelessWidget {
-  static const titleHeight = 24.0;
-  static const subtitleHeight = 16.0;
-  static const itemHeight = titleHeight + subtitleHeight;
+  // static const titleHeight = 24.0;
+  // static const subtitleHeight = 16.0;
+  // static const itemHeight = titleHeight + subtitleHeight;
 
   const _List({
     required this.selectedNoteDTag,
@@ -87,69 +86,22 @@ final class _List extends StatelessWidget {
     const placeholdersCount = 9;
 
     final count = isLoading ? placeholdersCount : notes.length;
-    final theme = Theme.of(context);
+
     return ListView.separated(
       itemCount: count,
-      cacheExtent: itemHeight,
+      cacheExtent: NotesListCard.itemHeight,
       itemBuilder: (context, index) {
         if (isLoading) {
-          return const _Shimmer();
+          return const NotesListCardShimmer();
         }
 
-        final note = notes[index];
-        return SizedBox(
-          height: itemHeight,
-          child: ListTile(
-            title: SizedBox(
-              height: titleHeight,
-              child: Text(
-                note.summary,
-                style: theme.textTheme.titleSmall,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            subtitle: SizedBox(
-              height: subtitleHeight,
-              child: Text(
-                DateFormatter.formatDateTimeOrEmpty(note.createdAt),
-                style: theme.textTheme.bodySmall,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            selected: note.dTag == selectedNoteDTag,
-            onTap: () => onTap(note),
-          ),
+        return NotesListCard(
+          note: notes[index],
+          selectedNoteDTag: selectedNoteDTag,
+          onTap: onTap,
         );
       },
-      separatorBuilder: (context, index) =>
-          const SizedBox(height: Sizes.indentVariant2x),
-    );
-  }
-}
-
-final class _Shimmer extends StatelessWidget {
-  const _Shimmer();
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox(
-      height: _List.itemHeight,
-      child: ListTile(
-        title: CommonShimmer(
-          child: SizedBox(height: _List.titleHeight, width: double.infinity),
-        ),
-        subtitle: Padding(
-          padding: EdgeInsets.only(top: Sizes.halfIndent),
-          child: CommonShimmer(
-            child: SizedBox(
-              height: _List.subtitleHeight,
-              width: double.infinity,
-            ),
-          ),
-        ),
-      ),
+      separatorBuilder: (context, index) => const SizedBox(),
     );
   }
 }
