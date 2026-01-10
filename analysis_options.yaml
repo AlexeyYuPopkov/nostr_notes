@@ -14,6 +14,9 @@ linter:
   rules:
     prefer_const_constructors: true
     prefer_const_literals_to_create_immutables: true
+    always_declare_return_types: true
+    prefer_single_quotes: true
+    require_trailing_commas: true
     # deprecated_member_use_from_same_package: false
 
 spellcheck:

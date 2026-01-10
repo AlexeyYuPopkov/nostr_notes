@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
+import 'package:nostr_notes/auth/presentation/edit_note_quill_screen/quill_edit_note_screen.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
-import 'package:nostr_notes/auth/presentation/note_details_screen/note_details_screen.dart';
-// import 'package:nostr_notes/auth/presentation/note_details_screen/note_details_screen.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/note_preview_screen.dart';
 import 'package:nostr_notes/auth/presentation/note_screen/note_screen_v2.dart';
 
@@ -20,6 +19,6 @@ final class AppScreensAssembly implements ScreensAssembly {
 
   @override
   Widget createNoteDetailsScreen(PathParams pathParams) {
-    return NoteDetailsScreen(pathParams: pathParams);
+    return QuillEditNoteScreen(pathParams: pathParams);
   }
 }

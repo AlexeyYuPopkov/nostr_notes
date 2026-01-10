@@ -6,9 +6,11 @@ import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/sizes.dart';
+import 'package:nostr_notes/app/theme/gpt_markdown_theme_data.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_bloc.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
+import 'package:nostr_notes/auth/presentation/note_preview_screen/widgets/note_code_field.dart';
 
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 
@@ -54,7 +56,15 @@ final class NotePreviewScreen extends StatelessWidget with DialogHelper {
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(Sizes.indent),
-                child: GptMarkdown(content),
+                child: GptMarkdownTheme(
+                  gptThemeData: AppGptMarkdownTheme.light().data,
+                  child: GptMarkdown(
+                    content,
+                    codeBuilder: (context, name, code, closed) {
+                      return NoteCodeField(name: name, codes: code);
+                    },
+                  ),
+                ),
               ),
             ),
           );

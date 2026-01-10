@@ -18,7 +18,7 @@ import 'package:nostr_notes/common/domain/error/error_messages_provider.dart';
 import 'package:nostr_notes/core/tools/optional_box.dart';
 import 'package:rxdart/rxdart.dart';
 
-final class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
+final class QuillEditNoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
   final PathParams? pathParams;
   late final controller = QuillController.basic();
   late final GetNoteUsecase _getNoteUsecase = DiStorage.shared.resolve();
@@ -28,7 +28,7 @@ final class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
 
   NoteBlocData get data => state.data;
 
-  NoteBloc({required this.pathParams})
+  QuillEditNoteBloc({required this.pathParams})
     : super(NoteBlocState.common(data: NoteBlocData.initial())) {
     _setupHandlers();
 

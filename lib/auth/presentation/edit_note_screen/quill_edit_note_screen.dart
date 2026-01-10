@@ -10,11 +10,11 @@ import 'package:nostr_notes/auth/presentation/note_screen/bloc/note_bloc_event.d
 import 'package:nostr_notes/auth/presentation/note_screen/bloc/note_bloc_state.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 
-final class NoteDetailsScreen extends StatelessWidget with DialogHelper {
+final class EditNoteScreen extends StatelessWidget with DialogHelper {
   final PathParams? pathParams;
   final config = _Config();
 
-  NoteDetailsScreen({super.key, this.pathParams});
+  EditNoteScreen({super.key, this.pathParams});
 
   void _listener(BuildContext context, NoteBlocState state) {
     switch (state) {
