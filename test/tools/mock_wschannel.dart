@@ -24,11 +24,6 @@ final class MockWSChannel implements WsChannel {
   }
 
   @override
-  Future<void> get ready async {
-    calls.add(const MapEntry('ready', ''));
-  }
-
-  @override
   Stream get stream {
     calls.add(const MapEntry('stream', ''));
     return mockStream;

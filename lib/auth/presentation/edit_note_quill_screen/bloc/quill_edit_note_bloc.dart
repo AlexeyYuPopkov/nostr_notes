@@ -10,15 +10,17 @@ import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
-import 'package:nostr_notes/auth/presentation/note_screen/bloc/note_bloc_data.dart';
-import 'package:nostr_notes/auth/presentation/note_screen/bloc/note_bloc_event.dart';
-import 'package:nostr_notes/auth/presentation/note_screen/bloc/note_bloc_state.dart';
 import 'package:nostr_notes/common/domain/error/app_error.dart';
 import 'package:nostr_notes/common/domain/error/error_messages_provider.dart';
 import 'package:nostr_notes/core/tools/optional_box.dart';
 import 'package:rxdart/rxdart.dart';
 
-final class QuillEditNoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
+import 'quill_edit_note_data.dart';
+import 'quill_edit_note_event.dart';
+import 'quill_edit_note_state.dart';
+
+final class QuillEditNoteBloc
+    extends Bloc<QuillEditNoteEvent, QuillEditNoteState> {
   final PathParams? pathParams;
   late final controller = QuillController.basic();
   late final GetNoteUsecase _getNoteUsecase = DiStorage.shared.resolve();
@@ -26,13 +28,13 @@ final class QuillEditNoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
 
   StreamSubscription? _controllerSubscription;
 
-  NoteBlocData get data => state.data;
+  QuillEditNoteData get data => state.data;
 
   QuillEditNoteBloc({required this.pathParams})
-    : super(NoteBlocState.common(data: NoteBlocData.initial())) {
+    : super(QuillEditNoteState.common(data: QuillEditNoteData.initial())) {
     _setupHandlers();
 
-    add(const NoteBlocEvent.initial());
+    add(const QuillEditNoteEvent.initial());
   }
 
   @override
@@ -49,7 +51,10 @@ final class QuillEditNoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
     on<ShouldCheckChanges>(_onShouldCheckChanges);
   }
 
-  void _onInitialEvent(InitialEvent event, Emitter<NoteBlocState> emit) async {
+  void _onInitialEvent(
+    InitialEvent event,
+    Emitter<QuillEditNoteState> emit,
+  ) async {
     try {
       final noteId = pathParams?.id;
       if (noteId == null || noteId.isEmpty) {
@@ -66,22 +71,22 @@ final class QuillEditNoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
       controller.document = Document.fromDelta(mdToDelta.convert(str));
 
       emit(
-        NoteBlocState.common(
+        QuillEditNoteState.common(
           data: data.copyWith(initialNote: OptionalBox(note)),
         ),
       );
     } catch (e) {
-      emit(NoteBlocState.error(e: e, data: data));
+      emit(QuillEditNoteState.error(e: e, data: data));
     } finally {
       _controllerSubscription = controller.changes
           .debounceTime(const Duration(milliseconds: 300))
           .listen((_) {
-            add(const NoteBlocEvent.shouldCheckChanges());
+            add(const QuillEditNoteEvent.shouldCheckChanges());
           });
     }
   }
 
-  void _onSaveEvent(SaveEvent event, Emitter<NoteBlocState> emit) async {
+  void _onSaveEvent(SaveEvent event, Emitter<QuillEditNoteState> emit) async {
     try {
       final deltaToMd = DeltaToMarkdown();
 
@@ -100,7 +105,7 @@ final class QuillEditNoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
         throw AppError.common(message: message);
       }
 
-      emit(NoteBlocState.loading(data: data));
+      emit(QuillEditNoteState.loading(data: data));
 
       final result = await _createNoteUsecase.execute(
         content: trimmedText,
@@ -111,7 +116,7 @@ final class QuillEditNoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
 
       if (newNote is Note) {
         emit(
-          NoteBlocState.didSave(
+          QuillEditNoteState.didSave(
             data: data.copyWith(initialNote: OptionalBox(newNote)),
           ),
         );
@@ -121,15 +126,15 @@ final class QuillEditNoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
         throw const AppError.undefined();
       }
     } catch (e) {
-      emit(NoteBlocState.error(e: e, data: data));
+      emit(QuillEditNoteState.error(e: e, data: data));
     } finally {
-      add(const NoteBlocEvent.shouldCheckChanges());
+      add(const QuillEditNoteEvent.shouldCheckChanges());
     }
   }
 
   void _onShouldCheckChanges(
     ShouldCheckChanges event,
-    Emitter<NoteBlocState> emit,
+    Emitter<QuillEditNoteState> emit,
   ) {
     final str = data.initialNote.value?.content ?? '';
 
@@ -139,6 +144,8 @@ final class QuillEditNoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
 
     final hasChanged = md.trim() != str.trim();
 
-    emit(NoteBlocState.common(data: data.copyWith(hasChanges: hasChanged)));
+    emit(
+      QuillEditNoteState.common(data: data.copyWith(hasChanges: hasChanged)),
+    );
   }
 }

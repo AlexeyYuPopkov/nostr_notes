@@ -5,7 +5,7 @@ import 'package:nostr_notes/core/tools/optional_box.dart';
 final class QuillEditNoteData extends Equatable {
   final OptionalBox<Note> initialNote;
   final bool hasChanges;
-  // final String text;
+
   const QuillEditNoteData._({
     required this.initialNote,
     required this.hasChanges,

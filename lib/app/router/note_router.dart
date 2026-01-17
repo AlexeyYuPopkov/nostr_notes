@@ -21,7 +21,7 @@ final class NoteRouter {
         path: AppRouterName.note,
         builder: (BuildContext context, GoRouterState state) {
           final params = PathParams.fromJson(state.uri.queryParameters);
-          return _screensAssembly.createNoteScreen(params);
+          return _screensAssembly.createNotePreview(params);
         },
       ),
       GoRoute(
@@ -55,7 +55,7 @@ final class NoteRouter {
         builder: (BuildContext context, GoRouterState state) {
           final extra = state.extra as Map<String, dynamic>;
           final params = PathParams.fromJson(extra);
-          return _screensAssembly.createNoteDetailsScreen(params);
+          return _screensAssembly.createEditNoteQuillScreen(params);
         },
       ),
     ];

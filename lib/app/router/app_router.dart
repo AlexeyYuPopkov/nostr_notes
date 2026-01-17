@@ -37,6 +37,9 @@ final class AppRouter {
         });
   }
 
+  // final GlobalKey<NavigatorState> drawerNavigatorKey =
+  //     GlobalKey<NavigatorState>();
+
   late final _router = GoRouter(
     redirect: (context, state) {
       final session = this.session.currentSession;
@@ -59,17 +62,58 @@ final class AppRouter {
         builder: (context, state, child) {
           return RouteHandlerWidget(
             child: HomeScreen(
+              screensAssembly: _screensAssembly,
               hasNote: state.fullPath?.contains('note') == true,
+              // drawerNavigatorKey: drawerNavigatorKey,
               child: child,
             ),
             onRoute: (route, context) {
               if (route is NotePreviewRoute) {
                 return noteRouter.possibleHandler(route, context);
               }
+              // else if (route is PreferencesRoute) {
+              //   final router = GoRouter.of(context);
+
+              //   final path = StringBuffer(router.state.matchedLocation);
+              //   path.write('/app_settings');
+
+              //   return Navigator.of(
+              //     drawerNavigatorKey.currentContext!,
+              //   ).pushNamed('/app_settings');
+              // }
             },
           );
         },
         routes: [
+          // ShellRoute(
+          //   navigatorKey: drawerNavigatorKey,
+          //   builder: (context, state, child) {
+          //     return RouteHandlerWidget(
+          //       child: Scaffold(body: child),
+          //       onRoute: (route, context) {
+          //         print('Drawer route: $route');
+          //       },
+          //     );
+          //   },
+          //   routes: [
+          //     GoRoute(
+          //       name: AppRouterName.home,
+          //       path: AppRouterPath.home,
+          //       builder: (BuildContext context, GoRouterState state) {
+          //         return const NewNotePromptPlaceholder();
+          //       },
+          //       routes: [...noteRouter.getRoutes()],
+          //     ),
+          //     GoRoute(
+          //       path: 'app_settings',
+          //       builder: (BuildContext context, GoRouterState state) {
+          //         return _screensAssembly.createAppSettingsScreen();
+          //       },
+          //       // routes: [...noteRouter.getRoutes()],
+          //     ),
+          //     // ...noteRouter.getRoutes(),
+          //   ],
+          // ),
           GoRoute(
             name: AppRouterName.home,
             path: AppRouterPath.home,
@@ -78,7 +122,7 @@ final class AppRouter {
             },
             routes: [...noteRouter.getRoutes()],
           ),
-          // ...noteRouter.getRoutes(),
+          // // ...noteRouter.getRoutes(),
         ],
       ),
     ],

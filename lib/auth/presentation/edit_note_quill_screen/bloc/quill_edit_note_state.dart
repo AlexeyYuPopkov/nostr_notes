@@ -1,26 +1,26 @@
 import 'package:equatable/equatable.dart';
-import 'package:nostr_notes/auth/presentation/note_screen/bloc/note_bloc_data.dart';
+import 'package:nostr_notes/auth/presentation/edit_note_quill_screen/bloc/quill_edit_note_data.dart';
 
 sealed class QuillEditNoteState extends Equatable {
-  final NoteBlocData data;
+  final QuillEditNoteData data;
 
   const QuillEditNoteState({required this.data});
 
   @override
   List<Object?> get props => [data];
 
-  const factory QuillEditNoteState.common({required NoteBlocData data}) =
+  const factory QuillEditNoteState.common({required QuillEditNoteData data}) =
       CommonState;
 
-  const factory QuillEditNoteState.loading({required NoteBlocData data}) =
+  const factory QuillEditNoteState.loading({required QuillEditNoteData data}) =
       LoadingState;
 
   const factory QuillEditNoteState.error({
-    required NoteBlocData data,
+    required QuillEditNoteData data,
     required Object e,
   }) = ErrorState;
 
-  const factory QuillEditNoteState.didSave({required NoteBlocData data}) =
+  const factory QuillEditNoteState.didSave({required QuillEditNoteData data}) =
       DidSaveState;
 }
 

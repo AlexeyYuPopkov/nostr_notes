@@ -14,19 +14,18 @@ import 'package:rxdart/rxdart.dart';
 import 'ws_channel.dart';
 
 class NostrRelay with NostrRelayEventMapper {
-  NostrRelay({required String url, required ChannelFactory channelFactory})
+  NostrRelay._({required String url, required ChannelFactory channelFactory})
     : _channelFactory = channelFactory {
     _channel = _channelFactory.create(url);
-    // _createSubscription();
+    _createSubscription();
   }
 
-  // factory NostrRelay({
-  //   required String url,
-  //   required ChannelFactory channelFactory,
-  // }) {
-  //   return NostrRelay._(url: url, channelFactory: channelFactory);
-  // }
-
+  factory NostrRelay({
+    required String url,
+    required ChannelFactory channelFactory,
+  }) {
+    return NostrRelay._(url: url, channelFactory: channelFactory);
+  }
   late WsChannel _channel;
   final ChannelFactory _channelFactory;
 
@@ -109,14 +108,7 @@ class NostrRelay with NostrRelayEventMapper {
       final newChannel = _channelFactory.create(url);
       _channel = newChannel;
 
-      // await ready;
-
-      try {
-        await _channel.ready;
-      } catch (e) {
-        log('Channel ready-recovering error: $e', name: 'Nostr');
-      }
-
+      _createSubscription();
       _isCancelled = false;
 
       log('Recovery succeeded for relay: $url', name: 'Nostr');
@@ -135,21 +127,15 @@ class NostrRelay with NostrRelayEventMapper {
   @override
   String get url => _channel.url;
 
-  Future<void> get ready async {
-    try {
-      await _channel.ready;
-    } catch (e) {
-      log('Channel ready error: $e', name: 'Nostr');
-    }
+  // Future<void> get ready async {
+  //   // try {
+  //   //   await _channel.ready;
+  //   // } catch (e) {
+  //   //   rethrow;
+  //   // }
+  // }
 
-    try {
-      _createSubscription();
-    } catch (e) {
-      log('Channel subscription creation error: $e', name: 'Nostr');
-    }
-  }
-
-  void sendRequest(NostrReq req, String subscriptionId) {
+  FutureOr<void> sendRequest(NostrReq req, String subscriptionId) async {
     if (_isCancelled) {
       log(
         'Cannot send request, channel is cancelled for relay: $url',
@@ -158,10 +144,10 @@ class NostrRelay with NostrRelayEventMapper {
       _recover();
       return;
     }
-    _channel.add(req.serialized(subscriptionId));
+    return _channel.add(req.serialized(subscriptionId));
   }
 
-  void closeRequest(NostrEventClose closeCommand) {
+  FutureOr<void> closeRequest(NostrEventClose closeCommand) async {
     if (_isCancelled) {
       log(
         'Cannot send request, channel is cancelled for relay: $url',
@@ -170,10 +156,10 @@ class NostrRelay with NostrRelayEventMapper {
       _recover();
       return;
     }
-    _channel.add(closeCommand.serialized());
+    return _channel.add(closeCommand.serialized());
   }
 
-  void sendEvent(NostrEvent event) {
+  FutureOr<void> sendEvent(NostrEvent event) async {
     if (_isCancelled) {
       log(
         'Cannot send request, channel is cancelled for relay: $url',
@@ -182,7 +168,7 @@ class NostrRelay with NostrRelayEventMapper {
       _recover();
       return;
     }
-    _channel.add(event.serialized());
+    return _channel.add(event.serialized());
   }
 
   Stream<BaseNostrEvent> get eventStream => _controller.stream;
@@ -226,6 +212,14 @@ mixin NostrRelayEventMapper {
   }
 
   static BaseNostrEvent? toEvent(dynamic data, String relayUrl) {
+    if (data is! String) {
+      return null;
+    }
+
+    if (data.isEmpty) {
+      return null;
+    }
+
     final content = jsonDecode(data) as List?;
 
     if (content == null) {

@@ -28,14 +28,11 @@ void main() {
       when(() => channelFactory.create(relayUrl1)).thenReturn(channel1);
       when(() => channelFactory.create(relayUrl2)).thenReturn(channel2);
 
-      await client.addRelay(relayUrl1);
-      await client.addRelay(relayUrl1);
-      await client.addRelay(relayUrl2);
+      client.addRelay(relayUrl1);
+      client.addRelay(relayUrl1);
+      client.addRelay(relayUrl2);
       expect(client.count, 2);
 
-      // await client.connect();
-      expect(channel1.verifyReadyCalled(), 1);
-      expect(channel2.verifyReadyCalled(), 1);
       expect(channel1.verifyStreamCalled(), 1);
       expect(channel2.verifyStreamCalled(), 1);
 

@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
-import 'package:nostr_notes/auth/presentation/edit_note_quill_screen/quill_edit_note_screen.dart';
+import 'package:nostr_notes/auth/presentation/edit_note_quill_screen/edit_note_quill_screen.dart';
+
+import 'package:nostr_notes/auth/presentation/edit_raw_note_screen.dart/edit_raw_note_screen.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/note_preview_screen.dart';
-import 'package:nostr_notes/auth/presentation/note_screen/note_screen_v2.dart';
+import 'package:nostr_notes/auth/presentation/settings/app/app_settings_screen.dart';
 
 final class AppScreensAssembly implements ScreensAssembly {
   const AppScreensAssembly();
-  @override
-  Widget createNoteScreen(PathParams pathParams) {
-    return NoteScreenV2(pathParams: pathParams);
-  }
 
   @override
   Widget createNotePreview(PathParams pathParams) {
@@ -18,7 +16,15 @@ final class AppScreensAssembly implements ScreensAssembly {
   }
 
   @override
-  Widget createNoteDetailsScreen(PathParams pathParams) {
-    return QuillEditNoteScreen(pathParams: pathParams);
+  Widget createEditNoteQuillScreen(PathParams pathParams) {
+    return EditQuillNoteScreen(pathParams: pathParams);
   }
+
+  @override
+  Widget createEditNoteRawScreen(PathParams pathParams) {
+    return EditRawNoteScreen(pathParams: pathParams);
+  }
+
+  @override
+  Widget createAppSettingsScreen() => AppSettingsScreen();
 }

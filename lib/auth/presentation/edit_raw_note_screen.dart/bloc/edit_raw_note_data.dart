@@ -2,17 +2,17 @@ import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/core/tools/optional_box.dart';
 
-final class QuillEditNoteData extends Equatable {
+final class EditRawNoteData extends Equatable {
   final OptionalBox<Note> initialNote;
   final bool hasChanges;
-  // final String text;
-  const QuillEditNoteData._({
+
+  const EditRawNoteData._({
     required this.initialNote,
     required this.hasChanges,
   });
 
-  factory QuillEditNoteData.initial() {
-    return const QuillEditNoteData._(
+  factory EditRawNoteData.initial() {
+    return const EditRawNoteData._(
       initialNote: OptionalBox(null),
       hasChanges: false,
     );
@@ -21,11 +21,8 @@ final class QuillEditNoteData extends Equatable {
   @override
   List<Object?> get props => [initialNote, hasChanges];
 
-  QuillEditNoteData copyWith({
-    OptionalBox<Note>? initialNote,
-    bool? hasChanges,
-  }) {
-    return QuillEditNoteData._(
+  EditRawNoteData copyWith({OptionalBox<Note>? initialNote, bool? hasChanges}) {
+    return EditRawNoteData._(
       initialNote: initialNote ?? this.initialNote,
       hasChanges: hasChanges ?? this.hasChanges,
     );

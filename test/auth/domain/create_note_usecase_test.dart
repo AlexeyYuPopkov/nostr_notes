@@ -150,7 +150,7 @@ void main() {
     });
 
     tearDown(() async {
-      await client.disconnect();
+      await client.disconnectAndDispose();
     });
 
     test('successful note creation', () async {
@@ -201,19 +201,17 @@ void main() {
 
       final eventJson = jsonDecode(sendedEvent);
 
-      expect(channel1.calls.length, 3);
-      expect(channel2.calls.length, 3);
+      expect(channel1.calls.length, 2);
+      expect(channel2.calls.length, 2);
 
-      expect(channel1.verifyReadyCalled(), 1);
       expect(channel1.verifyStreamCalled(), 1);
       expect(channel1.verifyAddCalled(), 1);
 
-      expect(channel2.verifyReadyCalled(), 1);
       expect(channel2.verifyStreamCalled(), 1);
       expect(channel2.verifyAddCalled(), 1);
 
-      expect(jsonDecode(channel1.calls[2].value), eventJson);
-      expect(jsonDecode(channel2.calls[2].value), eventJson);
+      expect(jsonDecode(channel1.calls[1].value), eventJson);
+      expect(jsonDecode(channel2.calls[1].value), eventJson);
     });
 
     test(
@@ -262,12 +260,11 @@ void main() {
 
         final eventJson = jsonDecode(sendedEvent);
 
-        expect(channel1.calls.length, 3);
+        expect(channel1.calls.length, 2);
 
-        expect(channel1.verifyReadyCalled(), 1);
         expect(channel1.verifyStreamCalled(), 1);
         expect(channel1.verifyAddCalled(), 1);
-        expect(jsonDecode(channel1.calls[2].value), eventJson);
+        expect(jsonDecode(channel1.calls[1].value), eventJson);
       },
     );
   });

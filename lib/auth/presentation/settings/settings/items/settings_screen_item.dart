@@ -1,19 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
-import 'package:nostr_notes/auth/presentation/settings/bloc/settings_screen_bloc.dart';
+import 'package:nostr_notes/app/router/app_route/route_handler.dart';
+import 'package:nostr_notes/auth/presentation/settings/settings/bloc/settings_screen_bloc.dart';
+import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 
 import '../bloc/settings_screen_event.dart';
 
 abstract class SettingsItem {
-  static const items = [SettingsItemLogout(), SettingsItemLogoutAndClear()];
+  static const items = [
+    AppSettingsItemLogout(),
+    SettingsItemLogout(),
+    SettingsItemLogoutAndClear(),
+  ];
 
   const SettingsItem();
 
   String getTitle(BuildContext context);
 
   void onTap(BuildContext context);
+}
+
+final class AppSettingsItemLogout extends SettingsItem {
+  const AppSettingsItemLogout();
+  @override
+  String getTitle(context) => 'Preferences';
+
+  @override
+  void onTap(BuildContext context) {
+    RouteHandler.of(context)?.onRoute(const PreferencesRoute(), context);
+  }
 }
 
 final class SettingsItemLogout extends SettingsItem {

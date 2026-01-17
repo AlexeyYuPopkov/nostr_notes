@@ -57,7 +57,7 @@ void main() {
 
     test('request - responce', () async {
       final relayUrl = 'ws://localhost:${server.port}';
-      await client.addRelay(relayUrl);
+      client.addRelay(relayUrl);
 
       expect(client.count, 1);
 

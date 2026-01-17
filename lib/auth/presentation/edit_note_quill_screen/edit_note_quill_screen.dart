@@ -5,18 +5,19 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
-import 'package:nostr_notes/auth/presentation/note_screen/bloc/note_bloc.dart';
-import 'package:nostr_notes/auth/presentation/note_screen/bloc/note_bloc_event.dart';
-import 'package:nostr_notes/auth/presentation/note_screen/bloc/note_bloc_state.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 
-final class QuillEditNoteScreen extends StatelessWidget with DialogHelper {
+import 'bloc/quill_edit_note_bloc.dart';
+import 'bloc/quill_edit_note_event.dart';
+import 'bloc/quill_edit_note_state.dart';
+
+final class EditQuillNoteScreen extends StatelessWidget with DialogHelper {
   final PathParams? pathParams;
   final config = _Config();
 
-  QuillEditNoteScreen({super.key, this.pathParams});
+  EditQuillNoteScreen({super.key, this.pathParams});
 
-  void _listener(BuildContext context, NoteBlocState state) {
+  void _listener(BuildContext context, QuillEditNoteState state) {
     switch (state) {
       case CommonState():
         break;
@@ -37,11 +38,11 @@ final class QuillEditNoteScreen extends StatelessWidget with DialogHelper {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return BlocProvider(
-      create: (context) => NoteBloc(pathParams: pathParams),
-      child: BlocConsumer<NoteBloc, NoteBlocState>(
+      create: (context) => QuillEditNoteBloc(pathParams: pathParams),
+      child: BlocConsumer<QuillEditNoteBloc, QuillEditNoteState>(
         listener: _listener,
         builder: (context, state) {
-          final controller = context.read<NoteBloc>().controller;
+          final controller = context.read<QuillEditNoteBloc>().controller;
           return Scaffold(
             backgroundColor: theme.colorScheme.surface,
             appBar: AppBar(
@@ -105,7 +106,7 @@ final class _SaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<NoteBloc, NoteBlocState, bool>(
+    return BlocSelector<QuillEditNoteBloc, QuillEditNoteState, bool>(
       selector: (state) => state.data.hasChanges,
       builder: (context, hasChanges) {
         return CupertinoButton(
@@ -125,7 +126,7 @@ final class _SaveButton extends StatelessWidget {
 
   void _onSave(BuildContext context) {
     FocusScope.of(context).unfocus();
-    context.read<NoteBloc>().add(const NoteBlocEvent.save());
+    context.read<QuillEditNoteBloc>().add(const QuillEditNoteEvent.save());
   }
 }
 

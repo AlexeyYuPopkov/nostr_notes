@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
+import 'package:nostr_notes/app/router/drawer_router.dart';
 import 'package:nostr_notes/app/router/note_router.dart';
+import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/auth/presentation/settings/settings_screen.dart';
 
 import '../notes_list/notes_list.dart';
 
 final class HomeScreen extends StatelessWidget {
+  final ScreensAssembly screensAssembly;
   final Widget child;
   final bool hasNote;
 
-  const HomeScreen({super.key, required this.child, required this.hasNote});
+  const HomeScreen({
+    super.key,
+    required this.screensAssembly,
+    required this.child,
+    required this.hasNote,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +38,7 @@ final class HomeScreen extends StatelessWidget {
           ),
           endDrawer: SizedBox(
             width: isDesktop ? desktopSideAreaWidth : double.infinity,
-            child: const SettingsScreen(),
+            child: DrawerRouter(screensAssembly: screensAssembly),
           ),
           body: isDesktop
               ? Row(
