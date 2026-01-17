@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
+import 'package:nostr_notes/auth/presentation/edit_note_markdown_screen/edit_note_markdown_screen.dart';
 import 'package:nostr_notes/auth/presentation/edit_note_quill_screen/edit_note_quill_screen.dart';
-
-import 'package:nostr_notes/auth/presentation/edit_raw_note_screen.dart/edit_raw_note_screen.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/note_preview_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/app/app_settings_screen.dart';
@@ -21,8 +20,8 @@ final class AppScreensAssembly implements ScreensAssembly {
   }
 
   @override
-  Widget createEditNoteRawScreen(PathParams pathParams) {
-    return EditRawNoteScreen(pathParams: pathParams);
+  Widget createEditNoteMarkdownScreen(PathParams pathParams) {
+    return EditMarkdownNoteScreen(pathParams: pathParams);
   }
 
   @override

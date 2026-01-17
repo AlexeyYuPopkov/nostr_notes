@@ -6,12 +6,14 @@ final class AppGptMarkdownTheme extends ThemeExtension<AppGptMarkdownTheme> {
   final GptMarkdownThemeData data;
   final Color codeBlocColor;
   final Color codeBlocBackground;
+  final TextStyle rawCodeTextStyle;
 
   AppGptMarkdownTheme({
     required this.brightness,
     required this.data,
     required this.codeBlocColor,
     required this.codeBlocBackground,
+    required this.rawCodeTextStyle,
   });
 
   factory AppGptMarkdownTheme.light() {
@@ -20,6 +22,11 @@ final class AppGptMarkdownTheme extends ThemeExtension<AppGptMarkdownTheme> {
       data: GptMarkdownThemeData(brightness: Brightness.light),
       codeBlocColor: const Color.fromARGB(255, 38, 71, 111),
       codeBlocBackground: const Color(0xFFF5F6FA),
+      rawCodeTextStyle: const TextStyle(
+        color: Colors.black,
+        fontSize: 15.0,
+        fontFamily: 'monospace',
+      ),
     );
   }
 
@@ -29,6 +36,11 @@ final class AppGptMarkdownTheme extends ThemeExtension<AppGptMarkdownTheme> {
       data: GptMarkdownThemeData(brightness: Brightness.dark),
       codeBlocColor: const Color(0xFFB8C7E0), //  Color(0xFF8FB3FF)
       codeBlocBackground: const Color(0xFF23272F), // Color(0xFF1A1D23)
+      rawCodeTextStyle: const TextStyle(
+        color: Colors.white,
+        fontSize: 15.0,
+        fontFamily: 'monospace',
+      ),
     );
   }
 
@@ -36,12 +48,14 @@ final class AppGptMarkdownTheme extends ThemeExtension<AppGptMarkdownTheme> {
   AppGptMarkdownTheme copyWith({
     Brightness? brightness,
     GptMarkdownThemeData? data,
+    TextStyle? rawCodeTextStyle,
   }) {
     return AppGptMarkdownTheme(
       brightness: brightness ?? this.brightness,
       data: data ?? this.data,
       codeBlocColor: codeBlocColor,
       codeBlocBackground: codeBlocBackground,
+      rawCodeTextStyle: rawCodeTextStyle ?? this.rawCodeTextStyle,
     );
   }
 
@@ -84,6 +98,9 @@ final class AppGptMarkdownTheme extends ThemeExtension<AppGptMarkdownTheme> {
       codeBlocBackground:
           Color.lerp(codeBlocBackground, other.codeBlocBackground, t) ??
           codeBlocBackground,
+      rawCodeTextStyle:
+          TextStyle.lerp(rawCodeTextStyle, other.rawCodeTextStyle, t) ??
+          rawCodeTextStyle,
     );
   }
 }

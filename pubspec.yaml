@@ -71,6 +71,7 @@ dependencies:
   shimmer: ^3.0.0
   flutter_markdown: ^0.7.7+1
   gpt_markdown: ^1.1.5
+  highlight: ^0.7.0
   flutter_highlight: ^0.7.0
   flutter_quill: ^11.5.0
   markdown_quill: ^4.3.0
