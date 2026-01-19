@@ -71,6 +71,7 @@ dependencies:
   shimmer: ^3.0.0
   flutter_markdown: ^0.7.7+1
   gpt_markdown: ^1.1.5
+  highlight: ^0.7.0
   flutter_highlight: ^0.7.0
   flutter_quill: ^11.5.0
   markdown_quill: ^4.3.0
@@ -80,6 +81,7 @@ dependencies:
   # flutter_markdown_editor: ^2.0.0
   # super_editor: #^0.2.7
 
+  markdown: any
 dependency_overrides:
   win32: 5.14.0
 

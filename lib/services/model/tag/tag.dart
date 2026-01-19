@@ -6,10 +6,14 @@ abstract class BaseTag {
   String get sharp => '#$value';
 
   @override
-  operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! BaseTag) return false;
-    return value == other.value;
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    } else if (other is! BaseTag) {
+      return false;
+    } else {
+      return value == other.value;
+    }
   }
 
   @override
