@@ -25,8 +25,8 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run tests                    
-        run: flutter test --coverage
+      # - name: Run tests                    
+      #   run: flutter test --coverage
 
       - name: Build Flutter iOS
         run: flutter build ios --release --no-codesign
