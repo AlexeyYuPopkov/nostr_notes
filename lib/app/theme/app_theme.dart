@@ -3,6 +3,7 @@ import 'package:nostr_notes/app/sizes.dart';
 
 import 'app_color_scheme.dart';
 import 'app_text_theme.dart';
+import 'gpt_markdown_theme_data.dart';
 import 'shimmer_colors.dart';
 
 final class AppTheme {
@@ -67,7 +68,10 @@ final class AppTheme {
       elevation: 2,
       margin: const EdgeInsets.all(Sizes.indent),
     ),
-    extensions: [ShimmerColors.fromBrightness(Brightness.light)],
+    extensions: [
+      ShimmerColors.fromBrightness(Brightness.light),
+      AppGptMarkdownTheme.light(),
+    ],
   );
 
   static final dark = ThemeData(
@@ -129,5 +133,9 @@ final class AppTheme {
       elevation: 2,
       margin: const EdgeInsets.all(Sizes.indent),
     ),
+    extensions: [
+      ShimmerColors.fromBrightness(Brightness.light),
+      AppGptMarkdownTheme.dark(),
+    ],
   );
 }

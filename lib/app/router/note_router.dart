@@ -21,41 +21,72 @@ final class NoteRouter {
         path: AppRouterName.note,
         builder: (BuildContext context, GoRouterState state) {
           final params = PathParams.fromJson(state.uri.queryParameters);
-          return _screensAssembly.createNoteScreen(params);
+          return _screensAssembly.createNotePreview(params);
         },
       ),
       GoRoute(
         path: AppRouterPath.notePreview,
-        builder: (BuildContext context, GoRouterState state) {
+        pageBuilder: (BuildContext context, GoRouterState state) {
           final extra = state.extra as Map<String, dynamic>;
           final params = PathParams.fromJson(extra);
-          return RouteHandlerWidget(
-            child: _screensAssembly.createNotePreview(params),
-            onRoute: (route, context) {
-              if (route is NoteDetailsRoute) {
-                final router = GoRouter.of(context);
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: RouteHandlerWidget(
+              child: _screensAssembly.createNotePreview(params),
+              onRoute: (route, context) {
+                if (route is NoteDetailsRoute) {
+                  final router = GoRouter.of(context);
 
-                final path = router.state.matchedLocation
-                    .split('/')
-                    .popUntil(AppRouterPath.notePreview)
-                    .join();
-                return router.pushReplacement(
-                  '/$path/${AppRouterPath.noteDetails}',
-                  extra: PathParams(id: route.noteId).toJson(),
-                );
-              }
+                  final path = router.state.matchedLocation
+                      .split('/')
+                      .popUntil(AppRouterPath.notePreview)
+                      .join();
+                  return router.pushReplacement(
+                    '/$path/${AppRouterPath.noteDetails}',
+                    extra: route.toExtra(),
+                  );
+                }
 
-              return const UnhandledRouteResult();
-            },
+                return const UnhandledRouteResult();
+              },
+            ),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
           );
         },
       ),
       GoRoute(
         path: AppRouterPath.noteDetails,
-        builder: (BuildContext context, GoRouterState state) {
+        pageBuilder: (BuildContext context, GoRouterState state) {
           final extra = state.extra as Map<String, dynamic>;
           final params = PathParams.fromJson(extra);
-          return _screensAssembly.createNoteDetailsScreen(params);
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: RouteHandlerWidget(
+              child: _screensAssembly.createEditNoteMarkdownScreen(params),
+              onRoute: (route, context) {
+                if (route is NotePreviewRoute) {
+                  final router = GoRouter.of(context);
+
+                  final path = router.state.matchedLocation
+                      .split('/')
+                      .popUntil(AppRouterPath.noteDetails)
+                      .join();
+
+                  return router.pushReplacement(
+                    '/$path/${AppRouterPath.notePreview}',
+                    extra: route.toExtra(),
+                  );
+                }
+              },
+            ),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+          );
         },
       ),
     ];

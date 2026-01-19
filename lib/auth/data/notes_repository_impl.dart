@@ -54,7 +54,7 @@ class NotesRepositoryImpl implements NotesRepository {
     required Set<String> relays,
     DateTime? until,
   }) async {
-    await client.addRelays(relays);
+    client.addRelays(relays);
 
     // client.connect();
     client.sendRequestToAll(
@@ -133,7 +133,7 @@ class NotesRepositoryImpl implements NotesRepository {
     );
 
     for (final relay in _relaysListRepo.getRelaysList()) {
-      await client.addRelay(relay);
+      client.addRelay(relay);
     }
 
     // if (!client.isConnected) {

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
+import 'package:nostr_notes/app/router/app_route/app_route.dart';
 import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/auth/presentation/settings/bloc/settings_screen_bloc.dart';
-import 'package:nostr_notes/auth/presentation/settings/bloc/settings_screen_state.dart';
+import 'package:nostr_notes/auth/presentation/settings/settings/bloc/settings_screen_bloc.dart';
+import 'package:nostr_notes/auth/presentation/settings/settings/bloc/settings_screen_state.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 
 import 'items/settings_screen_item.dart';
@@ -53,4 +54,8 @@ final class SettingsScreen extends StatelessWidget with DialogHelper {
       ),
     );
   }
+}
+
+final class PreferencesRoute implements AppRoute {
+  const PreferencesRoute();
 }
