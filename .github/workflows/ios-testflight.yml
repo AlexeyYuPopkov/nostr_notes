@@ -10,7 +10,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: macos-14
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -41,23 +41,12 @@ jobs:
           gem install bundler
           bundle install
 
-      - name: Create API Key JSON
-        working-directory: ios
-        run: |
-          echo '{
-            "key_id": "${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_ID }}",
-            "issuer_id": "${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_ISSUER_ID }}",
-            "key": "${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64 }}",
-            "in_house": false
-          }' > fastlane/api_key.json
-
       - name: Deploy to TestFlight
         working-directory: ios
         env:
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64 }}
           MATCH_PASSWORD: ${{ secrets.NOSTR_NOTES_MATCH_PASSWORD }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.NOSTR_NOTES_MATCH_GIT_BASIC_AUTHORIZATION }}
         run: bundle exec fastlane beta
-
-      - name: Clean up
-        if: always()
-        run: rm -f ios/fastlane/api_key.json
