@@ -44,12 +44,19 @@ jobs:
           gem install bundler
           bundle install
 
+      - name: Create API Key file
+        working-directory: ios
+        run: |
+          mkdir -p fastlane
+          echo '${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64 }}' | base64 --decode > fastlane/AuthKey.p8
+
       - name: Deploy to TestFlight
         working-directory: ios
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64 }}
+          APP_STORE_CONNECT_API_KEY_PATH: fastlane/AuthKey.p8
           MATCH_PASSWORD: ${{ secrets.NOSTR_NOTES_MATCH_PASSWORD }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.NOSTR_NOTES_MATCH_GIT_BASIC_AUTHORIZATION }}
         run: bundle exec fastlane beta
+
