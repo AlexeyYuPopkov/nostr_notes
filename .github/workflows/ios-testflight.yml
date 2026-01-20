@@ -48,7 +48,12 @@ jobs:
         working-directory: ios
         env:
           API_KEY_CONTENT: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_CONTENT }}
-        run: echo "$API_KEY_CONTENT" > AuthKey.p8
+        run: |
+          echo "$API_KEY_CONTENT" > AuthKey.p8
+          echo "File created, checking content:"
+          ls -la AuthKey.p8
+          head -1 AuthKey.p8
+          wc -l AuthKey.p8
 
       - name: Deploy to TestFlight
         working-directory: ios
