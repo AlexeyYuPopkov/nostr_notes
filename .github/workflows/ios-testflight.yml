@@ -25,9 +25,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # - name: Run tests                    
-      #   run: flutter test --coverage
-
       - name: Build Flutter iOS
         run: flutter build ios --release --no-codesign
 
@@ -44,24 +41,12 @@ jobs:
           gem install bundler
           bundle install
 
-      - name: Create API Key file
-        working-directory: ios
-        env:
-          API_KEY_CONTENT: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_CONTENT }}
-        run: |
-          echo "$API_KEY_CONTENT" > AuthKey.p8
-          echo "File created, checking content:"
-          ls -la AuthKey.p8
-          head -1 AuthKey.p8
-          wc -l AuthKey.p8
-
       - name: Deploy to TestFlight
         working-directory: ios
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_ISSUER_ID }}
+          NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64 }}
           MATCH_PASSWORD: ${{ secrets.NOSTR_NOTES_MATCH_PASSWORD }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.NOSTR_NOTES_MATCH_GIT_BASIC_AUTHORIZATION }}
         run: bundle exec fastlane beta
-
-
