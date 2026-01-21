@@ -70,6 +70,14 @@ final class AppRouter {
             onRoute: (route, context) {
               if (route is NotePreviewRoute) {
                 return noteRouter.possibleHandler(route, context);
+              } else if (route is NewNoteRoute) {
+                final router = GoRouter.of(context);
+                final path = [
+                  router.state.matchedLocation,
+                  AppRouterPath.noteDetails,
+                ].join('/');
+
+                return router.push(path);
               }
               // else if (route is PreferencesRoute) {
               //   final router = GoRouter.of(context);

@@ -220,6 +220,108 @@ abstract class AppLocalizations {
   /// **'Get Started'**
   String get onboardingWelcomeButtonNext;
 
+  /// No description provided for @onboardingSignUpPageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up with Nostr'**
+  String get onboardingSignUpPageTitle;
+
+  /// No description provided for @onboardingSignUpPageSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What is Nostr?'**
+  String get onboardingSignUpPageSubtitle;
+
+  /// No description provided for @onboardingSignUpPageDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Nostr is a decentralized network designed for secure and censorship-resistant communication. Unlike traditional platforms, Nostr doesn\'t rely on centralized servers—your identity and data belong to you.'**
+  String get onboardingSignUpPageDescription;
+
+  /// No description provided for @onboardingSignUpPageWhyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Why Sign Up with Nostr?'**
+  String get onboardingSignUpPageWhyTitle;
+
+  /// No description provided for @onboardingSignUpPageOptionMD1.
+  ///
+  /// In en, this message translates to:
+  /// **'✅ **Instant Access** - One click generates your private key. No email or password required.'**
+  String get onboardingSignUpPageOptionMD1;
+
+  /// No description provided for @onboardingSignUpPageOptionMD2.
+  ///
+  /// In en, this message translates to:
+  /// **'🔐 **You own your identity** - Your key is your identity. No company controls your account.'**
+  String get onboardingSignUpPageOptionMD2;
+
+  /// No description provided for @onboardingSignUpPageOptionMD3.
+  ///
+  /// In en, this message translates to:
+  /// **'🌍 **Works Everywhere** - Use the same key across all Nostr-powered apps'**
+  String get onboardingSignUpPageOptionMD3;
+
+  /// No description provided for @onboardingSignUpButtonGenerateKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate a Nostr Key'**
+  String get onboardingSignUpButtonGenerateKey;
+
+  /// No description provided for @onboardingSignUpAlreadyHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get onboardingSignUpAlreadyHaveAccount;
+
+  /// No description provided for @onboardingSignUpButtonLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Log In'**
+  String get onboardingSignUpButtonLogin;
+
+  /// No description provided for @onboardingShowNsecPageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Nostr Private Key (Nsec Key)'**
+  String get onboardingShowNsecPageTitle;
+
+  /// No description provided for @onboardingShowNsecPageDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Save this key securely. Your Nsec key gives you complete control and ownership of your data.'**
+  String get onboardingShowNsecPageDescription;
+
+  /// No description provided for @onboardingShowNsecPageOptionMD1.
+  ///
+  /// In en, this message translates to:
+  /// **'🔑 **Required** – This key is your account password and is required to log in.'**
+  String get onboardingShowNsecPageOptionMD1;
+
+  /// No description provided for @onboardingShowNsecPageOptionMD2.
+  ///
+  /// In en, this message translates to:
+  /// **'📌 **Permanent** – Keep a secure backup. We cannot change or recover it.'**
+  String get onboardingShowNsecPageOptionMD2;
+
+  /// No description provided for @onboardingShowNsecPageOptionMD3.
+  ///
+  /// In en, this message translates to:
+  /// **'🚫 **Private** – Anyone with this key can access your account. Never share it.'**
+  String get onboardingShowNsecPageOptionMD3;
+
+  /// No description provided for @onboardingShowNsecPageButtonCopyKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Key'**
+  String get onboardingShowNsecPageButtonCopyKey;
+
+  /// No description provided for @onboardingShowNsecPageKeyCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Key copied to clipboard'**
+  String get onboardingShowNsecPageKeyCopied;
+
   /// No description provided for @onboardingNsecPageTitle.
   ///
   /// In en, this message translates to:
@@ -243,6 +345,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You can import from another app or paste it manually'**
   String get onboardingNsecPageLabelHint;
+
+  /// No description provided for @onboardingNsecPageDontHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get onboardingNsecPageDontHaveAccount;
+
+  /// No description provided for @onboardingNsecPageButtonSignUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get onboardingNsecPageButtonSignUp;
 
   /// No description provided for @onboardingPinPageTitle.
   ///

@@ -16,14 +16,14 @@ final class NoteRouter {
 
   List<GoRoute> getRoutes() {
     return [
-      GoRoute(
-        name: AppRouterName.note,
-        path: AppRouterName.note,
-        builder: (BuildContext context, GoRouterState state) {
-          final params = PathParams.fromJson(state.uri.queryParameters);
-          return _screensAssembly.createNotePreview(params);
-        },
-      ),
+      // GoRoute(
+      //   name: AppRouterName.note,
+      //   path: AppRouterName.note,
+      //   builder: (BuildContext context, GoRouterState state) {
+      //     final params = PathParams.fromJson(state.uri.queryParameters);
+      //     return _screensAssembly.createNotePreview(params);
+      //   },
+      // ),
       GoRoute(
         path: AppRouterPath.notePreview,
         pageBuilder: (BuildContext context, GoRouterState state) {
@@ -60,8 +60,9 @@ final class NoteRouter {
       GoRoute(
         path: AppRouterPath.noteDetails,
         pageBuilder: (BuildContext context, GoRouterState state) {
-          final extra = state.extra as Map<String, dynamic>;
-          final params = PathParams.fromJson(extra);
+          final extra = state.extra as Map<String, dynamic>?;
+          final params = extra == null ? null : PathParams.fromJson(extra);
+
           return CustomTransitionPage(
             key: state.pageKey,
             child: RouteHandlerWidget(
@@ -139,4 +140,8 @@ final class NotePreviewRoute implements AppRoute {
   Map<String, dynamic> toExtra() {
     return PathParams(id: noteId).toJson();
   }
+}
+
+final class NewNoteRoute implements AppRoute {
+  const NewNoteRoute();
 }

@@ -76,6 +76,65 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingWelcomeButtonNext => 'Get Started';
 
   @override
+  String get onboardingSignUpPageTitle => 'Sign Up with Nostr';
+
+  @override
+  String get onboardingSignUpPageSubtitle => 'What is Nostr?';
+
+  @override
+  String get onboardingSignUpPageDescription =>
+      'Nostr is a decentralized network designed for secure and censorship-resistant communication. Unlike traditional platforms, Nostr doesn\'t rely on centralized servers—your identity and data belong to you.';
+
+  @override
+  String get onboardingSignUpPageWhyTitle => 'Why Sign Up with Nostr?';
+
+  @override
+  String get onboardingSignUpPageOptionMD1 =>
+      '✅ **Instant Access** - One click generates your private key. No email or password required.';
+
+  @override
+  String get onboardingSignUpPageOptionMD2 =>
+      '🔐 **You own your identity** - Your key is your identity. No company controls your account.';
+
+  @override
+  String get onboardingSignUpPageOptionMD3 =>
+      '🌍 **Works Everywhere** - Use the same key across all Nostr-powered apps';
+
+  @override
+  String get onboardingSignUpButtonGenerateKey => 'Generate a Nostr Key';
+
+  @override
+  String get onboardingSignUpAlreadyHaveAccount => 'Already have an account?';
+
+  @override
+  String get onboardingSignUpButtonLogin => 'Log In';
+
+  @override
+  String get onboardingShowNsecPageTitle => 'Your Nostr Private Key (Nsec Key)';
+
+  @override
+  String get onboardingShowNsecPageDescription =>
+      'Save this key securely. Your Nsec key gives you complete control and ownership of your data.';
+
+  @override
+  String get onboardingShowNsecPageOptionMD1 =>
+      '🔑 **Required** – This key is your account password and is required to log in.';
+
+  @override
+  String get onboardingShowNsecPageOptionMD2 =>
+      '📌 **Permanent** – Keep a secure backup. We cannot change or recover it.';
+
+  @override
+  String get onboardingShowNsecPageOptionMD3 =>
+      '🚫 **Private** – Anyone with this key can access your account. Never share it.';
+
+  @override
+  String get onboardingShowNsecPageButtonCopyKey => 'Copy Key';
+
+  @override
+  String get onboardingShowNsecPageKeyCopied => 'Key copied to clipboard';
+
+  @override
   String get onboardingNsecPageTitle => 'Enter your Nostr nsec';
 
   @override
@@ -88,6 +147,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get onboardingNsecPageLabelHint =>
       'You can import from another app or paste it manually';
+
+  @override
+  String get onboardingNsecPageDontHaveAccount => 'Don\'t have an account?';
+
+  @override
+  String get onboardingNsecPageButtonSignUp => 'Sign Up';
 
   @override
   String get onboardingPinPageTitle => 'Set a PIN or password';
