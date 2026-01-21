@@ -3,16 +3,21 @@ import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step
 
 final class OnboardingScreenData extends Equatable {
   final OnboardingStep step;
-  const OnboardingScreenData._({required this.step});
+  final String? generatedNsec;
+
+  const OnboardingScreenData._({required this.step, this.generatedNsec});
 
   factory OnboardingScreenData.initial() {
     return const OnboardingScreenData._(step: OnboardingWelcome());
   }
 
   @override
-  List<Object?> get props => [step];
+  List<Object?> get props => [step, generatedNsec];
 
-  OnboardingScreenData copyWith({OnboardingStep? step}) {
-    return OnboardingScreenData._(step: step ?? this.step);
+  OnboardingScreenData copyWith({OnboardingStep? step, String? generatedNsec}) {
+    return OnboardingScreenData._(
+      step: step ?? this.step,
+      generatedNsec: generatedNsec ?? this.generatedNsec,
+    );
   }
 }

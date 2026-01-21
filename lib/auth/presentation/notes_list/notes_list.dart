@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:nostr_notes/app/router/app_router_path.dart';
+import 'package:nostr_notes/app/router/app_route/route_handler.dart';
+import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
@@ -118,6 +118,6 @@ final class _NewNote extends StatelessWidget {
   }
 
   void _onNewNote(BuildContext context) {
-    GoRouter.of(context).push(AppRouterPath.note);
+    RouteHandler.of(context)?.onRoute(const NewNoteRoute(), context);
   }
 }

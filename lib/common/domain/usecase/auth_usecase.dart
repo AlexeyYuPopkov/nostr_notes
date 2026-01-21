@@ -82,4 +82,8 @@ final class AuthUsecase {
 
     return null;
   }
+
+  String generateNsecKey() {
+    return _keyToolRepository.generateNsecKey();
+  }
 }
