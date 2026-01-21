@@ -23,7 +23,7 @@ final class OnboardingScreenBloc
       ) {
     _setupHandlers();
     _setupSubscriptions();
-    add(const OnboardingScreenEvent.initial());
+    // add(const OnboardingScreenEvent.initial());
   }
 
   void _setupSubscriptions() {
@@ -41,6 +41,8 @@ final class OnboardingScreenBloc
     on<OnStepEvent>(_onNextStepEvent);
     on<OnNsecEvent>(_onOnNsecEvent);
     on<OnPinEvent>(_onOnPinEvent);
+    on<OnGenerateKeyEvent>(_onGenerateKeyEvent);
+    on<OnNsecGeneratedEvent>(_onNsecGeneratedEvent);
   }
 
   @override
@@ -53,15 +55,15 @@ final class OnboardingScreenBloc
     InitialEvent event,
     Emitter<OnboardingScreenState> emit,
   ) async {
-    try {
-      emit(OnboardingScreenState.loading(data: data));
+    // try {
+    //   emit(OnboardingScreenState.loading(data: data));
 
-      await Future.delayed(const Duration(seconds: 2));
+    //   await Future.delayed(const Duration(seconds: 2));
 
-      emit(OnboardingScreenState.common(data: data));
-    } catch (e) {
-      emit(OnboardingScreenState.error(e: e, data: data));
-    }
+    //   emit(OnboardingScreenState.common(data: data));
+    // } catch (e) {
+    //   emit(OnboardingScreenState.error(e: e, data: data));
+    // }
   }
 
   void _onNextStepEvent(
@@ -101,6 +103,36 @@ final class OnboardingScreenBloc
       emit(OnboardingScreenState.didUnlock(data: data));
     } catch (e) {
       event.vm.setCompleted();
+      emit(OnboardingScreenState.error(e: e, data: data));
+    }
+  }
+
+  void _onGenerateKeyEvent(
+    OnGenerateKeyEvent event,
+    Emitter<OnboardingScreenState> emit,
+  ) {
+    final generatedNsec = authUsecase.generateNsecKey();
+    emit(
+      OnboardingScreenState.common(
+        data: data.copyWith(
+          step: const OnboardingShowNsec(),
+          generatedNsec: generatedNsec,
+        ),
+      ),
+    );
+  }
+
+  void _onNsecGeneratedEvent(
+    OnNsecGeneratedEvent event,
+    Emitter<OnboardingScreenState> emit,
+  ) async {
+    try {
+      emit(OnboardingScreenState.loading(data: data));
+
+      await authUsecase.execute(nsec: event.nsec);
+
+      emit(OnboardingScreenState.common(data: data));
+    } catch (e) {
       emit(OnboardingScreenState.error(e: e, data: data));
     }
   }

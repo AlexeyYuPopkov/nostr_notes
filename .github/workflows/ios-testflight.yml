@@ -9,11 +9,14 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Select Xcode 26.2
+        run: sudo xcode-select -s /Applications/Xcode_26.2.app/Contents/Developer
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -55,7 +58,7 @@ jobs:
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_API_KEY_PATH: fastlane/AuthKey.p8
+          NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64 }}
           MATCH_PASSWORD: ${{ secrets.NOSTR_NOTES_MATCH_PASSWORD }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.NOSTR_NOTES_MATCH_GIT_BASIC_AUTHORIZATION }}
         run: bundle exec fastlane beta

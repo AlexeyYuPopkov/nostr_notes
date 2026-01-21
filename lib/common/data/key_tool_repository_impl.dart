@@ -46,4 +46,10 @@ final class KeyToolRepositoryImpl implements KeyToolRepository {
   String createSig({required String rawMessage, required String privateKey}) {
     return KeyTool.createSig(rawMessage: rawMessage, privateKey: privateKey);
   }
+
+  @override
+  String generateNsecKey() {
+    final privateKey = KeyTool.random64HexChars();
+    return KeyTool.nsecKey(privateKey);
+  }
 }

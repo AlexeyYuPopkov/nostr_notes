@@ -7,6 +7,7 @@ import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/presentation/buttons/prymary_loading_button.dart';
 import 'package:nostr_notes/common/presentation/buttons/vm/loading_button_vm.dart';
+import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/validators/nsec_validator.dart';
 
 import '../bloc/onboarding_screen_bloc.dart';
@@ -94,8 +95,29 @@ final class _OnboardingNsecPageState extends State<OnboardingNsecPage>
               onTap: (vm) => _onNext(context, vm),
             ),
           ),
+          const SizedBox(height: Sizes.indent4x),
+          Center(
+            child: Text(
+              l10n.onboardingNsecPageDontHaveAccount,
+              style: theme.textTheme.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: Sizes.indent2x),
+          Center(
+            child: TextButton(
+              onPressed: () => _onSignUp(context),
+              child: Text(l10n.onboardingNsecPageButtonSignUp),
+            ),
+          ),
         ],
       ),
+    );
+  }
+
+  void _onSignUp(BuildContext context) {
+    context.read<OnboardingScreenBloc>().add(
+      const OnboardingScreenEvent.onStep(OnboardingSignUp()),
     );
   }
 

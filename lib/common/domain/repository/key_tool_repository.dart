@@ -6,6 +6,7 @@ abstract class KeyToolRepository {
   UserKeys getUserKeysWithNsec({required String? nsec});
   UserKeys getUserKeysWithPrivateKey({required String? privateKey});
   String createSig({required String rawMessage, required String privateKey});
+  String generateNsecKey();
 }
 
 abstract class KeysError extends AppError {

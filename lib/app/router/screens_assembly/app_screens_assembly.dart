@@ -20,7 +20,7 @@ final class AppScreensAssembly implements ScreensAssembly {
   }
 
   @override
-  Widget createEditNoteMarkdownScreen(PathParams pathParams) {
+  Widget createEditNoteMarkdownScreen(PathParams? pathParams) {
     return EditMarkdownNoteScreen(pathParams: pathParams);
   }
 

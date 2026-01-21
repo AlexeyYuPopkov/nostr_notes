@@ -5,6 +5,8 @@ void main() {
   group('KeyTool', () {
     const nsecKey =
         'nsec1eqxnyetjwh98dzwmg8skkge7avsuxtgjq00mcgc9l3ypf9txy4kqze6uds';
+    const npub =
+        'npub1tu3us6udmx368lgzp40nlpef8l7t5lnxkg6r0gtya4qlvlt47lhqxytgkn';
     const privateKey =
         'c80d32657275ca7689db41e16b233eeb21c32d1203dfbc2305fc48149566256c';
     const publicKey =
@@ -31,6 +33,23 @@ void main() {
 
     test('[tryGetPubKey]. Returns Public key', () {
       expect(KeyTool.tryGetPubKey(privateKey: privateKey), publicKey);
+    });
+
+    group('nsecKey', () {
+      test('encodes private key to nsec format and back', () {
+        final encoded = KeyTool.nsecKey(privateKey);
+        expect(encoded, nsecKey);
+        final decoded = KeyTool.tryDecodeNsecKeyToPrivateKey(encoded);
+        expect(decoded, privateKey);
+      });
+    });
+
+    group('npubKey', () {
+      test('encodes public key to npub format and back', () {
+        final result = KeyTool.npubKey(publicKey);
+        expect(result, npub);
+        expect(KeyTool.decodeNpubKeyToPublicKey(result), publicKey);
+      });
     });
   });
 }
