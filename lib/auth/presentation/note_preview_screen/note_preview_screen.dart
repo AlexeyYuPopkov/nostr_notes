@@ -41,6 +41,7 @@ final class NotePreviewScreen extends StatelessWidget with DialogHelper {
         builder: (context, state) {
           final note = state.data.note.value;
           final content = note?.content ?? '';
+          final mediaPaddings = MediaQuery.paddingOf(context);
           return Scaffold(
             backgroundColor: theme.colorScheme.surface,
             appBar: AppBar(
@@ -54,15 +55,25 @@ final class NotePreviewScreen extends StatelessWidget with DialogHelper {
               ],
             ),
             body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(Sizes.indent),
-                child: GptMarkdownTheme(
-                  gptThemeData: AppGptMarkdownTheme.light().data,
-                  child: GptMarkdown(
-                    content,
-                    codeBuilder: (context, name, code, closed) {
-                      return NoteCodeField(name: name, codes: code);
-                    },
+              bottom: false,
+              child: SingleChildScrollView(
+                padding: EdgeInsets.only(
+                  left: Sizes.indent,
+                  right: Sizes.indent,
+                  bottom:
+                      mediaPaddings.bottom +
+                      kFloatingActionButtonMargin +
+                      Sizes.fabSize,
+                ),
+                child: SelectionArea(
+                  child: GptMarkdownTheme(
+                    gptThemeData: AppGptMarkdownTheme.light().data,
+                    child: GptMarkdown(
+                      content,
+                      codeBuilder: (context, name, code, closed) {
+                        return NoteCodeField(name: name, codes: code);
+                      },
+                    ),
                   ),
                 ),
               ),
