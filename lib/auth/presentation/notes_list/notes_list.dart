@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
-import 'package:nostr_notes/app/router/note_router.dart';
+import 'package:nostr_notes/app/router/drawer_router.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
@@ -42,7 +42,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
           return Scaffold(
             appBar: AppBar(
               title: const Text('Заметки'),
-              actions: const [_NewNote()],
+              actions: const [_SettingsButton()],
             ),
             body: RefreshIndicator(
               onRefresh: () async => _onRefresh(context),
@@ -106,18 +106,18 @@ final class _List extends StatelessWidget {
   }
 }
 
-final class _NewNote extends StatelessWidget {
-  const _NewNote();
+final class _SettingsButton extends StatelessWidget {
+  const _SettingsButton();
 
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      child: const Icon(Icons.edit_note, size: Sizes.icon),
+      child: const Icon(Icons.account_circle_outlined, size: Sizes.icon),
       onPressed: () => _onNewNote(context),
     );
   }
 
   void _onNewNote(BuildContext context) {
-    RouteHandler.of(context)?.onRoute(const NewNoteRoute(), context);
+    RouteHandler.of(context)?.onRoute(const OnEndDrawaer(), context);
   }
 }

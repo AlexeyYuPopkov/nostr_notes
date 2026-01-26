@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
-import 'package:nostr_notes/app/router/drawer_router.dart';
+import 'package:nostr_notes/app/router/drawer_router.dart' show DrawerRouter;
 import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/app/sizes.dart';
@@ -8,12 +8,14 @@ import 'package:nostr_notes/app/sizes.dart';
 import '../notes_list/notes_list.dart';
 
 final class HomeScreen extends StatelessWidget {
+  final GlobalKey<ScaffoldState> scaffoldKey;
   final ScreensAssembly screensAssembly;
   final Widget child;
   final bool hasNote;
 
   const HomeScreen({
     super.key,
+    required this.scaffoldKey,
     required this.screensAssembly,
     required this.child,
     required this.hasNote,
@@ -28,11 +30,12 @@ final class HomeScreen extends StatelessWidget {
         final desktopSideAreaWidth = constraints.maxWidth * 0.3;
 
         return Scaffold(
+          key: scaffoldKey,
           floatingActionButton: Builder(
             builder: (context) {
               return FloatingActionButton(
                 child: const Icon(Icons.add),
-                onPressed: () => _onOpenDrawer(context),
+                onPressed: () => _onNewNote(context),
               );
             },
           ),
@@ -92,8 +95,8 @@ final class HomeScreen extends StatelessWidget {
     );
   }
 
-  void _onOpenDrawer(BuildContext context) {
-    Scaffold.of(context).openEndDrawer();
+  void _onNewNote(BuildContext context) {
+    RouteHandler.of(context)?.onRoute(const NewNoteRoute(), context);
   }
 }
 

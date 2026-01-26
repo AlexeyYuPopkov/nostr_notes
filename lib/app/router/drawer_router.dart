@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:nostr_notes/app/router/app_route/app_route.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen.dart';
 
 final class DrawerRouter extends StatelessWidget {
   final ScreensAssembly screensAssembly;
+
   const DrawerRouter({super.key, required this.screensAssembly});
 
   @override
@@ -33,4 +35,8 @@ final class DrawerRouter extends StatelessWidget {
       },
     );
   }
+}
+
+final class OnEndDrawaer implements AppRoute {
+  const OnEndDrawaer();
 }
