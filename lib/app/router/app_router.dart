@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
+import 'package:nostr_notes/app/router/drawer_router.dart' show OnEndDrawaer;
 import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/app_screens_assembly.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
@@ -37,8 +38,9 @@ final class AppRouter {
         });
   }
 
-  // final GlobalKey<NavigatorState> drawerNavigatorKey =
-  //     GlobalKey<NavigatorState>();
+  final _homeScaffoldKey = GlobalKey<ScaffoldState>(
+    debugLabel: 'GlobalKey.home_scaffold',
+  );
 
   late final _router = GoRouter(
     redirect: (context, state) {
@@ -60,36 +62,47 @@ final class AppRouter {
       ),
       ShellRoute(
         builder: (context, state, child) {
-          return RouteHandlerWidget(
-            child: HomeScreen(
-              screensAssembly: _screensAssembly,
-              hasNote: state.fullPath?.contains('note') == true,
-              // drawerNavigatorKey: drawerNavigatorKey,
-              child: child,
+          return Scaffold(
+            body: Builder(
+              builder: (context) {
+                return RouteHandlerWidget(
+                  child: HomeScreen(
+                    scaffoldKey: _homeScaffoldKey,
+                    screensAssembly: _screensAssembly,
+                    hasNote: state.fullPath?.contains('note') == true,
+                    child: child,
+                  ),
+                  onRoute: (route, ctx) {
+                    if (route is NotePreviewRoute) {
+                      return noteRouter.possibleHandler(route, ctx);
+                    } else if (route is NewNoteRoute) {
+                      final router = GoRouter.of(ctx);
+                      final path = [
+                        router.state.matchedLocation,
+                        AppRouterPath.noteDetails,
+                      ].join('/');
+
+                      return router.push(path);
+                    } else if (route is OnEndDrawaer) {
+                      _homeScaffoldKey.currentState?.openEndDrawer();
+                    }
+
+                    return RouteHandler.of(context)?.onRoute(route, ctx);
+
+                    // else if (route is PreferencesRoute) {
+                    //   final router = GoRouter.of(context);
+
+                    //   final path = StringBuffer(router.state.matchedLocation);
+                    //   path.write('/app_settings');
+
+                    //   return Navigator.of(
+                    //     drawerNavigatorKey.currentContext!,
+                    //   ).pushNamed('/app_settings');
+                    // }
+                  },
+                );
+              },
             ),
-            onRoute: (route, context) {
-              if (route is NotePreviewRoute) {
-                return noteRouter.possibleHandler(route, context);
-              } else if (route is NewNoteRoute) {
-                final router = GoRouter.of(context);
-                final path = [
-                  router.state.matchedLocation,
-                  AppRouterPath.noteDetails,
-                ].join('/');
-
-                return router.push(path);
-              }
-              // else if (route is PreferencesRoute) {
-              //   final router = GoRouter.of(context);
-
-              //   final path = StringBuffer(router.state.matchedLocation);
-              //   path.write('/app_settings');
-
-              //   return Navigator.of(
-              //     drawerNavigatorKey.currentContext!,
-              //   ).pushNamed('/app_settings');
-              // }
-            },
           );
         },
         routes: [

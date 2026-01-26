@@ -85,6 +85,9 @@ final class Sizes {
 
   /// [buttonHeightSmall = 35.0]
   static const buttonHeightSmall = 32.0;
+
+  /// [fabSize = 56.0] - Standard FloatingActionButton size
+  static const fabSize = 56.0;
 }
 
 final class TextSizes {
