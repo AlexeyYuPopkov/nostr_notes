@@ -43,7 +43,8 @@ platform :mac do
     build_mac_app(
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
-      export_method: "app-store"
+      export_method: "app-store",
+      xcargs: "CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY='Apple Distribution' DEVELOPMENT_TEAM='HCYSG3HDXK' PROVISIONING_PROFILE_SPECIFIER='match AppStore com.alekseii.yu.popkov.nostrNotes macos'"
     )
 
     upload_to_testflight(
