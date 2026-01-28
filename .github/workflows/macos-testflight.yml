@@ -28,9 +28,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build Flutter macOS
-        run: flutter build macos --release
-
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
