@@ -31,15 +31,6 @@ platform :mac do
       api_key: api_key
     )
 
-    update_code_signing_settings(
-      use_automatic_signing: false,
-      path: "Runner.xcodeproj",
-      team_id: "HCYSG3HDXK",
-      bundle_identifier: "com.alekseii.yu.popkov.nostrNotes",
-      profile_name: "match AppStore com.alekseii.yu.popkov.nostrNotes macos",
-      code_sign_identity: "Apple Distribution"
-    )
-
     build_mac_app(
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
