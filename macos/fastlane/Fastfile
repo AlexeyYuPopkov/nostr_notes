@@ -34,6 +34,8 @@ platform :mac do
     build_mac_app(
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
+      configuration: "Release",
+      clean: true,
       export_method: "app-store",
       xcargs: "CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY='Apple Distribution' DEVELOPMENT_TEAM='HCYSG3HDXK' PROVISIONING_PROFILE_SPECIFIER='match AppStore com.alekseii.yu.popkov.nostrNotes macos'"
     )
