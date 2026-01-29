@@ -29,7 +29,8 @@ platform :mac do
       platform: "macos",
       readonly: true,
       git_basic_authorization: ENV['MATCH_GIT_BASIC_AUTHORIZATION'],
-      api_key: api_key
+      api_key: api_key,
+      additional_cert_types: ["mac_installer_distribution"]
     )
 
     update_code_signing_settings(
