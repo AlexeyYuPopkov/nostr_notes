@@ -28,6 +28,17 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Install CocoaPods
+        run: sudo gem install cocoapods
+
+      - name: Create Flutter ephemeral files and run pod install
+        working-directory: macos
+        run: |
+          mkdir -p Flutter/ephemeral
+          touch Flutter/ephemeral/FlutterInputs.xcfilelist
+          touch Flutter/ephemeral/FlutterOutputs.xcfilelist
+          pod install
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
