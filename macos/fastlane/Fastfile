@@ -41,13 +41,6 @@ platform :mac do
       code_sign_identity: "Apple Distribution"
     )
 
-    # Generate Flutter ephemeral files and run pod install
-    sh("cd .. && flutter build macos --release")
-    cocoapods(
-      podfile: "Podfile",
-      try_repo_update_on_error: true
-    )
-
     build_mac_app(
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
