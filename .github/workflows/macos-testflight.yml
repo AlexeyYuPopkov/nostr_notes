@@ -54,10 +54,14 @@ jobs:
 
       - name: Install Apple WWDR certificates
         run: |
+          curl -sL -o /tmp/AppleWWDRCAG3.cer https://www.apple.com/certificateauthority/AppleWWDRCAG3.cer
           curl -sL -o /tmp/AppleWWDRCAG4.cer https://www.apple.com/certificateauthority/AppleWWDRCAG4.cer
+          curl -sL -o /tmp/AppleWWDRCAG5.cer https://www.apple.com/certificateauthority/AppleWWDRCAG5.cer
           curl -sL -o /tmp/AppleWWDRCAG6.cer https://www.apple.com/certificateauthority/AppleWWDRCAG6.cer
-          sudo security import /tmp/AppleWWDRCAG4.cer -k /Library/Keychains/System.keychain
-          sudo security import /tmp/AppleWWDRCAG6.cer -k /Library/Keychains/System.keychain
+          sudo security import /tmp/AppleWWDRCAG3.cer -k /Library/Keychains/System.keychain || true
+          sudo security import /tmp/AppleWWDRCAG4.cer -k /Library/Keychains/System.keychain || true
+          sudo security import /tmp/AppleWWDRCAG5.cer -k /Library/Keychains/System.keychain || true
+          sudo security import /tmp/AppleWWDRCAG6.cer -k /Library/Keychains/System.keychain || true
 
       - name: Deploy to TestFlight
         working-directory: macos
