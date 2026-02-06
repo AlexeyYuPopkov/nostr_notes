@@ -53,6 +53,13 @@ jobs:
           mkdir -p fastlane
           echo '${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64 }}' | base64 --decode > fastlane/AuthKey.p8
 
+      - name: Install Apple WWDR certificates
+        run: |
+          curl -sL -o /tmp/AppleWWDRCAG4.cer https://www.apple.com/certificateauthority/AppleWWDRCAG4.cer
+          curl -sL -o /tmp/AppleWWDRCAG6.cer https://www.apple.com/certificateauthority/AppleWWDRCAG6.cer
+          sudo security import /tmp/AppleWWDRCAG4.cer -k /Library/Keychains/System.keychain
+          sudo security import /tmp/AppleWWDRCAG6.cer -k /Library/Keychains/System.keychain
+
       - name: Deploy to TestFlight
         working-directory: ios
         env:
