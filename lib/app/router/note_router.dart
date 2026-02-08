@@ -16,14 +16,6 @@ final class NoteRouter {
 
   List<GoRoute> getRoutes() {
     return [
-      // GoRoute(
-      //   name: AppRouterName.note,
-      //   path: AppRouterName.note,
-      //   builder: (BuildContext context, GoRouterState state) {
-      //     final params = PathParams.fromJson(state.uri.queryParameters);
-      //     return _screensAssembly.createNotePreview(params);
-      //   },
-      // ),
       GoRoute(
         path: AppRouterPath.notePreview,
         pageBuilder: (BuildContext context, GoRouterState state) {
@@ -37,17 +29,17 @@ final class NoteRouter {
                 if (route is NoteDetailsRoute) {
                   final router = GoRouter.of(context);
 
-                  final path = router.state.matchedLocation
-                      .split('/')
-                      .popUntil(AppRouterPath.notePreview)
-                      .join();
-                  return router.pushReplacement(
-                    '/$path/${AppRouterPath.noteDetails}',
-                    extra: route.toExtra(),
+                  final uri = Uri(
+                    pathSegments: [
+                      AppRouterName.home,
+                      AppRouterPath.noteDetails,
+                    ],
                   );
+
+                  return router.push('/${uri.path}', extra: route.toExtra());
                 }
 
-                return const UnhandledRouteResult();
+                return RouteHandler.of(context)?.onRoute(route, context);
               },
             ),
             transitionsBuilder:

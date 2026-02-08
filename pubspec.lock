@@ -241,6 +241,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
+  custom_adaptive_scaffold:
+    dependency: "direct main"
+    description:
+      name: custom_adaptive_scaffold
+      sha256: "0e5a1969cc056b6c5974ed1434dda4f2f5b7c92c6805cda4d0f7925d58259bd5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   dart_quill_delta:
     dependency: transitive
     description:
