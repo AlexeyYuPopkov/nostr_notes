@@ -118,6 +118,6 @@ final class _SettingsButton extends StatelessWidget {
   }
 
   void _onNewNote(BuildContext context) {
-    RouteHandler.of(context)?.onRoute(const OnEndDrawaer(), context);
+    RouteHandler.of(context)?.onRoute(const OnEndDrawer(), context);
   }
 }

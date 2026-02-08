@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
-import 'package:nostr_notes/app/router/drawer_router.dart' show OnEndDrawaer;
+import 'package:nostr_notes/app/router/drawer_router.dart' show OnEndDrawer;
 import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/app_screens_assembly.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
@@ -43,6 +43,7 @@ final class AppRouter {
   );
 
   late final _router = GoRouter(
+    debugLogDiagnostics: true,
     redirect: (context, state) {
       final session = this.session.currentSession;
 
@@ -83,22 +84,11 @@ final class AppRouter {
                       ].join('/');
 
                       return router.push(path);
-                    } else if (route is OnEndDrawaer) {
+                    } else if (route is OnEndDrawer) {
                       _homeScaffoldKey.currentState?.openEndDrawer();
                     }
 
                     return RouteHandler.of(context)?.onRoute(route, ctx);
-
-                    // else if (route is PreferencesRoute) {
-                    //   final router = GoRouter.of(context);
-
-                    //   final path = StringBuffer(router.state.matchedLocation);
-                    //   path.write('/app_settings');
-
-                    //   return Navigator.of(
-                    //     drawerNavigatorKey.currentContext!,
-                    //   ).pushNamed('/app_settings');
-                    // }
                   },
                 );
               },
@@ -106,35 +96,6 @@ final class AppRouter {
           );
         },
         routes: [
-          // ShellRoute(
-          //   navigatorKey: drawerNavigatorKey,
-          //   builder: (context, state, child) {
-          //     return RouteHandlerWidget(
-          //       child: Scaffold(body: child),
-          //       onRoute: (route, context) {
-          //         print('Drawer route: $route');
-          //       },
-          //     );
-          //   },
-          //   routes: [
-          //     GoRoute(
-          //       name: AppRouterName.home,
-          //       path: AppRouterPath.home,
-          //       builder: (BuildContext context, GoRouterState state) {
-          //         return const NewNotePromptPlaceholder();
-          //       },
-          //       routes: [...noteRouter.getRoutes()],
-          //     ),
-          //     GoRoute(
-          //       path: 'app_settings',
-          //       builder: (BuildContext context, GoRouterState state) {
-          //         return _screensAssembly.createAppSettingsScreen();
-          //       },
-          //       // routes: [...noteRouter.getRoutes()],
-          //     ),
-          //     // ...noteRouter.getRoutes(),
-          //   ],
-          // ),
           GoRoute(
             name: AppRouterName.home,
             path: AppRouterPath.home,
@@ -143,7 +104,6 @@ final class AppRouter {
             },
             routes: [...noteRouter.getRoutes()],
           ),
-          // // ...noteRouter.getRoutes(),
         ],
       ),
     ],
