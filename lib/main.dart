@@ -26,12 +26,14 @@ final class App extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
+
       localizationsDelegates: const [
         ...Localization.localizationsDelegates,
         FlutterQuillLocalizations.delegate,
       ],
       supportedLocales: Localization.supportedLocales,
       routerConfig: _appRouter.router,
+      debugShowCheckedModeBanner: false,
       builder: (context, child) {
         RootContextProvider.instance.setRootContext(context);
         return child!;
