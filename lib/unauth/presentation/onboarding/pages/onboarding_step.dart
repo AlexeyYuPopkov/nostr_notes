@@ -1,17 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_nsec_page.dart';
+import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_nsec_page/onboarding_nsec_page.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_pin_page.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_show_nsec_page.dart';
-import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_sign_up_page.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_welcome_page.dart';
 
 sealed class OnboardingStep extends Equatable {
   static const pages = [
     OnboardingWelcome(),
-    OnboardingSignUp(),
-    OnboardingShowNsec(),
     OnboardingNsec(),
+    OnboardingShowNsec(),
     OnboardingPin(),
   ];
 
@@ -39,18 +37,6 @@ final class OnboardingWelcome extends OnboardingStep {
 
   @override
   OnboardingStep getNextStep() => const OnboardingNsec();
-}
-
-final class OnboardingSignUp extends OnboardingStep {
-  const OnboardingSignUp();
-
-  @override
-  Widget build(BuildContext context) {
-    return const OnboardingSignUpPage();
-  }
-
-  @override
-  OnboardingStep getNextStep() => const OnboardingShowNsec();
 }
 
 final class OnboardingShowNsec extends OnboardingStep {

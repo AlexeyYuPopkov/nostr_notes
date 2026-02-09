@@ -3,6 +3,7 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
+import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_nsec_page/onboarding_nsec_page.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
 
 import 'onboarding_screen_data.dart';
@@ -16,6 +17,7 @@ final class OnboardingScreenBloc
   final AuthUsecase authUsecase = DiStorage.shared.resolve();
   final PinUsecase pinUsecase = DiStorage.shared.resolve();
   late final StreamSubscription sessionSubscription;
+  late final nsecPageVm = OnboardingNsecPageVm();
 
   OnboardingScreenBloc()
     : super(
