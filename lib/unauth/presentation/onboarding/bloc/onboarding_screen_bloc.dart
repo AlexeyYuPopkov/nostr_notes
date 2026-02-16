@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_nsec_page/onboarding_nsec_page.dart';
@@ -16,6 +17,7 @@ final class OnboardingScreenBloc
 
   final AuthUsecase authUsecase = DiStorage.shared.resolve();
   final PinUsecase pinUsecase = DiStorage.shared.resolve();
+  final RelaysListRepo relaysListRepo = DiStorage.shared.resolve();
   late final StreamSubscription sessionSubscription;
   late final nsecPageVm = OnboardingNsecPageVm();
 
@@ -33,7 +35,11 @@ final class OnboardingScreenBloc
         .distinct((a, b) => a.isAuth == b.isAuth)
         .listen((session) {
           if (session.isAuth) {
-            add(const OnboardingScreenEvent.onStep(OnboardingPin()));
+            final hasRelays = relaysListRepo.getRelaysList().isNotEmpty;
+            final step = hasRelays
+                ? const OnboardingPin()
+                : const OnboardingRelays();
+            add(OnboardingScreenEvent.onStep(step));
           }
         });
   }
@@ -45,6 +51,7 @@ final class OnboardingScreenBloc
     on<OnPinEvent>(_onOnPinEvent);
     on<OnGenerateKeyEvent>(_onGenerateKeyEvent);
     on<OnNsecGeneratedEvent>(_onNsecGeneratedEvent);
+    on<OnRelaysSelectedEvent>(_onRelaysSelectedEvent);
   }
 
   @override
@@ -134,6 +141,25 @@ final class OnboardingScreenBloc
       await authUsecase.execute(nsec: event.nsec);
 
       emit(OnboardingScreenState.common(data: data));
+    } catch (e) {
+      emit(OnboardingScreenState.error(e: e, data: data));
+    }
+  }
+
+  void _onRelaysSelectedEvent(
+    OnRelaysSelectedEvent event,
+    Emitter<OnboardingScreenState> emit,
+  ) async {
+    try {
+      emit(OnboardingScreenState.loading(data: data));
+
+      await relaysListRepo.saveRelaysList(event.relays);
+
+      emit(
+        OnboardingScreenState.common(
+          data: data.copyWith(step: const OnboardingPin()),
+        ),
+      );
     } catch (e) {
       emit(OnboardingScreenState.error(e: e, data: data));
     }

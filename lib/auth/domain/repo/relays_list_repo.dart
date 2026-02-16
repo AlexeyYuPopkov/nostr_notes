@@ -1,3 +1,5 @@
 abstract interface class RelaysListRepo {
-  List<String> getRelaysList();
+  Set<String> getRelaysList();
+  Future<void> saveRelaysList(List<String> relays);
+  Set<String> getSuggestedRelays();
 }

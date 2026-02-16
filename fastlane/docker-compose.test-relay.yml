@@ -1,0 +1,92 @@
+# Lightweight nostpy relay for integration tests.
+# Only the services needed to accept Nostr events — no nginx, otel, tor.
+#
+# Usage:
+#   NOSTPY_RELAY_PATH=/path/to/nostpy_relay \
+#     docker compose -f fastlane/docker-compose.test-relay.yml up -d
+#
+# The NOSTPY_RELAY_PATH env var must point to the nostpy_relay repository root.
+
+services:
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: nostr
+      POSTGRES_USER: nostr
+      POSTGRES_PASSWORD: nostr
+    ports:
+      - "5432:5432"
+    networks:
+      nostpy_test_network:
+        ipv4_address: 172.29.0.4
+    command: postgres -c 'log_statement=none' -c 'max_connections=64'
+    volumes:
+      - test_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nostr"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:latest
+    networks:
+      nostpy_test_network:
+        ipv4_address: 172.29.0.6
+
+  event-handler:
+    build:
+      context: ${NOSTPY_RELAY_PATH}/docker
+      dockerfile: Dockerfile.event_handler
+    environment:
+      EVENT_HANDLER_PORT: "8009"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      PGDATABASE_WRITE: nostr
+      PGUSER_WRITE: nostr
+      PGPASSWORD_WRITE: nostr
+      PGPORT_WRITE: "5432"
+      PGHOST_WRITE: "172.29.0.4"
+      PGDATABASE_READ: nostr
+      PGUSER_READ: nostr
+      PGPASSWORD_READ: nostr
+      PGPORT_READ: "5432"
+      PGHOST_READ: "172.29.0.4"
+      WOT_ENABLED: "False"
+      EH_LOG_LEVEL: WARNING
+    networks:
+      nostpy_test_network:
+        ipv4_address: 172.29.0.3
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  websocket-handler:
+    build:
+      context: ${NOSTPY_RELAY_PATH}/docker
+      dockerfile: Dockerfile.websocket_handler
+    environment:
+      EVENT_HANDLER_SVC: "172.29.0.3"
+      EVENT_HANDLER_PORT: "8009"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      WS_PORT: "8008"
+      WH_LOG_LEVEL: WARNING
+    ports:
+      - "8008:8008"
+    networks:
+      nostpy_test_network:
+        ipv4_address: 172.29.0.2
+    depends_on:
+      - redis
+
+volumes:
+  test_pg_data:
+
+networks:
+  nostpy_test_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.29.0.0/16

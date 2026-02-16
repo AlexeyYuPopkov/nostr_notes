@@ -47,6 +47,13 @@
     "onboardingNsecPageDontHaveAccount": "Don't have an account?",
     "onboardingNsecPageButtonSignUp": "Sign Up",
     
+    "onboardingRelaysPageTitle": "Select Relays",
+    "onboardingRelaysPageDescription": "Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue",
+    "onboardingRelaysPageAddCustomHint": "wss://...",
+    "onboardingRelaysPageAddButton": "Add",
+    "onboardingRelaysPageErrorSelectAtLeastOne": "Select at least one relay",
+    "onboardingRelaysPageErrorInvalidUrl": "URL must start with wss://",
+
     "onboardingPinPageTitle": "Set a PIN or password",
     "onboardingPinPageDescription": "This is used for an additional layer of encryption – even if someone obtains your nsec, your notes will remain protected",
     "onboardingPinPageTextFieldHint": "PIN or password",

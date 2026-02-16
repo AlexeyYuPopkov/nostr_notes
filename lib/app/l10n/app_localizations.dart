@@ -358,6 +358,42 @@ abstract class AppLocalizations {
   /// **'Sign Up'**
   String get onboardingNsecPageButtonSignUp;
 
+  /// No description provided for @onboardingRelaysPageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Relays'**
+  String get onboardingRelaysPageTitle;
+
+  /// No description provided for @onboardingRelaysPageDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue'**
+  String get onboardingRelaysPageDescription;
+
+  /// No description provided for @onboardingRelaysPageAddCustomHint.
+  ///
+  /// In en, this message translates to:
+  /// **'wss://...'**
+  String get onboardingRelaysPageAddCustomHint;
+
+  /// No description provided for @onboardingRelaysPageAddButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get onboardingRelaysPageAddButton;
+
+  /// No description provided for @onboardingRelaysPageErrorSelectAtLeastOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least one relay'**
+  String get onboardingRelaysPageErrorSelectAtLeastOne;
+
+  /// No description provided for @onboardingRelaysPageErrorInvalidUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'URL must start with wss://'**
+  String get onboardingRelaysPageErrorInvalidUrl;
+
   /// No description provided for @onboardingPinPageTitle.
   ///
   /// In en, this message translates to:

@@ -122,27 +122,43 @@ final class PublishEventReport {
 
   PublishError? get error {
     if (events.isEmpty) {
-      return NotPublished(exceededTimeout);
-    } else if (close.isNotEmpty) {
-      return PartialPublish(exceededTimeout);
-    } else {
-      return null;
+      return NotPublished(exceededTimeout: exceededTimeout);
     }
+
+    final failed = events.where((e) => !e.isOk).toList();
+    if (failed.length == events.length) {
+      return NotPublished(exceededTimeout: exceededTimeout, failed: failed);
+    } else if (failed.isNotEmpty || close.isNotEmpty) {
+      return PartialPublish(exceededTimeout: exceededTimeout, failed: failed);
+    }
+
+    return null;
   }
 }
 
 sealed class PublishError implements Exception {
-  const PublishError();
+  const PublishError({this.exceededTimeout, this.failed = const []});
+  final Duration? exceededTimeout;
+  final List<NostrEventOk> failed;
+
+  String get failedMessages =>
+      failed.map((e) => '${e.relay}: ${e.message}').join('; ');
 }
 
 final class NotPublished extends PublishError {
-  const NotPublished(this.exceededTimeout);
-  final Duration? exceededTimeout;
-  String get message => 'Not published to any relay';
+  const NotPublished({super.exceededTimeout, super.failed});
+
+  @override
+  String toString() => failed.isEmpty
+      ? 'Not published to any relay'
+      : 'Not published: $failedMessages';
 }
 
 final class PartialPublish extends PublishError {
-  const PartialPublish(this.exceededTimeout);
-  final Duration? exceededTimeout;
-  String get message => 'Published to some relays only';
+  const PartialPublish({super.exceededTimeout, super.failed});
+
+  @override
+  String toString() => failed.isEmpty
+      ? 'Published to some relays only'
+      : 'Partial publish: $failedMessages';
 }

@@ -1,0 +1,91 @@
+################################################################################
+# Shared helpers and infrastructure lanes for integration testing.
+#
+# Imported by the main Fastfile — do not run directly.
+################################################################################
+
+PROJECT_ROOT = File.expand_path("..")
+FASTLANE_DIR = __dir__
+COMPOSE_FILE = File.join(FASTLANE_DIR, "docker-compose.test-relay.yml")
+PG_USER = "nostr"
+PG_DB   = "nostr"
+
+# Load fastlane/.env if present (does not overwrite existing ENV vars)
+env_file = File.join(FASTLANE_DIR, ".env")
+if File.exist?(env_file)
+  File.readlines(env_file).each do |line|
+    line = line.strip
+    next if line.empty? || line.start_with?("#")
+    key, value = line.split("=", 2)
+    ENV[key.strip] ||= value.strip if key && value
+  end
+end
+
+################################################################################
+# Helper methods
+################################################################################
+
+def compose_cmd(relay_path)
+  "NOSTPY_RELAY_PATH=#{relay_path} docker compose -f #{COMPOSE_FILE}"
+end
+
+def pg_container_name(relay_path)
+  `#{compose_cmd(relay_path)} ps -q postgres`.strip
+end
+
+def resolve_relay_path(options)
+  path = options[:relay_path] || ENV["RELAY_PATH"]
+  UI.user_error!(
+    "relay_path is required. Pass it as a parameter or set RELAY_PATH in fastlane/.env"
+  ) unless path
+  path
+end
+
+def resolve_device(options)
+  device = options[:device] || ENV["DEVICE"]
+  UI.user_error!(
+    "device is required. Pass it as a parameter or set DEVICE in fastlane/.env"
+  ) unless device
+  device
+end
+
+################################################################################
+# Infrastructure lanes
+################################################################################
+
+desc "Start the test relay (postgres + redis + nostpy)"
+lane :relay_up do |options|
+  relay_path = resolve_relay_path(options)
+
+  UI.message("Starting test relay from #{relay_path}...")
+  sh("#{compose_cmd(relay_path)} up -d --build --wait")
+  UI.success("Test relay is up on ws://localhost:8008")
+end
+
+desc "Truncate all relay tables (clean state for next test)"
+lane :relay_clean do |options|
+  relay_path = resolve_relay_path(options)
+
+  pg_id = pg_container_name(relay_path)
+  UI.user_error!("Postgres container not found — is the relay running?") if pg_id.empty?
+
+  UI.message("Cleaning relay database...")
+  sh(
+    "docker exec -i #{pg_id} psql -U #{PG_USER} -d #{PG_DB} <<'EOSQL'\n" \
+    "DO $$ DECLARE t text; BEGIN\n" \
+    "  FOR t IN SELECT tablename FROM pg_tables WHERE schemaname = 'public'\n" \
+    "  LOOP EXECUTE 'TRUNCATE TABLE ' || quote_ident(t) || ' CASCADE'; END LOOP;\n" \
+    "END $$;\n" \
+    "EOSQL"
+  )
+  UI.success("Relay database cleaned")
+end
+
+desc "Stop the test relay"
+lane :relay_down do |options|
+  relay_path = resolve_relay_path(options)
+
+  UI.message("Stopping test relay...")
+  sh("#{compose_cmd(relay_path)} down")
+  UI.success("Test relay stopped")
+end

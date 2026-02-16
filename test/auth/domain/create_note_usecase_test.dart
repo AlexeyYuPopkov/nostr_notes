@@ -64,10 +64,7 @@ class MockCryptoRepo implements CryptoService {
   Uint8List spec256k1({
     required Uint8List senderPrivateKey,
     required Uint8List recipientPublicKey,
-  }) {
-    // TODO: implement spec256k1
-    throw UnimplementedError();
-  }
+  }) => throw UnimplementedError();
 }
 
 class MockExtraDerivation implements ExtraDerivation {
@@ -91,8 +88,18 @@ class MockRelaysListRepo implements RelaysListRepo {
   const MockRelaysListRepo();
 
   @override
-  List<String> getRelaysList() {
-    return [relayUrl1, relayUrl2];
+  Set<String> getRelaysList() {
+    return {relayUrl1, relayUrl2};
+  }
+
+  @override
+  Future<void> saveRelaysList(List<String> relays) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Set<String> getSuggestedRelays() {
+    return {relayUrl1, relayUrl2};
   }
 }
 
