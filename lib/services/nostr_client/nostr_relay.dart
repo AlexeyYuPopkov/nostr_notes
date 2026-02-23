@@ -144,7 +144,12 @@ class NostrRelay with NostrRelayEventMapper {
       _recover();
       return;
     }
-    return _channel.add(req.serialized(subscriptionId));
+    try {
+      await _channel.add(req.serialized(subscriptionId));
+    } catch (e) {
+      log('Failed to send request to relay: $url', name: 'Nostr', error: e);
+      _recover();
+    }
   }
 
   FutureOr<void> closeRequest(NostrEventClose closeCommand) async {
@@ -156,7 +161,12 @@ class NostrRelay with NostrRelayEventMapper {
       _recover();
       return;
     }
-    return _channel.add(closeCommand.serialized());
+    try {
+      await _channel.add(closeCommand.serialized());
+    } catch (e) {
+      log('Failed to send close to relay: $url', name: 'Nostr', error: e);
+      _recover();
+    }
   }
 
   FutureOr<void> sendEvent(NostrEvent event) async {
@@ -168,7 +178,12 @@ class NostrRelay with NostrRelayEventMapper {
       _recover();
       return;
     }
-    return _channel.add(event.serialized());
+    try {
+      await _channel.add(event.serialized());
+    } catch (e) {
+      log('Failed to send event to relay: $url', name: 'Nostr', error: e);
+      _recover();
+    }
   }
 
   Stream<BaseNostrEvent> get eventStream => _controller.stream;

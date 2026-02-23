@@ -93,7 +93,7 @@ class MockRelaysListRepo implements RelaysListRepo {
   }
 
   @override
-  Future<void> saveRelaysList(List<String> relays) {
+  Future<void> saveRelaysList(Set<String> relays) {
     throw UnimplementedError();
   }
 
@@ -101,6 +101,9 @@ class MockRelaysListRepo implements RelaysListRepo {
   Set<String> getSuggestedRelays() {
     return {relayUrl1, relayUrl2};
   }
+
+  @override
+  Stream<Set<String>> get relaysListStream => Stream.value(getRelaysList());
 }
 
 void main() {

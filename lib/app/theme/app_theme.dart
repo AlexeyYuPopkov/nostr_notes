@@ -68,6 +68,11 @@ final class AppTheme {
       elevation: 2,
       margin: const EdgeInsets.all(Sizes.indent),
     ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      color: AppColorScheme.light.primary,
+      strokeWidth: Sizes.thickness,
+    ),
+
     extensions: [
       ShimmerColors.fromBrightness(Brightness.light),
       AppGptMarkdownTheme.light(),

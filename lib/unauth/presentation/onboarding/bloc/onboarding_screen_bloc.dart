@@ -19,6 +19,7 @@ final class OnboardingScreenBloc
   final PinUsecase pinUsecase = DiStorage.shared.resolve();
   final RelaysListRepo relaysListRepo = DiStorage.shared.resolve();
   late final StreamSubscription sessionSubscription;
+  StreamSubscription? relaysSubscription;
   late final nsecPageVm = OnboardingNsecPageVm();
 
   OnboardingScreenBloc()
@@ -80,6 +81,15 @@ final class OnboardingScreenBloc
     Emitter<OnboardingScreenState> emit,
   ) {
     emit(OnboardingScreenState.common(data: data.copyWith(step: event.step)));
+
+    if (event.step is OnboardingRelays) {
+      relaysSubscription?.cancel();
+      relaysSubscription = relaysListRepo.relaysListStream.listen((relays) {
+        if (relays.isNotEmpty && data.step is OnboardingRelays) {
+          add(const OnboardingScreenEvent.onStep(OnboardingPin()));
+        }
+      });
+    }
   }
 
   void _onOnNsecEvent(
@@ -153,7 +163,7 @@ final class OnboardingScreenBloc
     try {
       emit(OnboardingScreenState.loading(data: data));
 
-      await relaysListRepo.saveRelaysList(event.relays);
+      await relaysListRepo.saveRelaysList(event.relays.toSet());
 
       emit(
         OnboardingScreenState.common(

@@ -6,4 +6,5 @@ abstract interface class ScreensAssembly {
   Widget createEditNoteQuillScreen(PathParams pathParams);
   Widget createEditNoteMarkdownScreen(PathParams? pathParams);
   Widget createAppSettingsScreen();
+  Widget createRelaysListScreen();
 }

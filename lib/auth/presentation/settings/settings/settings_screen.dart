@@ -37,13 +37,17 @@ final class SettingsScreen extends StatelessWidget with DialogHelper {
                 absorbing: state is LoadingState,
                 child: ListView.builder(
                   itemCount: SettingsItem.items.length,
-                  itemBuilder: (context, item) {
+                  itemBuilder: (context, index) {
+                    final item = SettingsItem.items[index];
                     return ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: Sizes.indent2x,
+                      title: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: Sizes.indent,
+                        ),
+                        child: Text(item.getTitle(context)),
                       ),
-                      title: Text(SettingsItem.items[item].getTitle(context)),
-                      onTap: () => SettingsItem.items[item].onTap(context),
+                      trailing: item.trailing(context),
+                      onTap: () => item.onTap(context),
                     );
                   },
                 ),
@@ -58,4 +62,8 @@ final class SettingsScreen extends StatelessWidget with DialogHelper {
 
 final class PreferencesRoute implements AppRoute {
   const PreferencesRoute();
+}
+
+final class RelaysListRoute implements AppRoute {
+  const RelaysListRoute();
 }

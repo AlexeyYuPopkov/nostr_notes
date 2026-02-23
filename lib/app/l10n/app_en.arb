@@ -20,7 +20,6 @@
     "onboardingWelcomePageOptionMD3": "🌐 **Stored** via Nostr",
     "onboardingWelcomePageOptionMD4": "🧷 **Access** with your **nsec** and **PIN**",
     "onboardingWelcomeButtonNext": "Get Started",
-
     "onboardingSignUpPageTitle": "Sign Up with Nostr",
     "onboardingSignUpPageSubtitle": "What is Nostr?",
     "onboardingSignUpPageDescription": "Nostr is a decentralized network designed for secure and censorship-resistant communication. Unlike traditional platforms, Nostr doesn't rely on centralized servers—your identity and data belong to you.",
@@ -31,7 +30,6 @@
     "onboardingSignUpButtonGenerateKey": "Generate a Nostr Key",
     "onboardingSignUpAlreadyHaveAccount": "Already have an account?",
     "onboardingSignUpButtonLogin": "Log In",
-
     "onboardingShowNsecPageTitle": "Your Nostr Private Key (Nsec Key)",
     "onboardingShowNsecPageDescription": "Save this key securely. Your Nsec key gives you complete control and ownership of your data.",
     "onboardingShowNsecPageOptionMD1": "🔑 **Required** – This key is your account password and is required to log in.",
@@ -39,26 +37,34 @@
     "onboardingShowNsecPageOptionMD3": "🚫 **Private** – Anyone with this key can access your account. Never share it.",
     "onboardingShowNsecPageButtonCopyKey": "Copy Key",
     "onboardingShowNsecPageKeyCopied": "Key copied to clipboard",
-
     "onboardingNsecPageTitle": "Enter your Nostr nsec",
     "onboardingNsecPageDescription": "Your private key is used to encrypt and sign notes. It is only yours and never leaves the device",
     "onboardingNsecPageTextFieldHint": "nsec1...",
     "onboardingNsecPageLabelHint": "You can import from another app or paste it manually",
     "onboardingNsecPageDontHaveAccount": "Don't have an account?",
     "onboardingNsecPageButtonSignUp": "Sign Up",
-    
-    "onboardingRelaysPageTitle": "Select Relays",
-    "onboardingRelaysPageDescription": "Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue",
-    "onboardingRelaysPageAddCustomHint": "wss://...",
-    "onboardingRelaysPageAddButton": "Add",
-    "onboardingRelaysPageErrorSelectAtLeastOne": "Select at least one relay",
-    "onboardingRelaysPageErrorInvalidUrl": "URL must start with wss://",
-
+    "relaysPageTitle": "Select Relays",
+    "relaysPageDescription": "Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue",
+    "relaysPageAddCustomHint": "wss://...",
+    "relaysPageAddButton": "Add",
+    "relaysPageCheckButton": "Check",
+    "relaysPageErrorSelectAtLeastOne": "Select at least one relay",
+    "relaysPageErrorInvalidRelayUrlEmpty": "URL cannot be empty",
+    "relaysPageErrorInvalidUrl": "URL must start with wss:// or ws://",
+    "relaysPageErrorInvalidRelayAddressFormat": "Invalid relay address format",
+    "relaysPageErrorFailedToConnectToRelay": "Failed to connect to relay {url}",
+    "@relaysPageErrorFailedToConnectToRelay": {
+        "placeholders": {
+            "url": {
+                "format": "String",
+                "type": "String"
+            }
+        }
+    },
     "onboardingPinPageTitle": "Set a PIN or password",
     "onboardingPinPageDescription": "This is used for an additional layer of encryption – even if someone obtains your nsec, your notes will remain protected",
     "onboardingPinPageTextFieldHint": "PIN or password",
     "onboardingPinPageLabelCheckboxUsePin": "Use pin to unlock app",
-
     "errorEmptyNsec": "NSEC key cannot be empty",
     "errorInvalidNsecFormat": "Invalid NSEC key format",
     "errorInvalidPrivateKey": "Invalid private key",
@@ -70,15 +76,15 @@
             "minCount": {
                 "format": "String",
                 "type": "String"
-                }
             }
+        }
     },
-
     "settingsScreenTitle": "Settings",
     "settingsScreenExit": "Exit",
     "settingsScreenLogout": "Logout and clear data",
     "settingsScreenLogoutConfirmationMessage": "Do you really want to log out and clear all data? This action cannot be undone",
-
+    "settingsItemPreferences": "Preferences",
+    "preferencesScreenItemRelays": "Connected Relays",
     "noteScreenErrorNoteContentCannotBeEmpty": "Note content cannot be empty",
     "errorPublishOperationTimedOut": "Publish operation timed out"
 }

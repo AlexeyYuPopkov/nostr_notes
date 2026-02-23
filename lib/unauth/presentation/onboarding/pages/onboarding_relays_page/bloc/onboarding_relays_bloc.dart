@@ -1,5 +1,4 @@
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_relays_usecase.dart';
@@ -17,7 +16,6 @@ final class OnboardingRelaysBloc
   late final _getRelaysUsecase = GetRelaysUsecase(
     relaysListRepo: _relaysListRepo,
   );
-  late final controller = TextEditingController();
 
   OnboardingRelaysBloc()
     : super(
@@ -35,6 +33,16 @@ final class OnboardingRelaysBloc
       transformer: (events, mapper) =>
           events.debounceTime(debounceDuration).switchMap(mapper),
     );
+    on<SaveEvent>(
+      _onSaveEvent,
+      transformer: (events, mapper) =>
+          events.debounceTime(debounceDuration).switchMap(mapper),
+    );
+    on<OnAddEvent>(
+      _onAddEvent,
+      transformer: (events, mapper) =>
+          events.debounceTime(debounceDuration).switchMap(mapper),
+    );
   }
 
   void _onInitialEvent(
@@ -49,6 +57,7 @@ final class OnboardingRelaysBloc
           data: data.copyWith(
             relays: result.relays,
             selectedRelays: result.selected,
+            initialRelays: result.selected,
           ),
         ),
       );
@@ -66,6 +75,32 @@ final class OnboardingRelaysBloc
     emit(
       OnboardingRelaysState.common(
         data: data.copyWith(selectedRelays: selected),
+      ),
+    );
+  }
+
+  void _onSaveEvent(
+    SaveEvent event,
+    Emitter<OnboardingRelaysState> emit,
+  ) async {
+    await _relaysListRepo.saveRelaysList(
+      data.selectedRelays.map((e) => e.url.toString()).toSet(),
+    );
+
+    add(const OnboardingRelaysEvent.initial());
+  }
+
+  void _onAddEvent(OnAddEvent event, Emitter<OnboardingRelaysState> emit) {
+    final selectedRelays = {...data.selectedRelays, event.relay};
+
+    emit(
+      OnboardingRelaysState.common(
+        data: data.copyWith(
+          relays: data.relays.any((r) => r.url == event.relay.url)
+              ? null
+              : [...data.relays, event.relay],
+          selectedRelays: selectedRelays,
+        ),
       ),
     );
   }

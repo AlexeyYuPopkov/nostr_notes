@@ -50,5 +50,5 @@ final class GetRelaysUsecaseResult {
 }
 
 extension on RelayInfo {
-  int compare(RelayInfo other) => url.path.compareTo(other.url.path);
+  int compare(RelayInfo other) => url.host.compareTo(other.url.host);
 }

@@ -64,12 +64,6 @@ final class UnauthDiScope extends DiScope {
       module: this,
       lifeTime: const LifeTime.prototype(),
     );
-
-    // di.bind<AesCbcRepo>(
-    //   () => AesCbcRepo.create(),
-    //   module: this,
-    //   lifeTime: const LifeTime.single(),
-    // );
   }
 }
 

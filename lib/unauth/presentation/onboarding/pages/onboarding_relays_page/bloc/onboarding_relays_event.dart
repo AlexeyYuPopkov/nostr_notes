@@ -6,16 +6,32 @@ sealed class OnboardingRelaysEvent extends Equatable {
 
   const factory OnboardingRelaysEvent.initial() = InitialEvent;
   const factory OnboardingRelaysEvent.toggle(RelayInfo relay) = ToggleEvent;
-
-  @override
-  List<Object?> get props => [];
+  const factory OnboardingRelaysEvent.save() = SaveEvent;
+  const factory OnboardingRelaysEvent.onAdd(RelayInfo relay) = OnAddEvent;
 }
 
 final class InitialEvent extends OnboardingRelaysEvent {
   const InitialEvent();
+  @override
+  List<Object?> get props => [];
 }
 
 final class ToggleEvent extends OnboardingRelaysEvent {
   final RelayInfo relay;
   const ToggleEvent(this.relay);
+  @override
+  List<Object?> get props => [relay];
+}
+
+final class SaveEvent extends OnboardingRelaysEvent {
+  const SaveEvent();
+  @override
+  List<Object?> get props => [];
+}
+
+final class OnAddEvent extends OnboardingRelaysEvent {
+  final RelayInfo relay;
+  const OnAddEvent(this.relay);
+  @override
+  List<Object?> get props => [relay];
 }

@@ -14,10 +14,6 @@ sealed class OnboardingRelaysState extends Equatable {
     required OnboardingRelaysData data,
   }) = CommonState;
 
-  const factory OnboardingRelaysState.loading({
-    required OnboardingRelaysData data,
-  }) = LoadingState;
-
   const factory OnboardingRelaysState.error({
     required OnboardingRelaysData data,
     required Object e,
@@ -26,10 +22,6 @@ sealed class OnboardingRelaysState extends Equatable {
 
 final class CommonState extends OnboardingRelaysState {
   const CommonState({required super.data});
-}
-
-final class LoadingState extends OnboardingRelaysState {
-  const LoadingState({required super.data});
 }
 
 final class ErrorState extends OnboardingRelaysState {

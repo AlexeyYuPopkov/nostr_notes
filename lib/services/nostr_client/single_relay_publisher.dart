@@ -1,25 +1,25 @@
 import 'package:nostr_notes/services/model/nostr_event.dart';
 import 'package:nostr_notes/services/model/nostr_event_close.dart';
 import 'package:nostr_notes/services/model/nostr_event_ok.dart';
-import 'package:nostr_notes/services/nostr_client/nostr_client.dart';
+import 'package:nostr_notes/services/nostr_client/nostr_relay.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'publish_event_report.dart';
 
-final class NostrPublisher {
-  NostrPublisher({
-    required this.client,
+final class SingleRelayPublisher {
+  static const defaultWindow = Duration(seconds: 2);
+  final NostrRelay relay;
+  final NostrEvent event;
+  final Duration window;
+
+  SingleRelayPublisher({
+    required this.relay,
     required this.event,
     this.window = defaultWindow,
   });
-  static const defaultWindow = Duration(seconds: 2);
 
   final _set = <String>{};
   bool _isCompleted = false;
-
-  final NostrClient client;
-  final NostrEvent event;
-  final Duration window;
 
   bool get isCompleted => _isCompleted;
 
@@ -33,7 +33,7 @@ final class NostrPublisher {
   }
 
   Future<PublishEventReport> _publishEventToAll(NostrEvent event) async {
-    _set.addAll({...client.relays});
+    _set.add(relay.url);
     assert(_set.isNotEmpty, 'No relays to publish to');
 
     final List<NostrEventOk> okEvents = [];
@@ -41,8 +41,7 @@ final class NostrPublisher {
 
     final eventId = event.id;
 
-    final sendFuture = client
-        .stream()
+    final sendFuture = relay.eventStream
         .map((e) {
           if (e is NostrEventOk) {
             if (e.eventId == eventId) {
@@ -68,7 +67,7 @@ final class NostrPublisher {
         .take(1)
         .first;
 
-    client.sendEventToAll(event);
+    relay.sendEvent(event);
 
     final result = await Future.any([
       sendFuture,
