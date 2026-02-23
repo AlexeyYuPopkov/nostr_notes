@@ -7,24 +7,23 @@ import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/presentation/buttons/prymary_loading_button.dart';
 import 'package:nostr_notes/common/presentation/buttons/vm/loading_button_vm.dart';
-import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/validators/nsec_validator.dart';
 
-import '../bloc/onboarding_screen_bloc.dart';
-import '../bloc/onboarding_screen_event.dart';
-import '../widgets/onboarding_text_field.dart';
+import '../../bloc/onboarding_screen_bloc.dart';
+import '../../bloc/onboarding_screen_event.dart';
+import '../../widgets/onboarding_text_field.dart';
 
-final class OnboardingNsecPage extends StatefulWidget {
+final class OnboardingNsecSignIn extends StatefulWidget {
   static final _formKey = GlobalKey<FormState>(
     debugLabel: 'OnboardingNsecPage.FormKey',
   );
-  const OnboardingNsecPage({super.key});
+  const OnboardingNsecSignIn({super.key});
 
   @override
-  State<OnboardingNsecPage> createState() => _OnboardingNsecPageState();
+  State<OnboardingNsecSignIn> createState() => _OnboardingNsecSignInState();
 }
 
-final class _OnboardingNsecPageState extends State<OnboardingNsecPage>
+final class _OnboardingNsecSignInState extends State<OnboardingNsecSignIn>
     with NsecValidator {
   late final _controller = TextEditingController();
 
@@ -71,7 +70,7 @@ final class _OnboardingNsecPageState extends State<OnboardingNsecPage>
           ),
           const SizedBox(height: Sizes.indentVariant4x),
           Form(
-            key: OnboardingNsecPage._formKey,
+            key: OnboardingNsecSignIn._formKey,
             child: OnboardingTextFormField(
               initialValue: _controller.text,
               controller: _controller,
@@ -116,16 +115,18 @@ final class _OnboardingNsecPageState extends State<OnboardingNsecPage>
   }
 
   void _onSignUp(BuildContext context) {
-    context.read<OnboardingScreenBloc>().add(
-      const OnboardingScreenEvent.onStep(OnboardingSignUp()),
-    );
+    // context.read<OnboardingScreenBloc>().add(
+    //   const OnboardingScreenEvent.onStep(OnboardingSignUp()),
+    // );
+    final vm = context.read<OnboardingScreenBloc>().nsecPageVm;
+    vm.toggleMode();
   }
 
   void _onNext(BuildContext context, LoadingButtonVM vm) {
     final isValid =
-        OnboardingNsecPage._formKey.currentState?.validate() ?? false;
+        OnboardingNsecSignIn._formKey.currentState?.validate() ?? false;
     if (isValid) {
-      OnboardingNsecPage._formKey.currentState?.save();
+      OnboardingNsecSignIn._formKey.currentState?.save();
       context.read<OnboardingScreenBloc>().add(
         OnboardingScreenEvent.onNsec(_controller.text, vm),
       );

@@ -358,6 +358,66 @@ abstract class AppLocalizations {
   /// **'Sign Up'**
   String get onboardingNsecPageButtonSignUp;
 
+  /// No description provided for @relaysPageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Relays'**
+  String get relaysPageTitle;
+
+  /// No description provided for @relaysPageDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue'**
+  String get relaysPageDescription;
+
+  /// No description provided for @relaysPageAddCustomHint.
+  ///
+  /// In en, this message translates to:
+  /// **'wss://...'**
+  String get relaysPageAddCustomHint;
+
+  /// No description provided for @relaysPageAddButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get relaysPageAddButton;
+
+  /// No description provided for @relaysPageCheckButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Check'**
+  String get relaysPageCheckButton;
+
+  /// No description provided for @relaysPageErrorSelectAtLeastOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least one relay'**
+  String get relaysPageErrorSelectAtLeastOne;
+
+  /// No description provided for @relaysPageErrorInvalidRelayUrlEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'URL cannot be empty'**
+  String get relaysPageErrorInvalidRelayUrlEmpty;
+
+  /// No description provided for @relaysPageErrorInvalidUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'URL must start with wss:// or ws://'**
+  String get relaysPageErrorInvalidUrl;
+
+  /// No description provided for @relaysPageErrorInvalidRelayAddressFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid relay address format'**
+  String get relaysPageErrorInvalidRelayAddressFormat;
+
+  /// No description provided for @relaysPageErrorFailedToConnectToRelay.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to connect to relay {url}'**
+  String relaysPageErrorFailedToConnectToRelay(String url);
+
   /// No description provided for @onboardingPinPageTitle.
   ///
   /// In en, this message translates to:
@@ -441,6 +501,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Do you really want to log out and clear all data? This action cannot be undone'**
   String get settingsScreenLogoutConfirmationMessage;
+
+  /// No description provided for @settingsItemPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get settingsItemPreferences;
+
+  /// No description provided for @preferencesScreenItemRelays.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected Relays'**
+  String get preferencesScreenItemRelays;
 
   /// No description provided for @noteScreenErrorNoteContentCannotBeEmpty.
   ///

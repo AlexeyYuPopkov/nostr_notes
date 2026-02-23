@@ -21,8 +21,22 @@ final class DrawerRouter extends StatelessWidget {
                 return Navigator.of(context).push(
                   MaterialPageRoute(
                     settings: const RouteSettings(name: 'app_settings'),
-                    builder: (context) =>
-                        screensAssembly.createAppSettingsScreen(),
+                    builder: (context) => RouteHandlerWidget(
+                      child: screensAssembly.createAppSettingsScreen(),
+                      onRoute: (route, context) {
+                        if (route is RelaysListRoute) {
+                          return Navigator.of(context).push(
+                            MaterialPageRoute(
+                              settings: const RouteSettings(
+                                name: 'relays_list',
+                              ),
+                              builder: (context) =>
+                                  screensAssembly.createRelaysListScreen(),
+                            ),
+                          );
+                        }
+                      },
+                    ),
                   ),
                 );
               }

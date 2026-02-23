@@ -11,6 +11,8 @@ import 'package:nostr_notes/common/data/root_context_provider/root_context_provi
 final _appRouter = AppRouter();
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await AppDi.bindUnauthModules();
   HttpOverrides.global = MyHttpOverrides();
   runApp(const App());

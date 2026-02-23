@@ -4,6 +4,8 @@ import 'package:nostr_notes/services/model/nostr_event_ok.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_client.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'publish_event_report.dart';
+
 final class NostrPublisher {
   NostrPublisher({
     required this.client,
@@ -91,58 +93,4 @@ final class NostrPublisher {
       );
     }
   }
-}
-
-// extension ToNostrEventVariantMapper on TriblyNostrEvent {
-//   NostrEvent toTriblyNostrEvent() {
-//     return NostrEvent(
-//       id: id,
-//       kind: kind,
-//       content: content ?? '',
-//       sig: sig ?? '',
-//       pubkey: pubkey,
-//       tags: tags,
-//       createdAt: createdAt.millisecondsSinceEpoch ~/ 1000,
-//     );
-//   }
-// }
-
-final class PublishEventReport {
-  const PublishEventReport({
-    required this.events,
-    required this.close,
-    required this.exceededTimeout,
-    required this.event,
-  });
-
-  final Duration? exceededTimeout;
-  final List<NostrEventOk> events;
-  final List<NostrEventClose> close;
-  final NostrEvent event;
-
-  PublishError? get error {
-    if (events.isEmpty) {
-      return NotPublished(exceededTimeout);
-    } else if (close.isNotEmpty) {
-      return PartialPublish(exceededTimeout);
-    } else {
-      return null;
-    }
-  }
-}
-
-sealed class PublishError implements Exception {
-  const PublishError();
-}
-
-final class NotPublished extends PublishError {
-  const NotPublished(this.exceededTimeout);
-  final Duration? exceededTimeout;
-  String get message => 'Not published to any relay';
-}
-
-final class PartialPublish extends PublishError {
-  const PartialPublish(this.exceededTimeout);
-  final Duration? exceededTimeout;
-  String get message => 'Published to some relays only';
 }

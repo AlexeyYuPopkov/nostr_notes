@@ -1,0 +1,71 @@
+################################################################################
+# Integration Test Lanes
+#
+# Configuration is loaded from fastlane/.env (not committed).
+# Copy fastlane/.env.example → fastlane/.env and set your values.
+# CLI parameters override .env values.
+#
+# Usage:
+#   bundle exec fastlane integration_test test:signup_flow_test.dart
+#   bundle exec fastlane integration_test                              # all tests
+#   bundle exec fastlane integration_test device:"iPhone 15"           # override device
+#
+# Parameters (all optional if set in .env):
+#   relay_path  – absolute path to the nostpy_relay repository
+#   device      – device name or id for flutter test
+#   test        – test file name inside integration_test/; runs ALL when omitted
+#   flavor      – Flutter flavor, default "dev"
+################################################################################
+
+import "Helpers"
+
+################################################################################
+# Test lanes
+################################################################################
+
+desc "Run integration tests with a local relay"
+lane :integration_test do |options|
+  relay_path = resolve_relay_path(options)
+  device     = resolve_device(options)
+  test_file  = options[:test]
+  flavor     = options[:flavor] || "dev"
+
+  begin
+    # 1. Start relay
+    relay_up(relay_path: relay_path)
+
+    # 2. Clean database
+    relay_clean(relay_path: relay_path)
+
+    # 3. Determine which test(s) to run
+    if test_file
+      test_targets = [File.join(PROJECT_ROOT, "integration_test", test_file)]
+    else
+      test_targets = Dir.glob(File.join(PROJECT_ROOT, "integration_test", "*_test.dart"))
+    end
+
+    UI.message("Running #{test_targets.length} test(s) on #{device}...")
+
+    test_targets.each do |target|
+      UI.header("Running: #{File.basename(target)}")
+
+      # Clean DB between tests
+      relay_clean(relay_path: relay_path) if test_targets.length > 1
+
+      sh(
+        "cd #{PROJECT_ROOT} && flutter test #{target} " \
+        "--flavor #{flavor} " \
+        "--dart-define=INTEGRATION_TEST=true " \
+        "--dart-define=RELAY_URL=ws://localhost:8008 " \
+        "-d \"#{device}\""
+      )
+
+      UI.success("#{File.basename(target)} passed")
+    end
+
+    UI.success("All integration tests passed!")
+  ensure
+    # 4. Always stop relay, even if tests fail
+    relay_down(relay_path: relay_path)
+  end
+end

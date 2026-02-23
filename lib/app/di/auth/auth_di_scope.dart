@@ -1,7 +1,6 @@
 import 'package:di_storage/di_storage.dart';
 import 'package:nostr_notes/auth/data/common_event_storage_impl.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
-import 'package:nostr_notes/auth/data/relays_list_repo_impl.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
@@ -18,12 +17,6 @@ final class AuthDiScope extends DiScope {
 
   @override
   void bind(DiStorage di) {
-    di.bind<RelaysListRepo>(
-      () => const RelaysListRepoImpl(),
-      module: this,
-      lifeTime: const LifeTime.single(),
-    );
-
     di.bind<NostrClient>(
       () => NostrClient(),
       module: this,

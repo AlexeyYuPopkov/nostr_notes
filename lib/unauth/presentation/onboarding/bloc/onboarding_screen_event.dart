@@ -22,6 +22,9 @@ sealed class OnboardingScreenEvent extends Equatable {
   const factory OnboardingScreenEvent.onNsecGenerated(String nsec) =
       OnNsecGeneratedEvent;
 
+  const factory OnboardingScreenEvent.onRelaysSelected(List<String> relays) =
+      OnRelaysSelectedEvent;
+
   @override
   List<Object?> get props => const [];
 }
@@ -55,4 +58,9 @@ final class OnGenerateKeyEvent extends OnboardingScreenEvent {
 final class OnNsecGeneratedEvent extends OnboardingScreenEvent {
   final String nsec;
   const OnNsecGeneratedEvent(this.nsec);
+}
+
+final class OnRelaysSelectedEvent extends OnboardingScreenEvent {
+  final List<String> relays;
+  const OnRelaysSelectedEvent(this.relays);
 }

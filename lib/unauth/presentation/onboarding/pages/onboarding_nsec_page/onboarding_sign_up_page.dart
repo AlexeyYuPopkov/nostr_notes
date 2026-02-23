@@ -5,10 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
 
-import '../bloc/onboarding_screen_bloc.dart';
-import '../bloc/onboarding_screen_event.dart';
+import '../../bloc/onboarding_screen_bloc.dart';
+import '../../bloc/onboarding_screen_event.dart';
 
 final class OnboardingSignUpPage extends StatelessWidget {
   const OnboardingSignUpPage({super.key});
@@ -87,9 +86,8 @@ final class OnboardingSignUpPage extends StatelessWidget {
   }
 
   void _onLogin(BuildContext context) {
-    context.read<OnboardingScreenBloc>().add(
-      const OnboardingScreenEvent.onStep(OnboardingNsec()),
-    );
+    final vm = context.read<OnboardingScreenBloc>().nsecPageVm;
+    vm.toggleMode();
   }
 }
 
