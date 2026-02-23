@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:di_storage/di_storage.dart';
 import 'package:nostr_notes/app/di/auth/auth_di_scope.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'unauth/unauth_di_scope.dart';
 
@@ -13,7 +14,9 @@ final class AppDi {
     di.removeScope<UnauthDiScope>();
     di.removeScope<CryptoDiModule>();
 
-    const UnauthDiScope().bind(di);
+    final prefs = await SharedPreferences.getInstance();
+
+    UnauthDiScope(prefs: prefs).bind(di);
 
     await const CryptoDiModule().bind(di);
 

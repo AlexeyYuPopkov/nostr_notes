@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug ",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "локальный реле",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define=RELAY_URL=ws://localhost:8008"
+            ],
+            "flutterMode": "debug"
+        }
+    ]
+}

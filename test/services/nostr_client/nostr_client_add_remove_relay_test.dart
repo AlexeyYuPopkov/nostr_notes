@@ -3,7 +3,7 @@ import 'package:nostr_notes/services/nostr_client/channel_factory.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_client.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../tools/mock_wschannel.dart';
+import '../../tools/mock_wschannel.dart';
 
 class MockChannelFactory extends Mock implements ChannelFactory {}
 

@@ -18,6 +18,7 @@ import 'package:nostr_notes/services/model/tag/tag_value.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_event_creator.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_publisher.dart';
+import 'package:nostr_notes/services/nostr_client/publish_event_report.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:uuid/uuid.dart';
 
