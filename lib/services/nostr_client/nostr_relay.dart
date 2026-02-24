@@ -141,8 +141,10 @@ class NostrRelay with NostrRelayEventMapper {
         'Cannot send request, channel is cancelled for relay: $url',
         name: 'Nostr',
       );
-      _recover();
-      return;
+      await _recover();
+      if (_isCancelled) {
+        return;
+      }
     }
     try {
       await _channel.add(req.serialized(subscriptionId));
@@ -158,8 +160,10 @@ class NostrRelay with NostrRelayEventMapper {
         'Cannot send request, channel is cancelled for relay: $url',
         name: 'Nostr',
       );
-      _recover();
-      return;
+      await _recover();
+      if (_isCancelled) {
+        return;
+      }
     }
     try {
       await _channel.add(closeCommand.serialized());
@@ -175,8 +179,10 @@ class NostrRelay with NostrRelayEventMapper {
         'Cannot send request, channel is cancelled for relay: $url',
         name: 'Nostr',
       );
-      _recover();
-      return;
+      await _recover();
+      if (_isCancelled) {
+        return;
+      }
     }
     try {
       await _channel.add(event.serialized());
