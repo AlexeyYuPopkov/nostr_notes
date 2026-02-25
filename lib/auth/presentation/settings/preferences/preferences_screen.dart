@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/auth/presentation/settings/app/bloc/items/preferences_item.dart';
+import 'package:nostr_notes/auth/presentation/settings/preferences/bloc/items/preferences_item.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 
 import 'bloc/app_settings_state.dart';

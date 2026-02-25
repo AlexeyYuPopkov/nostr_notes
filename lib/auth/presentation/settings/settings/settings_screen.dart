@@ -67,3 +67,7 @@ final class PreferencesRoute implements AppRoute {
 final class RelaysListRoute implements AppRoute {
   const RelaysListRoute();
 }
+
+final class PinKeyboardTypeRoute implements AppRoute {
+  const PinKeyboardTypeRoute();
+}

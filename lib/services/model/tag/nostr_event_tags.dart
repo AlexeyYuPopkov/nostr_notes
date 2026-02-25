@@ -3,6 +3,8 @@ import 'package:nostr_notes/services/model/tag/tag.dart';
 import '../nostr_event.dart';
 
 extension NostrEventTags on NostrEvent {
+  String? getDTag() => getFirstTag(Tag.d);
+
   String? getFirstTag(BaseTag tag) {
     final tagValue = tag.value;
     for (final tags in this.tags) {

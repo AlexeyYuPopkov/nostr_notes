@@ -21,7 +21,7 @@ final class CreateNoteUsecase {
        _noteCryptoUseCase = noteCryptoUseCase,
        _notesRepository = notesRepository;
 
-  Future<NotePublisherReport> execute({
+  Future<Note> execute({
     required String content,
     required String? dTag,
     Now? now,
@@ -34,6 +34,7 @@ final class CreateNoteUsecase {
     }
 
     final note = Note(
+      eventId: '',
       dTag: dTag ?? '',
       content: content,
       summary: '',
@@ -57,14 +58,11 @@ final class CreateNoteUsecase {
       randomBytes: randomBytes,
     );
 
-    final targetNote = result.note;
-    if (targetNote == null) {
-      return result;
-    }
+    final targetNote = result;
 
     final decryptedNote = await _noteCryptoUseCase.decryptNote(targetNote);
 
-    return result.copyWith(note: decryptedNote);
+    return decryptedNote;
   }
 }
 

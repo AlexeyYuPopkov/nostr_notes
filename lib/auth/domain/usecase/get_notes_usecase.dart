@@ -19,7 +19,7 @@ class GetNotesUsecase {
        _sessionUsecase = sessionUsecase,
        _noteCryptoUseCase = noteCryptoUseCase;
 
-  Future<List<Note>> execute() async {
+  Stream<List<Note>> execute() {
     final keys = _sessionUsecase.currentSession.keys;
     final publicKey = keys?.publicKey;
     final privateKey = keys?.privateKey;
@@ -31,12 +31,13 @@ class GetNotesUsecase {
       throw const AppError.notAuthenticated();
     }
 
-    final result = await _notesRepository.getNotes(
-      pubkey: publicKey,
-      privateKey: privateKey,
-    );
-    return [
-      for (final note in result) await _noteCryptoUseCase.decryptSummary(note),
-    ].sorted((a, b) => b.createdAt.compareTo(a.createdAt));
+    return _notesRepository
+        .watchNotes(pubkey: publicKey, privateKey: privateKey)
+        .asyncMap((items) async {
+          return [
+            for (final note in items)
+              await _noteCryptoUseCase.decryptSummary(note),
+          ].sorted((a, b) => b.createdAt.compareTo(a.createdAt));
+        });
   }
 }

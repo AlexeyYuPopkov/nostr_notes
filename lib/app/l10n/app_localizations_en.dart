@@ -241,6 +241,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get preferencesScreenItemRelays => 'Connected Relays';
 
   @override
+  String get preferencesScreenItemMobilePinKeyboardType => 'PIN Keyboard Type';
+
+  @override
+  String get pinKeyboardTypeScreenTitle => 'PIN Keyboard Type';
+
+  @override
+  String get pinKeyboardTypeScreenDescription =>
+      'Choose the keyboard type shown when entering your PIN';
+
+  @override
+  String get pinKeyboardTypeText => 'Default (Text)';
+
+  @override
+  String get pinKeyboardTypeNumber => 'Number';
+
+  @override
+  String get pinKeyboardTypePhone => 'Phone';
+
+  @override
   String get noteScreenErrorNoteContentCannotBeEmpty =>
       'Note content cannot be empty';
 

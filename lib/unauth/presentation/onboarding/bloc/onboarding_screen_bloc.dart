@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/domain/repo/pin_keyboard_type_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
@@ -21,6 +22,8 @@ final class OnboardingScreenBloc
   late final StreamSubscription sessionSubscription;
   StreamSubscription? relaysSubscription;
   late final nsecPageVm = OnboardingNsecPageVm();
+  late final PinKeyboardTypeRepo _pinKeyboardTypeRepo = DiStorage.shared
+      .resolve();
 
   OnboardingScreenBloc()
     : super(
@@ -28,7 +31,7 @@ final class OnboardingScreenBloc
       ) {
     _setupHandlers();
     _setupSubscriptions();
-    // add(const OnboardingScreenEvent.initial());
+    add(const OnboardingScreenEvent.initial());
   }
 
   void _setupSubscriptions() {
@@ -65,15 +68,16 @@ final class OnboardingScreenBloc
     InitialEvent event,
     Emitter<OnboardingScreenState> emit,
   ) async {
-    // try {
-    //   emit(OnboardingScreenState.loading(data: data));
-
-    //   await Future.delayed(const Duration(seconds: 2));
-
-    //   emit(OnboardingScreenState.common(data: data));
-    // } catch (e) {
-    //   emit(OnboardingScreenState.error(e: e, data: data));
-    // }
+    try {
+      final pinKeyboardType = _pinKeyboardTypeRepo.getType();
+      emit(
+        OnboardingScreenState.common(
+          data: data.copyWith(pinKeyboardType: pinKeyboardType),
+        ),
+      );
+    } catch (e) {
+      emit(OnboardingScreenState.error(e: e, data: data));
+    }
   }
 
   void _onNextStepEvent(

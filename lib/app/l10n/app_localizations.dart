@@ -514,6 +514,42 @@ abstract class AppLocalizations {
   /// **'Connected Relays'**
   String get preferencesScreenItemRelays;
 
+  /// No description provided for @preferencesScreenItemMobilePinKeyboardType.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN Keyboard Type'**
+  String get preferencesScreenItemMobilePinKeyboardType;
+
+  /// No description provided for @pinKeyboardTypeScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN Keyboard Type'**
+  String get pinKeyboardTypeScreenTitle;
+
+  /// No description provided for @pinKeyboardTypeScreenDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the keyboard type shown when entering your PIN'**
+  String get pinKeyboardTypeScreenDescription;
+
+  /// No description provided for @pinKeyboardTypeText.
+  ///
+  /// In en, this message translates to:
+  /// **'Default (Text)'**
+  String get pinKeyboardTypeText;
+
+  /// No description provided for @pinKeyboardTypeNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Number'**
+  String get pinKeyboardTypeNumber;
+
+  /// No description provided for @pinKeyboardTypePhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get pinKeyboardTypePhone;
+
   /// No description provided for @noteScreenErrorNoteContentCannotBeEmpty.
   ///
   /// In en, this message translates to:

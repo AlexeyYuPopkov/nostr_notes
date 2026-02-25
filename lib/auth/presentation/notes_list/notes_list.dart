@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/drawer_router.dart';
 import 'package:nostr_notes/app/sizes.dart';
@@ -84,6 +86,7 @@ final class _List extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const placeholdersCount = 9;
+    final bloc = context.read<NotesListBloc>();
 
     final count = isLoading ? placeholdersCount : notes.length;
 
@@ -96,6 +99,7 @@ final class _List extends StatelessWidget {
         }
 
         return NotesListCard(
+          pendingVm: bloc.pendingVm,
           note: notes[index],
           selectedNoteDTag: selectedNoteDTag,
           onTap: onTap,
@@ -111,8 +115,17 @@ final class _SettingsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return CupertinoButton(
-      child: const Icon(Icons.account_circle_outlined, size: Sizes.icon),
+      child: SvgPicture.asset(
+        AppIcons.profileIcon,
+        width: Sizes.icon,
+        height: Sizes.icon,
+        colorFilter: ColorFilter.mode(
+          theme.colorScheme.primary,
+          BlendMode.srcIn,
+        ),
+      ),
       onPressed: () => _onNewNote(context),
     );
   }
