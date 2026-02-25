@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nostr_notes/auth/data/common_event_storage_impl.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
@@ -15,6 +13,7 @@ import 'package:nostr_notes/common/domain/error/error_messages_provider.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/model/session/user_keys.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
+import 'package:nostr_notes/services/event_store/database/app_database.dart';
 import 'package:nostr_notes/services/nostr_client/channel_factory.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_client.dart';
@@ -22,6 +21,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../tools/di/drift_scope.dart';
 import '../../tools/mock_error_messages_provider.dart';
 import '../../tools/mock_wschannel.dart';
 import '../../tools/some_moked_data.dart';
@@ -124,6 +124,9 @@ void main() {
         module: null,
         lifeTime: const LifeTime.single(),
       );
+
+      const DriftScope().bind(DiStorage.shared);
+
       channelFactory = MockChannelFactory();
       channel1 = MockWSChannel(url: MockRelaysListRepo.relayUrl1);
       channel2 = MockWSChannel(url: MockRelaysListRepo.relayUrl2);
@@ -153,7 +156,7 @@ void main() {
         ),
         notesRepository: NotesRepositoryImpl(
           client: client,
-          memoryStorage: CommonEventStorageImpl(),
+          eventStore: DiStorage.shared.resolve(),
           relaysListRepo: const MockRelaysListRepo(),
         ),
       );
@@ -161,6 +164,11 @@ void main() {
 
     tearDown(() async {
       await client.disconnectAndDispose();
+      // Let pending async operations (e.g. upsertEvents) settle
+      await pumpEventQueue();
+      final AppDatabase db = DiStorage.shared.resolve();
+      await db.close();
+      DiStorage.shared.removeAll();
     });
 
     test('successful note creation', () async {

@@ -1,5 +1,4 @@
 import 'package:di_storage/di_storage.dart';
-import 'package:nostr_notes/auth/data/common_event_storage_impl.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
@@ -43,20 +42,8 @@ final class AuthDiScope extends DiScope {
       lifeTime: const LifeTime.prototype(),
     );
 
-    di.bind<CommonEventStorage>(
-      () => CommonEventStorageImpl(),
-      module: this,
-      lifeTime: const LifeTime.single(),
-    );
-
-    // di.bind<Nip04Decryptor>(
-    //   () => Nip04Decryptor(wasmAesCbc: di.resolve<AesCbcRepo>()),
-    //   module: this,
-    //   lifeTime: const LifeTime.single(),
-    // );
-
-    // di.bind<Nip04Encryptor>(
-    //   () => const Nip04Encryptor(),
+    // di.bind<CommonEventStorage>(
+    //   () => CommonEventStorageImpl(),
     //   module: this,
     //   lifeTime: const LifeTime.single(),
     // );
@@ -64,7 +51,7 @@ final class AuthDiScope extends DiScope {
     di.bind<NotesRepository>(
       () => NotesRepositoryImpl(
         client: di.resolve<NostrClient>(),
-        memoryStorage: di.resolve(),
+        eventStore: di.resolve(),
         relaysListRepo: di.resolve<RelaysListRepo>(),
       ),
       module: this,

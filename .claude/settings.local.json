@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(dart pub add:*)",
-      "Bash(flutter test:*)"
+      "Bash(flutter test:*)",
+      "Bash(flutter gen-l10n)",
+      "Bash(dart analyze lib/auth/presentation/settings/preferences/mobile_keyboard_type/mobile_keyboard_type_screen.dart lib/app/router/drawer_router.dart lib/app/di/unauth/unauth_di_scope.dart lib/auth/presentation/settings/preferences/bloc/items/preferences_item.dart lib/common/domain/model/pin_keyboard_type.dart lib/auth/domain/repo/pin_keyboard_type_repo.dart lib/auth/data/pin_keyboard_type_repo_impl.dart)",
+      "Bash(flutter build ios --simulator)"
     ]
   }
 }

@@ -1,6 +1,11 @@
 import 'package:nostr_notes/services/model/tag/tag_value.dart';
 
 final class AppConfig {
+  static const kUsesInMemoryStorage = bool.fromEnvironment(
+    'IN_MEMORY_STORAGE',
+    defaultValue: false,
+  );
+
   /// Адрес реле из переменной среды (если задана)
   static String? get relayUrl {
     const envRelay = String.fromEnvironment('RELAY_URL');

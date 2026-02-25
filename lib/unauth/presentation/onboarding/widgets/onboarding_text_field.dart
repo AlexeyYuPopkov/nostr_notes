@@ -8,12 +8,14 @@ final class OnboardingTextFormField extends FormField<String> {
     required super.validator,
     required TextEditingController controller,
     required String hint,
+    TextInputType? keyboardType,
     bool isEnabled = true,
   }) : super(
          builder: (FormFieldState<String> state) => OnboardingTextField(
            controller: controller,
            hint: hint,
            errorText: state.errorText,
+           keyboardType: keyboardType,
            validator: validator,
            isEnabled: isEnabled,
            onChanged: (value) {
@@ -30,12 +32,14 @@ final class OnboardingTextField extends StatelessWidget {
   final bool isEnabled;
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onChanged;
+  final TextInputType? keyboardType;
 
   const OnboardingTextField({
     super.key,
     required this.controller,
     required this.hint,
     required this.isEnabled,
+    this.keyboardType,
     this.errorText,
     this.validator,
     this.onChanged,
@@ -53,6 +57,7 @@ final class OnboardingTextField extends StatelessWidget {
           decoration: InputDecoration(hintText: hint),
           textAlign: TextAlign.center,
           onTapOutside: (e) => FocusScope.of(context).unfocus(),
+          keyboardType: keyboardType,
         ),
         Visibility(
           visible: errorText != null && errorText!.isNotEmpty,

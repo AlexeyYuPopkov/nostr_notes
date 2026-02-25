@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:di_storage/di_storage.dart';
+import 'package:nostr_notes/auth/data/pin_keyboard_type_repo_impl.dart';
 import 'package:nostr_notes/auth/data/relays_list_repo_impl.dart';
+import 'package:nostr_notes/auth/domain/repo/pin_keyboard_type_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/data/error/error_messages_provider_impl.dart';
@@ -24,6 +26,12 @@ final class UnauthDiScope extends DiScope {
   void bind(DiStorage di) {
     di.bind<RelaysListRepo>(
       () => RelaysListRepoImpl(prefs),
+      module: this,
+      lifeTime: const LifeTime.single(),
+    );
+
+    di.bind<PinKeyboardTypeRepo>(
+      () => PinKeyboardTypeRepoImpl(prefs),
       module: this,
       lifeTime: const LifeTime.single(),
     );

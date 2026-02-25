@@ -5,3 +5,7 @@ enum EventKind {
   final int value;
   const EventKind(this.value);
 }
+
+abstract final class NostrKind {
+  static const int deletion = 5;
+}
