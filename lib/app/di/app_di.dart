@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:di_storage/di_storage.dart';
 import 'package:nostr_notes/app/di/auth/auth_di_scope.dart';
 import 'package:nostr_notes/app/di/unauth/db_module.dart';
+import 'package:nostr_notes/services/nostr_client/outbox_publisher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'unauth/unauth_di_scope.dart';
@@ -26,11 +27,13 @@ final class AppDi {
     // await di.resolve<AesCbcRepo>().init();
   }
 
-  static void bindAuthModules() {
+  static Future<void> bindAuthModules() async {
     final di = DiStorage.shared;
 
     di.removeScope<AuthDiScope>();
 
     const AuthDiScope().bind(di);
+    final outbox = di.tryResolve<OutboxPublisher>();
+    await outbox?.init();
   }
 }

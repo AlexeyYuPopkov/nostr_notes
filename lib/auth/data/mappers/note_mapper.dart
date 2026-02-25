@@ -13,6 +13,7 @@ final class NoteMapper {
     final summaryTag = event.getFirstTag(const SummaryTag()) ?? '';
 
     return Note(
+      eventId: event.id,
       dTag: dTag,
       content: event.content,
       summary: summaryTag,

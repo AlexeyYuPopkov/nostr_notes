@@ -3,6 +3,8 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/get_pending_usecase.dart';
+import 'package:nostr_notes/auth/presentation/notes_list/bloc/pending_vm.dart';
 
 import 'notes_list_data.dart';
 import 'notes_list_event.dart';
@@ -13,8 +15,13 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
 
   late final FetchNotesUsecase _fetchNotesUsecase = DiStorage.shared.resolve();
   late final GetNotesUsecase _getNotesUsecase = DiStorage.shared.resolve();
+  late final pendingVm = PendingVm(
+    getPendingUsecase: DiStorage.shared.resolve<GetPendingUsecase>(),
+  );
+
   StreamSubscription? _fetchNotesSubscription;
   StreamSubscription? _getNotesSubscription;
+  StreamSubscription? _pendingSubscription;
 
   NotesListBloc()
     : super(NotesListState.common(data: NotesListData.initial())) {
@@ -29,6 +36,8 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     _fetchNotesSubscription = null;
     _getNotesSubscription?.cancel();
     _getNotesSubscription = null;
+    _pendingSubscription?.cancel();
+    _pendingSubscription = null;
     return super.close();
   }
 

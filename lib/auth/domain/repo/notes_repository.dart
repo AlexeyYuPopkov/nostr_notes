@@ -27,7 +27,7 @@ abstract interface class NotesRepository {
     required String id,
   });
 
-  Future<NotePublisherReport> publishNote({
+  Future<Note> publishNote({
     required Note note,
     required String pubkey,
     required String privateKey,

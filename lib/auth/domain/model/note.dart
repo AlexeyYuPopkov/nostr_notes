@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 sealed class NoteBase extends Equatable {
   static const summaryLength = 100;
+  String get eventId;
   String get dTag;
   String get content;
   String get summary;
@@ -12,6 +13,8 @@ sealed class NoteBase extends Equatable {
 
 final class Note extends NoteBase {
   @override
+  final String eventId;
+  @override
   final String dTag;
   @override
   final String content;
@@ -21,6 +24,7 @@ final class Note extends NoteBase {
   final DateTime createdAt;
 
   const Note({
+    required this.eventId,
     required this.dTag,
     required this.content,
     required this.summary,
@@ -28,10 +32,11 @@ final class Note extends NoteBase {
   });
 
   @override
-  List<Object?> get props => [dTag, content, summary, createdAt];
+  List<Object?> get props => [eventId, dTag, content, summary, createdAt];
 
   Note copyWith({String? content, String? summary}) {
     return Note(
+      eventId: eventId,
       dTag: dTag,
       content: content ?? this.content,
       summary: summary ?? this.summary,

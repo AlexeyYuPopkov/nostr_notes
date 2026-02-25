@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/presentation/edit_note_markdown_screen/markdown_highlight_controller.dart';
@@ -98,21 +97,15 @@ final class MarkdownEditNoteBloc
         dTag: data.initialNote.value?.dTag,
       );
 
-      final newNote = result.note;
-
-      if (newNote is Note) {
-        emit(
-          MarkdownEditNoteState.didSave(
-            data: data.copyWith(
-              initialNote: OptionalBox(newNote),
-              currentText: newNote.content,
-              hasChanges: false,
-            ),
+      emit(
+        MarkdownEditNoteState.didSave(
+          data: data.copyWith(
+            initialNote: OptionalBox(result),
+            currentText: result.content,
+            hasChanges: false,
           ),
-        );
-      } else {
-        throw const AppError.undefined();
-      }
+        ),
+      );
     } catch (e) {
       emit(MarkdownEditNoteState.error(e: e, data: data));
     }

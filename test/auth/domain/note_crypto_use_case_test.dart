@@ -53,6 +53,7 @@ void main() {
       );
 
       final initialNote = Note(
+        eventId: 'eventId',
         dTag: 'dTag',
         content: text,
         summary: summary,
@@ -75,6 +76,7 @@ void main() {
       );
 
       final initialNote = Note(
+        eventId: 'eventId',
         dTag: 'dTag',
         content: text,
         summary: summary,
@@ -97,6 +99,7 @@ void main() {
       );
 
       final initialNote = Note(
+        eventId: 'eventId',
         dTag: 'dTag',
         content: text,
         summary: summary,
@@ -121,6 +124,7 @@ void main() {
         );
 
         final initialNote = Note(
+          eventId: 'eventId',
           dTag: 'dTag',
           content: text,
           summary: summary,
@@ -179,6 +183,7 @@ void main() {
 
       for (var i = 0; i < iterations; i++) {
         final initialNote = Note(
+          eventId: 'eventId',
           dTag: 'dTag',
           content: '$text $i',
           summary: '$summary $i',

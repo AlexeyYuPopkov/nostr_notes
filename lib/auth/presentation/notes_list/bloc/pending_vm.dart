@@ -1,0 +1,34 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:nostr_notes/auth/domain/usecase/get_pending_usecase.dart';
+import 'package:rxdart/rxdart.dart';
+
+final class PendingVm extends ValueNotifier<Set<String>> {
+  static const debounceTime = Duration(milliseconds: 500);
+  final GetPendingUsecase _getPendingUsecase; // = DiStorage.shared.resolve();
+  StreamSubscription? _subscription;
+
+  PendingVm({required GetPendingUsecase getPendingUsecase})
+    : _getPendingUsecase = getPendingUsecase,
+      super({});
+
+  bool isPending(String eventId) => value.contains(eventId);
+
+  void subscribe() {
+    _subscription?.cancel();
+    _subscription = _getPendingUsecase
+        .execute()
+        .debounceTime(debounceTime)
+        .listen((pending) {
+          value = pending;
+          notifyListeners();
+        });
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
+  }
+}

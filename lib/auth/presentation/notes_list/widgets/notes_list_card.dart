@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
+import 'package:nostr_notes/auth/presentation/notes_list/bloc/pending_vm.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_formatter.dart';
 import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
 
@@ -10,12 +11,14 @@ final class NotesListCard extends StatelessWidget {
   static const itemHeight = titleHeight + subtitleHeight + Sizes.halfIndent;
 
   final NoteBase note;
+  final PendingVm pendingVm;
   final String? selectedNoteDTag;
   final ValueChanged<NoteBase> onTap;
 
   const NotesListCard({
     super.key,
     required this.note,
+    required this.pendingVm,
     required this.selectedNoteDTag,
     required this.onTap,
   });
@@ -40,6 +43,15 @@ final class NotesListCard extends StatelessWidget {
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
         minVerticalPadding: Sizes.zero,
+        trailing: ValueListenableBuilder(
+          valueListenable: pendingVm,
+          builder: (context, value, child) {
+            return Visibility(
+              visible: pendingVm.isPending(note.eventId),
+              child: const CircularProgressIndicator(),
+            );
+          },
+        ),
         title: Column(
           spacing: Sizes.halfIndent,
           crossAxisAlignment: CrossAxisAlignment.start,
