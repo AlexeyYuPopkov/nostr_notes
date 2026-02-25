@@ -42,9 +42,9 @@ class NotesRepositoryImpl implements NotesRepository {
       .where((e) {
         return e.isNotEmpty;
       })
-      .map((events) {
+      .asyncMap((events) async {
         if (events.isNotEmpty) {
-          _eventStore.upsert(events);
+          await _eventStore.upsert(events);
         }
         return events;
       });

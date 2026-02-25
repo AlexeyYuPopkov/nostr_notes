@@ -13,7 +13,7 @@ final class NostrFilterToRawEventQueryMapper {
       if (src.t != null && src.t!.isNotEmpty) TagFilter(TagValue.t, src.t!),
       if (src.e != null && src.e!.isNotEmpty) TagFilter(TagValue.e, src.e!),
       if (src.a != null && src.a!.isNotEmpty) TagFilter(TagValue.a, src.a!),
-      if (src.d != null && src.d!.isNotEmpty) TagFilter('d', src.d!),
+      if (src.d != null && src.d!.isNotEmpty) TagFilter(TagValue.d, src.d!),
       if (additional != null && additional.isNotEmpty)
         for (final entry in additional.entries)
           TagFilter(_additionalFilterTag(entry.key), entry.value),

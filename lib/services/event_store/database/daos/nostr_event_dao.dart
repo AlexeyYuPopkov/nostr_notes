@@ -511,6 +511,7 @@ class NostrEventDao extends DatabaseAccessor<AppDatabase>
 
     await transaction(() async {
       await batch((b) {
+        //TODO: mayby double work because `onDelete: KeyAction.cascade`
         // Delete tags first (foreign key reference)
         b.deleteWhere(nostrTags, (t) => t.eventId.isIn(idList));
         // Delete relay info

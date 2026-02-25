@@ -21,6 +21,9 @@ final class InitialEvent extends NotesListEvent {
 final class GetNotesEvent extends NotesListEvent {
   final List<NoteBase> notes;
   const GetNotesEvent({required this.notes});
+
+  @override
+  List<Object?> get props => [notes];
 }
 
 final class RefreshEvent extends NotesListEvent {

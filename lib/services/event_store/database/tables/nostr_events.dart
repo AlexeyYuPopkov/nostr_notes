@@ -10,7 +10,7 @@ import 'package:drift/drift.dart';
 @TableIndex(
   name: 'idx_nostr_events_pubkey_created_at',
   columns: {
-    #kind,
+    #pubkey,
     IndexedColumn(#pubkey, orderBy: OrderingMode.desc),
   },
 )
