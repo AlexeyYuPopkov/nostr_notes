@@ -7,10 +7,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'unauth/unauth_di_scope.dart';
 
-final class AppDi {
+abstract interface class Di {
+  static Di? _instance;
+  static void overrideDi(Di di) => _instance = di;
+  static Di get instance => _instance ??= const AppDi();
+
+  Future<void> bindUnauthModules();
+  Future<void> bindAuthModules();
+
+  void removeUnauthModules();
+  void removeAuthModules();
+}
+
+final class AppDi implements Di {
   const AppDi();
 
-  static FutureOr<void> bindUnauthModules() async {
+  @override
+  Future<void> bindUnauthModules() async {
     final di = DiStorage.shared;
 
     di.removeScope<UnauthDiScope>();
@@ -23,11 +36,10 @@ final class AppDi {
     const DbModule().bind(di);
 
     await const CryptoDiModule().bind(di);
-
-    // await di.resolve<AesCbcRepo>().init();
   }
 
-  static Future<void> bindAuthModules() async {
+  @override
+  Future<void> bindAuthModules() async {
     final di = DiStorage.shared;
 
     di.removeScope<AuthDiScope>();
@@ -35,5 +47,19 @@ final class AppDi {
     const AuthDiScope().bind(di);
     final outbox = di.tryResolve<OutboxPublisher>();
     await outbox?.init();
+  }
+
+  @override
+  void removeAuthModules() {
+    final di = DiStorage.shared;
+    di.removeScope<AuthDiScope>();
+  }
+
+  @override
+  void removeUnauthModules() {
+    final di = DiStorage.shared;
+    di.removeScope<UnauthDiScope>();
+    di.removeScope<DbModule>();
+    di.removeScope<CryptoDiModule>();
   }
 }

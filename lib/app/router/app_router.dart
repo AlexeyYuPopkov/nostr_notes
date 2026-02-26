@@ -30,9 +30,9 @@ final class AppRouter {
   void _createSessionSubscription() {
     sessionSubscription = session.sessionStream
         .distinct((a, b) => a.isUnlocked == b.isUnlocked)
-        .listen((session) {
+        .listen((session) async {
           if (session.isAuth && session.isUnlocked) {
-            AppDi.bindAuthModules();
+            await Di.instance.bindAuthModules();
           }
           _router.refresh();
         });

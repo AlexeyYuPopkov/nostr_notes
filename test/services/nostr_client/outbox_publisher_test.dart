@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/services/event_store/database/app_database.dart';
 import 'package:nostr_notes/services/event_store/database/daos/outbox_dao_interface.dart';
 import 'package:nostr_notes/services/event_store/database/tables/outbox_events.dart';
@@ -14,19 +13,20 @@ import 'package:nostr_notes/services/nostr_client/ws_channel.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../tools/mock_wschannel.dart';
+import '../../tools/mocks/mock_relays_list_repo.dart';
 
 void main() {
   group('OutboxPublisher', () {
     late _MockOutboxDao mockOutboxDao;
     late _MockRawEventStore mockRawEventStore;
-    late _MockRelaysListRepo mockRelaysListRepo;
+    late MockRelaysListRepo mockRelaysListRepo;
     late _MockChannelFactory mockChannelFactory;
     late OutboxPublisher sut;
 
     setUp(() {
       mockOutboxDao = _MockOutboxDao();
       mockRawEventStore = _MockRawEventStore();
-      mockRelaysListRepo = _MockRelaysListRepo();
+      mockRelaysListRepo = MockRelaysListRepo.withRelays({'wss://relay.test'});
       mockChannelFactory = _MockChannelFactory();
 
       sut = OutboxPublisher(
@@ -122,7 +122,7 @@ void main() {
       });
 
       test('marks event as failed when no relays configured', () async {
-        mockRelaysListRepo.relays = {};
+        await mockRelaysListRepo.clear();
         mockRawEventStore.eventsToReturn = [_createTestEvent('event1')];
 
         await sut.init();
@@ -270,22 +270,6 @@ class _MockChannelFactory implements ChannelFactory {
     channels.add(mock);
     return mock;
   }
-}
-
-class _MockRelaysListRepo implements RelaysListRepo {
-  Set<String> relays = {'wss://relay.test'};
-
-  @override
-  Set<String> getRelaysList() => relays;
-
-  @override
-  Future<void> saveRelaysList(Set<String> relays) async {}
-
-  @override
-  Set<String> getSuggestedRelays() => {};
-
-  @override
-  Stream<Set<String>> get relaysListStream => Stream.value(relays);
 }
 
 class _MockRawEventStore implements RawEventStore {

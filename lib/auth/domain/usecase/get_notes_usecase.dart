@@ -22,22 +22,17 @@ class GetNotesUsecase {
   Stream<List<Note>> execute() {
     final keys = _sessionUsecase.currentSession.keys;
     final publicKey = keys?.publicKey;
-    final privateKey = keys?.privateKey;
+
     if (publicKey == null || publicKey.isEmpty) {
       throw const AppError.notAuthenticated();
     }
 
-    if (privateKey == null || privateKey.isEmpty) {
-      throw const AppError.notAuthenticated();
-    }
-
-    return _notesRepository
-        .watchNotes(pubkey: publicKey, privateKey: privateKey)
-        .asyncMap((items) async {
-          return [
-            for (final note in items)
-              await _noteCryptoUseCase.decryptSummary(note),
-          ].sorted((a, b) => b.createdAt.compareTo(a.createdAt));
-        });
+    return _notesRepository.watchNotes(pubkey: publicKey).asyncMap((
+      items,
+    ) async {
+      return [
+        for (final note in items) await _noteCryptoUseCase.decryptSummary(note),
+      ].sorted((a, b) => b.createdAt.compareTo(a.createdAt));
+    });
   }
 }

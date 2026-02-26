@@ -17,7 +17,7 @@ sealed class NotePreviewState extends Equatable {
 
   const factory NotePreviewState.error({
     required NotePreviewData data,
-    required Object e,
+    required Object error,
   }) = ErrorState;
 }
 
@@ -30,6 +30,6 @@ final class LoadingState extends NotePreviewState {
 }
 
 final class ErrorState extends NotePreviewState {
-  final Object e;
-  const ErrorState({required super.data, required this.e});
+  final Object error;
+  const ErrorState({required super.data, required this.error});
 }

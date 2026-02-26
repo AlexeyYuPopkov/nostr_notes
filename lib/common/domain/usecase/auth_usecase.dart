@@ -1,3 +1,4 @@
+import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/repository/key_tool_repository.dart';
 import 'package:nostr_notes/common/domain/repository/secure_storage.dart';
@@ -10,14 +11,17 @@ final class AuthUsecase {
   final SecureStorage _secureStorage;
   final SessionUsecase _sessionUsecase;
   final KeyToolRepository _keyToolRepository;
+  final RelaysListRepo _relaysListRepo;
 
   AuthUsecase({
     required SecureStorage secureStorage,
     required SessionUsecase sessionUsecase,
     required KeyToolRepository keyToolRepository,
+    required RelaysListRepo relaysListRepo,
   }) : _secureStorage = secureStorage,
        _sessionUsecase = sessionUsecase,
-       _keyToolRepository = keyToolRepository;
+       _keyToolRepository = keyToolRepository,
+       _relaysListRepo = relaysListRepo;
 
   Stream<Session> get session => _sessionUsecase.sessionStream;
 
@@ -61,6 +65,7 @@ final class AuthUsecase {
   Future<void> logout() async {
     _secureStorage.setValue(key: secureStorageKey, value: '');
     _sessionUsecase.setSession(const Unauth());
+    _relaysListRepo.clear();
   }
 
   KeysError? validateNsec(String? nsec) {

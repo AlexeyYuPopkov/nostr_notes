@@ -21,18 +21,13 @@ class GetNoteUsecase {
   Future<Note?> execute(String id) async {
     final keys = _sessionUsecase.currentSession.keys;
     final publicKey = keys?.publicKey;
-    final privateKey = keys?.privateKey;
-    if (publicKey == null || publicKey.isEmpty) {
-      throw const AppError.notAuthenticated();
-    }
 
-    if (privateKey == null || privateKey.isEmpty) {
+    if (publicKey == null || publicKey.isEmpty) {
       throw const AppError.notAuthenticated();
     }
 
     final encryptedResult = await _notesRepository.getNote(
       pubkey: publicKey,
-      privateKey: privateKey,
       id: id,
     );
 
@@ -43,5 +38,23 @@ class GetNoteUsecase {
     final result = await _noteCryptoUseCase.decryptNote(encryptedResult);
 
     return result;
+  }
+
+  Stream<Note> watch(String id) {
+    final keys = _sessionUsecase.currentSession.keys;
+    final publicKey = keys?.publicKey;
+
+    if (publicKey == null || publicKey.isEmpty) {
+      throw const AppError.notAuthenticated();
+    }
+
+    final encryptedResult = _notesRepository
+        .watchNote(pubkey: publicKey, id: id)
+        .asyncMap(
+          (encryptedNote) async =>
+              _noteCryptoUseCase.decryptNote(encryptedNote),
+        );
+
+    return encryptedResult;
   }
 }

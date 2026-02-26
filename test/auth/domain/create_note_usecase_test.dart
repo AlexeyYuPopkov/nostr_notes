@@ -5,7 +5,6 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
-import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/domain/error/error_messages_provider.dart';
@@ -22,9 +21,10 @@ import 'package:nostr_notes/core/tools/now.dart';
 import 'package:nostr_notes/services/nostr_client/outbox_publisher.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../tools/di/drift_scope.dart';
+import '../../tools/di/in_memory_db_module.dart';
 import '../../tools/mock_error_messages_provider.dart';
 import '../../tools/mock_wschannel.dart';
+import '../../tools/mocks/mock_relays_list_repo.dart';
 import '../../tools/some_moked_data.dart';
 
 class MockChannelFactory extends Mock implements ChannelFactory {}
@@ -82,31 +82,6 @@ class MockNow implements Now {
   }
 }
 
-class MockRelaysListRepo implements RelaysListRepo {
-  static const relayUrl1 = 'wss://relay1.example.com';
-  static const relayUrl2 = 'wss://relay2.example.com';
-
-  const MockRelaysListRepo();
-
-  @override
-  Set<String> getRelaysList() {
-    return {relayUrl1, relayUrl2};
-  }
-
-  @override
-  Future<void> saveRelaysList(Set<String> relays) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Set<String> getSuggestedRelays() {
-    return {relayUrl1, relayUrl2};
-  }
-
-  @override
-  Stream<Set<String>> get relaysListStream => Stream.value(getRelaysList());
-}
-
 void main() {
   group('CreateNoteUsecase', () {
     late NostrClient client;
@@ -129,7 +104,7 @@ void main() {
         lifeTime: const LifeTime.single(),
       );
 
-      const DriftScope().bind(di);
+      const InMemoryDbModule().bind(di);
 
       channelFactory = MockChannelFactory();
       channel1 = MockWSChannel(url: MockRelaysListRepo.relayUrl1);
@@ -152,7 +127,7 @@ void main() {
       sut3 = OutboxPublisher(
         outboxDao: sut2,
         rawEventStore: di.resolve(),
-        relaysListRepo: const MockRelaysListRepo(),
+        relaysListRepo: MockRelaysListRepo.withStubRelays(),
         channelFactory: channelFactory,
       );
 

@@ -72,10 +72,7 @@ class NotesRepositoryImpl implements NotesRepository {
   }
 
   @override
-  Future<Iterable<Note>> getNotes({
-    required String pubkey,
-    required String privateKey,
-  }) async {
+  Future<Iterable<Note>> getNotes({required String pubkey}) async {
     final result = await _eventStore.queryEvents(
       RawEventQuery(
         authors: [pubkey],
@@ -90,10 +87,7 @@ class NotesRepositoryImpl implements NotesRepository {
   }
 
   @override
-  Stream<Iterable<Note>> watchNotes({
-    required String pubkey,
-    required String privateKey,
-  }) {
+  Stream<Iterable<Note>> watchNotes({required String pubkey}) {
     return _eventStore
         .watchEvents(
           RawEventQuery(
@@ -110,11 +104,28 @@ class NotesRepositoryImpl implements NotesRepository {
   }
 
   @override
-  Future<Note?> getNote({
-    required String pubkey,
-    required String privateKey,
-    required String id,
-  }) async {
+  Stream<Note> watchNote({required String pubkey, required String id}) {
+    return _eventStore
+        .watchEvents(
+          RawEventQuery(
+            authors: [pubkey],
+            kinds: [EventKind.note.value],
+            tagFilters: [
+              TagFilter(Tag.p.value, [pubkey]),
+              TagFilter(Tag.d.value, [id]),
+            ],
+            limit: 1,
+          ),
+        )
+        .map((events) => events.firstOrNull)
+        .whereNotNull()
+        .distinct((a, b) => a.id == b.id)
+        .map((e) => NoteMapper.fromNostrEvent(e))
+        .whereNotNull();
+  }
+
+  @override
+  Future<Note?> getNote({required String pubkey, required String id}) async {
     final result = await _eventStore.queryEvents(
       RawEventQuery(
         kinds: [EventKind.note.value],
