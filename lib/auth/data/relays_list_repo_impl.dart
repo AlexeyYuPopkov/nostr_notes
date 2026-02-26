@@ -1,11 +1,10 @@
-import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/core/tools/disposable.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final class RelaysListRepoImpl implements RelaysListRepo, Disposable {
-  static const _suggestedRelays = {
+  static const suggestedRelays = {
     'wss://relay.damus.io',
     'wss://nos.lol',
     'wss://relay.snort.social',
@@ -22,7 +21,7 @@ final class RelaysListRepoImpl implements RelaysListRepo, Disposable {
   Set<String> getRelaysList() => _behaviorSubject.value;
 
   @override
-  Set<String> getSuggestedRelays() => _suggestedRelays;
+  Set<String> getSuggestedRelays() => suggestedRelays;
 
   @override
   Stream<Set<String>> get relaysListStream => _behaviorSubject.stream;
@@ -39,10 +38,13 @@ final class RelaysListRepoImpl implements RelaysListRepo, Disposable {
   }
 
   Set<String> _getRelaysList() {
-    final relayUrl = AppConfig.relayUrl;
-    if (relayUrl != null && relayUrl.isNotEmpty) {
-      return {relayUrl};
-    }
+    // final relayUrl = AppConfig.relayUrl;
+    // if (relayUrl != null && relayUrl.isNotEmpty) {
+    //   return {relayUrl};
+    // }
     return {...?_prefs.getStringList(_key)};
   }
+
+  @override
+  Future<void> clear() => saveRelaysList({});
 }

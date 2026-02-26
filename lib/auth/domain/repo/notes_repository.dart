@@ -11,21 +11,13 @@ abstract interface class NotesRepository {
 
   Stream<List> get eventsStream;
 
-  Future<Iterable<Note>> getNotes({
-    required String pubkey,
-    required String privateKey,
-  });
+  Future<Iterable<Note>> getNotes({required String pubkey});
 
-  Stream<Iterable<Note>> watchNotes({
-    required String pubkey,
-    required String privateKey,
-  });
+  Stream<Iterable<Note>> watchNotes({required String pubkey});
 
-  Future<Note?> getNote({
-    required String pubkey,
-    required String privateKey,
-    required String id,
-  });
+  Stream<Note> watchNote({required String pubkey, required String id});
+
+  Future<Note?> getNote({required String pubkey, required String id});
 
   Future<Note> publishNote({
     required Note note,

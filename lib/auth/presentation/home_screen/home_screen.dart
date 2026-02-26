@@ -13,6 +13,7 @@ import '../notes_list/notes_list.dart';
 final class _LayoutConfig {
   static const desktopScreenWidth = 600.0;
   static const bodyRatio = 0.3;
+  static const drawerRatio = 0.7;
   static const internalAnimations = false;
 }
 
@@ -34,7 +35,8 @@ final class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final isDesktop = screenWidth >= _LayoutConfig.desktopScreenWidth;
-    final sideWidth = screenWidth * _LayoutConfig.bodyRatio;
+    // final sideWidth = screenWidth * _LayoutConfig.bodyRatio;
+    final drawerWidth = screenWidth * _LayoutConfig.drawerRatio;
 
     return Scaffold(
       key: scaffoldKey,
@@ -47,7 +49,7 @@ final class HomeScreen extends StatelessWidget {
         },
       ),
       endDrawer: SizedBox(
-        width: isDesktop ? sideWidth : double.infinity,
+        width: isDesktop ? drawerWidth : double.infinity,
         child: DrawerRouter(screensAssembly: screensAssembly),
       ),
       body: RouteHandlerWidget(

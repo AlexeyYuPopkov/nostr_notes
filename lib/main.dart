@@ -15,7 +15,7 @@ final _appRouter = AppRouter();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await AppDi.bindUnauthModules();
+  await Di.instance.bindUnauthModules();
   HttpOverrides.global = MyHttpOverrides();
   runApp(const App());
 }

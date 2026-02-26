@@ -33,13 +33,14 @@ final class EditMarkdownNoteScreen extends StatelessWidget with DialogHelper {
         ).showSnackBar(const SnackBar(content: Text('Saved successfully')));
 
         final noteId = pathParams?.id ?? '';
+        final isNew = noteId.isEmpty;
 
-        if (noteId.isEmpty) {
-          Navigator.of(context).pop();
-        } else {
+        if (isNew) {
           RouteHandler.of(
             context,
           )?.onRoute(NotePreviewRoute(noteId: noteId), context);
+        } else {
+          Navigator.of(context).pop();
         }
 
         break;

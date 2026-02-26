@@ -7,7 +7,7 @@ import 'package:nostr_notes/services/event_store/raw_event_store.dart';
 import 'package:nostr_notes/services/model/nostr_event.dart';
 import 'package:nostr_notes/services/model/tag/tag_value.dart';
 
-import '../../tools/di/drift_scope.dart';
+import '../../tools/di/in_memory_db_module.dart';
 
 const _authorPubkey =
     '5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee';
@@ -24,7 +24,7 @@ void main() {
 
   setUp(() {
     final di = DiStorage.shared;
-    const DriftScope().bind(di);
+    const InMemoryDbModule().bind(di);
 
     db = di.resolve();
     rawEventStore = di.resolve();

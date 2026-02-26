@@ -26,7 +26,7 @@ final class NotePreviewScreen extends StatelessWidget with DialogHelper {
       case LoadingState():
         break;
       case ErrorState():
-        showError(context, error: state.e);
+        showError(context, error: state.error);
         break;
     }
   }

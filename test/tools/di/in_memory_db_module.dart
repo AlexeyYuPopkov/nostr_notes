@@ -22,8 +22,8 @@ void _ensureSqlite3() {
   }
 }
 
-final class DriftScope extends DiScope {
-  const DriftScope();
+final class InMemoryDbModule extends DiScope {
+  const InMemoryDbModule();
 
   @override
   void bind(DiStorage di) {

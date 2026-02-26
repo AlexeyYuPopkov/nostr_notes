@@ -62,6 +62,7 @@ final class UnauthDiScope extends DiScope {
         secureStorage: SecureStorageImpl(),
         sessionUsecase: di.resolve(),
         keyToolRepository: di.resolve(),
+        relaysListRepo: di.resolve(),
       ),
       module: this,
       lifeTime: const LifeTime.single(),
