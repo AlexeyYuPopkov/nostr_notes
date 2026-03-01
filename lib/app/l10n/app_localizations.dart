@@ -639,6 +639,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The private key is a hex representation of your nsec. Both formats grant full access to your account.'**
   String get credentialsDataScreenWarningPrivateKey;
+
+  /// No description provided for @notesListScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notesListScreenTitle;
+
+  /// No description provided for @homeScreenEmptyStatePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a note or create a new one'**
+  String get homeScreenEmptyStatePlaceholder;
 }
 
 class _AppLocalizationsDelegate

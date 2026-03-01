@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
+import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/drawer_router.dart';
 import 'package:nostr_notes/app/sizes.dart';
@@ -43,7 +44,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Заметки'),
+              title: Text(context.l10n.notesListScreenTitle),
               actions: const [_SettingsButton()],
             ),
             body: RefreshIndicator(

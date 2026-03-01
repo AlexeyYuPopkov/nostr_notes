@@ -105,6 +105,8 @@
     "credentialsDataScreenLabelPin": "Pin",
     "credentialsDataScreenWarningNsec": "Your nsec (private key) is stored only on this device in secure storage (Keychain on iOS, Keystore on Android). It is never sent to any server. Losing your nsec means losing access to all your data permanently.",
     "credentialsDataScreenWarningPin": "The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.",
-    "credentialsDataScreenWarningPrivateKey": "The private key is a hex representation of your nsec. Both formats grant full access to your account."
+    "credentialsDataScreenWarningPrivateKey": "The private key is a hex representation of your nsec. Both formats grant full access to your account.",
+    "notesListScreenTitle": "Notes",
+    "homeScreenEmptyStatePlaceholder": "Select a note or create a new one"
     
 }

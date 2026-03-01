@@ -309,4 +309,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get credentialsDataScreenWarningPrivateKey =>
       'The private key is a hex representation of your nsec. Both formats grant full access to your account.';
+
+  @override
+  String get notesListScreenTitle => 'Notes';
+
+  @override
+  String get homeScreenEmptyStatePlaceholder =>
+      'Select a note or create a new one';
 }
