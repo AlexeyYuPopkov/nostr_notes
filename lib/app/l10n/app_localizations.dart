@@ -166,6 +166,18 @@ abstract class AppLocalizations {
   /// **'No data'**
   String get commonNoDataPlaceholderText;
 
+  /// No description provided for @commonCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get commonCopied;
+
+  /// No description provided for @commonInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Information'**
+  String get commonInfo;
+
   /// No description provided for @authError.
   ///
   /// In en, this message translates to:
@@ -442,6 +454,12 @@ abstract class AppLocalizations {
   /// **'Use pin to unlock app'**
   String get onboardingPinPageLabelCheckboxUsePin;
 
+  /// No description provided for @onboardingPinPageInfoPin.
+  ///
+  /// In en, this message translates to:
+  /// **'The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.'**
+  String get onboardingPinPageInfoPin;
+
   /// No description provided for @errorEmptyNsec.
   ///
   /// In en, this message translates to:
@@ -499,7 +517,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsScreenLogoutConfirmationMessage.
   ///
   /// In en, this message translates to:
-  /// **'Do you really want to log out and clear all data? This action cannot be undone'**
+  /// **'Do you really want to log out and clear all data? This action cannot be undone.\nMake sure you have saved your nsec and PIN — if you forget either, your data will be lost permanently.'**
   String get settingsScreenLogoutConfirmationMessage;
 
   /// No description provided for @settingsItemPreferences.
@@ -573,6 +591,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This note hasn\'t been synced with the network yet'**
   String get notesListPendingSyncDescription;
+
+  /// No description provided for @credentialsDataScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Credentials Data'**
+  String get credentialsDataScreenTitle;
+
+  /// No description provided for @credentialsDataScreenLabelNsec.
+  ///
+  /// In en, this message translates to:
+  /// **'Nsec'**
+  String get credentialsDataScreenLabelNsec;
+
+  /// No description provided for @credentialsDataScreenLabelPrivateKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Private Key'**
+  String get credentialsDataScreenLabelPrivateKey;
+
+  /// No description provided for @credentialsDataScreenLabelPubKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Public Key'**
+  String get credentialsDataScreenLabelPubKey;
+
+  /// No description provided for @credentialsDataScreenLabelPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin'**
+  String get credentialsDataScreenLabelPin;
+
+  /// No description provided for @credentialsDataScreenWarningNsec.
+  ///
+  /// In en, this message translates to:
+  /// **'Your nsec (private key) is stored only on this device in secure storage (Keychain on iOS, Keystore on Android). It is never sent to any server. Losing your nsec means losing access to all your data permanently.'**
+  String get credentialsDataScreenWarningNsec;
+
+  /// No description provided for @credentialsDataScreenWarningPin.
+  ///
+  /// In en, this message translates to:
+  /// **'The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.'**
+  String get credentialsDataScreenWarningPin;
+
+  /// No description provided for @credentialsDataScreenWarningPrivateKey.
+  ///
+  /// In en, this message translates to:
+  /// **'The private key is a hex representation of your nsec. Both formats grant full access to your account.'**
+  String get credentialsDataScreenWarningPrivateKey;
 }
 
 class _AppLocalizationsDelegate

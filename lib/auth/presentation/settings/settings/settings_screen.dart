@@ -44,7 +44,10 @@ final class SettingsScreen extends StatelessWidget with DialogHelper {
                         padding: const EdgeInsets.symmetric(
                           horizontal: Sizes.indent,
                         ),
-                        child: Text(item.getTitle(context)),
+                        child: Text(
+                          item.getTitle(context),
+                          style: item.getTitleTextStyle(context),
+                        ),
                       ),
                       trailing: item.trailing(context),
                       onTap: () => item.onTap(context),
@@ -70,4 +73,8 @@ final class RelaysListRoute implements AppRoute {
 
 final class PinKeyboardTypeRoute implements AppRoute {
   const PinKeyboardTypeRoute();
+}
+
+final class CredentialsDataRoute implements AppRoute {
+  const CredentialsDataRoute();
 }

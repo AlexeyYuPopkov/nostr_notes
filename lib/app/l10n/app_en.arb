@@ -11,6 +11,8 @@
     "commonAttention": "Attention",
     "commonUndefinedError": "Something went wrong",
     "commonNoDataPlaceholderText": "No data",
+    "commonCopied": "Copied",
+    "commonInfo": "Information",
     "authError": "Authentication error",
     "notUnlocked": "The app is not unlocked",
     "onboardingWelcomePageTitle": "Welcome to\nNotesVault",
@@ -65,6 +67,7 @@
     "onboardingPinPageDescription": "This is used for an additional layer of encryption – even if someone obtains your nsec, your notes will remain protected",
     "onboardingPinPageTextFieldHint": "PIN or password",
     "onboardingPinPageLabelCheckboxUsePin": "Use pin to unlock app",
+    "onboardingPinPageInfoPin": "The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.",
     "errorEmptyNsec": "NSEC key cannot be empty",
     "errorInvalidNsecFormat": "Invalid NSEC key format",
     "errorInvalidPrivateKey": "Invalid private key",
@@ -82,7 +85,7 @@
     "settingsScreenTitle": "Settings",
     "settingsScreenExit": "Exit",
     "settingsScreenLogout": "Logout and clear data",
-    "settingsScreenLogoutConfirmationMessage": "Do you really want to log out and clear all data? This action cannot be undone",
+    "settingsScreenLogoutConfirmationMessage": "Do you really want to log out and clear all data? This action cannot be undone.\nMake sure you have saved your nsec and PIN — if you forget either, your data will be lost permanently.",
     "settingsItemPreferences": "Preferences",
     "preferencesScreenItemRelays": "Connected Relays",
     "preferencesScreenItemMobilePinKeyboardType": "PIN Keyboard Type",
@@ -94,5 +97,14 @@
     "noteScreenErrorNoteContentCannotBeEmpty": "Note content cannot be empty",
     "errorPublishOperationTimedOut": "Publish operation timed out",
     "notesListPendingSyncTitle": "Sync pending",
-    "notesListPendingSyncDescription": "This note hasn't been synced with the network yet"
+    "notesListPendingSyncDescription": "This note hasn't been synced with the network yet",
+    "credentialsDataScreenTitle": "Credentials Data",
+    "credentialsDataScreenLabelNsec": "Nsec",
+    "credentialsDataScreenLabelPrivateKey": "Private Key",
+    "credentialsDataScreenLabelPubKey": "Public Key",
+    "credentialsDataScreenLabelPin": "Pin",
+    "credentialsDataScreenWarningNsec": "Your nsec (private key) is stored only on this device in secure storage (Keychain on iOS, Keystore on Android). It is never sent to any server. Losing your nsec means losing access to all your data permanently.",
+    "credentialsDataScreenWarningPin": "The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.",
+    "credentialsDataScreenWarningPrivateKey": "The private key is a hex representation of your nsec. Both formats grant full access to your account."
+    
 }
