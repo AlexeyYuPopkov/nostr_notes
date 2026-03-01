@@ -7,7 +7,10 @@ import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen.dart';
 
 sealed class PreferencesItem {
-  static const List<PreferencesItem> items = [RelaysList()];
+  static final List<PreferencesItem> items = [
+    const RelaysList(),
+    const MobileKeyboardType(),
+  ];
 
   const PreferencesItem();
 
@@ -29,6 +32,25 @@ final class RelaysList extends PreferencesItem {
   @override
   FutureOr<dynamic> onTap(BuildContext context) {
     RouteHandler.of(context)?.onRoute(const RelaysListRoute(), context);
+  }
+
+  @override
+  Widget trailing(BuildContext context) {
+    return const Icon(Icons.arrow_forward_ios, size: Sizes.iconSmall);
+  }
+}
+
+final class MobileKeyboardType extends PreferencesItem {
+  const MobileKeyboardType();
+
+  @override
+  String getTitle(BuildContext context) {
+    return context.l10n.preferencesScreenItemMobilePinKeyboardType;
+  }
+
+  @override
+  FutureOr<dynamic> onTap(BuildContext context) {
+    RouteHandler.of(context)?.onRoute(const PinKeyboardTypeRoute(), context);
   }
 
   @override

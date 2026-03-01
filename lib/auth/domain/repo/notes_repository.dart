@@ -1,4 +1,5 @@
 import 'package:nostr_notes/auth/domain/model/note.dart';
+import 'package:nostr_notes/common/domain/error/app_error.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:uuid/uuid.dart';
 
@@ -11,18 +12,15 @@ abstract interface class NotesRepository {
 
   Stream<List> get eventsStream;
 
-  Future<Iterable<Note>> getNotes({
-    required String pubkey,
-    required String privateKey,
-  });
+  Future<Iterable<Note>> getNotes({required String pubkey});
 
-  Future<Note?> getNote({
-    required String pubkey,
-    required String privateKey,
-    required String id,
-  });
+  Stream<Iterable<Note>> watchNotes({required String pubkey});
 
-  Future<NotePublisherReport> publishNote({
+  Stream<Note> watchNote({required String pubkey, required String id});
+
+  Future<Note?> getNote({required String pubkey, required String id});
+
+  Future<Note> publishNote({
     required Note note,
     required String pubkey,
     required String privateKey,
@@ -30,6 +28,8 @@ abstract interface class NotesRepository {
     Uuid? uuid,
     List<int>? randomBytes,
   });
+
+  Stream<NotesRepositoryRelayError> get relayErrors;
 }
 
 final class NotePublisherReport {
@@ -53,4 +53,13 @@ final class NotePublisherReport {
       note: note ?? this.note,
     );
   }
+}
+
+final class NotesRepositoryRelayError extends AppError {
+  final String relayUrl;
+
+  @override
+  String get message => 'Relay error on $relayUrl';
+
+  const NotesRepositoryRelayError({required this.relayUrl, super.parentError});
 }

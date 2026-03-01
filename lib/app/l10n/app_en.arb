@@ -85,6 +85,14 @@
     "settingsScreenLogoutConfirmationMessage": "Do you really want to log out and clear all data? This action cannot be undone",
     "settingsItemPreferences": "Preferences",
     "preferencesScreenItemRelays": "Connected Relays",
+    "preferencesScreenItemMobilePinKeyboardType": "PIN Keyboard Type",
+    "pinKeyboardTypeScreenTitle": "PIN Keyboard Type",
+    "pinKeyboardTypeScreenDescription": "Choose the keyboard type shown when entering your PIN",
+    "pinKeyboardTypeText": "Default (Text)",
+    "pinKeyboardTypeNumber": "Number",
+    "pinKeyboardTypePhone": "Phone",
     "noteScreenErrorNoteContentCannotBeEmpty": "Note content cannot be empty",
-    "errorPublishOperationTimedOut": "Publish operation timed out"
+    "errorPublishOperationTimedOut": "Publish operation timed out",
+    "notesListPendingSyncTitle": "Sync pending",
+    "notesListPendingSyncDescription": "This note hasn't been synced with the network yet"
 }

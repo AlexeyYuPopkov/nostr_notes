@@ -19,16 +19,11 @@
 
 import "Helpers"
 
-################################################################################
-# Test lanes
-################################################################################
-
 desc "Run integration tests with a local relay"
 lane :integration_test do |options|
   relay_path = resolve_relay_path(options)
   device     = resolve_device(options)
   test_file  = options[:test]
-  flavor     = options[:flavor] || "dev"
 
   begin
     # 1. Start relay
@@ -54,7 +49,6 @@ lane :integration_test do |options|
 
       sh(
         "cd #{PROJECT_ROOT} && flutter test #{target} " \
-        "--flavor #{flavor} " \
         "--dart-define=INTEGRATION_TEST=true " \
         "--dart-define=RELAY_URL=ws://localhost:8008 " \
         "-d \"#{device}\""

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
@@ -7,19 +8,36 @@ import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/theme/app_theme.dart';
 import 'package:nostr_notes/app/router/app_router.dart';
 import 'package:nostr_notes/common/data/root_context_provider/root_context_provider.dart';
+import 'package:nostr_notes/services/nostr_client/outbox_publisher.dart';
 
 final _appRouter = AppRouter();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await AppDi.bindUnauthModules();
+  await Di.instance.bindUnauthModules();
   HttpOverrides.global = MyHttpOverrides();
   runApp(const App());
 }
 
-final class App extends StatelessWidget {
+final class App extends StatefulWidget {
   const App({super.key});
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+final class _AppState extends State<App> with WidgetsBindingObserver {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      DiStorage.shared.tryResolve<OutboxPublisher>()?.resume();
+    }
+
+    if (state == AppLifecycleState.paused) {
+      DiStorage.shared.tryResolve<OutboxPublisher>()?.pause();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

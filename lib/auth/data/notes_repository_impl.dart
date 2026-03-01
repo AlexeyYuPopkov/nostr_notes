@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:nostr_notes/app/app_config.dart';
-import 'package:nostr_notes/auth/data/common_event_storage_impl.dart';
 import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
-import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/common/domain/error/app_error.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/core/tools/date_time_helper.dart';
 import 'package:nostr_notes/core/tools/now.dart';
+import 'package:nostr_notes/services/event_store/database/daos/outbox_dao_interface.dart';
+import 'package:nostr_notes/services/event_store/raw_event_store.dart';
 import 'package:nostr_notes/services/model/nostr_event.dart';
 import 'package:nostr_notes/services/model/nostr_filter.dart';
 import 'package:nostr_notes/services/model/nostr_req.dart';
@@ -17,36 +17,35 @@ import 'package:nostr_notes/services/model/tag/tag.dart';
 import 'package:nostr_notes/services/model/tag/tag_value.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_event_creator.dart';
-import 'package:nostr_notes/services/nostr_client/nostr_publisher.dart';
-import 'package:nostr_notes/services/nostr_client/publish_event_report.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:uuid/uuid.dart';
 
 class NotesRepositoryImpl implements NotesRepository {
-  final NostrClient client;
-  // final EventPublisher _eventPublisher;
-  final CommonEventStorage memoryStorage;
-  final RelaysListRepo _relaysListRepo;
+  final NostrClient _client;
+  final RawEventStore _eventStore;
+  final OutboxDaoInterface _outboxDao;
 
   const NotesRepositoryImpl({
-    required this.client,
-    required this.memoryStorage,
-    required RelaysListRepo relaysListRepo,
-  }) : _relaysListRepo = relaysListRepo;
+    required NostrClient client,
+    required RawEventStore eventStore,
+    required OutboxDaoInterface outboxDao,
+  }) : _client = client,
+       _eventStore = eventStore,
+       _outboxDao = outboxDao;
 
   @override
-  Stream<List> get eventsStream => client
+  Stream<List> get eventsStream => _client
       .stream()
       .whereType<NostrEvent>()
       .bufferTime(const Duration(milliseconds: 100))
       .where((e) {
         return e.isNotEmpty;
       })
-      .map((e) {
-        if (e.isNotEmpty) {
-          memoryStorage.addAll(e);
+      .asyncMap((events) async {
+        if (events.isNotEmpty) {
+          await _eventStore.upsert(events);
         }
-        return e;
+        return events;
       });
 
   @override
@@ -55,10 +54,9 @@ class NotesRepositoryImpl implements NotesRepository {
     required Set<String> relays,
     DateTime? until,
   }) async {
-    client.addRelays(relays);
+    _client.addRelays(relays);
 
-    // client.connect();
-    client.sendRequestToAll(
+    _client.sendRequestToAll(
       NostrReq(
         filters: [
           NostrFilter(
@@ -74,34 +72,77 @@ class NotesRepositoryImpl implements NotesRepository {
   }
 
   @override
-  Future<Iterable<Note>> getNotes({
-    required String pubkey,
-    required String privateKey,
-  }) async {
-    return memoryStorage
-        .getEventsByAuthor(pubkey, EventKind.note.value)
-        .map((e) => NoteMapper.fromNostrEvent(e))
-        .nonNulls;
+  Future<Iterable<Note>> getNotes({required String pubkey}) async {
+    final result = await _eventStore.queryEvents(
+      RawEventQuery(
+        authors: [pubkey],
+        kinds: [EventKind.note.value],
+        tagFilters: [
+          TagFilter(Tag.p.value, [pubkey]),
+        ],
+      ),
+    );
+
+    return result.map((e) => NoteMapper.fromNostrEvent(e)).nonNulls;
   }
 
   @override
-  Future<Note?> getNote({
-    required String pubkey,
-    required String privateKey,
-    required String id,
-  }) async {
-    final aTag = TagValue.createATag(
-      kind: EventKind.note.value,
-      pubkey: pubkey,
-      dTag: id,
+  Stream<Iterable<Note>> watchNotes({required String pubkey}) {
+    return _eventStore
+        .watchEvents(
+          RawEventQuery(
+            authors: [pubkey],
+            kinds: [EventKind.note.value],
+            tagFilters: [
+              TagFilter(Tag.p.value, [pubkey]),
+            ],
+          ),
+        )
+        .map(
+          (items) => items.map((e) => NoteMapper.fromNostrEvent(e)).nonNulls,
+        );
+  }
+
+  @override
+  Stream<Note> watchNote({required String pubkey, required String id}) {
+    return _eventStore
+        .watchEvents(
+          RawEventQuery(
+            authors: [pubkey],
+            kinds: [EventKind.note.value],
+            tagFilters: [
+              TagFilter(Tag.p.value, [pubkey]),
+              TagFilter(Tag.d.value, [id]),
+            ],
+            limit: 1,
+          ),
+        )
+        .map((events) => events.firstOrNull)
+        .whereNotNull()
+        .distinct((a, b) => a.id == b.id)
+        .map((e) => NoteMapper.fromNostrEvent(e))
+        .whereNotNull();
+  }
+
+  @override
+  Future<Note?> getNote({required String pubkey, required String id}) async {
+    final result = await _eventStore.queryEvents(
+      RawEventQuery(
+        kinds: [EventKind.note.value],
+        authors: [pubkey],
+        tagFilters: [
+          TagFilter(TagValue.d, [id]),
+        ],
+      ),
     );
-    final e = memoryStorage.getEventsByATag(aTag, EventKind.note.value);
+
+    final e = result.firstOrNull;
 
     return e == null ? null : NoteMapper.fromNostrEvent(e);
   }
 
   @override
-  Future<NotePublisherReport> publishNote({
+  Future<Note> publishNote({
     required Note note,
     required String pubkey,
     required String privateKey,
@@ -133,67 +174,41 @@ class NotesRepositoryImpl implements NotesRepository {
       randomBytes: randomBytes,
     );
 
-    for (final relay in _relaysListRepo.getRelaysList()) {
-      client.addRelay(relay);
+    // SQL-first: persist locally, then let OutboxPublisher handle relay sync
+    // If editing an existing note (same dTag), remove old undelivered outbox entry
+    if (note.dTag.isNotEmpty) {
+      final previousEvents = await _eventStore.queryEvents(
+        RawEventQuery(
+          kinds: [EventKind.note.value],
+          authors: [pubkey],
+          tagFilters: [
+            TagFilter(TagValue.d, [dTagValue]),
+          ],
+        ),
+      );
+      final oldEventIds = previousEvents
+          .where((e) => e.id != event.id)
+          .map((e) => e.id)
+          .toSet();
+      if (oldEventIds.isNotEmpty) {
+        await _outboxDao.removeUndeliveredByEventIds(oldEventIds);
+      }
     }
 
-    // if (!client.isConnected) {
-    //   try {
-    //     // await client.connect();
-    //   } catch (e) {
-    //     log('NostrRelay.ready error: $e', name: 'Nostr');
-    //   }
-    // }
+    await _eventStore.upsert([event]);
+    await _outboxDao.insert(eventId: event.id);
 
-    final publisher = NostrPublisher(client: client, event: event);
-
-    final report = await publisher.execute();
-
-    // final result = await client.publishEventToAll(event);
-
-    // final timeoutError = result.timeoutError;
-
-    if (report.error is NotPublished) {
-      throw report.error!;
-    }
-
-    memoryStorage.add(report.event);
-
-    // memoryStorage.add(report.event);
-
-    // final resultNote = await getNote(
-    //   pubkey: pubkey,
-    //   privateKey: privateKey,
-    //   id: note.dTag,
-    // );
-
-    final resultNote = NoteMapper.fromNostrEvent(report.event);
+    final resultNote = NoteMapper.fromNostrEvent(event);
 
     if (resultNote == null) {
       throw const AppError.undefined();
     }
 
-    return report.toEventPublisherReport(resultNote);
-
-    // EventPublisherResult(
-    //   reports: result.events
-    //       .map((e) => PublishReport(relay: e.relay, errorMessage: e.message))
-    //       .toList(),
-    //   targetNote: resultNote,
-    //   error: timeoutError == null
-    //       ? null
-    //       : PublishTimeoutError(parentError: timeoutError),
-    // );
+    return resultNote;
   }
-}
 
-extension on PublishEventReport {
-  NotePublisherReport toEventPublisherReport(Note? note) {
-    return NotePublisherReport(
-      exceededTimeout: exceededTimeout,
-      successfulRelays: events.map((e) => e.relay).toList(),
-      closedRelays: close.map((e) => e.relay).toList(),
-      note: note,
-    );
-  }
+  @override
+  Stream<NotesRepositoryRelayError> get relayErrors => _client.relayErrors.map(
+    (e) => NotesRepositoryRelayError(relayUrl: e.relayUrl, parentError: e),
+  );
 }

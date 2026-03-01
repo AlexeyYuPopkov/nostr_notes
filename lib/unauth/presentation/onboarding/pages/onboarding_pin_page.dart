@@ -7,6 +7,7 @@ import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 import 'package:nostr_notes/common/presentation/buttons/prymary_loading_button.dart';
 import 'package:nostr_notes/common/presentation/buttons/vm/loading_button_vm.dart';
+import 'package:nostr_notes/unauth/presentation/onboarding/bloc/onboarding_screen_state.dart';
 
 import '../bloc/onboarding_screen_bloc.dart';
 import '../bloc/onboarding_screen_event.dart';
@@ -76,13 +77,24 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
             key: _formKey,
             child: Column(
               children: [
-                OnboardingTextFormField(
-                  initialValue: _controller.text,
-                  isEnabled: _isUsePin,
-                  controller: _controller,
-                  hint: l10n.onboardingPinPageTextFieldHint,
-                  validator: (str) =>
-                      validatePin(context, str, usePin: _isUsePin),
+                BlocSelector<
+                  OnboardingScreenBloc,
+                  OnboardingScreenState,
+                  TextInputType?
+                >(
+                  selector: (state) =>
+                      state.data.pinKeyboardType.toTextInputType(),
+                  builder: (context, keyboardType) {
+                    return OnboardingTextFormField(
+                      initialValue: _controller.text,
+                      isEnabled: _isUsePin,
+                      controller: _controller,
+                      hint: l10n.onboardingPinPageTextFieldHint,
+                      keyboardType: keyboardType,
+                      validator: (str) =>
+                          validatePin(context, str, usePin: _isUsePin),
+                    );
+                  },
                 ),
                 FormField<bool>(
                   initialValue: false,

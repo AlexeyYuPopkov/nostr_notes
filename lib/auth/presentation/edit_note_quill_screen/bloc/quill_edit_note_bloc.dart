@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
-// ignore: depend_on_referenced_packages
 import 'package:markdown/markdown.dart' as md;
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:markdown_quill/markdown_quill.dart';
-import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
@@ -90,8 +88,6 @@ final class QuillEditNoteBloc
     try {
       final deltaToMd = DeltaToMarkdown();
 
-      // controller.changes.listen((event) {});
-
       final md = deltaToMd.convert(controller.document.toDelta());
 
       log(md, name: 'NoteBloc');
@@ -107,24 +103,18 @@ final class QuillEditNoteBloc
 
       emit(QuillEditNoteState.loading(data: data));
 
-      final result = await _createNoteUsecase.execute(
+      final note = await _createNoteUsecase.execute(
         content: trimmedText,
         dTag: data.initialNote.value?.dTag,
       );
 
-      final newNote = result.note;
+      emit(
+        QuillEditNoteState.didSave(
+          data: data.copyWith(initialNote: OptionalBox(note)),
+        ),
+      );
 
-      if (newNote is Note) {
-        emit(
-          QuillEditNoteState.didSave(
-            data: data.copyWith(initialNote: OptionalBox(newNote)),
-          ),
-        );
-
-        add(const InitialEvent());
-      } else {
-        throw const AppError.undefined();
-      }
+      add(const InitialEvent());
     } catch (e) {
       emit(QuillEditNoteState.error(e: e, data: data));
     } finally {

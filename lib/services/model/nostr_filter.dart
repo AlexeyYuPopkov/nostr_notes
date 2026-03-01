@@ -18,6 +18,8 @@ final class NostrFilter {
   final List<String>? t;
   @JsonKey(name: '#p', defaultValue: null)
   final List<String>? p;
+  @JsonKey(name: '#d', defaultValue: null)
+  final List<String>? d;
   @JsonKey(name: '#a', defaultValue: null)
   final List<String>? a;
   @JsonKey(name: 'since', defaultValue: null)
@@ -38,6 +40,7 @@ final class NostrFilter {
     this.e,
     this.t,
     this.p,
+    this.d,
     this.a,
     this.since,
     this.until,
