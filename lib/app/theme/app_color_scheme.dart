@@ -11,15 +11,16 @@ final class AppColorScheme {
     primaryContainer: Color(0xFFECE2FA), // светлый фон в стиле фиолетового
     onPrimaryContainer: Color(0xFF3D1D74),
 
-    secondary: Color(0xFFB49C73), // тёплый беж
+    secondary: Color(0xFFDA3874), // Color(0xFFB49C73), // тёплый беж
     onSecondary: Colors.white,
     secondaryContainer: Color(0xFFF5EEE3),
     onSecondaryContainer: Color(0xFF5B4A2F),
 
     surface: Color(0xFFFDFCF9), // тёплый почти-белый фон
     onSurface: Color(0xFF2E2E2E),
+    onSurfaceVariant: Color(0xaa2E2E2E),
 
-    error: Color(0xFFB00020),
+    error: Color(0xFFE81212), // Color(0xFFB00020),
     onError: Colors.white,
 
     outline: Color(0xFFE0E0E0),

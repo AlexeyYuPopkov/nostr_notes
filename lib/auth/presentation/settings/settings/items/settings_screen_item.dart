@@ -20,6 +20,8 @@ abstract class SettingsItem {
 
   String getTitle(BuildContext context);
 
+  TextStyle? getTitleTextStyle(BuildContext context) => null;
+
   void onTap(BuildContext context);
 
   Widget trailing(BuildContext context);
@@ -61,9 +63,14 @@ final class SettingsItemLogoutAndClear extends SettingsItem with DialogHelper {
   String getTitle(context) => context.l10n.settingsScreenLogout;
 
   @override
+  TextStyle? getTitleTextStyle(BuildContext context) =>
+      const TextStyle().copyWith(color: Theme.of(context).colorScheme.error);
+
+  @override
   void onTap(BuildContext context) async {
     final result = await showConfirmation(
       context,
+      isDestructive: true,
       title: context.l10n.commonAttention,
       message: context.l10n.settingsScreenLogoutConfirmationMessage,
     );

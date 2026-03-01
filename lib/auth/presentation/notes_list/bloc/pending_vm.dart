@@ -26,7 +26,7 @@ final class PendingVm extends ValueNotifier<Set<String>> {
         )
         .debounceTime(debounceTime)
         .listen((pending) {
-          log('PendingVm (listen) new value: $value', name: 'PendingVm');
+          log('PendingVm (listen) new value: $pending', name: 'PendingVm');
           value = pending;
         });
   }

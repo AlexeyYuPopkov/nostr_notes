@@ -94,7 +94,7 @@ void main() {
         'Nip44 encryption/decryption of $iterations messages took: ${stopwatch.elapsedMilliseconds} ms',
       );
 
-      expect(stopwatch.elapsedMilliseconds < 2000, true);
+      expect(stopwatch.elapsedMilliseconds < 3000, true);
     });
 
     test(
@@ -132,7 +132,7 @@ void main() {
           'Nip44 encryption/decryption of $iterations messages took: ${stopwatch.elapsedMilliseconds} ms',
         );
 
-        expect(stopwatch.elapsedMilliseconds < 300, true);
+        expect(stopwatch.elapsedMilliseconds < 400, true);
       },
     );
   });

@@ -28,6 +28,7 @@ final class NotesListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isSelected = note.dTag == selectedNoteDTag;
     final titleComponents = note.summary.split('\n');
     final title = titleComponents.firstOrNull?.trim() ?? '';
     final subtitle = titleComponents.length > 1
@@ -35,15 +36,21 @@ final class NotesListCard extends StatelessWidget {
         : '';
     return DecoratedBox(
       decoration: BoxDecoration(
+        color: isSelected
+            ? theme.colorScheme.primaryContainer.withValues(alpha: 0.5)
+            : null,
         border: Border(
           bottom: BorderSide(
-            color: theme.colorScheme.outline,
+            color: theme.colorScheme.outline.withValues(alpha: 0.5),
             width: Sizes.thicknessHalf,
           ),
         ),
       ),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: Sizes.indent2x,
+          vertical: Sizes.halfIndent,
+        ),
         minVerticalPadding: Sizes.zero,
         trailing: ValueListenableBuilder(
           valueListenable: pendingVm,
@@ -68,12 +75,19 @@ final class NotesListCard extends StatelessWidget {
           children: [
             RichText(
               text: TextSpan(
-                style: theme.textTheme.titleSmall,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
                 children: [
                   TextSpan(text: title),
                   if (subtitle.isNotEmpty) ...[
                     const TextSpan(text: '\n'),
-                    TextSpan(text: subtitle, style: theme.textTheme.bodyMedium),
+                    TextSpan(
+                      text: subtitle,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
                   ],
                 ],
               ),
@@ -84,7 +98,9 @@ final class NotesListCard extends StatelessWidget {
               height: subtitleHeight,
               child: Text(
                 DateFormatter.formatDateTimeOrEmpty(note.createdAt),
-                style: theme.textTheme.bodySmall,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -92,7 +108,7 @@ final class NotesListCard extends StatelessWidget {
           ],
         ),
 
-        selected: note.dTag == selectedNoteDTag,
+        selected: isSelected,
         onTap: () => onTap(note),
       ),
     );

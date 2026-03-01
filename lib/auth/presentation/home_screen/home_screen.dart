@@ -1,6 +1,7 @@
 import 'package:custom_adaptive_scaffold/custom_adaptive_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
 import 'package:nostr_notes/app/router/drawer_router.dart' show DrawerRouter;
@@ -43,6 +44,10 @@ final class HomeScreen extends StatelessWidget {
       floatingActionButton: Builder(
         builder: (context) {
           return FloatingActionButton(
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(Sizes.radiusVariant),
+            ),
             child: const Icon(Icons.add),
             onPressed: () => _onNewNote(context),
           );
@@ -187,13 +192,27 @@ final class NewNotePromptPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.all(Sizes.indent2x),
+      padding: const EdgeInsets.all(Sizes.indent4x),
       child: Center(
-        child: Text(
-          'Выберите заметку или создайте новую',
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.titleLarge,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: Sizes.indent2x,
+          children: [
+            Icon(
+              Icons.note_alt_outlined,
+              size: 64,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+            Text(
+              context.l10n.homeScreenEmptyStatePlaceholder,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
         ),
       ),
     );

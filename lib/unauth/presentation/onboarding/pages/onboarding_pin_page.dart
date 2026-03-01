@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,6 +8,7 @@ import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 import 'package:nostr_notes/common/presentation/buttons/prymary_loading_button.dart';
 import 'package:nostr_notes/common/presentation/buttons/vm/loading_button_vm.dart';
+import 'package:nostr_notes/common/presentation/dialogs/common_tooltip.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/bloc/onboarding_screen_state.dart';
 
 import '../bloc/onboarding_screen_bloc.dart';
@@ -96,17 +98,42 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
                     );
                   },
                 ),
-                FormField<bool>(
-                  initialValue: false,
-                  builder: (field) => Align(
-                    alignment: Alignment.centerLeft,
-                    child: CheckboxListTile(
-                      value: _isUsePin,
-                      contentPadding: EdgeInsets.zero,
-                      onChanged: (e) => _onCheckboxChanged(context, field, e),
-                      title: Text(l10n.onboardingPinPageLabelCheckboxUsePin),
+                // InfoText(text: l10n.onboardingPinPageInfoPin),
+                Row(
+                  spacing: Sizes.indent,
+                  children: [
+                    CommonTooltip(
+                      title: l10n.commonInfo,
+                      message: l10n.onboardingPinPageInfoPin,
+                      child: CupertinoButton(
+                        minimumSize: .zero,
+                        padding: .zero,
+                        onPressed: () {},
+                        child: Icon(
+                          Icons.info_outline,
+                          size: Sizes.iconSmall,
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
                     ),
-                  ),
+                    Expanded(
+                      child: FormField<bool>(
+                        initialValue: false,
+                        builder: (field) => Align(
+                          alignment: Alignment.centerLeft,
+                          child: CheckboxListTile(
+                            value: _isUsePin,
+                            contentPadding: EdgeInsets.zero,
+                            onChanged: (e) =>
+                                _onCheckboxChanged(context, field, e),
+                            title: Text(
+                              l10n.onboardingPinPageLabelCheckboxUsePin,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

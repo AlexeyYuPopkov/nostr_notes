@@ -45,6 +45,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonNoDataPlaceholderText => 'No data';
 
   @override
+  String get commonCopied => 'Copied';
+
+  @override
+  String get commonInfo => 'Information';
+
+  @override
   String get authError => 'Authentication error';
 
   @override
@@ -202,6 +208,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingPinPageLabelCheckboxUsePin => 'Use pin to unlock app';
 
   @override
+  String get onboardingPinPageInfoPin =>
+      'The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.';
+
+  @override
   String get errorEmptyNsec => 'NSEC key cannot be empty';
 
   @override
@@ -232,7 +242,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsScreenLogoutConfirmationMessage =>
-      'Do you really want to log out and clear all data? This action cannot be undone';
+      'Do you really want to log out and clear all data? This action cannot be undone.\nMake sure you have saved your nsec and PIN — if you forget either, your data will be lost permanently.';
 
   @override
   String get settingsItemPreferences => 'Preferences';
@@ -272,4 +282,38 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notesListPendingSyncDescription =>
       'This note hasn\'t been synced with the network yet';
+
+  @override
+  String get credentialsDataScreenTitle => 'Credentials Data';
+
+  @override
+  String get credentialsDataScreenLabelNsec => 'Nsec';
+
+  @override
+  String get credentialsDataScreenLabelPrivateKey => 'Private Key';
+
+  @override
+  String get credentialsDataScreenLabelPubKey => 'Public Key';
+
+  @override
+  String get credentialsDataScreenLabelPin => 'Pin';
+
+  @override
+  String get credentialsDataScreenWarningNsec =>
+      'Your nsec (private key) is stored only on this device in secure storage (Keychain on iOS, Keystore on Android). It is never sent to any server. Losing your nsec means losing access to all your data permanently.';
+
+  @override
+  String get credentialsDataScreenWarningPin =>
+      'The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.';
+
+  @override
+  String get credentialsDataScreenWarningPrivateKey =>
+      'The private key is a hex representation of your nsec. Both formats grant full access to your account.';
+
+  @override
+  String get notesListScreenTitle => 'Notes';
+
+  @override
+  String get homeScreenEmptyStatePlaceholder =>
+      'Select a note or create a new one';
 }
