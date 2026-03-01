@@ -26,6 +26,11 @@ final class NostrClient {
 
   StreamSubscription? _streamSubscription;
   late final _relaySubject = BehaviorSubject<Set<String>>.seeded({});
+  final _relayErrorSubject = PublishSubject<RelayError>();
+
+  /// Stream of non-fatal relay errors (connection failures, timeouts, etc.).
+  /// These errors don't interrupt the main event stream.
+  Stream<RelayError> get relayErrors => _relayErrorSubject.stream;
 
   int get count => _relays.length;
 
@@ -112,7 +117,28 @@ final class NostrClient {
     final result = _relaySubject
         .distinctUnique()
         .map((_) => _relays.values)
-        .switchMap((relays) => Rx.merge(relays.map((e) => e.eventStream)))
+        .switchMap(
+          (relays) => Rx.merge(
+            relays.map(
+              (e) => e.eventStream.onErrorResume((error, stackTrace) {
+                log(
+                  'Error from relay ${e.url}, continuing with other relays: $error',
+                  name: 'NostrClient',
+                  error: error,
+                  stackTrace: stackTrace,
+                );
+                _relayErrorSubject.add(
+                  RelayError(
+                    relayUrl: e.url,
+                    error: error,
+                    stackTrace: stackTrace,
+                  ),
+                );
+                return const Stream.empty();
+              }),
+            ),
+          ),
+        )
         .doOnData((e) {
           log(
             'Received event: ${e.toString()} from relay',
@@ -128,9 +154,25 @@ final class NostrClient {
     _streamSubscription?.cancel();
     _streamSubscription = null;
     _relaySubject.close();
+    _relayErrorSubject.close();
 
     return Future.wait([
       for (final relay in _relays.values) relay.disconnect(),
     ]).then((_) => _isConnected = false);
   }
+}
+
+final class RelayError {
+  final String relayUrl;
+  final Object error;
+  final StackTrace? stackTrace;
+
+  const RelayError({
+    required this.relayUrl,
+    required this.error,
+    this.stackTrace,
+  });
+
+  @override
+  String toString() => 'RelayError(relay: $relayUrl, error: $error)';
 }

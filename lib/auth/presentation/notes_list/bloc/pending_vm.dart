@@ -21,10 +21,12 @@ final class PendingVm extends ValueNotifier<Set<String>> {
     _subscription = _getPendingUsecase
         .execute()
         .doOnData(
-          (value) => log('PendingVm new value: $value', name: 'PendingVm'),
+          (value) =>
+              log('PendingVm (doOnData) new value: $value', name: 'PendingVm'),
         )
         .debounceTime(debounceTime)
         .listen((pending) {
+          log('PendingVm (listen) new value: $value', name: 'PendingVm');
           value = pending;
         });
   }

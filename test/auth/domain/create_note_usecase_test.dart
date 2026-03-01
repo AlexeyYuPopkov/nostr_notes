@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
@@ -129,6 +130,7 @@ void main() {
         rawEventStore: di.resolve(),
         relaysListRepo: MockRelaysListRepo.withStubRelays(),
         channelFactory: channelFactory,
+        connectivity: _MockConnectivity(),
       );
 
       sut1 = CreateNoteUsecase(
@@ -301,4 +303,15 @@ void main() {
       expect(jsonDecode(addCall2.value), eventJson);
     });
   });
+}
+
+class _MockConnectivity implements Connectivity {
+  @override
+  Future<List<ConnectivityResult>> checkConnectivity() async => [
+    ConnectivityResult.wifi,
+  ];
+
+  @override
+  Stream<List<ConnectivityResult>> get onConnectivityChanged =>
+      const Stream.empty();
 }

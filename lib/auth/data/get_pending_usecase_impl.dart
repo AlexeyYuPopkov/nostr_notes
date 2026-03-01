@@ -9,7 +9,7 @@ final class GetPendingUsecaseImpl implements GetPendingUsecase {
 
   @override
   Stream<Set<String>> execute() {
-    return _outboxDao.watchPending().map(
+    return _outboxDao.watchUndelivered().map(
       (events) => events.map((e) => e.eventId).toSet(),
     );
   }

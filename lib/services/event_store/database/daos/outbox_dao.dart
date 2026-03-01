@@ -37,8 +37,23 @@ class OutboxDao extends DatabaseAccessor<AppDatabase>
   @override
   Stream<List<OutboxEventData>> watchPending() {
     return (select(outboxEvents)
-          ..where((o) => o.status.equals(OutboxStatus.pending.index))
-          ..orderBy([(o) => OrderingTerm.asc(o.createdAt)]))
+          ..where((e) => e.status.equals(OutboxStatus.pending.index))
+          ..orderBy([(e) => OrderingTerm.asc(e.createdAt)]))
+        .watch();
+  }
+
+  /// Watch all undelivered events (pending, broadcasting, failed)
+  @override
+  Stream<List<OutboxEventData>> watchUndelivered() {
+    return (select(outboxEvents)
+          ..where(
+            (e) => e.status.isIn([
+              OutboxStatus.pending.index,
+              OutboxStatus.broadcasting.index,
+              OutboxStatus.failed.index,
+            ]),
+          )
+          ..orderBy([(e) => OrderingTerm.asc(e.createdAt)]))
         .watch();
   }
 
@@ -118,6 +133,22 @@ class OutboxDao extends DatabaseAccessor<AppDatabase>
   @override
   Future<void> deleteSent(String eventId) async {
     await (delete(outboxEvents)..where((o) => o.eventId.equals(eventId))).go();
+  }
+
+  /// Remove undelivered outbox entries by event IDs (pending, broadcasting, failed)
+  @override
+  Future<void> removeUndeliveredByEventIds(Set<String> eventIds) async {
+    if (eventIds.isEmpty) return;
+    await (delete(outboxEvents)..where(
+          (o) =>
+              o.eventId.isIn(eventIds) &
+              o.status.isIn([
+                OutboxStatus.pending.index,
+                OutboxStatus.broadcasting.index,
+                OutboxStatus.failed.index,
+              ]),
+        ))
+        .go();
   }
 
   /// Clean up old sent events (older than specified duration)

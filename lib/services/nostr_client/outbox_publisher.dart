@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer' as dev;
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/core/tools/disposable.dart';
@@ -23,20 +24,25 @@ class OutboxPublisher implements Disposable {
     required RawEventStore rawEventStore,
     required RelaysListRepo relaysListRepo,
     required ChannelFactory channelFactory,
+    Connectivity? connectivity,
   }) : _outboxDao = outboxDao,
        _rawEventStore = rawEventStore,
        _relaysListRepo = relaysListRepo,
-       _channelFactory = channelFactory;
+       _channelFactory = channelFactory,
+       _connectivity = connectivity ?? Connectivity();
 
   final OutboxDaoInterface _outboxDao;
   final RawEventStore _rawEventStore;
   final RelaysListRepo _relaysListRepo;
   final ChannelFactory _channelFactory;
+  final Connectivity _connectivity;
 
   StreamSubscription<List<OutboxEventData>>? _subscription;
+  StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
   bool _isProcessing = false;
   bool _isPaused = false;
   bool _isDisposing = false;
+  bool _isOffline = false;
 
   static const _maxRetries = 5;
   static const _retryDelays = [
@@ -48,11 +54,37 @@ class OutboxPublisher implements Disposable {
   ];
 
   Future<void> init() async {
-    // Cancel existing subscription to prevent memory leak on app resume
+    // Cancel existing subscriptions to prevent memory leak on app resume
     await _subscription?.cancel();
+    await _connectivitySubscription?.cancel();
     _isDisposing = false;
+
+    // Check initial connectivity
+    final connectivityResult = await _connectivity.checkConnectivity();
+    _isOffline = connectivityResult.every((r) => r == ConnectivityResult.none);
+
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
+      _onConnectivityChanged,
+    );
+
     _subscription = _outboxDao.watchPending().listen(_onPendingEvents);
-    dev.log('OutboxPublisher initialized', name: 'OutboxPublisher');
+    dev.log(
+      'OutboxPublisher initialized (offline: $_isOffline)',
+      name: 'OutboxPublisher',
+    );
+  }
+
+  void _onConnectivityChanged(List<ConnectivityResult> results) {
+    final nowOffline = results.every((r) => r == ConnectivityResult.none);
+
+    if (nowOffline && !_isOffline) {
+      _isOffline = true;
+      dev.log('Network lost, pausing outbox', name: 'OutboxPublisher');
+    } else if (!nowOffline && _isOffline) {
+      _isOffline = false;
+      dev.log('Network restored, processing outbox', name: 'OutboxPublisher');
+      _processQueue();
+    }
   }
 
   @override
@@ -74,6 +106,8 @@ class OutboxPublisher implements Disposable {
 
     await _subscription?.cancel();
     _subscription = null;
+    await _connectivitySubscription?.cancel();
+    _connectivitySubscription = null;
     dev.log('OutboxPublisher disposed', name: 'OutboxPublisher');
   }
 
@@ -97,14 +131,14 @@ class OutboxPublisher implements Disposable {
   }
 
   Future<void> _processQueue() async {
-    if (_isProcessing || _isPaused || _isDisposing) return;
+    if (_isProcessing || _isPaused || _isDisposing || _isOffline) return;
     _isProcessing = true;
 
     try {
       final pending = await _outboxDao.getPending();
 
       for (final item in pending) {
-        if (_isDisposing || _isPaused) break;
+        if (_isDisposing || _isPaused || _isOffline) break;
 
         try {
           await _publishEvent(item);

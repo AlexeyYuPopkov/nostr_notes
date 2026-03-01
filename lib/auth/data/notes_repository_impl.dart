@@ -175,6 +175,26 @@ class NotesRepositoryImpl implements NotesRepository {
     );
 
     // SQL-first: persist locally, then let OutboxPublisher handle relay sync
+    // If editing an existing note (same dTag), remove old undelivered outbox entry
+    if (note.dTag.isNotEmpty) {
+      final previousEvents = await _eventStore.queryEvents(
+        RawEventQuery(
+          kinds: [EventKind.note.value],
+          authors: [pubkey],
+          tagFilters: [
+            TagFilter(TagValue.d, [dTagValue]),
+          ],
+        ),
+      );
+      final oldEventIds = previousEvents
+          .where((e) => e.id != event.id)
+          .map((e) => e.id)
+          .toSet();
+      if (oldEventIds.isNotEmpty) {
+        await _outboxDao.removeUndeliveredByEventIds(oldEventIds);
+      }
+    }
+
     await _eventStore.upsert([event]);
     await _outboxDao.insert(eventId: event.id);
 
@@ -186,4 +206,9 @@ class NotesRepositoryImpl implements NotesRepository {
 
     return resultNote;
   }
+
+  @override
+  Stream<NotesRepositoryRelayError> get relayErrors => _client.relayErrors.map(
+    (e) => NotesRepositoryRelayError(relayUrl: e.relayUrl, parentError: e),
+  );
 }

@@ -87,6 +87,7 @@ dependencies:
   # super_editor: #^0.2.7
 
   markdown: any
+  connectivity_plus: ^7.0.0
 dependency_overrides:
   win32: 5.14.0
 
