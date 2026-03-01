@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/services/event_store/database/app_database.dart';
 import 'package:nostr_notes/services/event_store/database/daos/outbox_dao_interface.dart';
@@ -21,6 +22,7 @@ void main() {
     late _MockRawEventStore mockRawEventStore;
     late MockRelaysListRepo mockRelaysListRepo;
     late _MockChannelFactory mockChannelFactory;
+    late _MockConnectivity mockConnectivity;
     late OutboxPublisher sut;
 
     setUp(() {
@@ -28,12 +30,14 @@ void main() {
       mockRawEventStore = _MockRawEventStore();
       mockRelaysListRepo = MockRelaysListRepo.withRelays({'wss://relay.test'});
       mockChannelFactory = _MockChannelFactory();
+      mockConnectivity = _MockConnectivity();
 
       sut = OutboxPublisher(
         outboxDao: mockOutboxDao,
         rawEventStore: mockRawEventStore,
         relaysListRepo: mockRelaysListRepo,
         channelFactory: mockChannelFactory,
+        connectivity: mockConnectivity,
       );
     });
 
@@ -386,4 +390,33 @@ class _MockOutboxDao implements OutboxDaoInterface {
   void dispose() {
     _pendingController.close();
   }
+
+  @override
+  Future<void> removeUndeliveredByEventIds(Set<String> eventIds) async {
+    final current = List<OutboxEventData>.from(_pendingController.value);
+    current.removeWhere((e) => eventIds.contains(e.eventId));
+    _pendingController.add(current);
+  }
+
+  @override
+  Stream<List<OutboxEventData>> watchUndelivered() {
+    return _pendingController.stream;
+  }
+}
+
+class _MockConnectivity implements Connectivity {
+  final _controller = StreamController<List<ConnectivityResult>>.broadcast();
+  List<ConnectivityResult> _currentResult = [ConnectivityResult.wifi];
+
+  void setConnectivity(List<ConnectivityResult> results) {
+    _currentResult = results;
+    _controller.add(results);
+  }
+
+  @override
+  Future<List<ConnectivityResult>> checkConnectivity() async => _currentResult;
+
+  @override
+  Stream<List<ConnectivityResult>> get onConnectivityChanged =>
+      _controller.stream;
 }

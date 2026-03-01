@@ -11,6 +11,9 @@ abstract interface class OutboxDaoInterface {
   /// Watch pending events for reactive publishing
   Stream<List<OutboxEventData>> watchPending();
 
+  /// Watch all undelivered events (pending, broadcasting, failed)
+  Stream<List<OutboxEventData>> watchUndelivered();
+
   /// Mark an event as currently being broadcast
   Future<void> markBroadcasting(String eventId);
 
@@ -31,6 +34,9 @@ abstract interface class OutboxDaoInterface {
 
   /// Delete a sent event from the outbox
   Future<void> deleteSent(String eventId);
+
+  /// Remove undelivered outbox entries by event IDs (pending, broadcasting, failed)
+  Future<void> removeUndeliveredByEventIds(Set<String> eventIds);
 
   /// Clean up old sent events (older than specified duration)
   Future<int> cleanupOldSent({Duration olderThan = const Duration(days: 7)});

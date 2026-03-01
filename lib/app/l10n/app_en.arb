@@ -92,5 +92,7 @@
     "pinKeyboardTypeNumber": "Number",
     "pinKeyboardTypePhone": "Phone",
     "noteScreenErrorNoteContentCannotBeEmpty": "Note content cannot be empty",
-    "errorPublishOperationTimedOut": "Publish operation timed out"
+    "errorPublishOperationTimedOut": "Publish operation timed out",
+    "notesListPendingSyncTitle": "Sync pending",
+    "notesListPendingSyncDescription": "This note hasn't been synced with the network yet"
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/bloc/pending_vm.dart';
+import 'package:nostr_notes/common/presentation/dialogs/common_tooltip.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_formatter.dart';
 import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
 
@@ -48,7 +50,15 @@ final class NotesListCard extends StatelessWidget {
           builder: (context, value, child) {
             return Visibility(
               visible: pendingVm.isPending(note.eventId),
-              child: const CircularProgressIndicator(),
+              child: CommonTooltip(
+                title: context.l10n.notesListPendingSyncTitle,
+                message: context.l10n.notesListPendingSyncDescription,
+                child: const Icon(
+                  Icons.schedule,
+                  size: Sizes.iconSmall,
+                  color: Colors.amber,
+                ),
+              ),
             );
           },
         ),
