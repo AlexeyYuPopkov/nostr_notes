@@ -108,12 +108,6 @@ final class NostrClient {
   }
 
   Stream<BaseNostrEvent> stream() {
-    // final result = _stream ??= Rx.merge([
-    //   for (final relay in _relays.values) relay.eventStream,
-    // ]).asBroadcastStream();
-
-    // return result;
-
     final result = _relaySubject
         .distinctUnique()
         .map((_) => _relays.values)
@@ -121,6 +115,7 @@ final class NostrClient {
           (relays) => Rx.merge(
             relays.map(
               (e) => e.eventStream.onErrorResume((error, stackTrace) {
+                // TODO: consider adding retry logic for transient errors, with backoff
                 log(
                   'Error from relay ${e.url}, continuing with other relays: $error',
                   name: 'NostrClient',

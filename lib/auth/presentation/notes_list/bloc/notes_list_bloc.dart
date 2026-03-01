@@ -5,12 +5,14 @@ import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_pending_usecase.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/bloc/pending_vm.dart';
+import 'package:rxdart/transformers.dart';
 
 import 'notes_list_data.dart';
 import 'notes_list_event.dart';
 import 'notes_list_state.dart';
 
 final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
+  static const errorStreamDebounce = Duration(milliseconds: 500);
   NotesListData get data => state.data;
 
   late final FetchNotesUsecase _fetchNotesUsecase = DiStorage.shared.resolve();
@@ -49,7 +51,6 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
 
   void _setupSubscription() {
     _fetchNotesSubscription?.cancel();
-    _fetchNotesSubscription = null;
     _fetchNotesSubscription = _fetchNotesUsecase.execute().listen(
       (_) {},
       onError: (error) {
@@ -58,7 +59,6 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     );
 
     _getNotesSubscription?.cancel();
-    _getNotesSubscription = null;
     _getNotesSubscription = _getNotesUsecase.execute().listen(
       (items) {
         add(NotesListEvent.getNotes(notes: items));
@@ -69,10 +69,11 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     );
 
     _errorSubscription?.cancel();
-    _errorSubscription = null;
-    _errorSubscription = _fetchNotesUsecase.relayErrors.listen((error) {
-      add(NotesListEvent.error(error: error));
-    });
+    _errorSubscription = _fetchNotesUsecase.relayErrors
+        .debounceTime(errorStreamDebounce)
+        .listen((error) {
+          add(NotesListEvent.error(error: error));
+        });
 
     pendingVm.subscribe();
   }

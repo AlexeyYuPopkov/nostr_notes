@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
@@ -9,7 +10,7 @@ import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen.
 sealed class PreferencesItem {
   static final List<PreferencesItem> items = [
     const RelaysList(),
-    const MobileKeyboardType(),
+    if (Platform.isAndroid || Platform.isIOS) const MobileKeyboardType(),
   ];
 
   const PreferencesItem();

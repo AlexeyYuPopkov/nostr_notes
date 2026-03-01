@@ -67,7 +67,7 @@ class OutboxPublisher implements Disposable {
       _onConnectivityChanged,
     );
 
-    _subscription = _outboxDao.watchPending().listen(_onPendingEvents);
+    _subscription = _outboxDao.watchUndelivered().listen(_onPendingEvents);
     dev.log(
       'OutboxPublisher initialized (offline: $_isOffline)',
       name: 'OutboxPublisher',
