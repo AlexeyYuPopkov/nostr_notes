@@ -561,6 +561,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Publish operation timed out'**
   String get errorPublishOperationTimedOut;
+
+  /// No description provided for @notesListPendingSyncTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync pending'**
+  String get notesListPendingSyncTitle;
+
+  /// No description provided for @notesListPendingSyncDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'This note hasn\'t been synced with the network yet'**
+  String get notesListPendingSyncDescription;
 }
 
 class _AppLocalizationsDelegate

@@ -265,4 +265,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorPublishOperationTimedOut => 'Publish operation timed out';
+
+  @override
+  String get notesListPendingSyncTitle => 'Sync pending';
+
+  @override
+  String get notesListPendingSyncDescription =>
+      'This note hasn\'t been synced with the network yet';
 }

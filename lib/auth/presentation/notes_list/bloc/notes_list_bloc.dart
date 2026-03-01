@@ -21,7 +21,6 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
 
   StreamSubscription? _fetchNotesSubscription;
   StreamSubscription? _getNotesSubscription;
-  StreamSubscription? _pendingSubscription;
 
   NotesListBloc()
     : super(NotesListState.common(data: NotesListData.initial())) {
@@ -36,8 +35,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     _fetchNotesSubscription = null;
     _getNotesSubscription?.cancel();
     _getNotesSubscription = null;
-    _pendingSubscription?.cancel();
-    _pendingSubscription = null;
+    pendingVm.dispose();
     return super.close();
   }
 
@@ -67,6 +65,8 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         add(NotesListEvent.error(error: error));
       },
     );
+
+    pendingVm.subscribe();
   }
 
   void _onInitialEvent(InitialEvent event, Emitter<NotesListState> emit) async {
