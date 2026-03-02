@@ -70,7 +70,7 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
           Center(
             child: Text(
               l10n.onboardingPinPageDescription,
-              style: theme.textTheme.titleLarge,
+              style: theme.textTheme.titleSmall,
               textAlign: TextAlign.center,
             ),
           ),

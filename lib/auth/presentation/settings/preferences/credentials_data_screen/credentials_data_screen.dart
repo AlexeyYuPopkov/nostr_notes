@@ -56,6 +56,7 @@ final class CredentialsDataScreen extends StatelessWidget with DialogHelper {
                     value: state.data.pubkey,
                     secure: false,
                   ),
+                  InfoText(text: context.l10n.credentialsDataScreenInfoPubKey),
                   _Item(
                     title: context.l10n.credentialsDataScreenLabelPin,
                     value: state.data.pin,

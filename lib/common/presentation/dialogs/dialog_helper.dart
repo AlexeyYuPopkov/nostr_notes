@@ -53,7 +53,12 @@ mixin DialogHelper {
               child: Text(
                 context.l10n.commonButtonCancel,
                 style: theme.textTheme.titleMedium?.copyWith(
+                  inherit: false,
+                  color: theme.colorScheme.primary,
                   decoration: isDestructive ? TextDecoration.underline : null,
+                  decorationColor: isDestructive
+                      ? theme.colorScheme.primary
+                      : null,
                 ),
               ),
             ),
@@ -62,7 +67,12 @@ mixin DialogHelper {
               child: Text(
                 context.l10n.commonButtonOk,
                 style: theme.textTheme.titleMedium?.copyWith(
+                  inherit: false,
+                  color: theme.colorScheme.primary,
                   decoration: isDestructive ? null : TextDecoration.underline,
+                  decorationColor: isDestructive
+                      ? null
+                      : theme.colorScheme.primary,
                 ),
               ),
             ),
