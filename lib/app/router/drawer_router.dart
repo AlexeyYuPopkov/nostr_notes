@@ -61,6 +61,13 @@ final class DrawerRouter extends StatelessWidget {
                     ),
                   ),
                 );
+              } else if (route is HelpScreenRoute) {
+                return Navigator.of(context).push(
+                  MaterialPageRoute(
+                    settings: const RouteSettings(name: 'help_screen'),
+                    builder: (context) => screensAssembly.createHelpScreen(),
+                  ),
+                );
               }
 
               return RouteHandler.of(context)?.onRoute(route, context);

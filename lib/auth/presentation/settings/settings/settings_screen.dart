@@ -78,3 +78,7 @@ final class PinKeyboardTypeRoute implements AppRoute {
 final class CredentialsDataRoute implements AppRoute {
   const CredentialsDataRoute();
 }
+
+final class HelpScreenRoute implements AppRoute {
+  const HelpScreenRoute();
+}

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,6 +57,7 @@ final class CredentialsDataScreen extends StatelessWidget with DialogHelper {
                     value: state.data.pubkey,
                     secure: false,
                   ),
+                  InfoText(text: context.l10n.credentialsDataScreenInfoPubKey),
                   _Item(
                     title: context.l10n.credentialsDataScreenLabelPin,
                     value: state.data.pin,
@@ -120,22 +122,19 @@ class _ItemState extends State<_Item> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.only(
-        left: Sizes.indent2x,
-        right: Sizes.indent2x,
-        bottom: Sizes.indent2x,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
       child: Column(
         mainAxisSize: .min,
         crossAxisAlignment: .start,
         children: [
+          const SizedBox(height: Sizes.indent2x),
           Text(
             widget.title,
             style: theme.textTheme.titleMedium,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: Sizes.halfIndent),
+          const SizedBox(height: Sizes.indent),
           TextFormField(
             key: ValueKey(widget.value),
             initialValue: widget.value,
@@ -144,24 +143,57 @@ class _ItemState extends State<_Item> {
             obscureText: _isObscured,
             style: theme.textTheme.bodyLarge,
             decoration: InputDecoration(
-              border: const OutlineInputBorder(borderSide: .none),
+              filled: true,
+              fillColor: theme.colorScheme.outlineVariant,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(Sizes.radius),
+                borderSide: BorderSide.none,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(Sizes.radius),
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(Sizes.radius),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: Sizes.indent2x,
+                vertical: Sizes.indentVariant2x,
+              ),
               suffixIcon: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (widget.secure)
-                    IconButton(
-                      icon: Icon(
-                        _isObscured ? Icons.visibility_off : Icons.visibility,
-                        color: theme.colorScheme.primary,
+                    CupertinoButton(
+                      minimumSize: Size.zero,
+                      padding: const EdgeInsets.only(
+                        right: Sizes.halfIndent,
+                        left: Sizes.indent,
+                        top: Sizes.indent,
+                        bottom: Sizes.indent,
                       ),
                       onPressed: _toggleVisibility,
+                      child: Icon(
+                        _isObscured ? Icons.visibility_off : Icons.visibility,
+                        color: theme.colorScheme.primary,
+                        size: Sizes.padding2x,
+                      ),
                     ),
-                  IconButton(
-                    icon: Icon(
-                      _copied ? Icons.check : Icons.copy,
-                      color: theme.colorScheme.primary,
+                  CupertinoButton(
+                    minimumSize: Size.zero,
+                    padding: const EdgeInsets.only(
+                      right: Sizes.indent,
+                      left: Sizes.halfIndent,
+                      top: Sizes.indent,
+                      bottom: Sizes.indent,
                     ),
                     onPressed: _copyToClipboard,
+                    child: Icon(
+                      _copied ? Icons.check : Icons.copy,
+                      color: theme.colorScheme.primary,
+                      size: Sizes.padding2x,
+                    ),
                   ),
                 ],
               ),

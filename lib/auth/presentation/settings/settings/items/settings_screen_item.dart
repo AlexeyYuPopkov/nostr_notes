@@ -12,6 +12,7 @@ import '../bloc/settings_screen_event.dart';
 abstract class SettingsItem {
   static const items = [
     SettingsItemPreferences(),
+    SettingsItemHelp(),
     SettingsItemLogout(),
     SettingsItemLogoutAndClear(),
   ];
@@ -35,6 +36,22 @@ final class SettingsItemPreferences extends SettingsItem {
   @override
   void onTap(BuildContext context) {
     RouteHandler.of(context)?.onRoute(const PreferencesRoute(), context);
+  }
+
+  @override
+  Widget trailing(BuildContext context) {
+    return const Icon(Icons.arrow_forward_ios, size: Sizes.iconSmall);
+  }
+}
+
+final class SettingsItemHelp extends SettingsItem {
+  const SettingsItemHelp();
+  @override
+  String getTitle(context) => context.l10n.settingsItemHelp;
+
+  @override
+  void onTap(BuildContext context) {
+    RouteHandler.of(context)?.onRoute(const HelpScreenRoute(), context);
   }
 
   @override

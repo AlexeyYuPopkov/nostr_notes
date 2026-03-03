@@ -24,6 +24,7 @@ final class AppColorScheme {
     onError: Colors.white,
 
     outline: Color(0xFFE0E0E0),
+    outlineVariant: Color(0xFFF1F3F4),
   );
 
   static const dark = ColorScheme(
@@ -46,5 +47,6 @@ final class AppColorScheme {
     onError: Colors.black,
 
     outline: Color(0xFF3A3A3A),
+    outlineVariant: Color(0xFF3D3C41),
   );
 }
