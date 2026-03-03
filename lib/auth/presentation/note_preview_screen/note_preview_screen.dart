@@ -58,8 +58,8 @@ final class NotePreviewScreen extends StatelessWidget with DialogHelper {
               bottom: false,
               child: SingleChildScrollView(
                 padding: EdgeInsets.only(
-                  left: Sizes.indent,
-                  right: Sizes.indent,
+                  left: Sizes.indent2x,
+                  right: Sizes.indent2x,
                   bottom:
                       mediaPaddings.bottom +
                       kFloatingActionButtonMargin +
@@ -102,7 +102,12 @@ final class _SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       minimumSize: Size.zero,
-      padding: EdgeInsets.zero,
+      padding: const EdgeInsets.only(
+        left: Sizes.indent2x,
+        right: Sizes.indent,
+        top: Sizes.indent,
+        bottom: Sizes.indent,
+      ),
       onPressed: onPressed,
       child: Text(context.l10n.commonButtonEdit),
     );

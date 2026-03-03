@@ -11,6 +11,7 @@ import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/app_screens_assembly.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/home_screen.dart';
+import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/onboarding_screen.dart';
@@ -63,6 +64,10 @@ final class AppRouter {
       ),
       ShellRoute(
         builder: (context, state, child) {
+          final extra = state.extra;
+          final selectedNoteDTag = extra is Map<String, dynamic>
+              ? PathParams.fromJson(extra).id
+              : null;
           return Scaffold(
             body: Builder(
               builder: (context) {
@@ -71,6 +76,7 @@ final class AppRouter {
                     scaffoldKey: _homeScaffoldKey,
                     screensAssembly: _screensAssembly,
                     hasNote: state.fullPath?.contains('note') == true,
+                    selectedNoteDTag: selectedNoteDTag,
                     child: child,
                   ),
                   onRoute: (route, ctx) {

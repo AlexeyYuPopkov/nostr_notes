@@ -16,6 +16,7 @@ final class NotesListCard extends StatelessWidget {
   final PendingVm pendingVm;
   final String? selectedNoteDTag;
   final ValueChanged<NoteBase> onTap;
+  final bool showBottomBorder;
 
   const NotesListCard({
     super.key,
@@ -23,6 +24,7 @@ final class NotesListCard extends StatelessWidget {
     required this.pendingVm,
     required this.selectedNoteDTag,
     required this.onTap,
+    this.showBottomBorder = true,
   });
 
   @override
@@ -36,15 +38,15 @@ final class NotesListCard extends StatelessWidget {
         : '';
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: isSelected
-            ? theme.colorScheme.primaryContainer.withValues(alpha: 0.5)
+        color: isSelected ? theme.colorScheme.secondaryContainer : null,
+        border: showBottomBorder
+            ? Border(
+                bottom: BorderSide(
+                  color: theme.colorScheme.outlineVariant,
+                  width: Sizes.thicknessHalf,
+                ),
+              )
             : null,
-        border: Border(
-          bottom: BorderSide(
-            color: theme.colorScheme.outline.withValues(alpha: 0.5),
-            width: Sizes.thicknessHalf,
-          ),
-        ),
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(
