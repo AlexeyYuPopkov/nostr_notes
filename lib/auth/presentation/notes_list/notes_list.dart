@@ -9,11 +9,13 @@ import 'package:nostr_notes/app/router/drawer_router.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
+import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 
 import 'bloc/notes_list_bloc.dart';
 import 'bloc/notes_list_event.dart';
 import 'bloc/notes_list_state.dart';
 import 'widgets/notes_list_card.dart';
+import 'widgets/notes_list_section_header.dart';
 
 final class NotesList extends StatelessWidget with DialogHelper {
   final String? selectedNoteDTag;
@@ -68,9 +70,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
 }
 
 final class _List extends StatelessWidget {
-  // static const titleHeight = 24.0;
-  // static const subtitleHeight = 16.0;
-  // static const itemHeight = titleHeight + subtitleHeight;
+  static const _placeholdersCount = 9;
 
   const _List({
     required this.selectedNoteDTag,
@@ -86,27 +86,42 @@ final class _List extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const placeholdersCount = 9;
+    if (isLoading) {
+      return ListView.builder(
+        itemCount: _placeholdersCount,
+        cacheExtent: NotesListCard.itemHeight,
+        itemBuilder: (context, index) => const NotesListCardShimmer(),
+      );
+    }
+
     final bloc = context.read<NotesListBloc>();
+    final sections = groupNotesByDate(notes, context.l10n);
 
-    final count = isLoading ? placeholdersCount : notes.length;
-
-    return ListView.separated(
-      itemCount: count,
+    return CustomScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
       cacheExtent: NotesListCard.itemHeight,
-      itemBuilder: (context, index) {
-        if (isLoading) {
-          return const NotesListCardShimmer();
-        }
-
-        return NotesListCard(
-          pendingVm: bloc.pendingVm,
-          note: notes[index],
-          selectedNoteDTag: selectedNoteDTag,
-          onTap: onTap,
-        );
-      },
-      separatorBuilder: (context, index) => const SizedBox(),
+      slivers: [
+        for (final (index, section) in sections.indexed) ...[
+          SliverToBoxAdapter(
+            child: NotesListSectionHeader(
+              title: section.title,
+              isFirst: index == 0,
+            ),
+          ),
+          SliverList.builder(
+            itemCount: section.notes.length,
+            itemBuilder: (context, i) {
+              return NotesListCard(
+                pendingVm: bloc.pendingVm,
+                note: section.notes[i],
+                selectedNoteDTag: selectedNoteDTag,
+                onTap: onTap,
+                showBottomBorder: i < section.notes.length - 1,
+              );
+            },
+          ),
+        ],
+      ],
     );
   }
 }

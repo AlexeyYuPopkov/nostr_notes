@@ -681,6 +681,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select a note or create a new one'**
   String get homeScreenEmptyStatePlaceholder;
+
+  /// No description provided for @notesListSectionToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get notesListSectionToday;
+
+  /// No description provided for @notesListSectionPrevious7Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous 7 Days'**
+  String get notesListSectionPrevious7Days;
+
+  /// No description provided for @notesListSectionPrevious30Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous 30 Days'**
+  String get notesListSectionPrevious30Days;
+
+  /// No description provided for @notesListSectionOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get notesListSectionOther;
 }
 
 class _AppLocalizationsDelegate

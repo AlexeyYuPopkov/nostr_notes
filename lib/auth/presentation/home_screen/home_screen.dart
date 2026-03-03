@@ -23,6 +23,7 @@ final class HomeScreen extends StatelessWidget {
   final ScreensAssembly screensAssembly;
   final Widget child;
   final bool hasNote;
+  final String? selectedNoteDTag;
 
   const HomeScreen({
     super.key,
@@ -30,6 +31,7 @@ final class HomeScreen extends StatelessWidget {
     required this.screensAssembly,
     required this.child,
     required this.hasNote,
+    this.selectedNoteDTag,
   });
 
   @override
@@ -100,11 +102,11 @@ final class HomeScreen extends StatelessWidget {
       key: const Key('Body Desktop'),
       builder: (_) => Row(
         children: [
-          const Expanded(child: _NoteList()),
+          Expanded(child: _NoteList(selectedNoteDTag: selectedNoteDTag)),
           VerticalDivider(
             width: 1,
             thickness: 1,
-            color: Theme.of(context).dividerColor,
+            color: Theme.of(context).colorScheme.outlineVariant,
           ),
         ],
       ),
@@ -122,7 +124,11 @@ final class HomeScreen extends StatelessWidget {
         config: {
           Breakpoints.small: SlotLayout.from(
             key: const Key('Body Small'),
-            builder: (_) => _MobileLayout(hasNote: hasNote, child: child),
+            builder: (_) => _MobileLayout(
+              hasNote: hasNote,
+              selectedNoteDTag: selectedNoteDTag,
+              child: child,
+            ),
           ),
           Breakpoints.medium: bodyConfig,
           Breakpoints.mediumLarge: bodyConfig,
@@ -149,13 +155,18 @@ final class HomeScreen extends StatelessWidget {
 final class _MobileLayout extends StatelessWidget {
   final Widget child;
   final bool hasNote;
-  const _MobileLayout({required this.child, required this.hasNote});
+  final String? selectedNoteDTag;
+  const _MobileLayout({
+    required this.child,
+    required this.hasNote,
+    this.selectedNoteDTag,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        const _NoteList(),
+        _NoteList(selectedNoteDTag: selectedNoteDTag),
         AnimatedSlide(
           offset: hasNote ? const Offset(0.0, 0.0) : const Offset(1.0, 0.0),
           duration: const Duration(milliseconds: 300),
@@ -172,12 +183,13 @@ final class _MobileLayout extends StatelessWidget {
 }
 
 final class _NoteList extends StatelessWidget {
-  const _NoteList();
+  final String? selectedNoteDTag;
+  const _NoteList({this.selectedNoteDTag});
 
   @override
   Widget build(BuildContext context) {
     return NotesList(
-      selectedNoteDTag: null,
+      selectedNoteDTag: selectedNoteDTag,
       onTap: (note) {
         RouteHandler.of(
           context,

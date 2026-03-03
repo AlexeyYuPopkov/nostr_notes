@@ -1702,7 +1702,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final Index idxNostrEventsPubkeyCreatedAt = Index(
     'idx_nostr_events_pubkey_created_at',
-    'CREATE INDEX idx_nostr_events_pubkey_created_at ON nostr_events (kind, pubkey DESC)',
+    'CREATE INDEX idx_nostr_events_pubkey_created_at ON nostr_events (pubkey, pubkey DESC)',
   );
   late final Index idxNostrTagsTagValue = Index(
     'idx_nostr_tags_tag_value',

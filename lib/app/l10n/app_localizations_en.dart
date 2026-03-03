@@ -333,4 +333,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get homeScreenEmptyStatePlaceholder =>
       'Select a note or create a new one';
+
+  @override
+  String get notesListSectionToday => 'Today';
+
+  @override
+  String get notesListSectionPrevious7Days => 'Previous 7 Days';
+
+  @override
+  String get notesListSectionPrevious30Days => 'Previous 30 Days';
+
+  @override
+  String get notesListSectionOther => 'Other';
 }
