@@ -19,26 +19,38 @@ final class HelpScreenModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const leadingWidth = 80.0;
+    const maxWidth = 500.0;
     final theme = Theme.of(context);
     return SafeArea(
       top: false,
       bottom: false,
-      child: Scaffold(
-        appBar: AppBar(
-          leading: CupertinoButton(
-            minimumSize: .zero,
-            padding: EdgeInsets.zero,
-            child: Text(
-              context.l10n.commonClose,
-              style: theme.textTheme.titleSmall?.copyWith(
-                color: theme.colorScheme.primary,
+      child: Align(
+        alignment: .topCenter,
+        child: Scaffold(
+          appBar: AppBar(
+            leadingWidth: leadingWidth,
+            leading: CupertinoButton(
+              minimumSize: .zero,
+              padding: const EdgeInsets.all(Sizes.indent),
+              child: Text(
+                context.l10n.commonClose,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  color: theme.colorScheme.primary,
+                ),
               ),
+              onPressed: () => Navigator.of(context).pop(),
             ),
-            onPressed: () => Navigator.of(context).pop(),
+            title: Text(context.l10n.helpScreenTitle),
           ),
-          title: Text(context.l10n.helpScreenTitle),
+          body: Align(
+            alignment: .center,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: maxWidth),
+              child: const HelpScreenContent(),
+            ),
+          ),
         ),
-        body: const HelpScreenContent(),
       ),
     );
   }

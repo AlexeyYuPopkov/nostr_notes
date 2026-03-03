@@ -73,6 +73,9 @@ final class NotePreviewScreen extends StatelessWidget with DialogHelper {
                       codeBuilder: (context, name, code, closed) {
                         return NoteCodeField(name: name, codes: code);
                       },
+                      highlightBuilder: (context, code, closed) {
+                        return ShortNoteCodeField(codes: code);
+                      },
                     ),
                   ),
                 ),

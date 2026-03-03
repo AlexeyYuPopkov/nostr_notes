@@ -58,6 +58,7 @@ final class OnboardingTextField extends StatelessWidget {
           textAlign: TextAlign.center,
           onTapOutside: (e) => FocusScope.of(context).unfocus(),
           keyboardType: keyboardType,
+          textInputAction: TextInputAction.done,
         ),
         Visibility(
           visible: errorText != null && errorText!.isNotEmpty,
