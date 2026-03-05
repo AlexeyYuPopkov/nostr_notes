@@ -5,6 +5,7 @@ import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/bloc/pending_vm.dart';
 import 'package:nostr_notes/common/presentation/dialogs/common_tooltip.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_formatter.dart';
+import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
 
 final class NotesListCard extends StatelessWidget {
@@ -12,108 +13,141 @@ final class NotesListCard extends StatelessWidget {
   static const subtitleHeight = 16.0;
   static const itemHeight = titleHeight + subtitleHeight + Sizes.halfIndent;
 
-  final NoteBase note;
+  final NotesListItem sectionItem;
   final PendingVm pendingVm;
   final String? selectedNoteDTag;
   final ValueChanged<NoteBase> onTap;
-  final bool showBottomBorder;
 
   const NotesListCard({
     super.key,
-    required this.note,
+    required this.sectionItem,
     required this.pendingVm,
     required this.selectedNoteDTag,
     required this.onTap,
-    this.showBottomBorder = true,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isSelected = note.dTag == selectedNoteDTag;
-    final titleComponents = note.summary.split('\n');
+    final isSelected = sectionItem.note.dTag == selectedNoteDTag;
+    final titleComponents = sectionItem.note.summary.split('\n');
     final title = titleComponents.firstOrNull?.trim() ?? '';
     final subtitle = titleComponents.length > 1
         ? titleComponents[1].trim()
         : '';
-    return DecoratedBox(
+    final showBottomBorder =
+        sectionItem.position == NotesListItemPosition.middle ||
+        sectionItem.position == NotesListItemPosition.first;
+
+    return Container(
+      clipBehavior: .hardEdge,
+      margin: const EdgeInsets.symmetric(horizontal: Sizes.indent),
       decoration: BoxDecoration(
-        color: isSelected ? theme.colorScheme.secondaryContainer : null,
+        color: isSelected
+            ? theme.colorScheme.secondaryContainer
+            : theme.colorScheme.outlineVariant,
+
+        borderRadius: _getRadius(sectionItem.position),
         border: showBottomBorder
             ? Border(
                 bottom: BorderSide(
-                  color: theme.colorScheme.outlineVariant,
+                  color: theme.colorScheme.outline,
                   width: Sizes.thicknessHalf,
                 ),
               )
             : null,
       ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: Sizes.indent2x,
-          vertical: Sizes.halfIndent,
-        ),
-        minVerticalPadding: Sizes.zero,
-        trailing: ValueListenableBuilder(
-          valueListenable: pendingVm,
-          builder: (context, value, child) {
-            return Visibility(
-              visible: pendingVm.isPending(note.eventId),
-              child: CommonTooltip(
-                title: context.l10n.notesListPendingSyncTitle,
-                message: context.l10n.notesListPendingSyncDescription,
-                child: const Icon(
-                  Icons.schedule,
-                  size: Sizes.iconSmall,
-                  color: Colors.amber,
-                ),
-              ),
-            );
-          },
-        ),
-        title: Column(
-          spacing: Sizes.halfIndent,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RichText(
-              text: TextSpan(
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-                children: [
-                  TextSpan(text: title),
-                  if (subtitle.isNotEmpty) ...[
-                    const TextSpan(text: '\n'),
-                    TextSpan(
-                      text: subtitle,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
+      child: InkWell(
+        borderRadius: _getRadius(sectionItem.position),
+        onTap: () => onTap(sectionItem.note),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: Sizes.indent2x,
+            vertical: Sizes.indent,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  spacing: Sizes.halfIndent,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                        children: [
+                          TextSpan(text: title),
+                          if (subtitle.isNotEmpty) ...[
+                            const TextSpan(text: '\n'),
+                            TextSpan(
+                              text: subtitle,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(
+                      height: subtitleHeight,
+                      child: Text(
+                        DateFormatter.formatDateTimeOrEmpty(
+                          sectionItem.note.createdAt,
+                        ),
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
-                ],
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            SizedBox(
-              height: subtitleHeight,
-              child: Text(
-                DateFormatter.formatDateTimeOrEmpty(note.createdAt),
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
-            ),
-          ],
+              ValueListenableBuilder(
+                valueListenable: pendingVm,
+                builder: (context, value, child) {
+                  return Visibility(
+                    visible: pendingVm.isPending(sectionItem.note.eventId),
+                    child: CommonTooltip(
+                      title: context.l10n.notesListPendingSyncTitle,
+                      message: context.l10n.notesListPendingSyncDescription,
+                      child: const Icon(
+                        Icons.schedule,
+                        size: Sizes.iconSmall,
+                        color: Colors.amber,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
-
-        selected: isSelected,
-        onTap: () => onTap(note),
       ),
     );
+  }
+
+  BorderRadius _getRadius(NotesListItemPosition position) {
+    const radius = Radius.circular(Sizes.radius);
+    switch (position) {
+      case NotesListItemPosition.single:
+        return const BorderRadius.all(radius);
+
+      case NotesListItemPosition.first:
+        return const BorderRadius.vertical(top: radius);
+
+      case NotesListItemPosition.last:
+        return const BorderRadius.vertical(bottom: radius);
+
+      case NotesListItemPosition.middle:
+        return BorderRadius.zero;
+    }
   }
 }
 

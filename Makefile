@@ -16,3 +16,6 @@ relay_clean:
 
 relay_down:
 	bundle exec fastlane relay_down
+
+appbundle:
+	flutter build appbundle --release
