@@ -40,7 +40,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => NotesListBloc(),
+      create: (context) => NotesListBloc(contextProvider: () => context),
       child: BlocConsumer<NotesListBloc, NotesListState>(
         listener: _listener,
         builder: (context, state) {
@@ -54,7 +54,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
               child: _List(
                 selectedNoteDTag: selectedNoteDTag,
                 isLoading: state is LoadingState,
-                notes: state.data.notes,
+                sections: state.data.sections,
                 onTap: onTap,
               ),
             ),
@@ -75,13 +75,13 @@ final class _List extends StatelessWidget {
   const _List({
     required this.selectedNoteDTag,
     required this.isLoading,
-    required this.notes,
+    required this.sections,
     required this.onTap,
   });
 
   final String? selectedNoteDTag;
   final bool isLoading;
-  final List<NoteBase> notes;
+  final List<NotesListSection> sections;
   final ValueChanged<NoteBase> onTap;
 
   @override
@@ -95,32 +95,27 @@ final class _List extends StatelessWidget {
     }
 
     final bloc = context.read<NotesListBloc>();
-    final sections = groupNotesByDate(notes, context.l10n);
-
     return CustomScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       cacheExtent: NotesListCard.itemHeight,
       slivers: [
-        for (final (index, section) in sections.indexed) ...[
-          SliverToBoxAdapter(
-            child: NotesListSectionHeader(
-              title: section.title,
-              isFirst: index == 0,
-            ),
-          ),
-          SliverList.builder(
-            itemCount: section.notes.length,
-            itemBuilder: (context, i) {
+        SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+            final section = sections[index];
+            if (section is NotesListHeader) {
+              return NotesListSectionHeader(title: section.title);
+            } else if (section is NotesListItem) {
               return NotesListCard(
                 pendingVm: bloc.pendingVm,
-                note: section.notes[i],
+                sectionItem: section,
                 selectedNoteDTag: selectedNoteDTag,
                 onTap: onTap,
-                showBottomBorder: i < section.notes.length - 1,
               );
-            },
-          ),
-        ],
+            } else {
+              return const SizedBox.shrink();
+            }
+          }, childCount: sections.length),
+        ),
       ],
     );
   }
