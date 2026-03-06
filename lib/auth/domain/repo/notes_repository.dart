@@ -29,6 +29,15 @@ abstract interface class NotesRepository {
     List<int>? randomBytes,
   });
 
+  Future<Note> deleteNote({
+    required Note note,
+    required String pubkey,
+    required String privateKey,
+    Now? now,
+    Uuid? uuid,
+    List<int>? randomBytes,
+  });
+
   Stream<NotesRepositoryRelayError> get relayErrors;
 }
 

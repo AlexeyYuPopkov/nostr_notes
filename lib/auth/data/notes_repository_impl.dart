@@ -66,6 +66,14 @@ class NotesRepositoryImpl implements NotesRepository {
             t: [AppConfig.clientTagValue],
             until: until?.toSecondsSinceEpoch(),
           ),
+          NostrFilter(
+            kinds: [EventKind.delete.value],
+            authors: [pubkey],
+            t: [AppConfig.clientTagValue],
+            additional: {
+              Tag.k.value: [EventKind.note.value],
+            },
+          ),
         ],
       ),
     );
@@ -98,9 +106,22 @@ class NotesRepositoryImpl implements NotesRepository {
             ],
           ),
         )
-        .map(
-          (items) => items.map((e) => NoteMapper.fromNostrEvent(e)).nonNulls,
-        );
+        .asyncMap((items) async {
+          final result = await _eventStore.queryEvents(
+            RawEventQuery(authors: [pubkey], kinds: [EventKind.delete.value]),
+          );
+
+          final aTags = result
+              .map((e) => e.getATagComponents()?.dTag)
+              .nonNulls
+              .toSet();
+
+          return items
+              .where((e) => e.content.isNotEmpty)
+              .where((e) => !aTags.contains(e.getDTag()))
+              .map((e) => NoteMapper.fromNostrEvent(e))
+              .nonNulls;
+        });
   }
 
   @override
@@ -205,6 +226,59 @@ class NotesRepositoryImpl implements NotesRepository {
     }
 
     return resultNote;
+  }
+
+  @override
+  Future<Note> deleteNote({
+    required Note note,
+    required String pubkey,
+    required String privateKey,
+    Now? now,
+    Uuid? uuid,
+    List<int>? randomBytes,
+  }) async {
+    if (note.dTag.isEmpty) {
+      throw const AppError.common(
+        message: 'Cannot delete a note without a dTag',
+      );
+    }
+
+    final createdAt = (now ?? const Now()).now();
+
+    final deletionEvent = NostrEventCreator.createEvent(
+      kind: EventKind.delete.value,
+      content: '',
+      createdAt: createdAt,
+      tags: [
+        [Tag.a.value, '${EventKind.note.value}:$pubkey:${note.dTag}'],
+        [Tag.k.value, '${EventKind.note.value}'],
+      ],
+      pubkey: pubkey,
+      privateKey: privateKey,
+      randomBytes: randomBytes,
+    );
+
+    // SQL-first: persist locally, then let OutboxPublisher handle relay sync
+    // Remove old undelivered outbox entries and old events from store
+    final previousEvents = await _eventStore.queryEvents(
+      RawEventQuery(
+        kinds: [EventKind.note.value],
+        authors: [pubkey],
+        tagFilters: [
+          TagFilter(TagValue.d, [note.dTag]),
+        ],
+      ),
+    );
+    final oldEventIds = previousEvents.map((e) => e.id).toSet();
+    if (oldEventIds.isNotEmpty) {
+      await _outboxDao.removeUndeliveredByEventIds(oldEventIds);
+      await _eventStore.deleteEvents(oldEventIds);
+    }
+
+    await _eventStore.upsert([deletionEvent]);
+    await _outboxDao.insert(eventId: deletionEvent.id);
+
+    return note;
   }
 
   @override

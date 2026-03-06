@@ -345,4 +345,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notesListSectionOther => 'Other';
+
+  @override
+  String get notesListConfirmationDialogDeletion =>
+      'Are you sure you want to delete this note? This action cannot be undone.';
 }

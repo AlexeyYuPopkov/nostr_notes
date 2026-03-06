@@ -81,6 +81,7 @@ dependencies:
   flutter_quill: ^11.5.0
   markdown_quill: ^4.3.0
   simple_splash_view: ^0.1.21
+  flutter_slidable: ^4.0.3
   # zefyrka: ^1.6.0
   # notus_format: ^1.0.3
   # markdown_editor_plus: ^0.2.15

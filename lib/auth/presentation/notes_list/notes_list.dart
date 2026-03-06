@@ -110,6 +110,7 @@ final class _List extends StatelessWidget {
                 sectionItem: section,
                 selectedNoteDTag: selectedNoteDTag,
                 onTap: onTap,
+                onDelete: (note) => bloc.add(NotesListEvent.deleteNote(note)),
               );
             } else {
               return const SizedBox.shrink();

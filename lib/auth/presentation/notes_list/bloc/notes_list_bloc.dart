@@ -3,6 +3,8 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
+import 'package:nostr_notes/auth/domain/model/note.dart';
+import 'package:nostr_notes/auth/domain/usecase/delete_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_pending_usecase.dart';
@@ -25,6 +27,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   late final pendingVm = PendingVm(
     getPendingUsecase: DiStorage.shared.resolve<GetPendingUsecase>(),
   );
+  late final DeleteNoteUsecase _deleteNoteUsecase = DiStorage.shared.resolve();
 
   StreamSubscription? _fetchNotesSubscription;
   StreamSubscription? _getNotesSubscription;
@@ -52,6 +55,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     on<InitialEvent>(_onInitialEvent);
     on<GetNotesEvent>(_onGetNotesEvent);
     on<ErrorEvent>(_onErrorEvent);
+    on<DeleteNoteEvent>(_onDeleteNoteEvent);
   }
 
   void _setupSubscription() {
@@ -109,5 +113,16 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
 
   void _onErrorEvent(ErrorEvent event, Emitter<NotesListState> emit) {
     emit(NotesListState.error(data: data, e: event.error));
+  }
+
+  void _onDeleteNoteEvent(
+    DeleteNoteEvent event,
+    Emitter<NotesListState> emit,
+  ) async {
+    try {
+      await _deleteNoteUsecase.execute(note: event.note as Note);
+    } catch (e) {
+      emit(NotesListState.error(e: e, data: data));
+    }
   }
 }
