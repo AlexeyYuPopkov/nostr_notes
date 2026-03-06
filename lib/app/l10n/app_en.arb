@@ -116,5 +116,6 @@
     "notesListSectionToday": "Today",
     "notesListSectionPrevious7Days": "Previous 7 Days",
     "notesListSectionPrevious30Days": "Previous 30 Days",
-    "notesListSectionOther": "Other"
+    "notesListSectionOther": "Other",
+    "notesListConfirmationDialogDeletion": "Are you sure you want to delete this note? This action cannot be undone."
 }

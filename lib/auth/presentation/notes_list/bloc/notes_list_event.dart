@@ -9,6 +9,7 @@ sealed class NotesListEvent extends Equatable {
       GetNotesEvent;
   const factory NotesListEvent.refresh() = RefreshEvent;
   const factory NotesListEvent.error({required Object error}) = ErrorEvent;
+  const factory NotesListEvent.deleteNote(NoteBase note) = DeleteNoteEvent;
 
   @override
   List<Object?> get props => const [];
@@ -35,4 +36,11 @@ final class ErrorEvent extends NotesListEvent {
   const ErrorEvent({required this.error});
   @override
   List<Object?> get props => [error];
+}
+
+final class DeleteNoteEvent extends NotesListEvent {
+  final NoteBase note;
+  const DeleteNoteEvent(this.note);
+  @override
+  List<Object?> get props => [note];
 }

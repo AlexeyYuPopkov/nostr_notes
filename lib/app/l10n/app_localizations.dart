@@ -705,6 +705,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other'**
   String get notesListSectionOther;
+
+  /// No description provided for @notesListConfirmationDialogDeletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this note? This action cannot be undone.'**
+  String get notesListConfirmationDialogDeletion;
 }
 
 class _AppLocalizationsDelegate
