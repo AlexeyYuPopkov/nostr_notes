@@ -5,11 +5,11 @@ sealed class NotesListEvent extends Equatable {
   const NotesListEvent();
 
   const factory NotesListEvent.initial() = InitialEvent;
-  const factory NotesListEvent.getNotes({required List<NoteBase> notes}) =
+  const factory NotesListEvent.getNotes({required List<Note> notes}) =
       GetNotesEvent;
   const factory NotesListEvent.refresh() = RefreshEvent;
   const factory NotesListEvent.error({required Object error}) = ErrorEvent;
-  const factory NotesListEvent.deleteNote(NoteBase note) = DeleteNoteEvent;
+  const factory NotesListEvent.deleteNote(Note note) = DeleteNoteEvent;
 
   @override
   List<Object?> get props => const [];
@@ -20,7 +20,7 @@ final class InitialEvent extends NotesListEvent {
 }
 
 final class GetNotesEvent extends NotesListEvent {
-  final List<NoteBase> notes;
+  final List<Note> notes;
   const GetNotesEvent({required this.notes});
 
   @override
@@ -39,7 +39,7 @@ final class ErrorEvent extends NotesListEvent {
 }
 
 final class DeleteNoteEvent extends NotesListEvent {
-  final NoteBase note;
+  final Note note;
   const DeleteNoteEvent(this.note);
   @override
   List<Object?> get props => [note];

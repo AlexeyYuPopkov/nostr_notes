@@ -192,8 +192,29 @@ void main() {
 
       // Auto-respond OK for any EVENT
       channel.onAdd = (data, ch) {
-        final parsed = jsonDecode(data as String);
-        if (parsed[0] == 'EVENT') {
+        const publishReq =
+            r'["EVENT",{"kind":30023,'
+            '"id":"2d06c02fc41379a50af52945750372b5839d27dedf7e595f3f60fed28314c116",'
+            '"pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",'
+            '"created_at":1750157400,'
+            '"tags":[["client","996e10ba"],["t","996e10ba"],'
+            '["d","test-dtag"],["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"],'
+            '["summary","encrypted-message"]],'
+            '"content":"encrypted-message",'
+            '"sig":"4ee2bbd8d4a71d2356b1421018671cbb3ac7f097d1f2da14282f38140e6c43f53611360f05570c172c953d3f5c52f2e082ce0ebb0115caea5efedf29a9508dd7"}]';
+
+        const delReq =
+            r'["EVENT",{"kind":30023,'
+            '"id":"7a291dae91c307d3b5bb3de60ec04fe66cf63d9c5e6ec23035c469b69b253817",'
+            '"pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",'
+            '"created_at":1750157401,'
+            '"tags":[["client","996e10ba"],["t","996e10ba"],'
+            '["d","test-dtag"],["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"]],'
+            '"content":"",'
+            '"sig":"720519ae0c4ba91a5a2127aa9a1cc03f90142a539bf8f91183c8d92316460bd93f1b952df50eea85a0da0f0d8ecb4a2759a43c0a419dd2fc71c5d6eea1be9b3f"}]';
+
+        if (data == publishReq || data == delReq) {
+          final parsed = jsonDecode(data as String);
           final eventId = parsed[1]['id'] as String;
           ch.mockStream.add('["OK","$eventId",true,""]');
         }
@@ -244,7 +265,7 @@ void main() {
           .map((e) => (e[1] as Map<String, dynamic>)['kind'] as int)
           .toSet();
 
-      expect(sentKinds, contains(EventKind.delete.value));
+      expect(sentKinds, contains(EventKind.note.value));
 
       // 6. Verify outbox is empty (all delivered)
       final pending = await outboxDao.getPending();
@@ -257,25 +278,9 @@ void main() {
           authors: const [SomeMokedData.publicKey],
         ),
       );
-      expect(notesAfter, hasLength(0));
-
-      // Verify note exists in store
-      final deletionEvent = await eventStore.queryEvents(
-        RawEventQuery(
-          kinds: [EventKind.delete.value],
-          authors: const [SomeMokedData.publicKey],
-        ),
-      );
-      expect(deletionEvent, hasLength(1));
-      expect(deletionEvent[0].kind, 5);
-      expect(
-        deletionEvent[0].pubkey,
-        '5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee',
-      );
-      expect(
-        deletionEvent[0].getFirstTag(Tag.a),
-        '30023:5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee:test-dtag',
-      );
+      expect(notesAfter, hasLength(1));
+      expect(notesAfter[0].content.isEmpty, isTrue);
+      expect(notesAfter[0].getFirstTag(const SummaryTag()), isNull);
     });
   });
 }

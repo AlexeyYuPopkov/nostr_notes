@@ -42,9 +42,7 @@ class NotesRepositoryImpl implements NotesRepository {
         return e.isNotEmpty;
       })
       .asyncMap((events) async {
-        if (events.isNotEmpty) {
-          await _eventStore.upsert(events);
-        }
+        await _eventStore.upsert(events);
         return events;
       });
 
@@ -53,7 +51,7 @@ class NotesRepositoryImpl implements NotesRepository {
     required String pubkey,
     required Set<String> relays,
     DateTime? until,
-  }) async {
+  }) {
     _client.addRelays(relays);
 
     _client.sendRequestToAll(
@@ -65,14 +63,6 @@ class NotesRepositoryImpl implements NotesRepository {
             p: [pubkey],
             t: [AppConfig.clientTagValue],
             until: until?.toSecondsSinceEpoch(),
-          ),
-          NostrFilter(
-            kinds: [EventKind.delete.value],
-            authors: [pubkey],
-            t: [AppConfig.clientTagValue],
-            additional: {
-              Tag.k.value: [EventKind.note.value],
-            },
           ),
         ],
       ),
@@ -91,7 +81,10 @@ class NotesRepositoryImpl implements NotesRepository {
       ),
     );
 
-    return result.map((e) => NoteMapper.fromNostrEvent(e)).nonNulls;
+    return result
+        .where((e) => e.content.isNotEmpty)
+        .map((e) => NoteMapper.fromNostrEvent(e))
+        .nonNulls;
   }
 
   @override
@@ -106,19 +99,9 @@ class NotesRepositoryImpl implements NotesRepository {
             ],
           ),
         )
-        .asyncMap((items) async {
-          final result = await _eventStore.queryEvents(
-            RawEventQuery(authors: [pubkey], kinds: [EventKind.delete.value]),
-          );
-
-          final aTags = result
-              .map((e) => e.getATagComponents()?.dTag)
-              .nonNulls
-              .toSet();
-
+        .map((items) {
           return items
               .where((e) => e.content.isNotEmpty)
-              .where((e) => !aTags.contains(e.getDTag()))
               .map((e) => NoteMapper.fromNostrEvent(e))
               .nonNulls;
         });
@@ -140,6 +123,7 @@ class NotesRepositoryImpl implements NotesRepository {
         )
         .map((events) => events.firstOrNull)
         .whereNotNull()
+        .where((e) => e.content.isNotEmpty)
         .distinct((a, b) => a.id == b.id)
         .map((e) => NoteMapper.fromNostrEvent(e))
         .whereNotNull();
@@ -152,12 +136,13 @@ class NotesRepositoryImpl implements NotesRepository {
         kinds: [EventKind.note.value],
         authors: [pubkey],
         tagFilters: [
+          TagFilter(Tag.p.value, [pubkey]),
           TagFilter(TagValue.d, [id]),
         ],
       ),
     );
 
-    final e = result.firstOrNull;
+    final e = result.where((e) => e.content.isNotEmpty).firstOrNull;
 
     return e == null ? null : NoteMapper.fromNostrEvent(e);
   }
@@ -243,16 +228,25 @@ class NotesRepositoryImpl implements NotesRepository {
       );
     }
 
-    final createdAt = (now ?? const Now()).now();
+    final nowTime = (now ?? const Now()).now();
+    // Ensure deletion event has createdAt strictly after the original note,
+    // so upsert replaces the old replaceable event.
+    final createdAt = nowTime.isAfter(note.createdAt)
+        ? nowTime
+        : note.createdAt.add(const Duration(seconds: 1));
 
-    final deletionEvent = NostrEventCreator.createEvent(
-      kind: EventKind.delete.value,
+    final List<List<String>> tags = [
+      AppConfig.clientTagList(),
+      [Tag.t.value, AppConfig.clientTagValue],
+      [Tag.d.value, note.dTag],
+      [Tag.p.value, pubkey],
+    ];
+
+    final event = NostrEventCreator.createEvent(
+      kind: EventKind.note.value,
       content: '',
       createdAt: createdAt,
-      tags: [
-        [Tag.a.value, '${EventKind.note.value}:$pubkey:${note.dTag}'],
-        [Tag.k.value, '${EventKind.note.value}'],
-      ],
+      tags: tags,
       pubkey: pubkey,
       privateKey: privateKey,
       randomBytes: randomBytes,
@@ -272,11 +266,10 @@ class NotesRepositoryImpl implements NotesRepository {
     final oldEventIds = previousEvents.map((e) => e.id).toSet();
     if (oldEventIds.isNotEmpty) {
       await _outboxDao.removeUndeliveredByEventIds(oldEventIds);
-      await _eventStore.deleteEvents(oldEventIds);
     }
 
-    await _eventStore.upsert([deletionEvent]);
-    await _outboxDao.insert(eventId: deletionEvent.id);
+    await _eventStore.upsert([event]);
+    await _outboxDao.insert(eventId: event.id);
 
     return note;
   }

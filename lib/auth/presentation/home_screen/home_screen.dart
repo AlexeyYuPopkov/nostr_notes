@@ -12,10 +12,17 @@ import 'package:nostr_notes/app/sizes.dart';
 import '../notes_list/notes_list.dart';
 
 final class _LayoutConfig {
+  /// [desktopScreenWidth = 600]
   static const desktopScreenWidth = 600.0;
-  static const bodyRatio = 0.3;
+
+  /// [bodyRatio = 0.3]
+  static const bodyRatio = 0.35;
+
+  /// [drawerRatio = 0.7]
   static const drawerRatio = 0.7;
-  static const internalAnimations = false;
+
+  /// [internalAnimations = false]
+  static const internalAnimations = true;
 }
 
 final class HomeScreen extends StatelessWidget {
@@ -43,18 +50,18 @@ final class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       key: scaffoldKey,
-      floatingActionButton: Builder(
-        builder: (context) {
-          return FloatingActionButton(
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(Sizes.radiusVariant),
-            ),
-            child: const Icon(Icons.add),
-            onPressed: () => _onNewNote(context),
-          );
-        },
-      ),
+      // floatingActionButton: Builder(
+      //   builder: (context) {
+      //     return FloatingActionButton(
+      //       elevation: 2,
+      //       shape: RoundedRectangleBorder(
+      //         borderRadius: BorderRadius.circular(Sizes.radiusVariant),
+      //       ),
+      //       child: const Icon(Icons.add),
+      //       onPressed: () => _onNewNote(context),
+      //     );
+      //   },
+      // ),
       endDrawer: SizedBox(
         width: isDesktop ? drawerWidth : double.infinity,
         child: DrawerRouter(screensAssembly: screensAssembly),
@@ -98,7 +105,7 @@ final class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildAdaptiveLayout(BuildContext context) {
-    final bodyConfig = SlotLayout.from(
+    SlotLayoutConfig bodyConfig() => SlotLayout.from(
       key: const Key('Body Desktop'),
       builder: (_) => Row(
         children: [
@@ -111,9 +118,22 @@ final class HomeScreen extends StatelessWidget {
         ],
       ),
     );
-    final secondaryConfig = SlotLayout.from(
+
+    SlotLayoutConfig secondaryConfig() => SlotLayout.from(
       key: const Key('SecondaryBody Desktop'),
-      builder: (_) => child,
+      builder: (_) => Scaffold(
+        body: child,
+        floatingActionButton: _Fab(onPressed: () {}),
+      ),
+    );
+
+    SlotLayoutConfig smallConfig() => SlotLayout.from(
+      key: const Key('Body Small'),
+      builder: (_) => _MobileLayout(
+        hasNote: hasNote,
+        selectedNoteDTag: selectedNoteDTag,
+        child: child,
+      ),
     );
 
     return AdaptiveLayout(
@@ -122,33 +142,22 @@ final class HomeScreen extends StatelessWidget {
       internalAnimations: _LayoutConfig.internalAnimations,
       body: SlotLayout(
         config: {
-          Breakpoints.small: SlotLayout.from(
-            key: const Key('Body Small'),
-            builder: (_) => _MobileLayout(
-              hasNote: hasNote,
-              selectedNoteDTag: selectedNoteDTag,
-              child: child,
-            ),
-          ),
-          Breakpoints.medium: bodyConfig,
-          Breakpoints.mediumLarge: bodyConfig,
-          Breakpoints.large: bodyConfig,
-          Breakpoints.extraLarge: bodyConfig,
+          Breakpoints.small: smallConfig(),
+          Breakpoints.medium: bodyConfig(),
+          Breakpoints.mediumLarge: bodyConfig(),
+          Breakpoints.large: bodyConfig(),
+          Breakpoints.extraLarge: bodyConfig(),
         },
       ),
       secondaryBody: SlotLayout(
         config: {
-          Breakpoints.medium: secondaryConfig,
-          Breakpoints.mediumLarge: secondaryConfig,
-          Breakpoints.large: secondaryConfig,
-          Breakpoints.extraLarge: secondaryConfig,
+          Breakpoints.medium: secondaryConfig(),
+          Breakpoints.mediumLarge: secondaryConfig(),
+          Breakpoints.large: secondaryConfig(),
+          Breakpoints.extraLarge: secondaryConfig(),
         },
       ),
     );
-  }
-
-  void _onNewNote(BuildContext context) {
-    RouteHandler.of(context)?.onRoute(const NewNoteRoute(), context);
   }
 }
 
@@ -196,6 +205,28 @@ final class _NoteList extends StatelessWidget {
         )?.onRoute(NotePreviewRoute(noteId: note.dTag), context);
       },
     );
+  }
+}
+
+final class _Fab extends StatelessWidget {
+  final VoidCallback onPressed;
+  const _Fab({required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Sizes.radiusVariant),
+      ),
+      onPressed: () => _onNewNote(context),
+      child: const Icon(Icons.add),
+    );
+  }
+
+  void _onNewNote(BuildContext context) {
+    // GoRouter.of(context).pop();
+    RouteHandler.of(context)?.onRoute(const NewNoteRoute(), context);
   }
 }
 

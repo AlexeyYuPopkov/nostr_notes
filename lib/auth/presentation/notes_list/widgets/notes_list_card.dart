@@ -18,8 +18,8 @@ final class NotesListCard extends StatelessWidget with DialogHelper {
   final NotesListItem sectionItem;
   final PendingVm pendingVm;
   final String? selectedNoteDTag;
-  final ValueChanged<NoteBase> onTap;
-  final ValueChanged<NoteBase> onDelete;
+  final ValueChanged<Note> onTap;
+  final ValueChanged<Note> onDelete;
 
   const NotesListCard({
     super.key,
@@ -72,7 +72,9 @@ final class NotesListCard extends StatelessWidget with DialogHelper {
             children: [
               SlidableAction(
                 onPressed: (context) async {
-                  if (await _confirmDismiss(context)) {}
+                  if (await _confirmDismiss(context)) {
+                    onDelete(sectionItem.note);
+                  }
                 },
                 backgroundColor: theme.colorScheme.error,
                 foregroundColor: Colors.white,

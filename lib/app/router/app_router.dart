@@ -79,7 +79,7 @@ final class AppRouter {
                     selectedNoteDTag: selectedNoteDTag,
                     child: child,
                   ),
-                  onRoute: (route, ctx) {
+                  onRoute: (route, ctx) async {
                     if (route is NotePreviewRoute) {
                       return noteRouter.possibleHandler(route, ctx);
                     } else if (route is NewNoteRoute) {
@@ -92,6 +92,7 @@ final class AppRouter {
                       return router.push(path);
                     } else if (route is OnEndDrawer) {
                       _homeScaffoldKey.currentState?.openEndDrawer();
+                      return;
                     }
 
                     return RouteHandler.of(context)?.onRoute(route, ctx);

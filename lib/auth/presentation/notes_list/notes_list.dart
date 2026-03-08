@@ -19,7 +19,7 @@ import 'widgets/notes_list_section_header.dart';
 
 final class NotesList extends StatelessWidget with DialogHelper {
   final String? selectedNoteDTag;
-  final ValueChanged<NoteBase> onTap;
+  final ValueChanged<Note> onTap;
   const NotesList({
     super.key,
     required this.selectedNoteDTag,
@@ -82,7 +82,7 @@ final class _List extends StatelessWidget {
   final String? selectedNoteDTag;
   final bool isLoading;
   final List<NotesListSection> sections;
-  final ValueChanged<NoteBase> onTap;
+  final ValueChanged<Note> onTap;
 
   @override
   Widget build(BuildContext context) {
