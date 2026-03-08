@@ -1,6 +1,9 @@
 import 'package:custom_adaptive_scaffold/custom_adaptive_scaffold.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
@@ -15,8 +18,10 @@ final class _LayoutConfig {
   /// [desktopScreenWidth = 600]
   static const desktopScreenWidth = 600.0;
 
-  /// [bodyRatio = 0.3]
-  static const bodyRatio = 0.35;
+  /// Body ratio range for resizable split view
+  static const minBodyRatio = 0.25;
+  static const maxBodyRatio = 0.5;
+  static const defaultBodyRatio = 0.35;
 
   /// [drawerRatio = 0.7]
   static const drawerRatio = 0.7;
@@ -25,7 +30,7 @@ final class _LayoutConfig {
   static const internalAnimations = true;
 }
 
-final class HomeScreen extends StatelessWidget {
+final class HomeScreen extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final ScreensAssembly screensAssembly;
   final Widget child;
@@ -42,32 +47,36 @@ final class HomeScreen extends StatelessWidget {
   });
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+final class _HomeScreenState extends State<HomeScreen> {
+  double _bodyRatio = _LayoutConfig.defaultBodyRatio;
+
+  void _onResizeDividerDrag(double delta, double screenWidth) {
+    final newRatio = (_bodyRatio + delta / screenWidth).clamp(
+      _LayoutConfig.minBodyRatio,
+      _LayoutConfig.maxBodyRatio,
+    );
+    if (newRatio != _bodyRatio) {
+      setState(() => _bodyRatio = newRatio);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final isDesktop = screenWidth >= _LayoutConfig.desktopScreenWidth;
-    // final sideWidth = screenWidth * _LayoutConfig.bodyRatio;
     final drawerWidth = screenWidth * _LayoutConfig.drawerRatio;
 
     return Scaffold(
-      key: scaffoldKey,
-      // floatingActionButton: Builder(
-      //   builder: (context) {
-      //     return FloatingActionButton(
-      //       elevation: 2,
-      //       shape: RoundedRectangleBorder(
-      //         borderRadius: BorderRadius.circular(Sizes.radiusVariant),
-      //       ),
-      //       child: const Icon(Icons.add),
-      //       onPressed: () => _onNewNote(context),
-      //     );
-      //   },
-      // ),
+      key: widget.scaffoldKey,
       endDrawer: SizedBox(
         width: isDesktop ? drawerWidth : double.infinity,
-        child: DrawerRouter(screensAssembly: screensAssembly),
+        child: DrawerRouter(screensAssembly: widget.screensAssembly),
       ),
       body: RouteHandlerWidget(
-        onRoute: (route, ctx) {
+        onRoute: (route, ctx) async {
           if (route is NotePreviewRoute) {
             final router = GoRouter.of(ctx);
 
@@ -77,7 +86,7 @@ final class HomeScreen extends StatelessWidget {
             );
 
             if (currentUri.pathSegments.contains(AppRouterPath.noteDetails)) {
-              Navigator.of(ctx).maybePop();
+              await Navigator.of(ctx).maybePop();
             }
             if (currentUri.pathSegments.contains(AppRouterPath.notePreview) ||
                 currentUri.pathSegments.contains(AppRouterPath.noteDetails)) {
@@ -89,55 +98,50 @@ final class HomeScreen extends StatelessWidget {
               return router.push('/${uri.path}', extra: route.toExtra());
             }
           }
-          // else if (route is NoteDetailsRoute) {
-          //   final router = GoRouter.of(ctx);
-          //   final uri = Uri(
-          //     pathSegments: [AppRouterName.home, AppRouterPath.noteDetails],
-          //   );
-
-          //   return router.push('/${uri.path}', extra: route.toExtra());
-          // }
           return RouteHandler.of(context)?.onRoute(route, ctx);
         },
-        child: _buildAdaptiveLayout(context),
+        child: _buildAdaptiveLayout(context, screenWidth),
       ),
     );
   }
 
-  Widget _buildAdaptiveLayout(BuildContext context) {
+  Widget _buildAdaptiveLayout(BuildContext context, double screenWidth) {
     SlotLayoutConfig bodyConfig() => SlotLayout.from(
       key: const Key('Body Desktop'),
-      builder: (_) => Row(
-        children: [
-          Expanded(child: _NoteList(selectedNoteDTag: selectedNoteDTag)),
-          VerticalDivider(
-            width: 1,
-            thickness: 1,
-            color: Theme.of(context).colorScheme.outlineVariant,
+      builder: (_) {
+        return Padding(
+          padding: const EdgeInsets.only(left: Sizes.indent),
+          child: Row(
+            children: [
+              Expanded(
+                child: _NoteList(selectedNoteDTag: widget.selectedNoteDTag),
+              ),
+              _ResizeDivider(
+                onDrag: (delta) => _onResizeDividerDrag(delta, screenWidth),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
 
     SlotLayoutConfig secondaryConfig() => SlotLayout.from(
       key: const Key('SecondaryBody Desktop'),
-      builder: (_) => Scaffold(
-        body: child,
-        floatingActionButton: _Fab(onPressed: () {}),
-      ),
+      builder: (_) =>
+          Scaffold(body: widget.child, floatingActionButton: const _Fab()),
     );
 
     SlotLayoutConfig smallConfig() => SlotLayout.from(
       key: const Key('Body Small'),
       builder: (_) => _MobileLayout(
-        hasNote: hasNote,
-        selectedNoteDTag: selectedNoteDTag,
-        child: child,
+        hasNote: widget.hasNote,
+        selectedNoteDTag: widget.selectedNoteDTag,
+        child: widget.child,
       ),
     );
 
     return AdaptiveLayout(
-      bodyRatio: _LayoutConfig.bodyRatio,
+      bodyRatio: _bodyRatio,
       bodyOrientation: Axis.horizontal,
       internalAnimations: _LayoutConfig.internalAnimations,
       body: SlotLayout(
@@ -173,20 +177,43 @@ final class _MobileLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        _NoteList(selectedNoteDTag: selectedNoteDTag),
-        AnimatedSlide(
-          offset: hasNote ? const Offset(0.0, 0.0) : const Offset(1.0, 0.0),
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-          child: hasNote
-              ? child
-              : Scaffold(
-                  appBar: AppBar(leading: BackButton(onPressed: () {})),
-                ),
+    return Scaffold(
+      floatingActionButton: const _Fab(),
+      body: Stack(
+        children: [
+          _NoteList(selectedNoteDTag: selectedNoteDTag),
+          AnimatedSlide(
+            offset: hasNote ? const Offset(0.0, 0.0) : const Offset(1.0, 0.0),
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            child: hasNote ? child : const SizedBox.shrink(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+final class _ResizeDivider extends StatelessWidget {
+  final ValueChanged<double> onDrag;
+
+  const _ResizeDivider({required this.onDrag});
+
+  @override
+  Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme.outlineVariant;
+    return MouseRegion(
+      cursor: SystemMouseCursors.resizeColumn,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onHorizontalDragUpdate: (details) => onDrag(details.delta.dx),
+        child: SizedBox(
+          width: Sizes.indent2x,
+          child: Center(
+            child: VerticalDivider(width: 1, thickness: 1, color: color),
+          ),
         ),
-      ],
+      ),
     );
   }
 }
@@ -209,8 +236,7 @@ final class _NoteList extends StatelessWidget {
 }
 
 final class _Fab extends StatelessWidget {
-  final VoidCallback onPressed;
-  const _Fab({required this.onPressed});
+  const _Fab();
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +251,6 @@ final class _Fab extends StatelessWidget {
   }
 
   void _onNewNote(BuildContext context) {
-    // GoRouter.of(context).pop();
     RouteHandler.of(context)?.onRoute(const NewNoteRoute(), context);
   }
 }
@@ -243,11 +268,7 @@ final class NewNotePromptPlaceholder extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           spacing: Sizes.indent2x,
           children: [
-            Icon(
-              Icons.note_alt_outlined,
-              size: 64,
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
+            const PlaceholderAddNoteButton(),
             Text(
               context.l10n.homeScreenEmptyStatePlaceholder,
               textAlign: TextAlign.center,
@@ -259,5 +280,62 @@ final class NewNotePromptPlaceholder extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+final class PlaceholderAddNoteButton extends StatelessWidget {
+  const PlaceholderAddNoteButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return CupertinoButton(
+      padding: EdgeInsets.zero,
+      onPressed: () => _onNewNote(context),
+      child: Stack(
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(Sizes.iconTitle / 2.0),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: theme.colorScheme.onSurfaceVariant.withValues(
+                    alpha: 0.2,
+                  ),
+                  blurRadius: 15,
+                  offset: const Offset(0, 0),
+                ),
+              ],
+            ),
+            child: SizedBox(
+              width: Sizes.iconTitle,
+              height: Sizes.iconTitle,
+              child: SvgPicture.asset(
+                AppIcons.icBg,
+                semanticsLabel: 'New Note Icon',
+              ),
+            ),
+          ),
+          Positioned.fill(
+            child: Icon(
+              Icons.edit_outlined,
+              size: Sizes.iconTitle / 2,
+              color: theme.colorScheme.primary,
+            ),
+          ),
+          Positioned(
+            right: Sizes.indentVariant2x,
+            bottom: Sizes.indentVariant2x,
+            child: Icon(Icons.add, size: 26, color: theme.colorScheme.primary),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onNewNote(BuildContext context) {
+    RouteHandler.of(context)?.onRoute(const NewNoteRoute(), context);
   }
 }

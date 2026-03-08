@@ -99,6 +99,7 @@ final class MarkdownEditNoteBloc
 
       emit(
         MarkdownEditNoteState.didSave(
+          note: result,
           data: data.copyWith(
             initialNote: OptionalBox(result),
             currentText: result.content,
