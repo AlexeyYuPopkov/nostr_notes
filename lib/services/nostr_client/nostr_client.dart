@@ -114,23 +114,30 @@ final class NostrClient {
         .switchMap(
           (relays) => Rx.merge(
             relays.map(
-              (e) => e.eventStream.onErrorResume((error, stackTrace) {
-                // TODO: consider adding retry logic for transient errors, with backoff
-                log(
-                  'Error from relay ${e.url}, continuing with other relays: $error',
-                  name: 'NostrClient',
-                  error: error,
-                  stackTrace: stackTrace,
-                );
-                _relayErrorSubject.add(
-                  RelayError(
-                    relayUrl: e.url,
-                    error: error,
-                    stackTrace: stackTrace,
-                  ),
-                );
-                return const Stream.empty();
-              }),
+              (e) => e.eventStream
+                  .onErrorResume((error, stackTrace) {
+                    // TODO: consider adding retry logic for transient errors, with backoff
+                    log(
+                      'Error from relay ${e.url}, continuing with other relays: $error',
+                      name: 'NostrClient',
+                      error: error,
+                      stackTrace: stackTrace,
+                    );
+                    _relayErrorSubject.add(
+                      RelayError(
+                        relayUrl: e.url,
+                        error: error,
+                        stackTrace: stackTrace,
+                      ),
+                    );
+                    return const Stream.empty();
+                  })
+                  .doOnData((e) {
+                    log(
+                      'Received event: ${e.toString()} from relay',
+                      name: 'NostrClient',
+                    );
+                  }),
             ),
           ),
         )

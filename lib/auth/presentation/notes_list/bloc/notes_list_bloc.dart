@@ -3,7 +3,6 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
-import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/delete_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
@@ -120,7 +119,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     Emitter<NotesListState> emit,
   ) async {
     try {
-      await _deleteNoteUsecase.execute(note: event.note as Note);
+      await _deleteNoteUsecase.execute(note: event.note);
     } catch (e) {
       emit(NotesListState.error(e: e, data: data));
     }

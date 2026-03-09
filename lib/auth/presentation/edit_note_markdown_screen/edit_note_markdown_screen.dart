@@ -38,7 +38,7 @@ final class EditMarkdownNoteScreen extends StatelessWidget with DialogHelper {
         if (isNew) {
           RouteHandler.of(
             context,
-          )?.onRoute(NotePreviewRoute(noteId: noteId), context);
+          )?.onRoute(NotePreviewRoute(noteId: state.note.dTag), context);
         } else {
           Navigator.of(context).pop();
         }

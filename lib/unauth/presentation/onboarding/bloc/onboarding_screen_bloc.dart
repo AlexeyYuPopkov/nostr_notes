@@ -119,13 +119,13 @@ final class OnboardingScreenBloc
   ) async {
     try {
       emit(OnboardingScreenState.loading(data: data));
-      event.vm.setLoading();
+      event.vm?.setLoading();
 
       await pinUsecase.execute(pin: event.pin, usePin: event.usePin);
 
       emit(OnboardingScreenState.didUnlock(data: data));
     } catch (e) {
-      event.vm.setCompleted();
+      event.vm?.setCompleted();
       emit(OnboardingScreenState.error(e: e, data: data));
     }
   }

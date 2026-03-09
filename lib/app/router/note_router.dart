@@ -87,11 +87,10 @@ final class NoteRouter {
 
   FutureOr<dynamic> possibleHandler(AppRoute route, BuildContext context) {
     final router = GoRouter.of(context);
-    final path = router.state.matchedLocation;
 
     if (route is NotePreviewRoute) {
       return router.push(
-        '$path/${AppRouterPath.notePreview}',
+        '${AppRouterPath.home}/${AppRouterPath.notePreview}',
         extra: route.toExtra(),
       );
     }

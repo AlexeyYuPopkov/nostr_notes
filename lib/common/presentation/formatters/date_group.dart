@@ -8,28 +8,25 @@ sealed class NotesListSection extends Equatable {
   const NotesListSection();
 
   static List<NotesListSection> groupNotesByDate(
-    List<NoteBase> notes,
+    List<Note> notes,
     AppLocalizations l10n,
   ) {
     if (notes.isEmpty) return [];
 
     final now = DateTime.now();
     final startOfToday = DateTime(now.year, now.month, now.day);
-    final epochStart = DateTime.fromMillisecondsSinceEpoch(0);
     final sevenDaysAgo = startOfToday.subtract(const Duration(days: 7));
     final thirtyDaysAgo = startOfToday.subtract(const Duration(days: 30));
     final monthYearFormat = DateFormat('MMMM y');
 
-    final Map<String, List<NoteBase>> groups = {};
+    final Map<String, List<Note>> groups = {};
     final List<String> orderedKeys = [];
 
     for (final note in notes) {
       final date = note.createdAt;
       final String key;
 
-      if (date == null) {
-        key = l10n.notesListSectionOther;
-      } else if (date.isAfter(startOfToday) || _isSameDay(date, startOfToday)) {
+      if (date.isAfter(startOfToday) || _isSameDay(date, startOfToday)) {
         key = l10n.notesListSectionToday;
       } else if (date.isAfter(sevenDaysAgo)) {
         key = l10n.notesListSectionPrevious7Days;
@@ -58,11 +55,7 @@ sealed class NotesListSection extends Equatable {
       final length = notes.length - 1;
       result.addAll(
         notes
-            .sorted(
-              (a, b) => (b.createdAt ?? epochStart).compareTo(
-                a.createdAt ?? epochStart,
-              ),
-            )
+            .sorted((a, b) => b.createdAt.compareTo(a.createdAt))
             .mapIndexed(
               (index, note) => NotesListItem(
                 note: note,
@@ -102,7 +95,7 @@ final class NotesListHeader extends NotesListSection {
 }
 
 final class NotesListItem extends NotesListSection {
-  final NoteBase note;
+  final Note note;
   final NotesListItemPosition position;
 
   const NotesListItem({required this.note, required this.position});

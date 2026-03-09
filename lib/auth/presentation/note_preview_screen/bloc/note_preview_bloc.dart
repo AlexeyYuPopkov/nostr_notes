@@ -48,12 +48,9 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   void _setupSubscriptions() {
     _subscription?.cancel();
     _subscription = null;
-    _subscription = _getNoteUsecase
-        .watch(pathParams.id)
-        .listen(
-          (note) => add(NotePreviewEvent.noteUpdated(note)),
-          onError: (e) => add(NotePreviewEvent.error(error: e)),
-        );
+    _subscription = _getNoteUsecase.watch(pathParams.id).listen((note) {
+      add(NotePreviewEvent.noteUpdated(note));
+    }, onError: (e) => add(NotePreviewEvent.error(error: e)));
   }
 
   void _onInitialEvent(InitialEvent event, Emitter<NotePreviewState> emit) {

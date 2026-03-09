@@ -6,4 +6,7 @@ final class AppIcons {
   static const String welcomeIcon = 'assets/images/welcome_icon.svg';
   static const String nsecIcon = 'assets/images/nsec_icon.svg';
   static const String pinIcon = 'assets/images/pin_icon.svg';
+  static const String icBg = 'assets/images/ic_bg.svg';
+
+  static const String splash = 'assets/images/splash_logo.png';
 }

@@ -75,23 +75,26 @@ final class AppRouter {
                   child: HomeScreen(
                     scaffoldKey: _homeScaffoldKey,
                     screensAssembly: _screensAssembly,
-                    hasNote: state.fullPath?.contains('note') == true,
+                    hasNote:
+                        state.fullPath?.contains(AppRouterPath.notePreview) ==
+                            true ||
+                        state.fullPath?.contains(AppRouterPath.noteDetails) ==
+                            true,
                     selectedNoteDTag: selectedNoteDTag,
                     child: child,
                   ),
-                  onRoute: (route, ctx) {
+                  onRoute: (route, ctx) async {
                     if (route is NotePreviewRoute) {
                       return noteRouter.possibleHandler(route, ctx);
                     } else if (route is NewNoteRoute) {
                       final router = GoRouter.of(ctx);
-                      final path = [
-                        router.state.matchedLocation,
-                        AppRouterPath.noteDetails,
-                      ].join('/');
+                      final path =
+                          '${AppRouterPath.home}/${AppRouterPath.noteDetails}';
 
-                      return router.push(path);
+                      return router.go(path);
                     } else if (route is OnEndDrawer) {
                       _homeScaffoldKey.currentState?.openEndDrawer();
+                      return;
                     }
 
                     return RouteHandler.of(context)?.onRoute(route, ctx);

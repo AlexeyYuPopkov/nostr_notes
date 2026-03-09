@@ -95,6 +95,7 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
                       keyboardType: keyboardType,
                       validator: (str) =>
                           validatePin(context, str, usePin: _isUsePin),
+                      onSubmitted: (_) => _onNext(context, null),
                     );
                   },
                 ),
@@ -169,7 +170,7 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
     setState(() => _isUsePin = value ?? true);
   }
 
-  void _onNext(BuildContext context, LoadingButtonVM vm) {
+  void _onNext(BuildContext context, LoadingButtonVM? vm) {
     final isValid = _formKey.currentState?.validate() ?? false;
     if (isValid) {
       _formKey.currentState?.save();
