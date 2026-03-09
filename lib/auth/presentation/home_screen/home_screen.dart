@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
-import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
 import 'package:nostr_notes/app/router/drawer_router.dart' show DrawerRouter;
@@ -245,7 +244,9 @@ final class _Fab extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Sizes.radiusVariant),
       ),
+      backgroundColor: Colors.white,
       onPressed: () => _onNewNote(context),
+      isExtended: true,
       child: const Icon(Icons.add),
     );
   }
@@ -256,29 +257,39 @@ final class _Fab extends StatelessWidget {
 }
 
 final class NewNotePromptPlaceholder extends StatelessWidget {
+  static const double iconRatio = 0.3;
+  static const double opacity = 0.4;
   const NewNotePromptPlaceholder({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.all(Sizes.indent4x),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          spacing: Sizes.indent2x,
-          children: [
-            const PlaceholderAddNoteButton(),
-            Text(
-              context.l10n.homeScreenEmptyStatePlaceholder,
-              textAlign: TextAlign.center,
-              style: theme.textTheme.titleMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final size = constraints.maxWidth * iconRatio;
+        return Opacity(
+          opacity: opacity,
+          child: Padding(
+            padding: const EdgeInsets.all(Sizes.indent4x),
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                spacing: Sizes.indent2x,
+                children: [
+                  // Text('✍️', style: theme.textTheme.displayMedium),
+                  Image.asset(AppIcons.splash, width: size, height: size),
+                  // Text(
+                  //   'Your thoughts live here',
+                  //   textAlign: TextAlign.center,
+                  //   style: theme.textTheme.titleMedium?.copyWith(
+                  //     color: theme.colorScheme.onSurfaceVariant,
+                  //   ),
+                  // ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
@@ -325,11 +336,15 @@ final class PlaceholderAddNoteButton extends StatelessWidget {
               color: theme.colorScheme.primary,
             ),
           ),
-          Positioned(
-            right: Sizes.indentVariant2x,
-            bottom: Sizes.indentVariant2x,
-            child: Icon(Icons.add, size: 26, color: theme.colorScheme.primary),
-          ),
+          // Positioned(
+          //   right: Sizes.indentVariant2x,
+          //   bottom: Sizes.indentVariant2x,
+          //   child: Icon(
+          //     Icons.add,
+          //     size: 26.0,
+          //     color: theme.colorScheme.primary,
+          //   ),
+          // ),
         ],
       ),
     );
