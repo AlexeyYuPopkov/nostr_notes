@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,6 +8,7 @@ import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 import 'package:nostr_notes/common/presentation/buttons/prymary_loading_button.dart';
 import 'package:nostr_notes/common/presentation/buttons/vm/loading_button_vm.dart';
+import 'package:nostr_notes/common/presentation/dialogs/common_tooltip.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/bloc/onboarding_screen_state.dart';
 
 import '../bloc/onboarding_screen_bloc.dart';
@@ -26,8 +28,6 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
   final _formKey = GlobalKey<FormState>(
     debugLabel: 'OnboardingPinPage.FormKey',
   );
-
-  bool _isUsePin = true;
 
   late final PinUsecase _pinUsecase = context
       .read<OnboardingScreenBloc>()
@@ -68,7 +68,7 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
           Center(
             child: Text(
               l10n.onboardingPinPageDescription,
-              style: theme.textTheme.titleLarge,
+              style: theme.textTheme.titleSmall,
               textAlign: TextAlign.center,
             ),
           ),
@@ -80,33 +80,73 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
                 BlocSelector<
                   OnboardingScreenBloc,
                   OnboardingScreenState,
-                  TextInputType?
+                  (TextInputType?, bool)
                 >(
-                  selector: (state) =>
-                      state.data.pinKeyboardType.toTextInputType(),
-                  builder: (context, keyboardType) {
+                  selector: (state) => (
+                    state.data.pinKeyboardType.toTextInputType(),
+                    state.data.isUsePin,
+                  ),
+                  builder: (context, data) {
                     return OnboardingTextFormField(
                       initialValue: _controller.text,
-                      isEnabled: _isUsePin,
+                      isEnabled: data.$2,
                       controller: _controller,
+                      obscureText: true,
                       hint: l10n.onboardingPinPageTextFieldHint,
-                      keyboardType: keyboardType,
+                      keyboardType: data.$1,
                       validator: (str) =>
-                          validatePin(context, str, usePin: _isUsePin),
+                          validatePin(context, str, usePin: data.$2),
+                      onSubmitted: (_) => _onNext(context, null),
                     );
                   },
                 ),
-                FormField<bool>(
-                  initialValue: false,
-                  builder: (field) => Align(
-                    alignment: Alignment.centerLeft,
-                    child: CheckboxListTile(
-                      value: _isUsePin,
-                      contentPadding: EdgeInsets.zero,
-                      onChanged: (e) => _onCheckboxChanged(context, field, e),
-                      title: Text(l10n.onboardingPinPageLabelCheckboxUsePin),
+                Row(
+                  spacing: Sizes.indent,
+                  children: [
+                    CommonTooltip(
+                      title: l10n.commonInfo,
+                      message: l10n.onboardingPinPageInfoPin,
+                      child: CupertinoButton(
+                        minimumSize: .zero,
+                        padding: .zero,
+                        onPressed: () {},
+                        child: Icon(
+                          Icons.info_outline,
+                          size: Sizes.iconSmall,
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
                     ),
-                  ),
+                    Expanded(
+                      child: FormField<bool>(
+                        initialValue: false,
+                        builder: (field) => Align(
+                          alignment: Alignment.centerLeft,
+                          child:
+                              BlocSelector<
+                                OnboardingScreenBloc,
+                                OnboardingScreenState,
+                                bool
+                              >(
+                                selector: (state) {
+                                  return state.data.isUsePin;
+                                },
+                                builder: (context, isUsePin) {
+                                  return CheckboxListTile(
+                                    value: isUsePin,
+                                    contentPadding: EdgeInsets.zero,
+                                    onChanged: (e) =>
+                                        _onCheckboxChanged(context, field, e),
+                                    title: Text(
+                                      l10n.onboardingPinPageLabelCheckboxUsePin,
+                                    ),
+                                  );
+                                },
+                              ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -139,18 +179,21 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
   ) {
     _formKey.currentState?.reset();
     field.didChange(value);
-    setState(() => _isUsePin = value ?? true);
+    final bloc = context.read<OnboardingScreenBloc>();
+    bloc.add(OnboardingScreenEvent.didChangeUsePinFlag(value ?? true));
   }
 
-  void _onNext(BuildContext context, LoadingButtonVM vm) {
+  void _onNext(BuildContext context, LoadingButtonVM? vm) {
     final isValid = _formKey.currentState?.validate() ?? false;
     if (isValid) {
       _formKey.currentState?.save();
-      context.read<OnboardingScreenBloc>().add(
+      final bloc = context.read<OnboardingScreenBloc>();
+      final isUsePin = bloc.state.data.isUsePin;
+      bloc.add(
         OnboardingScreenEvent.onPin(
           pin: _controller.text,
           vm: vm,
-          usePin: _isUsePin,
+          usePin: isUsePin,
         ),
       );
     }

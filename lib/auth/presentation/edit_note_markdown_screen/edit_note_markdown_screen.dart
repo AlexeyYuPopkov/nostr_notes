@@ -38,7 +38,7 @@ final class EditMarkdownNoteScreen extends StatelessWidget with DialogHelper {
         if (isNew) {
           RouteHandler.of(
             context,
-          )?.onRoute(NotePreviewRoute(noteId: noteId), context);
+          )?.onRoute(NotePreviewRoute(noteId: state.note.dTag), context);
         } else {
           Navigator.of(context).pop();
         }
@@ -108,7 +108,12 @@ final class _SaveButton extends StatelessWidget {
       builder: (context, hasChanges) {
         return CupertinoButton(
           minimumSize: Size.zero,
-          padding: EdgeInsets.zero,
+          padding: const EdgeInsets.only(
+            left: Sizes.indent2x,
+            right: Sizes.indent,
+            top: Sizes.indent,
+            bottom: Sizes.indent,
+          ),
           onPressed: hasChanges ? () => _onSave(context) : null,
           child: Text(context.l10n.commonButtonSave),
         );

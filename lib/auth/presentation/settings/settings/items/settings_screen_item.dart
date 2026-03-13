@@ -12,6 +12,7 @@ import '../bloc/settings_screen_event.dart';
 abstract class SettingsItem {
   static const items = [
     SettingsItemPreferences(),
+    SettingsItemHelp(),
     SettingsItemLogout(),
     SettingsItemLogoutAndClear(),
   ];
@@ -19,6 +20,8 @@ abstract class SettingsItem {
   const SettingsItem();
 
   String getTitle(BuildContext context);
+
+  TextStyle? getTitleTextStyle(BuildContext context) => null;
 
   void onTap(BuildContext context);
 
@@ -33,6 +36,22 @@ final class SettingsItemPreferences extends SettingsItem {
   @override
   void onTap(BuildContext context) {
     RouteHandler.of(context)?.onRoute(const PreferencesRoute(), context);
+  }
+
+  @override
+  Widget trailing(BuildContext context) {
+    return const Icon(Icons.arrow_forward_ios, size: Sizes.iconSmall);
+  }
+}
+
+final class SettingsItemHelp extends SettingsItem {
+  const SettingsItemHelp();
+  @override
+  String getTitle(context) => context.l10n.settingsItemHelp;
+
+  @override
+  void onTap(BuildContext context) {
+    RouteHandler.of(context)?.onRoute(const HelpScreenRoute(), context);
   }
 
   @override
@@ -61,9 +80,14 @@ final class SettingsItemLogoutAndClear extends SettingsItem with DialogHelper {
   String getTitle(context) => context.l10n.settingsScreenLogout;
 
   @override
+  TextStyle? getTitleTextStyle(BuildContext context) =>
+      const TextStyle().copyWith(color: Theme.of(context).colorScheme.error);
+
+  @override
   void onTap(BuildContext context) async {
     final result = await showConfirmation(
       context,
+      isDestructive: true,
       title: context.l10n.commonAttention,
       message: context.l10n.settingsScreenLogoutConfirmationMessage,
     );

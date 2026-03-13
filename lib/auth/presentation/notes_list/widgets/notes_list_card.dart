@@ -1,101 +1,212 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/bloc/pending_vm.dart';
 import 'package:nostr_notes/common/presentation/dialogs/common_tooltip.dart';
+import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_formatter.dart';
+import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
 
-final class NotesListCard extends StatelessWidget {
+import '../../tools/note_decrypt_error_message_mixin.dart';
+
+final class NotesListCard extends StatelessWidget
+    with DialogHelper, NoteDecryptErrorMessageMixin {
   static const titleHeight = 24.0;
   static const subtitleHeight = 16.0;
   static const itemHeight = titleHeight + subtitleHeight + Sizes.halfIndent;
 
-  final NoteBase note;
+  final NotesListItem sectionItem;
   final PendingVm pendingVm;
   final String? selectedNoteDTag;
-  final ValueChanged<NoteBase> onTap;
+  final ValueChanged<Note> onTap;
+  final ValueChanged<Note> onDelete;
 
   const NotesListCard({
     super.key,
-    required this.note,
+    required this.sectionItem,
     required this.pendingVm,
     required this.selectedNoteDTag,
     required this.onTap,
+    required this.onDelete,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final titleComponents = note.summary.split('\n');
+    final l10n = context.l10n;
+    final isSelected = sectionItem.note.dTag == selectedNoteDTag;
+    final hasDecryptError = sectionItem.note.error != null;
+    final summary = hasDecryptError
+        ? l10n.notePreviewCannotDecryptTitle
+        : sectionItem.note.summary;
+    final titleComponents = summary.split('\n');
     final title = titleComponents.firstOrNull?.trim() ?? '';
     final subtitle = titleComponents.length > 1
         ? titleComponents[1].trim()
         : '';
-    return DecoratedBox(
+    final showBottomBorder =
+        sectionItem.position == NotesListItemPosition.middle ||
+        sectionItem.position == NotesListItemPosition.first;
+
+    return Container(
+      clipBehavior: .hardEdge,
+      margin: const EdgeInsets.symmetric(horizontal: Sizes.indent),
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: theme.colorScheme.outline,
-            width: Sizes.thicknessHalf,
+        color: isSelected
+            ? theme.colorScheme.secondaryContainer
+            : theme.colorScheme.outlineVariant,
+
+        borderRadius: _getRadius(sectionItem.position),
+        border: showBottomBorder
+            ? Border(
+                bottom: BorderSide(
+                  color: theme.colorScheme.outline,
+                  width: Sizes.thicknessHalf,
+                ),
+              )
+            : null,
+      ),
+      child: InkWell(
+        borderRadius: _getRadius(sectionItem.position),
+        onTap: () => onTap(sectionItem.note),
+
+        child: Slidable(
+          key: ValueKey(sectionItem.note.dTag),
+          endActionPane: ActionPane(
+            motion: const DrawerMotion(),
+            children: [
+              SlidableAction(
+                onPressed: (context) async {
+                  if (await _confirmDismiss(context)) {
+                    onDelete(sectionItem.note);
+                  }
+                },
+                backgroundColor: theme.colorScheme.error,
+                foregroundColor: Colors.white,
+                icon: Icons.delete,
+                label: l10n.commonDelete,
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: Sizes.indent2x,
+              vertical: Sizes.indent,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    spacing: Sizes.halfIndent,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                          children: [
+                            TextSpan(text: title),
+                            if (subtitle.isNotEmpty) ...[
+                              const TextSpan(text: '\n'),
+                              TextSpan(
+                                text: subtitle,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(
+                        height: subtitleHeight,
+                        child: Text(
+                          DateFormatter.formatDateTimeOrEmpty(
+                            sectionItem.note.createdAt,
+                          ),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (hasDecryptError)
+                  CommonTooltip(
+                    title: l10n.notePreviewCannotDecryptTitle,
+                    message: buildDecryptErrorMessage(
+                      l10n: l10n,
+                      error: sectionItem.note.error,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: Sizes.halfIndent),
+                      child: Icon(
+                        Icons.error_outline,
+                        size: Sizes.iconMedium,
+                        color: theme.colorScheme.error,
+                      ),
+                    ),
+                  ),
+                ValueListenableBuilder(
+                  valueListenable: pendingVm,
+                  builder: (context, value, child) {
+                    return Visibility(
+                      visible: pendingVm.isPending(sectionItem.note.eventId),
+                      child: CommonTooltip(
+                        title: context.l10n.notesListPendingSyncTitle,
+                        message: context.l10n.notesListPendingSyncDescription,
+                        child: const Icon(
+                          Icons.schedule,
+                          size: Sizes.iconSmall,
+                          color: Colors.amber,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
-        minVerticalPadding: Sizes.zero,
-        trailing: ValueListenableBuilder(
-          valueListenable: pendingVm,
-          builder: (context, value, child) {
-            return Visibility(
-              visible: pendingVm.isPending(note.eventId),
-              child: CommonTooltip(
-                title: context.l10n.notesListPendingSyncTitle,
-                message: context.l10n.notesListPendingSyncDescription,
-                child: const Icon(
-                  Icons.schedule,
-                  size: Sizes.iconSmall,
-                  color: Colors.amber,
-                ),
-              ),
-            );
-          },
-        ),
-        title: Column(
-          spacing: Sizes.halfIndent,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RichText(
-              text: TextSpan(
-                style: theme.textTheme.titleSmall,
-                children: [
-                  TextSpan(text: title),
-                  if (subtitle.isNotEmpty) ...[
-                    const TextSpan(text: '\n'),
-                    TextSpan(text: subtitle, style: theme.textTheme.bodyMedium),
-                  ],
-                ],
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            SizedBox(
-              height: subtitleHeight,
-              child: Text(
-                DateFormatter.formatDateTimeOrEmpty(note.createdAt),
-                style: theme.textTheme.bodySmall,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
-        ),
-
-        selected: note.dTag == selectedNoteDTag,
-        onTap: () => onTap(note),
-      ),
     );
+  }
+
+  BorderRadius _getRadius(NotesListItemPosition position) {
+    const radius = Radius.circular(Sizes.radius);
+    switch (position) {
+      case NotesListItemPosition.single:
+        return const BorderRadius.all(radius);
+
+      case NotesListItemPosition.first:
+        return const BorderRadius.vertical(top: radius);
+
+      case NotesListItemPosition.last:
+        return const BorderRadius.vertical(bottom: radius);
+
+      case NotesListItemPosition.middle:
+        return BorderRadius.zero;
+    }
+  }
+
+  Future<bool> _confirmDismiss(BuildContext context) async {
+    final l10n = context.l10n;
+    final result = await showConfirmation(
+      context,
+      isDestructive: true,
+      title: l10n.commonAttention,
+      message: l10n.notesListConfirmationDialogDeletion,
+    );
+    return result ?? false;
   }
 }
 

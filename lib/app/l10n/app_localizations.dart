@@ -94,6 +94,12 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('en')];
 
+  /// No description provided for @appDisplayName.
+  ///
+  /// In en, this message translates to:
+  /// **'Private Notes (Nostr)'**
+  String get appDisplayName;
+
   /// No description provided for @commonButtonBack.
   ///
   /// In en, this message translates to:
@@ -142,6 +148,18 @@ abstract class AppLocalizations {
   /// **'Edit'**
   String get commonButtonEdit;
 
+  /// No description provided for @commonClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get commonClose;
+
+  /// No description provided for @commonDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get commonDelete;
+
   /// No description provided for @commonError.
   ///
   /// In en, this message translates to:
@@ -166,6 +184,18 @@ abstract class AppLocalizations {
   /// **'No data'**
   String get commonNoDataPlaceholderText;
 
+  /// No description provided for @commonCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get commonCopied;
+
+  /// No description provided for @commonInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Information'**
+  String get commonInfo;
+
   /// No description provided for @authError.
   ///
   /// In en, this message translates to:
@@ -178,10 +208,22 @@ abstract class AppLocalizations {
   /// **'The app is not unlocked'**
   String get notUnlocked;
 
+  /// No description provided for @notePreviewCannotDecryptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This note could not be decrypted'**
+  String get notePreviewCannotDecryptTitle;
+
+  /// No description provided for @notePreviewCannotDecryptDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN/password is optional: notes without PIN remain fully NIP-44 compatible. This can happen due to a wrong PIN, data mismatch between devices, or corrupted/incomplete note data.'**
+  String get notePreviewCannotDecryptDescription;
+
   /// No description provided for @onboardingWelcomePageTitle.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to\nNotesVault'**
+  /// **'Welcome to\nSecure Notes (Nostr)'**
   String get onboardingWelcomePageTitle;
 
   /// No description provided for @onboardingWelcomePageDescription.
@@ -442,6 +484,12 @@ abstract class AppLocalizations {
   /// **'Use pin to unlock app'**
   String get onboardingPinPageLabelCheckboxUsePin;
 
+  /// No description provided for @onboardingPinPageInfoPin.
+  ///
+  /// In en, this message translates to:
+  /// **'The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.'**
+  String get onboardingPinPageInfoPin;
+
   /// No description provided for @errorEmptyNsec.
   ///
   /// In en, this message translates to:
@@ -499,7 +547,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsScreenLogoutConfirmationMessage.
   ///
   /// In en, this message translates to:
-  /// **'Do you really want to log out and clear all data? This action cannot be undone'**
+  /// **'Do you really want to log out and clear all data? This action cannot be undone.\nMake sure you have saved your nsec and PIN — if you forget either, your data will be lost permanently.'**
   String get settingsScreenLogoutConfirmationMessage;
 
   /// No description provided for @settingsItemPreferences.
@@ -507,6 +555,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Preferences'**
   String get settingsItemPreferences;
+
+  /// No description provided for @settingsItemHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get settingsItemHelp;
 
   /// No description provided for @preferencesScreenItemRelays.
   ///
@@ -573,6 +627,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This note hasn\'t been synced with the network yet'**
   String get notesListPendingSyncDescription;
+
+  /// No description provided for @notesListDecryptLikelyReasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Likely reason'**
+  String get notesListDecryptLikelyReasonLabel;
+
+  /// No description provided for @notesListDecryptDetailsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get notesListDecryptDetailsLabel;
+
+  /// No description provided for @notesListDecryptReasonWrongPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong PIN/password or a mismatched encryption context for this note.'**
+  String get notesListDecryptReasonWrongPin;
+
+  /// No description provided for @notesListDecryptReasonCorruptedPayload.
+  ///
+  /// In en, this message translates to:
+  /// **'The note payload appears corrupted, incomplete, or produced by an unsupported format.'**
+  String get notesListDecryptReasonCorruptedPayload;
+
+  /// No description provided for @notesListDecryptReasonInvalidParams.
+  ///
+  /// In en, this message translates to:
+  /// **'Cryptographic parameters are invalid for this note.'**
+  String get notesListDecryptReasonInvalidParams;
+
+  /// No description provided for @credentialsDataScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Credentials Data'**
+  String get credentialsDataScreenTitle;
+
+  /// No description provided for @credentialsDataScreenLabelNsec.
+  ///
+  /// In en, this message translates to:
+  /// **'Nsec'**
+  String get credentialsDataScreenLabelNsec;
+
+  /// No description provided for @credentialsDataScreenLabelPrivateKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Private Key'**
+  String get credentialsDataScreenLabelPrivateKey;
+
+  /// No description provided for @credentialsDataScreenLabelPubKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Public Key'**
+  String get credentialsDataScreenLabelPubKey;
+
+  /// No description provided for @credentialsDataScreenLabelPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin'**
+  String get credentialsDataScreenLabelPin;
+
+  /// No description provided for @credentialsDataScreenWarningNsec.
+  ///
+  /// In en, this message translates to:
+  /// **'Your nsec (private key) is stored only on this device in secure storage (Keychain on iOS, Keystore on Android). It is never sent to any server. Losing your nsec means losing access to all your data permanently.'**
+  String get credentialsDataScreenWarningNsec;
+
+  /// No description provided for @credentialsDataScreenWarningPin.
+  ///
+  /// In en, this message translates to:
+  /// **'The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.'**
+  String get credentialsDataScreenWarningPin;
+
+  /// No description provided for @credentialsDataScreenWarningPrivateKey.
+  ///
+  /// In en, this message translates to:
+  /// **'The private key is a hex representation of your nsec. Both formats grant full access to your account.'**
+  String get credentialsDataScreenWarningPrivateKey;
+
+  /// No description provided for @credentialsDataScreenInfoPubKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Your public key uniquely identifies your account on the Nostr network. It is safe to share — anyone can use it to find and verify your posts.'**
+  String get credentialsDataScreenInfoPubKey;
+
+  /// No description provided for @helpScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get helpScreenTitle;
+
+  /// No description provided for @helpScreenContent.
+  ///
+  /// In en, this message translates to:
+  /// **'# Secure Notes (Nostr)\n\nSecure Notes (Nostr) is a private, encrypted note-taking app built on the **Nostr** protocol. Your notes are encrypted on your device and synced through decentralized relays — no company owns your data.\n\n---\n\n## What is Nostr?\n\nNostr (Notes and Other Stuff Transmitted by Relays) is an open, decentralized protocol. Instead of a central server, it uses a network of **relays** — independent servers that store and forward your data. Your identity is a cryptographic key pair, not an email or phone number.\n\n---\n\n## Key Concepts\n\n### 🔑 Nsec (Private Key)\n\nYour **nsec** is your master key. It starts with `nsec1...` and is the bech32 encoding of your private key (hex). It is used to:\n\n- **Sign** your notes so relays can verify they come from you\n- **Encrypt** and **decrypt** your note content\n- **Prove ownership** of your account\n\n> ⚠️ **Never share your nsec with anyone.** Anyone who has it gains full control of your account. There is no \"forgot password\" — if you lose your nsec, your data is gone forever.\n\nYour nsec is stored only on this device in secure storage (Keychain on iOS, Keystore on Android). It is never sent to any server.\n\n### 🌐 Public Key (npub)\n\nYour **public key** (displayed as `npub1...`) is your public identity on the Nostr network. It is derived from your nsec and is safe to share. Anyone can use it to look up your profile across Nostr apps.\n\n### 🔒 PIN / Password\n\nThe PIN provides an **extra layer of encryption** on top of your nsec. Even if someone obtains your private key, they still cannot read your notes without the PIN.\n\nImportant details:\n\n- The PIN is **never saved to disk** — it lives only in memory while the app is open\n- If you **forget your PIN**, existing notes **cannot be decrypted**\n- If you enter a **wrong PIN**, new or edited notes will be encrypted with that incorrect PIN, making them unreadable with the correct one\n\n### 📡 Relays\n\nRelays are servers that store and deliver your encrypted notes. You can choose which relays to use in **Settings → Preferences → Connected Relays**. Using multiple relays increases redundancy — if one goes offline, your data is still available on others.\n\n---\n\n## How It Works\n\n1. **Create** a note in the editor\n2. The note is **encrypted** on your device using NIP-44 encryption with your nsec and PIN\n3. The encrypted note is **signed** and **published** to your selected relays\n4. When you open the app, notes are **fetched** from relays and **decrypted** locally\n\nNo one — not the relay operators, not us — can read your notes. Only you, with your nsec and PIN, can decrypt them.\n\n---\n\n## Tips\n\n- **Back up your nsec** in a secure place (e.g., a password manager). Without it, your account cannot be recovered.\n- **Remember your PIN.** It is not stored anywhere and cannot be reset.\n- **Use multiple relays** for better availability and redundancy.\n- Your nsec works across all Nostr apps — you can use the same identity everywhere.'**
+  String get helpScreenContent;
+
+  /// No description provided for @notesListScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notesListScreenTitle;
+
+  /// No description provided for @homeScreenEmptyStatePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + to start writing'**
+  String get homeScreenEmptyStatePlaceholder;
+
+  /// No description provided for @notesListSectionToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get notesListSectionToday;
+
+  /// No description provided for @notesListSectionPrevious7Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous 7 Days'**
+  String get notesListSectionPrevious7Days;
+
+  /// No description provided for @notesListSectionPrevious30Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous 30 Days'**
+  String get notesListSectionPrevious30Days;
+
+  /// No description provided for @notesListSectionOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get notesListSectionOther;
+
+  /// No description provided for @notesListConfirmationDialogDeletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this note? This action cannot be undone.'**
+  String get notesListConfirmationDialogDeletion;
 }
 
 class _AppLocalizationsDelegate

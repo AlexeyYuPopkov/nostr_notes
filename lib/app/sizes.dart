@@ -74,6 +74,8 @@ final class Sizes {
   /// [iconTiny = 16.0]
   static const iconSmall = 16.0;
 
+  static const iconMedium = 20.0;
+
   /// [iconTiny = 12.0]
   static const iconTiny = 12.0;
 

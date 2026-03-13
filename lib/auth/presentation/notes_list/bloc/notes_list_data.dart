@@ -1,18 +1,19 @@
 import 'package:equatable/equatable.dart';
-import 'package:nostr_notes/auth/domain/model/note.dart';
+
+import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 
 final class NotesListData extends Equatable {
-  final List<NoteBase> notes;
-  const NotesListData._({required this.notes});
+  final List<NotesListSection> sections;
+  const NotesListData._({required this.sections});
 
   factory NotesListData.initial() {
-    return const NotesListData._(notes: []);
+    return const NotesListData._(sections: []);
   }
 
   @override
-  List<Object?> get props => [notes];
+  List<Object?> get props => [sections];
 
-  NotesListData copyWith({List<NoteBase>? notes}) {
-    return NotesListData._(notes: notes ?? this.notes);
+  NotesListData copyWith({List<NotesListSection>? sections}) {
+    return NotesListData._(sections: sections ?? this.sections);
   }
 }

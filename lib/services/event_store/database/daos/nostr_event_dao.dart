@@ -212,12 +212,7 @@ class NostrEventDao extends DatabaseAccessor<AppDatabase>
     final result = <NostrEvent>[];
 
     for (final e in events) {
-      if (e.kind == 10008) {
-        // Multiple kind 10008 events per author are kept, no replacement.
-        result.add(e);
-      } else if (e.kind >= 10000 && e.kind < 20000 ||
-          e.kind == 0 ||
-          e.kind == 3) {
+      if (e.kind >= 10000 && e.kind < 20000 || e.kind == 0 || e.kind == 3) {
         // Replaceable: check by kind + pubkey
         final existing =
             await (select(nostrEvents)
@@ -264,7 +259,29 @@ class NostrEventDao extends DatabaseAccessor<AppDatabase>
       }
     }
 
-    return result;
+    return _deduplicateWithinBatch(result);
+  }
+
+  List<NostrEvent> _deduplicateWithinBatch(List<NostrEvent> events) {
+    final newest = <String, NostrEvent>{};
+    final nonReplaceable = <NostrEvent>[];
+
+    for (final e in events) {
+      if (e.kind >= 30000 && e.kind < 40000) {
+        final dTag = e.getDTag();
+        if (dTag != null && dTag.isNotEmpty) {
+          final key = '${e.kind}:${e.pubkey}:$dTag';
+          final existing = newest[key];
+          if (existing == null || e.createdAt > existing.createdAt) {
+            newest[key] = e;
+          }
+          continue;
+        }
+      }
+      nonReplaceable.add(e);
+    }
+
+    return [...nonReplaceable, ...newest.values];
   }
 
   Future<List<NostrEvent>> queryEvents(RawEventQuery query) async {

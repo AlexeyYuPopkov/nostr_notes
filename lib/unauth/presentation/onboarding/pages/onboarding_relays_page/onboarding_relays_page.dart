@@ -62,7 +62,7 @@ final class OnboardingRelaysPage extends StatelessWidget with DialogHelper {
                 child: Center(
                   child: Text(
                     l10n.relaysPageDescription,
-                    style: theme.textTheme.titleLarge,
+                    style: theme.textTheme.titleSmall,
                     textAlign: TextAlign.center,
                   ),
                 ),

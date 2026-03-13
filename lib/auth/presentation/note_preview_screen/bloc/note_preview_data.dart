@@ -4,6 +4,7 @@ import 'package:nostr_notes/core/tools/optional_box.dart';
 
 final class NotePreviewData extends Equatable {
   final OptionalBox<Note> note;
+
   const NotePreviewData._({required this.note});
 
   factory NotePreviewData.initial() {

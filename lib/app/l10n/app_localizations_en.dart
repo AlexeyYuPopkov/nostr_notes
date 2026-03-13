@@ -9,6 +9,9 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get appDisplayName => 'Private Notes (Nostr)';
+
+  @override
   String get commonButtonBack => 'Back';
 
   @override
@@ -33,6 +36,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonButtonEdit => 'Edit';
 
   @override
+  String get commonClose => 'Close';
+
+  @override
+  String get commonDelete => 'Delete';
+
+  @override
   String get commonError => 'Error';
 
   @override
@@ -45,13 +54,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonNoDataPlaceholderText => 'No data';
 
   @override
+  String get commonCopied => 'Copied';
+
+  @override
+  String get commonInfo => 'Information';
+
+  @override
   String get authError => 'Authentication error';
 
   @override
   String get notUnlocked => 'The app is not unlocked';
 
   @override
-  String get onboardingWelcomePageTitle => 'Welcome to\nNotesVault';
+  String get notePreviewCannotDecryptTitle =>
+      'This note could not be decrypted';
+
+  @override
+  String get notePreviewCannotDecryptDescription =>
+      'PIN/password is optional: notes without PIN remain fully NIP-44 compatible. This can happen due to a wrong PIN, data mismatch between devices, or corrupted/incomplete note data.';
+
+  @override
+  String get onboardingWelcomePageTitle => 'Welcome to\nSecure Notes (Nostr)';
 
   @override
   String get onboardingWelcomePageDescription =>
@@ -202,6 +225,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingPinPageLabelCheckboxUsePin => 'Use pin to unlock app';
 
   @override
+  String get onboardingPinPageInfoPin =>
+      'The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.';
+
+  @override
   String get errorEmptyNsec => 'NSEC key cannot be empty';
 
   @override
@@ -232,10 +259,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsScreenLogoutConfirmationMessage =>
-      'Do you really want to log out and clear all data? This action cannot be undone';
+      'Do you really want to log out and clear all data? This action cannot be undone.\nMake sure you have saved your nsec and PIN — if you forget either, your data will be lost permanently.';
 
   @override
   String get settingsItemPreferences => 'Preferences';
+
+  @override
+  String get settingsItemHelp => 'Help';
 
   @override
   String get preferencesScreenItemRelays => 'Connected Relays';
@@ -272,4 +302,82 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notesListPendingSyncDescription =>
       'This note hasn\'t been synced with the network yet';
+
+  @override
+  String get notesListDecryptLikelyReasonLabel => 'Likely reason';
+
+  @override
+  String get notesListDecryptDetailsLabel => 'Details';
+
+  @override
+  String get notesListDecryptReasonWrongPin =>
+      'Wrong PIN/password or a mismatched encryption context for this note.';
+
+  @override
+  String get notesListDecryptReasonCorruptedPayload =>
+      'The note payload appears corrupted, incomplete, or produced by an unsupported format.';
+
+  @override
+  String get notesListDecryptReasonInvalidParams =>
+      'Cryptographic parameters are invalid for this note.';
+
+  @override
+  String get credentialsDataScreenTitle => 'Credentials Data';
+
+  @override
+  String get credentialsDataScreenLabelNsec => 'Nsec';
+
+  @override
+  String get credentialsDataScreenLabelPrivateKey => 'Private Key';
+
+  @override
+  String get credentialsDataScreenLabelPubKey => 'Public Key';
+
+  @override
+  String get credentialsDataScreenLabelPin => 'Pin';
+
+  @override
+  String get credentialsDataScreenWarningNsec =>
+      'Your nsec (private key) is stored only on this device in secure storage (Keychain on iOS, Keystore on Android). It is never sent to any server. Losing your nsec means losing access to all your data permanently.';
+
+  @override
+  String get credentialsDataScreenWarningPin =>
+      'The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.';
+
+  @override
+  String get credentialsDataScreenWarningPrivateKey =>
+      'The private key is a hex representation of your nsec. Both formats grant full access to your account.';
+
+  @override
+  String get credentialsDataScreenInfoPubKey =>
+      'Your public key uniquely identifies your account on the Nostr network. It is safe to share — anyone can use it to find and verify your posts.';
+
+  @override
+  String get helpScreenTitle => 'Help';
+
+  @override
+  String get helpScreenContent =>
+      '# Secure Notes (Nostr)\n\nSecure Notes (Nostr) is a private, encrypted note-taking app built on the **Nostr** protocol. Your notes are encrypted on your device and synced through decentralized relays — no company owns your data.\n\n---\n\n## What is Nostr?\n\nNostr (Notes and Other Stuff Transmitted by Relays) is an open, decentralized protocol. Instead of a central server, it uses a network of **relays** — independent servers that store and forward your data. Your identity is a cryptographic key pair, not an email or phone number.\n\n---\n\n## Key Concepts\n\n### 🔑 Nsec (Private Key)\n\nYour **nsec** is your master key. It starts with `nsec1...` and is the bech32 encoding of your private key (hex). It is used to:\n\n- **Sign** your notes so relays can verify they come from you\n- **Encrypt** and **decrypt** your note content\n- **Prove ownership** of your account\n\n> ⚠️ **Never share your nsec with anyone.** Anyone who has it gains full control of your account. There is no \"forgot password\" — if you lose your nsec, your data is gone forever.\n\nYour nsec is stored only on this device in secure storage (Keychain on iOS, Keystore on Android). It is never sent to any server.\n\n### 🌐 Public Key (npub)\n\nYour **public key** (displayed as `npub1...`) is your public identity on the Nostr network. It is derived from your nsec and is safe to share. Anyone can use it to look up your profile across Nostr apps.\n\n### 🔒 PIN / Password\n\nThe PIN provides an **extra layer of encryption** on top of your nsec. Even if someone obtains your private key, they still cannot read your notes without the PIN.\n\nImportant details:\n\n- The PIN is **never saved to disk** — it lives only in memory while the app is open\n- If you **forget your PIN**, existing notes **cannot be decrypted**\n- If you enter a **wrong PIN**, new or edited notes will be encrypted with that incorrect PIN, making them unreadable with the correct one\n\n### 📡 Relays\n\nRelays are servers that store and deliver your encrypted notes. You can choose which relays to use in **Settings → Preferences → Connected Relays**. Using multiple relays increases redundancy — if one goes offline, your data is still available on others.\n\n---\n\n## How It Works\n\n1. **Create** a note in the editor\n2. The note is **encrypted** on your device using NIP-44 encryption with your nsec and PIN\n3. The encrypted note is **signed** and **published** to your selected relays\n4. When you open the app, notes are **fetched** from relays and **decrypted** locally\n\nNo one — not the relay operators, not us — can read your notes. Only you, with your nsec and PIN, can decrypt them.\n\n---\n\n## Tips\n\n- **Back up your nsec** in a secure place (e.g., a password manager). Without it, your account cannot be recovered.\n- **Remember your PIN.** It is not stored anywhere and cannot be reset.\n- **Use multiple relays** for better availability and redundancy.\n- Your nsec works across all Nostr apps — you can use the same identity everywhere.';
+
+  @override
+  String get notesListScreenTitle => 'Notes';
+
+  @override
+  String get homeScreenEmptyStatePlaceholder => 'Tap + to start writing';
+
+  @override
+  String get notesListSectionToday => 'Today';
+
+  @override
+  String get notesListSectionPrevious7Days => 'Previous 7 Days';
+
+  @override
+  String get notesListSectionPrevious30Days => 'Previous 30 Days';
+
+  @override
+  String get notesListSectionOther => 'Other';
+
+  @override
+  String get notesListConfirmationDialogDeletion =>
+      'Are you sure you want to delete this note? This action cannot be undone.';
 }

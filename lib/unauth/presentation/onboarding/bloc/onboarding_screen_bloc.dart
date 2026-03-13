@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/domain/repo/pin_enabled_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/pin_keyboard_type_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
@@ -15,15 +16,16 @@ import 'onboarding_screen_state.dart';
 final class OnboardingScreenBloc
     extends Bloc<OnboardingScreenEvent, OnboardingScreenState> {
   OnboardingScreenData get data => state.data;
+  DiStorage get _di => DiStorage.shared;
 
-  final AuthUsecase authUsecase = DiStorage.shared.resolve();
-  final PinUsecase pinUsecase = DiStorage.shared.resolve();
-  final RelaysListRepo relaysListRepo = DiStorage.shared.resolve();
+  late final AuthUsecase authUsecase = _di.resolve();
+  late final PinUsecase pinUsecase = _di.resolve();
+  late final RelaysListRepo relaysListRepo = _di.resolve();
   late final StreamSubscription sessionSubscription;
   StreamSubscription? relaysSubscription;
   late final nsecPageVm = OnboardingNsecPageVm();
-  late final PinKeyboardTypeRepo _pinKeyboardTypeRepo = DiStorage.shared
-      .resolve();
+  late final PinKeyboardTypeRepo _pinKeyboardTypeRepo = _di.resolve();
+  late final PinEnabledRepo _pinEnabledRepo = _di.resolve();
 
   OnboardingScreenBloc()
     : super(
@@ -45,6 +47,12 @@ final class OnboardingScreenBloc
                 : const OnboardingRelays();
             add(OnboardingScreenEvent.onStep(step));
           }
+          final publicKey = session.keys?.publicKey;
+
+          if (publicKey != null && publicKey.isNotEmpty) {
+            final isUsePin = _pinEnabledRepo.getForUser(publicKey);
+            add(OnboardingScreenEvent.usePinFlagUpdated(isUsePin));
+          }
         });
   }
 
@@ -56,6 +64,8 @@ final class OnboardingScreenBloc
     on<OnGenerateKeyEvent>(_onGenerateKeyEvent);
     on<OnNsecGeneratedEvent>(_onNsecGeneratedEvent);
     on<OnRelaysSelectedEvent>(_onRelaysSelectedEvent);
+    on<UsePinFlagUpdatedEvent>(_onUsePinFlagUpdatedEvent);
+    on<DidChangeUsePinFlagEvent>(_onDidChangeUsePinFlagEvent);
   }
 
   @override
@@ -70,6 +80,7 @@ final class OnboardingScreenBloc
   ) async {
     try {
       final pinKeyboardType = _pinKeyboardTypeRepo.getType();
+
       emit(
         OnboardingScreenState.common(
           data: data.copyWith(pinKeyboardType: pinKeyboardType),
@@ -119,13 +130,13 @@ final class OnboardingScreenBloc
   ) async {
     try {
       emit(OnboardingScreenState.loading(data: data));
-      event.vm.setLoading();
+      event.vm?.setLoading();
 
       await pinUsecase.execute(pin: event.pin, usePin: event.usePin);
 
       emit(OnboardingScreenState.didUnlock(data: data));
     } catch (e) {
-      event.vm.setCompleted();
+      event.vm?.setCompleted();
       emit(OnboardingScreenState.error(e: e, data: data));
     }
   }
@@ -172,6 +183,34 @@ final class OnboardingScreenBloc
       emit(
         OnboardingScreenState.common(
           data: data.copyWith(step: const OnboardingPin()),
+        ),
+      );
+    } catch (e) {
+      emit(OnboardingScreenState.error(e: e, data: data));
+    }
+  }
+
+  void _onUsePinFlagUpdatedEvent(
+    UsePinFlagUpdatedEvent event,
+    Emitter<OnboardingScreenState> emit,
+  ) => emit(
+    OnboardingScreenState.common(data: data.copyWith(isUsePin: event.isUsePin)),
+  );
+
+  void _onDidChangeUsePinFlagEvent(
+    DidChangeUsePinFlagEvent event,
+    Emitter<OnboardingScreenState> emit,
+  ) async {
+    final publicKey = authUsecase.currentSession.keys?.publicKey;
+    if (publicKey == null || publicKey.isEmpty) {
+      return;
+    }
+
+    try {
+      await _pinEnabledRepo.setForUser(event.isUsePin, pubkey: publicKey);
+      emit(
+        OnboardingScreenState.common(
+          data: data.copyWith(isUsePin: event.isUsePin),
         ),
       );
     } catch (e) {

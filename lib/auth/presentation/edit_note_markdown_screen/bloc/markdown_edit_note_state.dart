@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/presentation/edit_note_markdown_screen/bloc/markdown_edit_note_data.dart';
 
 sealed class MarkdownEditNoteState extends Equatable {
@@ -24,6 +25,7 @@ sealed class MarkdownEditNoteState extends Equatable {
 
   const factory MarkdownEditNoteState.didSave({
     required MarkdownEditNoteData data,
+    required Note note,
   }) = DidSaveState;
 }
 
@@ -41,5 +43,6 @@ final class ErrorState extends MarkdownEditNoteState {
 }
 
 final class DidSaveState extends MarkdownEditNoteState {
-  const DidSaveState({required super.data});
+  final Note note;
+  const DidSaveState({required super.data, required this.note});
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/domain/model/nip44_exception.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_data.dart';
@@ -48,12 +49,9 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   void _setupSubscriptions() {
     _subscription?.cancel();
     _subscription = null;
-    _subscription = _getNoteUsecase
-        .watch(pathParams.id)
-        .listen(
-          (note) => add(NotePreviewEvent.noteUpdated(note)),
-          onError: (e) => add(NotePreviewEvent.error(error: e)),
-        );
+    _subscription = _getNoteUsecase.watch(pathParams.id).listen((note) {
+      add(NotePreviewEvent.noteUpdated(note));
+    }, onError: (e) => add(NotePreviewEvent.error(error: e)));
   }
 
   void _onInitialEvent(InitialEvent event, Emitter<NotePreviewState> emit) {
@@ -61,7 +59,13 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   }
 
   void _onErrorEvent(ErrorEvent event, Emitter<NotePreviewState> emit) {
-    emit(NotePreviewState.error(data: data, error: event.error));
+    final error = event.error;
+
+    if (error is Nip44Exception) {
+      emit(NotePreviewState.cannotDecrypt(data: data));
+    } else {
+      emit(NotePreviewState.error(data: data, error: event.error));
+    }
   }
 
   void _onNoteUpdatedEvent(

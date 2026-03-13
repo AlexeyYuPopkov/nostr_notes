@@ -6,11 +6,13 @@ final class OnboardingScreenData extends Equatable {
   final OnboardingStep step;
   final PinKeyboardType pinKeyboardType;
   final String? generatedNsec;
+  final bool isUsePin;
 
   const OnboardingScreenData._({
     required this.step,
     required this.pinKeyboardType,
     required this.generatedNsec,
+    required this.isUsePin,
   });
 
   factory OnboardingScreenData.initial() {
@@ -18,21 +20,24 @@ final class OnboardingScreenData extends Equatable {
       step: OnboardingWelcome(),
       pinKeyboardType: PinKeyboardType.text,
       generatedNsec: null,
+      isUsePin: true,
     );
   }
 
   @override
-  List<Object?> get props => [step, generatedNsec];
+  List<Object?> get props => [step, generatedNsec, pinKeyboardType, isUsePin];
 
   OnboardingScreenData copyWith({
     OnboardingStep? step,
     PinKeyboardType? pinKeyboardType,
     String? generatedNsec,
+    bool? isUsePin,
   }) {
     return OnboardingScreenData._(
       step: step ?? this.step,
       pinKeyboardType: pinKeyboardType ?? this.pinKeyboardType,
       generatedNsec: generatedNsec ?? this.generatedNsec,
+      isUsePin: isUsePin ?? this.isUsePin,
     );
   }
 }

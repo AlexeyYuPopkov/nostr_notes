@@ -11,9 +11,11 @@ import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/app_screens_assembly.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/home_screen.dart';
+import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/onboarding_screen.dart';
+import 'package:rxdart/transformers.dart';
 
 final class AppRouter {
   late final SessionUsecase session = DiStorage.shared.resolve();
@@ -30,10 +32,13 @@ final class AppRouter {
   void _createSessionSubscription() {
     sessionSubscription = session.sessionStream
         .distinct((a, b) => a.isUnlocked == b.isUnlocked)
-        .listen((session) async {
+        .doOnData((session) {
           if (session.isAuth && session.isUnlocked) {
-            await Di.instance.bindAuthModules();
+            Di.instance.bindAuthModules();
           }
+        })
+        .debounceTime(const Duration(milliseconds: 150))
+        .listen((session) async {
           _router.refresh();
         });
   }
@@ -63,6 +68,10 @@ final class AppRouter {
       ),
       ShellRoute(
         builder: (context, state, child) {
+          final extra = state.extra;
+          final selectedNoteDTag = extra is Map<String, dynamic>
+              ? PathParams.fromJson(extra).id
+              : null;
           return Scaffold(
             body: Builder(
               builder: (context) {
@@ -70,22 +79,26 @@ final class AppRouter {
                   child: HomeScreen(
                     scaffoldKey: _homeScaffoldKey,
                     screensAssembly: _screensAssembly,
-                    hasNote: state.fullPath?.contains('note') == true,
+                    hasNote:
+                        state.fullPath?.contains(AppRouterPath.notePreview) ==
+                            true ||
+                        state.fullPath?.contains(AppRouterPath.noteDetails) ==
+                            true,
+                    selectedNoteDTag: selectedNoteDTag,
                     child: child,
                   ),
-                  onRoute: (route, ctx) {
+                  onRoute: (route, ctx) async {
                     if (route is NotePreviewRoute) {
                       return noteRouter.possibleHandler(route, ctx);
                     } else if (route is NewNoteRoute) {
                       final router = GoRouter.of(ctx);
-                      final path = [
-                        router.state.matchedLocation,
-                        AppRouterPath.noteDetails,
-                      ].join('/');
+                      final path =
+                          '${AppRouterPath.home}/${AppRouterPath.noteDetails}';
 
-                      return router.push(path);
+                      return router.go(path);
                     } else if (route is OnEndDrawer) {
                       _homeScaffoldKey.currentState?.openEndDrawer();
+                      return;
                     }
 
                     return RouteHandler.of(context)?.onRoute(route, ctx);

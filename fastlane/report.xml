@@ -5,7 +5,7 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: NOSTPY_RELAY_PATH=/Users/alekseypopkov/Doc/nostpy_relay docker compose -f ./docker-compose.test-relay.yml up -d --build --wait" time="6.085154">
+      <testcase classname="fastlane.lanes" name="0: NOSTPY_RELAY_PATH=/Users/alekseypopkov/Doc/nostpy_relay docker compose -f ./docker-compose.test-relay.yml down" time="2.021515">
         
       </testcase>
     

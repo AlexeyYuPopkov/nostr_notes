@@ -26,7 +26,13 @@ final class SettingsScreen extends StatelessWidget with DialogHelper {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.settingsScreenTitle)),
+      appBar: AppBar(
+        centerTitle: true,
+        leading: BackButton(
+          onPressed: () => Scaffold.of(context).closeEndDrawer(),
+        ),
+        title: Text(context.l10n.settingsScreenTitle),
+      ),
       body: SafeArea(
         child: BlocProvider(
           create: (context) => SettingsScreenBloc(),
@@ -44,7 +50,10 @@ final class SettingsScreen extends StatelessWidget with DialogHelper {
                         padding: const EdgeInsets.symmetric(
                           horizontal: Sizes.indent,
                         ),
-                        child: Text(item.getTitle(context)),
+                        child: Text(
+                          item.getTitle(context),
+                          style: item.getTitleTextStyle(context),
+                        ),
                       ),
                       trailing: item.trailing(context),
                       onTap: () => item.onTap(context),
@@ -70,4 +79,12 @@ final class RelaysListRoute implements AppRoute {
 
 final class PinKeyboardTypeRoute implements AppRoute {
   const PinKeyboardTypeRoute();
+}
+
+final class CredentialsDataRoute implements AppRoute {
+  const CredentialsDataRoute();
+}
+
+final class HelpScreenRoute implements AppRoute {
+  const HelpScreenRoute();
 }

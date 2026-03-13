@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 final class AppColorScheme {
   const AppColorScheme();
-
+  //EEEEFC
   static const light = ColorScheme(
     brightness: Brightness.light,
 
@@ -11,18 +11,20 @@ final class AppColorScheme {
     primaryContainer: Color(0xFFECE2FA), // светлый фон в стиле фиолетового
     onPrimaryContainer: Color(0xFF3D1D74),
 
-    secondary: Color(0xFFB49C73), // тёплый беж
+    secondary: Color(0xFFDA3874), // Color(0xFFB49C73), // тёплый беж
     onSecondary: Colors.white,
     secondaryContainer: Color(0xFFF5EEE3),
     onSecondaryContainer: Color(0xFF5B4A2F),
 
-    surface: Color(0xFFFDFCF9), // тёплый почти-белый фон
+    surface: Color(0xFFffffff), // тёплый почти-белый фон
     onSurface: Color(0xFF2E2E2E),
+    onSurfaceVariant: Color(0xaa2E2E2E),
 
-    error: Color(0xFFB00020),
+    error: Color(0xFFE81212), // Color(0xFFB00020),
     onError: Colors.white,
 
     outline: Color(0xFFE0E0E0),
+    outlineVariant: Color(0xFFF1F3F4),
   );
 
   static const dark = ColorScheme(
@@ -45,5 +47,6 @@ final class AppColorScheme {
     onError: Colors.black,
 
     outline: Color(0xFF3A3A3A),
+    outlineVariant: Color(0xFF3D3C41),
   );
 }

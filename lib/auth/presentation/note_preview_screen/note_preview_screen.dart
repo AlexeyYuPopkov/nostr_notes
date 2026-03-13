@@ -8,6 +8,7 @@ import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/app/theme/gpt_markdown_theme_data.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
+import 'package:nostr_notes/auth/presentation/tools/note_decrypt_error_message_mixin.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_bloc.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/widgets/note_code_field.dart';
@@ -22,8 +23,8 @@ final class NotePreviewScreen extends StatelessWidget with DialogHelper {
   void _listener(BuildContext context, NotePreviewState state) {
     switch (state) {
       case CommonState():
-        break;
       case LoadingState():
+      case CannotDecryptState():
         break;
       case ErrorState():
         showError(context, error: state.error);
@@ -47,7 +48,7 @@ final class NotePreviewScreen extends StatelessWidget with DialogHelper {
             appBar: AppBar(
               actions: [
                 _SaveButton(
-                  onPressed: note == null
+                  onPressed: note == null || state is CannotDecryptState
                       ? null
                       : () => _onSave(context, note.dTag),
                 ),
@@ -56,27 +57,32 @@ final class NotePreviewScreen extends StatelessWidget with DialogHelper {
             ),
             body: SafeArea(
               bottom: false,
-              child: SingleChildScrollView(
-                padding: EdgeInsets.only(
-                  left: Sizes.indent,
-                  right: Sizes.indent,
-                  bottom:
-                      mediaPaddings.bottom +
-                      kFloatingActionButtonMargin +
-                      Sizes.fabSize,
-                ),
-                child: SelectionArea(
-                  child: GptMarkdownTheme(
-                    gptThemeData: AppGptMarkdownTheme.light().data,
-                    child: GptMarkdown(
-                      content,
-                      codeBuilder: (context, name, code, closed) {
-                        return NoteCodeField(name: name, codes: code);
-                      },
+              child: state is CannotDecryptState
+                  ? _CannotDecryptPlaceholder(error: note?.error)
+                  : SingleChildScrollView(
+                      padding: EdgeInsets.only(
+                        left: Sizes.indent2x,
+                        right: Sizes.indent2x,
+                        bottom:
+                            mediaPaddings.bottom +
+                            kFloatingActionButtonMargin +
+                            Sizes.fabSize,
+                      ),
+                      child: SelectionArea(
+                        child: GptMarkdownTheme(
+                          gptThemeData: AppGptMarkdownTheme.light().data,
+                          child: GptMarkdown(
+                            content,
+                            codeBuilder: (context, name, code, closed) {
+                              return NoteCodeField(name: name, codes: code);
+                            },
+                            highlightBuilder: (context, code, closed) {
+                              return ShortNoteCodeField(codes: code);
+                            },
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
             ),
           );
         },
@@ -99,9 +105,71 @@ final class _SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       minimumSize: Size.zero,
-      padding: EdgeInsets.zero,
+      padding: const EdgeInsets.only(
+        left: Sizes.indent2x,
+        right: Sizes.indent,
+        top: Sizes.indent,
+        bottom: Sizes.indent,
+      ),
       onPressed: onPressed,
       child: Text(context.l10n.commonButtonEdit),
+    );
+  }
+}
+
+final class _CannotDecryptPlaceholder extends StatelessWidget
+    with NoteDecryptErrorMessageMixin {
+  final Object? error;
+
+  const _CannotDecryptPlaceholder({this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = context.l10n;
+
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 440),
+        child: Padding(
+          padding: const EdgeInsets.all(Sizes.padding2x),
+          child: Padding(
+            padding: const EdgeInsets.all(Sizes.padding2x),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.lock_outline_rounded,
+                  size: Sizes.icon,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(height: Sizes.indent2x),
+                Text(
+                  l10n.authError,
+                  style: theme.textTheme.titleLarge,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: Sizes.indent),
+                Text(
+                  l10n.notePreviewCannotDecryptTitle,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: Sizes.indent2x),
+                Text(
+                  buildDecryptErrorMessage(l10n: l10n, error: error),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

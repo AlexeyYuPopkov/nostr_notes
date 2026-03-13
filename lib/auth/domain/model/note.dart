@@ -1,46 +1,42 @@
 import 'package:equatable/equatable.dart';
 
-sealed class NoteBase extends Equatable {
-  static const summaryLength = 100;
-  String get eventId;
-  String get dTag;
-  String get content;
-  String get summary;
-
-  DateTime? get createdAt;
-  const NoteBase();
-}
-
-final class Note extends NoteBase {
-  @override
+final class Note extends Equatable {
   final String eventId;
-  @override
   final String dTag;
-  @override
   final String content;
-  @override
-  final String summary;
-  @override
+  final String _summary;
   final DateTime createdAt;
+  final Object? error;
 
   const Note({
     required this.eventId,
     required this.dTag,
     required this.content,
-    required this.summary,
+    required String summary,
     required this.createdAt,
-  });
+    this.error,
+  }) : _summary = summary;
 
   @override
-  List<Object?> get props => [eventId, dTag, content, summary, createdAt];
+  List<Object?> get props => [
+    eventId,
+    dTag,
+    content,
+    _summary,
+    createdAt,
+    error,
+  ];
 
-  Note copyWith({String? content, String? summary}) {
+  Note copyWith({String? content, String? summary, Object? error}) {
     return Note(
       eventId: eventId,
       dTag: dTag,
       content: content ?? this.content,
-      summary: summary ?? this.summary,
+      summary: summary ?? _summary,
       createdAt: createdAt,
+      error: error ?? this.error,
     );
   }
+
+  String get summary => _summary.trim();
 }

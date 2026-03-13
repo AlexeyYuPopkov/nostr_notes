@@ -3,6 +3,7 @@ import 'package:nostr_notes/auth/data/get_pending_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/delete_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
@@ -32,7 +33,11 @@ final class AuthDiScope extends DiScope {
       ),
       module: this,
       lifeTime: const LifeTime.single(),
-      onRemove: (e) => (e as OutboxPublisher).dispose(),
+      onRemove: (e) {
+        if (e is OutboxPublisher) {
+          e.dispose();
+        }
+      },
     );
 
     // di.bind<EventPublisher>(
@@ -47,7 +52,6 @@ final class AuthDiScope extends DiScope {
     di.bind<CreateNoteUsecase>(
       () => CreateNoteUsecase(
         sessionUsecase: di.resolve(),
-        // eventPublisher: di.resolve(),
         noteCryptoUseCase: di.resolve<NoteCryptoUseCase>(),
         notesRepository: di.resolve(),
       ),
@@ -55,11 +59,14 @@ final class AuthDiScope extends DiScope {
       lifeTime: const LifeTime.prototype(),
     );
 
-    // di.bind<CommonEventStorage>(
-    //   () => CommonEventStorageImpl(),
-    //   module: this,
-    //   lifeTime: const LifeTime.single(),
-    // );
+    di.bind<DeleteNoteUsecase>(
+      () => DeleteNoteUsecase(
+        sessionUsecase: di.resolve(),
+        notesRepository: di.resolve(),
+      ),
+      module: this,
+      lifeTime: const LifeTime.single(),
+    );
 
     di.bind<NotesRepository>(
       () => NotesRepositoryImpl(

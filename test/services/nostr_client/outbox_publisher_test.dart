@@ -50,7 +50,7 @@ void main() {
       test('subscribes to pending events stream', () async {
         await sut.init();
 
-        expect(mockOutboxDao.watchPendingCalled, isTrue);
+        expect(mockOutboxDao.watchUndeliveredCalled, isTrue);
       });
     });
 
@@ -308,7 +308,7 @@ class _MockRawEventStore implements RawEventStore {
 }
 
 class _MockOutboxDao implements OutboxDaoInterface {
-  bool watchPendingCalled = false;
+  bool watchUndeliveredCalled = false;
   List<String> markBroadcastingCalledWith = [];
   List<String> markSentCalledWith = [];
   List<String> markFailedCalledWith = [];
@@ -326,7 +326,6 @@ class _MockOutboxDao implements OutboxDaoInterface {
 
   @override
   Stream<List<OutboxEventData>> watchPending() {
-    watchPendingCalled = true;
     return _pendingController.stream;
   }
 
@@ -400,6 +399,7 @@ class _MockOutboxDao implements OutboxDaoInterface {
 
   @override
   Stream<List<OutboxEventData>> watchUndelivered() {
+    watchUndeliveredCalled = true;
     return _pendingController.stream;
   }
 }

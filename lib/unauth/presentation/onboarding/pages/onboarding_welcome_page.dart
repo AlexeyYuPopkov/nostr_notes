@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/sizes.dart';
+import 'package:nostr_notes/auth/presentation/settings/help_screen/help_screen.dart';
 import 'package:nostr_notes/common/presentation/buttons/prymary_button.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
 
@@ -45,7 +47,7 @@ final class OnboardingWelcomePage extends StatelessWidget {
           Center(
             child: Text(
               l10n.onboardingWelcomePageDescription,
-              style: theme.textTheme.titleLarge,
+              style: theme.textTheme.titleSmall,
               textAlign: TextAlign.center,
             ),
           ),
@@ -70,6 +72,18 @@ final class OnboardingWelcomePage extends StatelessWidget {
               onTap: () => _onNext(context),
             ),
           ),
+          const SizedBox(height: Sizes.indent2x),
+          Center(
+            child: CupertinoButton(
+              onPressed: () => _onHelp(context),
+              child: Text(
+                l10n.settingsItemHelp,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -78,6 +92,15 @@ final class OnboardingWelcomePage extends StatelessWidget {
   void _onNext(BuildContext context) => context
       .read<OnboardingScreenBloc>()
       .add(const OnboardingScreenEvent.onStep(OnboardingNsec()));
+
+  void _onHelp(BuildContext context) {
+    showDialog(
+      context: context,
+      useSafeArea: false,
+      fullscreenDialog: true,
+      builder: (_) => const HelpScreenModal(),
+    );
+  }
 }
 
 final class _Option extends StatelessWidget {

@@ -122,9 +122,10 @@ final class NoteCryptoUseCase {
         'Summary decryption took: ${stopwatch.elapsedMilliseconds} ms',
         name: 'Crypto',
       );
+
       return note.copyWith(summary: decryptedSummary);
     } catch (e) {
-      return note.copyWith(summary: 'Cannot decrypt..');
+      return note.copyWith(summary: 'Cannot decrypt..', error: e);
     }
   }
 

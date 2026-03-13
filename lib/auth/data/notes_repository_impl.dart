@@ -42,9 +42,7 @@ class NotesRepositoryImpl implements NotesRepository {
         return e.isNotEmpty;
       })
       .asyncMap((events) async {
-        if (events.isNotEmpty) {
-          await _eventStore.upsert(events);
-        }
+        await _eventStore.upsert(events);
         return events;
       });
 
@@ -53,7 +51,7 @@ class NotesRepositoryImpl implements NotesRepository {
     required String pubkey,
     required Set<String> relays,
     DateTime? until,
-  }) async {
+  }) {
     _client.addRelays(relays);
 
     _client.sendRequestToAll(
@@ -83,7 +81,10 @@ class NotesRepositoryImpl implements NotesRepository {
       ),
     );
 
-    return result.map((e) => NoteMapper.fromNostrEvent(e)).nonNulls;
+    return result
+        .where((e) => e.content.isNotEmpty)
+        .map((e) => NoteMapper.fromNostrEvent(e))
+        .nonNulls;
   }
 
   @override
@@ -98,9 +99,12 @@ class NotesRepositoryImpl implements NotesRepository {
             ],
           ),
         )
-        .map(
-          (items) => items.map((e) => NoteMapper.fromNostrEvent(e)).nonNulls,
-        );
+        .map((items) {
+          return items
+              .where((e) => e.content.isNotEmpty)
+              .map((e) => NoteMapper.fromNostrEvent(e))
+              .nonNulls;
+        });
   }
 
   @override
@@ -119,6 +123,7 @@ class NotesRepositoryImpl implements NotesRepository {
         )
         .map((events) => events.firstOrNull)
         .whereNotNull()
+        .where((e) => e.content.isNotEmpty)
         .distinct((a, b) => a.id == b.id)
         .map((e) => NoteMapper.fromNostrEvent(e))
         .whereNotNull();
@@ -131,12 +136,13 @@ class NotesRepositoryImpl implements NotesRepository {
         kinds: [EventKind.note.value],
         authors: [pubkey],
         tagFilters: [
+          TagFilter(Tag.p.value, [pubkey]),
           TagFilter(TagValue.d, [id]),
         ],
       ),
     );
 
-    final e = result.firstOrNull;
+    final e = result.where((e) => e.content.isNotEmpty).firstOrNull;
 
     return e == null ? null : NoteMapper.fromNostrEvent(e);
   }
@@ -205,6 +211,67 @@ class NotesRepositoryImpl implements NotesRepository {
     }
 
     return resultNote;
+  }
+
+  @override
+  Future<Note> deleteNote({
+    required Note note,
+    required String pubkey,
+    required String privateKey,
+    Now? now,
+    Uuid? uuid,
+    List<int>? randomBytes,
+  }) async {
+    if (note.dTag.isEmpty) {
+      throw const AppError.common(
+        message: 'Cannot delete a note without a dTag',
+      );
+    }
+
+    final nowTime = (now ?? const Now()).now();
+    // Ensure deletion event has createdAt strictly after the original note,
+    // so upsert replaces the old replaceable event.
+    final createdAt = nowTime.isAfter(note.createdAt)
+        ? nowTime
+        : note.createdAt.add(const Duration(seconds: 1));
+
+    final List<List<String>> tags = [
+      AppConfig.clientTagList(),
+      [Tag.t.value, AppConfig.clientTagValue],
+      [Tag.d.value, note.dTag],
+      [Tag.p.value, pubkey],
+    ];
+
+    final event = NostrEventCreator.createEvent(
+      kind: EventKind.note.value,
+      content: '',
+      createdAt: createdAt,
+      tags: tags,
+      pubkey: pubkey,
+      privateKey: privateKey,
+      randomBytes: randomBytes,
+    );
+
+    // SQL-first: persist locally, then let OutboxPublisher handle relay sync
+    // Remove old undelivered outbox entries and old events from store
+    final previousEvents = await _eventStore.queryEvents(
+      RawEventQuery(
+        kinds: [EventKind.note.value],
+        authors: [pubkey],
+        tagFilters: [
+          TagFilter(TagValue.d, [note.dTag]),
+        ],
+      ),
+    );
+    final oldEventIds = previousEvents.map((e) => e.id).toSet();
+    if (oldEventIds.isNotEmpty) {
+      await _outboxDao.removeUndeliveredByEventIds(oldEventIds);
+    }
+
+    await _eventStore.upsert([event]);
+    await _outboxDao.insert(eventId: event.id);
+
+    return note;
   }
 
   @override

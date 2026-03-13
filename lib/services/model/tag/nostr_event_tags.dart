@@ -30,4 +30,34 @@ extension NostrEventTags on NostrEvent {
 
     return result;
   }
+
+  ATagComponents? getATagComponents() =>
+      ATagComponents.fromATagValue(getFirstTag(Tag.a));
+}
+
+final class ATagComponents {
+  final String dTag;
+  final String pubkey;
+  final int kind;
+
+  const ATagComponents({
+    required this.dTag,
+    required this.pubkey,
+    required this.kind,
+  });
+
+  static ATagComponents? fromATagValue(String? aTagValue) {
+    if (aTagValue == null || aTagValue.isEmpty) {
+      return null;
+    }
+    final parts = aTagValue.split(':');
+    if (parts.length != 3) {
+      return null; // Invalid format
+    }
+    return ATagComponents(
+      kind: int.parse(parts[0]),
+      pubkey: parts[1],
+      dTag: parts[2],
+    );
+  }
 }

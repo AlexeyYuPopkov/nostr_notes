@@ -4,6 +4,7 @@ import 'package:nostr_notes/auth/presentation/edit_note_markdown_screen/edit_not
 import 'package:nostr_notes/auth/presentation/edit_note_quill_screen/edit_note_quill_screen.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/note_preview_screen.dart';
+import 'package:nostr_notes/auth/presentation/settings/help_screen/help_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/preferences_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/relays_list/relays_list_screen.dart';
 
@@ -29,7 +30,8 @@ final class AppScreensAssembly implements ScreensAssembly {
   Widget createAppSettingsScreen() => PreferencesScreen();
 
   @override
-  Widget createRelaysListScreen() {
-    return const RelaysListScreen();
-  }
+  Widget createRelaysListScreen() => const RelaysListScreen();
+
+  @override
+  Widget createHelpScreen() => const HelpScreen();
 }

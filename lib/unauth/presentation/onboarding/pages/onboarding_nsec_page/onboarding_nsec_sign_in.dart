@@ -64,7 +64,7 @@ final class _OnboardingNsecSignInState extends State<OnboardingNsecSignIn>
           Center(
             child: Text(
               l10n.onboardingNsecPageDescription,
-              style: theme.textTheme.titleLarge,
+              style: theme.textTheme.titleSmall,
               textAlign: TextAlign.center,
             ),
           ),

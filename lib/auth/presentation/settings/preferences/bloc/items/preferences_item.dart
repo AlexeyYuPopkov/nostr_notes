@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
@@ -9,7 +10,8 @@ import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen.
 sealed class PreferencesItem {
   static final List<PreferencesItem> items = [
     const RelaysList(),
-    const MobileKeyboardType(),
+    if (Platform.isAndroid || Platform.isIOS) const MobileKeyboardType(),
+    const CredentialsDataPreferencesItem(),
   ];
 
   const PreferencesItem();
@@ -51,6 +53,25 @@ final class MobileKeyboardType extends PreferencesItem {
   @override
   FutureOr<dynamic> onTap(BuildContext context) {
     RouteHandler.of(context)?.onRoute(const PinKeyboardTypeRoute(), context);
+  }
+
+  @override
+  Widget trailing(BuildContext context) {
+    return const Icon(Icons.arrow_forward_ios, size: Sizes.iconSmall);
+  }
+}
+
+final class CredentialsDataPreferencesItem extends PreferencesItem {
+  const CredentialsDataPreferencesItem();
+
+  @override
+  String getTitle(BuildContext context) {
+    return context.l10n.credentialsDataScreenTitle;
+  }
+
+  @override
+  FutureOr<dynamic> onTap(BuildContext context) {
+    RouteHandler.of(context)?.onRoute(const CredentialsDataRoute(), context);
   }
 
   @override
