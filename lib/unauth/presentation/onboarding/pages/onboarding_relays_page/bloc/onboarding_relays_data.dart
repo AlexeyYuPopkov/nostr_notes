@@ -27,7 +27,7 @@ final class OnboardingRelaysData extends Equatable {
       !(const SetEquality().equals(selectedRelays, initialRelays));
 
   @override
-  List<Object?> get props => [relays, selectedRelays];
+  List<Object?> get props => [relays, selectedRelays, initialRelays];
 
   OnboardingRelaysData copyWith({
     List<RelayInfo>? relays,

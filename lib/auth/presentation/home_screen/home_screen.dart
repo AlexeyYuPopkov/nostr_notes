@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
+import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
 import 'package:nostr_notes/app/router/drawer_router.dart' show DrawerRouter;
 import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/app/sizes.dart';
+import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
 
 import '../notes_list/notes_list.dart';
 
@@ -127,7 +129,7 @@ final class _HomeScreenState extends State<HomeScreen> {
     SlotLayoutConfig secondaryConfig() => SlotLayout.from(
       key: const Key('SecondaryBody Desktop'),
       builder: (_) =>
-          Scaffold(body: widget.child, floatingActionButton: const _Fab()),
+          Scaffold(body: widget.child, floatingActionButton: const Fab()),
     );
 
     SlotLayoutConfig smallConfig() => SlotLayout.from(
@@ -177,7 +179,6 @@ final class _MobileLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: const _Fab(),
       body: Stack(
         children: [
           _NoteList(selectedNoteDTag: selectedNoteDTag),
@@ -234,28 +235,6 @@ final class _NoteList extends StatelessWidget {
   }
 }
 
-final class _Fab extends StatelessWidget {
-  const _Fab();
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Sizes.radiusVariant),
-      ),
-      backgroundColor: Colors.white,
-      onPressed: () => _onNewNote(context),
-      isExtended: true,
-      child: const Icon(Icons.add),
-    );
-  }
-
-  void _onNewNote(BuildContext context) {
-    RouteHandler.of(context)?.onRoute(const NewNoteRoute(), context);
-  }
-}
-
 final class NewNotePromptPlaceholder extends StatelessWidget {
   static const double iconRatio = 0.3;
   static const double opacity = 0.4;
@@ -263,6 +242,7 @@ final class NewNotePromptPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return LayoutBuilder(
       builder: (context, constraints) {
         final size = constraints.maxWidth * iconRatio;
@@ -275,15 +255,11 @@ final class NewNotePromptPlaceholder extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 spacing: Sizes.indent2x,
                 children: [
-                  // Text('✍️', style: theme.textTheme.displayMedium),
                   Image.asset(AppIcons.splash, width: size, height: size),
-                  // Text(
-                  //   'Your thoughts live here',
-                  //   textAlign: TextAlign.center,
-                  //   style: theme.textTheme.titleMedium?.copyWith(
-                  //     color: theme.colorScheme.onSurfaceVariant,
-                  //   ),
-                  // ),
+                  Text(
+                    context.l10n.homeScreenEmptyStatePlaceholder,
+                    style: theme.textTheme.displayMedium,
+                  ),
                 ],
               ),
             ),

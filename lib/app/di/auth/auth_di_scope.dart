@@ -33,7 +33,11 @@ final class AuthDiScope extends DiScope {
       ),
       module: this,
       lifeTime: const LifeTime.single(),
-      onRemove: (e) => (e as OutboxPublisher).dispose(),
+      onRemove: (e) {
+        if (e is OutboxPublisher) {
+          e.dispose();
+        }
+      },
     );
 
     // di.bind<EventPublisher>(

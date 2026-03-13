@@ -25,6 +25,12 @@ sealed class OnboardingScreenEvent extends Equatable {
   const factory OnboardingScreenEvent.onRelaysSelected(List<String> relays) =
       OnRelaysSelectedEvent;
 
+  const factory OnboardingScreenEvent.usePinFlagUpdated(bool isUsePin) =
+      UsePinFlagUpdatedEvent;
+
+  const factory OnboardingScreenEvent.didChangeUsePinFlag(bool isUsePin) =
+      DidChangeUsePinFlagEvent;
+
   @override
   List<Object?> get props => const [];
 }
@@ -63,4 +69,14 @@ final class OnNsecGeneratedEvent extends OnboardingScreenEvent {
 final class OnRelaysSelectedEvent extends OnboardingScreenEvent {
   final List<String> relays;
   const OnRelaysSelectedEvent(this.relays);
+}
+
+final class UsePinFlagUpdatedEvent extends OnboardingScreenEvent {
+  final bool isUsePin;
+  const UsePinFlagUpdatedEvent(this.isUsePin);
+}
+
+final class DidChangeUsePinFlagEvent extends OnboardingScreenEvent {
+  final bool isUsePin;
+  const DidChangeUsePinFlagEvent(this.isUsePin);
 }
