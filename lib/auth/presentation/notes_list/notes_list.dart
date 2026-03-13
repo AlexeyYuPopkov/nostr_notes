@@ -69,8 +69,9 @@ final class NotesList extends StatelessWidget with DialogHelper {
     );
   }
 
-  void _onRefresh(BuildContext context) {
+  Future<void> _onRefresh(BuildContext context) {
     context.read<NotesListBloc>().add(const NotesListEvent.initial());
+    return Future.delayed(Durations.extralong1);
   }
 }
 
@@ -139,7 +140,7 @@ final class _SettingsButton extends StatelessWidget {
         width: Sizes.icon,
         height: Sizes.icon,
         colorFilter: ColorFilter.mode(
-          theme.colorScheme.primary,
+          theme.colorScheme.onSurfaceVariant,
           BlendMode.srcIn,
         ),
       ),

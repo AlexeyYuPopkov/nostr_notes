@@ -71,4 +71,8 @@ final class Unlocked extends Session {
 
   @override
   List<Object?> get props => [keys, pin];
+
+  Auth toAuth() {
+    return Auth(keys);
+  }
 }

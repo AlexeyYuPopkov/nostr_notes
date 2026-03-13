@@ -94,6 +94,12 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('en')];
 
+  /// No description provided for @appDisplayName.
+  ///
+  /// In en, this message translates to:
+  /// **'Private Notes (Nostr)'**
+  String get appDisplayName;
+
   /// No description provided for @commonButtonBack.
   ///
   /// In en, this message translates to:

@@ -14,7 +14,9 @@ final class AppTheme {
     useMaterial3: true,
     scaffoldBackgroundColor: AppColorScheme.light.surface,
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColorScheme.light.surface,
+      backgroundColor: AppColorScheme.light.surface, // scaffoldBackgroundColor
+      surfaceTintColor: AppColorScheme.light.surface,
+      shadowColor: Colors.transparent,
       foregroundColor: AppColorScheme.light.onSurface,
       elevation: 0,
       titleTextStyle: TextStyle(
@@ -84,7 +86,9 @@ final class AppTheme {
     useMaterial3: true,
     scaffoldBackgroundColor: AppColorScheme.dark.surface,
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColorScheme.dark.surface,
+      backgroundColor: AppColorScheme.dark.surface, // scaffoldBackgroundColor
+      surfaceTintColor: AppColorScheme.dark.surface,
+      shadowColor: Colors.transparent,
       foregroundColor: AppColorScheme.dark.onSurface,
       elevation: 0,
       titleTextStyle: TextStyle(
