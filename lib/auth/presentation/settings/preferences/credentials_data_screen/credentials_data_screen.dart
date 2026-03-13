@@ -84,7 +84,7 @@ final class _Item extends StatefulWidget {
   State<_Item> createState() => _ItemState();
 }
 
-class _ItemState extends State<_Item> {
+final class _ItemState extends State<_Item> {
   static const _visibilityDuration = Duration(seconds: 2);
 
   bool _obscured = true;

@@ -29,8 +29,6 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
     debugLabel: 'OnboardingPinPage.FormKey',
   );
 
-  bool _isUsePin = true;
-
   late final PinUsecase _pinUsecase = context
       .read<OnboardingScreenBloc>()
       .pinUsecase;
@@ -82,24 +80,26 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
                 BlocSelector<
                   OnboardingScreenBloc,
                   OnboardingScreenState,
-                  TextInputType?
+                  (TextInputType?, bool)
                 >(
-                  selector: (state) =>
-                      state.data.pinKeyboardType.toTextInputType(),
-                  builder: (context, keyboardType) {
+                  selector: (state) => (
+                    state.data.pinKeyboardType.toTextInputType(),
+                    state.data.isUsePin,
+                  ),
+                  builder: (context, data) {
                     return OnboardingTextFormField(
                       initialValue: _controller.text,
-                      isEnabled: _isUsePin,
+                      isEnabled: data.$2,
                       controller: _controller,
+                      obscureText: true,
                       hint: l10n.onboardingPinPageTextFieldHint,
-                      keyboardType: keyboardType,
+                      keyboardType: data.$1,
                       validator: (str) =>
-                          validatePin(context, str, usePin: _isUsePin),
+                          validatePin(context, str, usePin: data.$2),
                       onSubmitted: (_) => _onNext(context, null),
                     );
                   },
                 ),
-                // InfoText(text: l10n.onboardingPinPageInfoPin),
                 Row(
                   spacing: Sizes.indent,
                   children: [
@@ -122,15 +122,27 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
                         initialValue: false,
                         builder: (field) => Align(
                           alignment: Alignment.centerLeft,
-                          child: CheckboxListTile(
-                            value: _isUsePin,
-                            contentPadding: EdgeInsets.zero,
-                            onChanged: (e) =>
-                                _onCheckboxChanged(context, field, e),
-                            title: Text(
-                              l10n.onboardingPinPageLabelCheckboxUsePin,
-                            ),
-                          ),
+                          child:
+                              BlocSelector<
+                                OnboardingScreenBloc,
+                                OnboardingScreenState,
+                                bool
+                              >(
+                                selector: (state) {
+                                  return state.data.isUsePin;
+                                },
+                                builder: (context, isUsePin) {
+                                  return CheckboxListTile(
+                                    value: isUsePin,
+                                    contentPadding: EdgeInsets.zero,
+                                    onChanged: (e) =>
+                                        _onCheckboxChanged(context, field, e),
+                                    title: Text(
+                                      l10n.onboardingPinPageLabelCheckboxUsePin,
+                                    ),
+                                  );
+                                },
+                              ),
                         ),
                       ),
                     ),
@@ -167,18 +179,21 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
   ) {
     _formKey.currentState?.reset();
     field.didChange(value);
-    setState(() => _isUsePin = value ?? true);
+    final bloc = context.read<OnboardingScreenBloc>();
+    bloc.add(OnboardingScreenEvent.didChangeUsePinFlag(value ?? true));
   }
 
   void _onNext(BuildContext context, LoadingButtonVM? vm) {
     final isValid = _formKey.currentState?.validate() ?? false;
     if (isValid) {
       _formKey.currentState?.save();
-      context.read<OnboardingScreenBloc>().add(
+      final bloc = context.read<OnboardingScreenBloc>();
+      final isUsePin = bloc.state.data.isUsePin;
+      bloc.add(
         OnboardingScreenEvent.onPin(
           pin: _controller.text,
           vm: vm,
-          usePin: _isUsePin,
+          usePin: isUsePin,
         ),
       );
     }

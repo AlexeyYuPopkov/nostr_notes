@@ -8,6 +8,8 @@ import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/drawer_router.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
+import 'package:nostr_notes/auth/presentation/home_screen/breakpoints.dart';
+import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 
@@ -49,6 +51,9 @@ final class NotesList extends StatelessWidget with DialogHelper {
               title: Text(context.l10n.notesListScreenTitle),
               actions: const [_SettingsButton()],
             ),
+            floatingActionButton: Breakpoint.activeBreakpointOf(context).isSmall
+                ? const Fab()
+                : null,
             body: RefreshIndicator(
               onRefresh: () async => _onRefresh(context),
               child: _List(

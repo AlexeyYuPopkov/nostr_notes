@@ -15,6 +15,7 @@ import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/onboarding_screen.dart';
+import 'package:rxdart/transformers.dart';
 
 final class AppRouter {
   late final SessionUsecase session = DiStorage.shared.resolve();
@@ -31,10 +32,13 @@ final class AppRouter {
   void _createSessionSubscription() {
     sessionSubscription = session.sessionStream
         .distinct((a, b) => a.isUnlocked == b.isUnlocked)
-        .listen((session) async {
+        .doOnData((session) {
           if (session.isAuth && session.isUnlocked) {
-            await Di.instance.bindAuthModules();
+            Di.instance.bindAuthModules();
           }
+        })
+        .debounceTime(const Duration(milliseconds: 150))
+        .listen((session) async {
           _router.refresh();
         });
   }

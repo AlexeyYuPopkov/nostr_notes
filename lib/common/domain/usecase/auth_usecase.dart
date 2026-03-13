@@ -24,6 +24,7 @@ final class AuthUsecase {
        _relaysListRepo = relaysListRepo;
 
   Stream<Session> get session => _sessionUsecase.sessionStream;
+  Session get currentSession => _sessionUsecase.currentSession;
 
   Future<void> execute({required String nsec}) async {
     final userKeys = _keyToolRepository.getUserKeysWithNsec(nsec: nsec);

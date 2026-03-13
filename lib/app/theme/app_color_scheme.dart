@@ -16,7 +16,7 @@ final class AppColorScheme {
     secondaryContainer: Color(0xFFF5EEE3),
     onSecondaryContainer: Color(0xFF5B4A2F),
 
-    surface: Color(0xFFFDFCF9), // тёплый почти-белый фон
+    surface: Color(0xFFffffff), // тёплый почти-белый фон
     onSurface: Color(0xFF2E2E2E),
     onSurfaceVariant: Color(0xaa2E2E2E),
 
