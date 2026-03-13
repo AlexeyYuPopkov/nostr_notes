@@ -15,6 +15,10 @@ sealed class NotePreviewState extends Equatable {
   const factory NotePreviewState.loading({required NotePreviewData data}) =
       LoadingState;
 
+  const factory NotePreviewState.cannotDecrypt({
+    required NotePreviewData data,
+  }) = CannotDecryptState;
+
   const factory NotePreviewState.error({
     required NotePreviewData data,
     required Object error,
@@ -27,6 +31,10 @@ final class CommonState extends NotePreviewState {
 
 final class LoadingState extends NotePreviewState {
   const LoadingState({required super.data});
+}
+
+final class CannotDecryptState extends NotePreviewState {
+  const CannotDecryptState({required super.data});
 }
 
 final class ErrorState extends NotePreviewState {

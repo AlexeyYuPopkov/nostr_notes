@@ -6,11 +6,13 @@ final class CommonTooltip extends StatelessWidget {
   final String title;
   final String message;
   final Widget? child;
+  final EdgeInsetsGeometry padding;
 
   const CommonTooltip({
     super.key,
     required this.title,
     required this.message,
+    this.padding = const EdgeInsets.all(Sizes.indent),
     this.child,
   });
 
@@ -18,7 +20,7 @@ final class CommonTooltip extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Tooltip(
-      padding: const EdgeInsets.all(Sizes.indent),
+      padding: padding,
       margin: const EdgeInsets.symmetric(horizontal: Sizes.indent4x),
       constraints: const BoxConstraints(maxWidth: 400),
       richMessage: TextSpan(

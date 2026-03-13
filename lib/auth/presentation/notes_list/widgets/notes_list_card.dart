@@ -10,7 +10,10 @@ import 'package:nostr_notes/common/presentation/formatters/date_formatter.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
 
-final class NotesListCard extends StatelessWidget with DialogHelper {
+import '../../tools/note_decrypt_error_message_mixin.dart';
+
+final class NotesListCard extends StatelessWidget
+    with DialogHelper, NoteDecryptErrorMessageMixin {
   static const titleHeight = 24.0;
   static const subtitleHeight = 16.0;
   static const itemHeight = titleHeight + subtitleHeight + Sizes.halfIndent;
@@ -33,8 +36,13 @@ final class NotesListCard extends StatelessWidget with DialogHelper {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final isSelected = sectionItem.note.dTag == selectedNoteDTag;
-    final titleComponents = sectionItem.note.summary.split('\n');
+    final hasDecryptError = sectionItem.note.error != null;
+    final summary = hasDecryptError
+        ? l10n.notePreviewCannotDecryptTitle
+        : sectionItem.note.summary;
+    final titleComponents = summary.split('\n');
     final title = titleComponents.firstOrNull?.trim() ?? '';
     final subtitle = titleComponents.length > 1
         ? titleComponents[1].trim()
@@ -79,7 +87,7 @@ final class NotesListCard extends StatelessWidget with DialogHelper {
                 backgroundColor: theme.colorScheme.error,
                 foregroundColor: Colors.white,
                 icon: Icons.delete,
-                label: 'Delete',
+                label: l10n.commonDelete,
               ),
             ],
           ),
@@ -132,6 +140,22 @@ final class NotesListCard extends StatelessWidget with DialogHelper {
                     ],
                   ),
                 ),
+                if (hasDecryptError)
+                  CommonTooltip(
+                    title: l10n.notePreviewCannotDecryptTitle,
+                    message: buildDecryptErrorMessage(
+                      l10n: l10n,
+                      error: sectionItem.note.error,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: Sizes.halfIndent),
+                      child: Icon(
+                        Icons.error_outline,
+                        size: Sizes.iconMedium,
+                        color: theme.colorScheme.error,
+                      ),
+                    ),
+                  ),
                 ValueListenableBuilder(
                   valueListenable: pendingVm,
                   builder: (context, value, child) {

@@ -36,7 +36,10 @@ final class DeriveKeys with HexToBytes {
   static Uint8List spec256k1(String privateKeyHex, String publicKeyHex) {
     final ec = getS256();
     final privateKey = PrivateKey.fromHex(ec, privateKeyHex);
-    final publicKey = PublicKey.fromHex(ec, checkPublicKey(publicKeyHex));
+    final publicKey = PublicKey.fromHex(
+      ec,
+      const Nip44Utils().checkPublicKey(publicKeyHex),
+    );
     final sec = computeSecret(privateKey, publicKey);
     return Uint8List.fromList(sec);
   }
@@ -49,7 +52,7 @@ final class DeriveKeys with HexToBytes {
     final privateKey = PrivateKey.fromBytes(ec, privateKeyBytes);
     final publicKey = PublicKey.fromHex(
       ec,
-      checkPublicKey(HexToBytes.bytesToHex(publicKeyBytes)),
+      const Nip44Utils().checkPublicKey(HexToBytes.bytesToHex(publicKeyBytes)),
     );
     final sec = computeSecret(privateKey, publicKey);
     return Uint8List.fromList(sec);

@@ -36,6 +36,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonClose => 'Close';
 
   @override
+  String get commonDelete => 'Delete';
+
+  @override
   String get commonError => 'Error';
 
   @override
@@ -58,6 +61,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notUnlocked => 'The app is not unlocked';
+
+  @override
+  String get notePreviewCannotDecryptTitle =>
+      'This note could not be decrypted';
+
+  @override
+  String get notePreviewCannotDecryptDescription =>
+      'PIN/password is optional: notes without PIN remain fully NIP-44 compatible. This can happen due to a wrong PIN, data mismatch between devices, or corrupted/incomplete note data.';
 
   @override
   String get onboardingWelcomePageTitle => 'Welcome to\nSecure Notes (Nostr)';
@@ -288,6 +299,24 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notesListPendingSyncDescription =>
       'This note hasn\'t been synced with the network yet';
+
+  @override
+  String get notesListDecryptLikelyReasonLabel => 'Likely reason';
+
+  @override
+  String get notesListDecryptDetailsLabel => 'Details';
+
+  @override
+  String get notesListDecryptReasonWrongPin =>
+      'Wrong PIN/password or a mismatched encryption context for this note.';
+
+  @override
+  String get notesListDecryptReasonCorruptedPayload =>
+      'The note payload appears corrupted, incomplete, or produced by an unsupported format.';
+
+  @override
+  String get notesListDecryptReasonInvalidParams =>
+      'Cryptographic parameters are invalid for this note.';
 
   @override
   String get credentialsDataScreenTitle => 'Credentials Data';

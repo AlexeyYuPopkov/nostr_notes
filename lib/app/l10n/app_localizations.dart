@@ -148,6 +148,12 @@ abstract class AppLocalizations {
   /// **'Close'**
   String get commonClose;
 
+  /// No description provided for @commonDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get commonDelete;
+
   /// No description provided for @commonError.
   ///
   /// In en, this message translates to:
@@ -195,6 +201,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The app is not unlocked'**
   String get notUnlocked;
+
+  /// No description provided for @notePreviewCannotDecryptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This note could not be decrypted'**
+  String get notePreviewCannotDecryptTitle;
+
+  /// No description provided for @notePreviewCannotDecryptDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN/password is optional: notes without PIN remain fully NIP-44 compatible. This can happen due to a wrong PIN, data mismatch between devices, or corrupted/incomplete note data.'**
+  String get notePreviewCannotDecryptDescription;
 
   /// No description provided for @onboardingWelcomePageTitle.
   ///
@@ -603,6 +621,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This note hasn\'t been synced with the network yet'**
   String get notesListPendingSyncDescription;
+
+  /// No description provided for @notesListDecryptLikelyReasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Likely reason'**
+  String get notesListDecryptLikelyReasonLabel;
+
+  /// No description provided for @notesListDecryptDetailsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get notesListDecryptDetailsLabel;
+
+  /// No description provided for @notesListDecryptReasonWrongPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong PIN/password or a mismatched encryption context for this note.'**
+  String get notesListDecryptReasonWrongPin;
+
+  /// No description provided for @notesListDecryptReasonCorruptedPayload.
+  ///
+  /// In en, this message translates to:
+  /// **'The note payload appears corrupted, incomplete, or produced by an unsupported format.'**
+  String get notesListDecryptReasonCorruptedPayload;
+
+  /// No description provided for @notesListDecryptReasonInvalidParams.
+  ///
+  /// In en, this message translates to:
+  /// **'Cryptographic parameters are invalid for this note.'**
+  String get notesListDecryptReasonInvalidParams;
 
   /// No description provided for @credentialsDataScreenTitle.
   ///
