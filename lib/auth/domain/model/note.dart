@@ -27,13 +27,18 @@ final class Note extends Equatable {
     error,
   ];
 
-  Note copyWith({String? content, String? summary, Object? error}) {
+  Note copyWith({
+    String? content,
+    String? summary,
+    Object? error,
+    DateTime? createdAt,
+  }) {
     return Note(
       eventId: eventId,
       dTag: dTag,
       content: content ?? this.content,
       summary: summary ?? _summary,
-      createdAt: createdAt,
+      createdAt: createdAt ?? this.createdAt,
       error: error ?? this.error,
     );
   }

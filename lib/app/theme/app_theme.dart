@@ -28,6 +28,14 @@ final class AppTheme {
     textTheme: AppTextTheme.createTextThemeWithColor(
       AppColorScheme.light.onSurface,
     ),
+    // checkboxTheme: CheckboxThemeData(
+    //   fillColor: WidgetStateProperty.resolveWith((states) {
+    //     if (states.contains(WidgetState.selected)) {
+    //       return AppColorScheme.light.primary;
+    //     }
+    //     return AppColorScheme.light.onSurfaceVariant;
+    //   }),
+    // ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColorScheme.light.surface,

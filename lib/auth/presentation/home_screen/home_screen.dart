@@ -1,4 +1,5 @@
 import 'package:custom_adaptive_scaffold/custom_adaptive_scaffold.dart';
+import 'package:di_storage/di_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,6 +12,7 @@ import 'package:nostr_notes/app/router/drawer_router.dart' show DrawerRouter;
 import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/app/sizes.dart';
+import 'package:nostr_notes/auth/domain/usecase/desktop_ratio_usecase.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
 
 import '../notes_list/notes_list.dart';
@@ -23,6 +25,19 @@ final class _LayoutConfig {
   static const minBodyRatio = 0.25;
   static const maxBodyRatio = 0.5;
   static const defaultBodyRatio = 0.35;
+
+  static double getRatio(double? preferredRatio) {
+    final ratio = preferredRatio;
+    if (ratio == null) {
+      return defaultBodyRatio;
+    }
+
+    if (ratio >= minBodyRatio && ratio <= maxBodyRatio) {
+      return ratio;
+    }
+
+    return defaultBodyRatio;
+  }
 
   /// [drawerRatio = 0.7]
   static const drawerRatio = 0.7;
@@ -53,6 +68,22 @@ final class HomeScreen extends StatefulWidget {
 
 final class _HomeScreenState extends State<HomeScreen> {
   double _bodyRatio = _LayoutConfig.defaultBodyRatio;
+  late final _ratioUsecase = DesktopRatioUsecase(
+    repo: DiStorage.shared.resolve(),
+    sessionUsecase: DiStorage.shared.resolve(),
+  );
+
+  @override
+  void initState() {
+    _bodyRatio = _LayoutConfig.getRatio(_ratioUsecase.get());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _ratioUsecase.set(_bodyRatio);
+    super.dispose();
+  }
 
   void _onResizeDividerDrag(double delta, double screenWidth) {
     final newRatio = (_bodyRatio + delta / screenWidth).clamp(
@@ -312,15 +343,6 @@ final class PlaceholderAddNoteButton extends StatelessWidget {
               color: theme.colorScheme.primary,
             ),
           ),
-          // Positioned(
-          //   right: Sizes.indentVariant2x,
-          //   bottom: Sizes.indentVariant2x,
-          //   child: Icon(
-          //     Icons.add,
-          //     size: 26.0,
-          //     color: theme.colorScheme.primary,
-          //   ),
-          // ),
         ],
       ),
     );

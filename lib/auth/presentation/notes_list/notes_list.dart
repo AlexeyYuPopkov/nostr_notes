@@ -100,7 +100,9 @@ final class _List extends StatelessWidget {
       );
     }
 
+    final mediaPadding = MediaQuery.paddingOf(context);
     final bloc = context.read<NotesListBloc>();
+
     return CustomScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       cacheExtent: NotesListCard.itemHeight,
@@ -123,6 +125,8 @@ final class _List extends StatelessWidget {
             }
           }, childCount: sections.length),
         ),
+        const SliverToBoxAdapter(child: SizedBox(height: Sizes.indent4x)),
+        SliverToBoxAdapter(child: SizedBox(height: mediaPadding.bottom)),
       ],
     );
   }

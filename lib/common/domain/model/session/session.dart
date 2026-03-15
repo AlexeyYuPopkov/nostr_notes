@@ -12,6 +12,7 @@ sealed class Session extends Equatable {
   }) = Unlocked;
 
   UserKeys? get keys;
+  String get pubkey => keys?.publicKey ?? '';
   bool get isAuth;
   bool get isUnlocked;
 }
