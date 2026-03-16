@@ -8,7 +8,7 @@ import 'package:nostr_notes/app/theme/app_theme.dart';
 import 'package:nostr_notes/app/router/app_router.dart';
 import 'package:nostr_notes/common/data/root_context_provider/root_context_provider.dart';
 import 'package:nostr_notes/services/nostr_client/outbox_publisher.dart';
-import 'package:nostr_notes/unauth/domain/blur_screen_usecase.dart';
+// import 'package:nostr_notes/unauth/domain/blur_screen_usecase.dart';
 // import 'package:flutter/scheduler.dart' show timeDilation;
 
 final _appRouter = AppRouter();
@@ -30,7 +30,7 @@ final class App extends StatefulWidget {
 }
 
 final class _AppState extends State<App> with WidgetsBindingObserver {
-  late final BlurScreenUsecase _blurScreenUsecase = DiStorage.shared.resolve();
+  // late final BlurScreenUsecase _blurScreenUsecase = DiStorage.shared.resolve();
 
   @override
   void initState() {
@@ -44,14 +44,14 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
       case AppLifecycleState.resumed:
       case AppLifecycleState.detached:
         DiStorage.shared.tryResolve<OutboxPublisher>()?.resume();
-        _blurScreenUsecase.onForeground();
+        // _blurScreenUsecase.onForeground();
         break;
 
       case AppLifecycleState.inactive:
       case AppLifecycleState.hidden:
       case AppLifecycleState.paused:
         DiStorage.shared.tryResolve<OutboxPublisher>()?.pause();
-        _blurScreenUsecase.onBackground();
+        // _blurScreenUsecase.onBackground();
         break;
     }
   }
