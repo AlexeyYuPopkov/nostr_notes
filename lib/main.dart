@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/theme/app_theme.dart';
@@ -11,6 +10,7 @@ import 'package:nostr_notes/app/router/app_router.dart';
 import 'package:nostr_notes/common/data/root_context_provider/root_context_provider.dart';
 import 'package:nostr_notes/services/nostr_client/outbox_publisher.dart';
 import 'package:nostr_notes/unauth/domain/blur_screen_usecase.dart';
+// import 'package:flutter/scheduler.dart' show timeDilation;
 
 final _appRouter = AppRouter();
 
@@ -19,6 +19,7 @@ void main() async {
 
   await Di.instance.bindUnauthModules();
   HttpOverrides.global = MyHttpOverrides();
+  // timeDilation = 4.0;
   runApp(const App());
 }
 
@@ -66,10 +67,7 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
-      localizationsDelegates: const [
-        ...Localization.localizationsDelegates,
-        FlutterQuillLocalizations.delegate,
-      ],
+      localizationsDelegates: const [...Localization.localizationsDelegates],
       supportedLocales: Localization.supportedLocales,
       routerConfig: _appRouter.router,
       debugShowCheckedModeBanner: false,

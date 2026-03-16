@@ -1,9 +1,14 @@
 import 'dart:async';
+import 'dart:isolate';
 import 'dart:typed_data';
 
+import 'package:nostr_notes/core/tools/disposable.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
+import 'package:nostr_notes/services/hex_to_bytes.dart';
 import 'package:nostr_notes/services/nip44/derive_keys.dart';
 import 'package:nostr_notes/services/nip44/nip44.dart';
+
+part 'spec256k1_isolate_part.dart';
 
 final class IsWasmAvailable {
   const IsWasmAvailable();
@@ -11,26 +16,47 @@ final class IsWasmAvailable {
 }
 
 final class CryptoServiceImplMobile implements CryptoService {
+  final Spec256k1Isolate _spec256k1Isolate;
   final DeriveKeys _deriveKeys;
   final _mobileNip44 = const Nip44();
 
-  const CryptoServiceImplMobile([DeriveKeys deriveKeys = const DeriveKeys()])
-    : _deriveKeys = deriveKeys;
+  const CryptoServiceImplMobile._({
+    required Spec256k1Isolate spec256k1Isolate,
+    DeriveKeys deriveKeys = const DeriveKeys(),
+  }) : _spec256k1Isolate = spec256k1Isolate,
+       _deriveKeys = deriveKeys;
+
+  factory CryptoServiceImplMobile({
+    Spec256k1Isolate? spec256k1Isolate,
+    DeriveKeys deriveKeys = const DeriveKeys(),
+  }) {
+    return CryptoServiceImplMobile._(
+      spec256k1Isolate: spec256k1Isolate ?? Spec256k1Isolate(),
+      deriveKeys: const DeriveKeys(),
+    );
+  }
 
   @override
   FutureOr<void> init() {}
 
   @override
-  Uint8List deriveKeys({
+  Future<Uint8List> deriveKeysAsync({
     required String senderPrivateKey,
     required String recipientPublicKey,
-    Uint8List Function(Uint8List)? extraDerivation,
-  }) {
-    return _deriveKeys.execute(
-      senderPrivateKey: senderPrivateKey,
-      recipientPublicKey: recipientPublicKey,
-      extraDerivation: extraDerivation,
+    Future<Uint8List> Function(Uint8List)? extraDerivation,
+  }) async {
+    final key = await spec256k1Async(
+      senderPrivateKey: HexToBytes.hexToBytes(senderPrivateKey),
+      recipientPublicKey: HexToBytes.hexToBytes(recipientPublicKey),
     );
+
+    if (extraDerivation == null) {
+      return key;
+    }
+
+    final resut = extraDerivation(key);
+
+    return resut;
   }
 
   @override
@@ -41,6 +67,17 @@ final class CryptoServiceImplMobile implements CryptoService {
     return _deriveKeys.spec256k1FromBytes(
       privateKeyBytes: senderPrivateKey,
       publicKeyBytes: recipientPublicKey,
+    );
+  }
+
+  @override
+  Future<Uint8List> spec256k1Async({
+    required Uint8List senderPrivateKey,
+    required Uint8List recipientPublicKey,
+  }) {
+    return _spec256k1Isolate.compute(
+      senderPrivateKey: senderPrivateKey,
+      recipientPublicKey: recipientPublicKey,
     );
   }
 
@@ -67,6 +104,11 @@ final class CryptoServiceImplMobile implements CryptoService {
       conversationKey: conversationKey,
     );
   }
+
+  @override
+  Future<void> dispose() {
+    return _spec256k1Isolate.dispose();
+  }
 }
 
 final class CryptoServiceImplWeb implements CryptoService {
@@ -74,15 +116,6 @@ final class CryptoServiceImplWeb implements CryptoService {
 
   @override
   Future<void> init() async {}
-
-  @override
-  Uint8List deriveKeys({
-    required String senderPrivateKey,
-    required String recipientPublicKey,
-    Uint8List Function(Uint8List p1)? extraDerivation,
-  }) {
-    throw UnimplementedError();
-  }
 
   @override
   Future<String> decryptNip44({
@@ -105,5 +138,25 @@ final class CryptoServiceImplWeb implements CryptoService {
   Uint8List spec256k1({
     required Uint8List senderPrivateKey,
     required Uint8List recipientPublicKey,
+  }) => throw UnimplementedError();
+
+  @override
+  Future<Uint8List> spec256k1Async({
+    required Uint8List senderPrivateKey,
+    required Uint8List recipientPublicKey,
+  }) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> dispose() {
+    return Future.value();
+  }
+
+  @override
+  Future<Uint8List> deriveKeysAsync({
+    required String senderPrivateKey,
+    required String recipientPublicKey,
+    Future<Uint8List> Function(Uint8List)? extraDerivation,
   }) => throw UnimplementedError();
 }

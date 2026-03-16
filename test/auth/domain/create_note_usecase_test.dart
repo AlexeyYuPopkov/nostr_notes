@@ -42,11 +42,11 @@ class MockCryptoRepo implements CryptoService {
   }
 
   @override
-  Uint8List deriveKeys({
+  Future<Uint8List> deriveKeysAsync({
     required String senderPrivateKey,
     required String recipientPublicKey,
-    Uint8List Function(Uint8List p1)? extraDerivation,
-  }) {
+    Future<Uint8List> Function(Uint8List p1)? extraDerivation,
+  }) async {
     return Uint8List.fromList(List<int>.generate(32, (i) => i));
   }
 
@@ -67,11 +67,27 @@ class MockCryptoRepo implements CryptoService {
     required Uint8List senderPrivateKey,
     required Uint8List recipientPublicKey,
   }) => throw UnimplementedError();
+
+  @override
+  Future<Uint8List> spec256k1Async({
+    required Uint8List senderPrivateKey,
+    required Uint8List recipientPublicKey,
+  }) {
+    return Future(
+      () => spec256k1(
+        senderPrivateKey: senderPrivateKey,
+        recipientPublicKey: recipientPublicKey,
+      ),
+    );
+  }
+
+  @override
+  Future<void> dispose() => Future.value();
 }
 
 class MockExtraDerivation implements ExtraDerivation {
   @override
-  Uint8List Function(Uint8List)? execute(String? password) {
+  Future<Uint8List> Function(Uint8List)? execute(String? password) {
     return null;
   }
 }

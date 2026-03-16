@@ -21,22 +21,25 @@ final class OnboardingScreenBloc
   late final AuthUsecase authUsecase = _di.resolve();
   late final PinUsecase pinUsecase = _di.resolve();
   late final RelaysListRepo relaysListRepo = _di.resolve();
-  late final StreamSubscription sessionSubscription;
-  StreamSubscription? relaysSubscription;
   late final nsecPageVm = OnboardingNsecPageVm();
   late final PinKeyboardTypeRepo _pinKeyboardTypeRepo = _di.resolve();
   late final PinEnabledRepo _pinEnabledRepo = _di.resolve();
 
+  StreamSubscription? sessionSubscription;
+  StreamSubscription? relaysSubscription;
+
   OnboardingScreenBloc()
     : super(
-        OnboardingScreenState.common(data: OnboardingScreenData.initial()),
+        OnboardingScreenState.initial(data: OnboardingScreenData.initial()),
       ) {
     _setupHandlers();
-    _setupSubscriptions();
+
     add(const OnboardingScreenEvent.initial());
   }
 
   void _setupSubscriptions() {
+    sessionSubscription?.cancel();
+    sessionSubscription = null;
     sessionSubscription = authUsecase.session
         .distinct((a, b) => a.isAuth == b.isAuth)
         .listen((session) {
@@ -51,7 +54,13 @@ final class OnboardingScreenBloc
 
           if (publicKey != null && publicKey.isNotEmpty) {
             final isUsePin = _pinEnabledRepo.getForUser(publicKey);
-            add(OnboardingScreenEvent.usePinFlagUpdated(isUsePin));
+            final pinKeyboardType = _pinKeyboardTypeRepo.getType();
+            add(
+              OnboardingScreenEvent.settingsEvent(
+                isUsePin: isUsePin,
+                pinKeyboardType: pinKeyboardType,
+              ),
+            );
           }
         });
   }
@@ -64,13 +73,14 @@ final class OnboardingScreenBloc
     on<OnGenerateKeyEvent>(_onGenerateKeyEvent);
     on<OnNsecGeneratedEvent>(_onNsecGeneratedEvent);
     on<OnRelaysSelectedEvent>(_onRelaysSelectedEvent);
-    on<UsePinFlagUpdatedEvent>(_onUsePinFlagUpdatedEvent);
-    on<DidChangeUsePinFlagEvent>(_onDidChangeUsePinFlagEvent);
+    on<SettingsEvent>(_onSettingsEvent);
+    on<DidChangeSettingsEvent>(_onDidChangeUsePinFlagEvent);
   }
 
   @override
   Future<void> close() {
-    sessionSubscription.cancel();
+    sessionSubscription?.cancel();
+    sessionSubscription = null;
     return super.close();
   }
 
@@ -79,13 +89,7 @@ final class OnboardingScreenBloc
     Emitter<OnboardingScreenState> emit,
   ) async {
     try {
-      final pinKeyboardType = _pinKeyboardTypeRepo.getType();
-
-      emit(
-        OnboardingScreenState.common(
-          data: data.copyWith(pinKeyboardType: pinKeyboardType),
-        ),
-      );
+      _setupSubscriptions();
     } catch (e) {
       emit(OnboardingScreenState.error(e: e, data: data));
     }
@@ -190,15 +194,20 @@ final class OnboardingScreenBloc
     }
   }
 
-  void _onUsePinFlagUpdatedEvent(
-    UsePinFlagUpdatedEvent event,
+  void _onSettingsEvent(
+    SettingsEvent event,
     Emitter<OnboardingScreenState> emit,
   ) => emit(
-    OnboardingScreenState.common(data: data.copyWith(isUsePin: event.isUsePin)),
+    OnboardingScreenState.common(
+      data: data.copyWith(
+        isUsePin: event.isUsePin,
+        pinKeyboardType: event.pinKeyboardType,
+      ),
+    ),
   );
 
   void _onDidChangeUsePinFlagEvent(
-    DidChangeUsePinFlagEvent event,
+    DidChangeSettingsEvent event,
     Emitter<OnboardingScreenState> emit,
   ) async {
     final publicKey = authUsecase.currentSession.keys?.publicKey;

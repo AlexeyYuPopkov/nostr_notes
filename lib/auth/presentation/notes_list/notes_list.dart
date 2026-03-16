@@ -41,6 +41,8 @@ final class NotesList extends StatelessWidget with DialogHelper {
 
   @override
   Widget build(BuildContext context) {
+    final breakpoint = Breakpoint.activeBreakpointOf(context);
+
     return BlocProvider(
       create: (context) => NotesListBloc(contextProvider: () => context),
       child: BlocConsumer<NotesListBloc, NotesListState>(
@@ -51,9 +53,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
               title: Text(context.l10n.notesListScreenTitle),
               actions: const [_SettingsButton()],
             ),
-            floatingActionButton: Breakpoint.activeBreakpointOf(context).isSmall
-                ? const Fab()
-                : null,
+            floatingActionButton: breakpoint.isSmall ? const Fab() : null,
             body: RefreshIndicator(
               onRefresh: () async => _onRefresh(context),
               child: _List(
@@ -100,7 +100,9 @@ final class _List extends StatelessWidget {
       );
     }
 
+    final mediaPadding = MediaQuery.paddingOf(context);
     final bloc = context.read<NotesListBloc>();
+
     return CustomScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       cacheExtent: NotesListCard.itemHeight,
@@ -123,6 +125,8 @@ final class _List extends StatelessWidget {
             }
           }, childCount: sections.length),
         ),
+        const SliverToBoxAdapter(child: SizedBox(height: Sizes.indent4x)),
+        SliverToBoxAdapter(child: SizedBox(height: mediaPadding.bottom)),
       ],
     );
   }

@@ -25,6 +25,26 @@ sealed class OnboardingStep extends Equatable {
   List<Object?> get props => [];
 }
 
+// final class OnboardingInitial extends OnboardingStep {
+//   const OnboardingInitial();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//     return Container(
+//       color: theme.colorScheme.surface,
+//       child: const CircularProgressIndicator.adaptive(),
+//     );
+//   }
+
+//   OnboardingStep? get next {
+//     return null;
+//   }
+
+//   @override
+//   OnboardingStep getNextStep() => const OnboardingNsec();
+// }
+
 final class OnboardingWelcome extends OnboardingStep {
   const OnboardingWelcome();
 

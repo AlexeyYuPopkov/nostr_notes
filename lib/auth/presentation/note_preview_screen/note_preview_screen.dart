@@ -15,6 +15,8 @@ import 'package:nostr_notes/auth/presentation/note_preview_screen/widgets/note_c
 
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 
+import 'bloc/note_preview_event.dart';
+
 final class NotePreviewScreen extends StatelessWidget with DialogHelper {
   final PathParams pathParams;
 
@@ -57,32 +59,39 @@ final class NotePreviewScreen extends StatelessWidget with DialogHelper {
             ),
             body: SafeArea(
               bottom: false,
-              child: state is CannotDecryptState
-                  ? _CannotDecryptPlaceholder(error: note?.error)
-                  : SingleChildScrollView(
-                      padding: EdgeInsets.only(
-                        left: Sizes.indent2x,
-                        right: Sizes.indent2x,
-                        bottom:
-                            mediaPaddings.bottom +
-                            kFloatingActionButtonMargin +
-                            Sizes.fabSize,
-                      ),
-                      child: SelectionArea(
-                        child: GptMarkdownTheme(
-                          gptThemeData: AppGptMarkdownTheme.light().data,
-                          child: GptMarkdown(
-                            content,
-                            codeBuilder: (context, name, code, closed) {
-                              return NoteCodeField(name: name, codes: code);
-                            },
-                            highlightBuilder: (context, code, closed) {
-                              return ShortNoteCodeField(codes: code);
-                            },
+              child: ConstrainedBox(
+                constraints: const BoxConstraints.expand(),
+                child: state is CannotDecryptState
+                    ? _CannotDecryptPlaceholder(error: note?.error)
+                    : RefreshIndicator(
+                        onRefresh: () async => _onRefresh(context),
+                        child: SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: EdgeInsets.only(
+                            left: Sizes.indent2x,
+                            right: Sizes.indent2x,
+                            bottom:
+                                mediaPaddings.bottom +
+                                kFloatingActionButtonMargin +
+                                Sizes.fabSize,
+                          ),
+                          child: SelectionArea(
+                            child: GptMarkdownTheme(
+                              gptThemeData: AppGptMarkdownTheme.light().data,
+                              child: GptMarkdown(
+                                content,
+                                codeBuilder: (context, name, code, closed) {
+                                  return NoteCodeField(name: name, codes: code);
+                                },
+                                highlightBuilder: (context, code, closed) {
+                                  return ShortNoteCodeField(codes: code);
+                                },
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+              ),
             ),
           );
         },
@@ -94,6 +103,11 @@ final class NotePreviewScreen extends StatelessWidget with DialogHelper {
     RouteHandler.of(
       context,
     )?.onRoute(NoteDetailsRoute(noteId: noteId), context);
+  }
+
+  Future _onRefresh(BuildContext context) async {
+    context.read<NotePreviewBloc>().add(const NotePreviewEvent.refresh());
+    await Future.delayed(Durations.extralong1);
   }
 }
 

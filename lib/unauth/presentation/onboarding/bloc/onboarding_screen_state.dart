@@ -10,6 +10,10 @@ sealed class OnboardingScreenState extends Equatable {
   @override
   List<Object?> get props => [data];
 
+  const factory OnboardingScreenState.initial({
+    required OnboardingScreenData data,
+  }) = InitialState;
+
   const factory OnboardingScreenState.common({
     required OnboardingScreenData data,
   }) = CommonState;
@@ -26,6 +30,10 @@ sealed class OnboardingScreenState extends Equatable {
   const factory OnboardingScreenState.didUnlock({
     required OnboardingScreenData data,
   }) = DidUnlockState;
+}
+
+final class InitialState extends OnboardingScreenState {
+  const InitialState({required super.data});
 }
 
 final class CommonState extends OnboardingScreenState {

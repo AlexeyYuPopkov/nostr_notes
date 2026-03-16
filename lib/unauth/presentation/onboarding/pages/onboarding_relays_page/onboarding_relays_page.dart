@@ -95,8 +95,9 @@ final class OnboardingRelaysPage extends StatelessWidget with DialogHelper {
                     ),
                     const SizedBox(height: Sizes.indent4x),
                     Center(
-                      child: PrymaryButton(
+                      child: PrymaryLoadingButton(
                         title: l10n.commonButtonSave,
+                        vm: context.read<OnboardingRelaysBloc>().saveButtonVm,
                         onTap: state.data.hasChanges
                             ? () => _onNext(context)
                             : null,

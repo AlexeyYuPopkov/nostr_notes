@@ -14,8 +14,8 @@ final class OnboardingScreen extends StatelessWidget with DialogHelper {
 
   void _listener(BuildContext context, OnboardingScreenState state) {
     switch (state) {
+      case InitialState():
       case CommonState():
-        break;
       case LoadingState():
         break;
       case ErrorState():
@@ -46,6 +46,13 @@ final class OnboardingScreen extends StatelessWidget with DialogHelper {
               child: BlocConsumer<OnboardingScreenBloc, OnboardingScreenState>(
                 listener: _listener,
                 builder: (context, state) {
+                  if (state is InitialState) {
+                    final theme = Theme.of(context);
+                    return Container(
+                      color: theme.colorScheme.surface,
+                      child: const CircularProgressIndicator.adaptive(),
+                    );
+                  }
                   return AbsorbPointer(
                     absorbing: state is LoadingState,
                     child: TabBarView(

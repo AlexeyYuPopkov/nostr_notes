@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:nostr_notes/common/domain/model/pin_keyboard_type.dart';
 import 'package:nostr_notes/common/presentation/buttons/vm/loading_button_vm.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
 
@@ -25,11 +26,13 @@ sealed class OnboardingScreenEvent extends Equatable {
   const factory OnboardingScreenEvent.onRelaysSelected(List<String> relays) =
       OnRelaysSelectedEvent;
 
-  const factory OnboardingScreenEvent.usePinFlagUpdated(bool isUsePin) =
-      UsePinFlagUpdatedEvent;
+  const factory OnboardingScreenEvent.settingsEvent({
+    required bool isUsePin,
+    required PinKeyboardType? pinKeyboardType,
+  }) = SettingsEvent;
 
-  const factory OnboardingScreenEvent.didChangeUsePinFlag(bool isUsePin) =
-      DidChangeUsePinFlagEvent;
+  const factory OnboardingScreenEvent.didChangeSettings(bool isUsePin) =
+      DidChangeSettingsEvent;
 
   @override
   List<Object?> get props => const [];
@@ -71,12 +74,14 @@ final class OnRelaysSelectedEvent extends OnboardingScreenEvent {
   const OnRelaysSelectedEvent(this.relays);
 }
 
-final class UsePinFlagUpdatedEvent extends OnboardingScreenEvent {
+final class SettingsEvent extends OnboardingScreenEvent {
   final bool isUsePin;
-  const UsePinFlagUpdatedEvent(this.isUsePin);
+  final PinKeyboardType? pinKeyboardType;
+
+  const SettingsEvent({required this.isUsePin, required this.pinKeyboardType});
 }
 
-final class DidChangeUsePinFlagEvent extends OnboardingScreenEvent {
+final class DidChangeSettingsEvent extends OnboardingScreenEvent {
   final bool isUsePin;
-  const DidChangeUsePinFlagEvent(this.isUsePin);
+  const DidChangeSettingsEvent(this.isUsePin);
 }

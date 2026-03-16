@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:di_storage/di_storage.dart';
+import 'package:nostr_notes/auth/data/desktop_ratio_repo_impl.dart';
 import 'package:nostr_notes/auth/data/pin_enabled_repo_impl.dart';
 import 'package:nostr_notes/auth/data/pin_keyboard_type_repo_impl.dart';
 import 'package:nostr_notes/auth/data/relays_list_repo_impl.dart';
+import 'package:nostr_notes/auth/domain/repo/desktop_ratio_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/pin_enabled_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/pin_keyboard_type_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
@@ -43,6 +45,12 @@ final class UnauthDiScope extends DiScope {
       () => PinEnabledRepoImpl(prefs),
       module: this,
       lifeTime: const LifeTime.single(),
+    );
+
+    di.bind<DesktopRatioRepo>(
+      () => DesktopRatioRepoImpl(prefs),
+      module: this,
+      lifeTime: const LifeTime.prototype(),
     );
 
     di.bind<ErrorMessagesProvider>(
@@ -111,6 +119,11 @@ final class CryptoDiModule extends DiScope {
       () => cryptoService,
       module: this,
       lifeTime: const LifeTime.single(),
+      onRemove: (e) {
+        if (e is CryptoService) {
+          e.dispose();
+        }
+      },
     );
 
     di.bind<ExtraDerivation>(

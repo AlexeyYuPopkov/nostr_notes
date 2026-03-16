@@ -1,4 +1,5 @@
-import 'package:custom_adaptive_scaffold/custom_adaptive_scaffold.dart';
+import 'package:custom_adaptive_scaffold/custom_adaptive_scaffold.dart' as asc;
+import 'package:di_storage/di_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,25 +12,11 @@ import 'package:nostr_notes/app/router/drawer_router.dart' show DrawerRouter;
 import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/app/sizes.dart';
+import 'package:nostr_notes/auth/domain/usecase/desktop_ratio_usecase.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
+import 'package:nostr_notes/auth/presentation/home_screen/layout_config.dart';
 
 import '../notes_list/notes_list.dart';
-
-final class _LayoutConfig {
-  /// [desktopScreenWidth = 600]
-  static const desktopScreenWidth = 600.0;
-
-  /// Body ratio range for resizable split view
-  static const minBodyRatio = 0.25;
-  static const maxBodyRatio = 0.5;
-  static const defaultBodyRatio = 0.35;
-
-  /// [drawerRatio = 0.7]
-  static const drawerRatio = 0.7;
-
-  /// [internalAnimations = false]
-  static const internalAnimations = true;
-}
 
 final class HomeScreen extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -52,12 +39,28 @@ final class HomeScreen extends StatefulWidget {
 }
 
 final class _HomeScreenState extends State<HomeScreen> {
-  double _bodyRatio = _LayoutConfig.defaultBodyRatio;
+  double _bodyRatio = LayoutConfig.defaultBodyRatio;
+  late final _ratioUsecase = DesktopRatioUsecase(
+    repo: DiStorage.shared.resolve(),
+    sessionUsecase: DiStorage.shared.resolve(),
+  );
+
+  @override
+  void initState() {
+    _bodyRatio = LayoutConfig.getRatio(_ratioUsecase.get());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _ratioUsecase.set(_bodyRatio);
+    super.dispose();
+  }
 
   void _onResizeDividerDrag(double delta, double screenWidth) {
     final newRatio = (_bodyRatio + delta / screenWidth).clamp(
-      _LayoutConfig.minBodyRatio,
-      _LayoutConfig.maxBodyRatio,
+      LayoutConfig.minBodyRatio,
+      LayoutConfig.maxBodyRatio,
     );
     if (newRatio != _bodyRatio) {
       setState(() => _bodyRatio = newRatio);
@@ -67,8 +70,8 @@ final class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
-    final isDesktop = screenWidth >= _LayoutConfig.desktopScreenWidth;
-    final drawerWidth = screenWidth * _LayoutConfig.drawerRatio;
+    final isDesktop = screenWidth >= LayoutConfig.desktopScreenWidth;
+    final drawerWidth = screenWidth * LayoutConfig.drawerRatio;
 
     return Scaffold(
       key: widget.scaffoldKey,
@@ -107,7 +110,7 @@ final class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildAdaptiveLayout(BuildContext context, double screenWidth) {
-    SlotLayoutConfig bodyConfig() => SlotLayout.from(
+    asc.SlotLayoutConfig bodyConfig() => asc.SlotLayout.from(
       key: const Key('Body Desktop'),
       builder: (_) {
         return Padding(
@@ -126,13 +129,13 @@ final class _HomeScreenState extends State<HomeScreen> {
       },
     );
 
-    SlotLayoutConfig secondaryConfig() => SlotLayout.from(
+    asc.SlotLayoutConfig secondaryConfig() => asc.SlotLayout.from(
       key: const Key('SecondaryBody Desktop'),
       builder: (_) =>
           Scaffold(body: widget.child, floatingActionButton: const Fab()),
     );
 
-    SlotLayoutConfig smallConfig() => SlotLayout.from(
+    asc.SlotLayoutConfig smallConfig() => asc.SlotLayout.from(
       key: const Key('Body Small'),
       builder: (_) => _MobileLayout(
         hasNote: widget.hasNote,
@@ -141,25 +144,25 @@ final class _HomeScreenState extends State<HomeScreen> {
       ),
     );
 
-    return AdaptiveLayout(
+    return asc.AdaptiveLayout(
       bodyRatio: _bodyRatio,
       bodyOrientation: Axis.horizontal,
-      internalAnimations: _LayoutConfig.internalAnimations,
-      body: SlotLayout(
+      internalAnimations: LayoutConfig.internalAnimations,
+      body: asc.SlotLayout(
         config: {
-          Breakpoints.small: smallConfig(),
-          Breakpoints.medium: bodyConfig(),
-          Breakpoints.mediumLarge: bodyConfig(),
-          Breakpoints.large: bodyConfig(),
-          Breakpoints.extraLarge: bodyConfig(),
+          asc.Breakpoints.small: smallConfig(),
+          asc.Breakpoints.medium: bodyConfig(),
+          asc.Breakpoints.mediumLarge: bodyConfig(),
+          asc.Breakpoints.large: bodyConfig(),
+          asc.Breakpoints.extraLarge: bodyConfig(),
         },
       ),
-      secondaryBody: SlotLayout(
+      secondaryBody: asc.SlotLayout(
         config: {
-          Breakpoints.medium: secondaryConfig(),
-          Breakpoints.mediumLarge: secondaryConfig(),
-          Breakpoints.large: secondaryConfig(),
-          Breakpoints.extraLarge: secondaryConfig(),
+          asc.Breakpoints.medium: secondaryConfig(),
+          asc.Breakpoints.mediumLarge: secondaryConfig(),
+          asc.Breakpoints.large: secondaryConfig(),
+          asc.Breakpoints.extraLarge: secondaryConfig(),
         },
       ),
     );
@@ -236,7 +239,6 @@ final class _NoteList extends StatelessWidget {
 }
 
 final class NewNotePromptPlaceholder extends StatelessWidget {
-  static const double iconRatio = 0.3;
   static const double opacity = 0.4;
   const NewNotePromptPlaceholder({super.key});
 
@@ -245,7 +247,16 @@ final class NewNotePromptPlaceholder extends StatelessWidget {
     final theme = Theme.of(context);
     return LayoutBuilder(
       builder: (context, constraints) {
-        final size = constraints.maxWidth * iconRatio;
+        final width = constraints.maxWidth;
+
+        final bool isTablet = width >= LayoutConfig.desktopScreenWidth;
+        final double iconRatio = isTablet ? 0.1 : 0.2;
+        final double iconSize = width * iconRatio;
+        final TextStyle textStyle = isTablet
+            ? theme.textTheme.headlineLarge!.copyWith(
+                fontWeight: FontWeight.w400,
+              )
+            : theme.textTheme.headlineLarge!;
         return Opacity(
           opacity: opacity,
           child: Padding(
@@ -255,10 +266,15 @@ final class NewNotePromptPlaceholder extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 spacing: Sizes.indent2x,
                 children: [
-                  Image.asset(AppIcons.splash, width: size, height: size),
+                  Image.asset(
+                    AppIcons.splash,
+                    width: iconSize,
+                    height: iconSize,
+                  ),
                   Text(
                     context.l10n.homeScreenEmptyStatePlaceholder,
-                    style: theme.textTheme.displayMedium,
+                    style: textStyle,
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
@@ -312,15 +328,6 @@ final class PlaceholderAddNoteButton extends StatelessWidget {
               color: theme.colorScheme.primary,
             ),
           ),
-          // Positioned(
-          //   right: Sizes.indentVariant2x,
-          //   bottom: Sizes.indentVariant2x,
-          //   child: Icon(
-          //     Icons.add,
-          //     size: 26.0,
-          //     color: theme.colorScheme.primary,
-          //   ),
-          // ),
         ],
       ),
     );

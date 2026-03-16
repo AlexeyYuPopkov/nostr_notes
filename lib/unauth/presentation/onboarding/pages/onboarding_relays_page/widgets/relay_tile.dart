@@ -110,7 +110,11 @@ final class _RelayTileState extends State<RelayTile> {
                 style: theme.textTheme.bodyLarge,
               ),
             ),
-            Checkbox(value: widget.isSelected, onChanged: _onChanged),
+            Checkbox.adaptive(
+              value: widget.isSelected,
+              activeColor: theme.colorScheme.primary,
+              onChanged: _onChanged,
+            ),
           ],
         );
       },
