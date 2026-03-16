@@ -78,7 +78,7 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
         RootContextProvider.instance.setRootContext(context);
 
         return StreamBuilder<BlurScreenState>(
-          stream: _blurScreenUsecase.stateStream,
+          stream: _blurScreenUsecase.stateStream.distinct(),
           initialData: _blurScreenUsecase.currentState,
           builder: (context, snapshot) {
             final state = snapshot.data ?? BlurScreenState.unlocked;
