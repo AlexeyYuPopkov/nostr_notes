@@ -8,6 +8,7 @@ import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_nsec_page/onboarding_nsec_page.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
+import 'package:rxdart/transformers.dart';
 
 import 'onboarding_screen_data.dart';
 import 'onboarding_screen_event.dart';
@@ -15,6 +16,7 @@ import 'onboarding_screen_state.dart';
 
 final class OnboardingScreenBloc
     extends Bloc<OnboardingScreenEvent, OnboardingScreenState> {
+  static const _debounceDuration = Duration(milliseconds: 200);
   OnboardingScreenData get data => state.data;
   DiStorage get _di => DiStorage.shared;
 
@@ -74,7 +76,11 @@ final class OnboardingScreenBloc
     on<OnGenerateKeyEvent>(_onGenerateKeyEvent);
     on<OnNsecGeneratedEvent>(_onNsecGeneratedEvent);
     on<OnRelaysSelectedEvent>(_onRelaysSelectedEvent);
-    on<SettingsEvent>(_onSettingsEvent);
+    on<SettingsEvent>(
+      _onSettingsEvent,
+      transformer: (events, mapper) =>
+          events.debounceTime(_debounceDuration).switchMap(mapper),
+    );
     on<DidChangeSettingsEvent>(_onDidChangeUsePinFlagEvent);
   }
 
