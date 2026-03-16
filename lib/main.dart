@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
@@ -76,39 +75,40 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
         RootContextProvider.instance.setRootContext(context);
+        return child ?? const SizedBox.shrink();
 
-        return StreamBuilder<BlurScreenState>(
-          stream: _blurScreenUsecase.stateStream.distinct(),
-          initialData: _blurScreenUsecase.currentState,
-          builder: (context, snapshot) {
-            final state = snapshot.data ?? BlurScreenState.unlocked;
+        // return StreamBuilder<BlurScreenState>(
+        //   stream: _blurScreenUsecase.stateStream.distinct(),
+        //   initialData: _blurScreenUsecase.currentState,
+        //   builder: (context, snapshot) {
+        //     final state = snapshot.data ?? BlurScreenState.unlocked;
 
-            if (state != BlurScreenState.blured) {
-              return child!;
-            }
+        //     if (state != BlurScreenState.blured) {
+        //       return child!;
+        //     }
 
-            final theme = Theme.of(context);
+        //     final theme = Theme.of(context);
 
-            return Stack(
-              key: const ValueKey('blurred_screen'),
-              children: [
-                child!,
-                Positioned.fill(
-                  child: AbsorbPointer(
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                      child: ColoredBox(
-                        color: theme.colorScheme.onSurfaceVariant.withValues(
-                          alpha: 0.16,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
-        );
+        //     return Stack(
+        //       key: const ValueKey('blurred_screen'),
+        //       children: [
+        //         child!,
+        //         Positioned.fill(
+        //           child: AbsorbPointer(
+        //             child: BackdropFilter(
+        //               filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+        //               child: ColoredBox(
+        //                 color: theme.colorScheme.onSurfaceVariant.withValues(
+        //                   alpha: 0.16,
+        //                 ),
+        //               ),
+        //             ),
+        //           ),
+        //         ),
+        //       ],
+        //     );
+        //   },
+        // );
       },
     );
   }
