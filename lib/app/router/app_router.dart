@@ -37,7 +37,6 @@ final class AppRouter {
             Di.instance.bindAuthModules();
           }
         })
-        .debounceTime(const Duration(milliseconds: 150))
         .listen((session) async {
           _router.refresh();
         });

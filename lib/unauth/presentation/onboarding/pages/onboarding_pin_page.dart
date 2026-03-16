@@ -192,7 +192,7 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
     _formKey.currentState?.reset();
     field.didChange(value);
     final bloc = context.read<OnboardingScreenBloc>();
-    bloc.add(OnboardingScreenEvent.didChangeUsePinFlag(value ?? true));
+    bloc.add(OnboardingScreenEvent.didChangeSettings(value ?? true));
   }
 
   void _onNext(BuildContext context, LoadingButtonVM? vm) {

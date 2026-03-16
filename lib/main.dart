@@ -10,6 +10,7 @@ import 'package:nostr_notes/app/router/app_router.dart';
 import 'package:nostr_notes/common/data/root_context_provider/root_context_provider.dart';
 import 'package:nostr_notes/services/nostr_client/outbox_publisher.dart';
 import 'package:nostr_notes/unauth/domain/blur_screen_usecase.dart';
+// import 'package:flutter/scheduler.dart' show timeDilation;
 
 final _appRouter = AppRouter();
 
@@ -18,6 +19,7 @@ void main() async {
 
   await Di.instance.bindUnauthModules();
   HttpOverrides.global = MyHttpOverrides();
+  // timeDilation = 4.0;
   runApp(const App());
 }
 
