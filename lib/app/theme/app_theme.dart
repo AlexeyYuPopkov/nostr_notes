@@ -28,14 +28,6 @@ final class AppTheme {
     textTheme: AppTextTheme.createTextThemeWithColor(
       AppColorScheme.light.onSurface,
     ),
-    // checkboxTheme: CheckboxThemeData(
-    //   fillColor: WidgetStateProperty.resolveWith((states) {
-    //     if (states.contains(WidgetState.selected)) {
-    //       return AppColorScheme.light.primary;
-    //     }
-    //     return AppColorScheme.light.onSurfaceVariant;
-    //   }),
-    // ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColorScheme.light.surface,
@@ -81,6 +73,13 @@ final class AppTheme {
     progressIndicatorTheme: ProgressIndicatorThemeData(
       color: AppColorScheme.light.primary,
       strokeWidth: Sizes.thickness,
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: AppColorScheme.light.surface,
+      foregroundColor: AppColorScheme.light.primary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Sizes.radiusVariant),
+      ),
     ),
 
     extensions: [
@@ -131,7 +130,7 @@ final class AppTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColorScheme.dark.primary,
-        foregroundColor: AppColorScheme.dark.onPrimary,
+        foregroundColor: AppColorScheme.dark.onSurface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Sizes.radius),
         ),
@@ -150,6 +149,19 @@ final class AppTheme {
       elevation: 2,
       margin: const EdgeInsets.all(Sizes.indent),
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: AppColorScheme.dark.secondaryContainer,
+      foregroundColor: AppColorScheme.dark.primary,
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Sizes.radiusVariant),
+      ),
+    ),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: AppColorScheme.dark.secondaryContainer,
+      contentTextStyle: TextStyle(color: AppColorScheme.dark.onSurface),
+    ),
+
     extensions: [
       ShimmerColors.fromBrightness(Brightness.light),
       AppGptMarkdownTheme.dark(),

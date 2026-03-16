@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/theme/app_theme.dart';
@@ -66,10 +65,7 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
-      localizationsDelegates: const [
-        ...Localization.localizationsDelegates,
-        FlutterQuillLocalizations.delegate,
-      ],
+      localizationsDelegates: const [...Localization.localizationsDelegates],
       supportedLocales: Localization.supportedLocales,
       routerConfig: _appRouter.router,
       debugShowCheckedModeBanner: false,

@@ -41,6 +41,8 @@ final class NotesList extends StatelessWidget with DialogHelper {
 
   @override
   Widget build(BuildContext context) {
+    final breakpoint = Breakpoint.activeBreakpointOf(context);
+
     return BlocProvider(
       create: (context) => NotesListBloc(contextProvider: () => context),
       child: BlocConsumer<NotesListBloc, NotesListState>(
@@ -51,9 +53,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
               title: Text(context.l10n.notesListScreenTitle),
               actions: const [_SettingsButton()],
             ),
-            floatingActionButton: Breakpoint.activeBreakpointOf(context).isSmall
-                ? const Fab()
-                : null,
+            floatingActionButton: breakpoint.isSmall ? const Fab() : null,
             body: RefreshIndicator(
               onRefresh: () async => _onRefresh(context),
               child: _List(

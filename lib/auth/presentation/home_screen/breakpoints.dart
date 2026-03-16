@@ -1,7 +1,14 @@
 import 'package:custom_adaptive_scaffold/custom_adaptive_scaffold.dart' as asc;
 import 'package:flutter/widgets.dart';
+import 'package:nostr_notes/auth/presentation/home_screen/layout_config.dart';
 
-const breakpoints = [SmallBreakpoint(), MediumBreakpoint(), LargeBreakpoint()];
+const breakpoints = [
+  asc.Breakpoints.small,
+  asc.Breakpoints.medium,
+  asc.Breakpoints.mediumLarge,
+  asc.Breakpoints.large,
+  asc.Breakpoints.extraLarge,
+];
 
 sealed class Breakpoint extends asc.Breakpoint {
   const Breakpoint({
@@ -19,9 +26,22 @@ sealed class Breakpoint extends asc.Breakpoint {
   });
 
   static Breakpoint activeBreakpointOf(BuildContext context) {
-    return (asc.Breakpoint.activeBreakpointIn(context, breakpoints)
-            as Breakpoint?) ??
-        const SmallBreakpoint();
+    final breakpoint =
+        asc.Breakpoint.activeBreakpointIn(context, breakpoints) ??
+        asc.Breakpoints.small;
+
+    switch (breakpoint) {
+      case asc.Breakpoints.small:
+        return const SmallBreakpoint();
+      case asc.Breakpoints.medium:
+      case asc.Breakpoints.mediumLarge:
+        return const MediumBreakpoint();
+      case asc.Breakpoints.large:
+      case asc.Breakpoints.extraLarge:
+        return const LargeBreakpoint();
+    }
+
+    return (breakpoint as Breakpoint?) ?? const SmallBreakpoint();
   }
 
   bool get isSmall => this is SmallBreakpoint;
@@ -48,12 +68,16 @@ sealed class Breakpoint extends asc.Breakpoint {
   bool between(covariant Breakpoint lower, covariant Breakpoint upper) {
     return this >= lower && this < upper;
   }
+
+  static const small = SmallBreakpoint();
+  static const medium = MediumBreakpoint();
+  static const large = LargeBreakpoint();
 }
 
 final class SmallBreakpoint extends Breakpoint {
   const SmallBreakpoint({
     super.andUp = false,
-    super.endWidth = 792,
+    super.endWidth = LayoutConfig.desktopScreenWidth,
     super.spacing = asc.kMaterialMediumAndUpSpacing,
     super.margin = asc.kMaterialMediumAndUpMargin,
     super.padding = asc.kMaterialPadding * 2.0,
@@ -115,7 +139,7 @@ final class MediumBreakpoint extends Breakpoint {
 final class LargeBreakpoint extends Breakpoint {
   const LargeBreakpoint({
     super.andUp = false,
-    super.beginWidth = 1164,
+    super.beginWidth = 1164.0,
     super.endWidth,
     super.spacing = asc.kMaterialMediumAndUpSpacing,
     super.margin = asc.kMaterialMediumAndUpMargin,

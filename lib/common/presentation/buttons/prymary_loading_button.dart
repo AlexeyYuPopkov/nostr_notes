@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:nostr_notes/common/presentation/buttons/prymary_button.dart';
 
 import 'send_form_button_wrapper.dart';
 import 'vm/loading_button_vm.dart';
@@ -50,6 +52,13 @@ final class _PrymaryLoadingButtonState extends State<PrymaryLoadingButton> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final color = widget.onTap == null
+        ? theme.colorScheme.onSurface.withValues(
+            alpha: PrymaryButton.disabledOpacity,
+          )
+        : theme.colorScheme.onPrimary;
+
     return SendFormButtonWrapper(
       isLoading: vm.isLoading,
       isEnabled: !vm.isLoading,
@@ -61,11 +70,14 @@ final class _PrymaryLoadingButtonState extends State<PrymaryLoadingButton> {
             visible: !vm.isLoading,
             child: SizedBox(
               width: widget.stretch ? double.infinity : null,
-              child: Text(
-                widget.title,
-                maxLines: 1,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
+              child: DefaultTextStyle(
+                style: TextStyle(color: color),
+                child: Text(
+                  widget.title,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
           ),

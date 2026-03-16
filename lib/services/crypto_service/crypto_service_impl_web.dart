@@ -51,6 +51,7 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
 
       _lib = await wasm.DynamicLibrary.open(
         'assets/assets/wasm/crypto_module.wasm',
+        // wasmType: .wasm32Emscripten,
       );
 
       _spec256k1Wasm = _lib
