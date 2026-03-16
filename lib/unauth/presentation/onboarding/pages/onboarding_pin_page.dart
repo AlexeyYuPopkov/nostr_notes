@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -106,17 +105,22 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
                     CommonTooltip(
                       title: l10n.commonInfo,
                       message: l10n.onboardingPinPageInfoPin,
-                      child: CupertinoButton(
-                        minimumSize: .zero,
-                        padding: .zero,
-                        onPressed: () {},
-                        child: Icon(
-                          Icons.info_outline,
-                          size: Sizes.iconSmall,
-                          color: theme.colorScheme.onSurfaceVariant,
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          minWidth: Sizes.iconMedium,
+                          minHeight: Sizes.buttonHeight,
+                        ),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Icon(
+                            Icons.info_outline,
+                            size: Sizes.iconSmall,
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
                         ),
                       ),
                     ),
+
                     Expanded(
                       child: FormField<bool>(
                         initialValue: false,
@@ -132,14 +136,22 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
                                   return state.data.isUsePin;
                                 },
                                 builder: (context, isUsePin) {
-                                  return CheckboxListTile(
-                                    value: isUsePin,
-                                    contentPadding: EdgeInsets.zero,
-                                    onChanged: (e) =>
-                                        _onCheckboxChanged(context, field, e),
-                                    title: Text(
-                                      l10n.onboardingPinPageLabelCheckboxUsePin,
-                                    ),
+                                  return Row(
+                                    mainAxisAlignment: .spaceBetween,
+                                    children: [
+                                      Text(
+                                        l10n.onboardingPinPageLabelCheckboxUsePin,
+                                      ),
+                                      Checkbox.adaptive(
+                                        value: isUsePin,
+                                        activeColor: theme.colorScheme.primary,
+                                        onChanged: (e) => _onCheckboxChanged(
+                                          context,
+                                          field,
+                                          e,
+                                        ),
+                                      ),
+                                    ],
                                   );
                                 },
                               ),
@@ -180,7 +192,7 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
     _formKey.currentState?.reset();
     field.didChange(value);
     final bloc = context.read<OnboardingScreenBloc>();
-    bloc.add(OnboardingScreenEvent.didChangeUsePinFlag(value ?? true));
+    bloc.add(OnboardingScreenEvent.didChangeSettings(value ?? true));
   }
 
   void _onNext(BuildContext context, LoadingButtonVM? vm) {

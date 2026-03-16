@@ -4,8 +4,14 @@ import 'package:nostr_notes/core/tools/now.dart';
 import 'package:uuid/uuid.dart';
 
 abstract interface class NotesRepository {
-  void sendRequest({
+  void sendNotesRequest({
     required String pubkey,
+    required Set<String> relays,
+    DateTime? until,
+  });
+
+  void sendNoteRequest({
+    required String id,
     required Set<String> relays,
     DateTime? until,
   });

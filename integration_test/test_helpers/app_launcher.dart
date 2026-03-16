@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
@@ -36,10 +35,7 @@ final class AppLauncherRobot {
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         themeMode: ThemeMode.light,
-        localizationsDelegates: const [
-          ...Localization.localizationsDelegates,
-          FlutterQuillLocalizations.delegate,
-        ],
+        localizationsDelegates: const [...Localization.localizationsDelegates],
         supportedLocales: Localization.supportedLocales,
         routerConfig: appRouter.router,
         debugShowCheckedModeBanner: false,

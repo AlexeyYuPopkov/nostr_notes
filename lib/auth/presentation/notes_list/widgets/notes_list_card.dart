@@ -148,7 +148,7 @@ final class NotesListCard extends StatelessWidget
                       error: sectionItem.note.error,
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(right: Sizes.halfIndent),
+                      padding: const EdgeInsets.only(left: Sizes.indent),
                       child: Icon(
                         Icons.error_outline,
                         size: Sizes.iconMedium,
@@ -161,13 +161,16 @@ final class NotesListCard extends StatelessWidget
                   builder: (context, value, child) {
                     return Visibility(
                       visible: pendingVm.isPending(sectionItem.note.eventId),
-                      child: CommonTooltip(
-                        title: context.l10n.notesListPendingSyncTitle,
-                        message: context.l10n.notesListPendingSyncDescription,
-                        child: const Icon(
-                          Icons.schedule,
-                          size: Sizes.iconSmall,
-                          color: Colors.amber,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: Sizes.indent),
+                        child: CommonTooltip(
+                          title: context.l10n.notesListPendingSyncTitle,
+                          message: context.l10n.notesListPendingSyncDescription,
+                          child: const Icon(
+                            Icons.schedule,
+                            size: Sizes.iconSmall,
+                            color: Colors.amber,
+                          ),
                         ),
                       ),
                     );

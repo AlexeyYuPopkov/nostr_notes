@@ -1,7 +1,9 @@
 import 'package:di_storage/di_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_relays_usecase.dart';
+import 'package:nostr_notes/common/presentation/buttons/prymary_button.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'onboarding_relays_data.dart';
@@ -16,6 +18,7 @@ final class OnboardingRelaysBloc
   late final _getRelaysUsecase = GetRelaysUsecase(
     relaysListRepo: _relaysListRepo,
   );
+  late final saveButtonVm = PrymaryLoadingButtonVM();
 
   OnboardingRelaysBloc()
     : super(
@@ -83,11 +86,19 @@ final class OnboardingRelaysBloc
     SaveEvent event,
     Emitter<OnboardingRelaysState> emit,
   ) async {
-    await _relaysListRepo.saveRelaysList(
-      data.selectedRelays.map((e) => e.url.toString()).toSet(),
-    );
+    try {
+      saveButtonVm.setLoading(true);
+      await Future.delayed(Durations.medium2);
+      await _relaysListRepo.saveRelaysList(
+        data.selectedRelays.map((e) => e.url.toString()).toSet(),
+      );
 
-    add(const OnboardingRelaysEvent.initial());
+      add(const OnboardingRelaysEvent.initial());
+    } catch (e) {
+      emit(OnboardingRelaysState.error(e: e, data: data));
+    } finally {
+      saveButtonVm.setLoading(false);
+    }
   }
 
   void _onAddEvent(OnAddEvent event, Emitter<OnboardingRelaysState> emit) {

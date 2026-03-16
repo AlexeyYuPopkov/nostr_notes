@@ -47,7 +47,7 @@ class NotesRepositoryImpl implements NotesRepository {
       });
 
   @override
-  void sendRequest({
+  void sendNotesRequest({
     required String pubkey,
     required Set<String> relays,
     DateTime? until,
@@ -62,6 +62,27 @@ class NotesRepositoryImpl implements NotesRepository {
             authors: [pubkey],
             p: [pubkey],
             t: [AppConfig.clientTagValue],
+            until: until?.toSecondsSinceEpoch(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void sendNoteRequest({
+    required String id,
+    required Set<String> relays,
+    DateTime? until,
+  }) {
+    _client.addRelays(relays);
+
+    _client.sendRequestToAll(
+      NostrReq(
+        filters: [
+          NostrFilter(
+            kinds: [EventKind.note.value],
+            d: [id],
             until: until?.toSecondsSinceEpoch(),
           ),
         ],

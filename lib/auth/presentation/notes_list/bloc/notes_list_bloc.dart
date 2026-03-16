@@ -59,17 +59,41 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
 
   void _setupSubscription() {
     _fetchNotesSubscription?.cancel();
-    _fetchNotesSubscription = _fetchNotesUsecase.execute().listen(
-      (_) {},
-      onError: (error) {
-        add(NotesListEvent.error(error: error));
-      },
-    );
+    _fetchNotesSubscription = _fetchNotesUsecase
+        .execute(const FetchNotesUsecaseParams.userNotes())
+        .listen(
+          (_) {},
+          onError: (error) {
+            add(NotesListEvent.error(error: error));
+          },
+        );
 
     _getNotesSubscription?.cancel();
     _getNotesSubscription = _getNotesUsecase.execute().listen(
       (items) {
-        add(NotesListEvent.getNotes(notes: items));
+        // final _debugDates = [
+        //   DateTime(2026, 1, 7),
+        //   DateTime(2026, 1, 14),
+        //   DateTime(2026, 2, 1),
+        //   DateTime(2026, 2, 21),
+        //   DateTime(2026, 2, 17),
+        //   DateTime(2026, 2, 22),
+        // ];
+
+        add(
+          NotesListEvent.getNotes(
+            notes: items,
+            // .mapIndexed((index, e) {
+            //   if (index < 6) {
+            //     return e.copyWith(createdAt: _debugDates[index]);
+            //   } else {
+            //     return e;
+            //   }
+            // })
+            // .sorted((a, b) => b.createdAt.compareTo(a.createdAt))
+            // .toList(),
+          ),
+        );
       },
       onError: (error) {
         add(NotesListEvent.error(error: error));

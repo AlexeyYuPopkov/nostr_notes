@@ -15,6 +15,12 @@
                 "--dart-define=RELAY_URL=ws://localhost:8008"
             ],
             "flutterMode": "debug"
+        },
+        {
+            "name": "Profile",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
         }
     ]
 }

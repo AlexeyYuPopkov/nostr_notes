@@ -5,7 +5,7 @@ import 'dart:async';
 
 final class BlurScreenUsecase {
   static const validDuration = Duration(seconds: 180);
-  static const blurDelay = Duration(seconds: 15);
+  static const blurDelay = Duration(seconds: 1);
   final AuthUsecase _authUsecase;
   late final BehaviorSubject<BlurScreenState> _stateSubject =
       BehaviorSubject.seeded(BlurScreenState.unlocked);

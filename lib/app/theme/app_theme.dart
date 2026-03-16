@@ -74,6 +74,13 @@ final class AppTheme {
       color: AppColorScheme.light.primary,
       strokeWidth: Sizes.thickness,
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: AppColorScheme.light.surface,
+      foregroundColor: AppColorScheme.light.primary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Sizes.radiusVariant),
+      ),
+    ),
 
     extensions: [
       ShimmerColors.fromBrightness(Brightness.light),
@@ -123,7 +130,7 @@ final class AppTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColorScheme.dark.primary,
-        foregroundColor: AppColorScheme.dark.onPrimary,
+        foregroundColor: AppColorScheme.dark.onSurface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Sizes.radius),
         ),
@@ -142,6 +149,19 @@ final class AppTheme {
       elevation: 2,
       margin: const EdgeInsets.all(Sizes.indent),
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: AppColorScheme.dark.secondaryContainer,
+      foregroundColor: AppColorScheme.dark.primary,
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Sizes.radiusVariant),
+      ),
+    ),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: AppColorScheme.dark.secondaryContainer,
+      contentTextStyle: TextStyle(color: AppColorScheme.dark.onSurface),
+    ),
+
     extensions: [
       ShimmerColors.fromBrightness(Brightness.light),
       AppGptMarkdownTheme.dark(),

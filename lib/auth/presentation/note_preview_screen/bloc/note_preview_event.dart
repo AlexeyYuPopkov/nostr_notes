@@ -7,6 +7,7 @@ sealed class NotePreviewEvent extends Equatable {
   const factory NotePreviewEvent.initial() = InitialEvent;
   const factory NotePreviewEvent.error({required Object error}) = ErrorEvent;
   const factory NotePreviewEvent.noteUpdated(Note note) = NoteUpdatedEvent;
+  const factory NotePreviewEvent.refresh() = RefreshEvent;
 
   @override
   @override
@@ -25,4 +26,8 @@ final class ErrorEvent extends NotePreviewEvent {
 final class NoteUpdatedEvent extends NotePreviewEvent {
   final Note note;
   const NoteUpdatedEvent(this.note);
+}
+
+final class RefreshEvent extends NotePreviewEvent {
+  const RefreshEvent();
 }

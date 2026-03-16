@@ -35,11 +35,12 @@ final class NoteCryptoUseCase {
 
     final extraDerivation = _extraDerivation.execute(pin);
 
-    final conversationKey = nip44Expando[session] ??= _cryptoService.deriveKeys(
-      senderPrivateKey: privateKey,
-      recipientPublicKey: peerPubkey,
-      extraDerivation: extraDerivation,
-    );
+    final conversationKey = nip44Expando[session] ??= await _cryptoService
+        .deriveKeysAsync(
+          senderPrivateKey: privateKey,
+          recipientPublicKey: peerPubkey,
+          extraDerivation: extraDerivation,
+        );
 
     final encryptedContent = await _cryptoService.encryptNip44(
       plaintext: note.content,
@@ -63,11 +64,12 @@ final class NoteCryptoUseCase {
 
     final extraDerivation = _extraDerivation.execute(pin);
     final stopwatch = Stopwatch()..start();
-    final conversationKey = nip44Expando[session] ??= _cryptoService.deriveKeys(
-      senderPrivateKey: privateKey,
-      recipientPublicKey: peerPubkey,
-      extraDerivation: extraDerivation,
-    );
+    final conversationKey = nip44Expando[session] ??= await _cryptoService
+        .deriveKeysAsync(
+          senderPrivateKey: privateKey,
+          recipientPublicKey: peerPubkey,
+          extraDerivation: extraDerivation,
+        );
 
     log(
       'DeriveKeys (note) took: ${stopwatch.elapsedMilliseconds} ms',
@@ -101,11 +103,12 @@ final class NoteCryptoUseCase {
 
     final extraDerivation = _extraDerivation.execute(pin);
     final stopwatch = Stopwatch()..start();
-    final conversationKey = nip44Expando[session] ??= _cryptoService.deriveKeys(
-      senderPrivateKey: privateKey,
-      recipientPublicKey: peerPubkey,
-      extraDerivation: extraDerivation,
-    );
+    final conversationKey = nip44Expando[session] ??= await _cryptoService
+        .deriveKeysAsync(
+          senderPrivateKey: privateKey,
+          recipientPublicKey: peerPubkey,
+          extraDerivation: extraDerivation,
+        );
 
     log(
       'DeriveKeys (summary) took: ${stopwatch.elapsedMilliseconds} ms',
@@ -178,23 +181,26 @@ class ExtraDerivation {
   }) : _cryptoService = cryptoService,
        _sessionUsecase = sessionUsecase;
 
-  Uint8List Function(Uint8List)? execute(String? password) {
-    // return null;
+  Future<Uint8List> Function(Uint8List)? execute(String? password) {
     if (password == null || password.isEmpty) {
       return null;
     }
     return (Uint8List input) => _extraDerivation(password, input);
   }
 
-  Uint8List _extraDerivation(String password, Uint8List conversationSecret) {
+  Future<Uint8List> _extraDerivation(
+    String password,
+    Uint8List peerPubkey,
+  ) async {
     final pinKey = _passwordToKey(password);
 
     final session = _sessionUsecase.currentSession;
 
-    final conversationKey = _expando[session] ??= _cryptoService.spec256k1(
-      senderPrivateKey: pinKey,
-      recipientPublicKey: conversationSecret,
-    );
+    final conversationKey = _expando[session] ??= await _cryptoService
+        .spec256k1Async(
+          senderPrivateKey: pinKey,
+          recipientPublicKey: peerPubkey,
+        );
 
     log(
       'Modifyed secret ${conversationKey.join(', ')}',
