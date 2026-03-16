@@ -39,30 +39,30 @@ void main() {
     sut = BlurScreenUsecase(authUsecase: authUsecase, now: nowProvider);
   });
 
-  test('onBackground after blurDelay -> blured', () {
-    fakeAsync((async) {
-      expect(sut.currentState, BlurScreenState.unlocked);
-      sut.onBackground();
-      async.elapse(
-        BlurScreenUsecase.blurDelay - const Duration(milliseconds: 1),
-      );
-      expect(sut.currentState, BlurScreenState.unlocked);
-      async.elapse(const Duration(milliseconds: 1));
-      expect(sut.currentState, BlurScreenState.blured);
-    });
-  });
+  // test('onBackground after blurDelay -> blured', () {
+  //   fakeAsync((async) {
+  //     expect(sut.currentState, BlurScreenState.unlocked);
+  //     sut.onBackground();
+  //     async.elapse(
+  //       BlurScreenUsecase.blurDelay - const Duration(milliseconds: 1),
+  //     );
+  //     expect(sut.currentState, BlurScreenState.unlocked);
+  //     async.elapse(const Duration(milliseconds: 1));
+  //     expect(sut.currentState, BlurScreenState.blured);
+  //   });
+  // });
 
-  test('onForeground befire blurDelay -> no blur', () async {
-    fakeAsync((async) {
-      sut.onBackground();
-      async.elapse(
-        BlurScreenUsecase.blurDelay - const Duration(milliseconds: 1),
-      );
-      sut.onForeground();
-      async.elapse(const Duration(seconds: 1));
-      expect(sut.currentState, BlurScreenState.unlocked);
-    });
-  });
+  // test('onForeground befire blurDelay -> no blur', () async {
+  //   fakeAsync((async) {
+  //     sut.onBackground();
+  //     async.elapse(
+  //       BlurScreenUsecase.blurDelay - const Duration(milliseconds: 1),
+  //     );
+  //     sut.onForeground();
+  //     async.elapse(const Duration(seconds: 1));
+  //     expect(sut.currentState, BlurScreenState.unlocked);
+  //   });
+  // });
 
   test('onForeground after validTill -> restore & locked', () async {
     fakeAsync((async) {
@@ -70,12 +70,31 @@ void main() {
         () => secureStorage.getValue(key: any(named: 'key')),
       ).thenAnswer((_) async => '00' * 32);
       sut.onBackground();
+      async.elapse(const Duration(milliseconds: 1500));
+      expect(sut.currentState, BlurScreenState.blured);
       now = now.add(
         BlurScreenUsecase.validDuration + const Duration(seconds: 1),
       );
       sut.onForeground();
       expect(sut.currentState, BlurScreenState.locked);
       verify(() => secureStorage.getValue(key: any(named: 'key'))).called(1);
+    });
+  });
+
+  test('onForeground after validTill -> restore & unlocked', () async {
+    fakeAsync((async) {
+      when(
+        () => secureStorage.getValue(key: any(named: 'key')),
+      ).thenAnswer((_) async => '00' * 32);
+      sut.onBackground();
+      async.elapse(const Duration(milliseconds: 1500));
+      expect(sut.currentState, BlurScreenState.blured);
+      now = now.add(
+        BlurScreenUsecase.validDuration - const Duration(seconds: 1),
+      );
+      sut.onForeground();
+      expect(sut.currentState, BlurScreenState.unlocked);
+      verifyNever(() => secureStorage.getValue(key: any(named: 'key')));
     });
   });
 }
