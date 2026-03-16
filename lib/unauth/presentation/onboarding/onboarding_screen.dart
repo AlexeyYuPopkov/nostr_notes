@@ -50,7 +50,9 @@ final class OnboardingScreen extends StatelessWidget with DialogHelper {
                     final theme = Theme.of(context);
                     return Container(
                       color: theme.colorScheme.surface,
-                      child: const CircularProgressIndicator.adaptive(),
+                      child: const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      ),
                     );
                   }
                   return AbsorbPointer(

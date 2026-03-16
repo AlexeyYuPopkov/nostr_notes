@@ -49,18 +49,19 @@ final class OnboardingScreenBloc
                 ? const OnboardingPin()
                 : const OnboardingRelays();
             add(OnboardingScreenEvent.onStep(step));
-          }
-          final publicKey = session.keys?.publicKey;
-
-          if (publicKey != null && publicKey.isNotEmpty) {
-            final isUsePin = _pinEnabledRepo.getForUser(publicKey);
-            final pinKeyboardType = _pinKeyboardTypeRepo.getType();
-            add(
-              OnboardingScreenEvent.settingsEvent(
-                isUsePin: isUsePin,
-                pinKeyboardType: pinKeyboardType,
-              ),
-            );
+            final publicKey = session.keys?.publicKey;
+            if (publicKey != null && publicKey.isNotEmpty) {
+              final isUsePin = _pinEnabledRepo.getForUser(publicKey);
+              final pinKeyboardType = _pinKeyboardTypeRepo.getType();
+              add(
+                OnboardingScreenEvent.settingsEvent(
+                  isUsePin: isUsePin,
+                  pinKeyboardType: pinKeyboardType,
+                ),
+              );
+            }
+          } else {
+            add(const OnboardingScreenEvent.onStep(OnboardingWelcome()));
           }
         });
   }
