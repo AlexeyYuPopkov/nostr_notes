@@ -80,11 +80,11 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
   }
 
   @override
-  Uint8List deriveKeys({
+  Future<Uint8List> deriveKeysAsync({
     required String senderPrivateKey,
     required String recipientPublicKey,
-    Uint8List Function(Uint8List p1)? extraDerivation,
-  }) {
+    Future<Uint8List> Function(Uint8List p1)? extraDerivation,
+  }) async {
     final key = spec256k1(
       senderPrivateKey: HexToBytes.hexToBytes(senderPrivateKey),
       recipientPublicKey: HexToBytes.hexToBytes(
@@ -177,21 +177,28 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
       conversationKey: conversationKey,
     );
   }
+
+  @override
+  Future<Uint8List> spec256k1Async({
+    required Uint8List senderPrivateKey,
+    required Uint8List recipientPublicKey,
+  }) {
+    return Future(
+      () => spec256k1(
+        senderPrivateKey: senderPrivateKey,
+        recipientPublicKey: recipientPublicKey,
+      ),
+    );
+  }
+
+  @override
+  Future<void> dispose() => Future.value();
 }
 
 final class CryptoServiceImplMobile implements CryptoService {
   const CryptoServiceImplMobile();
   @override
   Future<void> init() async {}
-
-  @override
-  Uint8List deriveKeys({
-    required String senderPrivateKey,
-    required String recipientPublicKey,
-    Uint8List Function(Uint8List p1)? extraDerivation,
-  }) {
-    throw UnimplementedError();
-  }
 
   @override
   Future<String> decryptNip44({
@@ -215,4 +222,24 @@ final class CryptoServiceImplMobile implements CryptoService {
     required Uint8List senderPrivateKey,
     required Uint8List recipientPublicKey,
   }) => throw UnimplementedError();
+
+  @override
+  Future<Uint8List> spec256k1Async({
+    required Uint8List senderPrivateKey,
+    required Uint8List recipientPublicKey,
+  }) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> dispose() => Future.value();
+
+  @override
+  Future<Uint8List> deriveKeysAsync({
+    required String senderPrivateKey,
+    required String recipientPublicKey,
+    Future<Uint8List> Function(Uint8List)? extraDerivation,
+  }) {
+    throw UnimplementedError();
+  }
 }

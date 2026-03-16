@@ -119,6 +119,11 @@ final class CryptoDiModule extends DiScope {
       () => cryptoService,
       module: this,
       lifeTime: const LifeTime.single(),
+      onRemove: (e) {
+        if (e is CryptoService) {
+          e.dispose();
+        }
+      },
     );
 
     di.bind<ExtraDerivation>(
