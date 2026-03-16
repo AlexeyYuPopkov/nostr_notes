@@ -110,7 +110,7 @@ final class BlurScreenUsecase {
   DateTime? _backgroundEnterTime;
 
   bool _isInBackground = false;
-  // Timer? _blurTimer;
+
   bool _isDisposed = false;
 
   BlurScreenUsecase({required AuthUsecase authUsecase, Now now = const Now()})
