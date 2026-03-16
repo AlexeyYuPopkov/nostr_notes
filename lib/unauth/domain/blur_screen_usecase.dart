@@ -2,6 +2,7 @@ import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:rxdart/subjects.dart';
 import 'dart:async';
+import 'package:flutter/foundation.dart' show debugPrint;
 
 final class BlurScreenUsecase {
   static const validDuration = Duration(seconds: 180);
@@ -11,9 +12,9 @@ final class BlurScreenUsecase {
       BehaviorSubject.seeded(BlurScreenState.unlocked);
   final Now _now;
   DateTime? _validTill;
-
   bool _isInBackground = false;
   Timer? _blurTimer;
+  bool _isDisposed = false;
 
   BlurScreenUsecase({required AuthUsecase authUsecase, Now now = const Now()})
     : _authUsecase = authUsecase,
@@ -23,37 +24,75 @@ final class BlurScreenUsecase {
   BlurScreenState get currentState => _stateSubject.value;
 
   Future<void> onForeground() async {
-    _isInBackground = false;
-    _blurTimer?.cancel();
-    _blurTimer = null;
+    if (_isDisposed) {
+      return;
+    }
 
-    if (_validTill == null || _now.now().isAfter(_validTill!)) {
+    _isInBackground = false;
+    _cancelTimer();
+
+    // Проверяем валидность
+    final now = _now.now();
+    final isValid = _validTill != null && !now.isAfter(_validTill!);
+
+    if (!isValid) {
       _stateSubject.add(BlurScreenState.locked);
       await _authUsecase.restore();
     } else {
       _stateSubject.add(BlurScreenState.unlocked);
     }
+
+    // Сбрасываем _validTill для следующего цикла
+    if (!isValid) {
+      _validTill = null;
+    }
   }
 
   void onBackground() {
-    if (_stateSubject.value != BlurScreenState.unlocked) {
+    debugPrint('onBackground called at ${_now.now()}');
+    debugPrint('Current state: ${_stateSubject.value}');
+
+    if (_isDisposed) {
       return;
     }
+
+    // Не запускаем таймер, если уже заблокировано
+    if (_stateSubject.value != BlurScreenState.unlocked) {
+      debugPrint('State is not unlocked, skipping');
+      return;
+    }
+
     _isInBackground = true;
     _validTill = _now.now().add(validDuration);
-    _blurTimer?.cancel();
+    debugPrint('Valid till: $_validTill');
+
+    _cancelTimer();
+
+    // Используем WidgetsBinding для более надежной работы на всех платформах
     _blurTimer = Timer(blurDelay, () {
-      if (_isInBackground &&
-          !_stateSubject.isClosed &&
-          _stateSubject.value != BlurScreenState.locked) {
+      debugPrint('Timer fired at ${_now.now()}');
+      debugPrint('isInBackground: $_isInBackground, isDisposed: $_isDisposed');
+
+      // Проверяем актуальность состояния
+      if (_isDisposed) {
+        return;
+      }
+
+      if (_isInBackground && _stateSubject.value == BlurScreenState.unlocked) {
+        debugPrint('Setting state to blured');
         _stateSubject.add(BlurScreenState.blured);
       }
     });
   }
 
-  Future<void> dispose() async {
+  void _cancelTimer() {
     _blurTimer?.cancel();
     _blurTimer = null;
+  }
+
+  Future<void> dispose() async {
+    _isDisposed = true;
+    _cancelTimer();
     await _stateSubject.close();
   }
 }

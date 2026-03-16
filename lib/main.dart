@@ -41,16 +41,19 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      DiStorage.shared.tryResolve<OutboxPublisher>()?.resume();
-      _blurScreenUsecase.onForeground();
-    }
+    switch (state) {
+      case AppLifecycleState.resumed:
+      case AppLifecycleState.detached:
+        DiStorage.shared.tryResolve<OutboxPublisher>()?.resume();
+        _blurScreenUsecase.onForeground();
+        break;
 
-    if (state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.hidden ||
-        state == AppLifecycleState.paused) {
-      DiStorage.shared.tryResolve<OutboxPublisher>()?.pause();
-      _blurScreenUsecase.onBackground();
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.hidden:
+      case AppLifecycleState.paused:
+        DiStorage.shared.tryResolve<OutboxPublisher>()?.pause();
+        _blurScreenUsecase.onBackground();
+        break;
     }
   }
 
@@ -87,6 +90,7 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
             final theme = Theme.of(context);
 
             return Stack(
+              key: const ValueKey('blurred_screen'),
               children: [
                 child!,
                 Positioned.fill(
