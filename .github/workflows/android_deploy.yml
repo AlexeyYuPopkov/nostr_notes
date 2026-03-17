@@ -51,6 +51,18 @@ jobs:
 
       # - name: Install dependencies
       #   run: flutter pub get
+      - name: Debug file structure
+        run: |
+          echo "Current directory:"
+          pwd
+          echo -e "\nFiles in root:"
+          ls -la
+          echo -e "\nLooking for pubspec.yaml:"
+          find . -name "pubspec.yaml" -type f
+          echo -e "\nAndroid folder contents:"
+          ls -la android/ || echo "android folder not found in root"
+          echo -e "\nFastlane folder contents:"
+          ls -la android/fastlane/ || echo "fastlane folder not found"
         
       - name: Build and deploy
         working-directory: ./android
