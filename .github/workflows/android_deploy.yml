@@ -43,6 +43,7 @@ jobs:
         run: echo '${{ secrets.ANDROID_JSON_KEY_DATA }}' > android/fastlane/play_store_credentials.json
 
       - name: Build and deploy
+        working-directory: ./android
         run: cd android && fastlane deploy
         env:
           SUPPLY_JSON_KEY_FILE: fastlane/play_store_credentials.json
@@ -52,5 +53,7 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add pubspec.yaml
+          # 👇 Важно: берём версию из обновлённого pubspec.yaml
+          VERSION=$(grep 'version: ' pubspec.yaml | cut -d' ' -f2)
           git commit -m "chore: bump version to $(grep 'version: ' pubspec.yaml | cut -d' ' -f2) [skip ci]"
           git push
