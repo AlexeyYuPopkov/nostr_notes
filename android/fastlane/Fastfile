@@ -1,0 +1,52 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Deploy a beta version to Google Play"
+  lane :deploy do |options|
+    track_name = options[:track] || 'internal' # по умолчанию internal
+
+    # Увеличиваем versionCode в pubspec.yaml
+    pubspec_path = "../pubspec.yaml"
+    current_pubspec = File.read(pubspec_path)
+    version_line = current_pubspec.match(/version: (.+)/)[1]
+    
+    # Формат: 1.0.0+10
+    version_parts = version_line.split('+')
+    version_name = version_parts[0]
+    current_code = version_parts[1].to_i
+    new_code = current_code + 1
+    new_version = "#{version_name}+#{new_code}"
+    
+    # Обновляем pubspec.yaml
+    updated_pubspec = current_pubspec.gsub(/version: .+/, "version: #{new_version}")
+    File.write(pubspec_path, updated_pubspec)
+    
+    # Собираем AAB через Flutter
+    sh("flutter clean") # опционально, для чистой сборки
+    sh("flutter pub get")
+    sh("flutter build appbundle --release")
+    
+    # Загружаем в Google Play (использует SUPPLY_JSON_KEY_FILE из env)
+    upload_to_play_store(
+      track: track_name,
+      aab: 'build/app/outputs/bundle/release/app-release.aab'  # ✅ правильно для Flutter
+    )
+  end
+end

@@ -1,0 +1,2 @@
+json_key_file("fastlane/play_store_credentials.json")  # путь относительно папки android/
+package_name("com.alekseii.yu.popkov.nostrNotes")
