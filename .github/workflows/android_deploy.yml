@@ -54,7 +54,7 @@ jobs:
         
       - name: Build and deploy
         working-directory: ./android
-        run: cd android && fastlane deploy
+        run: fastlane deploy
         env:
           SUPPLY_JSON_KEY_FILE: fastlane/play_store_credentials.json
 
