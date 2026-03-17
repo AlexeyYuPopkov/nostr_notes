@@ -21,7 +21,7 @@ jobs:
           java-version: 17
 
       - name: Download keystore
-        run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/upload-keystore.jks
+        run: echo "${{ secrets.ANDROID_UPLOAD_KEYSTORE }}" | base64 -d > android/upload-keystore.jks
 
       - name: Create key.properties
         run: |
