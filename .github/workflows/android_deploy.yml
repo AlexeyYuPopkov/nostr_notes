@@ -43,6 +43,6 @@ jobs:
         run: echo '${{ secrets.ANDROID_JSON_KEY_DATA }}' > android/fastlane/play_store_credentials.json
 
       - name: Build and deploy
-        run: cd android && fastlane deploy track:beta
+        run: cd android && fastlane deploy
         env:
           SUPPLY_JSON_KEY_FILE: fastlane/play_store_credentials.json
