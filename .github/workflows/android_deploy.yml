@@ -34,12 +34,15 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.1
+          bundler-cache: true
 
       - name: Install Fastlane
         run: gem install fastlane
 
-      - name: Decode Google Play JSON key
-        run: echo "${{ secrets.ANDROID_JSON_KEY_DATA }}" > android/fastlane/play_store.json
+      - name: 🔑 Setup Google Play credentials
+        run: echo '${{ secrets.ANDROID_JSON_KEY_DATA }}' > android/fastlane/play_store_credentials.json
 
       - name: Build and deploy
         run: cd android && fastlane beta
+        env:
+          SUPPLY_JSON_KEY_FILE: fastlane/play_store_credentials.json
