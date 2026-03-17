@@ -42,6 +42,16 @@ jobs:
       - name: 🔑 Setup Google Play credentials
         run: echo '${{ secrets.ANDROID_JSON_KEY_DATA }}' > android/fastlane/play_store_credentials.json
 
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.0'
+          channel: 'stable'
+          cache: true
+
+      # - name: Install dependencies
+      #   run: flutter pub get
+        
       - name: Build and deploy
         working-directory: ./android
         run: cd android && fastlane deploy
