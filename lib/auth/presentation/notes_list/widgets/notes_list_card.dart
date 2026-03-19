@@ -9,6 +9,7 @@ import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_formatter.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
+import 'package:nostr_notes/common/presentation/tools/list_item_position.dart';
 
 import '../../tools/note_decrypt_error_message_mixin.dart';
 
@@ -16,7 +17,6 @@ final class NotesListCard extends StatelessWidget
     with DialogHelper, NoteDecryptErrorMessageMixin {
   static const titleHeight = 24.0;
   static const subtitleHeight = 16.0;
-  static const itemHeight = titleHeight + subtitleHeight + Sizes.halfIndent;
 
   final NotesListItem sectionItem;
   final PendingVm pendingVm;
@@ -47,9 +47,6 @@ final class NotesListCard extends StatelessWidget
     final subtitle = titleComponents.length > 1
         ? titleComponents[1].trim()
         : '';
-    final showBottomBorder =
-        sectionItem.position == NotesListItemPosition.middle ||
-        sectionItem.position == NotesListItemPosition.first;
 
     return Container(
       clipBehavior: .hardEdge,
@@ -59,18 +56,14 @@ final class NotesListCard extends StatelessWidget
             ? theme.colorScheme.secondaryContainer
             : theme.colorScheme.outlineVariant,
 
-        borderRadius: _getRadius(sectionItem.position),
-        border: showBottomBorder
-            ? Border(
-                bottom: BorderSide(
-                  color: theme.colorScheme.outline,
-                  width: Sizes.thicknessHalf,
-                ),
-              )
-            : null,
+        borderRadius: sectionItem.position.getRadius(),
+        border: sectionItem.position.getBorder(
+          theme.colorScheme.outline,
+          thickness: Sizes.thicknessHalf,
+        ),
       ),
       child: InkWell(
-        borderRadius: _getRadius(sectionItem.position),
+        borderRadius: sectionItem.position.getRadius(),
         onTap: () => onTap(sectionItem.note),
 
         child: Slidable(
@@ -184,23 +177,6 @@ final class NotesListCard extends StatelessWidget
     );
   }
 
-  BorderRadius _getRadius(NotesListItemPosition position) {
-    const radius = Radius.circular(Sizes.radius);
-    switch (position) {
-      case NotesListItemPosition.single:
-        return const BorderRadius.all(radius);
-
-      case NotesListItemPosition.first:
-        return const BorderRadius.vertical(top: radius);
-
-      case NotesListItemPosition.last:
-        return const BorderRadius.vertical(bottom: radius);
-
-      case NotesListItemPosition.middle:
-        return BorderRadius.zero;
-    }
-  }
-
   Future<bool> _confirmDismiss(BuildContext context) async {
     final l10n = context.l10n;
     final result = await showConfirmation(
@@ -215,51 +191,48 @@ final class NotesListCard extends StatelessWidget
 
 final class NotesListCardShimmer extends StatelessWidget {
   static const double subtitleWidth = 70.0;
-  const NotesListCardShimmer({super.key});
+  final ListItemPosition position;
+  const NotesListCardShimmer({super.key, required this.position});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: theme.colorScheme.outline,
-            width: Sizes.thicknessHalf,
+    return Container(
+      clipBehavior: .hardEdge,
+      margin: const EdgeInsets.symmetric(horizontal: Sizes.indent),
+      decoration: BoxDecoration(borderRadius: position.getRadius()),
+      child: InkWell(
+        borderRadius: position.getRadius(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: Sizes.indent2x,
+            vertical: Sizes.indent,
+          ),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final randomWidth =
+                  constraints.maxWidth *
+                  (0.3 + (0.4 * (UniqueKey().hashCode % 1000) / 1000));
+              return Column(
+                spacing: Sizes.halfIndent,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CommonShimmer(
+                    child: SizedBox(
+                      height: NotesListCard.titleHeight,
+                      width: randomWidth,
+                    ),
+                  ),
+                  const CommonShimmer(
+                    child: SizedBox(
+                      height: NotesListCard.subtitleHeight,
+                      width: subtitleWidth,
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
-      ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final randomWidth =
-              constraints.maxWidth *
-              (0.3 + (0.4 * (UniqueKey().hashCode % 1000) / 1000));
-          return ListTile(
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: Sizes.indent2x,
-            ),
-            minVerticalPadding: Sizes.zero,
-            title: Column(
-              spacing: Sizes.halfIndent,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CommonShimmer(
-                  child: SizedBox(
-                    height: NotesListCard.titleHeight,
-                    width: randomWidth,
-                  ),
-                ),
-                const CommonShimmer(
-                  child: SizedBox(
-                    height: NotesListCard.subtitleHeight,
-                    width: subtitleWidth,
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
       ),
     );
   }

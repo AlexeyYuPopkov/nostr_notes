@@ -353,6 +353,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your public key uniquely identifies your account on the Nostr network. It is safe to share — anyone can use it to find and verify your posts.';
 
   @override
+  String get themeScreenTitle => 'Theme';
+
+  @override
+  String get themeScreenLabelSystem => 'System';
+
+  @override
+  String get themeScreenLabelLight => 'Light';
+
+  @override
+  String get themeScreenLabelDark => 'Dark';
+
+  @override
   String get helpScreenTitle => 'Help';
 
   @override

@@ -4,6 +4,7 @@ import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_data_screen/credentials_data_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/mobile_keyboard_type/mobile_keyboard_type_screen.dart';
+import 'package:nostr_notes/auth/presentation/settings/preferences/theme_settings/theme_settings_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen.dart';
 
 final class DrawerRouter extends StatelessWidget {
@@ -54,6 +55,15 @@ final class DrawerRouter extends StatelessWidget {
                               ),
                               builder: (context) =>
                                   const CredentialsDataScreen(),
+                            ),
+                          );
+                        } else if (route is ThemeSettingsRoute) {
+                          return Navigator.of(context).push(
+                            MaterialPageRoute(
+                              settings: const RouteSettings(
+                                name: 'theme_settings',
+                              ),
+                              builder: (context) => const ThemeSettingsScreen(),
                             ),
                           );
                         }

@@ -3,15 +3,25 @@ import 'package:nostr_notes/common/domain/error/error_messages_provider.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 
+final class PinUsecaseParams {
+  final String _pin;
+  final bool usePin;
+
+  const PinUsecaseParams({required String pin, required this.usePin})
+    : _pin = pin;
+
+  String get pin => usePin ? _pin.trim() : '';
+}
+
 final class PinUsecase {
-  static const minLength = 4;
+  static const minLength = 3;
   final SessionUsecase _sessionUsecase;
 
   const PinUsecase({required SessionUsecase sessionUsecase})
     : _sessionUsecase = sessionUsecase;
 
-  Future<void> execute({required String pin, required bool usePin}) async {
-    final validationError = validate(pin, usePin);
+  Future<void> execute({required PinUsecaseParams params}) async {
+    final validationError = validate(params.pin, params.usePin);
     if (validationError != null) {
       throw validationError;
     }
@@ -22,7 +32,7 @@ final class PinUsecase {
         throw const AppError.notAuthenticated();
 
       case Auth():
-        _sessionUsecase.setSession(session.toUnlocked(pin: pin.trim()));
+        _sessionUsecase.setSession(session.toUnlocked(pin: params.pin));
         break;
       case Unlocked():
         assert(false, 'Session should not be Unlocked when setting a pin');
