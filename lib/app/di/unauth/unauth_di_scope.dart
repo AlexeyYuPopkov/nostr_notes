@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:di_storage/di_storage.dart';
+import 'package:nostr_notes/app/data/theme_mode_repo_impl.dart';
+import 'package:nostr_notes/app/domain/theme_mode_repo.dart';
 import 'package:nostr_notes/auth/data/desktop_ratio_repo_impl.dart';
 import 'package:nostr_notes/auth/data/pin_enabled_repo_impl.dart';
 import 'package:nostr_notes/auth/data/pin_keyboard_type_repo_impl.dart';
@@ -29,6 +31,12 @@ final class UnauthDiScope extends DiScope {
 
   @override
   void bind(DiStorage di) {
+    di.bind<ThemeModeRepo>(
+      () => ThemeModeRepoImpl(prefs),
+      module: this,
+      lifeTime: const LifeTime.single(),
+    );
+
     di.bind<RelaysListRepo>(
       () => RelaysListRepoImpl(prefs),
       module: this,

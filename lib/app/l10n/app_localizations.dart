@@ -712,6 +712,30 @@ abstract class AppLocalizations {
   /// **'Your public key uniquely identifies your account on the Nostr network. It is safe to share — anyone can use it to find and verify your posts.'**
   String get credentialsDataScreenInfoPubKey;
 
+  /// No description provided for @themeScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get themeScreenTitle;
+
+  /// No description provided for @themeScreenLabelSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeScreenLabelSystem;
+
+  /// No description provided for @themeScreenLabelLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeScreenLabelLight;
+
+  /// No description provided for @themeScreenLabelDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeScreenLabelDark;
+
   /// No description provided for @helpScreenTitle.
   ///
   /// In en, this message translates to:

@@ -10,6 +10,7 @@ import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen.
 
 sealed class PreferencesItem {
   static final List<PreferencesItem> items = [
+    const ThemePreferencesItem(),
     const RelaysList(),
     if (!kIsWeb && (Platform.isAndroid || Platform.isIOS))
       const MobileKeyboardType(),
@@ -74,6 +75,25 @@ final class CredentialsDataPreferencesItem extends PreferencesItem {
   @override
   FutureOr<dynamic> onTap(BuildContext context) {
     RouteHandler.of(context)?.onRoute(const CredentialsDataRoute(), context);
+  }
+
+  @override
+  Widget trailing(BuildContext context) {
+    return const Icon(Icons.arrow_forward_ios, size: Sizes.iconSmall);
+  }
+}
+
+final class ThemePreferencesItem extends PreferencesItem {
+  const ThemePreferencesItem();
+
+  @override
+  String getTitle(BuildContext context) {
+    return context.l10n.themeScreenTitle;
+  }
+
+  @override
+  FutureOr<dynamic> onTap(BuildContext context) {
+    RouteHandler.of(context)?.onRoute(const ThemeSettingsRoute(), context);
   }
 
   @override

@@ -12,6 +12,7 @@ import 'package:nostr_notes/auth/presentation/home_screen/breakpoints.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
+import 'package:nostr_notes/common/presentation/tools/list_item_position.dart';
 
 import 'bloc/notes_list_bloc.dart';
 import 'bloc/notes_list_event.dart';
@@ -76,7 +77,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
 }
 
 final class _List extends StatelessWidget {
-  static const _placeholdersCount = 9;
+  static const _placeholdersCount = 15;
 
   const _List({
     required this.selectedNoteDTag,
@@ -95,8 +96,13 @@ final class _List extends StatelessWidget {
     if (isLoading) {
       return ListView.builder(
         itemCount: _placeholdersCount,
-        cacheExtent: NotesListCard.itemHeight,
-        itemBuilder: (context, index) => const NotesListCardShimmer(),
+        // itemExtent: NotesListCard.itemHeight,
+        itemBuilder: (context, index) => NotesListCardShimmer(
+          position: ListItemPosition.fromIndex(
+            index,
+            length: _placeholdersCount,
+          ),
+        ),
       );
     }
 
@@ -105,7 +111,7 @@ final class _List extends StatelessWidget {
 
     return CustomScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
-      cacheExtent: NotesListCard.itemHeight,
+      // cacheExtent: NotesListCard.itemHeight,
       slivers: [
         SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {

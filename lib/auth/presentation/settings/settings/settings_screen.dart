@@ -88,3 +88,7 @@ final class CredentialsDataRoute implements AppRoute {
 final class HelpScreenRoute implements AppRoute {
   const HelpScreenRoute();
 }
+
+final class ThemeSettingsRoute implements AppRoute {
+  const ThemeSettingsRoute();
+}

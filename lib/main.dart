@@ -2,12 +2,16 @@ import 'dart:io';
 
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/theme/app_theme.dart';
 import 'package:nostr_notes/app/router/app_router.dart';
 import 'package:nostr_notes/common/data/root_context_provider/root_context_provider.dart';
 import 'package:nostr_notes/services/nostr_client/outbox_publisher.dart';
+
+import 'app/presentation/global_settings/bloc/global_settings_bloc.dart';
+import 'app/presentation/global_settings/bloc/global_settings_state.dart';
 // import 'package:nostr_notes/unauth/domain/blur_screen_usecase.dart';
 // import 'package:flutter/scheduler.dart' show timeDilation;
 
@@ -64,52 +68,62 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      onGenerateTitle: (context) => context.l10n.appDisplayName,
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.system,
-      localizationsDelegates: const [...Localization.localizationsDelegates],
-      supportedLocales: Localization.supportedLocales,
-      routerConfig: _appRouter.router,
-      debugShowCheckedModeBanner: false,
-      builder: (context, child) {
-        RootContextProvider.instance.setRootContext(context);
-        return child ?? const SizedBox.shrink();
+    return BlocProvider(
+      create: (context) => GlobalSettingsBloc(),
+      child: BlocBuilder<GlobalSettingsBloc, GlobalSettingsState>(
+        builder: (context, state) {
+          return MaterialApp.router(
+            onGenerateTitle: (context) => context.l10n.appDisplayName,
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: state.data.themeMode,
+            // locale: , // TODO: implement locale change
+            localizationsDelegates: const [
+              ...Localization.localizationsDelegates,
+            ],
+            supportedLocales: Localization.supportedLocales,
+            routerConfig: _appRouter.router,
+            debugShowCheckedModeBanner: false,
+            builder: (context, child) {
+              RootContextProvider.instance.setRootContext(context);
+              return child ?? const SizedBox.shrink();
 
-        // return StreamBuilder<BlurScreenState>(
-        //   stream: _blurScreenUsecase.stateStream.distinct(),
-        //   initialData: _blurScreenUsecase.currentState,
-        //   builder: (context, snapshot) {
-        //     final state = snapshot.data ?? BlurScreenState.unlocked;
+              // return StreamBuilder<BlurScreenState>(
+              //   stream: _blurScreenUsecase.stateStream.distinct(),
+              //   initialData: _blurScreenUsecase.currentState,
+              //   builder: (context, snapshot) {
+              //     final state = snapshot.data ?? BlurScreenState.unlocked;
 
-        //     if (state != BlurScreenState.blured) {
-        //       return child!;
-        //     }
+              //     if (state != BlurScreenState.blured) {
+              //       return child!;
+              //     }
 
-        //     final theme = Theme.of(context);
+              //     final theme = Theme.of(context);
 
-        //     return Stack(
-        //       key: const ValueKey('blurred_screen'),
-        //       children: [
-        //         child!,
-        //         Positioned.fill(
-        //           child: AbsorbPointer(
-        //             child: BackdropFilter(
-        //               filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-        //               child: ColoredBox(
-        //                 color: theme.colorScheme.onSurfaceVariant.withValues(
-        //                   alpha: 0.16,
-        //                 ),
-        //               ),
-        //             ),
-        //           ),
-        //         ),
-        //       ],
-        //     );
-        //   },
-        // );
-      },
+              //     return Stack(
+              //       key: const ValueKey('blurred_screen'),
+              //       children: [
+              //         child!,
+              //         Positioned.fill(
+              //           child: AbsorbPointer(
+              //             child: BackdropFilter(
+              //               filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+              //               child: ColoredBox(
+              //                 color: theme.colorScheme.onSurfaceVariant.withValues(
+              //                   alpha: 0.16,
+              //                 ),
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       ],
+              //     );
+              //   },
+              // );
+            },
+          );
+        },
+      ),
     );
   }
 }
