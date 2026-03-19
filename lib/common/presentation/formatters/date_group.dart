@@ -53,7 +53,7 @@ sealed class NotesListSection extends Equatable {
         continue;
       }
       result.add(NotesListHeader(title: key));
-      final length = notes.length - 1;
+      final length = notes.length;
       result.addAll(
         notes
             .sorted((a, b) => b.createdAt.compareTo(a.createdAt))
