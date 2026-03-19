@@ -3,10 +3,12 @@ import 'package:di_storage/di_storage.dart';
 import 'package:nostr_notes/app/data/theme_mode_repo_impl.dart';
 import 'package:nostr_notes/app/domain/theme_mode_repo.dart';
 import 'package:nostr_notes/auth/data/desktop_ratio_repo_impl.dart';
+import 'package:nostr_notes/auth/data/is_first_launch_repo_impl.dart';
 import 'package:nostr_notes/auth/data/pin_enabled_repo_impl.dart';
 import 'package:nostr_notes/auth/data/pin_keyboard_type_repo_impl.dart';
 import 'package:nostr_notes/auth/data/relays_list_repo_impl.dart';
 import 'package:nostr_notes/auth/domain/repo/desktop_ratio_repo.dart';
+import 'package:nostr_notes/auth/domain/repo/is_first_launch_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/pin_enabled_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/pin_keyboard_type_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
@@ -37,6 +39,12 @@ final class UnauthDiScope extends DiScope {
       lifeTime: const LifeTime.single(),
     );
 
+    di.bind<IsFirstLaunchRepo>(
+      () => IsFirstLaunchRepoImpl(prefs),
+      module: this,
+      lifeTime: const LifeTime.prototype(),
+    );
+
     di.bind<RelaysListRepo>(
       () => RelaysListRepoImpl(prefs),
       module: this,
@@ -46,13 +54,13 @@ final class UnauthDiScope extends DiScope {
     di.bind<PinKeyboardTypeRepo>(
       () => PinKeyboardTypeRepoImpl(prefs),
       module: this,
-      lifeTime: const LifeTime.single(),
+      lifeTime: const LifeTime.prototype(),
     );
 
     di.bind<PinEnabledRepo>(
       () => PinEnabledRepoImpl(prefs),
       module: this,
-      lifeTime: const LifeTime.single(),
+      lifeTime: const LifeTime.prototype(),
     );
 
     di.bind<DesktopRatioRepo>(
