@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen.dart';
+import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
 
 sealed class PreferencesItem {
   static final List<PreferencesItem> items = [

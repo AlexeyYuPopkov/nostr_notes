@@ -532,23 +532,89 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settingsScreenTitle;
 
+  /// No description provided for @settingsScreenSectionSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsScreenSectionSettingsTitle;
+
+  /// No description provided for @settingsScreenSectionSessionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Session'**
+  String get settingsScreenSectionSessionTitle;
+
+  /// No description provided for @settingsScreenSectionAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get settingsScreenSectionAccountTitle;
+
   /// No description provided for @settingsScreenExit.
   ///
   /// In en, this message translates to:
-  /// **'Exit'**
+  /// **'Lock App'**
   String get settingsScreenExit;
 
   /// No description provided for @settingsScreenLogout.
   ///
   /// In en, this message translates to:
-  /// **'Logout and clear data'**
+  /// **'Sign Out'**
   String get settingsScreenLogout;
+
+  /// No description provided for @settingsScreenLogoutDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove your private key from this device'**
+  String get settingsScreenLogoutDescription;
 
   /// No description provided for @settingsScreenLogoutConfirmationMessage.
   ///
   /// In en, this message translates to:
   /// **'Do you really want to log out and clear all data? This action cannot be undone.\nMake sure you have saved your nsec and PIN — if you forget either, your data will be lost permanently.'**
   String get settingsScreenLogoutConfirmationMessage;
+
+  /// No description provided for @settingsScreenDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get settingsScreenDeleteAccount;
+
+  /// No description provided for @settingsScreenDeleteDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete notes from relays and clear local data'**
+  String get settingsScreenDeleteDescription;
+
+  /// No description provided for @settingsScreenDeleteAccountConfirmationMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This action will permanently delete your account from this device and initiate the removal of your data from the **Nostr** network.\n\n### What will happen:\n- **Locally:** Your **private key** and all notes will be irreversibly erased from this device.\n- **On the Nostr network:** A request to delete all your notes will be sent to your relays. Most relays will honor this request.\n\n### Important to know:\nYour notes are end-to-end encrypted. Even if copies remain on some relays, they cannot be read without your private key (which was stored only in the Keychain), which is now permanently deleted.'**
+  String get settingsScreenDeleteAccountConfirmationMessage;
+
+  /// No description provided for @settingsScreenDeleteAccountStatusPreparing.
+  ///
+  /// In en, this message translates to:
+  /// **'Collecting notes to delete...'**
+  String get settingsScreenDeleteAccountStatusPreparing;
+
+  /// No description provided for @settingsScreenDeleteAccountStatusKind5Publishing.
+  ///
+  /// In en, this message translates to:
+  /// **'Publishing deletion requests...'**
+  String get settingsScreenDeleteAccountStatusKind5Publishing;
+
+  /// No description provided for @settingsScreenDeleteAccountStatusClearLocalStorages.
+  ///
+  /// In en, this message translates to:
+  /// **'Clearing local data...'**
+  String get settingsScreenDeleteAccountStatusClearLocalStorages;
+
+  /// No description provided for @settingsScreenDeleteAccountStatusLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logging out...'**
+  String get settingsScreenDeleteAccountStatusLogout;
 
   /// No description provided for @settingsItemPreferences.
   ///

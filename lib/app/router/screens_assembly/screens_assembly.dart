@@ -7,4 +7,5 @@ abstract interface class ScreensAssembly {
   Widget createAppSettingsScreen();
   Widget createRelaysListScreen();
   Widget createHelpScreen();
+  Widget deleteAccUsecaseScreen();
 }

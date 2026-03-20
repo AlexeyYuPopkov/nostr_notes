@@ -6,6 +6,7 @@ import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_d
 import 'package:nostr_notes/auth/presentation/settings/preferences/mobile_keyboard_type/mobile_keyboard_type_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/theme_settings/theme_settings_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen.dart';
+import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
 
 final class DrawerRouter extends StatelessWidget {
   final ScreensAssembly screensAssembly;
@@ -76,6 +77,14 @@ final class DrawerRouter extends StatelessWidget {
                   MaterialPageRoute(
                     settings: const RouteSettings(name: 'help_screen'),
                     builder: (context) => screensAssembly.createHelpScreen(),
+                  ),
+                );
+              } else if (route is DeleteAccRoute) {
+                return Navigator.of(context).push(
+                  MaterialPageRoute(
+                    settings: const RouteSettings(name: 'delete_acc_screen'),
+                    builder: (context) =>
+                        screensAssembly.deleteAccUsecaseScreen(),
                   ),
                 );
               }

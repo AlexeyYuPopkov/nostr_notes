@@ -67,7 +67,7 @@ void main() {
           'dce0fabd51911a780130715bb4c247df2fe0fe0e1c53df6218fa1e4e041e60e0';
       const privateKey =
           'a98fd7e7adff56cca03795e8dc80bdefbb2133ed0f2cda6e0c95b9dedb89f3a6';
-      final event = NostrEventCreator.createEvent(
+      final event = const NostrEventCreator().createEvent(
         kind: EventKind.note.value,
         content: '123',
         createdAt: DateTime(2025, 6, 16),
@@ -108,11 +108,11 @@ void main() {
       final subscription = client.stream().listen((e) {});
 
       await expectLater(
-        reportFuture.then((e) => e.events.length),
+        reportFuture.then((e) => e.okEvents.length),
         completion(1),
       );
       await expectLater(
-        reportFuture.then((e) => e.events[0]),
+        reportFuture.then((e) => e.okEvents[0]),
         completion(exeptedEvent),
       );
 

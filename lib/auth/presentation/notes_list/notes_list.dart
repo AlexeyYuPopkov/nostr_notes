@@ -10,6 +10,7 @@ import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/breakpoints.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
+import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholder.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/common/presentation/tools/list_item_position.dart';
@@ -106,12 +107,19 @@ final class _List extends StatelessWidget {
       );
     }
 
+    if (sections.isEmpty) {
+      final breakpoint = Breakpoint.activeBreakpointOf(context);
+      if (breakpoint.isSmall) {
+        return const NewNotePromptPlaceholder();
+      }
+    }
+
     final mediaPadding = MediaQuery.paddingOf(context);
     final bloc = context.read<NotesListBloc>();
 
     return CustomScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
-      // cacheExtent: NotesListCard.itemHeight,
+      cacheExtent: 600.0,
       slivers: [
         SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {

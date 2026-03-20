@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,6 +62,12 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     _fetchNotesSubscription?.cancel();
     _fetchNotesSubscription = _fetchNotesUsecase
         .execute(const FetchNotesUsecaseParams.userNotes())
+        .doOnData((data) {
+          log(
+            'FetchNotesUsecase emitted data with length: ${data.length}',
+            name: runtimeType.toString(),
+          );
+        })
         .listen(
           (_) {},
           onError: (error) {
