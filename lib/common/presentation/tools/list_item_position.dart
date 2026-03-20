@@ -63,4 +63,15 @@ enum ListItemPosition {
         );
     }
   }
+
+  bool needsSeparator() {
+    switch (this) {
+      case ListItemPosition.single:
+      case ListItemPosition.last:
+        return false;
+      case ListItemPosition.first:
+      case ListItemPosition.middle:
+        return true;
+    }
+  }
 }

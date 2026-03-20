@@ -26,7 +26,6 @@ final class CreateNoteUsecase {
     required String? dTag,
     Now? now,
     Uuid? uuid,
-    List<int>? randomBytes,
   }) async {
     final keys = _sessionUsecase.currentSession.keys;
     if (keys == null) {
@@ -55,7 +54,6 @@ final class CreateNoteUsecase {
       privateKey: keys.privateKey,
       now: now,
       uuid: uuid,
-      randomBytes: randomBytes,
     );
 
     final targetNote = result;

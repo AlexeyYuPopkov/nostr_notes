@@ -26,41 +26,47 @@ final class _NoteCodeFieldState extends State<NoteCodeField> {
   @override
   Widget build(BuildContext context) {
     final mdTheme = Theme.of(context).extension<AppGptMarkdownTheme>()!;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: mdTheme.codeBlocBackground,
-              borderRadius: BorderRadius.circular(Sizes.radiusSmall),
-            ),
-            child: SingleChildScrollView(
+    return Padding(
+      padding: const EdgeInsets.all(Sizes.thickness),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: mdTheme.codeBlocBackground,
+                borderRadius: BorderRadius.circular(Sizes.radiusSmall),
+              ),
               child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.only(
-                  top: Sizes.indent,
-                  left: Sizes.indent2x,
-                  bottom: Sizes.indent,
-                ),
-                child: Text(
-                  widget.codes.trim(),
-                  style: textStyle.copyWith(color: mdTheme.codeBlocColor),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.only(
+                    top: Sizes.indent,
+                    left: Sizes.indent2x,
+                    bottom: Sizes.indent,
+                  ),
+                  child: Text(
+                    widget.codes.trim(),
+                    style: textStyle.copyWith(color: mdTheme.codeBlocColor),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        CupertinoButton(
-          minimumSize: Size.zero,
-          padding: const EdgeInsets.symmetric(
-            horizontal: Sizes.indent2x,
-            vertical: Sizes.indent,
+          CupertinoButton(
+            minimumSize: Size.zero,
+            padding: const EdgeInsets.symmetric(
+              horizontal: Sizes.indent2x,
+              vertical: Sizes.indent,
+            ),
+            onPressed: _onCopy,
+            child: Icon(
+              _copied ? Icons.done : Icons.copy,
+              size: Sizes.iconSmall,
+            ),
           ),
-          onPressed: _onCopy,
-          child: Icon(_copied ? Icons.done : Icons.copy, size: Sizes.iconSmall),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -97,6 +103,7 @@ final class _ShortNoteCodeFieldState extends State<ShortNoteCodeField> {
   bool _copied = false;
   @override
   Widget build(BuildContext context) {
+    const copiedLabelExpectedWidth = 50.0;
     final theme = Theme.of(context);
     final mdTheme = theme.extension<AppGptMarkdownTheme>()!;
     return CupertinoButton(
@@ -110,27 +117,33 @@ final class _ShortNoteCodeFieldState extends State<ShortNoteCodeField> {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: Sizes.indent),
-          child: Stack(
-            children: [
-              Visibility.maintain(
-                visible: !_copied,
-                child: Text(
-                  widget.codes.trim(),
-                  style: textStyle.copyWith(color: mdTheme.codeBlocColor),
-                ),
-              ),
-              Positioned.fill(
-                child: Visibility.maintain(
-                  visible: _copied,
-                  child: Center(
-                    child: Text(
-                      context.l10n.commonCopied,
-                      style: textStyle.copyWith(color: mdTheme.codeBlocColor),
-                    ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              minWidth: copiedLabelExpectedWidth,
+            ),
+            child: Stack(
+              children: [
+                Visibility.maintain(
+                  visible: !_copied,
+                  child: Text(
+                    widget.codes.trim(),
+                    style: textStyle.copyWith(color: mdTheme.codeBlocColor),
                   ),
                 ),
-              ),
-            ],
+                Positioned.fill(
+                  child: _copied
+                      ? Center(
+                          child: Text(
+                            context.l10n.commonCopied,
+                            style: textStyle.copyWith(
+                              color: mdTheme.codeBlocColor,
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
+                ),
+              ],
+            ),
           ),
         ),
       ),

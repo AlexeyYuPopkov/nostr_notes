@@ -11,7 +11,6 @@ import 'package:nostr_notes/services/event_store/raw_event_store.dart';
 import 'package:nostr_notes/services/nostr_client/channel_factory.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_publisher.dart';
-import 'package:nostr_notes/services/nostr_client/publish_event_report.dart';
 
 /// Watches the outbox table and publishes pending events to Nostr relays.
 ///
@@ -192,10 +191,13 @@ class OutboxPublisher implements Disposable {
         final publisher = NostrPublisher(client: client, event: event);
         final report = await publisher.execute();
 
-        if (report.error is NotPublished) {
+        if (!report.isAnySuccess) {
           await _handleFailure(item, report.error.toString());
         } else {
-          final confirmedRelays = report.events.map((e) => e.relay).toList();
+          final confirmedRelays = report.okEvents
+              .where((e) => e.isOk)
+              .map((e) => e.relay)
+              .toList();
           await _outboxDao.markSent(
             item.eventId,
             confirmedRelays: confirmedRelays,

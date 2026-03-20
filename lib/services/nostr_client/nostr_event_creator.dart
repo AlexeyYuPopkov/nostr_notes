@@ -6,14 +6,15 @@ import 'package:nostr_notes/services/key_tool/key_tool.dart';
 import 'package:nostr_notes/services/model/nostr_event.dart';
 
 final class NostrEventCreator {
-  static NostrEvent createEvent({
+  final List<int>? randomBytes;
+  const NostrEventCreator({this.randomBytes});
+  NostrEvent createEvent({
     required int kind,
     required String content,
     required DateTime createdAt,
     required List<List<String>> tags,
     required String pubkey,
     required String privateKey,
-    List<int>? randomBytes,
   }) {
     final createdAtSeconds = (createdAt.millisecondsSinceEpoch / 1000).floor();
     final id = createEventId(
@@ -41,7 +42,7 @@ final class NostrEventCreator {
     );
   }
 
-  static String createEventId({
+  String createEventId({
     required int kind,
     required String content,
     required int createdAt,

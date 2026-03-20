@@ -1,10 +1,11 @@
 import 'dart:math' as math;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/common/domain/error/app_error.dart';
+
+import 'dialog_button.dart';
 
 mixin DialogHelper {
   Future<dynamic> showError(
@@ -48,33 +49,13 @@ mixin DialogHelper {
           ),
 
           actions: [
-            CupertinoButton(
+            DialogTextButtonUnderlined(
+              text: context.l10n.commonButtonCancel,
               onPressed: () => Navigator.of(context).pop(false),
-              child: Text(
-                context.l10n.commonButtonCancel,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  inherit: false,
-                  color: theme.colorScheme.primary,
-                  decoration: isDestructive ? TextDecoration.underline : null,
-                  decorationColor: isDestructive
-                      ? theme.colorScheme.primary
-                      : null,
-                ),
-              ),
             ),
-            CupertinoButton(
+            DialogTextButton(
+              text: context.l10n.commonButtonOk,
               onPressed: () => Navigator.of(context).pop(true),
-              child: Text(
-                context.l10n.commonButtonOk,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  inherit: false,
-                  color: theme.colorScheme.primary,
-                  decoration: isDestructive ? null : TextDecoration.underline,
-                  decorationColor: isDestructive
-                      ? null
-                      : theme.colorScheme.primary,
-                ),
-              ),
             ),
           ],
         );

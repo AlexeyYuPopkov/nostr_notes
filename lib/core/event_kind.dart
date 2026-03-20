@@ -8,5 +8,6 @@ enum EventKind {
 }
 
 abstract final class NostrKind {
+  static const int note = 30023;
   static const int deletion = 5;
 }

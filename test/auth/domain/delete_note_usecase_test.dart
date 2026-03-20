@@ -22,6 +22,7 @@ import 'package:nostr_notes/services/nostr_client/channel_factory.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_client.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostr_notes/core/tools/now.dart';
+import 'package:nostr_notes/services/nostr_client/nostr_event_creator.dart';
 import 'package:nostr_notes/services/nostr_client/outbox_publisher.dart';
 import 'package:uuid/uuid.dart';
 
@@ -172,6 +173,9 @@ void main() {
         client: client,
         outboxDao: outboxDao,
         eventStore: eventStore,
+        eventCreator: const NostrEventCreator(
+          randomBytes: SomeMokedData.randomBytes,
+        ),
       );
 
       createNoteUsecase = CreateNoteUsecase(
@@ -245,7 +249,7 @@ void main() {
         dTag: null,
         now: mockNow,
         uuid: mockUuid,
-        randomBytes: SomeMokedData.randomBytes,
+        // randomBytes: SomeMokedData.randomBytes,
       );
 
       // Wait for create to be published

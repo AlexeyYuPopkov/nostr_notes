@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/sizes.dart';
@@ -22,20 +21,23 @@ final class InfoText extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CommonTooltip(
-            message: text,
             title: context.l10n.commonAttention,
-            child: CupertinoButton(
-              minimumSize: .zero,
-              padding: .zero,
-              onPressed: () {},
-              child: Icon(
-                Icons.info_outline,
-                size: Sizes.iconSmall,
-                color: theme.colorScheme.onSurfaceVariant,
+            message: text,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                minWidth: Sizes.iconSmall + Sizes.indent,
+                minHeight: Sizes.iconMedium,
+              ),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Icon(
+                  Icons.info_outline,
+                  size: Sizes.iconSmall,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
           ),
-          const SizedBox(width: Sizes.indent),
           Expanded(
             child: Text(
               text,
