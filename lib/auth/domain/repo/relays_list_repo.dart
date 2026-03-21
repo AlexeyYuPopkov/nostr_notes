@@ -1,4 +1,6 @@
-abstract interface class RelaysListRepo {
+import 'package:nostr_notes/core/tools/disposable.dart';
+
+abstract interface class RelaysListRepo implements Disposable {
   Set<String> getRelaysList();
   Future<void> saveRelaysList(Set<String> relays);
   Set<String> getSuggestedRelays();

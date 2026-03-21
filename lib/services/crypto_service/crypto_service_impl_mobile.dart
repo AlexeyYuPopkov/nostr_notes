@@ -74,7 +74,12 @@ final class CryptoServiceImplMobile implements CryptoService {
   Future<Uint8List> spec256k1Async({
     required Uint8List senderPrivateKey,
     required Uint8List recipientPublicKey,
-  }) {
+  }) async {
+    // return _deriveKeys.spec256k1FromBytes(
+    //   privateKeyBytes: senderPrivateKey,
+    //   publicKeyBytes: recipientPublicKey,
+    // );
+
     return _spec256k1Isolate.compute(
       senderPrivateKey: senderPrivateKey,
       recipientPublicKey: recipientPublicKey,

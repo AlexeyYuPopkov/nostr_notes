@@ -3,6 +3,7 @@ part of 'crypto_service_impl_mobile.dart';
 class Spec256k1Isolate implements Disposable {
   SendPort? _sendPort;
   Isolate? _isolate;
+  static StreamSubscription? _isolateSubscription;
 
   Future<void> init() async {
     final receivePort = ReceivePort();
@@ -39,6 +40,8 @@ class Spec256k1Isolate implements Disposable {
     _isolate?.kill(priority: Isolate.immediate);
     _isolate = null;
     _sendPort = null;
+    _isolateSubscription?.cancel();
+    _isolateSubscription = null;
   }
 
   static void _entryPoint(SendPort mainSendPort) {
@@ -47,7 +50,10 @@ class Spec256k1Isolate implements Disposable {
 
     const deriveKeys = DeriveKeys();
 
-    port.listen((dynamic message) {
+    _isolateSubscription?.cancel();
+    _isolateSubscription = null;
+
+    _isolateSubscription = port.listen((dynamic message) {
       final (Uint8List privateKey, Uint8List publicKey, SendPort replyPort) =
           message as (Uint8List, Uint8List, SendPort);
 
