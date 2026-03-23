@@ -1,0 +1,13 @@
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-device/CMakeFiles/crypto_module.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-device/CMakeFiles/ALL_BUILD.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-device/CMakeFiles/ZERO_CHECK.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-device/secp256k1_build/CMakeFiles/ALL_BUILD.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-device/secp256k1_build/CMakeFiles/ZERO_CHECK.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-device/secp256k1_build/src/CMakeFiles/secp256k1.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-device/secp256k1_build/src/CMakeFiles/secp256k1_precomputed.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-device/secp256k1_build/src/CMakeFiles/bench.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-device/secp256k1_build/src/CMakeFiles/bench_internal.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-device/secp256k1_build/src/CMakeFiles/bench_ecmult.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-device/secp256k1_build/src/CMakeFiles/noverify_tests.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-device/secp256k1_build/src/CMakeFiles/tests.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-device/secp256k1_build/src/CMakeFiles/exhaustive_tests.dir

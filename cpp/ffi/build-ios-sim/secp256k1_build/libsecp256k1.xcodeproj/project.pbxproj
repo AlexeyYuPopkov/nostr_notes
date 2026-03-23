@@ -1,0 +1,2257 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		32115B385F84F14726A75411 /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 497C0B8971114C51B9490F4C /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				BC10B107411BDB7188AB5977 /* Generate CMakeFiles/ALL_BUILD */,
+			);
+			dependencies = (
+				C968F12DA1B64E7B8DD10065 /* PBXTargetDependency */,
+				5DC43224142B4FA89BE3CE62 /* PBXTargetDependency */,
+				5DC642596C86468EB55FA166 /* PBXTargetDependency */,
+				136886BA42DB4BBC8A234A83 /* PBXTargetDependency */,
+				35C7D628833A41DB9FFB71DC /* PBXTargetDependency */,
+				B33A99FCF45649CC8E89CF42 /* PBXTargetDependency */,
+				27BB6C504D1E481EA12CFF21 /* PBXTargetDependency */,
+				3EB2E46448054996962CF1AF /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+		D4D3E068F7A47086E525EFAF /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 74325C8C484A4587B93B3222 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				F38D5CDD6619097103FB2791 /* Generate CMakeFiles/ZERO_CHECK */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		074D368B39EC40309B441539 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench.dir/Info.plist */ = {isa = PBXBuildFile; fileRef = 01646AB5A3114F239B4CA630 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench.dir/Info.plist */; };
+		1813297196C2486DAB8A8C0B /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/exhaustive_tests.dir/Info.plist */ = {isa = PBXBuildFile; fileRef = E4C2667BF45042A99D2D2D06 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/exhaustive_tests.dir/Info.plist */; };
+		1F07AAEF987C428DA83ABD19 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = F8DB956125D54081A0AA4197 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		2709B87AEBDE43C2BF59B5BA /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 3AC5DDDAACC84258AA569625 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		3A403D98F3694AB49F5617B6 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/secp256k1_precomputed.dir/Info.plist */ = {isa = PBXBuildFile; fileRef = E3E3B4A391264AF1A2C2D915 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/secp256k1_precomputed.dir/Info.plist */; };
+		41C96EA75EC940A88AD90FCB /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = CD7A000ACE63417A8790A284 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		4529C84468694B4E8BA4E33F /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */ = {isa = PBXBuildFile; fileRef = 3DDE98077CB047E18ED95DE8 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */; };
+		509D874D6C8B460B80FF12C8 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_internal.dir/Info.plist */ = {isa = PBXBuildFile; fileRef = A430614BED024601B909C811 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_internal.dir/Info.plist */; };
+		5F3FAB1FA78C4D07BF18D001 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests_exhaustive.c */ = {isa = PBXBuildFile; fileRef = 977349178D1B48B491CF9FBA /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests_exhaustive.c */; };
+		5F75004C4DFE4B6C9911CEC7 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 4E5854737143450BB7800E18 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		70E826056DE24126AF9C1520 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */ = {isa = PBXBuildFile; fileRef = 656A2568F35143D184B06C79 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */; };
+		710DE159FEB04564AC05B55D /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/noverify_tests.dir/Info.plist */ = {isa = PBXBuildFile; fileRef = A51D0497A331461E96928FD7 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/noverify_tests.dir/Info.plist */; };
+		761432DB6C5F493999CE9034 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench.c */ = {isa = PBXBuildFile; fileRef = 7475DB6E7B29433ABEE3931D /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench.c */; };
+		7D941C45D59148F8866B0FDF /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_ecmult.c */ = {isa = PBXBuildFile; fileRef = 4C2F28ECB3E84F9583E43B3C /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_ecmult.c */; };
+		8454B55BE6C7449988D926E1 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 5E380386836D4D078EE4487A /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		88DBC5F3F0FE445C950453AD /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/secp256k1.dir/Info.plist */ = {isa = PBXBuildFile; fileRef = 40C40EC5FD4544428A1C58EF /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/secp256k1.dir/Info.plist */; };
+		A51C115FAFE946F1A2729EEB /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/tests.dir/Info.plist */ = {isa = PBXBuildFile; fileRef = 01A72574CBC347C8B36E15B3 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/tests.dir/Info.plist */; };
+		BA7D2A1782584D30A27BCF3D /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = A1E706D856E244A6AEE58E39 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		BE5EA259780C4A388B0D99B8 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/secp256k1.c */ = {isa = PBXBuildFile; fileRef = C7F0DDCA9A864D1C9F2C9052 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/secp256k1.c */; };
+		BEF8A6E05CDA466FB8187D4D /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 6EB9D1EE1A0447CDB1EAD1F9 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		C2AC1D392FC545C68B216979 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_internal.c */ = {isa = PBXBuildFile; fileRef = 017C17DD73ED41F88548F267 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_internal.c */; };
+		CAAB1AFE82C04D5BAE8E3DA7 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_ecmult.dir/Info.plist */ = {isa = PBXBuildFile; fileRef = 0ACC13A427F049E09946A180 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_ecmult.dir/Info.plist */; };
+		D7049E34033C4CBCB5577BC6 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 52B3A3EA49A247219A6C90B2 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		ED636A3A25E344448D32C649 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult_gen.c */ = {isa = PBXBuildFile; fileRef = 0C701BD7A4554C1CB049CD6E /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult_gen.c */; };
+		F6BA034B00F44C08AE685772 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult.c */ = {isa = PBXBuildFile; fileRef = 493284DB365F4B4FBD2A5EBE /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		19877564997A4FACBD7B59E2 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+		3A1F07CFD3744FD29C16C1D9 /* RelWithDebInfo */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = RelWithDebInfo;
+		};
+		975B2CF266E54837B75B7940 /* MinSizeRel */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = MinSizeRel;
+		};
+		E443E7EBD894490DBA1A10F2 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		01EDD7E832254BC18938723F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A838E2909ECFAA2B50D7EABD;
+			remoteInfo = secp256k1_precomputed;
+		};
+		0F18C896B8654412B27BCD63 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4CA8FDFD168CEA2A45F0CB53;
+			remoteInfo = bench_internal;
+		};
+		1123B6FA7ECF45E2AFBC9C18 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4D3E068F7A47086E525EFAF;
+			remoteInfo = ZERO_CHECK;
+		};
+		17433632A79549AA8840EAAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 421F315ECFEE4A6E7A49DC15;
+			remoteInfo = exhaustive_tests;
+		};
+		2272140BB8304787AB145FE7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4D3E068F7A47086E525EFAF;
+			remoteInfo = ZERO_CHECK;
+		};
+		2B2420C63B364A2FA9D1799A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4D3E068F7A47086E525EFAF;
+			remoteInfo = ZERO_CHECK;
+		};
+		2EEF5D718B714AA8A86DBAE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4D3E068F7A47086E525EFAF;
+			remoteInfo = ZERO_CHECK;
+		};
+		3815B047DD6B444D9C197993 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 974EF1BA560A4992E6273BA6;
+			remoteInfo = secp256k1;
+		};
+		3E0C8DA7C2634941A22373AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A838E2909ECFAA2B50D7EABD;
+			remoteInfo = secp256k1_precomputed;
+		};
+		5AEAB4E078F4410AA6529B14 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A838E2909ECFAA2B50D7EABD;
+			remoteInfo = secp256k1_precomputed;
+		};
+		5F0303999CF0420AA49D7112 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2D72111EB736C4610BF2A7BB;
+			remoteInfo = bench;
+		};
+		6417F3F0836F48AA9381DD5E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A838E2909ECFAA2B50D7EABD;
+			remoteInfo = secp256k1_precomputed;
+		};
+		6C33C0E28A24498EA4F92613 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 974EF1BA560A4992E6273BA6;
+			remoteInfo = secp256k1;
+		};
+		6EF57C5F949247CA8A7F9A8B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28AAC87F7E8B43876BA31A84;
+			remoteInfo = bench_ecmult;
+		};
+		811FE7963A9F4209B9604191 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4D3E068F7A47086E525EFAF;
+			remoteInfo = ZERO_CHECK;
+		};
+		9471ABA5683A42B7AFC300F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 48D9CEE0DC0BE12A9732A726;
+			remoteInfo = noverify_tests;
+		};
+		9C7782F30B7F4CEABC0A45EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4D3E068F7A47086E525EFAF;
+			remoteInfo = ZERO_CHECK;
+		};
+		CBF9F74A69AA467AB2F07117 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A838E2909ECFAA2B50D7EABD;
+			remoteInfo = secp256k1_precomputed;
+		};
+		CEF13A432CFC4AB4BE3207D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93F4FCB93B534A3055B5058E;
+			remoteInfo = tests;
+		};
+		D78D68936906409EA19CE363 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4D3E068F7A47086E525EFAF;
+			remoteInfo = ZERO_CHECK;
+		};
+		ECF2E2C4B4D74F769CB9AB2D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4D3E068F7A47086E525EFAF;
+			remoteInfo = ZERO_CHECK;
+		};
+		FB4944A769BA4293AF4191DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4D3E068F7A47086E525EFAF;
+			remoteInfo = ZERO_CHECK;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		01646AB5A3114F239B4CA630 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench.dir/Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; name = Info.plist; path = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench.dir/Info.plist"; sourceTree = "<absolute>"; };
+		017C17DD73ED41F88548F267 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_internal.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = bench_internal.c; path = src/bench_internal.c; sourceTree = SOURCE_ROOT; };
+		01A72574CBC347C8B36E15B3 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/tests.dir/Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; name = Info.plist; path = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/tests.dir/Info.plist"; sourceTree = "<absolute>"; };
+		0ACC13A427F049E09946A180 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_ecmult.dir/Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; name = Info.plist; path = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_ecmult.dir/Info.plist"; sourceTree = "<absolute>"; };
+		0C701BD7A4554C1CB049CD6E /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult_gen.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = precomputed_ecmult_gen.c; path = src/precomputed_ecmult_gen.c; sourceTree = SOURCE_ROOT; };
+		3AC5DDDAACC84258AA569625 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = src/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		3DDE98077CB047E18ED95DE8 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = tests.c; path = src/tests.c; sourceTree = SOURCE_ROOT; };
+		40C40EC5FD4544428A1C58EF /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/secp256k1.dir/Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; name = Info.plist; path = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/secp256k1.dir/Info.plist"; sourceTree = "<absolute>"; };
+		493284DB365F4B4FBD2A5EBE /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = precomputed_ecmult.c; path = src/precomputed_ecmult.c; sourceTree = SOURCE_ROOT; };
+		4C2F28ECB3E84F9583E43B3C /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_ecmult.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = bench_ecmult.c; path = src/bench_ecmult.c; sourceTree = SOURCE_ROOT; };
+		4E5854737143450BB7800E18 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = src/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		52B3A3EA49A247219A6C90B2 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = src/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		562D44EA9C0E4D9B9ACC93EB /* secp256k1 */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libsecp256k1.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E380386836D4D078EE4487A /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = src/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		5EECFC99E7A248DBBE2865DF /* exhaustive_tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = exhaustive_tests; sourceTree = BUILT_PRODUCTS_DIR; };
+		6260340C24224EE9B49DEC5F /* bench */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = bench; sourceTree = BUILT_PRODUCTS_DIR; };
+		656A2568F35143D184B06C79 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = tests.c; path = src/tests.c; sourceTree = SOURCE_ROOT; };
+		6EB9D1EE1A0447CDB1EAD1F9 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = src/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		74243C4D0E2D42D5A99A44AE /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		7475DB6E7B29433ABEE3931D /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = bench.c; path = src/bench.c; sourceTree = SOURCE_ROOT; };
+		79803604A51241C29089412F /* bench_internal */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = bench_internal; sourceTree = BUILT_PRODUCTS_DIR; };
+		83F4AA6B912043B1A90169A0 /* secp256k1_precomputed */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libsecp256k1_precomputed.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A6823A6FAE6459FBD950382 /* noverify_tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = noverify_tests; sourceTree = BUILT_PRODUCTS_DIR; };
+		90C5DD79012343849512C9BE /* bench_ecmult */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = bench_ecmult; sourceTree = BUILT_PRODUCTS_DIR; };
+		977349178D1B48B491CF9FBA /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests_exhaustive.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = tests_exhaustive.c; path = src/tests_exhaustive.c; sourceTree = SOURCE_ROOT; };
+		A1E706D856E244A6AEE58E39 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = src/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		A430614BED024601B909C811 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_internal.dir/Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; name = Info.plist; path = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_internal.dir/Info.plist"; sourceTree = "<absolute>"; };
+		A51D0497A331461E96928FD7 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/noverify_tests.dir/Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; name = Info.plist; path = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/noverify_tests.dir/Info.plist"; sourceTree = "<absolute>"; };
+		C7F0DDCA9A864D1C9F2C9052 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/secp256k1.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = secp256k1.c; path = src/secp256k1.c; sourceTree = SOURCE_ROOT; };
+		CD7A000ACE63417A8790A284 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = src/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		E3E3B4A391264AF1A2C2D915 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/secp256k1_precomputed.dir/Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; name = Info.plist; path = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/secp256k1_precomputed.dir/Info.plist"; sourceTree = "<absolute>"; };
+		E4C2667BF45042A99D2D2D06 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/exhaustive_tests.dir/Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; name = Info.plist; path = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/exhaustive_tests.dir/Info.plist"; sourceTree = "<absolute>"; };
+		EF964D7D2C974FA3AA747778 /* tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = tests; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8DB956125D54081A0AA4197 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = src/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1FD61B376B8C45F391C9524C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4A9DA9997FE44B6BA4014751 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		717EE36E49DB4A388ABC480E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71EA2E1FD99047C69660A08C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3EDE6940CD84018B62F6654 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B6A34619449B4C39BA5C2C1C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5158EDEDE8D47559ED1114D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D7D64A0DA0E744AC85E5A9BD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		137E1A6B098A438E8902F8EE /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				C7F0DDCA9A864D1C9F2C9052 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/secp256k1.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		1F7F3E5ECFEC43DD99FA0746 /* secp256k1 */ = {
+			isa = PBXGroup;
+			children = (
+				137E1A6B098A438E8902F8EE /* Source Files */,
+				EFEC3081641F41CFAB6B6072 /* Resources */,
+				6EB9D1EE1A0447CDB1EAD1F9 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = secp256k1;
+			sourceTree = "<group>";
+		};
+		2627BF5A80844026A11FE39A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E3E3B4A391264AF1A2C2D915 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/secp256k1_precomputed.dir/Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		269EDC821445409495D0BE70 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		30CDE7E6EA3C435FB5233C68 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				01646AB5A3114F239B4CA630 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench.dir/Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		3C4181D9668C4197956ED24B /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				3DDE98077CB047E18ED95DE8 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		48ADA398A50D469FA042D8D0 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				4C2F28ECB3E84F9583E43B3C /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_ecmult.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		48CB68F615D048CC96A05303 /* secp256k1_precomputed */ = {
+			isa = PBXGroup;
+			children = (
+				52BC1088496544B68A590983 /* Source Files */,
+				2627BF5A80844026A11FE39A /* Resources */,
+				CD7A000ACE63417A8790A284 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = secp256k1_precomputed;
+			sourceTree = "<group>";
+		};
+		4DC2EE70CAD542E58402BE7A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4FF9ADE97C63427E8EF1D350 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				7475DB6E7B29433ABEE3931D /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		502CE0BE2A45489CB18D7030 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		503DAAB2294B4723AA6724A6 /* noverify_tests */ = {
+			isa = PBXGroup;
+			children = (
+				84DA32C7D94E4EF488C26757 /* Source Files */,
+				EB5AE2B6DBAD4FC8A9BC67A8 /* Resources */,
+				5E380386836D4D078EE4487A /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = noverify_tests;
+			sourceTree = "<group>";
+		};
+		52BC1088496544B68A590983 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				493284DB365F4B4FBD2A5EBE /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult.c */,
+				0C701BD7A4554C1CB049CD6E /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult_gen.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		6E99E07A0CBA4CEAADE78862 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				01A72574CBC347C8B36E15B3 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/tests.dir/Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		794489EA875B41918C9E68E2 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				017C17DD73ED41F88548F267 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_internal.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		84DA32C7D94E4EF488C26757 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				656A2568F35143D184B06C79 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		86F55F990FA74E46B64237B7 /* bench_ecmult */ = {
+			isa = PBXGroup;
+			children = (
+				48ADA398A50D469FA042D8D0 /* Source Files */,
+				AA5E4CA874DC46B88E51607B /* Resources */,
+				4E5854737143450BB7800E18 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = bench_ecmult;
+			sourceTree = "<group>";
+		};
+		922C7CEAE188471896ADAFF9 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				3C4181D9668C4197956ED24B /* Source Files */,
+				6E99E07A0CBA4CEAADE78862 /* Resources */,
+				3AC5DDDAACC84258AA569625 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = tests;
+			sourceTree = "<group>";
+		};
+		94E67F4F2DDA4B11BF9AE0F2 = {
+			isa = PBXGroup;
+			children = (
+				E7B05E9A261A4488A5FE8E73 /* ALL_BUILD */,
+				1F7F3E5ECFEC43DD99FA0746 /* secp256k1 */,
+				48CB68F615D048CC96A05303 /* secp256k1_precomputed */,
+				BB793A56CDD545E3B3B5E9C5 /* bench */,
+				E9A83462E4194F5483E06A53 /* bench_internal */,
+				86F55F990FA74E46B64237B7 /* bench_ecmult */,
+				503DAAB2294B4723AA6724A6 /* noverify_tests */,
+				922C7CEAE188471896ADAFF9 /* tests */,
+				B726BD83220D4A899D0A9EF7 /* exhaustive_tests */,
+				978BC33FE489445D95EF074A /* Products */,
+				4DC2EE70CAD542E58402BE7A /* Frameworks */,
+				502CE0BE2A45489CB18D7030 /* Resources */,
+			);
+			sourceTree = "<group>";
+		};
+		978BC33FE489445D95EF074A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6260340C24224EE9B49DEC5F /* bench */,
+				90C5DD79012343849512C9BE /* bench_ecmult */,
+				79803604A51241C29089412F /* bench_internal */,
+				5EECFC99E7A248DBBE2865DF /* exhaustive_tests */,
+				8A6823A6FAE6459FBD950382 /* noverify_tests */,
+				562D44EA9C0E4D9B9ACC93EB /* secp256k1 */,
+				83F4AA6B912043B1A90169A0 /* secp256k1_precomputed */,
+				EF964D7D2C974FA3AA747778 /* tests */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AA5E4CA874DC46B88E51607B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0ACC13A427F049E09946A180 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_ecmult.dir/Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		B726BD83220D4A899D0A9EF7 /* exhaustive_tests */ = {
+			isa = PBXGroup;
+			children = (
+				C2CBD484059E468097835D5F /* Source Files */,
+				D988B1C311A3415985E18F51 /* Resources */,
+				A1E706D856E244A6AEE58E39 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = exhaustive_tests;
+			sourceTree = "<group>";
+		};
+		BB793A56CDD545E3B3B5E9C5 /* bench */ = {
+			isa = PBXGroup;
+			children = (
+				4FF9ADE97C63427E8EF1D350 /* Source Files */,
+				30CDE7E6EA3C435FB5233C68 /* Resources */,
+				52B3A3EA49A247219A6C90B2 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = bench;
+			sourceTree = "<group>";
+		};
+		BE59F1B36F40494BAFF19592 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A430614BED024601B909C811 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_internal.dir/Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		C2CBD484059E468097835D5F /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				977349178D1B48B491CF9FBA /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests_exhaustive.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		D988B1C311A3415985E18F51 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E4C2667BF45042A99D2D2D06 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/exhaustive_tests.dir/Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		E7B05E9A261A4488A5FE8E73 /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				269EDC821445409495D0BE70 /* CMake Rules */,
+				74243C4D0E2D42D5A99A44AE /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		E9A83462E4194F5483E06A53 /* bench_internal */ = {
+			isa = PBXGroup;
+			children = (
+				794489EA875B41918C9E68E2 /* Source Files */,
+				BE59F1B36F40494BAFF19592 /* Resources */,
+				F8DB956125D54081A0AA4197 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = bench_internal;
+			sourceTree = "<group>";
+		};
+		EB5AE2B6DBAD4FC8A9BC67A8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A51D0497A331461E96928FD7 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/noverify_tests.dir/Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		EFEC3081641F41CFAB6B6072 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				40C40EC5FD4544428A1C58EF /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/secp256k1.dir/Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		28AAC87F7E8B43876BA31A84 /* bench_ecmult */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49DF0A7CB1B243F6A8A64B70 /* Build configuration list for PBXNativeTarget "bench_ecmult" */;
+			buildPhases = (
+				AAF90C4FC377414C88B21A04 /* Sources */,
+				D7D64A0DA0E744AC85E5A9BD /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				06CC155D54E24E9EB3F1EAD6 /* PBXTargetDependency */,
+				C723513F9A9949F088143DE7 /* PBXTargetDependency */,
+			);
+			name = bench_ecmult;
+			productName = bench_ecmult;
+			productReference = 90C5DD79012343849512C9BE /* bench_ecmult */;
+			productType = "com.apple.product-type.application";
+		};
+		2D72111EB736C4610BF2A7BB /* bench */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 60CE92CAA7394CB0B42F34E0 /* Build configuration list for PBXNativeTarget "bench" */;
+			buildPhases = (
+				64D128194E1A471492650DB0 /* Sources */,
+				1FD61B376B8C45F391C9524C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				60190731029E42C5BF7B5436 /* PBXTargetDependency */,
+				714B22D19520491F90638D1C /* PBXTargetDependency */,
+			);
+			name = bench;
+			productName = bench;
+			productReference = 6260340C24224EE9B49DEC5F /* bench */;
+			productType = "com.apple.product-type.application";
+		};
+		421F315ECFEE4A6E7A49DC15 /* exhaustive_tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EEDBF4FE9AF249CE88A8B3A1 /* Build configuration list for PBXNativeTarget "exhaustive_tests" */;
+			buildPhases = (
+				D93742F0716D42229AEFFFC8 /* Sources */,
+				71EA2E1FD99047C69660A08C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6FAF74896FE24325A7F1FEA0 /* PBXTargetDependency */,
+			);
+			name = exhaustive_tests;
+			productName = exhaustive_tests;
+			productReference = 5EECFC99E7A248DBBE2865DF /* exhaustive_tests */;
+			productType = "com.apple.product-type.application";
+		};
+		48D9CEE0DC0BE12A9732A726 /* noverify_tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C572B0E5E3B5433AB838ED9A /* Build configuration list for PBXNativeTarget "noverify_tests" */;
+			buildPhases = (
+				8BFBF0EEEF204EDB98B31E18 /* Sources */,
+				C5158EDEDE8D47559ED1114D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7485E1F2FD4347D8A0943C6B /* PBXTargetDependency */,
+				B5EE628FF17449B082FB653C /* PBXTargetDependency */,
+			);
+			name = noverify_tests;
+			productName = noverify_tests;
+			productReference = 8A6823A6FAE6459FBD950382 /* noverify_tests */;
+			productType = "com.apple.product-type.application";
+		};
+		4CA8FDFD168CEA2A45F0CB53 /* bench_internal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5761D325F1794E96B985AC89 /* Build configuration list for PBXNativeTarget "bench_internal" */;
+			buildPhases = (
+				92478338A57D44A5B02AA2F3 /* Sources */,
+				B3EDE6940CD84018B62F6654 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E4A5C25D7B504482A348D109 /* PBXTargetDependency */,
+				1893BDD02E844D3582247EA0 /* PBXTargetDependency */,
+			);
+			name = bench_internal;
+			productName = bench_internal;
+			productReference = 79803604A51241C29089412F /* bench_internal */;
+			productType = "com.apple.product-type.application";
+		};
+		93F4FCB93B534A3055B5058E /* tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 01F22697489A40A8AC60318F /* Build configuration list for PBXNativeTarget "tests" */;
+			buildPhases = (
+				C27817B7356B4879AB5A2C7A /* Sources */,
+				717EE36E49DB4A388ABC480E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9536F8D9FF1745FA9A792110 /* PBXTargetDependency */,
+				6746771C9F1045E0A77A870A /* PBXTargetDependency */,
+			);
+			name = tests;
+			productName = tests;
+			productReference = EF964D7D2C974FA3AA747778 /* tests */;
+			productType = "com.apple.product-type.application";
+		};
+		974EF1BA560A4992E6273BA6 /* secp256k1 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 375CD07C1B3F4C1487E8B298 /* Build configuration list for PBXNativeTarget "secp256k1" */;
+			buildPhases = (
+				864F13593C484601859E43DC /* Sources */,
+				4A9DA9997FE44B6BA4014751 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				39EB8395FD334D7E81854FE2 /* PBXTargetDependency */,
+				5FAC43E3614C4FBB9EF85BBA /* PBXTargetDependency */,
+			);
+			name = secp256k1;
+			productName = secp256k1;
+			productReference = 562D44EA9C0E4D9B9ACC93EB /* secp256k1 */;
+			productType = "com.apple.product-type.library.static";
+		};
+		A838E2909ECFAA2B50D7EABD /* secp256k1_precomputed */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 37AD695C9E1745A69D3E4677 /* Build configuration list for PBXNativeTarget "secp256k1_precomputed" */;
+			buildPhases = (
+				846F80EBA09946A387BADF7F /* Sources */,
+				B6A34619449B4C39BA5C2C1C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F6BD2291226E4AC6B6C44B32 /* PBXTargetDependency */,
+			);
+			name = secp256k1_precomputed;
+			productName = secp256k1_precomputed;
+			productReference = 83F4AA6B912043B1A90169A0 /* secp256k1_precomputed */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7F7458D72B4F4499BE0A4BD7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2630;
+			};
+			buildConfigurationList = 9D4D8D75A4EA4559B3612F36 /* Build configuration list for PBXProject "libsecp256k1" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				E443E7EBD894490DBA1A10F2 /* Debug */,
+				19877564997A4FACBD7B59E2 /* Release */,
+				975B2CF266E54837B75B7940 /* MinSizeRel */,
+				3A1F07CFD3744FD29C16C1D9 /* RelWithDebInfo */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = 94E67F4F2DDA4B11BF9AE0F2;
+			projectDirPath = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1;
+			projectRoot = "";
+			targets = (
+				32115B385F84F14726A75411 /* ALL_BUILD */,
+				2D72111EB736C4610BF2A7BB /* bench */,
+				28AAC87F7E8B43876BA31A84 /* bench_ecmult */,
+				4CA8FDFD168CEA2A45F0CB53 /* bench_internal */,
+				421F315ECFEE4A6E7A49DC15 /* exhaustive_tests */,
+				48D9CEE0DC0BE12A9732A726 /* noverify_tests */,
+				974EF1BA560A4992E6273BA6 /* secp256k1 */,
+				A838E2909ECFAA2B50D7EABD /* secp256k1_precomputed */,
+				93F4FCB93B534A3055B5058E /* tests */,
+				D4D3E068F7A47086E525EFAF /* ZERO_CHECK */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3C0110FC8322DE7E50886E21 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		9B50530E35CC49C82C2FACCF = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		BC10B107411BDB7188AB5977 /* Generate CMakeFiles/ALL_BUILD */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ALL_BUILD";
+			outputPaths = (
+"/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/CMakeFiles/ALL_BUILD"			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build
+  echo Build\\ all\\ projects
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		F38D5CDD6619097103FB2791 /* Generate CMakeFiles/ZERO_CHECK */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ZERO_CHECK";
+			outputPaths = (
+"/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/CMakeFiles/ZERO_CHECK"			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build
+  make -f /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build
+  make -f /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build
+  make -f /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build
+  make -f /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/CMakeScripts/ReRunCMake.make
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		64D128194E1A471492650DB0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				761432DB6C5F493999CE9034 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		846F80EBA09946A387BADF7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F6BA034B00F44C08AE685772 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult.c */,
+				ED636A3A25E344448D32C649 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult_gen.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		864F13593C484601859E43DC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE5EA259780C4A388B0D99B8 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/secp256k1.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BFBF0EEEF204EDB98B31E18 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70E826056DE24126AF9C1520 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		92478338A57D44A5B02AA2F3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2AC1D392FC545C68B216979 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_internal.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAF90C4FC377414C88B21A04 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D941C45D59148F8866B0FDF /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_ecmult.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C27817B7356B4879AB5A2C7A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4529C84468694B4E8BA4E33F /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D93742F0716D42229AEFFFC8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F3FAB1FA78C4D07BF18D001 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests_exhaustive.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		06CC155D54E24E9EB3F1EAD6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A838E2909ECFAA2B50D7EABD /* secp256k1_precomputed */;
+			targetProxy = CBF9F74A69AA467AB2F07117 /* PBXContainerItemProxy */;
+		};
+		136886BA42DB4BBC8A234A83 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 28AAC87F7E8B43876BA31A84 /* bench_ecmult */;
+			targetProxy = 6EF57C5F949247CA8A7F9A8B /* PBXContainerItemProxy */;
+		};
+		1893BDD02E844D3582247EA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4D3E068F7A47086E525EFAF /* ZERO_CHECK */;
+			targetProxy = ECF2E2C4B4D74F769CB9AB2D /* PBXContainerItemProxy */;
+		};
+		27BB6C504D1E481EA12CFF21 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 421F315ECFEE4A6E7A49DC15 /* exhaustive_tests */;
+			targetProxy = 17433632A79549AA8840EAAE /* PBXContainerItemProxy */;
+		};
+		35C7D628833A41DB9FFB71DC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 48D9CEE0DC0BE12A9732A726 /* noverify_tests */;
+			targetProxy = 9471ABA5683A42B7AFC300F4 /* PBXContainerItemProxy */;
+		};
+		39EB8395FD334D7E81854FE2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A838E2909ECFAA2B50D7EABD /* secp256k1_precomputed */;
+			targetProxy = 6417F3F0836F48AA9381DD5E /* PBXContainerItemProxy */;
+		};
+		3EB2E46448054996962CF1AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4D3E068F7A47086E525EFAF /* ZERO_CHECK */;
+			targetProxy = 811FE7963A9F4209B9604191 /* PBXContainerItemProxy */;
+		};
+		5DC43224142B4FA89BE3CE62 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2D72111EB736C4610BF2A7BB /* bench */;
+			targetProxy = 5F0303999CF0420AA49D7112 /* PBXContainerItemProxy */;
+		};
+		5DC642596C86468EB55FA166 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4CA8FDFD168CEA2A45F0CB53 /* bench_internal */;
+			targetProxy = 0F18C896B8654412B27BCD63 /* PBXContainerItemProxy */;
+		};
+		5FAC43E3614C4FBB9EF85BBA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4D3E068F7A47086E525EFAF /* ZERO_CHECK */;
+			targetProxy = 2B2420C63B364A2FA9D1799A /* PBXContainerItemProxy */;
+		};
+		60190731029E42C5BF7B5436 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 974EF1BA560A4992E6273BA6 /* secp256k1 */;
+			targetProxy = 3815B047DD6B444D9C197993 /* PBXContainerItemProxy */;
+		};
+		6746771C9F1045E0A77A870A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4D3E068F7A47086E525EFAF /* ZERO_CHECK */;
+			targetProxy = 2EEF5D718B714AA8A86DBAE1 /* PBXContainerItemProxy */;
+		};
+		6FAF74896FE24325A7F1FEA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4D3E068F7A47086E525EFAF /* ZERO_CHECK */;
+			targetProxy = 9C7782F30B7F4CEABC0A45EB /* PBXContainerItemProxy */;
+		};
+		714B22D19520491F90638D1C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4D3E068F7A47086E525EFAF /* ZERO_CHECK */;
+			targetProxy = D78D68936906409EA19CE363 /* PBXContainerItemProxy */;
+		};
+		7485E1F2FD4347D8A0943C6B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A838E2909ECFAA2B50D7EABD /* secp256k1_precomputed */;
+			targetProxy = 3E0C8DA7C2634941A22373AD /* PBXContainerItemProxy */;
+		};
+		9536F8D9FF1745FA9A792110 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A838E2909ECFAA2B50D7EABD /* secp256k1_precomputed */;
+			targetProxy = 01EDD7E832254BC18938723F /* PBXContainerItemProxy */;
+		};
+		B33A99FCF45649CC8E89CF42 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93F4FCB93B534A3055B5058E /* tests */;
+			targetProxy = CEF13A432CFC4AB4BE3207D9 /* PBXContainerItemProxy */;
+		};
+		B5EE628FF17449B082FB653C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4D3E068F7A47086E525EFAF /* ZERO_CHECK */;
+			targetProxy = 2272140BB8304787AB145FE7 /* PBXContainerItemProxy */;
+		};
+		C723513F9A9949F088143DE7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4D3E068F7A47086E525EFAF /* ZERO_CHECK */;
+			targetProxy = 1123B6FA7ECF45E2AFBC9C18 /* PBXContainerItemProxy */;
+		};
+		C968F12DA1B64E7B8DD10065 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 974EF1BA560A4992E6273BA6 /* secp256k1 */;
+			targetProxy = 6C33C0E28A24498EA4F92613 /* PBXContainerItemProxy */;
+		};
+		E4A5C25D7B504482A348D109 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A838E2909ECFAA2B50D7EABD /* secp256k1_precomputed */;
+			targetProxy = 5AEAB4E078F4410AA6529B14 /* PBXContainerItemProxy */;
+		};
+		F6BD2291226E4AC6B6C44B32 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4D3E068F7A47086E525EFAF /* ZERO_CHECK */;
+			targetProxy = FB4944A769BA4293AF4191DF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		00D542E82D41496CAEAACC1D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_REQUIRED = FALSE;
+				CODE_SIGN_IDENTITY = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphonesimulator;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build";
+			};
+			name = Release;
+		};
+		053D0A19A533463B868E3309 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/lib/Release";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		0B71F3EAE67F4BE99C31DB75 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_REQUIRED = FALSE;
+				CODE_SIGN_IDENTITY = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphonesimulator;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build";
+			};
+			name = MinSizeRel;
+		};
+		0D9B899796CD4F7DACF4DFEA /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/RelWithDebInfo";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_ecmult.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_ecmult;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/bench_ecmult.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		0DF5EC4BCC2C45E3AFDDDD3D /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/MinSizeRel";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/tests.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		1245D554F09D4D8C8C37DE83 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/RelWithDebInfo";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_internal.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_internal;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/bench_internal.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		13772E0CBAAE43BA9D8D550D /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1_precomputed;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		15A0BF668E604B8399A54B43 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/MinSizeRel";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_ecmult.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_ecmult;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/bench_ecmult.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		1D23A675625043DA91C9F025 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/MinSizeRel";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/exhaustive_tests.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = exhaustive_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/exhaustive_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		2038F098C0064E3A83078AF8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/Debug";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_internal.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_internal;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/bench_internal.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		22B224FDC6354F33BBBCDDED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		234E1FCEED7845978A8F8DE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/Release";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/tests.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		24C47E464750458E84F2D06C /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/RelWithDebInfo";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/noverify_tests.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = noverify_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/noverify_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		2929A23D5B47453F8FAEFF44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/Debug";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_ecmult.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_ecmult;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/bench_ecmult.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		2A959CE671284532BFFB0E5F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/Debug";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/noverify_tests.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = noverify_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/noverify_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		2D1C6D4C0F0D400A88D10BA5 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/RelWithDebInfo";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/tests.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		311C5CD31DB64BE799E3120A /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/MinSizeRel";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/include,"$(inherited)");
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/lib/MinSizeRel/libsecp256k1.a","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/bench.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		3158EBF8EAC24831B8644A95 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/lib/Debug";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		39617B6CC9234628A6C958A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1_precomputed;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		3DDA511C4CD6493D9C6302A9 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/lib/RelWithDebInfo";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		475C3C39998648B480B46952 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_REQUIRED = FALSE;
+				CODE_SIGN_IDENTITY = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphonesimulator;
+				SYMROOT = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build";
+			};
+			name = Debug;
+		};
+		51ABE77487E843E99AFFFEE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		5690CCB7CFAE4FDCA28BDE95 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/RelWithDebInfo";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/include,"$(inherited)");
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/lib/RelWithDebInfo/libsecp256k1.a","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/bench.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		5A7B5338C85F4F64BB5C9D84 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/MinSizeRel";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/noverify_tests.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = noverify_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/noverify_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		67217ECD06114087B1098B83 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/lib/MinSizeRel";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		68E5A25024044504B305AC68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/Debug";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/include,"$(inherited)");
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/lib/Debug/libsecp256k1.a","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/bench.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		7014B8EFD49344D687BABC8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/Debug";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/tests.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		808F74D9D4984A188FFDA99B /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		80D19EE196D44AEAB884CFA3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1_precomputed;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		889E609FB0F240978B588D70 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		A0C3726F10EC4A3DA52C973D /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1_precomputed;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		A112DE22ECB14BE488E69C29 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_REQUIRED = FALSE;
+				CODE_SIGN_IDENTITY = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphonesimulator;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build";
+			};
+			name = RelWithDebInfo;
+		};
+		ABF45B36E66F416E99A4964D /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		B0F3D1BDD80B4837A4DB1820 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/Release";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/noverify_tests.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = noverify_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/noverify_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		B55FC1D231AC488EB0B90025 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/Release";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_internal.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_internal;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/bench_internal.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		B85022A4CB1540588CAE457C /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/RelWithDebInfo";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/exhaustive_tests.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = exhaustive_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/exhaustive_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		B8A11AF61CE44AFCA23E46BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		C2CAD54E98074DBB82EFB353 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/Release";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_ecmult.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_ecmult;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/bench_ecmult.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		C822A4530521406B9BEF34CA /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		CD7A33F54C054D1FA0E278EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/Release";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/include,"$(inherited)");
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/lib/Release/libsecp256k1.a","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/bench.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		DDCA076F9D7A4420A6A01F7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/Release";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/exhaustive_tests.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = exhaustive_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/exhaustive_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		E19C597743414D93AE4C3636 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/Debug";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/exhaustive_tests.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = exhaustive_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/exhaustive_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		EFF291979F8C4101BB7E7657 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		F29A81F8DF0B4973A82CB8B8 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/bin/MinSizeRel";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/secp256k1_build/src/CMakeFiles/bench_internal.dir/Info.plist";
+				INSTALL_PATH = "";
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/$(CURRENT_ARCH)/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_internal;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-sim/build/bench_internal.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		01F22697489A40A8AC60318F /* Build configuration list for PBXNativeTarget "tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7014B8EFD49344D687BABC8A /* Debug */,
+				234E1FCEED7845978A8F8DE3 /* Release */,
+				0DF5EC4BCC2C45E3AFDDDD3D /* MinSizeRel */,
+				2D1C6D4C0F0D400A88D10BA5 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		375CD07C1B3F4C1487E8B298 /* Build configuration list for PBXNativeTarget "secp256k1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3158EBF8EAC24831B8644A95 /* Debug */,
+				053D0A19A533463B868E3309 /* Release */,
+				67217ECD06114087B1098B83 /* MinSizeRel */,
+				3DDA511C4CD6493D9C6302A9 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		37AD695C9E1745A69D3E4677 /* Build configuration list for PBXNativeTarget "secp256k1_precomputed" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39617B6CC9234628A6C958A3 /* Debug */,
+				80D19EE196D44AEAB884CFA3 /* Release */,
+				A0C3726F10EC4A3DA52C973D /* MinSizeRel */,
+				13772E0CBAAE43BA9D8D550D /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		497C0B8971114C51B9490F4C /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				889E609FB0F240978B588D70 /* Debug */,
+				B8A11AF61CE44AFCA23E46BE /* Release */,
+				808F74D9D4984A188FFDA99B /* MinSizeRel */,
+				ABF45B36E66F416E99A4964D /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		49DF0A7CB1B243F6A8A64B70 /* Build configuration list for PBXNativeTarget "bench_ecmult" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2929A23D5B47453F8FAEFF44 /* Debug */,
+				C2CAD54E98074DBB82EFB353 /* Release */,
+				15A0BF668E604B8399A54B43 /* MinSizeRel */,
+				0D9B899796CD4F7DACF4DFEA /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5761D325F1794E96B985AC89 /* Build configuration list for PBXNativeTarget "bench_internal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2038F098C0064E3A83078AF8 /* Debug */,
+				B55FC1D231AC488EB0B90025 /* Release */,
+				F29A81F8DF0B4973A82CB8B8 /* MinSizeRel */,
+				1245D554F09D4D8C8C37DE83 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		60CE92CAA7394CB0B42F34E0 /* Build configuration list for PBXNativeTarget "bench" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				68E5A25024044504B305AC68 /* Debug */,
+				CD7A33F54C054D1FA0E278EE /* Release */,
+				311C5CD31DB64BE799E3120A /* MinSizeRel */,
+				5690CCB7CFAE4FDCA28BDE95 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		74325C8C484A4587B93B3222 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				51ABE77487E843E99AFFFEE1 /* Debug */,
+				22B224FDC6354F33BBBCDDED /* Release */,
+				C822A4530521406B9BEF34CA /* MinSizeRel */,
+				EFF291979F8C4101BB7E7657 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9D4D8D75A4EA4559B3612F36 /* Build configuration list for PBXProject "libsecp256k1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				475C3C39998648B480B46952 /* Debug */,
+				00D542E82D41496CAEAACC1D /* Release */,
+				0B71F3EAE67F4BE99C31DB75 /* MinSizeRel */,
+				A112DE22ECB14BE488E69C29 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C572B0E5E3B5433AB838ED9A /* Build configuration list for PBXNativeTarget "noverify_tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A959CE671284532BFFB0E5F /* Debug */,
+				B0F3D1BDD80B4837A4DB1820 /* Release */,
+				5A7B5338C85F4F64BB5C9D84 /* MinSizeRel */,
+				24C47E464750458E84F2D06C /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EEDBF4FE9AF249CE88A8B3A1 /* Build configuration list for PBXNativeTarget "exhaustive_tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E19C597743414D93AE4C3636 /* Debug */,
+				DDCA076F9D7A4420A6A01F7F /* Release */,
+				1D23A675625043DA91C9F025 /* MinSizeRel */,
+				B85022A4CB1540588CAE457C /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7F7458D72B4F4499BE0A4BD7 /* Project object */;
+}

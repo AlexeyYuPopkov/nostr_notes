@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:nostr_notes/services/model/tag/tag_value.dart';
 
 final class AppConfig {
@@ -5,6 +8,11 @@ final class AppConfig {
     'IN_MEMORY_STORAGE',
     defaultValue: false,
   );
+
+  static final kIsTest = kIsWeb
+      ? false
+      : Platform.environment.containsKey('FLUTTER_TEST') &&
+            !const bool.fromEnvironment('INTEGRATION_TEST');
 
   /// Адрес реле из переменной среды (если задана)
   static String? get relayUrl {

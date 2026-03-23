@@ -30,6 +30,8 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
+  pod 'crypto_module', :path => './ffi'
+
   flutter_install_all_macos_pods File.dirname(File.realpath(__FILE__))
   target 'RunnerTests' do
     inherit! :search_paths

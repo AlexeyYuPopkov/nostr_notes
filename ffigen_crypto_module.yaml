@@ -1,0 +1,4 @@
+output: lib/ffigen/ffigen_crypto_module.dart
+headers:
+  entry-points:
+    - 'cpp/src/secp_wrapper.h'

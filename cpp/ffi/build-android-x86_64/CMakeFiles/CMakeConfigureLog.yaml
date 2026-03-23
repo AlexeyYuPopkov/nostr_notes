@@ -1,0 +1,1114 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineSystem.cmake:200 (message)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      The target system is: Android - 1 - x86_64
+      The host system is: Darwin - 24.6.0 - arm64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang 
+      Build flags: -g;-DANDROID;-fdata-sections;-ffunction-sections;-funwind-tables;-fstack-protector-strong;-no-canonical-prefixes;-D_FORTIFY_SOURCE=2;-Wformat;-Werror=format-security
+      Id flags: -c;--target=x86_64-none-linux-android21 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification is Clang, found in:
+        /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/4.0.3/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ 
+      Build flags: -g;-DANDROID;-fdata-sections;-ffunction-sections;-funwind-tables;-fstack-protector-strong;-no-canonical-prefixes;-D_FORTIFY_SOURCE=2;-Wformat;-Werror=format-security
+      Id flags: -c;--target=x86_64-none-linux-android21 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+      
+      The CXX compiler identification is Clang, found in:
+        /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/4.0.3/CompilerIdCXX/CMakeCXXCompilerId.o
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ebtl0r"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ebtl0r"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ebtl0r'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_d4a87/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_d4a87.dir/build.make CMakeFiles/cmTC_d4a87.dir/build
+        Building C object CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE   -v -MD -MT CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
+        Android (13624864, +pgo, -bolt, +lto, -mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)
+        Target: x86_64-none-linux-android21
+        Thread model: posix
+        InstalledDir: /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin
+         (in-process)
+         "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang" -cc1 -triple x86_64-none-linux-android21 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -target-feature +sse4.2 -target-feature +popcnt -target-feature +cx16 -tune-cpu generic -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ebtl0r -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ebtl0r -resource-dir /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19 -dependency-file CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -internal-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include -internal-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include -internal-externc-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android -internal-externc-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include -internal-externc-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include -Wformat -ferror-limit 19 -femulated-tls -stack-protector 2 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
+        clang -cc1 version 19.0.1 based upon LLVM 19.0.1 default target x86_64-apple-darwin24.6.0
+        ignoring nonexistent directory "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include"
+        ignoring nonexistent directory "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include
+         /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android
+         /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include
+        End of search list.
+        Linking C executable cmTC_d4a87
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d4a87.dir/link.txt --verbose=1
+        Android (13624864, +pgo, -bolt, +lto, -mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)
+        Target: x86_64-none-linux-android21
+        Thread model: posix
+        InstalledDir: /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin
+         "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld" --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -z now -z relro -z max-page-size=16384 --hash-style=both --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /system/bin/linker64 -o cmTC_d4a87 /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtbegin_dynamic.o -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/x86_64 -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21 -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a -l:libunwind.a -ldl -lc /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a -l:libunwind.a -ldl /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtend_android.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments   -v CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o -o cmTC_d4a87
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:191 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed C implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include]
+          add: [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android]
+          add: [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+        end of search list found
+        collapse include dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include] ==> [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include]
+        collapse include dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android] ==> [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android]
+        collapse include dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include] ==> [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+        implicit include dirs: [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include;/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android;/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:227 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
+        ignore line: [Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ebtl0r']
+        ignore line: []
+        ignore line: [Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_d4a87/fast]
+        ignore line: [/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_d4a87.dir/build.make CMakeFiles/cmTC_d4a87.dir/build]
+        ignore line: [Building C object CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o]
+        ignore line: [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE   -v -MD -MT CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [Android (13624864  +pgo  -bolt  +lto  -mlgo  based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)]
+        ignore line: [Target: x86_64-none-linux-android21]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin]
+        ignore line: [ (in-process)]
+        ignore line: [ "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang" -cc1 -triple x86_64-none-linux-android21 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -target-feature +sse4.2 -target-feature +popcnt -target-feature +cx16 -tune-cpu generic -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ebtl0r -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ebtl0r -resource-dir /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19 -dependency-file CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -internal-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include -internal-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include -internal-externc-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android -internal-externc-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include -internal-externc-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include -Wformat -ferror-limit 19 -femulated-tls -stack-protector 2 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [clang -cc1 version 19.0.1 based upon LLVM 19.0.1 default target x86_64-apple-darwin24.6.0]
+        ignore line: [ignoring nonexistent directory "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include"]
+        ignore line: [ignoring nonexistent directory "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include]
+        ignore line: [ /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android]
+        ignore line: [ /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+        ignore line: [End of search list.]
+        ignore line: [Linking C executable cmTC_d4a87]
+        ignore line: [/opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d4a87.dir/link.txt --verbose=1]
+        ignore line: [Android (13624864  +pgo  -bolt  +lto  -mlgo  based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)]
+        ignore line: [Target: x86_64-none-linux-android21]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin]
+        link line: [ "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld" --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -z now -z relro -z max-page-size=16384 --hash-style=both --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /system/bin/linker64 -o cmTC_d4a87 /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtbegin_dynamic.o -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/x86_64 -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21 -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a -l:libunwind.a -ldl -lc /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a -l:libunwind.a -ldl /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtend_android.o]
+          arg [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld] ==> ignore
+          arg [--sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot] ==> ignore
+          arg [-znow] ==> ignore
+          arg [-zrelro] ==> ignore
+          arg [-zmax-page-size=16384] ==> ignore
+          arg [--hash-style=both] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [-m] ==> ignore
+          arg [elf_x86_64] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/system/bin/linker64] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_d4a87] ==> ignore
+          arg [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtbegin_dynamic.o] ==> obj [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtbegin_dynamic.o]
+          arg [-L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/x86_64] ==> dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/x86_64]
+          arg [-L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21] ==> dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21]
+          arg [-L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android] ==> dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android]
+          arg [-L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib] ==> dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib]
+          arg [--build-id=sha1] ==> ignore
+          arg [--no-rosegment] ==> ignore
+          arg [--no-undefined-version] ==> ignore
+          arg [--fatal-warnings] ==> ignore
+          arg [--no-undefined] ==> ignore
+          arg [CMakeFiles/cmTC_d4a87.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a] ==> lib [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [-lc] ==> lib [c]
+          arg [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a] ==> lib [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtend_android.o] ==> obj [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtend_android.o]
+        linker tool for 'C': /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld
+        remove lib [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a]
+        remove lib [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a]
+        collapse library dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/x86_64] ==> [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/x86_64]
+        collapse library dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21] ==> [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21]
+        collapse library dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android] ==> [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android]
+        collapse library dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib] ==> [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib]
+        implicit libs: [-l:libunwind.a;dl;c;-l:libunwind.a;dl]
+        implicit objs: [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtbegin_dynamic.o;/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtend_android.o]
+        implicit dirs: [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/x86_64;/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21;/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android;/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake:36 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:270 (cmake_determine_linker_id)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the C compiler's linker: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld" "-v"
+      LLD 19.0.1 (compatible with GNU linkers)
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-KfY3AV"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-KfY3AV"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_CXX_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat  "
+      CMAKE_CXX_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-KfY3AV'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_a276c/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_a276c.dir/build.make CMakeFiles/cmTC_a276c.dir/build
+        Building CXX object CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat    -fPIE   -v -MD -MT CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        Android (13624864, +pgo, -bolt, +lto, -mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)
+        Target: x86_64-none-linux-android21
+        Thread model: posix
+        InstalledDir: /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin
+         (in-process)
+         "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++" -cc1 -triple x86_64-none-linux-android21 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -target-feature +sse4.2 -target-feature +popcnt -target-feature +cx16 -tune-cpu generic -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-KfY3AV -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-KfY3AV -resource-dir /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19 -dependency-file CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -internal-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1 -internal-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include -internal-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include -internal-externc-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android -internal-externc-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include -internal-externc-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include -Wformat -fdeprecated-macro -ferror-limit 19 -femulated-tls -stack-protector 2 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        clang -cc1 version 19.0.1 based upon LLVM 19.0.1 default target x86_64-apple-darwin24.6.0
+        ignoring nonexistent directory "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include"
+        ignoring nonexistent directory "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1
+         /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include
+         /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android
+         /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include
+        End of search list.
+        Linking CXX executable cmTC_a276c
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a276c.dir/link.txt --verbose=1
+        Android (13624864, +pgo, -bolt, +lto, -mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)
+        Target: x86_64-none-linux-android21
+        Thread model: posix
+        InstalledDir: /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin
+         "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld" --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -z now -z relro -z max-page-size=16384 --hash-style=both --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /system/bin/linker64 -o cmTC_a276c /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtbegin_dynamic.o -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/x86_64 -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21 -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o -Bstatic -lc++ -Bdynamic -lm /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a -l:libunwind.a -ldl -lc /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a -l:libunwind.a -ldl /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtend_android.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat    -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments   -v CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_a276c
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:191 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1]
+          add: [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include]
+          add: [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android]
+          add: [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+        end of search list found
+        collapse include dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1] ==> [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1]
+        collapse include dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include] ==> [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include]
+        collapse include dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android] ==> [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android]
+        collapse include dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include] ==> [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+        implicit include dirs: [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1;/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include;/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android;/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:227 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
+        ignore line: [Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-KfY3AV']
+        ignore line: []
+        ignore line: [Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_a276c/fast]
+        ignore line: [/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_a276c.dir/build.make CMakeFiles/cmTC_a276c.dir/build]
+        ignore line: [Building CXX object CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat    -fPIE   -v -MD -MT CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Android (13624864  +pgo  -bolt  +lto  -mlgo  based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)]
+        ignore line: [Target: x86_64-none-linux-android21]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin]
+        ignore line: [ (in-process)]
+        ignore line: [ "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++" -cc1 -triple x86_64-none-linux-android21 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -target-feature +sse4.2 -target-feature +popcnt -target-feature +cx16 -tune-cpu generic -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-KfY3AV -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-KfY3AV -resource-dir /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19 -dependency-file CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -internal-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1 -internal-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include -internal-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include -internal-externc-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android -internal-externc-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include -internal-externc-isystem /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include -Wformat -fdeprecated-macro -ferror-limit 19 -femulated-tls -stack-protector 2 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [clang -cc1 version 19.0.1 based upon LLVM 19.0.1 default target x86_64-apple-darwin24.6.0]
+        ignore line: [ignoring nonexistent directory "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include"]
+        ignore line: [ignoring nonexistent directory "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1]
+        ignore line: [ /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/include]
+        ignore line: [ /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/x86_64-linux-android]
+        ignore line: [ /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+        ignore line: [End of search list.]
+        ignore line: [Linking CXX executable cmTC_a276c]
+        ignore line: [/opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a276c.dir/link.txt --verbose=1]
+        ignore line: [Android (13624864  +pgo  -bolt  +lto  -mlgo  based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)]
+        ignore line: [Target: x86_64-none-linux-android21]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin]
+        link line: [ "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld" --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -z now -z relro -z max-page-size=16384 --hash-style=both --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /system/bin/linker64 -o cmTC_a276c /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtbegin_dynamic.o -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/x86_64 -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21 -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android -L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o -Bstatic -lc++ -Bdynamic -lm /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a -l:libunwind.a -ldl -lc /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a -l:libunwind.a -ldl /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtend_android.o]
+          arg [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld] ==> ignore
+          arg [--sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot] ==> ignore
+          arg [-znow] ==> ignore
+          arg [-zrelro] ==> ignore
+          arg [-zmax-page-size=16384] ==> ignore
+          arg [--hash-style=both] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [-m] ==> ignore
+          arg [elf_x86_64] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/system/bin/linker64] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_a276c] ==> ignore
+          arg [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtbegin_dynamic.o] ==> obj [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtbegin_dynamic.o]
+          arg [-L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/x86_64] ==> dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/x86_64]
+          arg [-L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21] ==> dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21]
+          arg [-L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android] ==> dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android]
+          arg [-L/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib] ==> dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib]
+          arg [--build-id=sha1] ==> ignore
+          arg [--no-rosegment] ==> ignore
+          arg [--no-undefined-version] ==> ignore
+          arg [--fatal-warnings] ==> ignore
+          arg [--no-undefined] ==> ignore
+          arg [CMakeFiles/cmTC_a276c.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [-Bstatic] ==> search static
+          arg [-lc++] ==> lib [c++]
+          arg [-Bdynamic] ==> search dynamic
+          arg [-lm] ==> lib [m]
+          arg [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a] ==> lib [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [-lc] ==> lib [c]
+          arg [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a] ==> lib [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtend_android.o] ==> obj [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtend_android.o]
+        linker tool for 'CXX': /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld
+        remove lib [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a]
+        remove lib [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/libclang_rt.builtins-x86_64-android.a]
+        collapse library dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/x86_64] ==> [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/x86_64]
+        collapse library dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21] ==> [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21]
+        collapse library dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android] ==> [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android]
+        collapse library dir [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib] ==> [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib]
+        implicit libs: [c++;m;-l:libunwind.a;dl;c;-l:libunwind.a;dl]
+        implicit objs: [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtbegin_dynamic.o;/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21/crtend_android.o]
+        implicit dirs: [/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/19/lib/linux/x86_64;/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/21;/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android;/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake:36 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:270 (cmake_determine_linker_id)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the CXX compiler's linker: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld" "-v"
+      LLD 19.0.1 (compatible with GNU linkers)
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/CheckX86_64Assembly.cmake:4 (check_c_source_compiles)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt:104 (check_x86_64_assembly)"
+    checks:
+      - "Performing Test HAVE_X86_64_ASM"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-uSBMBD"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-uSBMBD"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_MODULE_PATH: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "HAVE_X86_64_ASM"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-uSBMBD'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_a796d/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_a796d.dir/build.make CMakeFiles/cmTC_a796d.dir/build
+        Building C object CMakeFiles/cmTC_a796d.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DHAVE_X86_64_ASM  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -std=c90 -fPIE -MD -MT CMakeFiles/cmTC_a796d.dir/src.c.o -MF CMakeFiles/cmTC_a796d.dir/src.c.o.d -o CMakeFiles/cmTC_a796d.dir/src.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-uSBMBD/src.c
+        Linking C executable cmTC_a796d
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a796d.dir/link.txt --verbose=1
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments    CMakeFiles/cmTC_a796d.dir/src.c.o -o cmTC_a796d  -latomic -lm
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt:206 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WALL"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-mt68N9"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-mt68N9"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_MODULE_PATH: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "C_SUPPORTS__WALL"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-mt68N9'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_4d6d1/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_4d6d1.dir/build.make CMakeFiles/cmTC_4d6d1.dir/build
+        Building C object CMakeFiles/cmTC_4d6d1.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DC_SUPPORTS__WALL  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Werror -std=c90 -fPIC   -Wall -MD -MT CMakeFiles/cmTC_4d6d1.dir/src.c.o -MF CMakeFiles/cmTC_4d6d1.dir/src.c.o.d -o CMakeFiles/cmTC_4d6d1.dir/src.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-mt68N9/src.c
+        Linking C static library libcmTC_4d6d1.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_4d6d1.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4d6d1.dir/link.txt --verbose=1
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar qc libcmTC_4d6d1.a CMakeFiles/cmTC_4d6d1.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib libcmTC_4d6d1.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt:215 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__PEDANTIC"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-6Xee1y"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-6Xee1y"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_MODULE_PATH: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "C_SUPPORTS__PEDANTIC"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-6Xee1y'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_19868/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_19868.dir/build.make CMakeFiles/cmTC_19868.dir/build
+        Building C object CMakeFiles/cmTC_19868.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DC_SUPPORTS__PEDANTIC  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Werror -std=c90 -fPIC   -pedantic -MD -MT CMakeFiles/cmTC_19868.dir/src.c.o -MF CMakeFiles/cmTC_19868.dir/src.c.o.d -o CMakeFiles/cmTC_19868.dir/src.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-6Xee1y/src.c
+        Linking C static library libcmTC_19868.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_19868.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_19868.dir/link.txt --verbose=1
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar qc libcmTC_19868.a CMakeFiles/cmTC_19868.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib libcmTC_19868.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt:216 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WCAST_ALIGN"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-Z331nb"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-Z331nb"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_MODULE_PATH: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "C_SUPPORTS__WCAST_ALIGN"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-Z331nb'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_07856/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_07856.dir/build.make CMakeFiles/cmTC_07856.dir/build
+        Building C object CMakeFiles/cmTC_07856.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DC_SUPPORTS__WCAST_ALIGN  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Werror -std=c90 -fPIC   -Wcast-align -MD -MT CMakeFiles/cmTC_07856.dir/src.c.o -MF CMakeFiles/cmTC_07856.dir/src.c.o.d -o CMakeFiles/cmTC_07856.dir/src.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-Z331nb/src.c
+        Linking C static library libcmTC_07856.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_07856.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_07856.dir/link.txt --verbose=1
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar qc libcmTC_07856.a CMakeFiles/cmTC_07856.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib libcmTC_07856.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt:217 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WCAST_ALIGN_STRICT"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ISUsiw"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ISUsiw"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_MODULE_PATH: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "C_SUPPORTS__WCAST_ALIGN_STRICT"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ISUsiw'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_ddc08/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_ddc08.dir/build.make CMakeFiles/cmTC_ddc08.dir/build
+        Building C object CMakeFiles/cmTC_ddc08.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DC_SUPPORTS__WCAST_ALIGN_STRICT  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Werror -std=c90 -fPIC   -Wcast-align=strict -MD -MT CMakeFiles/cmTC_ddc08.dir/src.c.o -MF CMakeFiles/cmTC_ddc08.dir/src.c.o.d -o CMakeFiles/cmTC_ddc08.dir/src.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ISUsiw/src.c
+        error: unknown warning option '-Wcast-align=strict'; did you mean '-Wcast-align'? [-Werror,-Wunknown-warning-option]
+        make[2]: *** [CMakeFiles/cmTC_ddc08.dir/src.c.o] Error 1
+        make[1]: *** [cmTC_ddc08/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt:218 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WCONDITIONAL_UNINITIALIZED"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-pJAIZQ"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-pJAIZQ"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_MODULE_PATH: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "C_SUPPORTS__WCONDITIONAL_UNINITIALIZED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-pJAIZQ'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_df13b/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_df13b.dir/build.make CMakeFiles/cmTC_df13b.dir/build
+        Building C object CMakeFiles/cmTC_df13b.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DC_SUPPORTS__WCONDITIONAL_UNINITIALIZED  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Werror -std=c90 -fPIC   -Wconditional-uninitialized -MD -MT CMakeFiles/cmTC_df13b.dir/src.c.o -MF CMakeFiles/cmTC_df13b.dir/src.c.o.d -o CMakeFiles/cmTC_df13b.dir/src.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-pJAIZQ/src.c
+        Linking C static library libcmTC_df13b.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_df13b.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_df13b.dir/link.txt --verbose=1
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar qc libcmTC_df13b.a CMakeFiles/cmTC_df13b.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib libcmTC_df13b.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt:219 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WEXTRA"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-XxpFyR"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-XxpFyR"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_MODULE_PATH: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "C_SUPPORTS__WEXTRA"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-XxpFyR'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_1acae/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_1acae.dir/build.make CMakeFiles/cmTC_1acae.dir/build
+        Building C object CMakeFiles/cmTC_1acae.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DC_SUPPORTS__WEXTRA  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Werror -std=c90 -fPIC   -Wextra -MD -MT CMakeFiles/cmTC_1acae.dir/src.c.o -MF CMakeFiles/cmTC_1acae.dir/src.c.o.d -o CMakeFiles/cmTC_1acae.dir/src.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-XxpFyR/src.c
+        Linking C static library libcmTC_1acae.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_1acae.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1acae.dir/link.txt --verbose=1
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar qc libcmTC_1acae.a CMakeFiles/cmTC_1acae.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib libcmTC_1acae.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt:220 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WNESTED_EXTERNS"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-VWBBsE"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-VWBBsE"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_MODULE_PATH: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "C_SUPPORTS__WNESTED_EXTERNS"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-VWBBsE'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_f1bef/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_f1bef.dir/build.make CMakeFiles/cmTC_f1bef.dir/build
+        Building C object CMakeFiles/cmTC_f1bef.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DC_SUPPORTS__WNESTED_EXTERNS  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Werror -std=c90 -fPIC   -Wnested-externs -MD -MT CMakeFiles/cmTC_f1bef.dir/src.c.o -MF CMakeFiles/cmTC_f1bef.dir/src.c.o.d -o CMakeFiles/cmTC_f1bef.dir/src.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-VWBBsE/src.c
+        Linking C static library libcmTC_f1bef.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_f1bef.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f1bef.dir/link.txt --verbose=1
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar qc libcmTC_f1bef.a CMakeFiles/cmTC_f1bef.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib libcmTC_f1bef.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt:221 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WNO_LONG_LONG"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-6tQQdJ"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-6tQQdJ"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_MODULE_PATH: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "C_SUPPORTS__WNO_LONG_LONG"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-6tQQdJ'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_a1e9f/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_a1e9f.dir/build.make CMakeFiles/cmTC_a1e9f.dir/build
+        Building C object CMakeFiles/cmTC_a1e9f.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DC_SUPPORTS__WNO_LONG_LONG  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Werror -std=c90 -fPIC   -Wno-long-long -MD -MT CMakeFiles/cmTC_a1e9f.dir/src.c.o -MF CMakeFiles/cmTC_a1e9f.dir/src.c.o.d -o CMakeFiles/cmTC_a1e9f.dir/src.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-6tQQdJ/src.c
+        Linking C static library libcmTC_a1e9f.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_a1e9f.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a1e9f.dir/link.txt --verbose=1
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar qc libcmTC_a1e9f.a CMakeFiles/cmTC_a1e9f.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib libcmTC_a1e9f.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt:222 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WNO_OVERLENGTH_STRINGS"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-FNPSn8"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-FNPSn8"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_MODULE_PATH: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "C_SUPPORTS__WNO_OVERLENGTH_STRINGS"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-FNPSn8'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_7bb59/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_7bb59.dir/build.make CMakeFiles/cmTC_7bb59.dir/build
+        Building C object CMakeFiles/cmTC_7bb59.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DC_SUPPORTS__WNO_OVERLENGTH_STRINGS  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Werror -std=c90 -fPIC   -Wno-overlength-strings -MD -MT CMakeFiles/cmTC_7bb59.dir/src.c.o -MF CMakeFiles/cmTC_7bb59.dir/src.c.o.d -o CMakeFiles/cmTC_7bb59.dir/src.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-FNPSn8/src.c
+        Linking C static library libcmTC_7bb59.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_7bb59.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7bb59.dir/link.txt --verbose=1
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar qc libcmTC_7bb59.a CMakeFiles/cmTC_7bb59.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib libcmTC_7bb59.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt:223 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WNO_UNUSED_FUNCTION"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ffS781"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ffS781"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_MODULE_PATH: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "C_SUPPORTS__WNO_UNUSED_FUNCTION"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ffS781'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_f9eea/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_f9eea.dir/build.make CMakeFiles/cmTC_f9eea.dir/build
+        Building C object CMakeFiles/cmTC_f9eea.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DC_SUPPORTS__WNO_UNUSED_FUNCTION  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Werror -std=c90 -fPIC   -Wno-unused-function -MD -MT CMakeFiles/cmTC_f9eea.dir/src.c.o -MF CMakeFiles/cmTC_f9eea.dir/src.c.o.d -o CMakeFiles/cmTC_f9eea.dir/src.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-ffS781/src.c
+        Linking C static library libcmTC_f9eea.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_f9eea.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f9eea.dir/link.txt --verbose=1
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar qc libcmTC_f9eea.a CMakeFiles/cmTC_f9eea.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib libcmTC_f9eea.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt:224 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WRESERVED_IDENTIFIER"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-M2GMp6"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-M2GMp6"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_MODULE_PATH: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "C_SUPPORTS__WRESERVED_IDENTIFIER"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-M2GMp6'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_113aa/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_113aa.dir/build.make CMakeFiles/cmTC_113aa.dir/build
+        Building C object CMakeFiles/cmTC_113aa.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DC_SUPPORTS__WRESERVED_IDENTIFIER  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Werror -std=c90 -fPIC   -Wreserved-identifier -MD -MT CMakeFiles/cmTC_113aa.dir/src.c.o -MF CMakeFiles/cmTC_113aa.dir/src.c.o.d -o CMakeFiles/cmTC_113aa.dir/src.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-M2GMp6/src.c
+        Linking C static library libcmTC_113aa.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_113aa.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_113aa.dir/link.txt --verbose=1
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar qc libcmTC_113aa.a CMakeFiles/cmTC_113aa.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib libcmTC_113aa.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt:225 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WSHADOW"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-tDtG7m"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-tDtG7m"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_MODULE_PATH: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "C_SUPPORTS__WSHADOW"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-tDtG7m'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_8da7c/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_8da7c.dir/build.make CMakeFiles/cmTC_8da7c.dir/build
+        Building C object CMakeFiles/cmTC_8da7c.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DC_SUPPORTS__WSHADOW  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Werror -std=c90 -fPIC   -Wshadow -MD -MT CMakeFiles/cmTC_8da7c.dir/src.c.o -MF CMakeFiles/cmTC_8da7c.dir/src.c.o.d -o CMakeFiles/cmTC_8da7c.dir/src.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-tDtG7m/src.c
+        Linking C static library libcmTC_8da7c.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_8da7c.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8da7c.dir/link.txt --verbose=1
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar qc libcmTC_8da7c.a CMakeFiles/cmTC_8da7c.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib libcmTC_8da7c.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt:226 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WSTRICT_PROTOTYPES"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-svFwT7"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-svFwT7"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_MODULE_PATH: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "C_SUPPORTS__WSTRICT_PROTOTYPES"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-svFwT7'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_62779/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_62779.dir/build.make CMakeFiles/cmTC_62779.dir/build
+        Building C object CMakeFiles/cmTC_62779.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DC_SUPPORTS__WSTRICT_PROTOTYPES  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Werror -std=c90 -fPIC   -Wstrict-prototypes -MD -MT CMakeFiles/cmTC_62779.dir/src.c.o -MF CMakeFiles/cmTC_62779.dir/src.c.o.d -o CMakeFiles/cmTC_62779.dir/src.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-svFwT7/src.c
+        Linking C static library libcmTC_62779.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_62779.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_62779.dir/link.txt --verbose=1
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar qc libcmTC_62779.a CMakeFiles/cmTC_62779.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib libcmTC_62779.a
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCCompilerFlag.cmake:56 (cmake_check_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:13 (check_c_compiler_flag)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake/TryAppendCFlags.cmake:20 (secp256k1_check_c_flags_internal)"
+      - "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/CMakeLists.txt:227 (try_append_c_flags)"
+    checks:
+      - "Performing Test C_SUPPORTS__WUNDEF"
+    directories:
+      source: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-WMiR9W"
+      binary: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-WMiR9W"
+    cmakeVariables:
+      ANDROID_ABI: "x86_64"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "x86_64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_MODULE_PATH: "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "C_SUPPORTS__WUNDEF"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-WMiR9W'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_a9b01/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_a9b01.dir/build.make CMakeFiles/cmTC_a9b01.dir/build
+        Building C object CMakeFiles/cmTC_a9b01.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=x86_64-none-linux-android21 --sysroot=/Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DC_SUPPORTS__WUNDEF  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Werror -std=c90 -fPIC   -Wundef -MD -MT CMakeFiles/cmTC_a9b01.dir/src.c.o -MF CMakeFiles/cmTC_a9b01.dir/src.c.o.d -o CMakeFiles/cmTC_a9b01.dir/src.c.o -c /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-android-x86_64/CMakeFiles/CMakeScratch/TryCompile-WMiR9W/src.c
+        Linking C static library libcmTC_a9b01.a
+        /opt/homebrew/bin/cmake -P CMakeFiles/cmTC_a9b01.dir/cmake_clean_target.cmake
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a9b01.dir/link.txt --verbose=1
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar qc libcmTC_a9b01.a CMakeFiles/cmTC_a9b01.dir/src.c.o
+        /Users/alekseypopkov/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib libcmTC_a9b01.a
+        
+      exitCode: 0
+...
