@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios-device/CMakeFiles/4.0.3/CompilerIdC/CompilerIdC.framework/CompilerIdC'
+relocations:     []
+...

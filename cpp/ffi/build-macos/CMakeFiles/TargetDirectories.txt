@@ -1,0 +1,15 @@
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/CMakeFiles/crypto_module.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/CMakeFiles/edit_cache.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/CMakeFiles/rebuild_cache.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/CMakeFiles/edit_cache.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/CMakeFiles/rebuild_cache.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/src/CMakeFiles/secp256k1.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/src/CMakeFiles/secp256k1_precomputed.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/src/CMakeFiles/bench.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/src/CMakeFiles/bench_internal.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/src/CMakeFiles/bench_ecmult.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/src/CMakeFiles/noverify_tests.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/src/CMakeFiles/tests.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/src/CMakeFiles/exhaustive_tests.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/src/CMakeFiles/edit_cache.dir
+/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/src/CMakeFiles/rebuild_cache.dir

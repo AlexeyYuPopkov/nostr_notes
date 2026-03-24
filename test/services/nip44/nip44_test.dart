@@ -97,6 +97,32 @@ void main() {
       expect(stopwatch.elapsedMilliseconds < 3000, true);
     });
 
+    test('spec256k1', () async {
+      const privateKey =
+          '49b3084ebe2d6a1c1c9f68be41c89593c7a1d0a80e23f259df341bfa8e5b5bd8';
+      const publicKey =
+          '5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee';
+
+      const iterations = 100;
+      final stopwatch = Stopwatch()..start();
+
+      for (var i = 0; i < iterations; i++) {
+        final Uint8List conversationKey = sut.deriveKeys(
+          senderPrivateKey: privateKey,
+          recipientPublicKey: publicKey,
+        );
+
+        expect(conversationKey, isA<Uint8List>());
+      }
+
+      stopwatch.stop();
+      debugPrint(
+        'spec256k1 of $iterations took: ${stopwatch.elapsedMilliseconds} ms',
+      );
+
+      expect(stopwatch.elapsedMilliseconds < 300, true);
+    });
+
     test(
       'Nip44 encryption/decryption performance with cached conversation key',
       () async {

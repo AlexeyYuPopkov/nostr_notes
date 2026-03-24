@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios/cmake_install.cmake",
+		"/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios/secp256k1_build/cmake_install.cmake",
+		"/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-ios/secp256k1_build/src/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

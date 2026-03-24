@@ -188,19 +188,19 @@ void main() {
 
   group('NoopOutboxPublisher', () {
     test('init and dispose do not throw', () async {
-      const noop = NoopOutboxPublisher();
+      final noop = NoopOutboxPublisher();
       await noop.init();
       await noop.dispose();
     });
 
     test('pause and resume do not throw', () {
-      const noop = NoopOutboxPublisher();
+      final noop = NoopOutboxPublisher();
       noop.pause();
       noop.resume();
     });
 
     test('cleanup returns 0', () async {
-      const noop = NoopOutboxPublisher();
+      final noop = NoopOutboxPublisher();
       expect(await noop.cleanup(), 0);
     });
   });
