@@ -21,6 +21,8 @@ final _useFfi =
     io.Platform.isIOS ||
     io.Platform.isAndroid;
 
+// final _useFfi = false;
+
 final class IsWasmAvailable {
   const IsWasmAvailable();
   bool get isAvailable => false;
@@ -73,6 +75,7 @@ final class CryptoServiceImplMobile implements CryptoService {
     required String recipientPublicKey,
     Future<Uint8List> Function(Uint8List)? extraDerivation,
   }) async {
+    final stopwatch = Stopwatch()..start();
     final key = await spec256k1Async(
       senderPrivateKey: HexToBytes.hexToBytes(senderPrivateKey),
       recipientPublicKey: HexToBytes.hexToBytes(recipientPublicKey),
@@ -83,6 +86,13 @@ final class CryptoServiceImplMobile implements CryptoService {
     }
 
     final resut = extraDerivation(key);
+
+    stopwatch.stop();
+    // print('deriveKeysAsync completed in ${stopwatch.elapsedMilliseconds} ms');
+    log(
+      'deriveKeysAsync completed in ${stopwatch.elapsedMilliseconds} ms',
+      name: 'CryptoService',
+    );
 
     return resut;
   }
