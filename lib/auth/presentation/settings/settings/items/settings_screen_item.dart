@@ -15,6 +15,7 @@ abstract class SettingsItem extends Equatable {
   static const items = [
     SettingsItemPreferences(),
     SettingsItemHelp(),
+    SettingsItemContacts(),
     SettingsItemLogout(),
     SettingsItemLogoutAndClear(),
     DeleteAcc(),
@@ -83,6 +84,28 @@ final class SettingsItemHelp extends SettingsItem {
   String getSectionTitle(BuildContext context) {
     return context.l10n.settingsScreenSectionSettingsTitle;
   }
+
+  @override
+  ListItemPosition get position => .middle;
+}
+
+final class SettingsItemContacts extends SettingsItem {
+  const SettingsItemContacts();
+  @override
+  String getTitle(context) => context.l10n.settingsItemContacts;
+
+  @override
+  void onTap(BuildContext context) {
+    RouteHandler.of(context)?.onRoute(const ContactsScreenRoute(), context);
+  }
+
+  @override
+  Widget trailing(BuildContext context) {
+    return const Icon(Icons.arrow_forward_ios, size: Sizes.iconSmall);
+  }
+
+  @override
+  String getSectionTitle(BuildContext context) => '';
 
   @override
   ListItemPosition get position => .last;

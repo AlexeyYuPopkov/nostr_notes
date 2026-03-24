@@ -307,6 +307,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsItemHelp => 'Help';
 
   @override
+  String get settingsItemContacts => 'Contacts';
+
+  @override
+  String get settingsItemContactsContentMd =>
+      '## Contacts\n- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)';
+
+  @override
   String get preferencesScreenItemRelays => 'Connected Relays';
 
   @override
@@ -359,6 +366,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notesListDecryptReasonInvalidParams =>
       'Cryptographic parameters are invalid for this note.';
+
+  @override
+  String get editNoteScreenSaveSuccess => 'Note saved successfully!';
 
   @override
   String get credentialsDataScreenTitle => 'Credentials Data';

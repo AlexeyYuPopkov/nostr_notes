@@ -20,6 +20,10 @@ final class HelpScreenRoute implements AppRoute {
   const HelpScreenRoute();
 }
 
+final class ContactsScreenRoute implements AppRoute {
+  const ContactsScreenRoute();
+}
+
 final class ThemeSettingsRoute implements AppRoute {
   const ThemeSettingsRoute();
 }

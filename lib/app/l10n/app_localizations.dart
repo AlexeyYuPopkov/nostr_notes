@@ -628,6 +628,18 @@ abstract class AppLocalizations {
   /// **'Help'**
   String get settingsItemHelp;
 
+  /// No description provided for @settingsItemContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts'**
+  String get settingsItemContacts;
+
+  /// No description provided for @settingsItemContactsContentMd.
+  ///
+  /// In en, this message translates to:
+  /// **'## Contacts\n- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)'**
+  String get settingsItemContactsContentMd;
+
   /// No description provided for @preferencesScreenItemRelays.
   ///
   /// In en, this message translates to:
@@ -723,6 +735,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cryptographic parameters are invalid for this note.'**
   String get notesListDecryptReasonInvalidParams;
+
+  /// No description provided for @editNoteScreenSaveSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Note saved successfully!'**
+  String get editNoteScreenSaveSuccess;
 
   /// No description provided for @credentialsDataScreenTitle.
   ///
