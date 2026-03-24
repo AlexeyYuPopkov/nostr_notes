@@ -46,4 +46,9 @@ class MockRelaysListRepo implements RelaysListRepo {
   Future<void> clear() async {
     _relaysListSubject.add(<String>{});
   }
+
+  @override
+  Future<void> dispose() {
+    return _relaysListSubject.close();
+  }
 }

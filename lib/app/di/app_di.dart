@@ -39,12 +39,15 @@ final class AppDi implements Di {
   }
 
   @override
-  Future<void> bindAuthModules() async {
+  Future<void> bindAuthModules({
+    void Function(DiStorage)? testOverrides,
+  }) async {
     final di = DiStorage.shared;
 
     di.removeScope<AuthDiScope>();
 
     const AuthDiScope().bind(di);
+    testOverrides?.call(di);
     final outbox = di.tryResolve<OutboxPublisher>();
     await outbox?.init();
   }

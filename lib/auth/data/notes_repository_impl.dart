@@ -17,6 +17,8 @@ import 'package:nostr_notes/services/model/tag/tag.dart';
 import 'package:nostr_notes/services/model/tag/tag_value.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_event_creator.dart';
+import 'package:nostr_notes/services/nostr_client/nostr_publisher.dart';
+import 'package:nostr_notes/services/nostr_client/publish_event_report.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:uuid/uuid.dart';
 
@@ -24,14 +26,20 @@ class NotesRepositoryImpl implements NotesRepository {
   final NostrClient _client;
   final RawEventStore _eventStore;
   final OutboxDaoInterface _outboxDao;
+  final NostrEventCreator _eventCreator;
+  final Now _now;
 
   const NotesRepositoryImpl({
     required NostrClient client,
     required RawEventStore eventStore,
     required OutboxDaoInterface outboxDao,
+    NostrEventCreator eventCreator = const NostrEventCreator(),
+    Now now = const Now(),
   }) : _client = client,
        _eventStore = eventStore,
-       _outboxDao = outboxDao;
+       _outboxDao = outboxDao,
+       _eventCreator = eventCreator,
+       _now = now;
 
   @override
   Stream<List> get eventsStream => _client
@@ -62,6 +70,14 @@ class NotesRepositoryImpl implements NotesRepository {
             authors: [pubkey],
             p: [pubkey],
             t: [AppConfig.clientTagValue],
+            until: until?.toSecondsSinceEpoch(),
+          ),
+          NostrFilter(
+            kinds: [EventKind.delete.value],
+            authors: [pubkey],
+            additional: {
+              '#k': [EventKind.note.value.toString()],
+            },
             until: until?.toSecondsSinceEpoch(),
           ),
         ],
@@ -102,8 +118,27 @@ class NotesRepositoryImpl implements NotesRepository {
       ),
     );
 
+    final deleted = await _eventStore.queryEvents(
+      RawEventQuery(authors: [pubkey], kinds: const [NostrKind.deletion]),
+    );
+
+    final deletedDTags = deleted
+        .where((e) => e.kind == NostrKind.deletion)
+        .map(ATag.getAllFromEvent)
+        .expand((aTags) => aTags)
+        .map((aTag) => aTag.dTag)
+        .toSet();
+
     return result
         .where((e) => e.content.isNotEmpty)
+        .where((e) {
+          final dTag = e.getDTag();
+          if (dTag == null || dTag.isEmpty) {
+            return false;
+          }
+
+          return !deletedDTags.contains(dTag);
+        })
         .map((e) => NoteMapper.fromNostrEvent(e))
         .nonNulls;
   }
@@ -120,9 +155,28 @@ class NotesRepositoryImpl implements NotesRepository {
             ],
           ),
         )
-        .map((items) {
+        .asyncMap((items) async {
+          final deleted = await _eventStore.queryEvents(
+            RawEventQuery(authors: [pubkey], kinds: const [NostrKind.deletion]),
+          );
+
+          final deletedDTags = deleted
+              .where((e) => e.kind == NostrKind.deletion)
+              .map(ATag.getAllFromEvent)
+              .expand((aTags) => aTags)
+              .map((aTag) => aTag.dTag)
+              .toSet();
+
           return items
               .where((e) => e.content.isNotEmpty)
+              .where((e) {
+                final dTag = e.getDTag();
+                if (dTag == null || dTag.isEmpty) {
+                  return false;
+                }
+
+                return !deletedDTags.contains(dTag);
+              })
               .map((e) => NoteMapper.fromNostrEvent(e))
               .nonNulls;
         });
@@ -175,7 +229,6 @@ class NotesRepositoryImpl implements NotesRepository {
     required String privateKey,
     Now? now,
     Uuid? uuid,
-    List<int>? randomBytes,
   }) async {
     final dTagValue = note.dTag.isNotEmpty
         ? note.dTag
@@ -189,16 +242,15 @@ class NotesRepositoryImpl implements NotesRepository {
       [const SummaryTag().value, note.summary],
     ];
 
-    final createdAt = (now ?? const Now()).now();
+    final createdAt = (now ?? _now).now();
 
-    final event = NostrEventCreator.createEvent(
+    final event = _eventCreator.createEvent(
       kind: EventKind.note.value,
       content: note.content,
       createdAt: createdAt,
       tags: tags,
       pubkey: pubkey,
       privateKey: privateKey,
-      randomBytes: randomBytes,
     );
 
     // SQL-first: persist locally, then let OutboxPublisher handle relay sync
@@ -249,7 +301,7 @@ class NotesRepositoryImpl implements NotesRepository {
       );
     }
 
-    final nowTime = (now ?? const Now()).now();
+    final nowTime = (now ?? _now).now();
     // Ensure deletion event has createdAt strictly after the original note,
     // so upsert replaces the old replaceable event.
     final createdAt = nowTime.isAfter(note.createdAt)
@@ -263,14 +315,13 @@ class NotesRepositoryImpl implements NotesRepository {
       [Tag.p.value, pubkey],
     ];
 
-    final event = NostrEventCreator.createEvent(
+    final event = _eventCreator.createEvent(
       kind: EventKind.note.value,
       content: '',
       createdAt: createdAt,
       tags: tags,
       pubkey: pubkey,
       privateKey: privateKey,
-      randomBytes: randomBytes,
     );
 
     // SQL-first: persist locally, then let OutboxPublisher handle relay sync
@@ -299,4 +350,74 @@ class NotesRepositoryImpl implements NotesRepository {
   Stream<NotesRepositoryRelayError> get relayErrors => _client.relayErrors.map(
     (e) => NotesRepositoryRelayError(relayUrl: e.relayUrl, parentError: e),
   );
+
+  @override
+  Future<ATagsAndIds> collectATags({required String pubkey}) async {
+    final events = await _eventStore.queryEvents(
+      RawEventQuery(
+        authors: [pubkey],
+        kinds: [EventKind.note.value],
+        tagFilters: [
+          TagFilter(Tag.p.value, [pubkey]),
+        ],
+      ),
+    );
+
+    final ids = <String>{};
+    final aTags = <ATag>[];
+
+    for (final e in events) {
+      ids.add(e.id);
+      final dTag = e.getDTag();
+      if (dTag != null && dTag.isNotEmpty) {
+        aTags.add(ATag(kind: e.kind, pubkey: pubkey, dTag: dTag));
+      }
+    }
+
+    return ATagsAndIds(aTags: aTags, ids: ids);
+  }
+
+  @override
+  Future<PublishEventReport?> deletionRequest({
+    required ATagsAndIds aTags,
+    required String publicKey,
+    required String privateKey,
+    required Set<String> relays,
+  }) async {
+    if (aTags.aTags.isEmpty) {
+      return null;
+    }
+    final nowTime = _now.now();
+
+    final event = _eventCreator.createEvent(
+      kind: NostrKind.deletion,
+      content: '',
+      createdAt: nowTime,
+      pubkey: publicKey,
+      privateKey: privateKey,
+      tags: [
+        ...aTags.aTags.map((aTag) => aTag.toEventTag()),
+        [Tag.k.value, EventKind.note.value.toString()],
+      ],
+    );
+
+    await _eventStore.upsert([event]);
+    _client.addRelays(relays);
+    final publisher = NostrPublisher(client: _client, event: event);
+
+    final report = await publisher.execute();
+
+    return report;
+  }
+
+  @override
+  Future<void> clearLocalStorages({
+    required String pubkey,
+    required ATagsAndIds aTags,
+  }) {
+    return Future.wait([
+      _eventStore.deleteEvents(aTags.ids),
+      _outboxDao.removeUndeliveredByEventIds(aTags.ids),
+    ]).then((_) => null);
+  }
 }

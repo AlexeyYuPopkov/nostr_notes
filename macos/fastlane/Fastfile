@@ -13,6 +13,11 @@ platform :mac do
       key_content: api_key_content
     )
 
+    puts "api_key_content: #{ENV['NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64']}"
+    puts "key_id: #{ENV['APP_STORE_CONNECT_API_KEY_ID']}"
+    puts "issuer_id: #{ENV['APP_STORE_CONNECT_ISSUER_ID']}"
+    puts "MATCH_GIT_BASIC_AUTHORIZATION: #{ENV['MATCH_GIT_BASIC_AUTHORIZATION']}"
+
     latest_build = latest_testflight_build_number(
       api_key: api_key,
       app_identifier: "com.alekseii.yu.popkov.nostrNotes",

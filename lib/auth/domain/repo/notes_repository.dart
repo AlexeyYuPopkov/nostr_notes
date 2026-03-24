@@ -1,6 +1,8 @@
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/domain/error/app_error.dart';
 import 'package:nostr_notes/core/tools/now.dart';
+import 'package:nostr_notes/services/model/tag/tag_value.dart';
+import 'package:nostr_notes/services/nostr_client/publish_event_report.dart';
 import 'package:uuid/uuid.dart';
 
 abstract interface class NotesRepository {
@@ -32,7 +34,6 @@ abstract interface class NotesRepository {
     required String privateKey,
     Now? now,
     Uuid? uuid,
-    List<int>? randomBytes,
   });
 
   Future<Note> deleteNote({
@@ -45,6 +46,20 @@ abstract interface class NotesRepository {
   });
 
   Stream<NotesRepositoryRelayError> get relayErrors;
+
+  Future<ATagsAndIds> collectATags({required String pubkey});
+
+  Future<PublishEventReport?> deletionRequest({
+    required ATagsAndIds aTags,
+    required String publicKey,
+    required String privateKey,
+    required Set<String> relays,
+  });
+
+  Future<void> clearLocalStorages({
+    required String pubkey,
+    required ATagsAndIds aTags,
+  });
 }
 
 final class NotePublisherReport {
@@ -77,4 +92,11 @@ final class NotesRepositoryRelayError extends AppError {
   String get message => 'Relay error on $relayUrl';
 
   const NotesRepositoryRelayError({required this.relayUrl, super.parentError});
+}
+
+final class ATagsAndIds {
+  final Set<String> ids;
+  final List<ATag> aTags;
+
+  const ATagsAndIds({required this.aTags, required this.ids});
 }

@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:nostr_notes/app/l10n/app_localizations.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
+import 'package:nostr_notes/common/presentation/tools/list_item_position.dart';
 
 sealed class NotesListSection extends Equatable {
   const NotesListSection();
@@ -52,32 +53,20 @@ sealed class NotesListSection extends Equatable {
         continue;
       }
       result.add(NotesListHeader(title: key));
-      final length = notes.length - 1;
+      final length = notes.length;
       result.addAll(
         notes
             .sorted((a, b) => b.createdAt.compareTo(a.createdAt))
             .mapIndexed(
               (index, note) => NotesListItem(
                 note: note,
-                position: _getPosition(index, length),
+                position: ListItemPosition.fromIndex(index, length: length),
               ),
             ),
       );
     }
 
     return result;
-  }
-
-  static NotesListItemPosition _getPosition(int index, int length) {
-    if (length == 0) {
-      return NotesListItemPosition.single;
-    } else if (index == 0) {
-      return NotesListItemPosition.first;
-    } else if (index == length) {
-      return NotesListItemPosition.last;
-    } else {
-      return NotesListItemPosition.middle;
-    }
   }
 
   static bool _isSameDay(DateTime a, DateTime b) {
@@ -96,12 +85,10 @@ final class NotesListHeader extends NotesListSection {
 
 final class NotesListItem extends NotesListSection {
   final Note note;
-  final NotesListItemPosition position;
+  final ListItemPosition position;
 
   const NotesListItem({required this.note, required this.position});
 
   @override
   List<Object?> get props => [note.eventId, position];
 }
-
-enum NotesListItemPosition { first, middle, last, single }

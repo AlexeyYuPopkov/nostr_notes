@@ -75,18 +75,16 @@ final class NostrPublisher {
       Future.delayed(defaultWindow),
     ]);
 
-    // client.sendCloseForAll(subscriptionId);
-
     if (result is NostrEvent) {
       return PublishEventReport(
-        events: okEvents,
+        okEvents: okEvents,
         close: closeEvents,
         exceededTimeout: null,
         event: result,
       );
     } else {
       return PublishEventReport(
-        events: okEvents,
+        okEvents: okEvents,
         close: closeEvents,
         exceededTimeout: defaultWindow,
         event: event,

@@ -1,4 +1,5 @@
 import 'package:nostr_notes/services/model/tag/tag.dart';
+import 'package:nostr_notes/services/model/tag/tag_value.dart';
 
 import '../nostr_event.dart';
 
@@ -16,6 +17,34 @@ extension NostrEventTags on NostrEvent {
     return null;
   }
 
+  Set<String> getATags() {
+    final result = <String>{};
+    for (final tags in this.tags) {
+      if (tags.firstOrNull == TagValue.a && tags.length >= 2) {
+        if (tags[1].isNotEmpty) {
+          result.add(tags[1]);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  Set<String> getAllTagsWithIndex(String tag, int index) {
+    final result = <String>{};
+
+    for (final sublist in tags) {
+      if (sublist.firstOrNull == tag && sublist.length > index) {
+        final res = sublist[index].isEmpty ? null : sublist[index];
+        if (res != null) {
+          result.add(res);
+        }
+      }
+    }
+
+    return result;
+  }
+
   Set<String> getTagsSet(BaseTag tag) {
     final tags = this.tags;
     final tagValue = tag.value;
@@ -31,33 +60,33 @@ extension NostrEventTags on NostrEvent {
     return result;
   }
 
-  ATagComponents? getATagComponents() =>
-      ATagComponents.fromATagValue(getFirstTag(Tag.a));
+  // ATagComponents? getATagComponents() =>
+  //     ATagComponents.fromATagValue(getFirstTag(Tag.a));
 }
 
-final class ATagComponents {
-  final String dTag;
-  final String pubkey;
-  final int kind;
+// final class ATagComponents {
+//   final String dTag;
+//   final String pubkey;
+//   final int kind;
 
-  const ATagComponents({
-    required this.dTag,
-    required this.pubkey,
-    required this.kind,
-  });
+//   const ATagComponents({
+//     required this.dTag,
+//     required this.pubkey,
+//     required this.kind,
+//   });
 
-  static ATagComponents? fromATagValue(String? aTagValue) {
-    if (aTagValue == null || aTagValue.isEmpty) {
-      return null;
-    }
-    final parts = aTagValue.split(':');
-    if (parts.length != 3) {
-      return null; // Invalid format
-    }
-    return ATagComponents(
-      kind: int.parse(parts[0]),
-      pubkey: parts[1],
-      dTag: parts[2],
-    );
-  }
-}
+//   static ATagComponents? fromATagValue(String? aTagValue) {
+//     if (aTagValue == null || aTagValue.isEmpty) {
+//       return null;
+//     }
+//     final parts = aTagValue.split(':');
+//     if (parts.length != 3) {
+//       return null; // Invalid format
+//     }
+//     return ATagComponents(
+//       kind: int.parse(parts[0]),
+//       pubkey: parts[1],
+//       dTag: parts[2],
+//     );
+//   }
+// }

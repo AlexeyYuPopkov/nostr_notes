@@ -19,6 +19,7 @@ import 'package:nostr_notes/services/nostr_client/channel_factory.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_client.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostr_notes/core/tools/now.dart';
+import 'package:nostr_notes/services/nostr_client/nostr_event_creator.dart';
 import 'package:nostr_notes/services/nostr_client/outbox_publisher.dart';
 import 'package:uuid/uuid.dart';
 
@@ -160,6 +161,9 @@ void main() {
           client: client,
           outboxDao: sut2,
           eventStore: di.resolve(),
+          eventCreator: const NostrEventCreator(
+            randomBytes: SomeMokedData.randomBytes,
+          ),
         ),
       );
     });
@@ -181,7 +185,6 @@ void main() {
         dTag: null,
         now: mockNow,
         uuid: mockUuid,
-        randomBytes: SomeMokedData.randomBytes,
       );
 
       expect(note, isA<Note>());
@@ -227,7 +230,6 @@ void main() {
           dTag: null,
           now: mockNow,
           uuid: mockUuid,
-          randomBytes: SomeMokedData.randomBytes,
         );
 
         expect(note, isA<Note>());
@@ -289,7 +291,6 @@ void main() {
         dTag: null,
         now: mockNow,
         uuid: mockUuid,
-        randomBytes: SomeMokedData.randomBytes,
       );
 
       expect(note, isA<Note>());

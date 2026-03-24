@@ -10,8 +10,8 @@ import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_rela
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_show_nsec_page.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_welcome_page.dart';
 
+import '../test/tools/app_launcher/pump_helpers.dart';
 import 'test_helpers/app_launcher.dart';
-import 'test_helpers/pump_helpers.dart';
 
 /*
   bundle exec fastlane integration_test test:registration_test.dart

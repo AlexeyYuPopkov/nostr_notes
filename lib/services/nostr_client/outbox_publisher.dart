@@ -11,7 +11,6 @@ import 'package:nostr_notes/services/event_store/raw_event_store.dart';
 import 'package:nostr_notes/services/nostr_client/channel_factory.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/services/nostr_client/nostr_publisher.dart';
-import 'package:nostr_notes/services/nostr_client/publish_event_report.dart';
 
 /// Watches the outbox table and publishes pending events to Nostr relays.
 ///
@@ -24,12 +23,12 @@ class OutboxPublisher implements Disposable {
     required RawEventStore rawEventStore,
     required RelaysListRepo relaysListRepo,
     required ChannelFactory channelFactory,
-    Connectivity? connectivity,
+    required Connectivity connectivity,
   }) : _outboxDao = outboxDao,
        _rawEventStore = rawEventStore,
        _relaysListRepo = relaysListRepo,
        _channelFactory = channelFactory,
-       _connectivity = connectivity ?? Connectivity();
+       _connectivity = connectivity;
 
   final OutboxDaoInterface _outboxDao;
   final RawEventStore _rawEventStore;
@@ -192,10 +191,13 @@ class OutboxPublisher implements Disposable {
         final publisher = NostrPublisher(client: client, event: event);
         final report = await publisher.execute();
 
-        if (report.error is NotPublished) {
+        if (!report.isAnySuccess) {
           await _handleFailure(item, report.error.toString());
         } else {
-          final confirmedRelays = report.events.map((e) => e.relay).toList();
+          final confirmedRelays = report.okEvents
+              .where((e) => e.isOk)
+              .map((e) => e.relay)
+              .toList();
           await _outboxDao.markSent(
             item.eventId,
             confirmedRelays: confirmedRelays,
@@ -251,21 +253,77 @@ class OutboxPublisher implements Disposable {
 }
 
 /// No-op implementation for testing
-class NoopOutboxPublisher implements Disposable {
-  const NoopOutboxPublisher();
-
+class NoopOutboxPublisher implements OutboxPublisher, Disposable {
+  @override
   Future<void> init() async {}
 
   @override
   Future<void> dispose() async {}
 
+  @override
   void pause() {}
 
+  @override
   void resume() {}
 
+  @override
   Future<void> retryAllFailed() async {}
 
+  @override
   Future<int> cleanup({Duration olderThan = const Duration(days: 7)}) async {
     return 0;
   }
+
+  @override
+  StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
+
+  @override
+  bool _isDisposing = false;
+
+  @override
+  bool _isOffline = false;
+
+  @override
+  bool _isPaused = false;
+
+  @override
+  bool _isProcessing = false;
+
+  @override
+  StreamSubscription<List<OutboxEventData>>? _subscription;
+
+  @override
+  ChannelFactory get _channelFactory => throw UnimplementedError();
+
+  @override
+  Connectivity get _connectivity => throw UnimplementedError();
+
+  @override
+  String _getKindName(int kind) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> _handleFailure(OutboxEventData item, String reason) async {}
+
+  @override
+  void _onConnectivityChanged(List<ConnectivityResult> results) {}
+
+  @override
+  void _onPendingEvents(List<OutboxEventData> pending) {}
+
+  @override
+  OutboxDaoInterface get _outboxDao => throw UnimplementedError();
+
+  @override
+  Future<void> _processQueue() async {}
+
+  @override
+  Future<void> _publishEvent(OutboxEventData item) async {}
+
+  @override
+  RawEventStore get _rawEventStore => throw UnimplementedError();
+
+  @override
+  RelaysListRepo get _relaysListRepo => throw UnimplementedError();
 }

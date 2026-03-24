@@ -1,6 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/auth/domain/usecase/delete_note_usecase.dart';
@@ -32,7 +33,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   StreamSubscription? _getNotesSubscription;
   StreamSubscription? _errorSubscription;
   NotesListBloc({required this.contextProvider})
-    : super(NotesListState.common(data: NotesListData.initial())) {
+    : super(NotesListState.loading(data: NotesListData.initial())) {
     _setupHandlers();
 
     add(const NotesListEvent.initial());
@@ -61,6 +62,12 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     _fetchNotesSubscription?.cancel();
     _fetchNotesSubscription = _fetchNotesUsecase
         .execute(const FetchNotesUsecaseParams.userNotes())
+        .doOnData((data) {
+          log(
+            'FetchNotesUsecase emitted data with length: ${data.length}',
+            name: runtimeType.toString(),
+          );
+        })
         .listen(
           (_) {},
           onError: (error) {
@@ -69,36 +76,51 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         );
 
     _getNotesSubscription?.cancel();
-    _getNotesSubscription = _getNotesUsecase.execute().listen(
-      (items) {
-        // final _debugDates = [
-        //   DateTime(2026, 1, 7),
-        //   DateTime(2026, 1, 14),
-        //   DateTime(2026, 2, 1),
-        //   DateTime(2026, 2, 21),
-        //   DateTime(2026, 2, 17),
-        //   DateTime(2026, 2, 22),
-        // ];
+    _getNotesSubscription = _getNotesUsecase
+        .execute()
+        .debounceTime(Durations.medium2)
+        .listen(
+          (items) {
+            // final _debug = {
+            //   'My Passwords': DateTime(2026, 3, 18, 12, 30),
+            //   'My Nsecs': DateTime(2026, 3, 15, 13),
+            //   'App Ideas': DateTime(2026, 3, 15, 12),
 
-        add(
-          NotesListEvent.getNotes(
-            notes: items,
-            // .mapIndexed((index, e) {
-            //   if (index < 6) {
-            //     return e.copyWith(createdAt: _debugDates[index]);
-            //   } else {
-            //     return e;
-            //   }
-            // })
-            // .sorted((a, b) => b.createdAt.compareTo(a.createdAt))
-            // .toList(),
-          ),
+            //   'Travel Plans': DateTime(2026, 2, 23),
+            //   'Quick Notes': DateTime(2026, 2, 20),
+            //   'Reading List': DateTime(2026, 2, 17),
+
+            //   'Developer Setup': DateTime(2026, 1, 19),
+            //   'Security Notes': DateTime(2026, 1, 10),
+            //   'Daily Journal': DateTime(2026, 1, 5),
+            //   'Atomic Habits': DateTime(2026, 1, 4),
+            // };
+
+            add(
+              NotesListEvent.getNotes(
+                notes: items,
+                // notes: items
+                //     .mapIndexed((index, e) {
+                //       // if (index < 10) {
+                //       final key = _debug.keys
+                //           .where(
+                //             (k) =>
+                //                 e.summary.toLowerCase().contains(k.toLowerCase()),
+                //           )
+                //           .firstOrNull;
+                //       return e.copyWith(createdAt: _debug[key]!);
+                //       // } else {
+                //       //   return e;
+                //       // }
+                //     })
+                //     .sorted((a, b) => b.createdAt.compareTo(a.createdAt)),
+              ),
+            );
+          },
+          onError: (error) {
+            add(NotesListEvent.error(error: error));
+          },
         );
-      },
-      onError: (error) {
-        add(NotesListEvent.error(error: error));
-      },
-    );
 
     _errorSubscription?.cancel();
     _errorSubscription = _fetchNotesUsecase.relayErrors
@@ -114,8 +136,11 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     emit(NotesListState.loading(data: data));
 
     _setupSubscription();
+    await Future.delayed(const Duration(seconds: 3));
 
-    emit(NotesListState.common(data: data));
+    if (state is LoadingState && isClosed == false) {
+      emit(NotesListState.common(data: data));
+    }
   }
 
   void _onGetNotesEvent(

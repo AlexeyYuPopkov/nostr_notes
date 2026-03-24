@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:collection/collection.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
@@ -30,9 +32,18 @@ class GetNotesUsecase {
     return _notesRepository.watchNotes(pubkey: publicKey).asyncMap((
       items,
     ) async {
-      return [
-        for (final note in items) await _noteCryptoUseCase.decryptSummary(note),
-      ].sorted((a, b) => b.createdAt.compareTo(a.createdAt));
+      final result = <Note>[];
+
+      for (final note in items) {
+        try {
+          final decryptedNote = await _noteCryptoUseCase.decryptNote(note);
+          result.add(decryptedNote);
+        } catch (e) {
+          // Decryption failed, skip this note
+          log('Failed to decrypt note ${note.dTag}: $e');
+        }
+      }
+      return result.sorted((a, b) => b.createdAt.compareTo(a.createdAt));
     });
   }
 }

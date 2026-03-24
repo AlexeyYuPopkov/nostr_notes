@@ -4,7 +4,9 @@ import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_data_screen/credentials_data_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/mobile_keyboard_type/mobile_keyboard_type_screen.dart';
+import 'package:nostr_notes/auth/presentation/settings/preferences/theme_settings/theme_settings_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen.dart';
+import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
 
 final class DrawerRouter extends StatelessWidget {
   final ScreensAssembly screensAssembly;
@@ -56,6 +58,15 @@ final class DrawerRouter extends StatelessWidget {
                                   const CredentialsDataScreen(),
                             ),
                           );
+                        } else if (route is ThemeSettingsRoute) {
+                          return Navigator.of(context).push(
+                            MaterialPageRoute(
+                              settings: const RouteSettings(
+                                name: 'theme_settings',
+                              ),
+                              builder: (context) => const ThemeSettingsScreen(),
+                            ),
+                          );
                         }
                       },
                     ),
@@ -66,6 +77,14 @@ final class DrawerRouter extends StatelessWidget {
                   MaterialPageRoute(
                     settings: const RouteSettings(name: 'help_screen'),
                     builder: (context) => screensAssembly.createHelpScreen(),
+                  ),
+                );
+              } else if (route is DeleteAccRoute) {
+                return Navigator.of(context).push(
+                  MaterialPageRoute(
+                    settings: const RouteSettings(name: 'delete_acc_screen'),
+                    builder: (context) =>
+                        screensAssembly.deleteAccUsecaseScreen(),
                   ),
                 );
               }

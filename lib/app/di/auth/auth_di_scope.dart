@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:nostr_notes/auth/data/get_pending_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
@@ -24,13 +25,22 @@ final class AuthDiScope extends DiScope {
       lifeTime: const LifeTime.prototype(),
     );
 
+    di.bind<Connectivity>(
+      () => Connectivity(),
+      module: this,
+      lifeTime: const LifeTime.single(),
+    );
+
     di.bind<OutboxPublisher>(
-      () => OutboxPublisher(
-        outboxDao: di.resolve(),
-        rawEventStore: di.resolve(),
-        relaysListRepo: di.resolve(),
-        channelFactory: const ChannelFactory(),
-      ),
+      () {
+        return OutboxPublisher(
+          outboxDao: di.resolve(),
+          rawEventStore: di.resolve(),
+          relaysListRepo: di.resolve(),
+          channelFactory: const ChannelFactory(),
+          connectivity: di.resolve(),
+        );
+      },
       module: this,
       lifeTime: const LifeTime.single(),
       onRemove: (e) {

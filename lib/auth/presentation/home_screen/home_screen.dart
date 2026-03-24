@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
-import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
 import 'package:nostr_notes/app/router/drawer_router.dart' show DrawerRouter;
@@ -39,17 +38,11 @@ final class HomeScreen extends StatefulWidget {
 }
 
 final class _HomeScreenState extends State<HomeScreen> {
-  double _bodyRatio = LayoutConfig.defaultBodyRatio;
+  late double _bodyRatio = LayoutConfig.getRatio(_ratioUsecase.get());
   late final _ratioUsecase = DesktopRatioUsecase(
     repo: DiStorage.shared.resolve(),
     sessionUsecase: DiStorage.shared.resolve(),
   );
-
-  @override
-  void initState() {
-    _bodyRatio = LayoutConfig.getRatio(_ratioUsecase.get());
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -233,54 +226,6 @@ final class _NoteList extends StatelessWidget {
         RouteHandler.of(
           context,
         )?.onRoute(NotePreviewRoute(noteId: note.dTag), context);
-      },
-    );
-  }
-}
-
-final class NewNotePromptPlaceholder extends StatelessWidget {
-  static const double opacity = 0.4;
-  const NewNotePromptPlaceholder({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final width = constraints.maxWidth;
-
-        final bool isTablet = width >= LayoutConfig.desktopScreenWidth;
-        final double iconRatio = isTablet ? 0.1 : 0.2;
-        final double iconSize = width * iconRatio;
-        final TextStyle textStyle = isTablet
-            ? theme.textTheme.headlineLarge!.copyWith(
-                fontWeight: FontWeight.w400,
-              )
-            : theme.textTheme.headlineLarge!;
-        return Opacity(
-          opacity: opacity,
-          child: Padding(
-            padding: const EdgeInsets.all(Sizes.indent4x),
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                spacing: Sizes.indent2x,
-                children: [
-                  Image.asset(
-                    AppIcons.splash,
-                    width: iconSize,
-                    height: iconSize,
-                  ),
-                  Text(
-                    context.l10n.homeScreenEmptyStatePlaceholder,
-                    style: textStyle,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
       },
     );
   }

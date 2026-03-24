@@ -252,14 +252,53 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsScreenTitle => 'Settings';
 
   @override
-  String get settingsScreenExit => 'Exit';
+  String get settingsScreenSectionSettingsTitle => 'Settings';
 
   @override
-  String get settingsScreenLogout => 'Logout and clear data';
+  String get settingsScreenSectionSessionTitle => 'Session';
+
+  @override
+  String get settingsScreenSectionAccountTitle => 'Account';
+
+  @override
+  String get settingsScreenExit => 'Lock App';
+
+  @override
+  String get settingsScreenLogout => 'Sign Out';
+
+  @override
+  String get settingsScreenLogoutDescription =>
+      'Remove your private key from this device';
 
   @override
   String get settingsScreenLogoutConfirmationMessage =>
       'Do you really want to log out and clear all data? This action cannot be undone.\nMake sure you have saved your nsec and PIN — if you forget either, your data will be lost permanently.';
+
+  @override
+  String get settingsScreenDeleteAccount => 'Delete Account';
+
+  @override
+  String get settingsScreenDeleteDescription =>
+      'Delete notes from relays and clear local data';
+
+  @override
+  String get settingsScreenDeleteAccountConfirmationMessage =>
+      'This action will permanently delete your account from this device and initiate the removal of your data from the **Nostr** network.\n\n### What will happen:\n- **Locally:** Your **private key** and all notes will be irreversibly erased from this device.\n- **On the Nostr network:** A request to delete all your notes will be sent to your relays. Most relays will honor this request.\n\n### Important to know:\nYour notes are end-to-end encrypted. Even if copies remain on some relays, they cannot be read without your private key (which was stored only in the Keychain), which is now permanently deleted.';
+
+  @override
+  String get settingsScreenDeleteAccountStatusPreparing =>
+      'Collecting notes to delete...';
+
+  @override
+  String get settingsScreenDeleteAccountStatusKind5Publishing =>
+      'Publishing deletion requests...';
+
+  @override
+  String get settingsScreenDeleteAccountStatusClearLocalStorages =>
+      'Clearing local data...';
+
+  @override
+  String get settingsScreenDeleteAccountStatusLogout => 'Logging out...';
 
   @override
   String get settingsItemPreferences => 'Preferences';
@@ -351,6 +390,18 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get credentialsDataScreenInfoPubKey =>
       'Your public key uniquely identifies your account on the Nostr network. It is safe to share — anyone can use it to find and verify your posts.';
+
+  @override
+  String get themeScreenTitle => 'Theme';
+
+  @override
+  String get themeScreenLabelSystem => 'System';
+
+  @override
+  String get themeScreenLabelLight => 'Light';
+
+  @override
+  String get themeScreenLabelDark => 'Dark';
 
   @override
   String get helpScreenTitle => 'Help';
