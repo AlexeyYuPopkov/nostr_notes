@@ -77,6 +77,7 @@ dependencies:
   shimmer: ^3.0.0
   flutter_markdown: ^0.7.7+1
   gpt_markdown: ^1.1.5
+  url_launcher: ^6.3.2
   highlight: ^0.7.0
   flutter_highlight: ^0.7.0
   simple_splash_view: ^0.1.21

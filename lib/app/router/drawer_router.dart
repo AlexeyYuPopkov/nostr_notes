@@ -79,6 +79,14 @@ final class DrawerRouter extends StatelessWidget {
                     builder: (context) => screensAssembly.createHelpScreen(),
                   ),
                 );
+              } else if (route is ContactsScreenRoute) {
+                return Navigator.of(context).push(
+                  MaterialPageRoute(
+                    settings: const RouteSettings(name: 'contacts_screen'),
+                    builder: (context) =>
+                        screensAssembly.createContactsScreen(),
+                  ),
+                );
               } else if (route is DeleteAccRoute) {
                 return Navigator.of(context).push(
                   MaterialPageRoute(

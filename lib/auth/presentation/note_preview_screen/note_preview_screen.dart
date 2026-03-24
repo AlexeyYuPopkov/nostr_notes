@@ -14,10 +14,12 @@ import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_prev
 import 'package:nostr_notes/auth/presentation/note_preview_screen/widgets/note_code_field.dart';
 
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
+import 'package:nostr_notes/common/presentation/tools/link_tap_handler.dart';
 
 import 'bloc/note_preview_event.dart';
 
-final class NotePreviewScreen extends StatelessWidget with DialogHelper {
+final class NotePreviewScreen extends StatelessWidget
+    with DialogHelper, LinkTapHandler {
   final PathParams pathParams;
 
   NotePreviewScreen({super.key, required this.pathParams});
@@ -86,6 +88,8 @@ final class NotePreviewScreen extends StatelessWidget with DialogHelper {
                                 highlightBuilder: (context, code, closed) {
                                   return ShortNoteCodeField(codes: code);
                                 },
+                                onLinkTap: (title, href) =>
+                                    launchUrl(context, url: href),
                               ),
                             ),
                           ),

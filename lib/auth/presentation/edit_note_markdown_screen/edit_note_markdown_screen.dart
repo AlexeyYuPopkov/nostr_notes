@@ -28,9 +28,9 @@ final class EditMarkdownNoteScreen extends StatelessWidget with DialogHelper {
         showError(context, error: state.e);
         break;
       case DidSaveState():
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Saved successfully')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.l10n.editNoteScreenSaveSuccess)),
+        );
 
         final noteId = pathParams?.id ?? '';
         final isNew = noteId.isEmpty;
