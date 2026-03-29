@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:di_storage/di_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/nip44_exception.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
@@ -9,6 +10,7 @@ import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_data.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_event.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
+import 'package:nostr_notes/common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:nostr_notes/core/tools/optional_box.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -21,6 +23,10 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   late final GetNoteUsecase _getNoteUsecase = DiStorage.shared.resolve();
   StreamSubscription? _getNoteSubscription;
   StreamSubscription? _fetchNoteSubscription;
+
+  late final refreshButtonVm = RefreshButtonVm(
+    onRefresh: () => add(const NotePreviewEvent.refresh()),
+  );
 
   NotePreviewBloc({required this.pathParams})
     : super(NotePreviewState.loading(data: NotePreviewData.initial())) {
@@ -93,6 +99,10 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   ) {
     final note = event.note;
     emit(NotePreviewState.common(data: data.copyWith(note: OptionalBox(note))));
+    Future.delayed(
+      Durations.short1,
+      () => refreshButtonVm.isRefreshing = false,
+    );
   }
 
   void _onRefreshEvent(RefreshEvent event, Emitter<NotePreviewState> emit) {

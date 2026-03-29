@@ -13,7 +13,7 @@ import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/domain/usecase/desktop_ratio_usecase.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
-import 'package:nostr_notes/auth/presentation/home_screen/layout_config.dart';
+import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 
 import '../notes_list/notes_list.dart';
 
@@ -203,11 +203,12 @@ final class _ResizeDivider extends StatelessWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onHorizontalDragUpdate: (details) => onDrag(details.delta.dx),
-        child: SizedBox(
-          width: Sizes.indent2x,
-          child: Center(
-            child: VerticalDivider(width: 1, thickness: 1, color: color),
-          ),
+        child: Row(
+          mainAxisSize: .min,
+          children: [
+            VerticalDivider(width: 1, thickness: 1, color: color),
+            Icon(Icons.drag_indicator, size: Sizes.iconSmall, color: color),
+          ],
         ),
       ),
     );

@@ -8,13 +8,16 @@ import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/drawer_router.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
-import 'package:nostr_notes/auth/presentation/home_screen/breakpoints.dart';
+import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
+import 'package:nostr_notes/common/presentation/layout/breakpoints.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
 import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholder.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
+import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 import 'package:nostr_notes/common/presentation/tools/list_item_position.dart';
 
+import '../../../common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'bloc/notes_list_bloc.dart';
 import 'bloc/notes_list_event.dart';
 import 'bloc/notes_list_state.dart';
@@ -53,10 +56,19 @@ final class NotesList extends StatelessWidget with DialogHelper {
           return Scaffold(
             appBar: AppBar(
               title: Text(context.l10n.notesListScreenTitle),
-              actions: const [_SettingsButton()],
+              actions: [
+                if (const AppPlatform().isDesktopLayout)
+                  RefreshButton(
+                    vm: context.read<NotesListBloc>().refreshButtonVm,
+                    padding: const EdgeInsets.only(left: Sizes.indent2x),
+                    alignment: Alignment.centerRight,
+                  ),
+
+                const _SettingsButton(),
+              ],
             ),
             floatingActionButton: breakpoint.isSmall ? const Fab() : null,
-            body: RefreshIndicator(
+            body: RefreshIndicator.adaptive(
               onRefresh: () async => _onRefresh(context),
               child: _List(
                 selectedNoteDTag: selectedNoteDTag,
@@ -78,8 +90,6 @@ final class NotesList extends StatelessWidget with DialogHelper {
 }
 
 final class _List extends StatelessWidget {
-  static const _placeholdersCount = 15;
-
   const _List({
     required this.selectedNoteDTag,
     required this.isLoading,
@@ -95,16 +105,7 @@ final class _List extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return ListView.builder(
-        itemCount: _placeholdersCount,
-        // itemExtent: NotesListCard.itemHeight,
-        itemBuilder: (context, index) => NotesListCardShimmer(
-          position: ListItemPosition.fromIndex(
-            index,
-            length: _placeholdersCount,
-          ),
-        ),
-      );
+      return const _ShimmersList();
     }
 
     if (sections.isEmpty) {
@@ -142,6 +143,47 @@ final class _List extends StatelessWidget {
         const SliverToBoxAdapter(child: SizedBox(height: Sizes.indent4x)),
         SliverToBoxAdapter(child: SizedBox(height: mediaPadding.bottom)),
       ],
+    );
+  }
+}
+
+final class _ShimmersList extends StatefulWidget {
+  static const _placeholdersCount = 15;
+  const _ShimmersList();
+
+  @override
+  State<_ShimmersList> createState() => _ShimmersListState();
+}
+
+final class _ShimmersListState extends State<_ShimmersList> {
+  late final _expectedWidth = MediaQuery.sizeOf(context).width - Sizes.indent2x;
+  late final List<double> _randomWidths = List.generate(
+    _ShimmersList._placeholdersCount,
+    (_) {
+      final breakpoint = Breakpoint.activeBreakpointOf(context);
+
+      if (breakpoint.isSmall) {
+        return _expectedWidth *
+            (0.3 + (0.4 * (UniqueKey().hashCode % 1000) / 1000));
+      } else {
+        return LayoutConfig.maxBodyRatio *
+            _expectedWidth *
+            (0.3 + (0.4 * (UniqueKey().hashCode % 1000) / 1000));
+      }
+    },
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: _ShimmersList._placeholdersCount,
+      itemBuilder: (context, index) => NotesListCardShimmer(
+        randomWidth: _randomWidths[index],
+        position: ListItemPosition.fromIndex(
+          index,
+          length: _ShimmersList._placeholdersCount,
+        ),
+      ),
     );
   }
 }

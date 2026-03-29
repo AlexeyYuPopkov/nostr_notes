@@ -9,6 +9,7 @@ import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_pending_usecase.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/bloc/pending_vm.dart';
+import 'package:nostr_notes/common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:rxdart/transformers.dart';
 
@@ -21,6 +22,12 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   NotesListData get data => state.data;
 
   final BuildContext Function() contextProvider;
+
+  late final refreshButtonVm = RefreshButtonVm(
+    onRefresh: () {
+      add(const NotesListEvent.initial());
+    },
+  );
 
   late final FetchNotesUsecase _fetchNotesUsecase = DiStorage.shared.resolve();
   late final GetNotesUsecase _getNotesUsecase = DiStorage.shared.resolve();
@@ -140,6 +147,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
 
     if (state is LoadingState && isClosed == false) {
       emit(NotesListState.common(data: data));
+      refreshButtonVm.isRefreshing = false;
     }
   }
 
@@ -156,6 +164,8 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
       emit(NotesListState.common(data: data.copyWith(sections: sections)));
     } catch (e) {
       emit(NotesListState.error(e: e, data: data));
+    } finally {
+      refreshButtonVm.isRefreshing = false;
     }
   }
 

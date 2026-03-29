@@ -12,8 +12,10 @@ import 'package:nostr_notes/auth/presentation/tools/note_decrypt_error_message_m
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_bloc.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/widgets/note_code_field.dart';
+import 'package:nostr_notes/common/presentation/buttons/refresh_button/refresh_button.dart';
 
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
+import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
 import 'package:nostr_notes/common/presentation/tools/link_tap_handler.dart';
 
 import 'bloc/note_preview_event.dart';
@@ -51,10 +53,16 @@ final class NotePreviewScreen extends StatelessWidget
             backgroundColor: theme.colorScheme.surface,
             appBar: AppBar(
               actions: [
-                _SaveButton(
+                if (const AppPlatform().isDesktopLayout)
+                  RefreshButton(
+                    vm: context.read<NotePreviewBloc>().refreshButtonVm,
+                    padding: const EdgeInsets.only(left: Sizes.indent2x),
+                    alignment: Alignment.centerRight,
+                  ),
+                _EditButton(
                   onPressed: note == null || state is CannotDecryptState
                       ? null
-                      : () => _onSave(context, note.dTag),
+                      : () => _onEdit(context, note.dTag),
                 ),
                 const SizedBox(width: Sizes.indent2x),
               ],
@@ -65,7 +73,7 @@ final class NotePreviewScreen extends StatelessWidget
                 constraints: const BoxConstraints.expand(),
                 child: state is CannotDecryptState
                     ? _CannotDecryptPlaceholder(error: note?.error)
-                    : RefreshIndicator(
+                    : RefreshIndicator.adaptive(
                         onRefresh: () async => _onRefresh(context),
                         child: SingleChildScrollView(
                           physics: const AlwaysScrollableScrollPhysics(),
@@ -103,7 +111,7 @@ final class NotePreviewScreen extends StatelessWidget
     );
   }
 
-  void _onSave(BuildContext context, String noteId) {
+  void _onEdit(BuildContext context, String noteId) {
     RouteHandler.of(
       context,
     )?.onRoute(NoteDetailsRoute(noteId: noteId), context);
@@ -115,9 +123,9 @@ final class NotePreviewScreen extends StatelessWidget
   }
 }
 
-final class _SaveButton extends StatelessWidget {
+final class _EditButton extends StatelessWidget {
   final VoidCallback? onPressed;
-  const _SaveButton({this.onPressed});
+  const _EditButton({this.onPressed});
 
   @override
   Widget build(BuildContext context) {
