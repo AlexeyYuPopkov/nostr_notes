@@ -8,6 +8,7 @@ import 'package:nostr_notes/auth/presentation/settings/contacts/contacts_screen.
 import 'package:nostr_notes/auth/presentation/settings/del_acc/del_acc_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/help_screen/help_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/preferences_screen.dart';
+import 'package:nostr_notes/auth/presentation/settings/privacy_policy_screen/privacy_policy_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/relays_list/relays_list_screen.dart';
 
 final class AppScreensAssembly implements ScreensAssembly {
@@ -33,7 +34,11 @@ final class AppScreensAssembly implements ScreensAssembly {
   Widget createHelpScreen() => const HelpScreen();
 
   @override
-  Widget createContactsScreen() => const ContactsScreen();
+  Widget createContactsScreen({bool showAppBarLeading = true}) =>
+      ContactsScreen(showAppBarLeading: showAppBarLeading);
+
+  @override
+  Widget createPrivacyPolicyScreen() => const PrivacyPolicyScreen();
 
   @override
   Widget deleteAccUsecaseScreen() => const DelAccScreen();

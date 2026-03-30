@@ -12,6 +12,7 @@ import 'package:nostr_notes/services/nostr_client/outbox_publisher.dart';
 
 import 'app/presentation/global_settings/bloc/global_settings_bloc.dart';
 import 'app/presentation/global_settings/bloc/global_settings_state.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 // import 'package:nostr_notes/unauth/domain/blur_screen_usecase.dart';
 // import 'package:flutter/scheduler.dart' show timeDilation;
 
@@ -19,6 +20,8 @@ final _appRouter = AppRouter();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  usePathUrlStrategy();
 
   await Di.instance.bindUnauthModules();
   HttpOverrides.global = MyHttpOverrides();
@@ -39,6 +42,7 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addObserver(this);
   }
 

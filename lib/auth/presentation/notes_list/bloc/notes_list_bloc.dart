@@ -88,31 +88,35 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         .debounceTime(Durations.medium2)
         .listen(
           (items) {
-            // final _debug = {
-            //   'My Passwords': DateTime(2026, 3, 18, 12, 30),
-            //   'My Nsecs': DateTime(2026, 3, 15, 13),
-            //   'App Ideas': DateTime(2026, 3, 15, 12),
+            // final _debug =
+            //     {
+            //       'My Passwords': DateTime(2026, 3, 18, 12, 30),
+            //       'My Nsecs': DateTime(2026, 3, 15, 13),
+            //       'App Ideas': DateTime(2026, 3, 15, 12),
 
-            //   'Travel Plans': DateTime(2026, 2, 23),
-            //   'Quick Notes': DateTime(2026, 2, 20),
-            //   'Reading List': DateTime(2026, 2, 17),
+            //       'Travel Plans': DateTime(2026, 2, 23),
+            //       'Quick Notes': DateTime(2026, 2, 20),
+            //       'Reading List': DateTime(2026, 2, 17),
 
-            //   'Developer Setup': DateTime(2026, 1, 19),
-            //   'Security Notes': DateTime(2026, 1, 10),
-            //   'Daily Journal': DateTime(2026, 1, 5),
-            //   'Atomic Habits': DateTime(2026, 1, 4),
-            // };
+            //       'Developer Setup': DateTime(2026, 1, 19),
+            //       'Security Notes': DateTime(2026, 1, 10),
+            //       'Daily Journal': DateTime(2026, 1, 5),
+            //       'Atomic Habits': DateTime(2026, 1, 4),
+            //     }.map(
+            //       (k, v) =>
+            //           MapEntry(k.toLowerCase(), v.add(Duration(days: 12))),
+            //     );
 
             add(
               NotesListEvent.getNotes(
                 notes: items,
                 // notes: items
                 //     .mapIndexed((index, e) {
-                //       // if (index < 10) {
                 //       final key = _debug.keys
                 //           .where(
-                //             (k) =>
-                //                 e.summary.toLowerCase().contains(k.toLowerCase()),
+                //             (k) => e.summary.toLowerCase().contains(
+                //               k.toLowerCase(),
+                //             ),
                 //           )
                 //           .firstOrNull;
                 //       return e.copyWith(createdAt: _debug[key]!);
