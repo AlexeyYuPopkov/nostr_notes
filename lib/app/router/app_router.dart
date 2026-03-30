@@ -49,7 +49,13 @@ final class AppRouter {
 
   late final _router = GoRouter(
     debugLogDiagnostics: true,
+
     redirect: (context, state) {
+      if (state.matchedLocation.contains(AppRouterPath.contacts) ||
+          state.matchedLocation.contains(AppRouterPath.privacyPolicy)) {
+        return null;
+      }
+
       final session = this.session.currentSession;
 
       if (session.isAuth && session.isUnlocked) {
@@ -58,6 +64,7 @@ final class AppRouter {
         return AppRouterPath.onboarding;
       }
     },
+
     routes: [
       GoRoute(
         name: AppRouterName.onboarding,
@@ -65,7 +72,24 @@ final class AppRouter {
         builder: (BuildContext context, GoRouterState state) {
           return const OnboardingScreen();
         },
+        routes: [
+          GoRoute(
+            path: AppRouterPath.contacts,
+            builder: (BuildContext context, GoRouterState state) {
+              return _screensAssembly.createContactsScreen(
+                showAppBarLeading: false,
+              );
+            },
+          ),
+          GoRoute(
+            path: AppRouterPath.privacyPolicy,
+            builder: (BuildContext context, GoRouterState state) {
+              return _screensAssembly.createPrivacyPolicyScreen();
+            },
+          ),
+        ],
       ),
+
       ShellRoute(
         builder: (context, state, child) {
           final extra = state.extra;

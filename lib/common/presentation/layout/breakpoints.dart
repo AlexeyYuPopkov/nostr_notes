@@ -1,6 +1,6 @@
 import 'package:custom_adaptive_scaffold/custom_adaptive_scaffold.dart' as asc;
 import 'package:flutter/widgets.dart';
-import 'package:nostr_notes/auth/presentation/home_screen/layout_config.dart';
+import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 
 const breakpoints = [
   asc.Breakpoints.small,

@@ -13,7 +13,8 @@ import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/domain/usecase/desktop_ratio_usecase.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
-import 'package:nostr_notes/auth/presentation/home_screen/layout_config.dart';
+import 'package:nostr_notes/auth/presentation/home_screen/widgets/resize_divider.dart';
+import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 
 import '../notes_list/notes_list.dart';
 
@@ -113,7 +114,7 @@ final class _HomeScreenState extends State<HomeScreen> {
               Expanded(
                 child: _NoteList(selectedNoteDTag: widget.selectedNoteDTag),
               ),
-              _ResizeDivider(
+              ResizeDivider(
                 onDrag: (delta) => _onResizeDividerDrag(delta, screenWidth),
               ),
             ],
@@ -185,30 +186,6 @@ final class _MobileLayout extends StatelessWidget {
             child: hasNote ? child : const SizedBox.shrink(),
           ),
         ],
-      ),
-    );
-  }
-}
-
-final class _ResizeDivider extends StatelessWidget {
-  final ValueChanged<double> onDrag;
-
-  const _ResizeDivider({required this.onDrag});
-
-  @override
-  Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.outlineVariant;
-    return MouseRegion(
-      cursor: SystemMouseCursors.resizeColumn,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onHorizontalDragUpdate: (details) => onDrag(details.delta.dx),
-        child: SizedBox(
-          width: Sizes.indent2x,
-          child: Center(
-            child: VerticalDivider(width: 1, thickness: 1, color: color),
-          ),
-        ),
       ),
     );
   }

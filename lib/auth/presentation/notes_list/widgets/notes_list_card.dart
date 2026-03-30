@@ -191,8 +191,15 @@ final class NotesListCard extends StatelessWidget
 
 final class NotesListCardShimmer extends StatelessWidget {
   static const double subtitleWidth = 70.0;
+
+  final double randomWidth;
   final ListItemPosition position;
-  const NotesListCardShimmer({super.key, required this.position});
+
+  const NotesListCardShimmer({
+    super.key,
+    required this.position,
+    required this.randomWidth,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -203,34 +210,24 @@ final class NotesListCardShimmer extends StatelessWidget {
       child: InkWell(
         borderRadius: position.getRadius(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Sizes.indent2x,
-            vertical: Sizes.indent,
-          ),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final randomWidth =
-                  constraints.maxWidth *
-                  (0.3 + (0.4 * (UniqueKey().hashCode % 1000) / 1000));
-              return Column(
-                spacing: Sizes.halfIndent,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CommonShimmer(
-                    child: SizedBox(
-                      height: NotesListCard.titleHeight,
-                      width: randomWidth,
-                    ),
-                  ),
-                  const CommonShimmer(
-                    child: SizedBox(
-                      height: NotesListCard.subtitleHeight,
-                      width: subtitleWidth,
-                    ),
-                  ),
-                ],
-              );
-            },
+          padding: const EdgeInsets.symmetric(vertical: Sizes.indent),
+          child: Column(
+            spacing: Sizes.halfIndent,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CommonShimmer(
+                child: SizedBox(
+                  height: NotesListCard.titleHeight,
+                  width: randomWidth,
+                ),
+              ),
+              const CommonShimmer(
+                child: SizedBox(
+                  height: NotesListCard.subtitleHeight,
+                  width: subtitleWidth,
+                ),
+              ),
+            ],
           ),
         ),
       ),

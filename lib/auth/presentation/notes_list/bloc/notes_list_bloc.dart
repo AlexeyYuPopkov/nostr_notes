@@ -9,6 +9,7 @@ import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_pending_usecase.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/bloc/pending_vm.dart';
+import 'package:nostr_notes/common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:rxdart/transformers.dart';
 
@@ -21,6 +22,12 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   NotesListData get data => state.data;
 
   final BuildContext Function() contextProvider;
+
+  late final refreshButtonVm = RefreshButtonVm(
+    onRefresh: () {
+      add(const NotesListEvent.initial());
+    },
+  );
 
   late final FetchNotesUsecase _fetchNotesUsecase = DiStorage.shared.resolve();
   late final GetNotesUsecase _getNotesUsecase = DiStorage.shared.resolve();
@@ -81,31 +88,35 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         .debounceTime(Durations.medium2)
         .listen(
           (items) {
-            // final _debug = {
-            //   'My Passwords': DateTime(2026, 3, 18, 12, 30),
-            //   'My Nsecs': DateTime(2026, 3, 15, 13),
-            //   'App Ideas': DateTime(2026, 3, 15, 12),
+            // final _debug =
+            //     {
+            //       'My Passwords': DateTime(2026, 3, 18, 12, 30),
+            //       'My Nsecs': DateTime(2026, 3, 15, 13),
+            //       'App Ideas': DateTime(2026, 3, 15, 12),
 
-            //   'Travel Plans': DateTime(2026, 2, 23),
-            //   'Quick Notes': DateTime(2026, 2, 20),
-            //   'Reading List': DateTime(2026, 2, 17),
+            //       'Travel Plans': DateTime(2026, 2, 23),
+            //       'Quick Notes': DateTime(2026, 2, 20),
+            //       'Reading List': DateTime(2026, 2, 17),
 
-            //   'Developer Setup': DateTime(2026, 1, 19),
-            //   'Security Notes': DateTime(2026, 1, 10),
-            //   'Daily Journal': DateTime(2026, 1, 5),
-            //   'Atomic Habits': DateTime(2026, 1, 4),
-            // };
+            //       'Developer Setup': DateTime(2026, 1, 19),
+            //       'Security Notes': DateTime(2026, 1, 10),
+            //       'Daily Journal': DateTime(2026, 1, 5),
+            //       'Atomic Habits': DateTime(2026, 1, 4),
+            //     }.map(
+            //       (k, v) =>
+            //           MapEntry(k.toLowerCase(), v.add(Duration(days: 12))),
+            //     );
 
             add(
               NotesListEvent.getNotes(
                 notes: items,
                 // notes: items
                 //     .mapIndexed((index, e) {
-                //       // if (index < 10) {
                 //       final key = _debug.keys
                 //           .where(
-                //             (k) =>
-                //                 e.summary.toLowerCase().contains(k.toLowerCase()),
+                //             (k) => e.summary.toLowerCase().contains(
+                //               k.toLowerCase(),
+                //             ),
                 //           )
                 //           .firstOrNull;
                 //       return e.copyWith(createdAt: _debug[key]!);
@@ -140,6 +151,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
 
     if (state is LoadingState && isClosed == false) {
       emit(NotesListState.common(data: data));
+      refreshButtonVm.isRefreshing = false;
     }
   }
 
@@ -156,6 +168,8 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
       emit(NotesListState.common(data: data.copyWith(sections: sections)));
     } catch (e) {
       emit(NotesListState.error(e: e, data: data));
+    } finally {
+      refreshButtonVm.isRefreshing = false;
     }
   }
 

@@ -7,6 +7,8 @@ final class AppRouterPath {
   // static const String settings = '/home/settings';
   static const String noteDetails = 'note_details';
   static const String notePreview = 'note_preview';
+  static const String contacts = 'contacts';
+  static const String privacyPolicy = 'privacy_policy';
 }
 
 final class AppRouterName {

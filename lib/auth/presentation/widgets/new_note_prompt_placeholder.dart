@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/auth/presentation/home_screen/layout_config.dart';
+import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 
 final class NewNotePromptPlaceholder extends StatelessWidget {
   static const double opacity = 0.4;

@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/presentation/global_settings/bloc/global_settings_bloc.dart';
 import 'package:nostr_notes/app/presentation/global_settings/bloc/global_settings_event.dart';
 import 'package:nostr_notes/app/presentation/global_settings/bloc/global_settings_state.dart';
-import 'package:nostr_notes/app/sizes.dart';
+import 'package:nostr_notes/auth/presentation/widgets/settings_item_tile.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/common/presentation/tools/list_item_position.dart';
 
@@ -83,41 +82,51 @@ final class _Tile extends StatelessWidget with _OnThemeChanged {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final isSelected = themeMode == currentTheme;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: isSelected
-              ? theme.colorScheme.outline
-              : theme.colorScheme.outlineVariant,
-          borderRadius: position.getRadius(),
-          border: position.getBorder(
-            theme.colorScheme.outline,
-            thickness: Sizes.thicknessHalf,
-          ),
-        ),
-        child: CupertinoButton(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
-          onPressed: () => onChanged(context, mode: themeMode),
-          child: Row(
-            spacing: Sizes.indent2x,
-            mainAxisAlignment: .spaceBetween,
-            children: [
-              Text(
-                themeMode.getName(context),
-                style: theme.textTheme.titleSmall,
-              ),
-              Radio.adaptive(
-                value: themeMode,
-                activeColor: theme.colorScheme.primary,
-              ),
-            ],
-          ),
-        ),
+    return SettingsItemTile(
+      title: themeMode.getName(context),
+      position: position,
+      trailing: Radio.adaptive(
+        value: themeMode,
+        activeColor: theme.colorScheme.primary,
       ),
+      onTap: () => onChanged(context, mode: themeMode),
     );
+
+    // final isSelected = themeMode == currentTheme;
+
+    // return Padding(
+    //   padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
+    //   child: DecoratedBox(
+    //     decoration: BoxDecoration(
+    //       color: isSelected
+    //           ? theme.colorScheme.outline
+    //           : theme.colorScheme.outlineVariant,
+    //       borderRadius: position.getRadius(),
+    //       border: position.getBorder(
+    //         theme.colorScheme.outline,
+    //         thickness: Sizes.thicknessHalf,
+    //       ),
+    //     ),
+    //     child: CupertinoButton(
+    //       padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
+    //       onPressed: () => onChanged(context, mode: themeMode),
+    //       child: Row(
+    //         spacing: Sizes.indent2x,
+    //         mainAxisAlignment: .spaceBetween,
+    //         children: [
+    //           Text(
+    //             themeMode.getName(context),
+    //             style: theme.textTheme.titleSmall,
+    //           ),
+    //           Radio.adaptive(
+    //             value: themeMode,
+    //             activeColor: theme.colorScheme.primary,
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
 

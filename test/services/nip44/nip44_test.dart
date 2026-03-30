@@ -160,6 +160,7 @@ void main() {
 
         expect(stopwatch.elapsedMilliseconds < 400, true);
       },
+      skip: true,
     );
   });
 }

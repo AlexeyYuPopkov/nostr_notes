@@ -4,7 +4,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:nostr_notes/app/l10n/localization.dart';
 import 'package:nostr_notes/app/sizes.dart';
 import 'package:nostr_notes/auth/domain/usecase/delete_acc_usecase.dart';
-import 'package:nostr_notes/auth/presentation/home_screen/layout_config.dart';
+import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 import 'package:nostr_notes/auth/presentation/settings/del_acc/bloc/del_acc_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/del_acc/bloc/del_acc_state.dart';
 import 'package:nostr_notes/common/presentation/dialogs/dialog_button.dart';

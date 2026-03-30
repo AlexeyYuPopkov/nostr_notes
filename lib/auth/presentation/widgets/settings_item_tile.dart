@@ -43,7 +43,8 @@ final class SettingsItemTile extends StatelessWidget {
 
     return Column(
       children: [
-        if (showSectionTitle) _SectionTitle(sectionTitle: sectionTitle),
+        if (showSectionTitle && sectionTitle.isNotEmpty)
+          _SectionTitle(sectionTitle: sectionTitle),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
           child: DecoratedBox(
