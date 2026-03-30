@@ -49,7 +49,6 @@ final class AppRouter {
 
   late final _router = GoRouter(
     debugLogDiagnostics: true,
-
     redirect: (context, state) {
       if (state.matchedLocation.contains(AppRouterPath.contacts) ||
           state.matchedLocation.contains(AppRouterPath.privacyPolicy)) {
