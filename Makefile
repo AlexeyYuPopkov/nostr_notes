@@ -1,12 +1,12 @@
 
 codegen:
-	dart run build_runner build --delete-conflicting-outputs
+	melos exec --concurrency=1 -- dart run build_runner build --delete-conflicting-outputs
 
 l10n:
-	flutter gen-l10n
+	melos exec --concurrency=1 --dir-exists=l10n -- flutter gen-l10n
 
 del_imports:
-	dart fix --apply --code=unnecessary_import  --code=unused_import
+	melos exec --concurrency=1 -- dart fix --apply --code=unnecessary_import  --code=unused_import
 
 relay_up:
 	bundle exec fastlane relay_up
