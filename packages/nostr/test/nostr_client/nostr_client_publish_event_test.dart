@@ -7,7 +7,7 @@ import 'package:nostr/model/nostr_event_ok.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
 import 'package:nostr/nostr_client/nostr_publisher.dart';
-import 'package:nostr_notes/core/event_kind.dart';
+
 import 'package:web_socket_channel/io.dart';
 
 void main() {
@@ -68,7 +68,7 @@ void main() {
       const privateKey =
           'a98fd7e7adff56cca03795e8dc80bdefbb2133ed0f2cda6e0c95b9dedb89f3a6';
       final event = const NostrEventCreator().createEvent(
-        kind: EventKind.note.value,
+        kind: 30023,
         content: '123',
         createdAt: DateTime(2025, 6, 16),
         tags: [

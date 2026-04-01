@@ -13,8 +13,8 @@ import 'package:nostr_notes/services/outbox_publisher.dart';
 import 'package:nostr/nostr_client/ws_channel.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../tools/mock_wschannel.dart';
-import '../../tools/mocks/mock_relays_list_repo.dart';
+import '../tools/mock_wschannel.dart';
+import '../tools/mocks/mock_relays_list_repo.dart';
 
 void main() {
   group('OutboxPublisher', () {
