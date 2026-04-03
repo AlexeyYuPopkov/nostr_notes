@@ -47,4 +47,4 @@ app.*.map.json
 # Fastlane related
 /fastlane/report.xml
 /fastlane/.env
-coverage/lcov.info
+/coverage/
