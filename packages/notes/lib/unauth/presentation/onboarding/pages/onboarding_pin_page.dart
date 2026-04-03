@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/l10n/localization.dart';
-import 'package:nostr_notes/app/sizes.dart';
+import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 import 'package:nostr_notes/common/presentation/buttons/prymary_loading_button.dart';
 import 'package:nostr_notes/common/presentation/buttons/vm/loading_button_vm.dart';
-import 'package:nostr_notes/common/presentation/dialogs/common_tooltip.dart';
+import 'package:common/presentation/dialogs/common_tooltip.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/bloc/onboarding_screen_state.dart';
 
 import '../bloc/onboarding_screen_bloc.dart';

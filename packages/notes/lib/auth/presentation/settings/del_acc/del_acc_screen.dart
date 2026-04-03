@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:nostr_notes/l10n/localization.dart';
-import 'package:nostr_notes/app/sizes.dart';
+import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/domain/usecase/delete_acc_usecase.dart';
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 import 'package:nostr_notes/auth/presentation/settings/del_acc/bloc/del_acc_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/del_acc/bloc/del_acc_state.dart';
-import 'package:nostr_notes/common/presentation/dialogs/dialog_button.dart';
-import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
+import 'package:common/presentation/dialogs/dialog_button.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 
 import 'bloc/del_acc_event.dart';
 

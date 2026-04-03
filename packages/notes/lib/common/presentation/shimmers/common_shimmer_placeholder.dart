@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/app/theme/shimmer_colors.dart';
+import 'package:common/app/theme/sizes.dart';
+import 'package:common/app/theme/shimmer_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 final class CommonShimmerPlaceholder extends StatelessWidget {

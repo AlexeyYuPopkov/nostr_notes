@@ -8,7 +8,7 @@ import 'package:nostr/nostr_client/nostr_event_creator.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/domain/usecase/delete_acc_usecase.dart';
 import 'package:nostr_notes/common/data/key_tool_repository_impl.dart';
-import 'package:nostr_notes/common/domain/error/error_messages_provider.dart';
+import 'package:common/domain/error/error_messages_provider.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/model/session/user_keys.dart';
 import 'package:nostr_notes/common/domain/repository/secure_storage.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/bloc/items/preferences_item.dart';
-import 'package:nostr_notes/auth/presentation/widgets/settings_item_tile.dart';
-import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
+import 'package:common/presentation/widgets/settings_item_tile.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 
 import 'bloc/app_settings_state.dart';
 

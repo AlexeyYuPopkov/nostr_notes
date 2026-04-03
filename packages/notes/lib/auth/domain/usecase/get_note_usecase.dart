@@ -1,8 +1,7 @@
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
-
-import 'package:nostr_notes/common/domain/error/app_error.dart';
+import 'package:common/domain/error/app_error.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 
 class GetNoteUsecase {

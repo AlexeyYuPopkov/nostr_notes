@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
-import 'package:nostr_notes/common/domain/error/app_error.dart';
+import 'package:common/domain/error/app_error.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:rxdart/transformers.dart';

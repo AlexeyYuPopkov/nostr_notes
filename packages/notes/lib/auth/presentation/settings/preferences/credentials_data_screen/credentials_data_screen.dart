@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/l10n/localization.dart';
-import 'package:nostr_notes/app/sizes.dart';
+import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_data_screen/bloc/credentials_data_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_data_screen/bloc/credentials_data_state.dart';
-import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/common/presentation/widgets/info_text.dart';
 
 final class CredentialsDataScreen extends StatelessWidget with DialogHelper {

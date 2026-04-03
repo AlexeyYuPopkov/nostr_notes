@@ -1,6 +1,6 @@
 import 'package:nostr_notes/l10n/app_localizations.dart';
 import 'package:nostr_notes/auth/domain/model/nip44_exception.dart';
-import 'package:nostr_notes/common/domain/error/app_error.dart';
+import 'package:common/domain/error/app_error.dart';
 
 mixin NoteDecryptErrorMessageMixin {
   String buildDecryptErrorMessage({

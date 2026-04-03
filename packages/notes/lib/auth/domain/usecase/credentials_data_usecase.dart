@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:nostr/key_tool/key_tool.dart';
-import 'package:nostr_notes/common/domain/error/app_error.dart';
+import 'package:common/domain/error/app_error.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 

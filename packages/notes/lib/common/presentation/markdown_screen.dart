@@ -1,7 +1,7 @@
+import 'package:common/app/theme/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/common/presentation/tools/link_tap_handler.dart';
+import 'package:common/presentation/tools/link_tap_handler.dart';
 
 final class MarkdownScreen extends StatelessWidget {
   final String title;

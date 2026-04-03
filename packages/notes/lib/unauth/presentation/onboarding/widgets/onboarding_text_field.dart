@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_notes/app/sizes.dart';
+import 'package:common/app/theme/sizes.dart';
 
 final class OnboardingTextFormField extends FormField<String> {
   OnboardingTextFormField({

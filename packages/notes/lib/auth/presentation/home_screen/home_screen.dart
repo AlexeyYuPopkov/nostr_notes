@@ -10,7 +10,7 @@ import 'package:nostr_notes/app/router/app_router_path.dart';
 import 'package:nostr_notes/app/router/drawer_router.dart' show DrawerRouter;
 import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
-import 'package:nostr_notes/app/sizes.dart';
+import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/domain/usecase/desktop_ratio_usecase.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/widgets/resize_divider.dart';

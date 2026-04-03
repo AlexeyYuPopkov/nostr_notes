@@ -1,0 +1,23 @@
+{
+    "commonButtonBack": "Back",
+    "commonButtonOk": "OK",
+    "commonButtonCancel": "Cancel",
+    "commonButtonContinue": "Continue",
+    "commonButtonNext": "Next",
+    "commonButtonSave": "Save",
+    "commonButtonDone": "Done",
+    "commonButtonEdit": "Edit",
+    "commonClose": "Close",
+    "commonDelete": "Delete",
+    "commonError": "Error",
+    "commonAttention": "Attention",
+    "commonUndefinedError": "Something went wrong",
+    "commonNoDataPlaceholderText": "No data",
+    "commonCopied": "Copied",
+    "commonInfo": "Information",
+    "authError": "Authentication error",
+    "themeScreenTitle": "Theme",
+    "themeScreenLabelSystem": "System",
+    "themeScreenLabelLight": "Light",
+    "themeScreenLabelDark": "Dark"
+}

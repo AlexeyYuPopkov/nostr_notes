@@ -6,8 +6,11 @@ environment:
   sdk: ^3.6.0
 
 workspace:
+  - packages/common
   - packages/nostr
   - packages/notes
+  - packages/chat
+
 
 dev_dependencies:
   melos: ^7.5.0

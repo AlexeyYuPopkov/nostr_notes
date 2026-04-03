@@ -1,4 +1,4 @@
-import 'package:nostr_notes/common/domain/error/error_messages_provider.dart';
+import 'package:common/domain/error/error_messages_provider.dart';
 
 final class MockErrorMessagesProvider implements ErrorMessagesProvider {
   @override

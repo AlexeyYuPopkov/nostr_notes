@@ -1,6 +1,6 @@
+import 'package:common/app/theme/sizes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_notes/app/sizes.dart';
 
 final class PrymaryButton extends StatelessWidget {
   static const minWidth = 100.0;

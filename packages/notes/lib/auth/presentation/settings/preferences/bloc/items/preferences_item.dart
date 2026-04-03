@@ -5,9 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
-import 'package:nostr_notes/app/sizes.dart';
+import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
-import 'package:nostr_notes/common/presentation/tools/list_item_position.dart';
+import 'package:common/presentation/tools/list_item_position.dart';
 
 sealed class PreferencesItem {
   static final List<PreferencesItem> items = [

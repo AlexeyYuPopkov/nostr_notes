@@ -67,7 +67,9 @@ final class CryptoServiceImplMobile implements CryptoService {
   }
 
   @override
-  FutureOr<void> init() {}
+  FutureOr<void> init() {
+    return _spec256k1Isolate.init();
+  }
 
   @override
   Future<Uint8List> deriveKeysAsync({
@@ -130,10 +132,12 @@ final class CryptoServiceImplMobile implements CryptoService {
       }
     }
 
-    // return _deriveKeys.spec256k1FromBytes(
-    //   privateKeyBytes: senderPrivateKey,
-    //   publicKeyBytes: recipientPublicKey,
-    // );
+    if (AppConfig.kIsTest) {
+      return _deriveKeys.spec256k1FromBytes(
+        privateKeyBytes: senderPrivateKey,
+        publicKeyBytes: recipientPublicKey,
+      );
+    }
 
     final result = await _spec256k1Isolate.compute(
       senderPrivateKey: senderPrivateKey,

@@ -5,8 +5,8 @@ import 'package:gpt_markdown/gpt_markdown.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/note_router.dart';
-import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/app/theme/gpt_markdown_theme_data.dart';
+import 'package:common/app/theme/sizes.dart';
+import 'package:common/app/theme/gpt_markdown_theme_data.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/tools/note_decrypt_error_message_mixin.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_bloc.dart';
@@ -14,9 +14,9 @@ import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_prev
 import 'package:nostr_notes/auth/presentation/note_preview_screen/widgets/note_code_field.dart';
 import 'package:nostr_notes/common/presentation/buttons/refresh_button/refresh_button.dart';
 
-import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
-import 'package:nostr_notes/common/presentation/tools/link_tap_handler.dart';
+import 'package:common/presentation/tools/link_tap_handler.dart';
 
 import 'bloc/note_preview_event.dart';
 

@@ -1,9 +1,9 @@
+import 'package:common/app/theme/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
-import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
 
 import 'bloc/onboarding_screen_bloc.dart';

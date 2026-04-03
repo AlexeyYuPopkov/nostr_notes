@@ -38,7 +38,7 @@ void main() {
   late MockWSChannel relayChannel;
   late MockChannelFactory channelFactory;
   late NostrClient relayClient;
-  late final FetchNotesUsecase fetchNotesUsecase;
+  late FetchNotesUsecase fetchNotesUsecase;
 
   setUp(() async {
     mockUuid = MockUuid();
@@ -150,17 +150,6 @@ void main() {
       await tester.pump();
       final di = DiStorage.shared;
 
-      // final CryptoService cryptoService = di.resolve();
-      // await cryptoService.dispose();
-
-      // final RelaysListRepo relaysListRepo = di.resolve();
-      // await relaysListRepo.dispose();
-
-      // // await relayClient.disconnectAndDispose();
-
-      // final publisher = di.resolve<OutboxPublisher>();
-      // await publisher.dispose();
-
       final db = di.resolve<AppDatabase>();
       await db.close();
       await tester.pump();
@@ -207,15 +196,21 @@ void main() {
             '"#k":["30023"]}]';
 
         if (data is String && data == req) {
-          channel.mockStream.add(_TestEvents.note5);
-          channel.mockStream.add(_TestEvents.note4);
-          channel.mockStream.add(_TestEvents.note3);
-          channel.mockStream.add(_TestEvents.note2);
-          channel.mockStream.add(_TestEvents.note1);
+          // Future.microtask гарантирует что события придут ПОСЛЕ того как
+          // eventsStream.listen() уже вызван и подписчик зарегистрирован
+          // в NostrRelay._controller.broadcast(). Без этого события теряются,
+          // т.к. broadcast() не буферизует и события уходят в никуда.
+          Future.microtask(() {
+            channel.mockStream.add(_TestEvents.note5);
+            channel.mockStream.add(_TestEvents.note4);
+            channel.mockStream.add(_TestEvents.note3);
+            channel.mockStream.add(_TestEvents.note2);
+            channel.mockStream.add(_TestEvents.note1);
 
-          channel.mockStream.add(
-            '["EOSE","f5996f40-6622-11f0-b6aa-77622cb064581"]',
-          );
+            channel.mockStream.add(
+              '["EOSE","f5996f40-6622-11f0-b6aa-77622cb064581"]',
+            );
+          });
         }
       };
 
@@ -230,59 +225,10 @@ void main() {
 
       expect(find.byType(CommonShimmer), findsWidgets);
 
-      await tester.pumpAndSettle(const Duration(seconds: 5));
-
-      expect(find.byType(NewNotePromptPlaceholder), findsOneWidget);
-      expect(find.byType(CommonShimmer), findsNothing);
-      await tester.pumpAndSettle(const Duration(minutes: 5));
-      // await tester.createTicker(onTick)
-
-      // final rawEventStore = di.resolve<RawEventStore>();
-
-      // final events = await rawEventStore
-      //     .watchEvents(
-      //       RawEventQuery(
-      //         kinds: const [30023],
-      //         authors: [_Helper.keys.publicKey],
-      //         // tagFilters: [
-      //         //   TagFilter('p', [_Helper.keys.publicKey]),
-      //         // ],
-      //       ),
-      //     )
-      //     .where((events) => events.isNotEmpty)
-      //     .first;
-
-      // expect(events.length, 5);
-
-      await tester.pumpAndSettle(const Duration(seconds: 5));
-      // NotesListCard
-
-      // await PumpHelpers.waitFor(
-      //   tester,
-      //   find.byType(NotesListCard),
-      //   timeout: const Duration(minutes: 30),
-      //   reason: 'NotesList should show notes cards after receiving events',
-      // );
-
-      // await fakeAsync((async) async {
-      //   // await fetchCompleter.future;
-
-      //   async.elapse(const Duration(seconds: 30));
-
-      //   await tester.pumpAndSettle();
-
-      //   expect(find.byType(NotesListCard), findsWidgets);
-      // });
-
-      await tester.pump(const Duration(milliseconds: 100));
-      // или цикл:
-      for (var i = 0; i < 5000; i++) {
-        await tester.pump(const Duration(seconds: 5));
-        if (find.byType(NotesListCard).evaluate().isNotEmpty) break;
-      }
+      await tester.pump(const Duration(seconds: 3));
+      await tester.pump(const Duration(milliseconds: 500));
 
       await expectLater(find.byType(NotesListCard), findsWidgets);
-      // await tester.pumpUntilFound(find.byType(NotesListCard), timeout: Duration(seconds: 10));
 
       // Close database
       await tester.pump();
@@ -290,7 +236,7 @@ void main() {
       final db = di.resolve<AppDatabase>();
       await db.close();
       await tester.pump();
-    }, skip: true);
+    }, skip: false);
   });
 }
 

@@ -1,5 +1,5 @@
-import 'package:nostr_notes/common/domain/error/app_error.dart';
-import 'package:nostr_notes/common/domain/error/error_messages_provider.dart';
+import 'package:common/domain/error/app_error.dart';
+import 'package:common/domain/error/error_messages_provider.dart';
 import 'package:nostr_notes/common/domain/model/session/user_keys.dart';
 
 abstract class KeyToolRepository {

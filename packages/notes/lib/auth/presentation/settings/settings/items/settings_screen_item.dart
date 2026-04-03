@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
-import 'package:nostr_notes/app/sizes.dart';
+import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/bloc/settings_screen_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
-import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
-import 'package:nostr_notes/common/presentation/tools/list_item_position.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
+import 'package:common/presentation/tools/list_item_position.dart';
 
 import '../bloc/settings_screen_event.dart';
 

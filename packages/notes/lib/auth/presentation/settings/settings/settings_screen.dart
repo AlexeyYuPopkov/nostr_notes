@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/bloc/settings_screen_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/bloc/settings_screen_state.dart';
-import 'package:nostr_notes/auth/presentation/widgets/settings_item_tile.dart';
-import 'package:nostr_notes/common/presentation/dialogs/dialog_helper.dart';
+import 'package:common/presentation/widgets/settings_item_tile.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 
 import 'items/settings_screen_item.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 
 import 'package:nostr_notes/l10n/localization.dart';
-import 'package:nostr_notes/app/sizes.dart';
+import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/common/data/relays_monitoring_usecase_impl.dart';
 import 'package:nostr_notes/common/domain/relay_validator.dart';
 import 'package:nostr_notes/common/domain/relays_monitoring_usecase.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_notes/app/sizes.dart';
+import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/onboarding_relays_page.dart';
 
 class RelaysListScreen extends StatelessWidget {

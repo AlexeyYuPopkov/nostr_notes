@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/l10n/localization.dart';
-import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/common/presentation/dialogs/common_tooltip.dart';
+import 'package:common/app/theme/sizes.dart';
+import 'package:common/presentation/dialogs/common_tooltip.dart';
 
 final class InfoText extends StatelessWidget {
   final String text;

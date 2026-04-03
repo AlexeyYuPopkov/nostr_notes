@@ -1,20 +1,15 @@
-import 'dart:io';
-
+import 'package:common/app/vm/global_settings_vm.dart';
+import 'package:common/app/vm/global_settings_scope.dart';
+import 'package:common/l10n/localization.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/l10n/localization.dart';
-import 'package:nostr_notes/app/theme/app_theme.dart';
+import 'package:common/app/theme/app_theme.dart';
 import 'package:nostr_notes/app/router/app_router.dart';
-import 'package:nostr_notes/common/data/root_context_provider/root_context_provider.dart';
+import 'package:common/presentation/tools/root_context_provider/root_context_provider.dart';
 import 'package:nostr_notes/services/outbox_publisher.dart';
-
-import 'app/presentation/global_settings/bloc/global_settings_bloc.dart';
-import 'app/presentation/global_settings/bloc/global_settings_state.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
-// import 'package:nostr_notes/unauth/domain/blur_screen_usecase.dart';
-// import 'package:flutter/scheduler.dart' show timeDilation;
 
 final _appRouter = AppRouter();
 
@@ -24,7 +19,7 @@ void main() async {
   setUrlStrategy(const HashUrlStrategy());
 
   await Di.instance.bindUnauthModules();
-  HttpOverrides.global = MyHttpOverrides();
+  // HttpOverrides.global = MyHttpOverrides();
   // timeDilation = 4.0;
   runApp(const App());
 }
@@ -38,6 +33,8 @@ final class App extends StatefulWidget {
 
 final class _AppState extends State<App> with WidgetsBindingObserver {
   // late final BlurScreenUsecase _blurScreenUsecase = DiStorage.shared.resolve();
+
+  late final _globalSettingsVm = GlobalSettingsVm();
 
   @override
   void initState() {
@@ -72,17 +69,19 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => GlobalSettingsBloc(),
-      child: BlocBuilder<GlobalSettingsBloc, GlobalSettingsState>(
-        builder: (context, state) {
+    return GlobalSettingsScope(
+      vm: _globalSettingsVm,
+      child: ValueListenableBuilder(
+        valueListenable: _globalSettingsVm.themeModeNotifier,
+        builder: (context, themeMode, child) {
           return MaterialApp.router(
             onGenerateTitle: (context) => context.l10n.appDisplayName,
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
-            themeMode: state.data.themeMode,
+            themeMode: themeMode,
             // locale: , // TODO: implement locale change
             localizationsDelegates: const [
+              ...CommonL10n.localizationsDelegates,
               ...Localization.localizationsDelegates,
             ],
             supportedLocales: Localization.supportedLocales,
@@ -132,12 +131,12 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
   }
 }
 
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return true;
-      };
-  }
-}
+// class MyHttpOverrides extends HttpOverrides {
+//   @override
+//   HttpClient createHttpClient(SecurityContext? context) {
+//     return super.createHttpClient(context)
+//       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
+//         return true;
+//       };
+//   }
+// }

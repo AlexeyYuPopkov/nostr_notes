@@ -1,7 +1,7 @@
+import 'package:common/domain/error/app_error.dart';
 import 'package:nostr/model/tag/tag_value.dart';
 import 'package:nostr/nostr_client/publish_event_report.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
-import 'package:nostr_notes/common/domain/error/app_error.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:uuid/uuid.dart';
 

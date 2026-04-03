@@ -1,4 +1,4 @@
-import 'package:nostr_notes/common/domain/error/app_error.dart';
+import 'package:common/domain/error/app_error.dart';
 
 abstract interface class DecryptionRepository {
   const DecryptionRepository();

@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nostr_notes/l10n/localization.dart';
-import 'package:nostr_notes/app/sizes.dart';
-import 'package:nostr_notes/app/theme/gpt_markdown_theme_data.dart';
+import 'package:common/app/theme/sizes.dart';
+import 'package:common/app/theme/gpt_markdown_theme_data.dart';
 
 final class NoteCodeField extends StatefulWidget {
   final String name;

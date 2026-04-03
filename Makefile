@@ -1,12 +1,22 @@
 
+bootstrap:
+	melos bootstrap
+
+pubget:
+	melos exec --concurrency=1 -- flutter pub get
+
 codegen:
 	melos exec --concurrency=1 -- dart run build_runner build --delete-conflicting-outputs
 
 l10n:
-	melos exec --concurrency=1 --dir-exists=l10n -- flutter gen-l10n
+	melos exec --concurrency=1 --file-exists=l10n.yaml -- flutter gen-l10n
 
 del_imports:
 	melos exec --concurrency=1 -- dart fix --apply --code=unnecessary_import  --code=unused_import
+
+test:
+	melos exec --concurrency=1 -- flutter test --coverage
+	./print_coverage.sh
 
 relay_up:
 	bundle exec fastlane relay_up

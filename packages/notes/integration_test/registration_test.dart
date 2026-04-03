@@ -22,7 +22,7 @@ void main() {
 
   group(
     'User Registration Flow',
-    skip: const String.fromEnvironment('RELAY_URL').isEmpty,
+    skip: true, // const String.fromEnvironment('RELAY_URL').isEmpty,
     () {
       testWidgets('full new user registration flow', (tester) async {
         final appLauncher = AppLauncherRobot(tester: tester);

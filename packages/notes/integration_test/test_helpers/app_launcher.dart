@@ -4,8 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_router.dart';
-import 'package:nostr_notes/app/theme/app_theme.dart';
-import 'package:nostr_notes/common/data/root_context_provider/root_context_provider.dart';
+import 'package:common/app/theme/app_theme.dart';
+import 'package:common/presentation/tools/root_context_provider/root_context_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../di/test_app_di_overrides_proxy.dart';
