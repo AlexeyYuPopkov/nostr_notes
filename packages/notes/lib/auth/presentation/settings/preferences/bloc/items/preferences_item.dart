@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:common/l10n/localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/l10n/localization.dart';
@@ -40,7 +41,7 @@ final class ThemePreferencesItem extends PreferencesItem {
 
   @override
   String getTitle(BuildContext context) {
-    return context.l10n.themeScreenTitle;
+    return context.commonL10n.themeScreenTitle;
   }
 
   @override

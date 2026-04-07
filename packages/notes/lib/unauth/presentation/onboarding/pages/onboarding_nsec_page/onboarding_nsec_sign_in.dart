@@ -1,3 +1,4 @@
+import 'package:common/l10n/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,8 +6,8 @@ import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
-import 'package:nostr_notes/common/presentation/buttons/prymary_loading_button.dart';
-import 'package:nostr_notes/common/presentation/buttons/vm/loading_button_vm.dart';
+import 'package:common/presentation/buttons/prymary_loading_button.dart';
+import 'package:common/presentation/buttons/vm/loading_button_vm.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/validators/nsec_validator.dart';
 
 import '../../bloc/onboarding_screen_bloc.dart';
@@ -38,6 +39,7 @@ final class _OnboardingNsecSignInState extends State<OnboardingNsecSignIn>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+    final commonL10n = context.commonL10n;
 
     return SingleChildScrollView(
       child: Column(
@@ -90,7 +92,7 @@ final class _OnboardingNsecSignInState extends State<OnboardingNsecSignIn>
           const SizedBox(height: Sizes.indent4x),
           Center(
             child: PrymaryLoadingButton(
-              title: l10n.commonButtonNext,
+              title: commonL10n.commonButtonNext,
               onTap: (vm) => _onNext(context, vm),
             ),
           ),

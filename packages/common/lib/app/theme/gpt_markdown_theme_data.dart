@@ -1,3 +1,4 @@
+import 'package:common/app/theme/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:gpt_markdown/gpt_markdown.dart';
 
@@ -17,9 +18,34 @@ final class AppGptMarkdownTheme extends ThemeExtension<AppGptMarkdownTheme> {
   });
 
   factory AppGptMarkdownTheme.light() {
+    const onSurface = Color(0xFF2E2E2E);
+    const letterSpacing = 0.12;
     return AppGptMarkdownTheme(
       brightness: Brightness.light,
-      data: GptMarkdownThemeData(brightness: Brightness.light),
+      data: GptMarkdownThemeData(
+        brightness: Brightness.light,
+        h1: const TextStyle(
+          color: onSurface,
+          fontSize: TextSizes.headlineExtraLarge,
+          fontWeight: FontWeight.w600,
+          letterSpacing: letterSpacing,
+        ),
+        h2: const TextStyle(
+          color: onSurface,
+          fontSize: TextSizes.headline,
+          fontWeight: FontWeight.w600,
+          letterSpacing: letterSpacing,
+        ),
+        h3: const TextStyle(
+          color: onSurface,
+          fontSize: TextSizes.titleMedium,
+          fontWeight: FontWeight.w600,
+          letterSpacing: letterSpacing,
+        ),
+        hrLineColor: const Color(0xFFE0E0E0),
+        hrLineThickness: Sizes.thicknessHalf,
+        linkColor: const Color(0xFF7C43C7),
+      ),
       codeBlocColor: const Color.fromARGB(255, 38, 71, 111),
       codeBlocBackground: const Color(0xFFF5F6FA),
       rawCodeTextStyle: const TextStyle(
@@ -31,9 +57,34 @@ final class AppGptMarkdownTheme extends ThemeExtension<AppGptMarkdownTheme> {
   }
 
   factory AppGptMarkdownTheme.dark() {
+    const onSurface = Color(0xFFE6E6E6);
+    const letterSpacing = 0.12;
     return AppGptMarkdownTheme(
       brightness: Brightness.light,
-      data: GptMarkdownThemeData(brightness: Brightness.dark),
+      data: GptMarkdownThemeData(
+        brightness: Brightness.dark,
+        h1: const TextStyle(
+          color: onSurface,
+          fontSize: TextSizes.headlineExtraLarge,
+          fontWeight: FontWeight.w600,
+          letterSpacing: letterSpacing,
+        ),
+        h2: const TextStyle(
+          color: onSurface,
+          fontSize: TextSizes.headline,
+          fontWeight: FontWeight.w600,
+          letterSpacing: letterSpacing,
+        ),
+        h3: const TextStyle(
+          color: onSurface,
+          fontSize: TextSizes.titleMedium,
+          fontWeight: FontWeight.w600,
+          letterSpacing: letterSpacing,
+        ),
+        hrLineColor: const Color(0xFF3A3A3A),
+        hrLineThickness: Sizes.thicknessHalf,
+        linkColor: const Color(0xFFB491E5),
+      ),
       codeBlocColor: const Color(0xFFB8C7E0), //  Color(0xFF8FB3FF)
       codeBlocBackground: const Color(0xFF23272F), // Color(0xFF1A1D23)
       rawCodeTextStyle: const TextStyle(

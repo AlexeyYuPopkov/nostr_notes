@@ -1,7 +1,7 @@
+import 'package:common/l10n/localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/app/theme/gpt_markdown_theme_data.dart';
 
@@ -134,7 +134,7 @@ final class _ShortNoteCodeFieldState extends State<ShortNoteCodeField> {
                   child: _copied
                       ? Center(
                           child: Text(
-                            context.l10n.commonCopied,
+                            context.commonL10n.commonCopied,
                             style: textStyle.copyWith(
                               color: mdTheme.codeBlocColor,
                             ),

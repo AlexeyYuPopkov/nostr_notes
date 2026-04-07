@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:common/presentation/markdown/markdown_screen.dart';
 import 'package:nostr_notes/l10n/localization.dart';
-import 'package:nostr_notes/common/presentation/markdown_screen.dart';
 
 final class ContactsScreen extends StatelessWidget {
   final bool showAppBarLeading;
@@ -12,10 +12,11 @@ final class ContactsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.helpScreenTitle),
+        title: Text(l10n.settingsItemContacts),
         leading: showAppBarLeading ? null : const SizedBox(),
       ),
-      body: Center(
+      body: Align(
+        alignment: Alignment.topCenter,
         child: MarkdownScreenContent(
           content: l10n.settingsItemContactsContentMd,
         ),

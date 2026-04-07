@@ -1,3 +1,4 @@
+import 'package:common/l10n/localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -115,7 +116,7 @@ final class _SaveButton extends StatelessWidget {
             bottom: Sizes.indent,
           ),
           onPressed: hasChanges ? () => _onSave(context) : null,
-          child: Text(context.l10n.commonButtonSave),
+          child: Text(context.commonL10n.commonButtonSave),
         );
       },
     );

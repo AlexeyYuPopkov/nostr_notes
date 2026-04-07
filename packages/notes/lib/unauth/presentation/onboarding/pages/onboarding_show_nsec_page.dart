@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gpt_markdown/gpt_markdown.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
-import 'package:nostr_notes/common/presentation/buttons/prymary_button.dart';
+import 'package:common/presentation/buttons/prymary_button.dart';
 
 import '../bloc/onboarding_screen_bloc.dart';
 import '../bloc/onboarding_screen_event.dart';
@@ -91,6 +91,25 @@ final class OnboardingShowNsecPage extends StatelessWidget {
   }
 }
 
+// final class _Option extends StatelessWidget {
+//   final String md;
+//   const _Option({required this.md});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//     return MarkdownBody(
+//       shrinkWrap: true,
+//       data: md,
+//       styleSheet: MarkdownStyleSheet(
+//         pPadding: EdgeInsets.zero,
+//         p: theme.textTheme.bodyLarge,
+//         textAlign: WrapAlignment.start,
+//       ),
+//     );
+//   }
+// }
+
 final class _Option extends StatelessWidget {
   final String md;
   const _Option({required this.md});
@@ -98,15 +117,7 @@ final class _Option extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return MarkdownBody(
-      shrinkWrap: true,
-      data: md,
-      styleSheet: MarkdownStyleSheet(
-        pPadding: EdgeInsets.zero,
-        p: theme.textTheme.bodyLarge,
-        textAlign: WrapAlignment.start,
-      ),
-    );
+    return GptMarkdown(style: theme.textTheme.bodyLarge, md);
   }
 }
 

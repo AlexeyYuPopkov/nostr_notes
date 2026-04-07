@@ -1,6 +1,10 @@
+import 'package:common/app/theme/gpt_markdown_theme_data.dart';
+import 'package:common/l10n/localization.dart';
+import 'package:common/presentation/tools/link_tap_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+
+import 'package:gpt_markdown/gpt_markdown.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/domain/usecase/delete_acc_usecase.dart';
@@ -12,7 +16,8 @@ import 'package:common/presentation/dialogs/dialog_helper.dart';
 
 import 'bloc/del_acc_event.dart';
 
-final class DelAccScreen extends StatelessWidget with DialogHelper {
+final class DelAccScreen extends StatelessWidget
+    with DialogHelper, LinkTapHandler {
   const DelAccScreen({super.key});
 
   void _listener(BuildContext context, DelAccState state) {
@@ -29,7 +34,8 @@ final class DelAccScreen extends StatelessWidget with DialogHelper {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final theme = Theme.of(context);
+
+    final mdTheme = Theme.of(context).extension<AppGptMarkdownTheme>()!;
     return BlocProvider(
       create: (context) => DelAccBloc(),
       child: BlocConsumer<DelAccBloc, DelAccState>(
@@ -41,59 +47,30 @@ final class DelAccScreen extends StatelessWidget with DialogHelper {
               appBar: AppBar(title: Text(l10n.settingsScreenDeleteAccount)),
               body: Align(
                 alignment: Alignment.topCenter,
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxWidth: LayoutConfig.desktopScreenWidth,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: Sizes.indent2x,
                   ),
-                  child: ListView(
-                    children: [
-                      Markdown(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.all(Sizes.indent2x),
-                        data: context
-                            .l10n
-                            .settingsScreenDeleteAccountConfirmationMessage,
-                        styleSheet: MarkdownStyleSheet.fromTheme(theme)
-                            .copyWith(
-                              h1: theme.textTheme.headlineMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              h2: theme.textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              h3: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              horizontalRuleDecoration: BoxDecoration(
-                                border: Border(
-                                  top: BorderSide(
-                                    color: theme.colorScheme.outline,
-                                    width: 1,
-                                  ),
-                                ),
-                              ),
-                              p: theme.textTheme.bodyLarge,
-                              blockquotePadding: const EdgeInsets.all(
-                                Sizes.indent,
-                              ),
-                              blockquoteDecoration: BoxDecoration(
-                                color: theme.colorScheme.errorContainer
-                                    .withValues(alpha: 0.3),
-                                borderRadius: BorderRadius.circular(
-                                  Sizes.radius,
-                                ),
-                                border: Border(
-                                  left: BorderSide(
-                                    color: theme.colorScheme.error,
-                                    width: 3,
-                                  ),
-                                ),
-                              ),
-                            ),
-                      ),
-                      const _Footer(),
-                    ],
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxWidth: LayoutConfig.desktopScreenWidth,
+                    ),
+                    child: ListView(
+                      children: [
+                        GptMarkdownTheme(
+                          gptThemeData: mdTheme.data,
+                          child: GptMarkdown(
+                            context
+                                .l10n
+                                .settingsScreenDeleteAccountConfirmationMessage,
+                            style: const TextStyle(fontSize: TextSizes.normal),
+                            onLinkTap: (url, title) =>
+                                launchUrl(context, url: url),
+                          ),
+                        ),
+                        const _Footer(),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -121,11 +98,11 @@ final class _Footer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               DialogTextButtonUnderlined(
-                text: context.l10n.commonButtonCancel,
+                text: context.commonL10n.commonButtonCancel,
                 onPressed: () => Navigator.of(context).pop(false),
               ),
               DialogTextButton(
-                text: context.l10n.commonButtonContinue,
+                text: context.commonL10n.commonButtonContinue,
                 onPressed: () => _onContinuePressed(context),
               ),
             ],

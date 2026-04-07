@@ -1,8 +1,9 @@
+import 'package:common/l10n/localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
-import 'package:nostr_notes/common/presentation/markdown_screen.dart';
+import 'package:common/presentation/markdown/markdown_screen.dart';
 
 final class HelpScreen extends StatelessWidget {
   const HelpScreen({super.key});
@@ -23,6 +24,7 @@ final class HelpScreenModal extends StatelessWidget {
     const maxWidth = 500.0;
     final theme = Theme.of(context);
     final l10n = context.l10n;
+    final commonL10n = context.commonL10n;
     return SafeArea(
       top: false,
       bottom: false,
@@ -35,7 +37,7 @@ final class HelpScreenModal extends StatelessWidget {
               minimumSize: .zero,
               padding: const EdgeInsets.all(Sizes.indent),
               child: Text(
-                l10n.commonClose,
+                commonL10n.commonClose,
                 style: theme.textTheme.titleSmall?.copyWith(
                   color: theme.colorScheme.primary,
                 ),

@@ -1,3 +1,4 @@
+import 'package:common/l10n/localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,7 @@ import 'package:nostr_notes/auth/presentation/tools/note_decrypt_error_message_m
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_bloc.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/widgets/note_code_field.dart';
-import 'package:nostr_notes/common/presentation/buttons/refresh_button/refresh_button.dart';
+import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
@@ -138,7 +139,7 @@ final class _EditButton extends StatelessWidget {
         bottom: Sizes.indent,
       ),
       onPressed: onPressed,
-      child: Text(context.l10n.commonButtonEdit),
+      child: Text(context.commonL10n.commonButtonEdit),
     );
   }
 }
@@ -153,6 +154,7 @@ final class _CannotDecryptPlaceholder extends StatelessWidget
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+    final commonL10n = context.commonL10n;
 
     return Center(
       child: ConstrainedBox(
@@ -171,7 +173,7 @@ final class _CannotDecryptPlaceholder extends StatelessWidget
                 ),
                 const SizedBox(height: Sizes.indent2x),
                 Text(
-                  l10n.authError,
+                  commonL10n.authError,
                   style: theme.textTheme.titleLarge,
                   textAlign: TextAlign.center,
                 ),
@@ -185,7 +187,11 @@ final class _CannotDecryptPlaceholder extends StatelessWidget
                 ),
                 const SizedBox(height: Sizes.indent2x),
                 Text(
-                  buildDecryptErrorMessage(l10n: l10n, error: error),
+                  buildDecryptErrorMessage(
+                    l10n: l10n,
+                    commonL10n: commonL10n,
+                    error: error,
+                  ),
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),

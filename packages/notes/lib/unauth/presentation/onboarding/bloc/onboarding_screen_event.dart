@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/common/domain/model/pin_keyboard_type.dart';
-import 'package:nostr_notes/common/presentation/buttons/vm/loading_button_vm.dart';
+import 'package:common/presentation/buttons/vm/loading_button_vm.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
 
 sealed class OnboardingScreenEvent extends Equatable {

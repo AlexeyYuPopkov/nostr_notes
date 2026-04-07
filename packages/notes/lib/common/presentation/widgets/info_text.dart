@@ -1,5 +1,5 @@
+import 'package:common/l10n/localization.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/dialogs/common_tooltip.dart';
 
@@ -21,7 +21,7 @@ final class InfoText extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CommonTooltip(
-            title: context.l10n.commonAttention,
+            title: context.commonL10n.commonAttention,
             message: text,
             child: ConstrainedBox(
               constraints: const BoxConstraints(

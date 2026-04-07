@@ -51,4 +51,15 @@ dev_dependencies:
   # ffigen: ^20.1.1
 
 flutter:
-  generate: true
+  uses-material-design: true
+  generate: true 
+
+  assets:
+    - assets/images/
+
+simple_splash_view:
+  background_color: "#FDFCF9"
+  background_color_dark: "#1A1A1A"
+  duration: 300
+  theme:
+    mode: system

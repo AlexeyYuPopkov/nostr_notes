@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_notes/common/presentation/buttons/prymary_button.dart';
+import 'package:common/presentation/buttons/prymary_button.dart';
 
 import 'send_form_button_wrapper.dart';
 import 'vm/loading_button_vm.dart';

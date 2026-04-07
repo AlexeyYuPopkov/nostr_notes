@@ -1,5 +1,6 @@
 import 'package:common/app/vm/global_settings_scope.dart';
 import 'package:common/app/vm/global_settings_vm.dart';
+import 'package:common/l10n/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/l10n/localization.dart';
@@ -24,6 +25,7 @@ final class AppLauncher {
           themeMode: themeMode,
           localizationsDelegates: const [
             ...Localization.localizationsDelegates,
+            ...CommonL10n.localizationsDelegates,
           ],
           supportedLocales: Localization.supportedLocales,
           debugShowCheckedModeBanner: false,

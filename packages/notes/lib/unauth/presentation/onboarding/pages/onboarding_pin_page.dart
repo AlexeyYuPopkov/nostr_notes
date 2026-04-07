@@ -1,3 +1,4 @@
+import 'package:common/l10n/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,8 +6,8 @@ import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
-import 'package:nostr_notes/common/presentation/buttons/prymary_loading_button.dart';
-import 'package:nostr_notes/common/presentation/buttons/vm/loading_button_vm.dart';
+import 'package:common/presentation/buttons/prymary_loading_button.dart';
+import 'package:common/presentation/buttons/vm/loading_button_vm.dart';
 import 'package:common/presentation/dialogs/common_tooltip.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/bloc/onboarding_screen_state.dart';
 
@@ -41,6 +42,7 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+    final commonL10n = context.commonL10n;
 
     return SingleChildScrollView(
       child: Column(
@@ -103,7 +105,7 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
                   spacing: Sizes.indent,
                   children: [
                     CommonTooltip(
-                      title: l10n.commonInfo,
+                      title: commonL10n.commonInfo,
                       message: l10n.onboardingPinPageInfoPin,
                       child: ConstrainedBox(
                         constraints: const BoxConstraints(
@@ -175,7 +177,7 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
           const SizedBox(height: Sizes.indent4x),
           Center(
             child: PrymaryLoadingButton(
-              title: l10n.commonButtonDone,
+              title: commonL10n.commonButtonDone,
               onTap: (vm) => _onNext(context, vm),
             ),
           ),

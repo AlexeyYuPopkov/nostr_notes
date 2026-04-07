@@ -1,3 +1,4 @@
+import 'package:common/l10n/localization.dart';
 import 'package:nostr_notes/l10n/app_localizations.dart';
 import 'package:nostr_notes/auth/domain/model/nip44_exception.dart';
 import 'package:common/domain/error/app_error.dart';
@@ -5,6 +6,7 @@ import 'package:common/domain/error/app_error.dart';
 mixin NoteDecryptErrorMessageMixin {
   String buildDecryptErrorMessage({
     required AppLocalizations l10n,
+    required CommonL10n commonL10n,
     required Object? error,
   }) {
     final base = l10n.notePreviewCannotDecryptDescription;
@@ -12,7 +14,11 @@ mixin NoteDecryptErrorMessageMixin {
       return base;
     }
 
-    final reason = humanReadableDecryptReason(l10n: l10n, error: error);
+    final reason = humanReadableDecryptReason(
+      l10n: l10n,
+      commonL10n: commonL10n,
+      error: error,
+    );
     final details = error.toString().trim();
 
     return [
@@ -25,6 +31,7 @@ mixin NoteDecryptErrorMessageMixin {
   String humanReadableDecryptReason({
     required AppLocalizations l10n,
     required Object error,
+    required CommonL10n commonL10n,
   }) {
     switch (error) {
       case InvalidMacNip44Exception():
@@ -43,13 +50,13 @@ mixin NoteDecryptErrorMessageMixin {
       case NotUnlockedError():
         return l10n.notUnlocked;
       case NotAuthenticatedError():
-        return l10n.authError;
+        return commonL10n.authError;
       case AppError():
         return error.message.isNotEmpty
             ? error.message
-            : l10n.commonUndefinedError;
+            : commonL10n.commonUndefinedError;
       default:
-        return l10n.commonUndefinedError;
+        return commonL10n.commonUndefinedError;
     }
   }
 }

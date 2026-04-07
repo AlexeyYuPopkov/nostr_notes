@@ -1,8 +1,12 @@
+import 'package:chat/l10n/localization.dart';
 import 'package:chat/router/app_router.dart';
 import 'package:common/app/theme/app_theme.dart';
 import 'package:common/app/vm/global_settings_scope.dart';
 import 'package:common/app/vm/global_settings_vm.dart';
+import 'package:common/l10n/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 // final _appRouter = AppRouter();
@@ -17,7 +21,7 @@ void main() async {
   // await Di.instance.bindUnauthModules();
   // HttpOverrides.global = MyHttpOverrides();
   // timeDilation = 4.0;
-  runApp(const App());
+  runApp(ProviderScope(child: const App()));
 }
 
 final class App extends StatefulWidget {
@@ -74,6 +78,12 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
             themeMode: themeMode,
+            // locale: , // TODO: implement locale change
+            localizationsDelegates: const [
+              ...CommonL10n.localizationsDelegates,
+              ...Localization.localizationsDelegates,
+            ],
+            supportedLocales: Localization.supportedLocales,
             routerConfig: _appRouter.config(),
           );
         },

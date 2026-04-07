@@ -12,57 +12,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appDisplayName => 'Private Notes (Nostr)';
 
   @override
-  String get commonButtonBack => 'Back';
-
-  @override
-  String get commonButtonOk => 'OK';
-
-  @override
-  String get commonButtonCancel => 'Cancel';
-
-  @override
-  String get commonButtonContinue => 'Continue';
-
-  @override
-  String get commonButtonNext => 'Next';
-
-  @override
-  String get commonButtonSave => 'Save';
-
-  @override
-  String get commonButtonDone => 'Done';
-
-  @override
-  String get commonButtonEdit => 'Edit';
-
-  @override
-  String get commonClose => 'Close';
-
-  @override
-  String get commonDelete => 'Delete';
-
-  @override
-  String get commonError => 'Error';
-
-  @override
-  String get commonAttention => 'Attention';
-
-  @override
-  String get commonUndefinedError => 'Something went wrong';
-
-  @override
-  String get commonNoDataPlaceholderText => 'No data';
-
-  @override
-  String get commonCopied => 'Copied';
-
-  @override
-  String get commonInfo => 'Information';
-
-  @override
-  String get authError => 'Authentication error';
-
-  @override
   String get notUnlocked => 'The app is not unlocked';
 
   @override
@@ -311,7 +260,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsItemContactsContentMd =>
-      '## Private Notes (Nostr) Support\n\n### Contacts:\n- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)\n### FAQ\n- Forgot PIN? Notes cannot be recovered — PIN is never stored.\n- Lost nsec? Account cannot be restored without private key.';
+      '### Contacts\n\n- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)\n\n### FAQ\n\n- Forgot PIN? Notes cannot be recovered — PIN is never stored.\n- Lost nsec? Account cannot be restored without private key.';
 
   @override
   String get preferencesScreenItemRelays => 'Connected Relays';
@@ -400,18 +349,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get credentialsDataScreenInfoPubKey =>
       'Your public key uniquely identifies your account on the Nostr network. It is safe to share — anyone can use it to find and verify your posts.';
-
-  @override
-  String get themeScreenTitle => 'Theme';
-
-  @override
-  String get themeScreenLabelSystem => 'System';
-
-  @override
-  String get themeScreenLabelLight => 'Light';
-
-  @override
-  String get themeScreenLabelDark => 'Dark';
 
   @override
   String get helpScreenTitle => 'Help';

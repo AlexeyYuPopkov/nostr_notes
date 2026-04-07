@@ -93,6 +93,9 @@ final class Sizes {
 }
 
 final class TextSizes {
+  /// [headlineExtraLarge = 28.0]
+  static const headlineExtraLarge = 28.0;
+
   /// [headline = 24.0]
   static const headlineLarge = 24.0;
 

@@ -1,3 +1,4 @@
+import 'package:common/l10n/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:nostr_notes/l10n/localization.dart';
@@ -37,6 +38,7 @@ final class NotesListCard extends StatelessWidget
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+    final commonL10n = context.commonL10n;
     final isSelected = sectionItem.note.dTag == selectedNoteDTag;
     final hasDecryptError = sectionItem.note.error != null;
     final summary = hasDecryptError
@@ -80,7 +82,7 @@ final class NotesListCard extends StatelessWidget
                 backgroundColor: theme.colorScheme.error,
                 foregroundColor: Colors.white,
                 icon: Icons.delete,
-                label: l10n.commonDelete,
+                label: commonL10n.commonDelete,
               ),
             ],
           ),
@@ -138,6 +140,7 @@ final class NotesListCard extends StatelessWidget
                     title: l10n.notePreviewCannotDecryptTitle,
                     message: buildDecryptErrorMessage(
                       l10n: l10n,
+                      commonL10n: commonL10n,
                       error: sectionItem.note.error,
                     ),
                     child: Padding(
@@ -179,10 +182,11 @@ final class NotesListCard extends StatelessWidget
 
   Future<bool> _confirmDismiss(BuildContext context) async {
     final l10n = context.l10n;
+    final commonL10n = context.commonL10n;
     final result = await showConfirmation(
       context,
       isDestructive: true,
-      title: l10n.commonAttention,
+      title: commonL10n.commonAttention,
       message: l10n.notesListConfirmationDialogDeletion,
     );
     return result ?? false;

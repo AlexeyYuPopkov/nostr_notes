@@ -1,8 +1,9 @@
+import 'package:common/app/icons/app_icons.dart';
+import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/drawer_router.dart';
@@ -17,7 +18,6 @@ import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
 
-import '../../../common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'bloc/notes_list_bloc.dart';
 import 'bloc/notes_list_event.dart';
 import 'bloc/notes_list_state.dart';
@@ -196,7 +196,7 @@ final class _SettingsButton extends StatelessWidget {
     final theme = Theme.of(context);
     return CupertinoButton(
       child: SvgPicture.asset(
-        AppIcons.profileIcon,
+        CommonIcons.profileIcon,
         width: Sizes.icon,
         height: Sizes.icon,
         colorFilter: ColorFilter.mode(

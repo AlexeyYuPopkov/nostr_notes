@@ -100,108 +100,6 @@ abstract class AppLocalizations {
   /// **'Private Notes (Nostr)'**
   String get appDisplayName;
 
-  /// No description provided for @commonButtonBack.
-  ///
-  /// In en, this message translates to:
-  /// **'Back'**
-  String get commonButtonBack;
-
-  /// No description provided for @commonButtonOk.
-  ///
-  /// In en, this message translates to:
-  /// **'OK'**
-  String get commonButtonOk;
-
-  /// No description provided for @commonButtonCancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get commonButtonCancel;
-
-  /// No description provided for @commonButtonContinue.
-  ///
-  /// In en, this message translates to:
-  /// **'Continue'**
-  String get commonButtonContinue;
-
-  /// No description provided for @commonButtonNext.
-  ///
-  /// In en, this message translates to:
-  /// **'Next'**
-  String get commonButtonNext;
-
-  /// No description provided for @commonButtonSave.
-  ///
-  /// In en, this message translates to:
-  /// **'Save'**
-  String get commonButtonSave;
-
-  /// No description provided for @commonButtonDone.
-  ///
-  /// In en, this message translates to:
-  /// **'Done'**
-  String get commonButtonDone;
-
-  /// No description provided for @commonButtonEdit.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit'**
-  String get commonButtonEdit;
-
-  /// No description provided for @commonClose.
-  ///
-  /// In en, this message translates to:
-  /// **'Close'**
-  String get commonClose;
-
-  /// No description provided for @commonDelete.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete'**
-  String get commonDelete;
-
-  /// No description provided for @commonError.
-  ///
-  /// In en, this message translates to:
-  /// **'Error'**
-  String get commonError;
-
-  /// No description provided for @commonAttention.
-  ///
-  /// In en, this message translates to:
-  /// **'Attention'**
-  String get commonAttention;
-
-  /// No description provided for @commonUndefinedError.
-  ///
-  /// In en, this message translates to:
-  /// **'Something went wrong'**
-  String get commonUndefinedError;
-
-  /// No description provided for @commonNoDataPlaceholderText.
-  ///
-  /// In en, this message translates to:
-  /// **'No data'**
-  String get commonNoDataPlaceholderText;
-
-  /// No description provided for @commonCopied.
-  ///
-  /// In en, this message translates to:
-  /// **'Copied'**
-  String get commonCopied;
-
-  /// No description provided for @commonInfo.
-  ///
-  /// In en, this message translates to:
-  /// **'Information'**
-  String get commonInfo;
-
-  /// No description provided for @authError.
-  ///
-  /// In en, this message translates to:
-  /// **'Authentication error'**
-  String get authError;
-
   /// No description provided for @notUnlocked.
   ///
   /// In en, this message translates to:
@@ -637,7 +535,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsItemContactsContentMd.
   ///
   /// In en, this message translates to:
-  /// **'## Private Notes (Nostr) Support\n\n### Contacts:\n- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)\n### FAQ\n- Forgot PIN? Notes cannot be recovered — PIN is never stored.\n- Lost nsec? Account cannot be restored without private key.'**
+  /// **'### Contacts\n\n- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)\n\n### FAQ\n\n- Forgot PIN? Notes cannot be recovered — PIN is never stored.\n- Lost nsec? Account cannot be restored without private key.'**
   String get settingsItemContactsContentMd;
 
   /// No description provided for @preferencesScreenItemRelays.
@@ -795,30 +693,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your public key uniquely identifies your account on the Nostr network. It is safe to share — anyone can use it to find and verify your posts.'**
   String get credentialsDataScreenInfoPubKey;
-
-  /// No description provided for @themeScreenTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Theme'**
-  String get themeScreenTitle;
-
-  /// No description provided for @themeScreenLabelSystem.
-  ///
-  /// In en, this message translates to:
-  /// **'System'**
-  String get themeScreenLabelSystem;
-
-  /// No description provided for @themeScreenLabelLight.
-  ///
-  /// In en, this message translates to:
-  /// **'Light'**
-  String get themeScreenLabelLight;
-
-  /// No description provided for @themeScreenLabelDark.
-  ///
-  /// In en, this message translates to:
-  /// **'Dark'**
-  String get themeScreenLabelDark;
 
   /// No description provided for @helpScreenTitle.
   ///

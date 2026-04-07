@@ -13,6 +13,7 @@ final class AppTextTheme {
         fontWeight: FontWeight.w600,
         letterSpacing: letterSpacing,
       ),
+
       titleLarge: TextStyle(
         color: color,
         fontSize: TextSizes.headline,

@@ -9,7 +9,7 @@ import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_pending_usecase.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/bloc/pending_vm.dart';
-import 'package:nostr_notes/common/presentation/buttons/refresh_button/refresh_button.dart';
+import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:rxdart/transformers.dart';
 

@@ -10,7 +10,7 @@ import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_data.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_event.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
-import 'package:nostr_notes/common/presentation/buttons/refresh_button/refresh_button.dart';
+import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:nostr_notes/core/tools/optional_box.dart';
 import 'package:rxdart/rxdart.dart';
 

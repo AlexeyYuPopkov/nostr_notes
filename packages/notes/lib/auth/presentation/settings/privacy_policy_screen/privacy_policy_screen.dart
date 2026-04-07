@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/l10n/localization.dart';
-import 'package:nostr_notes/common/presentation/markdown_screen.dart';
+import 'package:common/presentation/markdown/markdown_screen.dart';
 
 final class PrivacyPolicyScreen extends StatelessWidget {
   static const _text = '''

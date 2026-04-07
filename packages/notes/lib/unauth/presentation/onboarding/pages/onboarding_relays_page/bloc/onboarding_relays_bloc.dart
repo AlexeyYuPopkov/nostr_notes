@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_relays_usecase.dart';
-import 'package:nostr_notes/common/presentation/buttons/prymary_button.dart';
+import 'package:common/presentation/buttons/prymary_button.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'onboarding_relays_data.dart';

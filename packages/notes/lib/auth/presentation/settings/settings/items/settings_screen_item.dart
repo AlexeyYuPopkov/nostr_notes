@@ -1,3 +1,4 @@
+import 'package:common/l10n/localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -147,7 +148,7 @@ final class SettingsItemLogoutAndClear extends SettingsItem with DialogHelper {
     final result = await showConfirmation(
       context,
       isDestructive: true,
-      title: context.l10n.commonAttention,
+      title: context.commonL10n.commonAttention,
       message: context.l10n.settingsScreenLogoutConfirmationMessage,
     );
 

@@ -68,7 +68,7 @@ final class CryptoServiceImplMobile implements CryptoService {
 
   @override
   FutureOr<void> init() {
-    return _spec256k1Isolate.init();
+    // return _spec256k1Isolate.init();
   }
 
   @override
