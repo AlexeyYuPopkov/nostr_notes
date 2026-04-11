@@ -2,10 +2,10 @@ import 'package:chat/l10n/localization.dart';
 import 'package:common/app/icons/app_icons.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/buttons/prymary_button.dart';
+import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gpt_markdown/gpt_markdown.dart';
 
 final class OnboardingWelcomePage extends StatelessWidget {
   const OnboardingWelcomePage({super.key});
@@ -51,10 +51,10 @@ final class OnboardingWelcomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                _Option(md: l10n.onboardingWelcomePageOptionMD1),
-                _Option(md: l10n.onboardingWelcomePageOptionMD2),
-                _Option(md: l10n.onboardingWelcomePageOptionMD3),
-                _Option(md: l10n.onboardingWelcomePageOptionMD4),
+                GptMarkdownWidget(md: l10n.onboardingWelcomePageOptionMD1),
+                GptMarkdownWidget(md: l10n.onboardingWelcomePageOptionMD2),
+                GptMarkdownWidget(md: l10n.onboardingWelcomePageOptionMD3),
+                GptMarkdownWidget(md: l10n.onboardingWelcomePageOptionMD4),
               ],
             ),
           ),
@@ -96,16 +96,5 @@ final class OnboardingWelcomePage extends StatelessWidget {
     //     fullscreenDialog: true,
     //     builder: (_) => const HelpScreenModal(),
     //   );
-  }
-}
-
-final class _Option extends StatelessWidget {
-  final String md;
-  const _Option({required this.md});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return GptMarkdown(style: theme.textTheme.bodyLarge, md);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:common/presentation/raw_event/raw_event_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/contacts/contacts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
@@ -17,6 +18,11 @@ final class AppScreensAssembly implements ScreensAssembly {
   @override
   Widget createNotePreview(PathParams pathParams) {
     return NotePreviewScreen(pathParams: pathParams);
+  }
+
+  @override
+  Widget createRawEventScreen(PathParamsEventId params) {
+    return RawEventScreen(eventId: params.eventId);
   }
 
   @override

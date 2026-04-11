@@ -1,6 +1,5 @@
 import 'dart:async';
-
-import 'package:nostr/model/nostr_event.dart';
+import 'package:nostr/model/nostr_event_with_relay.dart';
 import 'package:nostr/model/nostr_filter.dart';
 import 'package:nostr/model/nostr_req.dart';
 import 'package:nostr/model/tag/tag.dart';
@@ -17,8 +16,8 @@ import 'package:common/domain/error/app_error.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/core/tools/date_time_helper.dart';
 import 'package:nostr_notes/core/tools/now.dart';
-import 'package:nostr_notes/services/event_store/database/daos/outbox_dao_interface.dart';
-import 'package:nostr_notes/services/event_store/raw_event_store.dart';
+import 'package:common/services/event_store/database/daos/outbox_dao_interface.dart';
+import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:uuid/uuid.dart';
 
@@ -44,7 +43,7 @@ class NotesRepositoryImpl implements NotesRepository {
   @override
   Stream<List> get eventsStream => _client
       .stream()
-      .whereType<NostrEvent>()
+      .whereType<NostrEventWithRelay>()
       .bufferTime(const Duration(milliseconds: 100))
       .where((e) {
         return e.isNotEmpty;

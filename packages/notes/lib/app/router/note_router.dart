@@ -37,6 +37,18 @@ final class NoteRouter {
                   );
 
                   return router.push('/${uri.path}', extra: route.toExtra());
+                } else if (route is RawEventRoute) {
+                  final router = GoRouter.of(context);
+
+                  final uri = Uri(
+                    pathSegments: [
+                      AppRouterName.home,
+                      AppRouterPath.noteDetails,
+                      AppRouterPath.rawEventDetails,
+                    ],
+                  );
+
+                  return router.push('/${uri.path}', extra: route.toExtra());
                 }
 
                 return RouteHandler.of(context)?.onRoute(route, context);
@@ -81,6 +93,29 @@ final class NoteRouter {
                 },
           );
         },
+        routes: [
+          GoRoute(
+            path: AppRouterPath.rawEventDetails,
+            builder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>;
+              final params = PathParamsEventId.fromJson(extra);
+              return _screensAssembly.createRawEventScreen(params);
+            },
+            // pageBuilder: (BuildContext context, GoRouterState state) {
+            //   final extra = state.extra as Map<String, dynamic>;
+            //   final params = PathParamsEventId.fromJson(extra);
+
+            //   return CustomTransitionPage(
+            //     key: state.pageKey,
+            //     child: _screensAssembly.createRawEventScreen(params),
+            //     transitionsBuilder:
+            //         (context, animation, secondaryAnimation, child) {
+            //           return FadeTransition(opacity: animation, child: child);
+            //         },
+            //   );
+            // },
+          ),
+        ],
       ),
     ];
   }
@@ -120,6 +155,16 @@ final class NoteDetailsRoute implements AppRoute {
 
   Map<String, dynamic> toExtra() {
     return PathParams(id: noteId).toJson();
+  }
+}
+
+final class RawEventRoute implements AppRoute {
+  final String eventId;
+
+  const RawEventRoute({required this.eventId});
+
+  Map<String, dynamic> toExtra() {
+    return PathParamsEventId(eventId: eventId).toJson();
   }
 }
 

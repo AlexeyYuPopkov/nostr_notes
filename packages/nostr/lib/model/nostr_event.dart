@@ -11,7 +11,7 @@ part 'nostr_event.g.dart';
 
 @immutable
 @JsonSerializable()
-final class NostrEvent extends BaseNostrEvent {
+class NostrEvent extends BaseNostrEvent {
   @override
   EventType get eventType => EventType.event;
 

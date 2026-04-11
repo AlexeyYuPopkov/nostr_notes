@@ -1,5 +1,5 @@
 import 'package:nostr_notes/auth/domain/usecase/get_pending_usecase.dart';
-import 'package:nostr_notes/services/event_store/database/daos/outbox_dao_interface.dart';
+import 'package:common/services/event_store/database/daos/outbox_dao_interface.dart';
 
 final class GetPendingUsecaseImpl implements GetPendingUsecase {
   final OutboxDaoInterface _outboxDao;

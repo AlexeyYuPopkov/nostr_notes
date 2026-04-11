@@ -22,7 +22,7 @@ final class AuthDiScope extends DiScope {
     di.bind<NostrClient>(
       () => NostrClient(),
       module: this,
-      lifeTime: const LifeTime.prototype(),
+      lifeTime: const LifeTime.single(),
     );
 
     di.bind<Connectivity>(

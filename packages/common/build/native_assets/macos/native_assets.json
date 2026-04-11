@@ -1,1 +1,1 @@
-{"format-version":[1,0,0],"native-assets":{}}
+{"format-version":[1,0,0],"native-assets":{"macos_arm64":{"package:sqlite3/src/ffi/libsqlite3.g.dart":["absolute","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/packages/common/build/native_assets/macos/libsqlite3.dylib"]}}}

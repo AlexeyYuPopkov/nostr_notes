@@ -48,7 +48,7 @@ class CommonLocalizationsEn extends CommonLocalizations {
   String get commonUndefinedError => 'Something went wrong';
 
   @override
-  String get commonNoDataPlaceholderText => 'No data';
+  String get commonNoDataPlaceholderText => 'No data found';
 
   @override
   String get commonCopied => 'Copied';
@@ -70,4 +70,15 @@ class CommonLocalizationsEn extends CommonLocalizations {
 
   @override
   String get themeScreenLabelDark => 'Dark';
+
+  @override
+  String get rawEventScreenTitle => 'Raw event';
+
+  @override
+  String rawEventScreenSectionTitleRelaysCount(String count) {
+    return 'Relays ($count)';
+  }
+
+  @override
+  String get rawEventScreenSectionTitleJson => 'JSON';
 }

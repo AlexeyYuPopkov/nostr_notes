@@ -38,16 +38,26 @@ final class NostrClient {
   bool get isConnected => _isConnected;
 
   void addRelay(String url) {
-    final uri = Uri.tryParse(url);
-    if (uri != null && !_relays.containsKey(url)) {
+    if (!_isValidRelayUrl(url)) return;
+    if (!_relays.containsKey(url)) {
       _addRelay(url);
       _relaySubject.add({...?_relaySubject.valueOrNull, url});
     }
   }
 
-  NostrRelay? _addRelay(String url) {
+  static bool _isValidRelayUrl(String url) {
     final uri = Uri.tryParse(url);
-    if (uri != null && !_relays.containsKey(url)) {
+    if (uri == null) return false;
+    if (uri.scheme != 'ws' && uri.scheme != 'wss') return false;
+    if (uri.hasFragment) return false;
+    // Dart normalizes :0 away from Uri for unknown schemes (wss default = 0),
+    // so check the raw string for an explicit port of 0.
+    if (RegExp(r'://[^/]*:0(/|$)').hasMatch(url)) return false;
+    return true;
+  }
+
+  NostrRelay? _addRelay(String url) {
+    if (!_relays.containsKey(url)) {
       final relay = NostrRelay(url: url, channelFactory: _channelFactory);
       // await relay.ready;
       _relays[url] = relay;
@@ -58,10 +68,11 @@ final class NostrClient {
   }
 
   void addRelays(Iterable<String> urls) async {
-    for (final url in urls) {
+    final validUrls = urls.where(_isValidRelayUrl).toList();
+    for (final url in validUrls) {
       _addRelay(url);
     }
-    _relaySubject.add({...?_relaySubject.valueOrNull, ...urls});
+    _relaySubject.add({...?_relaySubject.valueOrNull, ...validUrls});
   }
 
   Future<void> removeRelay(String url) async {

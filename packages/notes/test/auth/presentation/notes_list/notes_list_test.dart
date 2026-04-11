@@ -13,15 +13,16 @@ import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
-import 'package:nostr_notes/services/event_store/database/app_database.dart';
+import 'package:common/services/event_store/database/app_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:uuid/uuid.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../../../../integration_test/di/in_memory_db_module.dart';
+import '../../../../integration_test/di/test_app_di_overrides_proxy.dart';
 import '../../../tools/app_launcher/app_launcher.dart';
-import '../../../tools/di/in_memory_db_module.dart';
-import '../../../tools/di/test_app_di_overrides_proxy.dart';
+
 import '../../../tools/mock_wschannel.dart';
 
 class MockUuid extends Mock implements Uuid {}

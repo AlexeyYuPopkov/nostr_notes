@@ -12,12 +12,24 @@
     "commonError": "Error",
     "commonAttention": "Attention",
     "commonUndefinedError": "Something went wrong",
-    "commonNoDataPlaceholderText": "No data",
+    "commonNoDataPlaceholderText": "No data found",
     "commonCopied": "Copied",
     "commonInfo": "Information",
     "authError": "Authentication error",
     "themeScreenTitle": "Theme",
     "themeScreenLabelSystem": "System",
     "themeScreenLabelLight": "Light",
-    "themeScreenLabelDark": "Dark"
+    "themeScreenLabelDark": "Dark",
+
+    "rawEventScreenTitle": "Raw event",
+    "rawEventScreenSectionTitleRelaysCount": "Relays ({count})",
+    "@rawEventScreenSectionTitleRelaysCount": {
+        "placeholders": {
+            "count": {
+                "format": "String",
+                "type": "String"
+            }
+        }
+    },
+    "rawEventScreenSectionTitleJson": "JSON"
 }

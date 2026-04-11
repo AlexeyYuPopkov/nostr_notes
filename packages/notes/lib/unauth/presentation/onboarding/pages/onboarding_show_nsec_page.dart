@@ -1,8 +1,8 @@
+import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gpt_markdown/gpt_markdown.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
@@ -56,9 +56,9 @@ final class OnboardingShowNsecPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                _Option(md: l10n.onboardingShowNsecPageOptionMD1),
-                _Option(md: l10n.onboardingShowNsecPageOptionMD2),
-                _Option(md: l10n.onboardingShowNsecPageOptionMD3),
+                GptMarkdownWidget(md: l10n.onboardingShowNsecPageOptionMD1),
+                GptMarkdownWidget(md: l10n.onboardingShowNsecPageOptionMD2),
+                GptMarkdownWidget(md: l10n.onboardingShowNsecPageOptionMD3),
               ],
             ),
           ),
@@ -109,17 +109,6 @@ final class OnboardingShowNsecPage extends StatelessWidget {
 //     );
 //   }
 // }
-
-final class _Option extends StatelessWidget {
-  final String md;
-  const _Option({required this.md});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return GptMarkdown(style: theme.textTheme.bodyLarge, md);
-  }
-}
 
 final class _NsecCard extends StatelessWidget {
   final String nsec;

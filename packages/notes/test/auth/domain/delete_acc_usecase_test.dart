@@ -15,14 +15,14 @@ import 'package:nostr_notes/common/domain/repository/secure_storage.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/core/event_kind.dart';
-import 'package:nostr_notes/services/event_store/database/app_database.dart';
-import 'package:nostr_notes/services/event_store/database/daos/outbox_dao_interface.dart';
-import 'package:nostr_notes/services/event_store/raw_event_store.dart';
+import 'package:common/services/event_store/database/app_database.dart';
+import 'package:common/services/event_store/database/daos/outbox_dao_interface.dart';
+import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../tools/di/in_memory_db_module.dart';
+import '../../../integration_test/di/in_memory_db_module.dart';
 import '../../tools/mock_error_messages_provider.dart';
 import '../../tools/mock_wschannel.dart';
 import '../../tools/mocks/mock_relays_list_repo.dart';

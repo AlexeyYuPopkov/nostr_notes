@@ -18,6 +18,18 @@ test:
 	melos exec --concurrency=1 -- flutter test --coverage
 	./print_coverage.sh
 
+coverage:
+	melos exec --concurrency=1 -- flutter test --coverage
+	./print_coverage.sh
+	mkdir -p coverage
+	for pkg in nostr common chat notes; do \
+		if [ -f packages/$$pkg/coverage/lcov.info ]; then \
+			sed "s|SF:|SF:packages/$$pkg/|g" packages/$$pkg/coverage/lcov.info > /tmp/lcov_$$pkg.info; \
+		fi; \
+	done
+	lcov $$(for pkg in nostr common chat notes; do [ -f /tmp/lcov_$$pkg.info ] && echo "-a /tmp/lcov_$$pkg.info"; done) -o coverage/lcov.info
+	@echo "Merged coverage written to coverage/lcov.info"
+
 relay_up:
 	bundle exec fastlane relay_up
 

@@ -1,10 +1,9 @@
-import 'package:common/app/theme/gpt_markdown_theme_data.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/tools/link_tap_handler.dart';
+import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:gpt_markdown/gpt_markdown.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/domain/usecase/delete_acc_usecase.dart';
@@ -35,7 +34,6 @@ final class DelAccScreen extends StatelessWidget
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    final mdTheme = Theme.of(context).extension<AppGptMarkdownTheme>()!;
     return BlocProvider(
       create: (context) => DelAccBloc(),
       child: BlocConsumer<DelAccBloc, DelAccState>(
@@ -57,16 +55,10 @@ final class DelAccScreen extends StatelessWidget
                     ),
                     child: ListView(
                       children: [
-                        GptMarkdownTheme(
-                          gptThemeData: mdTheme.data,
-                          child: GptMarkdown(
-                            context
-                                .l10n
-                                .settingsScreenDeleteAccountConfirmationMessage,
-                            style: const TextStyle(fontSize: TextSizes.normal),
-                            onLinkTap: (url, title) =>
-                                launchUrl(context, url: url),
-                          ),
+                        GptMarkdownWidget(
+                          md: context
+                              .l10n
+                              .settingsScreenDeleteAccountConfirmationMessage,
                         ),
                         const _Footer(),
                       ],

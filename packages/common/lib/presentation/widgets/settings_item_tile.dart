@@ -7,7 +7,7 @@ final class SettingsItemTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final Widget? trailing;
-  final Color? titleTextColor;
+  final Color? Function(BuildContext)? titleTextColorBuilder;
   final String sectionTitle;
   final ListItemPosition position;
   final VoidCallback? onTap;
@@ -17,7 +17,7 @@ final class SettingsItemTile extends StatelessWidget {
     required this.title,
     this.subtitle = '',
     this.trailing,
-    this.titleTextColor,
+    this.titleTextColorBuilder,
     this.sectionTitle = '',
     required this.position,
     required this.onTap,
@@ -61,7 +61,8 @@ final class SettingsItemTile extends StatelessWidget {
               children: [
                 CupertinoButton(
                   foregroundColor:
-                      titleTextColor ?? theme.colorScheme.onSurface,
+                      titleTextColorBuilder?.call(context) ??
+                      theme.colorScheme.onSurface,
                   padding: const EdgeInsets.all(Sizes.indent2x) + insets,
                   minimumSize: .zero,
                   onPressed: onTap,

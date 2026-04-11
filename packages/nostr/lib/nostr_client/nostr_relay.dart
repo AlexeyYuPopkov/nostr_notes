@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'package:nostr/model/nostr_event_with_relay.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../model/base_nostr_event.dart';
@@ -269,7 +270,7 @@ mixin NostrRelayEventMapper {
             return null;
           }
 
-          return NostrEvent.fromJson(payload);
+          return NostrEventWithRelay.fromJsonWithRelay(payload, relayUrl);
         } else if (length >= 2) {
           final payload = content[1] as Map<String, dynamic>?;
 
@@ -277,7 +278,7 @@ mixin NostrRelayEventMapper {
             return null;
           }
 
-          return NostrEvent.fromJson(payload);
+          return NostrEventWithRelay.fromJsonWithRelay(payload, relayUrl);
         }
       } catch (e) {
         return null;

@@ -8,9 +8,9 @@ import 'package:nostr/nostr_client/nostr_publisher.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/core/tools/disposable.dart';
-import 'package:nostr_notes/services/event_store/database/app_database.dart';
-import 'package:nostr_notes/services/event_store/database/daos/outbox_dao_interface.dart';
-import 'package:nostr_notes/services/event_store/raw_event_store.dart';
+import 'package:common/services/event_store/database/app_database.dart';
+import 'package:common/services/event_store/database/daos/outbox_dao_interface.dart';
+import 'package:common/services/event_store/raw_event_store.dart';
 
 /// Watches the outbox table and publishes pending events to Nostr relays.
 ///

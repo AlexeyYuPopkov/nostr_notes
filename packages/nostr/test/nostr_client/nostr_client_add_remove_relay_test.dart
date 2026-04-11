@@ -46,5 +46,53 @@ void main() {
       expect(channel2.verifyDisconnectCalled(), 1);
       expect(client.count, 0);
     });
+
+    group('addRelay - invalid URLs are rejected', () {
+      final invalidUrls = [
+        'https://relay.snort.social', // wrong scheme
+        'http://relay.example.com', // wrong scheme
+        'relay.example.com', // no scheme
+        'wss://relay.snort.social:0', // port 0
+        'wss://relay.snort.social#', // fragment
+        'wss://relay.snort.social:0#', // port 0 + fragment
+        '', // empty
+        'ftp://relay.example.com', // wrong scheme
+      ];
+
+      for (final url in invalidUrls) {
+        test('rejected: "$url"', () {
+          verifyNever(() => channelFactory.create(any()));
+          client.addRelay(url);
+          expect(client.count, 0);
+          verifyNever(() => channelFactory.create(any()));
+        });
+      }
+    });
+
+    group('addRelays - invalid URLs are filtered out', () {
+      test('only valid URLs are added when mixed list provided', () {
+        when(() => channelFactory.create(relayUrl1)).thenReturn(channel1);
+
+        client.addRelays([
+          relayUrl1,
+          'https://relay.snort.social',
+          'wss://relay.snort.social:0#',
+        ]);
+
+        expect(client.count, 1);
+        verify(() => channelFactory.create(relayUrl1)).called(1);
+        verifyNever(() => channelFactory.create('https://relay.snort.social'));
+      });
+
+      test('no relays added when all URLs invalid', () {
+        client.addRelays([
+          'https://relay.snort.social',
+          'wss://relay.snort.social:0#',
+        ]);
+
+        expect(client.count, 0);
+        verifyNever(() => channelFactory.create(any()));
+      });
+    });
   });
 }

@@ -16,3 +16,17 @@ final class PathParams {
 
   Map<String, dynamic> toJson() => _$PathParamsToJson(this);
 }
+
+@immutable
+@JsonSerializable()
+final class PathParamsEventId {
+  @JsonKey(name: 'eventId', defaultValue: '')
+  final String eventId;
+
+  const PathParamsEventId({required this.eventId});
+
+  factory PathParamsEventId.fromJson(Map<String, dynamic> json) =>
+      _$PathParamsEventIdFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PathParamsEventIdToJson(this);
+}

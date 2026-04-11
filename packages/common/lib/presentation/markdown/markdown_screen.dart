@@ -1,10 +1,9 @@
-import 'package:common/app/theme/gpt_markdown_theme_data.dart';
 import 'package:common/app/theme/sizes.dart';
+import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:common/presentation/tools/link_tap_handler.dart';
 import 'package:gpt_markdown/custom_widgets/unordered_ordered_list.dart';
-import 'package:gpt_markdown/gpt_markdown.dart';
 
 final class MarkdownScreen extends StatelessWidget {
   final String title;
@@ -24,7 +23,6 @@ final class MarkdownScreenContent extends StatelessWidget with LinkTapHandler {
 
   @override
   Widget build(BuildContext context) {
-    final mdTheme = Theme.of(context).extension<AppGptMarkdownTheme>()!;
     return SelectionArea(
       child: SingleChildScrollView(
         child: Padding(
@@ -34,19 +32,13 @@ final class MarkdownScreenContent extends StatelessWidget with LinkTapHandler {
             top: Sizes.indent2x,
             bottom: 2.0 * Sizes.indent4x,
           ),
-          child: GptMarkdownTheme(
-            gptThemeData: mdTheme.data,
-            child: GptMarkdown(
-              content,
-              style: const TextStyle(fontSize: TextSizes.normal),
-              orderedListBuilder: (context, no, child, config) =>
-                  OrderedListView(
-                    no: '$no.',
-                    textDirection: config.textDirection,
-                    style: config.style?.copyWith(fontWeight: FontWeight.w600),
-                    child: child,
-                  ),
-              onLinkTap: (url, title) => launchUrl(context, url: url),
+          child: GptMarkdownWidget(
+            md: content,
+            orderedListBuilder: (context, no, child, config) => OrderedListView(
+              no: '$no.',
+              textDirection: config.textDirection,
+              style: config.style?.copyWith(fontWeight: FontWeight.w600),
+              child: child,
             ),
           ),
         ),

@@ -74,6 +74,7 @@ final class Sizes {
   /// [iconTiny = 16.0]
   static const iconSmall = 16.0;
 
+  /// [iconMedium = 20.0]
   static const iconMedium = 20.0;
 
   /// [iconTiny = 12.0]
@@ -116,4 +117,12 @@ final class TextSizes {
 
   /// [error = 13.0]
   static const error = 13.0;
+}
+
+abstract interface class AppDurations {
+  static const short = Duration(milliseconds: 200);
+  static const medium = Duration(milliseconds: 300);
+  static const long = Duration(milliseconds: 500);
+  static const extraLong = Duration(seconds: 1);
+  static const extraLong2x = Duration(seconds: 2);
 }

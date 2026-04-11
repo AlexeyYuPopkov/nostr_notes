@@ -175,7 +175,7 @@ abstract class CommonLocalizations {
   /// No description provided for @commonNoDataPlaceholderText.
   ///
   /// In en, this message translates to:
-  /// **'No data'**
+  /// **'No data found'**
   String get commonNoDataPlaceholderText;
 
   /// No description provided for @commonCopied.
@@ -219,6 +219,24 @@ abstract class CommonLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get themeScreenLabelDark;
+
+  /// No description provided for @rawEventScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Raw event'**
+  String get rawEventScreenTitle;
+
+  /// No description provided for @rawEventScreenSectionTitleRelaysCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Relays ({count})'**
+  String rawEventScreenSectionTitleRelaysCount(String count);
+
+  /// No description provided for @rawEventScreenSectionTitleJson.
+  ///
+  /// In en, this message translates to:
+  /// **'JSON'**
+  String get rawEventScreenSectionTitleJson;
 }
 
 class _CommonLocalizationsDelegate

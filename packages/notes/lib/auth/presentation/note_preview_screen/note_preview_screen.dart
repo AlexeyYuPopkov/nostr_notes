@@ -1,28 +1,25 @@
 import 'package:common/l10n/localization.dart';
+import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gpt_markdown/gpt_markdown.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:common/app/theme/sizes.dart';
-import 'package:common/app/theme/gpt_markdown_theme_data.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/tools/note_decrypt_error_message_mixin.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_bloc.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
-import 'package:nostr_notes/auth/presentation/note_preview_screen/widgets/note_code_field.dart';
+import 'package:common/presentation/widgets/markdown/note_code_field.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
-import 'package:common/presentation/tools/link_tap_handler.dart';
 
 import 'bloc/note_preview_event.dart';
 
-final class NotePreviewScreen extends StatelessWidget
-    with DialogHelper, LinkTapHandler {
+final class NotePreviewScreen extends StatelessWidget with DialogHelper {
   final PathParams pathParams;
 
   NotePreviewScreen({super.key, required this.pathParams});
@@ -60,6 +57,11 @@ final class NotePreviewScreen extends StatelessWidget
                     padding: const EdgeInsets.only(left: Sizes.indent2x),
                     alignment: Alignment.centerRight,
                   ),
+                _InfoButton(
+                  onPressed: note == null || state is CannotDecryptState
+                      ? null
+                      : () => _onInfo(context, note.eventId),
+                ),
                 _EditButton(
                   onPressed: note == null || state is CannotDecryptState
                       ? null
@@ -87,19 +89,14 @@ final class NotePreviewScreen extends StatelessWidget
                                 Sizes.fabSize,
                           ),
                           child: SelectionArea(
-                            child: GptMarkdownTheme(
-                              gptThemeData: AppGptMarkdownTheme.light().data,
-                              child: GptMarkdown(
-                                content,
-                                codeBuilder: (context, name, code, closed) {
-                                  return NoteCodeField(name: name, codes: code);
-                                },
-                                highlightBuilder: (context, code, closed) {
-                                  return ShortNoteCodeField(codes: code);
-                                },
-                                onLinkTap: (title, href) =>
-                                    launchUrl(context, url: href),
-                              ),
+                            child: GptMarkdownWidget(
+                              md: content,
+                              codeBuilder: (context, name, code, closed) {
+                                return NoteCodeField(name: name, codes: code);
+                              },
+                              highlightBuilder: (context, code, closed) {
+                                return ShortNoteCodeField(codes: code);
+                              },
                             ),
                           ),
                         ),
@@ -122,6 +119,10 @@ final class NotePreviewScreen extends StatelessWidget
     context.read<NotePreviewBloc>().add(const NotePreviewEvent.refresh());
     await Future.delayed(Durations.extralong1);
   }
+
+  void _onInfo(BuildContext context, String eventId) {
+    RouteHandler.of(context)?.onRoute(RawEventRoute(eventId: eventId), context);
+  }
 }
 
 final class _EditButton extends StatelessWidget {
@@ -140,6 +141,26 @@ final class _EditButton extends StatelessWidget {
       ),
       onPressed: onPressed,
       child: Text(context.commonL10n.commonButtonEdit),
+    );
+  }
+}
+
+final class _InfoButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+  const _InfoButton({this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return CupertinoButton(
+      minimumSize: Size.zero,
+      padding: const EdgeInsets.all(Sizes.indent),
+      onPressed: onPressed,
+      child: Icon(
+        Icons.info_outline_rounded,
+        size: Sizes.iconMedium,
+        color: theme.colorScheme.onSurfaceVariant,
+      ),
     );
   }
 }

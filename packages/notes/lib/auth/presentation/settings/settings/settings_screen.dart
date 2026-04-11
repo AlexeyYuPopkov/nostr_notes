@@ -47,7 +47,7 @@ final class SettingsScreen extends StatelessWidget with DialogHelper {
                     return SettingsItemTile(
                       title: item.getTitle(context),
                       subtitle: item.getInfoText(context),
-                      titleTextColor: item.getTitleTextColor(context),
+                      titleTextColorBuilder: item.getTitleTextColor,
                       sectionTitle: item.getSectionTitle(context),
                       position: item.position,
                       trailing: item.trailing(context),
