@@ -12,15 +12,17 @@ import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_prev
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:nostr_notes/core/tools/optional_box.dart';
+import 'package:nostr_notes/services/outbox_publisher.dart';
 import 'package:rxdart/rxdart.dart';
 
 final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
-  static const debounceDuration = Duration(milliseconds: 200);
+  static const debounceGuard = Duration(milliseconds: 200);
   final PathParams pathParams;
   NotePreviewData get data => state.data;
   late final FetchNotesUsecase _fetchNotesUsecase = DiStorage.shared.resolve();
 
   late final GetNoteUsecase _getNoteUsecase = DiStorage.shared.resolve();
+  late final OutboxPublisher _outbox = DiStorage.shared.resolve();
   StreamSubscription? _getNoteSubscription;
   StreamSubscription? _fetchNoteSubscription;
 
@@ -49,18 +51,18 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
     on<ErrorEvent>(
       _onErrorEvent,
       transformer: (events, mapper) =>
-          events.debounceTime(debounceDuration).switchMap(mapper),
+          events.debounceTime(debounceGuard).switchMap(mapper),
     );
     on<NoteUpdatedEvent>(
       _onNoteUpdatedEvent,
       transformer: (events, mapper) =>
-          events.debounceTime(debounceDuration).switchMap(mapper),
+          events.debounceTime(debounceGuard).switchMap(mapper),
     );
 
     on<RefreshEvent>(
       _onRefreshEvent,
       transformer: (events, mapper) =>
-          events.debounceTime(debounceDuration).switchMap(mapper),
+          events.debounceTime(debounceGuard).switchMap(mapper),
     );
   }
 
@@ -106,6 +108,7 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   }
 
   void _onRefreshEvent(RefreshEvent event, Emitter<NotePreviewState> emit) {
+    _outbox.refresh();
     _setupSubscriptions();
   }
 }

@@ -11,6 +11,7 @@ import 'package:nostr_notes/auth/domain/usecase/get_pending_usecase.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/bloc/pending_vm.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
+import 'package:nostr_notes/services/outbox_publisher.dart';
 import 'package:rxdart/transformers.dart';
 
 import 'notes_list_data.dart';
@@ -19,13 +20,14 @@ import 'notes_list_state.dart';
 
 final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   static const errorStreamDebounce = Duration(milliseconds: 500);
+  static const debounceGuard = Duration(milliseconds: 200);
   NotesListData get data => state.data;
 
   final BuildContext Function() contextProvider;
 
   late final refreshButtonVm = RefreshButtonVm(
     onRefresh: () {
-      add(const NotesListEvent.initial());
+      add(const NotesListEvent.refresh());
     },
   );
 
@@ -35,6 +37,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     getPendingUsecase: DiStorage.shared.resolve<GetPendingUsecase>(),
   );
   late final DeleteNoteUsecase _deleteNoteUsecase = DiStorage.shared.resolve();
+  late final OutboxPublisher _outbox = DiStorage.shared.resolve();
 
   StreamSubscription? _fetchNotesSubscription;
   StreamSubscription? _getNotesSubscription;
@@ -63,6 +66,11 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     on<GetNotesEvent>(_onGetNotesEvent);
     on<ErrorEvent>(_onErrorEvent);
     on<DeleteNoteEvent>(_onDeleteNoteEvent);
+    on<RefreshEvent>(
+      _onRefreshEvent,
+      transformer: (events, mapper) =>
+          events.debounceTime(debounceGuard).switchMap(mapper),
+    );
   }
 
   void _setupSubscription() {
@@ -186,5 +194,10 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     } catch (e) {
       emit(NotesListState.error(e: e, data: data));
     }
+  }
+
+  void _onRefreshEvent(RefreshEvent event, Emitter<NotesListState> emit) {
+    _outbox.refresh();
+    add(const NotesListEvent.initial());
   }
 }

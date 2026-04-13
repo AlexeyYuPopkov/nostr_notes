@@ -58,30 +58,6 @@ final class RawEventScreenJson extends StatelessWidget {
                   ),
                 ),
                 CopyButton(vm: vm.copyJsonButtonVm),
-                // CupertinoButton(
-                //   onPressed: () => vm.copy(),
-                //   padding: EdgeInsets.zero,
-                //   minimumSize: .zero,
-                //   child: ValueListenableBuilder(
-                //     valueListenable: vm.isCopying,
-                //     builder: (context, isCopying, child) {
-                //       return AnimatedSwitcher(
-                //         duration: AppDurations.medium,
-                //         child: isCopying
-                //             ? Icon(
-                //                 Icons.check,
-                //                 size: Sizes.iconSmall,
-                //                 color: theme.colorScheme.primary,
-                //               )
-                //             : Icon(
-                //                 Icons.copy,
-                //                 size: Sizes.iconSmall,
-                //                 color: theme.colorScheme.onSurface,
-                //               ),
-                //       );
-                //     },
-                //   ),
-                // ),
               ],
             ),
             TweenAnimationBuilder<double>(

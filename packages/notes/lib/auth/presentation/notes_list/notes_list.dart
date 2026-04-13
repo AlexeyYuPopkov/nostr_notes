@@ -46,6 +46,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
 
   @override
   Widget build(BuildContext context) {
+    const refreshDisplacement = 80.0;
     final breakpoint = Breakpoint.activeBreakpointOf(context);
 
     return BlocProvider(
@@ -69,6 +70,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
             ),
             floatingActionButton: breakpoint.isSmall ? const Fab() : null,
             body: RefreshIndicator.adaptive(
+              displacement: refreshDisplacement,
               onRefresh: () async => _onRefresh(context),
               child: _List(
                 selectedNoteDTag: selectedNoteDTag,
@@ -84,7 +86,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
   }
 
   Future<void> _onRefresh(BuildContext context) {
-    context.read<NotesListBloc>().add(const NotesListEvent.initial());
+    context.read<NotesListBloc>().add(const NotesListEvent.refresh());
     return Future.delayed(Durations.extralong1);
   }
 }
@@ -128,10 +130,20 @@ final class _List extends StatelessWidget {
             if (section is NotesListHeader) {
               return NotesListSectionHeader(title: section.title);
             } else if (section is NotesListItem) {
+              final isSelected = section.note.dTag == selectedNoteDTag;
+              final nextSection = index + 1 < sections.length
+                  ? sections[index + 1]
+                  : null;
+
+              final isNextSelected =
+                  nextSection is NotesListItem &&
+                  nextSection.note.dTag == selectedNoteDTag;
+
               return NotesListCard(
                 pendingVm: bloc.pendingVm,
                 sectionItem: section,
-                selectedNoteDTag: selectedNoteDTag,
+                isSelected: isSelected,
+                isNextSelected: isNextSelected,
                 onTap: onTap,
                 onDelete: (note) => bloc.add(NotesListEvent.deleteNote(note)),
               );
@@ -162,26 +174,29 @@ final class _ShimmersListState extends State<_ShimmersList> {
     (_) {
       final breakpoint = Breakpoint.activeBreakpointOf(context);
 
+      final randomWidth =
+          _expectedWidth * (0.3 + (0.4 * (UniqueKey().hashCode % 1000) / 1000));
+
       if (breakpoint.isSmall) {
-        return _expectedWidth *
-            (0.3 + (0.4 * (UniqueKey().hashCode % 1000) / 1000));
+        return randomWidth;
       } else {
-        return LayoutConfig.maxBodyRatio *
-            _expectedWidth *
-            (0.3 + (0.4 * (UniqueKey().hashCode % 1000) / 1000));
+        return LayoutConfig.maxBodyRatio * randomWidth;
       }
     },
   );
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: _ShimmersList._placeholdersCount,
-      itemBuilder: (context, index) => NotesListCardShimmer(
-        randomWidth: _randomWidths[index],
-        position: ListItemPosition.fromIndex(
-          index,
-          length: _ShimmersList._placeholdersCount,
+    return Padding(
+      padding: const EdgeInsets.only(top: Sizes.indent4x),
+      child: ListView.builder(
+        itemCount: _ShimmersList._placeholdersCount,
+        itemBuilder: (context, index) => NotesListCardShimmer(
+          randomWidth: _randomWidths[index],
+          position: ListItemPosition.fromIndex(
+            index,
+            length: _ShimmersList._placeholdersCount,
+          ),
         ),
       ),
     );

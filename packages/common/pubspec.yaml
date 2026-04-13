@@ -30,7 +30,7 @@ dependencies:
   rxdart: ^0.28.0
   drift: ^2.32.1
   drift_flutter: ^0.3.0
-  connectivity_plus: ^7.0.0
+  connectivity_plus: ^7.1.1
 
   collection: ^1.19.0
   json_annotation: ^4.11.0

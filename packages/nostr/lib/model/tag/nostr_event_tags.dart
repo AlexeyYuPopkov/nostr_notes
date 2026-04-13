@@ -7,8 +7,12 @@ extension NostrEventTags on NostrEvent {
 
   String? getFirstTag(BaseTag tag) {
     final tagValue = tag.value;
+    return getFirstTagStr(tagValue);
+  }
+
+  String? getFirstTagStr(String tag) {
     for (final tags in this.tags) {
-      if (tags.firstOrNull == tagValue && tags.length >= 2) {
+      if (tags.firstOrNull == tag && tags.length >= 2) {
         return tags[1].isEmpty ? null : tags[1];
       }
     }

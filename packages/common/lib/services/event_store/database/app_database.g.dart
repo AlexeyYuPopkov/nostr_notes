@@ -1402,6 +1402,7 @@ class OutboxEventData extends DataClass implements Insertable<OutboxEventData> {
 
   /// JSON array of relay URLs that confirmed receipt
   final String? confirmedRelays;
+
   const OutboxEventData({
     required this.eventId,
     required this.status,

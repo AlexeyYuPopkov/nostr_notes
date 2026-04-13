@@ -11,6 +11,7 @@ import 'package:nostr_notes/core/tools/disposable.dart';
 import 'package:common/services/event_store/database/app_database.dart';
 import 'package:common/services/event_store/database/daos/outbox_dao_interface.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
+import 'package:rxdart/rxdart.dart';
 
 /// Watches the outbox table and publishes pending events to Nostr relays.
 ///
@@ -24,6 +25,7 @@ class OutboxPublisher implements Disposable {
     required RelaysListRepo relaysListRepo,
     required ChannelFactory channelFactory,
     required Connectivity connectivity,
+    this.connectivityDebounce = const Duration(seconds: 2),
   }) : _outboxDao = outboxDao,
        _rawEventStore = rawEventStore,
        _relaysListRepo = relaysListRepo,
@@ -35,22 +37,24 @@ class OutboxPublisher implements Disposable {
   final RelaysListRepo _relaysListRepo;
   final ChannelFactory _channelFactory;
   final Connectivity _connectivity;
+  final Duration connectivityDebounce;
 
   StreamSubscription<List<OutboxEventData>>? _subscription;
   StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
+  Timer? _retryTimer;
   bool _isProcessing = false;
   bool _isPaused = false;
   bool _isDisposing = false;
-  bool _isOffline = false;
+  // bool _isOffline = false;
 
-  static const _maxRetries = 5;
-  static const _retryDelays = [
-    Duration(seconds: 5),
-    Duration(seconds: 30),
-    Duration(minutes: 2),
-    Duration(minutes: 10),
-    Duration(minutes: 30),
-  ];
+  // static const _retryDelays = [
+  //   Duration(seconds: 3),
+  //   Duration(seconds: 6),
+  //   Duration(seconds: 12),
+  //   Duration(seconds: 20),
+  // ];
+
+  static const _retryDelay = Duration(seconds: 20);
 
   Future<void> init() async {
     // Cancel existing subscriptions to prevent memory leak on app resume
@@ -59,31 +63,32 @@ class OutboxPublisher implements Disposable {
     _isDisposing = false;
 
     // Check initial connectivity
-    final connectivityResult = await _connectivity.checkConnectivity();
-    _isOffline = connectivityResult.every((r) => r == ConnectivityResult.none);
+    // final connectivityResult = await _connectivity.checkConnectivity();
+    // _isOffline = connectivityResult.every((r) => r == ConnectivityResult.none);
 
-    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
-      _onConnectivityChanged,
-    );
+    _connectivitySubscription = _connectivity.onConnectivityChanged
+        .debounceTime(connectivityDebounce)
+        .listen(_onConnectivityChanged);
 
     _subscription = _outboxDao.watchUndelivered().listen(_onPendingEvents);
-    dev.log(
-      'OutboxPublisher initialized (offline: $_isOffline)',
-      name: 'OutboxPublisher',
-    );
+    // dev.log(
+    //   'OutboxPublisher initialized (offline: $_isOffline)',
+    //   name: 'OutboxPublisher',
+    // );
   }
 
   void _onConnectivityChanged(List<ConnectivityResult> results) {
-    final nowOffline = results.every((r) => r == ConnectivityResult.none);
+    refresh();
+    // final nowOffline = results.every((r) => r == ConnectivityResult.none);
 
-    if (nowOffline && !_isOffline) {
-      _isOffline = true;
-      dev.log('Network lost, pausing outbox', name: 'OutboxPublisher');
-    } else if (!nowOffline && _isOffline) {
-      _isOffline = false;
-      dev.log('Network restored, processing outbox', name: 'OutboxPublisher');
-      _processQueue();
-    }
+    // if (nowOffline && !_isOffline) {
+    //   _isOffline = true;
+    //   dev.log('Network lost, pausing outbox', name: 'OutboxPublisher');
+    // } else if (!nowOffline && _isOffline) {
+    //   _isOffline = false;
+    //   dev.log('Network restored, processing outbox', name: 'OutboxPublisher');
+    //   _processQueue();
+    // }
   }
 
   @override
@@ -107,7 +112,15 @@ class OutboxPublisher implements Disposable {
     _subscription = null;
     await _connectivitySubscription?.cancel();
     _connectivitySubscription = null;
+    _retryTimer?.cancel();
+    _retryTimer = null;
     dev.log('OutboxPublisher disposed', name: 'OutboxPublisher');
+  }
+
+  void refresh() {
+    _isPaused = false;
+    _subscription?.resume();
+    _processQueue();
   }
 
   void pause() {
@@ -130,14 +143,14 @@ class OutboxPublisher implements Disposable {
   }
 
   Future<void> _processQueue() async {
-    if (_isProcessing || _isPaused || _isDisposing || _isOffline) return;
+    if (_isProcessing || _isPaused || _isDisposing) return;
     _isProcessing = true;
 
     try {
       final pending = await _outboxDao.getPending();
 
       for (final item in pending) {
-        if (_isDisposing || _isPaused || _isOffline) break;
+        if (_isDisposing || _isPaused) break;
 
         try {
           await _publishEvent(item);
@@ -224,14 +237,19 @@ class OutboxPublisher implements Disposable {
       name: 'OutboxPublisher',
     );
 
-    if (attempts >= _maxRetries) {
-      await _outboxDao.markFailed(item.eventId, reason);
-    } else {
-      await _outboxDao.retryFailed(item.eventId);
+    await _outboxDao.retryFailed(item.eventId);
 
-      final delay = _retryDelays[attempts - 1];
-      Future.delayed(delay, _processQueue);
-    }
+    _retryTimer?.cancel();
+    _retryTimer = Timer(_retryDelay, _processQueue);
+
+    // if (attempts >= _maxRetries) {
+    //   await _outboxDao.markFailed(item.eventId, reason);
+    // } else {
+    //   await _outboxDao.retryFailed(item.eventId);
+
+    //   final delay = _retryDelays[attempts - 1];
+    //   Future.delayed(delay, _processQueue);
+    // }
   }
 
   /// Manually retry all failed events
@@ -261,6 +279,9 @@ class NoopOutboxPublisher implements OutboxPublisher, Disposable {
   Future<void> dispose() async {}
 
   @override
+  void refresh() {}
+
+  @override
   void pause() {}
 
   @override
@@ -279,9 +300,6 @@ class NoopOutboxPublisher implements OutboxPublisher, Disposable {
 
   @override
   bool _isDisposing = false;
-
-  @override
-  bool _isOffline = false;
 
   @override
   bool _isPaused = false;
@@ -326,4 +344,10 @@ class NoopOutboxPublisher implements OutboxPublisher, Disposable {
 
   @override
   RelaysListRepo get _relaysListRepo => throw UnimplementedError();
+
+  @override
+  Duration get connectivityDebounce => throw UnimplementedError();
+
+  @override
+  Timer? _retryTimer;
 }

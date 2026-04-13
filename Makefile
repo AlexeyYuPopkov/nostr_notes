@@ -17,10 +17,6 @@ del_imports:
 test:
 	melos exec --concurrency=1 -- flutter test --coverage
 	./print_coverage.sh
-
-coverage:
-	melos exec --concurrency=1 -- flutter test --coverage
-	./print_coverage.sh
 	mkdir -p coverage
 	for pkg in nostr common chat notes; do \
 		if [ -f packages/$$pkg/coverage/lcov.info ]; then \

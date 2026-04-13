@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:common/presentation/raw_event/raw_event_screen.dart';
+import 'package:common/presentation/raw_event/widgets/copy_button.dart';
+import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
 import 'package:common/services/event_store/database/app_database.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:di_storage/di_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostr/model/nostr_event.dart';
@@ -120,12 +126,65 @@ void main() {
       await tester.pump(const Duration(seconds: 1));
       await tester.pumpAndSettle();
 
+      expect(find.byType(CopyButton), findsNWidgets(3));
+
       expect(find.byType(RawEventScreen), findsOneWidget);
       expect(find.text('Raw event'), findsOneWidget);
       expect(find.text('Relays (2)'), findsOneWidget);
       expect(find.text(relay1Url), findsOneWidget);
       expect(find.text(relay2Url), findsOneWidget);
       expect(find.text('JSON'), findsOneWidget);
+      expect(find.byType(GptMarkdownWidget), findsOneWidget);
+      expect(find.byType(HighlightView), findsOneWidget);
+      final highlightView = tester.widget<HighlightView>(
+        find.byType(HighlightView),
+      );
+      expect(highlightView.source, contains('"content": "hello world"'));
+      final expectedEventJson =
+          const JsonDecoder().convert(highlightView.source)
+              as Map<String, dynamic>;
+      final event = NostrEvent.fromJson(expectedEventJson);
+      expect(event.content, 'hello world');
+
+      // Collapse the JSON section
+      await tester.tap(find.text('JSON'));
+      await tester.pumpAndSettle();
+      final collapsedOpacity = tester.widget<Opacity>(
+        find
+            .ancestor(
+              of: find.byType(GptMarkdownWidget),
+              matching: find.byType(Opacity),
+            )
+            .first,
+      );
+      expect(collapsedOpacity.opacity, equals(0.0));
+
+      // Expand the JSON section again
+      await tester.tap(find.text('JSON'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(HighlightView), findsOneWidget);
+      final expandedHighlightView = tester.widget<HighlightView>(
+        find.byType(HighlightView),
+      );
+      expect(
+        expandedHighlightView.source,
+        contains('"content": "hello world"'),
+      );
+
+      // // Tap the copy button — icon should switch to check
+      // await tester.tap(find.byType(CopyButton).last);
+      // await tester.pump();
+
+      // expect(find.byIcon(Icons.check), findsOneWidget);
+      // expect(find.byIcon(Icons.copy), findsNWidgets(2));
+
+      // // After extraLong2x (2s) the icon resets back to copy
+      // await tester.pump(const Duration(seconds: 2));
+      // await tester.pumpAndSettle();
+
+      // expect(find.byIcon(Icons.copy), findsOneWidget);
+      // expect(find.byIcon(Icons.check), findsNothing);
     });
   });
 }

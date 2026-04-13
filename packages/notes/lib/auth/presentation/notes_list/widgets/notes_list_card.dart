@@ -16,12 +16,14 @@ import '../../tools/note_decrypt_error_message_mixin.dart';
 
 final class NotesListCard extends StatelessWidget
     with DialogHelper, NoteDecryptErrorMessageMixin {
-  static const titleHeight = 24.0;
-  static const subtitleHeight = 16.0;
+  static const titleHeight = 26.0;
+  static const subtitleHeight = 18.0;
 
   final NotesListItem sectionItem;
   final PendingVm pendingVm;
-  final String? selectedNoteDTag;
+  final bool isSelected;
+  final bool isNextSelected;
+  // final String? selectedNoteDTag;
   final ValueChanged<Note> onTap;
   final ValueChanged<Note> onDelete;
 
@@ -29,17 +31,19 @@ final class NotesListCard extends StatelessWidget
     super.key,
     required this.sectionItem,
     required this.pendingVm,
-    required this.selectedNoteDTag,
+    required this.isSelected,
+    required this.isNextSelected,
     required this.onTap,
     required this.onDelete,
   });
 
   @override
   Widget build(BuildContext context) {
+    const lineHeight = 1.5;
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final commonL10n = context.commonL10n;
-    final isSelected = sectionItem.note.dTag == selectedNoteDTag;
+    // final isSelected = sectionItem.note.dTag == selectedNoteDTag;
     final hasDecryptError = sectionItem.note.error != null;
     final summary = hasDecryptError
         ? l10n.notePreviewCannotDecryptTitle
@@ -47,8 +51,16 @@ final class NotesListCard extends StatelessWidget
     final titleComponents = summary.split('\n');
     final title = titleComponents.firstOrNull?.trim() ?? '';
     final subtitle = titleComponents.length > 1
-        ? titleComponents[1].trim()
+        ? titleComponents
+              .skip(1)
+              .firstWhere(
+                (component) => component.trim().isNotEmpty,
+                orElse: () => '',
+              )
+              .trim()
         : '';
+    final needsSeparator =
+        sectionItem.position.needsSeparator() && !isSelected && !isNextSelected;
 
     return Container(
       clipBehavior: .hardEdge,
@@ -57,7 +69,6 @@ final class NotesListCard extends StatelessWidget
         color: isSelected
             ? theme.colorScheme.secondaryContainer
             : theme.colorScheme.outlineVariant,
-
         borderRadius: sectionItem.position.getRadius(),
         border: sectionItem.position.getBorder(
           theme.colorScheme.outline,
@@ -87,92 +98,111 @@ final class NotesListCard extends StatelessWidget
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.indent2x,
-              vertical: Sizes.indent,
+            padding: const EdgeInsets.only(
+              left: Sizes.indent2x,
+              top: Sizes.indent,
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    spacing: Sizes.halfIndent,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                          children: [
-                            TextSpan(text: title),
-                            if (subtitle.isNotEmpty) ...[
-                              const TextSpan(text: '\n'),
-                              TextSpan(
-                                text: subtitle,
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: theme.colorScheme.onSurfaceVariant,
-                                ),
-                              ),
-                            ],
-                          ],
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                border: needsSeparator
+                    ? Border(
+                        bottom: BorderSide(
+                          color: theme.colorScheme.outline,
+                          width: Sizes.thicknessHalf,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(
-                        height: subtitleHeight,
-                        child: Text(
-                          DateFormatter.formatDateTimeOrEmpty(
-                            sectionItem.note.createdAt,
+                      )
+                    : null,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      spacing: Sizes.halfIndent,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              height: lineHeight,
+                            ),
+                            children: [
+                              TextSpan(text: title),
+                              if (subtitle.isNotEmpty) ...[
+                                const TextSpan(text: '\n'),
+                                TextSpan(
+                                  text: subtitle,
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    color: theme.colorScheme.onSurfaceVariant,
+                                    height: lineHeight,
+                                  ),
+                                ),
+                              ],
+                            ],
                           ),
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
-                          maxLines: 1,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                if (hasDecryptError)
-                  CommonTooltip(
-                    title: l10n.notePreviewCannotDecryptTitle,
-                    message: buildDecryptErrorMessage(
-                      l10n: l10n,
-                      commonL10n: commonL10n,
-                      error: sectionItem.note.error,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: Sizes.indent),
-                      child: Icon(
-                        Icons.error_outline,
-                        size: Sizes.iconMedium,
-                        color: theme.colorScheme.error,
-                      ),
-                    ),
-                  ),
-                ValueListenableBuilder(
-                  valueListenable: pendingVm,
-                  builder: (context, value, child) {
-                    return Visibility(
-                      visible: pendingVm.isPending(sectionItem.note.eventId),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: Sizes.indent),
-                        child: CommonTooltip(
-                          title: context.l10n.notesListPendingSyncTitle,
-                          message: context.l10n.notesListPendingSyncDescription,
-                          child: const Icon(
-                            Icons.schedule,
-                            size: Sizes.iconSmall,
-                            color: Colors.amber,
+                        SizedBox(
+                          height: subtitleHeight,
+                          child: Text(
+                            DateFormatter.formatDateTimeOrEmpty(
+                              sectionItem.note.createdAt,
+                            ),
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              fontWeight: FontWeight.w400,
+                              color: theme.colorScheme.onSurfaceVariant,
+                              height: lineHeight,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
+                        SizedBox(height: Sizes.indent),
+                      ],
+                    ),
+                  ),
+                  if (hasDecryptError)
+                    CommonTooltip(
+                      title: l10n.notePreviewCannotDecryptTitle,
+                      message: buildDecryptErrorMessage(
+                        l10n: l10n,
+                        commonL10n: commonL10n,
+                        error: sectionItem.note.error,
                       ),
-                    );
-                  },
-                ),
-              ],
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: Sizes.indent),
+                        child: Icon(
+                          Icons.error_outline,
+                          size: Sizes.iconMedium,
+                          color: theme.colorScheme.error,
+                        ),
+                      ),
+                    ),
+                  ValueListenableBuilder(
+                    valueListenable: pendingVm,
+                    builder: (context, value, child) {
+                      return Visibility(
+                        visible: pendingVm.isPending(sectionItem.note.eventId),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: Sizes.indent),
+                          child: CommonTooltip(
+                            title: context.l10n.notesListPendingSyncTitle,
+                            message:
+                                context.l10n.notesListPendingSyncDescription,
+                            child: const Icon(
+                              Icons.schedule,
+                              size: Sizes.iconSmall,
+                              color: Colors.amber,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -214,7 +244,7 @@ final class NotesListCardShimmer extends StatelessWidget {
       child: InkWell(
         borderRadius: position.getRadius(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: Sizes.indent),
+          padding: const EdgeInsets.symmetric(vertical: Sizes.indentVariant2x),
           child: Column(
             spacing: Sizes.halfIndent,
             crossAxisAlignment: CrossAxisAlignment.start,
