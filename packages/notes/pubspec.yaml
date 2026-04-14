@@ -80,6 +80,7 @@ dependencies:
   collection: ^1.19.0
   rxdart: ^0.28.0
   di_storage: ^2.0.1
+  local_auth: ^3.0.1
 
 
   custom_adaptive_scaffold: ^2.0.2

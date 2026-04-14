@@ -3,7 +3,7 @@
     "notUnlocked": "The app is not unlocked",
     "notePreviewCannotDecryptTitle": "This note could not be decrypted",
     "notePreviewCannotDecryptDescription": "PIN/password is optional: notes without PIN remain fully NIP-44 compatible. This can happen due to a wrong PIN, data mismatch between devices, or corrupted/incomplete note data.",
-    "onboardingWelcomePageTitle": "Welcome to\nSecure Notes (Nostr)",
+    "onboardingWelcomePageTitle": "Welcome to\nPrivate Notes (Nostr)",
     "onboardingWelcomePageDescription": "Securely store short notes and passwords\n– encrypted, decentralized, just for you",
     "onboardingWelcomePageOptionMD1": "✏️ **Create** short notes and passwords",
     "onboardingWelcomePageOptionMD2": "🔐 **Encrypted** on your device",

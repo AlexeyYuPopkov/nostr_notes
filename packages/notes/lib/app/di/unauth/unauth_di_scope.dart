@@ -15,6 +15,8 @@ import 'package:nostr_notes/auth/domain/repo/pin_keyboard_type_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:common/data/error/error_messages_provider_impl.dart';
+import 'package:nostr_notes/common/data/app_lifecycle_listener_datasource.dart';
+import 'package:nostr_notes/common/data/biometric_datasource_impl.dart';
 import 'package:nostr_notes/common/data/key_tool_repository_impl.dart';
 import 'package:common/presentation/tools/root_context_provider/root_context_provider.dart';
 import 'package:nostr_notes/common/data/secure_storage_impl.dart';
@@ -22,6 +24,7 @@ import 'package:nostr_notes/common/domain/repository/key_tool_repository.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
+import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
 import 'package:nostr_notes/unauth/domain/blur_screen_usecase.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -117,6 +120,21 @@ final class UnauthDiScope extends DiScope {
       lifeTime: const LifeTime.single(),
       onRemove: (e) {
         if (e is BlurScreenUsecase) {
+          e.dispose();
+        }
+      },
+    );
+
+    di.bind<VerificationUsecase>(
+      () => VerificationUsecase(
+        biometricRepository: BiometricDatasourceImpl(),
+        appLifecycleListenerRepository: AppLifecycleListenerDatasource(),
+        authUsecase: di.resolve(),
+      ),
+      module: this,
+      lifeTime: const LifeTime.single(),
+      onRemove: (e) {
+        if (e is VerificationUsecase) {
           e.dispose();
         }
       },

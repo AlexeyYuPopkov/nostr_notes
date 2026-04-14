@@ -23,7 +23,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'PIN/password is optional: notes without PIN remain fully NIP-44 compatible. This can happen due to a wrong PIN, data mismatch between devices, or corrupted/incomplete note data.';
 
   @override
-  String get onboardingWelcomePageTitle => 'Welcome to\nSecure Notes (Nostr)';
+  String get onboardingWelcomePageTitle => 'Welcome to\nPrivate Notes (Nostr)';
 
   @override
   String get onboardingWelcomePageDescription =>

@@ -4,6 +4,7 @@ import 'package:common/l10n/localization.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
+import 'package:nostr_notes/common/presentation/blur_widget/verification_widget.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/app_theme.dart';
 import 'package:nostr_notes/app/router/app_router.dart';
@@ -89,7 +90,9 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
             debugShowCheckedModeBanner: false,
             builder: (context, child) {
               RootContextProvider.instance.setRootContext(context);
-              return child ?? const SizedBox.shrink();
+              return VerificationWidget(
+                child: child ?? const SizedBox.shrink(),
+              );
 
               // return StreamBuilder<BlurScreenState>(
               //   stream: _blurScreenUsecase.stateStream.distinct(),

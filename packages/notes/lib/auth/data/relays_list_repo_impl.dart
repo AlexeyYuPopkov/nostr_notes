@@ -7,7 +7,9 @@ final class RelaysListRepoImpl implements RelaysListRepo, Disposable {
   static const suggestedRelays = {
     'wss://relay.damus.io',
     'wss://nos.lol',
-    'wss://relay.snort.social',
+    // 'wss://relay.snort.social',
+    'wss://relay.primal.net',
+    'wss://purplepag.es',
   };
 
   final SharedPreferences _prefs;

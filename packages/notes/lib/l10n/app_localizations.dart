@@ -121,7 +121,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingWelcomePageTitle.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to\nSecure Notes (Nostr)'**
+  /// **'Welcome to\nPrivate Notes (Nostr)'**
   String get onboardingWelcomePageTitle;
 
   /// No description provided for @onboardingWelcomePageDescription.
