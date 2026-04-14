@@ -26,13 +26,12 @@ jobs:
           cache: true
 
       - name: Install dependencies
-        run: flutter pub get
-
-      # - name: Run tests                    
-      #   run: flutter test --coverage
+        run: |
+          dart pub global activate melos
+          melos bootstrap
 
       - name: Build Flutter iOS
-        run: flutter build ios --release --no-codesign
+        run: cd packages/notes && flutter build ios --release --no-codesign
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
