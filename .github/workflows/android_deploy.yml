@@ -58,7 +58,9 @@ jobs:
         run: dart pub global activate melos
 
       - name: Install dependencies
-        run: melos bootstrap
+        run: |
+          dart pub global activate melos
+          melos bootstrap
 
       - name: Build and deploy
         working-directory: packages/notes/android
