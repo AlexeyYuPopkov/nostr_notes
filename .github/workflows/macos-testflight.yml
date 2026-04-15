@@ -21,18 +21,21 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.38.7'
+          flutter-version: '3.41.6'
           channel: 'stable'
           cache: true
 
+      - name: Install melos
+        run: dart pub global activate melos
+
       - name: Install dependencies
-        run: flutter pub get
+        run: melos bootstrap
 
       - name: Install CocoaPods
         run: sudo gem install cocoapods
 
       - name: Create Flutter ephemeral files and run pod install
-        working-directory: macos
+        working-directory: packages/notes/macos
         run: |
           mkdir -p Flutter/ephemeral
           touch Flutter/ephemeral/FlutterInputs.xcfilelist
@@ -44,10 +47,10 @@ jobs:
         with:
           ruby-version: '3.2'
           bundler-cache: true
-          working-directory: macos
+          working-directory: packages/notes/macos
 
       - name: Install Fastlane
-        working-directory: macos
+        working-directory: packages/notes/macos
         run: |
           gem install bundler
           bundle install
@@ -64,7 +67,7 @@ jobs:
           sudo security import /tmp/AppleWWDRCAG6.cer -k /Library/Keychains/System.keychain || true
 
       - name: Deploy to TestFlight
-        working-directory: macos
+        working-directory: packages/notes/macos
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_ISSUER_ID }}

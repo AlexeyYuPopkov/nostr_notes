@@ -4,6 +4,7 @@
 #include <secp256k1.h>
 #include <secp256k1_ecdh.h>
 #include <cstring>
+#include <cstdlib>
 
 unsigned int deriveSharedKey(const unsigned char *privKey,
                              const unsigned char *pubKey,

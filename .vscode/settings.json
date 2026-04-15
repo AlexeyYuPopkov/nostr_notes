@@ -1,5 +1,6 @@
 {
     "files.associations": {
         "iostream": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp"
 }

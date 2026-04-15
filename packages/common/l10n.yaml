@@ -1,0 +1,4 @@
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-class: CommonLocalizations
+output-localization-file: common_localizations.dart

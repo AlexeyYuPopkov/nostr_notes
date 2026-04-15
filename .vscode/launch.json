@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug ",
+            "name": "Notes (debug)",
             "request": "launch",
             "type": "dart"
         },
@@ -20,6 +20,29 @@
             "name": "Profile",
             "request": "launch",
             "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "Release",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "program": "lib/main.dart"
+        },
+        {
+            "name": "Chat (debug)",
+            "request": "launch",
+            "type": "dart",
+            "program": "${workspaceFolder}/packages/chat/lib/main.dart",
+            "cwd": "${workspaceFolder}/packages/chat",
+            "flutterMode": "debug"
+        },
+        {
+            "name": "Chat (profile)",
+            "request": "launch",
+            "type": "dart",
+            "program": "${workspaceFolder}/packages/chat/lib/main.dart",
+            "cwd": "${workspaceFolder}/packages/chat",
             "flutterMode": "profile"
         }
     ]

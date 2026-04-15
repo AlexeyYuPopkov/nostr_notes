@@ -1,0 +1,31 @@
+import 'base_nostr_event.dart';
+
+final class NostrEventOk extends BaseNostrEvent {
+  final String relay;
+  final bool isOk;
+  final String eventId;
+  final String message;
+
+  const NostrEventOk({
+    required this.relay,
+    required this.isOk,
+    required this.eventId,
+    required this.message,
+  });
+
+  @override
+  EventType get eventType => EventType.ok;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is NostrEventOk &&
+        other.relay == relay &&
+        other.isOk == isOk &&
+        other.eventId == eventId &&
+        other.message == message;
+  }
+
+  @override
+  int get hashCode => Object.hash(relay, isOk, eventId, message);
+}
