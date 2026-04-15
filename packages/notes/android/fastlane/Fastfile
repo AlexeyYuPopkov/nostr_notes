@@ -23,7 +23,7 @@ platform :android do
     track_name = options[:track] || 'internal' # по умолчанию internal
 
     # Увеличиваем versionCode в pubspec.yaml
-    pubspec_path = "../../pubspec.yaml"
+    pubspec_path = "../pubspec.yaml"
     current_pubspec = File.read(pubspec_path)
     version_line = current_pubspec.match(/version: (.+)/)[1]
     
@@ -39,9 +39,9 @@ platform :android do
     File.write(pubspec_path, updated_pubspec)
     
     # Собираем AAB через Flutter
-    sh("flutter clean") # опционально, для чистой сборки
-    sh("flutter pub get")
-    sh("flutter build appbundle --release")
+    sh("cd .. && flutter clean") # опционально, для чистой сборки
+    sh("cd .. && flutter pub get")
+    sh("cd .. && flutter build appbundle --release")
     
     # Загружаем в Google Play (использует SUPPLY_JSON_KEY_FILE из env)
     upload_to_play_store(
