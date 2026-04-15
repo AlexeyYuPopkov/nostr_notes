@@ -21,29 +21,31 @@ jobs:
           java-version: 17
 
       - name: Download keystore
-        run: echo "${{ secrets.ANDROID_UPLOAD_KEYSTORE }}" | base64 -d > android/upload-keystore.jks
+        run: echo "${{ secrets.ANDROID_UPLOAD_KEYSTORE }}" | base64 -d > packages/notes/android/upload-keystore.jks
 
       - name: Copy keystore to app folder
-        run: cp android/upload-keystore.jks android/app/upload-keystore.jks
+        run: cp packages/notes/android/upload-keystore.jks packages/notes/android/app/upload-keystore.jks
 
       - name: Create key.properties
         run: |
-          echo "storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}" > android/key.properties
-          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
-          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
-          echo "storeFile=upload-keystore.jks" >> android/key.properties
+          echo "storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}" > packages/notes/android/key.properties
+          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> packages/notes/android/key.properties
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> packages/notes/android/key.properties
+          echo "storeFile=upload-keystore.jks" >> packages/notes/android/key.properties
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
           bundler-cache: true
+          working-directory: packages/notes/android
 
       - name: Install Fastlane
-        run: gem install fastlane
+        working-directory: packages/notes/android
+        run: bundle install
 
-      - name: 🔑 Setup Google Play credentials
-        run: echo '${{ secrets.ANDROID_JSON_KEY_DATA }}' > android/fastlane/play_store_credentials.json
+      - name: Setup Google Play credentials
+        run: echo '${{ secrets.ANDROID_JSON_KEY_DATA }}' > packages/notes/android/fastlane/play_store_credentials.json
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -52,24 +54,12 @@ jobs:
           channel: 'stable'
           cache: true
 
-      # - name: Install dependencies
-      #   run: flutter pub get
-      - name: Debug file structure
-        run: |
-          echo "Current directory:"
-          pwd
-          echo -e "\nFiles in root:"
-          ls -la
-          echo -e "\nLooking for pubspec.yaml:"
-          find . -name "pubspec.yaml" -type f
-          echo -e "\nAndroid folder contents:"
-          ls -la android/ || echo "android folder not found in root"
-          echo -e "\nFastlane folder contents:"
-          ls -la android/fastlane/ || echo "fastlane folder not found"
-        
+      - name: Install dependencies
+        run: melos bootstrap
+
       - name: Build and deploy
-        working-directory: ./android
-        run: fastlane deploy
+        working-directory: packages/notes/android
+        run: bundle exec fastlane deploy
         env:
           SUPPLY_JSON_KEY_FILE: fastlane/play_store_credentials.json
 
@@ -77,8 +67,7 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add pubspec.yaml
-          # 👇 Важно: берём версию из обновлённого pubspec.yaml
-          VERSION=$(grep 'version: ' pubspec.yaml | cut -d' ' -f2)
-          git commit -m "chore: bump version to $(grep 'version: ' pubspec.yaml | cut -d' ' -f2) [skip ci]"
+          git add packages/notes/pubspec.yaml
+          VERSION=$(grep 'version: ' packages/notes/pubspec.yaml | cut -d' ' -f2)
+          git commit -m "chore: bump version to $VERSION [skip ci]"
           git push
