@@ -54,7 +54,9 @@ final class NotePreviewScreen extends StatelessWidget with DialogHelper {
                 if (const AppPlatform().isDesktopLayout)
                   RefreshButton(
                     vm: context.read<NotePreviewBloc>().refreshButtonVm,
-                    padding: const EdgeInsets.only(left: Sizes.indent2x),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: Sizes.indent2x,
+                    ),
                     alignment: Alignment.centerRight,
                   ),
                 _InfoButton(
@@ -154,7 +156,10 @@ final class _InfoButton extends StatelessWidget {
     final theme = Theme.of(context);
     return CupertinoButton(
       minimumSize: Size.zero,
-      padding: const EdgeInsets.all(Sizes.indent),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Sizes.indent2x,
+        vertical: Sizes.indent,
+      ),
       onPressed: onPressed,
       child: Icon(
         Icons.info_outline_rounded,

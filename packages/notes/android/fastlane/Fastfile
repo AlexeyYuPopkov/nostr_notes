@@ -39,9 +39,9 @@ platform :android do
     File.write(pubspec_path, updated_pubspec)
     
     # Собираем AAB через Flutter
-    sh("cd .. && flutter clean") # опционально, для чистой сборки
-    sh("cd .. && flutter pub get")
-    sh("cd .. && flutter build appbundle --release")
+    sh("cd ../.. && flutter clean") # опционально, для чистой сборки
+    sh("cd ../.. && flutter pub get")
+    sh("cd ../.. && flutter build appbundle --release")
     
     # Загружаем в Google Play (использует SUPPLY_JSON_KEY_FILE из env)
     upload_to_play_store(
