@@ -185,12 +185,14 @@ final class NotesListCard extends StatelessWidget
                     builder: (context, value, child) {
                       return Visibility(
                         visible: pendingVm.isPending(sectionItem.note.eventId),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: Sizes.indent),
-                          child: CommonTooltip(
-                            title: context.l10n.notesListPendingSyncTitle,
-                            message:
-                                context.l10n.notesListPendingSyncDescription,
+                        child: CommonTooltip(
+                          title: context.l10n.notesListPendingSyncTitle,
+                          message: context.l10n.notesListPendingSyncDescription,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: Sizes.indent,
+                              vertical: Sizes.indent,
+                            ),
                             child: const Icon(
                               Icons.schedule,
                               size: Sizes.iconSmall,
