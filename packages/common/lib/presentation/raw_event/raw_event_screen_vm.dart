@@ -35,12 +35,11 @@ final class RawEventScreenVm extends ChangeNotifier {
 
   RawEventScreenVm({required this.eventId}) {
     _load();
-    _eventSubscription?.cancel();
     _eventSubscription = _fetchEventRepo
         .getEvents(eventId)
         .debounceTime(AppDurations.extraLong)
         .listen((event) {
-          _load();
+          _load(silent: true);
         });
   }
 
@@ -56,24 +55,44 @@ final class RawEventScreenVm extends ChangeNotifier {
 
   Future<void> reload() => _load();
 
-  Future<void> _load() async {
-    isLoading.value = true;
-    error = null;
-    notifyListeners();
+  Future<void> _load({bool silent = false}) async {
+    if (!silent) {
+      error = null;
+      isLoading.value = true;
+      notifyListeners();
+    }
+
+    var changed = false;
     try {
       final theEvent = await _repo.getEvent(eventId);
-      event.value = theEvent;
-      json.value = const JsonEncoder.withIndent(
-        '  ',
-      ).convert(theEvent.toJson());
-      copyJsonButtonVm = CopyButtonVM(json.value);
-      final relays = await _repo.getEventRelays(eventId);
-      this.relays = relays.sorted();
+
+      if (event.value?.id != theEvent.id) {
+        event.value = theEvent;
+        json.value = const JsonEncoder.withIndent(
+          '  ',
+        ).convert(theEvent.toJson());
+        copyJsonButtonVm = CopyButtonVM(json.value);
+        changed = true;
+      }
+
+      final relays = await _repo
+          .getEventRelays(eventId)
+          .then((e) => e.sorted());
+
+      if (!const ListEquality().equals(this.relays, relays)) {
+        this.relays = relays;
+        changed = true;
+      }
     } catch (e) {
       error = e;
+      changed = true;
     } finally {
-      isLoading.value = false;
-      notifyListeners();
+      if (!silent) {
+        isLoading.value = false;
+        notifyListeners();
+      } else if (changed) {
+        notifyListeners();
+      }
     }
   }
 
