@@ -1,12 +1,30 @@
 
+bootstrap:
+	melos bootstrap
+
+pubget:
+	melos exec --concurrency=1 -- flutter pub get
+
 codegen:
-	dart run build_runner build --delete-conflicting-outputs
+	melos exec --concurrency=1 -- dart run build_runner build --delete-conflicting-outputs
 
 l10n:
-	flutter gen-l10n
+	melos exec --concurrency=1 --file-exists=l10n.yaml -- flutter gen-l10n
 
 del_imports:
-	dart fix --apply --code=unnecessary_import  --code=unused_import
+	melos exec --concurrency=1 -- dart fix --apply --code=unnecessary_import  --code=unused_import
+
+test:
+	melos exec --concurrency=1 -- flutter test --coverage
+	./print_coverage.sh
+	mkdir -p coverage
+	for pkg in nostr common chat notes; do \
+		if [ -f packages/$$pkg/coverage/lcov.info ]; then \
+			sed "s|SF:|SF:packages/$$pkg/|g" packages/$$pkg/coverage/lcov.info > /tmp/lcov_$$pkg.info; \
+		fi; \
+	done
+	lcov $$(for pkg in nostr common chat notes; do [ -f /tmp/lcov_$$pkg.info ] && echo "-a /tmp/lcov_$$pkg.info"; done) -o coverage/lcov.info
+	@echo "Merged coverage written to coverage/lcov.info"
 
 relay_up:
 	bundle exec fastlane relay_up

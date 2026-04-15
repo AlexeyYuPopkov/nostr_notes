@@ -26,12 +26,12 @@ jobs:
           cache: true
 
       - name: Install dependencies
-        run: flutter pub get
-
-      # - name: Run tests                    
-      #   run: flutter test --coverage
+        run: |
+          dart pub global activate melos
+          melos bootstrap
 
       - name: Build Flutter iOS
+        working-directory: packages/notes
         run: flutter build ios --release --no-codesign
 
       - name: Setup Ruby
@@ -39,22 +39,22 @@ jobs:
         with:
           ruby-version: '3.2'
           bundler-cache: true
-          working-directory: ios
+          working-directory: packages/notes/ios
 
       - name: Install Fastlane
-        working-directory: ios
+        working-directory: packages/notes/ios
         run: |
           gem install bundler
           bundle install
 
       - name: Create API Key file
-        working-directory: ios
+        working-directory: packages/notes/ios
         run: |
           mkdir -p fastlane
           echo '${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64 }}' | base64 --decode > fastlane/AuthKey.p8
 
       - name: Deploy to TestFlight
-        working-directory: ios
+        working-directory: packages/notes/ios
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_ISSUER_ID }}
@@ -62,4 +62,3 @@ jobs:
           MATCH_PASSWORD: ${{ secrets.NOSTR_NOTES_MATCH_PASSWORD }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.NOSTR_NOTES_MATCH_GIT_BASIC_AUTHORIZATION }}
         run: bundle exec fastlane beta
-

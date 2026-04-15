@@ -23,10 +23,14 @@ jobs:
         with:
           flutter-version: '3.41.6' 
 
+      - name: Install melos
+        run: dart pub global activate melos
+
       - name: Install dependencies
-        run: flutter pub get
+        run: melos bootstrap
 
       - name: Build web
+        working-directory: packages/notes
         run: flutter build web --release
 
       # - name: Setup SSH key
@@ -38,7 +42,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           deploy_key: ${{ secrets.DEPLOY_GH_PAGES }}
-          publish_dir: ./build/web
+          publish_dir: ./packages/notes/build/web
           external_repository: AlexeyYuPopkov/AlexeyYuPopkov.github.io
           publish_branch: master   
           user_name: 'github-actions[bot]'
