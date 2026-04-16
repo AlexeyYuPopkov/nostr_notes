@@ -64,7 +64,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  generate: true 
+  generate: true
+  config:
+    enable-swift-package-manager: true 
 
   assets:
     - assets/images/
