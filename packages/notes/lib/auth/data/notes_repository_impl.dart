@@ -41,6 +41,15 @@ class NotesRepositoryImpl implements NotesRepository {
        _now = now;
 
   @override
+  void syncRelays(Set<String> newRelays) {
+    final current = _client.relaysList.toSet();
+    for (final removed in current.difference(newRelays)) {
+      _client.removeRelay(removed);
+    }
+    _client.addRelays(newRelays.difference(current));
+  }
+
+  @override
   Stream<List> get eventsStream => _client
       .stream()
       .whereType<NostrEventWithRelay>()

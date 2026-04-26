@@ -24,7 +24,7 @@ final class NostrClient {
   Iterable<String> get relays => _relays.values.map((e) => e.url);
   List<String> get relaysList => List.unmodifiable(relays);
 
-  StreamSubscription? _streamSubscription;
+  // StreamSubscription? _streamSubscription;
   late final _relaySubject = BehaviorSubject<Set<String>>.seeded({});
   final _relayErrorSubject = PublishSubject<RelayError>();
 
@@ -164,8 +164,8 @@ final class NostrClient {
   }
 
   Future<dynamic> disconnectAndDispose() {
-    _streamSubscription?.cancel();
-    _streamSubscription = null;
+    // _streamSubscription?.cancel();
+    // _streamSubscription = null;
     _relaySubject.close();
     _relayErrorSubject.close();
 
