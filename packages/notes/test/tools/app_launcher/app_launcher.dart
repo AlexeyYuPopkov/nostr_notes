@@ -29,11 +29,12 @@ final class AppLauncher {
           ],
           supportedLocales: Localization.supportedLocales,
           debugShowCheckedModeBanner: false,
-          // home: child,
-          builder: (context, _) {
-            RootContextProvider.instance.setRootContext(context);
-            return child;
-          },
+          home: Builder(
+            builder: (context) {
+              RootContextProvider.instance.setRootContext(context);
+              return child;
+            },
+          ),
         ),
       ),
     );

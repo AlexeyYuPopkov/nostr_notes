@@ -1,0 +1,142 @@
+[
+    {
+        "text": "https://google.com/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "- Утром пробежка 5 км\n- Днём работал над новым приложением\n- Вечером читал статьи по ML",
+        "class": "Journal"
+    },
+    {
+        "text": "1. Проснулся в 8:00, сделал зарядку\n2. Завтракал овсянкой\n3. Работал над проектом до обеда\n4. Вечером встретился с друзьями\n5. Прочитал пару глав книги перед сном",
+        "class": "Journal"
+    },
+    {
+        "text": "review app permissions on phone — revoke unused ones",
+        "class": "Security"
+    },
+    {
+        "text": "посчитать расходы за март",
+        "class": "Finance"
+    },
+    {
+        "text": "urgent: server is down, need to restart production ASAP",
+        "class": "Work"
+    },
+    {
+        "text": "water the plants, clean the balcony",
+        "class": "Personal"
+    },
+    {
+        "text": "# Trip to Thailand\n\n- Bangkok\n- Chiang Mai\n- Phuket\n\nCheck vaccination requirements.",
+        "class": "Travel"
+    },
+    {
+        "text": "## 2FA\nВключить двухфакторную аутентификацию на всех сервисах.\n\n## VPN\nИспользовать VPN в публичных Wi-Fi сетях.\n\n> Не хранить seed-фразы в облаке.",
+        "class": "Security"
+    },
+    {
+        "text": "Сегодня был насыщенный день: утром занимался спортом, потом работал над задачами по проекту, вечером встретился с родителями и долго разговаривали за ужином.",
+        "class": "Journal"
+    },
+    {
+        "text": "https://wikipedia.org/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "вечером гулял по набережной, думал над архитектурой приложения",
+        "class": "Personal"
+    },
+    {
+        "text": "set up automatic savings transfer — $200/month",
+        "class": "Finance"
+    },
+    {
+        "text": "wash windows, vacuum the carpet",
+        "class": "Personal"
+    },
+    {
+        "text": "Idea: a habit-tracking app with a home screen widget and push reminders.",
+        "class": "Work"
+    },
+    {
+        "text": "Обновить документацию по API",
+        "class": "Work"
+    },
+    {
+        "text": "Проверить резервные копии файлов",
+        "class": "Security"
+    },
+    {
+        "text": "найти жильё в Берлине на 5 ночей",
+        "class": "Travel"
+    },
+    {
+        "text": "* Проснулся поздно, пропустил завтрак\n* Весь день шёл дождь, работал из дома\n* Вечером играл в настольные игры с друзьями",
+        "class": "Journal"
+    },
+    {
+        "text": "https://dart.dev/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "check credit card statement for errors",
+        "class": "Finance"
+    },
+    {
+        "text": "call mom on Sunday",
+        "class": "Personal"
+    },
+    {
+        "text": "road trip plan: SF → LA → San Diego, rent car Friday",
+        "class": "Travel"
+    },
+    {
+        "text": "Собрать вещи для путешествия: паспорт, билеты, зарядка",
+        "class": "Travel"
+    },
+    {
+        "text": "Рассчитать расходы на отпуск",
+        "class": "Finance"
+    },
+    {
+        "text": "Enable disk encryption on the new laptop.\nSet up firewall rules.\n\n> Audit SSH keys monthly.",
+        "class": "Security"
+    },
+    {
+        "text": "https://youtube.com/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Rotate all API keys quarterly.\nUse a hardware key for GitHub.\n\n> Never reuse passwords across services.",
+        "class": "Work"
+    },
+    {
+        "text": "pay internet bill by Friday",
+        "class": "Finance"
+    },
+    {
+        "text": "Включить двухфакторную аутентификацию на почте",
+        "class": "Security"
+    },
+    {
+        "text": "ревью пулл-реквеста до обеда",
+        "class": "Work"
+    },
+    {
+        "text": "order new phone case from Amazon",
+        "class": "Personal"
+    },
+    {
+        "text": "https://medium.com/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "# Trip to Italy\n\n- Rome\n- Florence\n- Venice\n\nCheck if travel insurance is needed.",
+        "class": "Travel"
+    },
+    {
+        "text": "- Встал в 7:30, выпил кофе\n- Поехал на работу на велосипеде\n- После обеда прогулялся в парке\n- Вечером смотрел сериал и ел пиццу",
+        "class": "Journal"
+    }
+]

@@ -67,6 +67,8 @@ final class _HomeScreenState extends State<HomeScreen> {
     final isDesktop = screenWidth >= LayoutConfig.desktopScreenWidth;
     final drawerWidth = screenWidth * LayoutConfig.drawerRatio;
 
+    // log(drawerWidth.toString(), name: 'HomeScreen.build');
+
     return Scaffold(
       key: widget.scaffoldKey,
       endDrawer: SizedBox(

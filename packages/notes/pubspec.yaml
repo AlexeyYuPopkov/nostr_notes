@@ -81,6 +81,7 @@ dependencies:
   rxdart: ^0.28.0
   di_storage: ^2.0.1
   local_auth: ^3.0.1
+  drift: ^2.32.1
 
 
   custom_adaptive_scaffold: ^2.0.2
@@ -137,6 +138,7 @@ flutter:
   assets:
     - assets/images/
     - assets/wasm/crypto_module.wasm
+    - assets/ai/classification_model.bin
 
 simple_splash_view:
   background_color: "#FDFCF9"

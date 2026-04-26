@@ -1,6 +1,7 @@
 import 'package:common/l10n/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:nostr_notes/auth/domain/model/category.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
@@ -23,9 +24,9 @@ final class NotesListCard extends StatelessWidget
   final PendingVm pendingVm;
   final bool isSelected;
   final bool isNextSelected;
-  // final String? selectedNoteDTag;
   final ValueChanged<Note> onTap;
   final ValueChanged<Note> onDelete;
+  final Stream<Category> Function(Note) getSymbol;
 
   const NotesListCard({
     super.key,
@@ -35,6 +36,7 @@ final class NotesListCard extends StatelessWidget
     required this.isNextSelected,
     required this.onTap,
     required this.onDelete,
+    required this.getSymbol,
   });
 
   @override
@@ -43,22 +45,9 @@ final class NotesListCard extends StatelessWidget
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final commonL10n = context.commonL10n;
-    // final isSelected = sectionItem.note.dTag == selectedNoteDTag;
+
     final hasDecryptError = sectionItem.note.error != null;
-    final summary = hasDecryptError
-        ? l10n.notePreviewCannotDecryptTitle
-        : sectionItem.note.summary;
-    final titleComponents = summary.split('\n');
-    final title = titleComponents.firstOrNull?.trim() ?? '';
-    final subtitle = titleComponents.length > 1
-        ? titleComponents
-              .skip(1)
-              .firstWhere(
-                (component) => component.trim().isNotEmpty,
-                orElse: () => '',
-              )
-              .trim()
-        : '';
+
     final needsSeparator =
         sectionItem.position.needsSeparator() && !isSelected && !isNextSelected;
 
@@ -120,29 +109,10 @@ final class NotesListCard extends StatelessWidget
                       spacing: Sizes.halfIndent,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        RichText(
-                          text: TextSpan(
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              height: lineHeight,
-                            ),
-                            children: [
-                              TextSpan(text: title),
-                              if (subtitle.isNotEmpty) ...[
-                                const TextSpan(text: '\n'),
-                                TextSpan(
-                                  text: subtitle,
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    color: theme.colorScheme.onSurfaceVariant,
-                                    height: lineHeight,
-                                  ),
-                                ),
-                              ],
-                            ],
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                        _Title(
+                          sectionItem: sectionItem,
+                          getSymbol: getSymbol,
+                          onTap: () => onTap(sectionItem.note),
                         ),
                         SizedBox(
                           height: subtitleHeight,
@@ -225,6 +195,96 @@ final class NotesListCard extends StatelessWidget
   }
 }
 
+final class _Title extends StatelessWidget {
+  final NotesListItem sectionItem;
+  final Stream<Category> Function(Note) getSymbol;
+  final VoidCallback onTap;
+
+  const _Title({
+    required this.sectionItem,
+    required this.getSymbol,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    const lineHeight = 1.5;
+    final theme = Theme.of(context);
+    final l10n = context.l10n;
+
+    final hasDecryptError = sectionItem.note.error != null;
+
+    return StreamBuilder(
+      stream: getSymbol(sectionItem.note),
+      builder: (context, snapshot) {
+        final Category? category = snapshot.data;
+        final summary = hasDecryptError
+            ? l10n.notePreviewCannotDecryptTitle
+            : sectionItem.note.summary;
+        final titleComponents = summary.split('\n');
+
+        final title = category == null
+            ? titleComponents.firstOrNull?.trim() ?? ''
+            : '${category.symbol} ${titleComponents.firstOrNull?.trim() ?? ''}'
+                  .trim();
+
+        final subtitle = titleComponents.length > 1
+            ? titleComponents
+                  .skip(1)
+                  .firstWhere(
+                    (component) => component.trim().isNotEmpty,
+                    orElse: () => '',
+                  )
+                  .trim()
+            : '';
+
+        final richText = RichText(
+          text: TextSpan(
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              height: lineHeight,
+            ),
+            children: [
+              TextSpan(text: title),
+              if (subtitle.isNotEmpty) ...[
+                const TextSpan(text: '\n'),
+                TextSpan(
+                  text: subtitle,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w400,
+                    color: theme.colorScheme.onSurfaceVariant,
+                    height: lineHeight,
+                  ),
+                ),
+              ],
+            ],
+          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        );
+
+        return category == null
+            ? richText
+            : Stack(
+                children: [
+                  richText,
+                  CommonTooltip(
+                    title: category.getLocalizedName(context),
+                    message: '',
+                    margin: EdgeInsets.zero,
+                    onTap: onTap,
+                    child: SizedBox(
+                      height: Sizes.defaultRowHeight,
+                      width: Sizes.defaultRowHeight,
+                    ),
+                  ),
+                ],
+              );
+      },
+    );
+  }
+}
+
 final class NotesListCardShimmer extends StatelessWidget {
   static const double subtitleWidth = 70.0;
 
@@ -268,5 +328,29 @@ final class NotesListCardShimmer extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+extension on Category {
+  String getLocalizedName(BuildContext context) {
+    final l10n = context.l10n;
+    switch (name) {
+      case 'finance':
+        return l10n.classificationClassFinance;
+      case 'journal':
+        return l10n.classificationClassJournal;
+      case 'personal':
+        return l10n.classificationClassPersonal;
+      case 'security':
+        return l10n.classificationClassSecurity;
+      case 'travel':
+        return l10n.classificationClassTravel;
+      case 'work':
+        return l10n.classificationClassWork;
+      case 'bookmarks':
+        return l10n.classificationClassBookmarks;
+      default:
+        return l10n.classificationClassOther;
+    }
   }
 }

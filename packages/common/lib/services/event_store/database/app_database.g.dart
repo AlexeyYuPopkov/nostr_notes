@@ -1402,7 +1402,6 @@ class OutboxEventData extends DataClass implements Insertable<OutboxEventData> {
 
   /// JSON array of relay URLs that confirmed receipt
   final String? confirmedRelays;
-
   const OutboxEventData({
     required this.eventId,
     required this.status,
@@ -1688,6 +1687,295 @@ class OutboxEventsCompanion extends UpdateCompanion<OutboxEventData> {
   }
 }
 
+class $NoteClassProbabilitiesTable extends NoteClassProbabilities
+    with TableInfo<$NoteClassProbabilitiesTable, NoteClassProbabilityData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $NoteClassProbabilitiesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _eventIdMeta = const VerificationMeta(
+    'eventId',
+  );
+  @override
+  late final GeneratedColumn<String> eventId = GeneratedColumn<String>(
+    'event_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES nostr_events (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _probabilityMeta = const VerificationMeta(
+    'probability',
+  );
+  @override
+  late final GeneratedColumn<double> probability = GeneratedColumn<double>(
+    'probability',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [eventId, category, probability];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'note_class_probabilities';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<NoteClassProbabilityData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('event_id')) {
+      context.handle(
+        _eventIdMeta,
+        eventId.isAcceptableOrUnknown(data['event_id']!, _eventIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_eventIdMeta);
+    }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('probability')) {
+      context.handle(
+        _probabilityMeta,
+        probability.isAcceptableOrUnknown(
+          data['probability']!,
+          _probabilityMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_probabilityMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {eventId, category};
+  @override
+  NoteClassProbabilityData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return NoteClassProbabilityData(
+      eventId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}event_id'],
+      )!,
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      probability: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}probability'],
+      )!,
+    );
+  }
+
+  @override
+  $NoteClassProbabilitiesTable createAlias(String alias) {
+    return $NoteClassProbabilitiesTable(attachedDatabase, alias);
+  }
+}
+
+class NoteClassProbabilityData extends DataClass
+    implements Insertable<NoteClassProbabilityData> {
+  final String eventId;
+
+  /// Category name (e.g. 'finance', 'work', 'travel')
+  final String category;
+
+  /// Sigmoid probability in range [0, 1].
+  /// Only rows with probability >= kClassificationMinProbability are stored.
+  final double probability;
+  const NoteClassProbabilityData({
+    required this.eventId,
+    required this.category,
+    required this.probability,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['event_id'] = Variable<String>(eventId);
+    map['category'] = Variable<String>(category);
+    map['probability'] = Variable<double>(probability);
+    return map;
+  }
+
+  NoteClassProbabilitiesCompanion toCompanion(bool nullToAbsent) {
+    return NoteClassProbabilitiesCompanion(
+      eventId: Value(eventId),
+      category: Value(category),
+      probability: Value(probability),
+    );
+  }
+
+  factory NoteClassProbabilityData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return NoteClassProbabilityData(
+      eventId: serializer.fromJson<String>(json['eventId']),
+      category: serializer.fromJson<String>(json['category']),
+      probability: serializer.fromJson<double>(json['probability']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'eventId': serializer.toJson<String>(eventId),
+      'category': serializer.toJson<String>(category),
+      'probability': serializer.toJson<double>(probability),
+    };
+  }
+
+  NoteClassProbabilityData copyWith({
+    String? eventId,
+    String? category,
+    double? probability,
+  }) => NoteClassProbabilityData(
+    eventId: eventId ?? this.eventId,
+    category: category ?? this.category,
+    probability: probability ?? this.probability,
+  );
+  NoteClassProbabilityData copyWithCompanion(
+    NoteClassProbabilitiesCompanion data,
+  ) {
+    return NoteClassProbabilityData(
+      eventId: data.eventId.present ? data.eventId.value : this.eventId,
+      category: data.category.present ? data.category.value : this.category,
+      probability: data.probability.present
+          ? data.probability.value
+          : this.probability,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('NoteClassProbabilityData(')
+          ..write('eventId: $eventId, ')
+          ..write('category: $category, ')
+          ..write('probability: $probability')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(eventId, category, probability);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is NoteClassProbabilityData &&
+          other.eventId == this.eventId &&
+          other.category == this.category &&
+          other.probability == this.probability);
+}
+
+class NoteClassProbabilitiesCompanion
+    extends UpdateCompanion<NoteClassProbabilityData> {
+  final Value<String> eventId;
+  final Value<String> category;
+  final Value<double> probability;
+  final Value<int> rowid;
+  const NoteClassProbabilitiesCompanion({
+    this.eventId = const Value.absent(),
+    this.category = const Value.absent(),
+    this.probability = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  NoteClassProbabilitiesCompanion.insert({
+    required String eventId,
+    required String category,
+    required double probability,
+    this.rowid = const Value.absent(),
+  }) : eventId = Value(eventId),
+       category = Value(category),
+       probability = Value(probability);
+  static Insertable<NoteClassProbabilityData> custom({
+    Expression<String>? eventId,
+    Expression<String>? category,
+    Expression<double>? probability,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (eventId != null) 'event_id': eventId,
+      if (category != null) 'category': category,
+      if (probability != null) 'probability': probability,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  NoteClassProbabilitiesCompanion copyWith({
+    Value<String>? eventId,
+    Value<String>? category,
+    Value<double>? probability,
+    Value<int>? rowid,
+  }) {
+    return NoteClassProbabilitiesCompanion(
+      eventId: eventId ?? this.eventId,
+      category: category ?? this.category,
+      probability: probability ?? this.probability,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (eventId.present) {
+      map['event_id'] = Variable<String>(eventId.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (probability.present) {
+      map['probability'] = Variable<double>(probability.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('NoteClassProbabilitiesCompanion(')
+          ..write('eventId: $eventId, ')
+          ..write('category: $category, ')
+          ..write('probability: $probability, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -1697,6 +1985,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     this,
   );
   late final $OutboxEventsTable outboxEvents = $OutboxEventsTable(this);
+  late final $NoteClassProbabilitiesTable noteClassProbabilities =
+      $NoteClassProbabilitiesTable(this);
   late final Index idxNostrEventsKindCreatedAt = Index(
     'idx_nostr_events_kind_created_at',
     'CREATE INDEX idx_nostr_events_kind_created_at ON nostr_events (kind, created_at DESC)',
@@ -1719,6 +2009,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final NostrEventDao nostrEventDao = NostrEventDao(this as AppDatabase);
   late final OutboxDao outboxDao = OutboxDao(this as AppDatabase);
+  late final NoteClassProbabilitiesDao noteClassProbabilitiesDao =
+      NoteClassProbabilitiesDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1728,6 +2020,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     nostrTags,
     nostrEventRelays,
     outboxEvents,
+    noteClassProbabilities,
     idxNostrEventsKindCreatedAt,
     idxNostrEventsPubkeyCreatedAt,
     idxNostrTagsTagValue,
@@ -1749,6 +2042,15 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('nostr_event_relays', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'nostr_events',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [
+        TableUpdate('note_class_probabilities', kind: UpdateKind.delete),
+      ],
     ),
   ]);
 }
@@ -1817,6 +2119,34 @@ final class $$NostrEventsTableReferences
 
     final cache = $_typedResult.readTableOrNull(
       _nostrEventRelaysRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $NoteClassProbabilitiesTable,
+    List<NoteClassProbabilityData>
+  >
+  _noteClassProbabilitiesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.noteClassProbabilities,
+        aliasName: $_aliasNameGenerator(
+          db.nostrEvents.id,
+          db.noteClassProbabilities.eventId,
+        ),
+      );
+
+  $$NoteClassProbabilitiesTableProcessedTableManager
+  get noteClassProbabilitiesRefs {
+    final manager = $$NoteClassProbabilitiesTableTableManager(
+      $_db,
+      $_db.noteClassProbabilities,
+    ).filter((f) => f.eventId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _noteClassProbabilitiesRefsTable($_db),
     );
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
@@ -1920,6 +2250,32 @@ class $$NostrEventsTableFilterComposer
                 $removeJoinBuilderFromRootComposer,
           ),
     );
+    return f(composer);
+  }
+
+  Expression<bool> noteClassProbabilitiesRefs(
+    Expression<bool> Function($$NoteClassProbabilitiesTableFilterComposer f) f,
+  ) {
+    final $$NoteClassProbabilitiesTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.noteClassProbabilities,
+          getReferencedColumn: (t) => t.eventId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$NoteClassProbabilitiesTableFilterComposer(
+                $db: $db,
+                $table: $db.noteClassProbabilities,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 }
@@ -2058,6 +2414,32 @@ class $$NostrEventsTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> noteClassProbabilitiesRefs<T extends Object>(
+    Expression<T> Function($$NoteClassProbabilitiesTableAnnotationComposer a) f,
+  ) {
+    final $$NoteClassProbabilitiesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.noteClassProbabilities,
+          getReferencedColumn: (t) => t.eventId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$NoteClassProbabilitiesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.noteClassProbabilities,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$NostrEventsTableTableManager
@@ -2076,6 +2458,7 @@ class $$NostrEventsTableTableManager
           PrefetchHooks Function({
             bool nostrTagsRefs,
             bool nostrEventRelaysRefs,
+            bool noteClassProbabilitiesRefs,
           })
         > {
   $$NostrEventsTableTableManager(_$AppDatabase db, $NostrEventsTable table)
@@ -2142,12 +2525,17 @@ class $$NostrEventsTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({nostrTagsRefs = false, nostrEventRelaysRefs = false}) {
+              ({
+                nostrTagsRefs = false,
+                nostrEventRelaysRefs = false,
+                noteClassProbabilitiesRefs = false,
+              }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
                     if (nostrTagsRefs) db.nostrTags,
                     if (nostrEventRelaysRefs) db.nostrEventRelays,
+                    if (noteClassProbabilitiesRefs) db.noteClassProbabilities,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
@@ -2194,6 +2582,27 @@ class $$NostrEventsTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (noteClassProbabilitiesRefs)
+                        await $_getPrefetchedData<
+                          NostrEventData,
+                          $NostrEventsTable,
+                          NoteClassProbabilityData
+                        >(
+                          currentTable: table,
+                          referencedTable: $$NostrEventsTableReferences
+                              ._noteClassProbabilitiesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$NostrEventsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).noteClassProbabilitiesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.eventId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -2214,7 +2623,11 @@ typedef $$NostrEventsTableProcessedTableManager =
       $$NostrEventsTableUpdateCompanionBuilder,
       (NostrEventData, $$NostrEventsTableReferences),
       NostrEventData,
-      PrefetchHooks Function({bool nostrTagsRefs, bool nostrEventRelaysRefs})
+      PrefetchHooks Function({
+        bool nostrTagsRefs,
+        bool nostrEventRelaysRefs,
+        bool noteClassProbabilitiesRefs,
+      })
     >;
 typedef $$NostrTagsTableCreateCompanionBuilder =
     NostrTagsCompanion Function({
@@ -3085,6 +3498,314 @@ typedef $$OutboxEventsTableProcessedTableManager =
       OutboxEventData,
       PrefetchHooks Function()
     >;
+typedef $$NoteClassProbabilitiesTableCreateCompanionBuilder =
+    NoteClassProbabilitiesCompanion Function({
+      required String eventId,
+      required String category,
+      required double probability,
+      Value<int> rowid,
+    });
+typedef $$NoteClassProbabilitiesTableUpdateCompanionBuilder =
+    NoteClassProbabilitiesCompanion Function({
+      Value<String> eventId,
+      Value<String> category,
+      Value<double> probability,
+      Value<int> rowid,
+    });
+
+final class $$NoteClassProbabilitiesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $NoteClassProbabilitiesTable,
+          NoteClassProbabilityData
+        > {
+  $$NoteClassProbabilitiesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $NostrEventsTable _eventIdTable(_$AppDatabase db) =>
+      db.nostrEvents.createAlias(
+        $_aliasNameGenerator(
+          db.noteClassProbabilities.eventId,
+          db.nostrEvents.id,
+        ),
+      );
+
+  $$NostrEventsTableProcessedTableManager get eventId {
+    final $_column = $_itemColumn<String>('event_id')!;
+
+    final manager = $$NostrEventsTableTableManager(
+      $_db,
+      $_db.nostrEvents,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_eventIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$NoteClassProbabilitiesTableFilterComposer
+    extends Composer<_$AppDatabase, $NoteClassProbabilitiesTable> {
+  $$NoteClassProbabilitiesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get probability => $composableBuilder(
+    column: $table.probability,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$NostrEventsTableFilterComposer get eventId {
+    final $$NostrEventsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.eventId,
+      referencedTable: $db.nostrEvents,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$NostrEventsTableFilterComposer(
+            $db: $db,
+            $table: $db.nostrEvents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$NoteClassProbabilitiesTableOrderingComposer
+    extends Composer<_$AppDatabase, $NoteClassProbabilitiesTable> {
+  $$NoteClassProbabilitiesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get probability => $composableBuilder(
+    column: $table.probability,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$NostrEventsTableOrderingComposer get eventId {
+    final $$NostrEventsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.eventId,
+      referencedTable: $db.nostrEvents,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$NostrEventsTableOrderingComposer(
+            $db: $db,
+            $table: $db.nostrEvents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$NoteClassProbabilitiesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $NoteClassProbabilitiesTable> {
+  $$NoteClassProbabilitiesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<double> get probability => $composableBuilder(
+    column: $table.probability,
+    builder: (column) => column,
+  );
+
+  $$NostrEventsTableAnnotationComposer get eventId {
+    final $$NostrEventsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.eventId,
+      referencedTable: $db.nostrEvents,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$NostrEventsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.nostrEvents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$NoteClassProbabilitiesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $NoteClassProbabilitiesTable,
+          NoteClassProbabilityData,
+          $$NoteClassProbabilitiesTableFilterComposer,
+          $$NoteClassProbabilitiesTableOrderingComposer,
+          $$NoteClassProbabilitiesTableAnnotationComposer,
+          $$NoteClassProbabilitiesTableCreateCompanionBuilder,
+          $$NoteClassProbabilitiesTableUpdateCompanionBuilder,
+          (NoteClassProbabilityData, $$NoteClassProbabilitiesTableReferences),
+          NoteClassProbabilityData,
+          PrefetchHooks Function({bool eventId})
+        > {
+  $$NoteClassProbabilitiesTableTableManager(
+    _$AppDatabase db,
+    $NoteClassProbabilitiesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$NoteClassProbabilitiesTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$NoteClassProbabilitiesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$NoteClassProbabilitiesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> eventId = const Value.absent(),
+                Value<String> category = const Value.absent(),
+                Value<double> probability = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => NoteClassProbabilitiesCompanion(
+                eventId: eventId,
+                category: category,
+                probability: probability,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String eventId,
+                required String category,
+                required double probability,
+                Value<int> rowid = const Value.absent(),
+              }) => NoteClassProbabilitiesCompanion.insert(
+                eventId: eventId,
+                category: category,
+                probability: probability,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$NoteClassProbabilitiesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({eventId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (eventId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.eventId,
+                                referencedTable:
+                                    $$NoteClassProbabilitiesTableReferences
+                                        ._eventIdTable(db),
+                                referencedColumn:
+                                    $$NoteClassProbabilitiesTableReferences
+                                        ._eventIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$NoteClassProbabilitiesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $NoteClassProbabilitiesTable,
+      NoteClassProbabilityData,
+      $$NoteClassProbabilitiesTableFilterComposer,
+      $$NoteClassProbabilitiesTableOrderingComposer,
+      $$NoteClassProbabilitiesTableAnnotationComposer,
+      $$NoteClassProbabilitiesTableCreateCompanionBuilder,
+      $$NoteClassProbabilitiesTableUpdateCompanionBuilder,
+      (NoteClassProbabilityData, $$NoteClassProbabilitiesTableReferences),
+      NoteClassProbabilityData,
+      PrefetchHooks Function({bool eventId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -3097,4 +3818,9 @@ class $AppDatabaseManager {
       $$NostrEventRelaysTableTableManager(_db, _db.nostrEventRelays);
   $$OutboxEventsTableTableManager get outboxEvents =>
       $$OutboxEventsTableTableManager(_db, _db.outboxEvents);
+  $$NoteClassProbabilitiesTableTableManager get noteClassProbabilities =>
+      $$NoteClassProbabilitiesTableTableManager(
+        _db,
+        _db.noteClassProbabilities,
+      );
 }

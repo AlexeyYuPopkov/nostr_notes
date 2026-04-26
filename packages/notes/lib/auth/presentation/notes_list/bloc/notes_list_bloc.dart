@@ -3,6 +3,10 @@ import 'dart:developer';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/domain/model/category.dart';
+import 'package:nostr_notes/auth/domain/model/note.dart';
+import 'package:nostr_notes/auth/domain/usecase/calculate_classification_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/get_classification_usecase.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/auth/domain/usecase/delete_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
@@ -21,6 +25,7 @@ import 'notes_list_state.dart';
 final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   static const errorStreamDebounce = Duration(milliseconds: 500);
   static const debounceGuard = Duration(milliseconds: 200);
+  DiStorage get _di => DiStorage.shared;
   NotesListData get data => state.data;
 
   final BuildContext Function() contextProvider;
@@ -31,13 +36,20 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     },
   );
 
-  late final FetchNotesUsecase _fetchNotesUsecase = DiStorage.shared.resolve();
-  late final GetNotesUsecase _getNotesUsecase = DiStorage.shared.resolve();
+  late final FetchNotesUsecase _fetchNotesUsecase = _di.resolve();
+  late final GetNotesUsecase _getNotesUsecase = _di.resolve();
   late final pendingVm = PendingVm(
-    getPendingUsecase: DiStorage.shared.resolve<GetPendingUsecase>(),
+    getPendingUsecase: _di.resolve<GetPendingUsecase>(),
   );
-  late final DeleteNoteUsecase _deleteNoteUsecase = DiStorage.shared.resolve();
-  late final OutboxPublisher _outbox = DiStorage.shared.resolve();
+  late final DeleteNoteUsecase _deleteNoteUsecase = _di.resolve();
+  late final OutboxPublisher _outbox = _di.resolve();
+  late final GetClassificationUsecase _classification = _di.resolve();
+
+  Stream<Category> getSymbol(Note note) =>
+      _classification.getSymbol(note.eventId);
+
+  late final CalculateClassificationUsecase _calculateClassificationUsecase =
+      _di.resolve();
 
   StreamSubscription? _fetchNotesSubscription;
   StreamSubscription? _getNotesSubscription;
@@ -173,7 +185,12 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         event.notes,
         context.l10n,
       );
+
       emit(NotesListState.common(data: data.copyWith(sections: sections)));
+
+      for (final note in event.notes) {
+        _calculateClassificationUsecase.execute(note, force: false).ignore();
+      }
     } catch (e) {
       emit(NotesListState.error(e: e, data: data));
     } finally {

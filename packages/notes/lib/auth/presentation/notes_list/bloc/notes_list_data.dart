@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
-
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 
 final class NotesListData extends Equatable {
   final List<NotesListSection> sections;
+
   const NotesListData._({required this.sections});
 
   factory NotesListData.initial() {

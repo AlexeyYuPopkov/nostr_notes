@@ -1,0 +1,9 @@
+name: Dart Flutter MCP
+version: 0.0.1
+schema: v1
+mcpServers:
+  - name: dart
+    command: dart
+    args:
+      - mcp-server
+    env: {}

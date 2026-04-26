@@ -2,5 +2,6 @@
     "files.associations": {
         "iostream": "cpp"
     },
-    "cmake.sourceDirectory": "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp"
+    "cmake.sourceDirectory": "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp",
+    "specstory.cloudSync.enabled": "never"
 }

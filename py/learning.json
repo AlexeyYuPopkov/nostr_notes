@@ -1,0 +1,6042 @@
+[
+    {
+        "text": "# ⚡ Quick Notes\n\n- Buy a USB-C hub  \n- Backup laptop  \n- Renew domain name  \n- Call Alex about hosting  \n\n`todo: clean old relays`",
+        "class": "Personal"
+    },
+    {
+        "text": "# 🌍 Travel Plans\n\n## Japan\n- Tokyo\n- Kyoto\n- Osaka\n\n## Portugal\n- Lisbon\n- Porto\n\nRemember to check visa requirements.",
+        "class": "Travel"
+    },
+    {
+        "text": "# 📚 Reading List\n\n- Deep Work — Cal Newport  \n- The Almanack of Naval Ravikant  \n- Atomic Habits — James Clear  \n- The Psychology of Money — Morgan Housel\n\n> Idea: make notes while reading.",
+        "class": "Work"
+    },
+    {
+        "text": "# 💡 App Ideas — March 2026\n\n## Top Picks\n\n### 1. Mood Journal\nA minimal daily mood tracker with **color-coded** entries and weekly insights.\n\n- Simple one-tap logging\n- Beautiful gradient timeline\n- Optional AI-powered patterns\n\n### 2. Focus Timer\nA Pomodoro timer that *learns your productive hours*.\n\n- Tracks deep work streaks 🔥\n- Integrates with calendar\n- Ambient soundscapes (rain, café, forest)\n\n### 3. Recipe Box\nScan any recipe from a photo → structured card.\n\n---\n\n## Evaluation Matrix\n\n| Idea | Effort | Impact | Fun Factor |\n|------|--------|--------|------------|\n| Mood Journal | 🟢 Low | 🟡 Medium | 🟢 High |\n| Focus Timer | 🟡 Medium | 🟢 High | 🟡 Medium |\n| Recipe Box | 🔴 High | 🟢 High | 🟢 High |\n\n**Decision:** Start with *Mood Journal* — smallest scope, fastest MVP.",
+        "class": "Work"
+    },
+    {
+        "text": "# 📝 Daily Journal\n\n## Today\n- Worked on encrypted notes app\n- Improved UI for App Store screenshots\n- Tested relay sync\n\n## Tomorrow\n- Fix small layout issues\n- Prepare release build\n- Submit to Ap",
+        "class": "Work"
+    },
+    {
+        "text": "# 🔐 Security Notes\n\n## Encryption\nAll notes are encrypted **on device** before syncing.\n\n## Backup\n- Save your private key\n- Store recovery phrase securely\n\n## Reminder\n> If you control your keys, you control your data.",
+        "class": "Security"
+    },
+    {
+        "text": "# 🛠 work\n\n## Tools\n- VS Code\n- Flutter\n- Git\n- Docker\n\n## Shortcuts\n- `git status`\n- `git commit -m \"message\"`\n- `flutter run`\n\n> Keep environment simple and reproducible.",
+        "class": "Work"
+    },
+    {
+        "text": "# 🔐 My Nsecs\n\nAleks\n```\nnsec1c8wpdq83r5te79tcy3slxth4zjv2023fsykcgxcvk50gh67e9lusd06dmy\n```\n\nLeonov\n```\nnsec14x8a0eadlatvegphjh5deq9aa7ajzvldpukd5msvjkuaakuf7wnqf6nm6h\n```\n```\ndce0fabd51911a780130715bb4c247df2fe0fe0e1c53df6218fa1e4e041e60e0\n```\n\n0x\n```\nnsec165gu5pq9zakf8a2p9sfm97g4kaf66439crdjnl0592wd9en0588qcqrtzg\n```\n\n```\nnsec1fgdax6xskxrmuajugpsxagx9xt9dhxeudc9ecx8aruh5amu8pscqry5776\n```",
+        "class": "Security"
+    },
+    {
+        "text": "# 🔐 My Passwords\n\n> ⚠️ **Warning:** Never store real passwords in plain text. \n\n## Work Accounts\n\n### Email\n```\nj8$kL2#mNpQ9@xR\n```\n\n### Cloud Storage\n```\nTr0p!cal_Sunr1se#42\n```\n\n### VPN\n```\nGz&7vWn*Yf3bKm!q\n```\n\n### Banking App\n```\n$ecur3_V4ult_88&Zx\n```\n\n---\n\n## Password Strength Guide\n\n| Strength | Length | Example |\n|----------|--------|---------|\n| 🔴 Weak | < 8 | `pass123` |\n| 🟡 Medium | 8–12 | `Spr!ng2026` |\n| 🟢 Strong | 13–20 | `j8$kL2#mNpQ9@xR` |\n| 🔵 Fort Knox | 20+ | `5h&Tm*Lp!kR3@wQ9$zXv` |",
+        "class": "Security"
+    },
+    {
+        "text": "купить хлеб и молоко",
+        "class": "Personal"
+    },
+    {
+        "text": "сделать отчет по проекту",
+        "class": "Work"
+    },
+    {
+        "text": "приложение для заметок с AI",
+        "class": "Work"
+    },
+    {
+        "text": "срочно отправить договор",
+        "class": "Work"
+    },
+    {
+        "text": "рецепт борща",
+        "class": "Personal"
+    },
+    {
+        "text": "встреча с клиентом в 15:00",
+        "class": "Work"
+    },
+    {
+        "text": "купить батарейки и зубную пасту",
+        "class": "Personal"
+    },
+    {
+        "text": "заплатить за интернет до пятницы",
+        "class": "Finance"
+    },
+    {
+        "text": "выпить таблетку в 20:00",
+        "class": "Personal"
+    },
+    {
+        "text": "Build a habit tracker with SwiftUI",
+        "class": "Work"
+    },
+    {
+        "text": "вебинар по ML в 18:00",
+        "class": "Work"
+    },
+    {
+        "text": "buy milk, eggs, and avocados",
+        "class": "Personal"
+    },
+    {
+        "text": "сравнить тарифы по ипотеке",
+        "class": "Finance"
+    },
+    {
+        "text": "приложение для отслеживания воды",
+        "class": "Work"
+    },
+    {
+        "text": "записаться к стоматологу",
+        "class": "Personal"
+    },
+    {
+        "text": "Japan: book Shinkansen tickets",
+        "class": "Travel"
+    },
+    {
+        "text": "git push origin main",
+        "class": "Work"
+    },
+    {
+        "text": "позвонить маме в воскресенье",
+        "class": "Personal"
+    },
+    {
+        "text": "Review pull requests before 3pm",
+        "class": "Work"
+    },
+    {
+        "text": "заменить масло в машине",
+        "class": "Personal"
+    },
+    {
+        "text": "прочитать ‘Thinking, Fast and Slow’",
+        "class": "Work"
+    },
+    {
+        "text": "SSH config backup",
+        "class": "Work"
+    },
+    {
+        "text": "заметка: встретил Антона в кафе",
+        "class": "Personal"
+    },
+    {
+        "text": "купить подарок на день рождения",
+        "class": "Personal"
+    },
+    {
+        "text": "тренеровка в 7 утра — не проспать",
+        "class": "Personal"
+    },
+    {
+        "text": "сделать рассылку клиентам",
+        "class": "Work"
+    },
+    {
+        "text": "купить курицу и рис",
+        "class": "Personal"
+    },
+    {
+        "text": "finish landing page design",
+        "class": "Work"
+    },
+    {
+        "text": "проверить почту утром",
+        "class": "Work"
+    },
+    {
+        "text": "idea: voice notes with auto tags",
+        "class": "Work"
+    },
+    {
+        "text": "оплатить аренду до 10 числа",
+        "class": "Finance"
+    },
+    {
+        "text": "drink more water today",
+        "class": "Personal"
+    },
+    {
+        "text": "записать идеи для стартапа",
+        "class": "Work"
+    },
+    {
+        "text": "call John about API integration",
+        "class": "Work"
+    },
+    {
+        "text": "купить новый блокнот",
+        "class": "Personal"
+    },
+    {
+        "text": "gym at 19:00",
+        "class": "Personal"
+    },
+    {
+        "text": "позвонить в банк",
+        "class": "Finance"
+    },
+    {
+        "text": "fix bug with login flow",
+        "class": "Work"
+    },
+    {
+        "text": "забронировать отель в Стамбуле",
+        "class": "Travel"
+    },
+    {
+        "text": "read 10 pages before sleep",
+        "class": "Work"
+    },
+    {
+        "text": "вынести мусор",
+        "class": "Personal"
+    },
+    {
+        "text": "update dependencies",
+        "class": "Work"
+    },
+    {
+        "text": "сделать резервную копию файлов",
+        "class": "Security"
+    },
+    {
+        "text": "brainstorm app names",
+        "class": "Work"
+    },
+    {
+        "text": "приготовить ужин",
+        "class": "Personal"
+    },
+    {
+        "text": "schedule dentist appointment",
+        "class": "Personal"
+    },
+    {
+        "text": "купить продукты на неделю: курица, овощи, рис, йогурт; не забыть посмотреть акции в магазине рядом",
+        "class": "Personal"
+    },
+    {
+        "text": "prepare slides for Monday demo, include new onboarding flow and metrics from last sprint",
+        "class": "Work"
+    },
+    {
+        "text": "сходить в зал вечером, сделать кардио + немного силовой, не пропускать как в прошлый раз",
+        "class": "Personal"
+    },
+    {
+        "text": "idea: build a minimal notes app with end-to-end encryption and offline-first sync",
+        "class": "Work"
+    },
+    {
+        "text": "оплатить интернет и мобильную связь до конца недели, проверить баланс карты",
+        "class": "Finance"
+    },
+    {
+        "text": "book flights to Berlin and check hotel options near city center",
+        "class": "Travel"
+    },
+    {
+        "text": "прочитать хотя бы 20 страниц книги перед сном, продолжить с текущей главы",
+        "class": "Work"
+    },
+    {
+        "text": "clean up workspace, sort cables, throw away old papers and organize desk",
+        "class": "Personal"
+    },
+    {
+        "text": "разобраться с багом в авторизации, иногда не приходит токен после логина",
+        "class": "Work"
+    },
+    {
+        "text": "backup important files to external drive and double-check encryption is enabled",
+        "class": "Security"
+    },
+    {
+        "text": "позвонить родителям вечером и обсудить планы на выходные",
+        "class": "Personal"
+    },
+    {
+        "text": "review pull requests and leave comments before end of day",
+        "class": "Work"
+    },
+    {
+        "text": "купить подарок на день рождения, посмотреть варианты онлайн и в торговом центре",
+        "class": "Personal"
+    },
+    {
+        "text": "schedule meeting with designer to discuss new UI improvements",
+        "class": "Work"
+    },
+    {
+        "text": "записаться к стоматологу на следующую неделю, желательно утром",
+        "class": "Personal"
+    },
+    {
+        "text": "think about monetization strategy for the app, maybe subscriptions or one-time purchase",
+        "class": "Work"
+    },
+    {
+        "text": "сравнить предложения по кредитам и выбрать самый выгодный вариант",
+        "class": "Finance"
+    },
+    {
+        "text": "plan weekend trip: check weather, pack essentials, and map out places to visit",
+        "class": "Travel"
+    },
+    {
+        "text": "update project dependencies and make sure nothing breaks in production",
+        "class": "Work"
+    },
+    {
+        "text": "приготовить ужин: паста с овощами, попробовать новый рецепт из интернета",
+        "class": "Personal"
+    },
+    {
+        "text": "Сегодня купить в магазине: гречку, куриное филе, помидоры, огурцы, сметану и зелёный чай. Не забыть про скидочную карту.",
+        "class": "Personal"
+    },
+    {
+        "text": "Заплатить за коммуналку до 25 числа, иначе пени. Также проверить, не пришёл ли счёт за вывоз мусора — в прошлом месяце потерял квитанцию.",
+        "class": "Finance"
+    },
+    {
+        "text": "Принимать витамин D каждый день после завтрака, а магний — перед сном. Поставить напоминание на телефоне, чтобы не пропускать.",
+        "class": "Personal"
+    },
+    {
+        "text": "Idea for an app: a voice-powered daily stand-up bot for remote teams. It asks 3 questions, transcribes answers, and posts them to Slack automatically.",
+        "class": "Work"
+    },
+    {
+        "text": "Завтра в 10:00 созвон с командой по поводу релиза. Подготовить демо новых фильтров в отчётах и список багов, которые ещё не починили.",
+        "class": "Work"
+    },
+    {
+        "text": "Pick up dry cleaning, buy dish soap and sponges, and don’t forget to return the library book — it’s due on Saturday.",
+        "class": "Work"
+    },
+    {
+        "text": "Пополнить ИИС на 50 тысяч до конца квартала. Ещё подумать над переводом части накоплений в ОФЗ — ставки сейчас хорошие.",
+        "class": "Finance"
+    },
+    {
+        "text": "Pet project: minimalist expense tracker with no ads, just CSV export and a pie chart. Maybe add receipt scanning via ML Kit.",
+        "class": "Work"
+    },
+    {
+        "text": "Записаться к терапевту на четверг, чтобы взять направление на анализы крови. Также не забыть спросить про прививку от гриппа.",
+        "class": "Personal"
+    },
+    {
+        "text": "Portugal trip: rent a car in Lisbon for 3 days, book a hostel in Porto near the river, and learn basic Portuguese phrases like ‘uma cerveja, por favor’.",
+        "class": "Travel"
+    },
+    {
+        "text": "Добавить в .bashrc алиас для быстрого переключения между версиями Python. И обновить документацию по запуску проекта в Docker.",
+        "class": "Work"
+    },
+    {
+        "text": "В выходные разобрать шкаф: отдать ненужную одежду в благотворительный фонд, а старые журналы — в макулатуру.",
+        "class": "Personal"
+    },
+    {
+        "text": "Meeting with the design team at 2 PM to review the new user flow. Bring feedback from user testing and suggest two alternatives for the onboarding screen.",
+        "class": "Work"
+    },
+    {
+        "text": "Поменять резину на зимнюю в сервисе на Юго-Западной. Заодно попросить проверить уровень тормозной жидкости и давление в шинах.",
+        "class": "Personal"
+    },
+    {
+        "text": "Start reading ‘The Pragmatic Programmer’ — especially the chapter on debugging and the one on automation. Make notes in Obsidian.",
+        "class": "Work"
+    },
+    {
+        "text": "Настроить автоматический бэкап всех докер-томов на внешний диск по крону раз в неделю. Команду для восстановления тоже записать.",
+        "class": "Work"
+    },
+    {
+        "text": "Сегодня странный день: сначала забыл кофе на кухне, потом встретил бывшего коллегу в метро. Ещё написал странный пост в телеграм — удалить завтра утром.",
+        "class": "Personal"
+    },
+    {
+        "text": "Купить кошачий корм и наполнитель для лотка, а ещё новую игрушку-удочку — старая сломалась. Коту тоже нужно радовать.",
+        "class": "Personal"
+    },
+    {
+        "text": "Пробежка 5 км в парке, затем растяжка 15 минут. После — холодный душ. Вечером не есть углеводы, только белок и овощи.",
+        "class": "Personal"
+    },
+    {
+        "text": "Подготовить коммерческое предложение для клиента из Дубая. Добавить кейс с прошлого года и выделить преимущества интеграции с их CRM.",
+        "class": "Work"
+    },
+    {
+        "text": "реализовать простую нейросеть для классификации заметок по темам, используя PyTorch. Собрать небольшой датасет из своих заметок и протестировать разные архитектуры.",
+        "class": "Work"
+    },
+    {
+        "text": "Implement a simple neural network for classifying notes by topic using PyTorch. Collect a small dataset of your notes and test different architectures.",
+        "class": "Work"
+    },
+    {
+        "text": "https://www.ansys.com/-/media/ansys/corporate/resourcelibrary/techbrief/ab-hfss-open-regions.pdf\n\nhttps://www.cvent.com/events/ansys-learning-hub-subscription-ansys-uk-ltd-uk-pounds-/registration-0cadd39ed18844a9b58f66864be2485e.aspx?fqp=true",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://data.eefocus.com/myspace/0/1227/bbs/1197618892/ed79cff9.pdf\n\nhttp://on-demand.gputechconf.com/gtc/2015/presentation/S5183-Hsueh-Yung-Chao.pdf",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Modules:\nhttps://edit.theappbusiness.com/modular-ios-splitting-a-workspace-into-modules-331293f1090\n\nimage recognition iOS\nimage\nhttps://medium.freecodecamp.org/ios-coreml-vision-image-recognition-3619cf319d0b\ntext\nhttps://developers.google.com/vision/ios/text-overview\n\n\nUpwork\n\nПошаговый план старта на Upwork\nhttps://habr.com/post/337136/\nhttps://habr.com/post/337200/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Преобразование и излучение электромагнитных волн открытыми резонансными структурами. Моделирование и анализ переходных и установившихся процессов\nПреобразование и излучение электромагнитных волн открытыми резонансными структурами. Моделирование и анализ переходных и установившихся процессов\n",
+        "class": "Personal"
+    },
+    {
+        "text": "FTDT\n\nhttp://u9262604.beget.tech/menu/menu1.php",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://moneybalance.biz/api/users?__method=doLogin\"\nhttps://stackoverflow.com/questions/56955595/1103-error-domain-nsurlerrordomain-code-1103-resource-exceeds-maximum-size-i\nПривет.\nGET  /api/users?__method=doLogin\nКак я понял параметры email и password должны находиться в body. Мне это показалось странным, поскольку, в первый раз вижу чтобы в методе GET в body что-то было. Но в любом случае, сейчас так уже делать нельзя. Поскольку:\nhttps://stackoverflow.com/questions/56955595/1103-error-domain-nsurlerrordomain-code-1103-resource-exceeds-maximum-size-i\nТаким образом, надо, либо переделать на POST, либо, попробывать  передавать email и password в заголовках. Но обычно делают POST\n\nНу, и пару дополнительных вопросов:\n- нужна ли клиентская валидация email и password ? хотя-бы минимальное кол-во символов на пароль и какое-нибудь простенькое регулярное выражение на почту..\n- какие ошибка будут приходить, если неправильный пароль (если юзер не найден — по-видимому — 404 ?)",
+        "class": "Work"
+    },
+    {
+        "text": "MAC Address:\t40:6c:8f:15:5d:7b",
+        "class": "Work"
+    },
+    {
+        "text": "WebRTC https://link.medium.com/1egF408Jn5",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "UI performance\n\nhttps://habr.com/ru/company/vk/blog/481626/\n\nhttps://sohabr.net/habr/post/264817/\n\nhttps://temofeev.ru/info/articles/slozhnye-otobrazheniya-kollektsiy-v-ios-problemy-i-resheniya-na-primere-lenty-vkontakte/\n",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "KGZ\n\nflutter format --set-exit-if-changed  lib test\n\nhttps://cbk-private.st.by:8441/\nhttps://cbk-private.st.by:8442/\n\nLogin flow\nhttps://gitlab.st.by/omp/kgz-bank-flutter/-/wikis/Auth-Flow\n\ntest.app.loc\n\nkibana\nhttp://tenge-es-n1.st.by:5601/app/kibana#/discover\n\nhttps://cbk-backoffice.st.by:8441/login\nsupervisor  123456\n\ndev_st\nteampassword\n\nPOSTMAN:\nst.mobile\n123/*---\n\nAPM\nsupervisor\n123456\n\nТестовые данные\n996777444555 Pp123/*--- есть такой юзер с продуктами\nhttps://cbk-wiki.st.by/pages/viewpage.action?pageId=11700912\n\n* \t\t996554976767\n* \t\t996770599155\n* \t\t996777444555\n* * \t\t996777777777\n\n\nпароль '123456' был у всех\n\nhttps://cbk-wiki.st.by/pages/viewpage.action?pageId=11700912\n\nhttps://cbk-private.st.by:8441/ Login: 996770599155 Passw: 123456\n\nhttps://cbk-private.st.by:8442/svc-common-otp/v1/unauthorized-api/debug/code?identityType=SMS&identity=996555691100\n\nhttps://cbk-private.st.by:8442/svc-common-otp/v1/unauthorized-api/debug/code?identityType=SMS&identity=996770599155\n\nCircularProgressIndicator\n\n\nflutter packages pub run build_runner build --delete-conflicting-outputs\n\nhttps://cbk-wiki.st.by\n\n\nZeplin (Mobile):\nhttps://zpl.io/2jNGqr6\n \nWiki:\nhttps://cbk-wiki.st.by/pages/viewpage.action?pageId=4622010\n\n\nhttps://medium.com/flutter-community/flutter-deep-dive-gestures-c16203b3434f\n\n\nhttps://dart.dev/guides/language/effective-dart/usage\n\nhttps://stackoverflow.com/questions/54765307/textfield-on-change-call-api-how-to-throttle-this\n\nhttps://habr.com/ru/post/442282/\n \n\nhttp://habrparser.blogspot.com/2021/02/future.html\n\n\nhttps://github.com/felangel/bloc/tree/master/packages/flutter_bloc\n\nhttps://medium.com/flutter-community/flutter-todos-tutorial-with-flutter-bloc-d9dd833f9df3\n\nhttps://dev.to/theotherdevs/mastering-flutter-bloc-pattern-for-login-part-1-432f\n\nflutter run --dart-define=PROXY_IP=127.0.0.1 --dart-define=PROXY_PORT=8888 --dart-define=MODE=prod\n\n\nPp123/*--- привет\n+99\n\t\nДля связывания\n13:15\n+996700000002 Pp123/*--- кандидат\nUniversal-Links-iOS\nhttps://gitlab.st.by/omp/kgz-bank-flutter/-/wikis/Universal-Links-iOS",
+        "class": "Security"
+    },
+    {
+        "text": "## Понедельник\n- утром созвон с командой\n- днём разобрался с багом в пуш-уведомлениях\n- вечером читал про SwiftUI анимации\n\n## Вторник\n- написал юнит-тесты для авторизации\n- поругался с PM из-за сроков",
+        "class": "Work"
+    },
+    {
+        "text": "1. Проснулся в 7, сделал зарядку\n2. Встреча с заказчиком — всё прошло хорошо\n3. Вечером ходил в кино с Максом\n4. Перед сном дочитал главу",
+        "class": "Journal"
+    },
+    {
+        "text": "Work: Deploy backend service to AWS using Docker Compose.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: API integration with Stripe completed, all endpoints tested.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: git merge feature/login && resolve all conflicts before deploy.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Investigate 500 error in production logs after last release.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Set up CI/CD pipeline for automated testing and deployment.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Review pull request: refactor authentication middleware.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Update Dockerfile to use Python 3.11 base image.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Discuss API versioning strategy with the team.",
+        "class": "Work"
+    },
+    {
+        "text": "Finance: Paid $1200 for rent and $80 for utilities this month.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Transferred €500 to investment account, bought AAPL shares.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Credit card statement: $350 groceries, $45 subscriptions.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Calculated monthly budget: income $4000, expenses $3200, savings $800.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Mortgage payment due on the 15th, check interest rate.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Opened a new savings account for emergency fund.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Analyzed portfolio performance: S&P 500 up 7% YTD.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Booked flight to Berlin, hotel near Alexanderplatz.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Train tickets to Paris for next weekend, seat 12A.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Checked in at JFK airport, flight to Tokyo departs at 10:30.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Reserved Airbnb in Lisbon, close to the city center.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Downloaded boarding pass for Rome trip.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Plan: visit Louvre, Eiffel Tower, and Montmartre in Paris.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Confirmed car rental at Munich Central Station.",
+        "class": "Travel"
+    },
+    {
+        "text": "Security: Enabled 2FA on all accounts, backup codes saved in Bitwarden.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: Updated all passwords using password manager.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: SSH key generated: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI...",
+        "class": "Security"
+    },
+    {
+        "text": "Security: API token for production: sk_live_51Hq...",
+        "class": "Security"
+    },
+    {
+        "text": "Security: Encrypted backup completed, stored on external SSD.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: rotated AWS access keys, updated .env file.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: Detected suspicious login attempt, IP: 192.168.1.100.",
+        "class": "Security"
+    },
+    {
+        "text": "Journal: [ ] Wake up at 7:00\n[ ] Morning run\n[ ] Breakfast: oatmeal\n[ ] Work on project\n[ ] Call mom in the evening",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: * Grocery shopping: eggs, bread, cheese\n* Clean the kitchen\n* Read 20 pages before bed",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: 1. Finished reading a new book\n2. Cooked dinner\n3. Watched a movie with friends\n4. Reflected on the day",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: - Meditated for 10 minutes\n- Completed all tasks on the to-do list\n- Felt productive and calm",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: * Walked the dog\n* Prepared lunch\n* Wrote in my journal\n* Planned tomorrow’s schedule",
+        "class": "Journal"
+    },
+    {
+        "text": "Bookmarks: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://www.nytimes.com/2026/04/25/technology/ai-news.html",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://github.com/pytorch/pytorch",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://www.reddit.com/r/machinelearning/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://openai.com/research/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://www.booking.com/hotel/us/central-park.html",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://www.youtube.com/watch?v=abcd1234",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Personal: Call dad on his birthday next Friday.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Buy groceries: apples, bananas, chicken, rice.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Schedule annual checkup with doctor.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Walk the dog in the park after work.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Plan family dinner for Sunday.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Watch a new movie with friends this weekend.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Start a new workout routine: Monday, Wednesday, Friday.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Bake a chocolate cake for Sarah’s birthday.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Water the plants every morning.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Set a reminder to take vitamins daily.",
+        "class": "Personal"
+    },
+    {
+        "text": "- встал в 6:30, поехал на работу\n- днём был сложный разговор с коллегой\n- вечером погулял в парке, думал о смене работы\n- лёг спать в 23:00",
+        "class": "Journal"
+    },
+    {
+        "text": "* Got up early, had coffee on the balcony\n* Finished the onboarding screen draft\n* Had dinner with mom\n* Couldn't fall asleep, kept thinking about the app architecture",
+        "class": "Work"
+    },
+    {
+        "text": "1. woke up late, missed standup\n2. spent most of the day debugging a weird crash\n3. finally fixed it — turned out to be a threading issue\n4. ordered pizza, watched a movie",
+        "class": "Work"
+    },
+    {
+        "text": "## Сегодня было много всего\n- с утра плохое настроение без причины\n- на обеде встретил старого друга случайно\n- вечером созвонился с братом\n- надо больше спать",
+        "class": "Journal"
+    },
+    {
+        "text": "https://arxiv.org/abs/1706.03762\nhttps://arxiv.org/abs/2005.14165\n\nAttention Is All You Need + GPT-3 paper — перечитать перед собесом",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://developer.apple.com/documentation/swiftui/\nhttps://www.hackingwithswift.com/100/swiftui\nhttps://www.pointfree.co\n\nизучить composable architecture",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "PDF: Clean Architecture — Robert Martin\nhttps://example.com/clean-arch.pdf\n\nглавы 1-5 прочитал, конспект в Obsidian",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://habr.com/ru/articles/504648/\nhttps://habr.com/ru/articles/321536/\nhttps://habr.com/ru/articles/448054/\n\nподборка по архитектуре iOS приложений",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://www.youtube.com/watch?v=dQw4w9WgXcQ\nhttps://www.youtube.com/watch?v=aircAruvnKk\n\nлекции по нейросетям — 3Blue1Brown",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "статья: https://martinfowler.com/articles/microservices.html\nдокументация: https://docs.docker.com/compose/\n\nизучить перед проектированием сервиса",
+        "class": "Work"
+    },
+    {
+        "text": "Telegram bot token:\n```\n7412583901:AAHxyz_abc123def456ghi789jkl\n```\n\nFirebase service account key — в папке /keys/firebase.json",
+        "class": "Security"
+    },
+    {
+        "text": "env variables для прода:\nDATABASE_URL=postgres://user:p@ssw0rd@host:5432/db\nSECRET_KEY=xK9#mL2$nP7@qR4\nJWT_SECRET=super_secret_jwt_key_42",
+        "class": "Security"
+    },
+    {
+        "text": "Apple Developer:\nlogin: dev@example.com\npassword: Appl3Dev#2026\n\nApp Store Connect:\nTeam ID: ABC123XYZ",
+        "class": "Security"
+    },
+    {
+        "text": "npm install && npm run build\ndocker-compose up -d\nnginx -s reload\n\nдеплой на прод после ревью",
+        "class": "Work"
+    },
+    {
+        "text": "TODO:\n- [ ] рефакторинг модуля авторизации\n- [ ] добавить логирование в API\n- [x] обновить README\n- [ ] настроить CI/CD пайплайн",
+        "class": "Work"
+    },
+    {
+        "text": "Расходы за апрель:\n- аренда: 45 000 ₽\n- продукты: 12 400 ₽\n- интернет: 650 ₽\n- подписки: 2 300 ₽\nИтого: 60 350 ₽",
+        "class": "Finance"
+    },
+    {
+        "text": "Monthly budget:\n- rent: $1200\n- groceries: $300\n- subscriptions: $45\n- transport: $80\nTotal: $1625",
+        "class": "Finance"
+    },
+    {
+        "text": "Сегодня был насыщенный день: утром съездил в офис, провёл встречу с командой по новому проекту, после обеда разобрал почту и закрыл несколько задач в Jira. Вечером сходил в спортзал, а потом посмотрел лекцию по машинному обучению.",
+        "class": "Work"
+    },
+    {
+        "text": "План на неделю: 1) Завершить интеграцию платежного шлюза в мобильное приложение; 2) Написать документацию для API; 3) Провести ревью кода у коллег; 4) В пятницу — демо для заказчика.",
+        "class": "Work"
+    },
+    {
+        "text": "Вчера наконец-то разобрался с багом в системе авторизации: оказалось, что проблема была в неправильной обработке токена при повторном входе. После фикса все тесты прошли успешно.",
+        "class": "Work"
+    },
+    {
+        "text": "Список покупок на неделю: курица, гречка, яйца, молоко, творог, яблоки, бананы, овсянка, сыр, хлеб, помидоры, огурцы, зелёный чай. Не забыть проверить акции в приложении магазина.",
+        "class": "Personal"
+    },
+    {
+        "text": "Monthly report: This month, I completed the migration of our backend services to AWS Lambda, optimized several slow SQL queries, and reduced average API response time by 30%. Also mentored two new team members.",
+        "class": "Work"
+    },
+    {
+        "text": "Security checklist for Q2: 1. Rotate all API keys; 2. Enable 2FA for all admin accounts; 3. Review firewall rules; 4. Audit access logs for suspicious activity; 5. Update password policy.",
+        "class": "Security"
+    },
+    {
+        "text": "Путешествие в Грузию: прилетели в Тбилиси, арендовали машину, съездили в Казбеги и Батуми. Везде отличная кухня, особенно понравился хинкали и местное вино. В последний день купили сувениры на рынке.",
+        "class": "Travel"
+    },
+    {
+        "text": "Today I had a long call with the client discussing the new dashboard features. After the meeting, I updated the Figma mockups and sent them for review. In the evening, went for a walk in the park.",
+        "class": "Work"
+    },
+    {
+        "text": "Вечером решил приготовить ужин дома: сделал пасту с курицей и овощами, получилось вкусно. После ужина посмотрел новый эпизод сериала и прочитал пару глав книги.",
+        "class": "Personal"
+    },
+    {
+        "text": "Travel plans for summer: fly to Rome, spend three days exploring the city, then take a train to Florence and Venice. Book hotels in advance and check if travel insurance is required.",
+        "class": "Travel"
+    },
+    {
+        "text": "Финансовый план на месяц: зарплата — 180 000 ₽, аренда — 45 000 ₽, еда — 20 000 ₽, транспорт — 5 000 ₽, развлечения — 10 000 ₽, накопления — 30 000 ₽. Остальное — на непредвиденные расходы.",
+        "class": "Finance"
+    },
+    {
+        "text": "Security incident: Detected unauthorized login attempt from IP 185.23.44.11. Blocked the address and reset all user sessions. Sent notification to affected users and updated incident log.",
+        "class": "Security"
+    },
+    {
+        "text": "Сегодня занимался домашними делами: убрался в квартире, вымыл окна, пропылесосил ковёр, полил цветы. После обеда сходил в магазин за продуктами и приготовил ужин.",
+        "class": "Personal"
+    },
+    {
+        "text": "Project retrospective: The main challenge was integrating the payment gateway due to poor documentation. Next time, allocate more time for research and testing third-party APIs.",
+        "class": "Finance"
+    },
+    {
+        "text": "В пятницу вечером встретился с друзьями в кафе, обсудили планы на лето и возможную поездку в Сочи. После встречи прогулялись по набережной.",
+        "class": "Travel"
+    },
+    {
+        "text": "Expense breakdown for March: rent $1200, groceries $350, utilities $90, subscriptions $40, transport $60, savings $300. Total: $2040.",
+        "class": "Finance"
+    },
+    {
+        "text": "Security: Updated all passwords using a password manager, enabled biometric authentication on phone and laptop, and set up automatic backups to encrypted cloud storage.",
+        "class": "Security"
+    },
+    {
+        "text": "В выходные ездили в Санкт-Петербург: посетили Эрмитаж, погуляли по Невскому проспекту, попробовали местные пирожки. Погода была отличная, сделали много фотографий.",
+        "class": "Travel"
+    },
+    {
+        "text": "Today I refactored the notification module, added unit tests, and fixed a bug with push delivery on iOS. Also reviewed two pull requests from teammates.",
+        "class": "Work"
+    },
+    {
+        "text": "План на отпуск: купить билеты в Калининград, забронировать отель у моря, составить маршрут по интересным местам, взять с собой фотоаппарат и дождевик.",
+        "class": "Travel"
+    },
+    {
+        "text": "Personal goals for April: exercise three times a week, read two books, spend less than $200 on eating out, and call parents every Sunday.",
+        "class": "Finance"
+    },
+    {
+        "text": "Сегодня был сложный день: утром сломался интернет, пришлось работать с телефона. После обеда устранил баг в отчётах, вечером сходил на йогу.",
+        "class": "Work"
+    },
+    {
+        "text": "Work summary: Finished the quarterly report, prepared slides for the board meeting, and started planning the next sprint. Need to follow up with the marketing team.",
+        "class": "Work"
+    },
+    {
+        "text": "Вчера вечером посмотрел вебинар по инвестициям, сделал заметки по стратегиям диверсификации портфеля. Решил увеличить ежемесячные взносы на брокерский счёт.",
+        "class": "Finance"
+    },
+    {
+        "text": "Today I went grocery shopping: bought chicken, rice, vegetables, and some snacks for the week. Also picked up a package from the post office.",
+        "class": "Personal"
+    },
+    {
+        "text": "Путешествие в Карелию: арендовали домик на берегу озера, катались на лодке, жарили шашлыки, собирали грибы и ягоды. Отлично отдохнули от городской суеты.",
+        "class": "Travel"
+    },
+    {
+        "text": "Work: Deployed the new version of the app to production, monitored logs for errors, and wrote a post-mortem for the last outage.",
+        "class": "Work"
+    },
+    {
+        "text": "Сегодня занимался планированием бюджета на следующий месяц: рассчитал обязательные платежи, запланировал покупки и отложил часть средств на отпуск.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Booked tickets to Prague for May holidays, found a cozy apartment in the city center, and made a list of must-see attractions.",
+        "class": "Travel"
+    },
+    {
+        "text": "https://www.something.com api dart dev c++",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://data.eefocus.com/myspace/0/1227/bbs/1197618892/ed79cff9.pdf\n\nhttp://on-demand.gputechconf.com/gtc/2015/presentation/S5183-Hsueh-Yung-Chao.pdf",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://www.ansys.com/-/media/ansys/corporate/resourcelibrary/techbrief/ab-hfss-open-regions.pdf\n\nhttps://www.cvent.com/events/ansys-learning-hub-subscription-ansys-uk-ltd-uk-pounds-/registration-0cadd39ed18844a9b58f66864be2485e.aspx?fqp=true",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://habr.com/ru/articles/504648/\nhttps://habr.com/ru/articles/321536/\nhttps://habr.com/ru/articles/448054/\n\nподборка по архитектуре iOS приложений",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://www.youtube.com/watch?v=dQw4w9WgXcQ\nhttps://www.youtube.com/watch?v=aircAruvnKk\n\nлекции по нейросетям — 3Blue1Brown",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://docs.flutter.dev/ui/animations\nhttps://docs.flutter.dev/cookbook/animation/animated-container\n\nизучить анимации во Flutter перед следующим спринтом",
+        "class": "Work"
+    },
+    {
+        "text": "Stack Overflow:\nhttps://stackoverflow.com/questions/50081213/how-to-use-dart-async-await\n\nрешение проблемы с async/await в Dart",
+        "class": "Work"
+    },
+    {
+        "text": "npm пакет для парсинга markdown:\nhttps://www.npmjs.com/package/marked\nhttps://github.com/markedjs/marked\n\nдобавить в проект",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.com/flutter/flutter/issues/12345\n\nbug report — посмотреть есть ли workaround",
+        "class": "Work"
+    },
+    {
+        "text": "документация по REST API:\nhttps://restfulapi.net/http-methods/\nhttps://developer.mozilla.org/en-US/docs/Web/HTTP/Methods\n\nосвежить знания перед проектированием эндпоинтов",
+        "class": "Work"
+    },
+    {
+        "text": "https://pub.dev/packages/riverpod\nhttps://riverpod.dev/docs/introduction/getting_started\n\nпопробовать Riverpod вместо BLoC в новом проекте",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://medium.com/flutter-community/building-a-notes-app-in-flutter\n\nпробежаться по статье, взять идеи для архитектуры",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://www.figma.com/file/abc123/app-design\n\nмакеты от дизайнера, посмотреть до встречи",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "release notes v3.2:\nhttps://github.com/myproject/releases/tag/v3.2.0\n\nпроверить changelog перед деплоем",
+        "class": "Work"
+    },
+    {
+        "text": "https://codeforces.com/problemset/problem/1234/A\nhttps://leetcode.com/problems/two-sum/\n\nзадачи для подготовки к собесу",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://trello.com/b/abc123/project-board\n\nобновить карточки в Trello по итогам спринта",
+        "class": "Work"
+    },
+    {
+        "text": "https://jira.company.com/browse/PROJ-456\n\nтикет по редизайну онбординга — взять в работу",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://www.google.com/maps/place/coworking+space\n\nадрес офиса заказчика, встреча в четверг в 11:00",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "посмотреть перед код-ревью:\nhttps://google.github.io/styleguide/cppguide.html\nhttps://dart.dev/effective-dart/style\n\nстайлгайды для проекта",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://app.diagrams.net/#G1aBcDeFgHiJkLmN\n\nсхема архитектуры микросервисов — актуализировать после рефакторинга",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.com/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://google.com/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://wikipedia.org/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://stackoverflow.com/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://dart.dev/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://habr.com/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://medium.com/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://youtube.com/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://arxiv.org/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://figma.com/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "1. Проснулся в 8:00, сделал зарядку\n2. Завтракал овсянкой\n3. Работал над проектом до обеда\n4. Вечером встретился с друзьями\n5. Прочитал пару глав книги перед сном",
+        "class": "Journal"
+    },
+    {
+        "text": "- Встал в 7:30, выпил кофе\n- Поехал на работу на велосипеде\n- После обеда прогулялся в парке\n- Вечером смотрел сериал и ел пиццу",
+        "class": "Journal"
+    },
+    {
+        "text": "Сегодня был насыщенный день: утром занимался спортом, потом работал над задачами по проекту, вечером встретился с родителями и долго разговаривали за ужином.",
+        "class": "Journal"
+    },
+    {
+        "text": "* Проснулся поздно, пропустил завтрак\n* Весь день шёл дождь, работал из дома\n* Вечером играл в настольные игры с друзьями",
+        "class": "Journal"
+    },
+    {
+        "text": "- Утром пробежка 5 км\n- Днём работал над новым приложением\n- Вечером читал статьи по ML",
+        "class": "Journal"
+    },
+    {
+        "text": "Купить продукты: хлеб, молоко, сыр",
+        "class": "Personal"
+    },
+    {
+        "text": "Позвонить бабушке в субботу",
+        "class": "Personal"
+    },
+    {
+        "text": "Сделать уборку в квартире",
+        "class": "Personal"
+    },
+    {
+        "text": "Записаться на приём к врачу",
+        "class": "Personal"
+    },
+    {
+        "text": "Погулять с собакой вечером",
+        "class": "Personal"
+    },
+    {
+        "text": "Оплатить коммунальные услуги до 10 числа",
+        "class": "Finance"
+    },
+    {
+        "text": "Проверить баланс на карте",
+        "class": "Finance"
+    },
+    {
+        "text": "Составить бюджет на месяц",
+        "class": "Finance"
+    },
+    {
+        "text": "Рассчитать расходы на отпуск",
+        "class": "Finance"
+    },
+    {
+        "text": "Перевести деньги на накопительный счёт",
+        "class": "Finance"
+    },
+    {
+        "text": "План поездки в Грузию: Тбилиси, Батуми, Казбеги",
+        "class": "Travel"
+    },
+    {
+        "text": "Забронировать билеты в Прагу на май",
+        "class": "Travel"
+    },
+    {
+        "text": "Составить маршрут по Италии: Рим, Флоренция, Венеция",
+        "class": "Travel"
+    },
+    {
+        "text": "Проверить страховку перед поездкой",
+        "class": "Travel"
+    },
+    {
+        "text": "Собрать вещи для путешествия: паспорт, билеты, зарядка",
+        "class": "Travel"
+    },
+    {
+        "text": "Сменить все пароли на важных сервисах",
+        "class": "Security"
+    },
+    {
+        "text": "Включить двухфакторную аутентификацию на почте",
+        "class": "Security"
+    },
+    {
+        "text": "Проверить резервные копии файлов",
+        "class": "Security"
+    },
+    {
+        "text": "Обновить антивирус на ноутбуке",
+        "class": "Security"
+    },
+    {
+        "text": "Проверить настройки приватности в соцсетях",
+        "class": "Security"
+    },
+    {
+        "text": "Сделать код-ревью для pull request #42",
+        "class": "Work"
+    },
+    {
+        "text": "Написать юнит-тесты для нового модуля",
+        "class": "Work"
+    },
+    {
+        "text": "Подготовить презентацию для демо",
+        "class": "Work"
+    },
+    {
+        "text": "Обновить документацию по API",
+        "class": "Work"
+    },
+    {
+        "text": "Провести встречу с командой по планированию",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Fixed bug in API rate limiter, added unit tests, and created a new PR for review.",
+        "class": "Work"
+    },
+    {
+        "text": "Сегодня работал над Docker Compose для локального окружения: обновил образы и починил volumes.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Deployed backend to staging, checked logs for 5xx errors, and rolled back a broken migration.",
+        "class": "Work"
+    },
+    {
+        "text": "git commit -m 'fix: websocket reconnect logic' && git push origin hotfix",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Code review for Maria's PR — suggested refactoring the auth middleware and adding more tests.",
+        "class": "Work"
+    },
+    {
+        "text": "Заплатить 1500 RUB за мобильную связь и 6000 RUB за ЖКУ до 10-го числа.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Перевел 500 USD на брокерский счет, купил акции NVIDIA и положил 20000 RUB на ИИС.",
+        "class": "Finance"
+    },
+    {
+        "text": "Кредит за машину: осталось 340 000 RUB, ставка 12%. Хочу досрочно погасить 50 000 в мае.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Рассчитал бюджет на апрель: доход 120 000 RUB, расходы — 85 000, остальное в накопления.",
+        "class": "Finance"
+    },
+    {
+        "text": "Поменял 1000 EUR на рубли по курсу 98. Потрачу на отпуск, но часть отложу на налоги.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Купил билеты Москва → Стамбул за 12 000 RUB, отель в Султанахмете на 4 ночи.",
+        "class": "Travel"
+    },
+    {
+        "text": "Завтра в 6 утра выезд на Ласточке с Киевского вокзала в Калугу. Обратный билет на воскресенье.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Забронировал хостел в Берлине рядом с вокзалом Zoo, дешево и чисто. Нужен транспортный абонемент.",
+        "class": "Travel"
+    },
+    {
+        "text": "Аэропорт Шереметьево, терминал D, рейс SU 2132 до Антальи. Не забыть загранпаспорт и страховку.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Париж — купить билеты на метро заранее, забронировать столик у Эйфелевой башни. Отель рядом с Монмартром.",
+        "class": "Travel"
+    },
+    {
+        "text": "Security: nsec1xkjd8f3h5g7j2k9l0zxcvbnmqwertyuiop1234567890asdfghjkl",
+        "class": "Security"
+    },
+    {
+        "text": "SSH private key: -----BEGIN OPENSSH PRIVATE KEY----- ... -----END OPENSSH PRIVATE KEY-----",
+        "class": "Security"
+    },
+    {
+        "text": "Security: 2FA backup codes for GitHub — сохранить в Bitwarden и зашифровать архив.",
+        "class": "Security"
+    },
+    {
+        "text": "пароль от Wi-Fi: Tr0ub4dor&3, но лучше сменить на сгенерированный из менеджера паролей.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: GPG ключ для подписи коммитов, fingerprint: 3B5A 8F2C 91D4 E6F8 1A3C 7D9E F2B4 6A8C 0D1E 2F3A",
+        "class": "Security"
+    },
+    {
+        "text": "- [x] Купить продукты\n- [ ] Позвонить маме\n- [x] Сделать зарядку\n- [ ] Прочитать 20 страниц\n- [x] Вынести мусор",
+        "class": "Journal"
+    },
+    {
+        "text": "План на неделю:\n* ПН: работа, спорт\n* ВТ: встреча с другом\n* СР: врач\n* ЧТ: уборка\n* ПТ: кино",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: \n1. Утренняя рутина\n2. Рабочие задачи\n3. Обед\n4. Прогулка\n5. Вечерний дневник",
+        "class": "Journal"
+    },
+    {
+        "text": "- Закончить отчет\n- Позвонить в банк\n- Забрать посылку\n- Полить цветы\n- Почистить аквариум",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: 07:00 подъем, 07:30 зарядка, 08:00 душ, 08:30 завтрак, 09:00 работа, 13:00 обед, 18:00 ужин, 22:00 сон",
+        "class": "Journal"
+    },
+    {
+        "text": "Great article about Python async patterns: https://realpython.com/async-io-python/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://news.ycombinator.com/item?id=40362718 — обсуждение новых Rust-библиотек для CLI.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://localhost:3000/docs — локальная документация по API. Потом заменить на https://docs.myproject.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: Сохранить ссылку на курс по бэкенду https://boot.dev — особенно про алгоритмы и базы данных.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.com/features/copilot — попробовать на следующей неделе, если будет время.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Купить хлеб, молоко, яйца и сыр. Заодно взять корм для кота. Вечером приготовить ужин: паста с креветками.",
+        "class": "Personal"
+    },
+    {
+        "text": "Личное: Завтра день рождения у мамы, нужно купить цветы и поздравить в 10 утра. Ещё подарок — книга.",
+        "class": "Personal"
+    },
+    {
+        "text": "Тренировка ног: приседания 4x12, выпады 3x10, жим платформы 3x8. После — протеин и растяжка.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Посмотреть новый сериал «Одни из нас» (сезон 2) вечером с пиццей. Не забыть позвать друга.",
+        "class": "Personal"
+    },
+    {
+        "text": "Чувствую усталость сегодня, может быть из-за недосыпа. Лечь спать в 22:00 без телефона.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Рецепт борща — свекла, капуста, морковь, картошка, томатная паста, чеснок. Варить 1.5 часа.",
+        "class": "Personal"
+    },
+    {
+        "text": "Купить таблетки от аллергии в аптеке, записаться к дерматологу на следующей неделе.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Прогулка в парке с собакой 1 час, потом купить ей новый корм и игрушку-канат.",
+        "class": "Personal"
+    },
+    {
+        "text": "Исправил баг в CI/CD пайплайне: теперь тесты на продакшене прогоняются корректно.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Добавил новый эндпоинт GET /api/v2/users/:id — требует токен доступа и проверку прав.",
+        "class": "Work"
+    },
+    {
+        "text": "Налоговая декларация за 2024 год: заплатить 15 000 RUB до 30 апреля, иначе пени.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Ж/д билеты Москва — Санкт-Петербург (сапсан) туда и обратно: 7000 RUB. Отель на Невском.",
+        "class": "Travel"
+    },
+    {
+        "text": "Security: токен доступа к AWS — не коммитить в git! Хранить в .env и в 1Password.",
+        "class": "Security"
+    },
+    {
+        "text": "- [ ] Заправить машину\n- [ ] Сходить в химчистку\n- [ ] Забрать заказ с Ozon\n- [ ] Позвонить брату",
+        "class": "Journal"
+    },
+    {
+        "text": "https://habr.com/ru/articles/827534/ — туториал по оптимизации запросов PostgreSQL",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Personal: встретиться с Аней в субботу в 14:00 в кофейне «Стрелка». Обсудить планы на лето.",
+        "class": "Personal"
+    },
+    {
+        "text": "Work: Написать Dockerfile для продакшена, уменьшить размер образа через многоступенчатую сборку.",
+        "class": "Work"
+    },
+    {
+        "text": "Finance: Открыл вклад в Т-Банке на 6 месяцев под 16% годовых — 300 000 RUB.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Barcelona — купить билеты на Sagrada Familia онлайн. Метро L5 до ост.",
+        "class": "Travel"
+    },
+    {
+        "text": "Security: зашифровать бэкап фото и паролей через gpg — symmetric. Ключ хранить отдельно.",
+        "class": "Security"
+    },
+    {
+        "text": "Work: Починил сборку в Jenkins — падал этап с тестами из-за нехватки памяти в Docker контейнере.",
+        "class": "Work"
+    },
+    {
+        "text": "git checkout -b feature/new-dashboard && git push --set-upstream origin feature/new-dashboard",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Настроил GitHub Actions для деплоя на staging по пушу в main, а на production — по тегу.",
+        "class": "Work"
+    },
+    {
+        "text": "Добавил кэширование в Redis для GET /api/catalog — время ответа упало с 800ms до 50ms.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Поднял PostgreSQL в Docker Compose с volume для персистентности. Пробросил порт 5432.",
+        "class": "Work"
+    },
+    {
+        "text": "Finances: Инвестиционный портфель на конец месяца: акции 45%, облигации 30%, золото 15%, кеш 10%.",
+        "class": "Finance"
+    },
+    {
+        "text": "Перевел 200 USD на карту через SWIFT. Комиссия вышла 25 USD — дороговато, надо искать альтернативы.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Рассрочка на телефон — осталось 3 платежа по 5 000 RUB. Закрыть досрочно, чтобы не висело.",
+        "class": "Finance"
+    },
+    {
+        "text": "Купил BTC на 500 USDT через P2P. Средняя цена 92 000 USDT за BTC. Положил на холодный кошелек.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Налоговый вычет за обучение — подать декларацию 3-НДФЛ до конца апреля. Вернут около 15 600 RUB.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Авиабилеты Москва → Ереван (Wizz Air) 8 500 RUB туда и обратно. Отель в центре — 4 ночи.",
+        "class": "Travel"
+    },
+    {
+        "text": "На вокзале Казанском взять билет на «Ласточку» до Нижнего Новгорода, место 34 у окна.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Забронировал Airbnb в Стамбуле в районе Кадыкёй с видом на море. Хозяин подтвердил заселение с 15:00.",
+        "class": "Travel"
+    },
+    {
+        "text": "Аэропорт Домодедово, терминал А, рейс FV 5678 до Сочи. Регистрация открыта за 24 часа.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Купить IstanbulKart на 3 дня — запланировать поездки на пароме и метро. Музейная карта тоже нужна.",
+        "class": "Travel"
+    },
+    {
+        "text": "Security: Приватный ключ Solana — не показывать никому. Его мнемоника: cabbage, puppy, rocket, moon, skate...",
+        "class": "Security"
+    },
+    {
+        "text": "Пароль от root на сервере: p@ssw0rd_Admin2026 — срочно поменять на сгенерированный через openssl rand.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: API key для OpenAI — sk-1234... Хранить в .env.local и добавить в .gitignore.",
+        "class": "Security"
+    },
+    {
+        "text": "Сделать бэкап всей папки ~/Documents с шифрованием через gpg --symmetric. Пароль записать в KeePass.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: Ключ WireGuard для VPN-туннеля — сохранил в /etc/wireguard/ и поставил права 600.",
+        "class": "Security"
+    },
+    {
+        "text": "- [x] Утренняя зарядка\n- [ ] Завтрак с овсянкой\n- [x] Прочитать почту\n- [ ] Собрать документы\n- [ ] Позвонить в страховую",
+        "class": "Journal"
+    },
+    {
+        "text": "План на завтра:\n* 08:00 подъем\n* 08:30 завтрак\n* 09:00–13:00 работа\n* 13:30 обед\n* 15:00 встреча\n* 19:00 спортзал",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: \n- Выключить уведомления на час\n- Написать пост в блог\n- Посмотреть вебинар\n- Почитать книгу 30 мин",
+        "class": "Journal"
+    },
+    {
+        "text": "- Купить гречку\n- Записаться к врачу\n- Поменять лампочку в коридоре\n- Заказать корм для кота",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: 1. Почистить ноутбук 2. Сделать резервное копирование фото 3. Убраться на столе 4. Полить цветы",
+        "class": "Journal"
+    },
+    {
+        "text": "Интересная статья про промпт-инжиниринг: https://learnprompting.org/docs/intro",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://github.com/rust-lang/rustlings — курс для новичков в Rust с интерактивными заданиями.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://www.figma.com/community — здесь беру шаблоны для UI, особенно для мобильных приложений.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: http://localhost:8080/metrics — эндпоинт с метриками Prometheus. Потом повесить на Grafana.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Ссылка на доклад по архитектуре микросервисов: https://youtu.be/BnknNTN8icw — смотреть в выходные.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Личное: Сегодня грустное настроение — наверное из-за дождя. Заварить чай с имбирем и медом, сериал включить.",
+        "class": "Personal"
+    },
+    {
+        "text": "Купить лекарства в аптеке: но-шпу, активированный уголь и пластыри. И витамин С для иммунитета.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Записаться к стоматологу на чистку зубов на пятницу. И к окулисту — проверить зрение.",
+        "class": "Personal"
+    },
+    {
+        "text": "Рецепт домашней пиццы: тесто на кефире, томатный соус, моцарелла, пепперони, оливки и базилик.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Поздравить сестру с днём рождения — подарить сертификат в спа и букет пионов.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сегодня пробежал 7 км в парке за 40 минут. Пульс был 150. Доволен собой, надо закрепить результат.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Купить новой книгой — «Дюна» Фрэнка Герберта в твёрдом переплете. И полить цветы.",
+        "class": "Personal"
+    },
+    {
+        "text": "Помыть кота: заказал шампунь заранее, полотенца приготовить. После дать ему вкусняшку.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Встреча с одноклассниками в субботу в 18:00 в пабе. Взять настолку «Эволюция».",
+        "class": "Personal"
+    },
+    {
+        "text": "Work: Смержил PR с новым функционалом в main, запустил деплой на staging, проверил работоспособность.",
+        "class": "Work"
+    },
+    {
+        "text": "Добавил Docker healthcheck для сервиса заказов — теперь Kubernetes перезапускает pod'ы при падении.",
+        "class": "Work"
+    },
+    {
+        "text": "Finance: Ипотека — остаток 1.2 млн RUB под 9% годовых. Доплачиваю по 20 000 досрочно каждый месяц.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Аэропорт Пулково, рейс до Калининграда. Взять машину напрокат на 3 дня.",
+        "class": "Travel"
+    },
+    {
+        "text": "Security: Восстановить 2FA для GitHub — использовал резервные коды. Успешно. Сделать новые бэкап-коды.",
+        "class": "Security"
+    },
+    {
+        "text": "- [ ] Убраться на кухне\n- [x] Сходить в магазин\n- [ ] Погладить рубашку\n- [x] Позвонить родителям\n- [ ] Написать план",
+        "class": "Journal"
+    },
+    {
+        "text": "https://tailwindcss.com/docs — полезная шпаргалка по CSS-классам, сохранить в закладки.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Personal: Купить коту новый лоток и наполнитель. И игрушку-мышку, без неё он грустит.",
+        "class": "Personal"
+    },
+    {
+        "text": "Work: Оптимизировал Nginx конфиг: добавил brotli сжатие и кэширование статики на 1 год.",
+        "class": "Work"
+    },
+    {
+        "text": "Finance: Продал часть акций Яндекса по 4 800 RUB за штуку, зафиксировал прибыль 15%.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Забронировать отель в Санкт-Петербурге на майские: 3 дня, центр, завтраки включены.",
+        "class": "Travel"
+    },
+    {
+        "text": "Work: Исправил ошибку в CI/CD: не хватало переменной окружения DOCKER_PASSWORD в GitHub Secrets.",
+        "class": "Work"
+    },
+    {
+        "text": "git rebase main && git push origin feature/payments --force-with-lease",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Написал интеграционный тест для API /v1/payments с мокаем внешнего банковского шлюза.",
+        "class": "Work"
+    },
+    {
+        "text": "Поднял локальный кластер Kubernetes через kind, задеплоил сервис аутентификации с 3 репликами.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Профилировал Node.js приложение через clinic — узкое место в цикле обработки webhook'ов.",
+        "class": "Work"
+    },
+    {
+        "text": "Finance: Открыл вклад в Альфа-Банке на 3 месяца под 18% годовых — 500 000 RUB. Проценты в конце срока.",
+        "class": "Finance"
+    },
+    {
+        "text": "Перевел 300 EUR на счёт в Revolut через SWIFT. Комиссия 12 EUR, пришло через 2 рабочих дня.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Кредитная карта с кэшбэком 5% на рестораны. Задолженность 45 000 RUB — закрыть до конца месяца.",
+        "class": "Finance"
+    },
+    {
+        "text": "Купил облигации ОФЗ 26243 на 100 000 RUB с купоном 7.8% годовых. Накопленный купонный доход учёл.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Подушка безопасности — 300 000 RUB на вкладе до востребования. Цель: 600 000 RUB к декабрю.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Авиабилеты Минск → Москва (Belavia) 180 BYN туда-обратно. Отель возле Павелецкого вокзала.",
+        "class": "Travel"
+    },
+    {
+        "text": "На Ленинградском вокзале сесть на «Сапсан» до Санкт-Петербурга, вагон №3, место 21.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Забронировал квартиру посуточно в Батуми с видом на море. Заселение с 14:00, ключи у консьержа.",
+        "class": "Travel"
+    },
+    {
+        "text": "Аэропорт Шереметьево терминал B, рейс QR 338 до Дохи. Пересадка 4 часа — можно успеть в бизнес-зал.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Купить экскурсию в Каппадокию на рассвете — воздушные шары. Бронировать за 2 недели.",
+        "class": "Travel"
+    },
+    {
+        "text": "Security: Приватный ключ MetaMask — не вводить на фишинговых сайтах. Мнемоника: abandon, art, brain, coin, dwarf...",
+        "class": "Security"
+    },
+    {
+        "text": "Пароль от админки WordPress: q1w2e3r4t5y6 — срочно изменить на сгенерированный через wp-cli.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: JWT секрет для продакшена — 256-битный стоковый ключ, хранится в AWS Secrets Manager.",
+        "class": "Security"
+    },
+    {
+        "text": "Сделать бэкап базы PostgreSQL через pg_dump с шифрованием OpenSSL. Архивировать в S3 бакет.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: Токен Telegram бота — 1234567890:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw — ревокнуть, старый скомпрометирован.",
+        "class": "Security"
+    },
+    {
+        "text": "- [x] Выпить стакан воды\n- [ ] Почистить зубы\n- [x] Короткая медитация 10 мин\n- [ ] Написать 3 задачи на день\n- [x] Позвонить в поддержку",
+        "class": "Journal"
+    },
+    {
+        "text": "Недельный план:\n* ПН: работа, бассейн\n* ВТ: работа, встреча с freelancer'ом\n* СР: работа, врач\n* ЧТ: работа, уборка\n* ПТ: работа, кино\n* СБ: прогулка\n* ВС: отдых",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: \n- Ответить на письма\n- Собрать документы\n- Заказать продукты\n- Сходить в банк\n- Вечерний стрейчинг",
+        "class": "Journal"
+    },
+    {
+        "text": "- Заправить стиральную машину\n- Разобрать полку с книгами\n- Вытереть пыль\n- Помыть зеркала\n- Пылесосить",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: 1. Встать без будильника 2. Позавтракать без телефона 3. Почитать 30 минут 4. Записать идеи 5. Лечь до 23:00",
+        "class": "Journal"
+    },
+    {
+        "text": "Гайд по оптимизации React: https://react.dev/reference/react/memo",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://github.com/changkun/ocaml-tutorial — понятное введение в OCaml для практиков.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://www.fast.ai/ — бесплатные курсы по deep learning, особенно практическая часть про FastAI.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: http://localhost:3000/swagger — документация API в Swagger UI. Использовать для тестирования.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Ссылка на инструмент для диаграмм: https://excalidraw.com/ — удобно для быстрых архитектурных набросков.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Личное: Сегодня отличное настроение — солнце и тепло. Пойти гулять в парк с плеером. Купить мороженое.",
+        "class": "Personal"
+    },
+    {
+        "text": "Купить в продуктовом: творог, сметану, яблоки, бананы, орехи и мёд. И грецкие орехи отдельно.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Записаться к дерматологу на осень — проверить родинки. И к терапевту раз в год.",
+        "class": "Personal"
+    },
+    {
+        "text": "Рецепт роллов: нори, рис для суши, копчёный лосось, огурец, авокадо, сливочный сыр. Бамбуковый коврик.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Поздравить подругу с днём рождения — подарить книгу «Солярис» Лема и открытку.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сегодня в зале: жим лёжа 4х8 (80 кг), тяга штанги в наклоне 4х10, пуловер 3х12, пресс 3х20.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Купить коту когтеточку новую, и насадку для робота-пылесоса — старая сломалась.",
+        "class": "Personal"
+    },
+    {
+        "text": "Стирка: постельное бельё, полотенца, деликатный режим 40°, порошок для цвета.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Встреча с бывшими коллегами в пятницу в 19:00. Взять настолку «Манчкин».",
+        "class": "Personal"
+    },
+    {
+        "text": "Work: Настроил мониторинг в Grafana + Prometheus для отслеживания метрик API: latency, ошибки, количество запросов.",
+        "class": "Work"
+    },
+    {
+        "text": "Смержил PR с feature-флагами через LaunchDarkly, откатить можно без деплоя.",
+        "class": "Work"
+    },
+    {
+        "text": "Finance: Вложил 1000 USDC в DeFi-пул под 12% APY на Aave. Газ 15 долларов, окупится через 3 месяца.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Аэропорт Сочи, трансфер до Красной поляны. Горнолыжка закрыта, но можно покататься на велосипедах.",
+        "class": "Travel"
+    },
+    {
+        "text": "Security: Добавил двухфакторную аутентификацию в Apple ID и Gmail. Резервные коды скачал на флешку.",
+        "class": "Security"
+    },
+    {
+        "text": "- [ ] Установить Linux на старый ноутбук\n- [x] Купить термопасту\n- [ ] Разобрать корпус\n- [ ] Заменить SSD\n- [x] Посмотреть туториал",
+        "class": "Journal"
+    },
+    {
+        "text": "https://habr.com/ru/articles/820101/ — сравнение Kubernetes и Docker Swarm для небольших команд.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Personal: Купить билеты в театр на «Собачье сердце» на выходные. Места в бельэтаже, 1200 RUB.",
+        "class": "Personal"
+    },
+    {
+        "text": "Work: Оптимизировал SQL запрос: добавил индекс по created_at, время уменьшилось с 2 сек до 50 мс.",
+        "class": "Work"
+    },
+    {
+        "text": "Finance: Получил зарплату 150 000 RUB на карту. Распределил: 50 000 — ипотека, 30 000 — сбережения, остальное — жизнь.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Забронировать билеты на паром Хельсинки — Таллин. Экономкласс, включает завтрак.",
+        "class": "Travel"
+    },
+    {
+        "text": "Work: Fixed flaky E2E tests in Cypress — added retries and increased timeout for API calls.",
+        "class": "Work"
+    },
+    {
+        "text": "git cherry-pick a3f2c9e && git push origin main --force-with-lease",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Refactored authentication middleware to use JWT refresh tokens stored in HttpOnly cookies.",
+        "class": "Work"
+    },
+    {
+        "text": "Deployed microservice to AWS ECS with Fargate, configured auto-scaling based on CPU utilization.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Wrote migration script for MongoDB to add a compound index on user_id and created_at.",
+        "class": "Work"
+    },
+    {
+        "text": "Finance: Transferred $1500 to my Roth IRA account and bought VTI ETF. Target allocation: 80% stocks, 20% bonds.",
+        "class": "Finance"
+    },
+    {
+        "text": "Paid $89 for internet and $45 for phone bill. Also set up autopay for Netflix ($15.99/month).",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Credit card balance is $1200 with 0% APR until September. Minimum payment $35, but I'll pay $400 this month.",
+        "class": "Finance"
+    },
+    {
+        "text": "Bought 0.01 BTC for $950 on Kraken. Transferred to cold wallet immediately. Fee was $1.50.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: My emergency fund reached $12,000 — goal was $10,000. Now saving for a down payment on a house.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Booked round-trip flights NYC → London for $620 on Norwegian Air. Seat 14A (window) both ways.",
+        "class": "Travel"
+    },
+    {
+        "text": "Train from Paddington Station to Bristol Temple Meads at 9:45 AM. Return ticket cost £58.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Reserved an Airbnb in Barcelona for 5 nights — $340 total. Check-in is 3 PM, host speaks English.",
+        "class": "Travel"
+    },
+    {
+        "text": "LAX Terminal 7, flight UA 1234 to Tokyo Narita. Lounge access via Priority Pass. Boarding at 11:30 PM.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Buy a 7-day JR Pass before arriving in Japan. Also book a night at a ryokan in Hakone with onsen.",
+        "class": "Travel"
+    },
+    {
+        "text": "Security: SSH private key for production server — stored in ~/.ssh/id_rsa with chmod 600. Never share.",
+        "class": "Security"
+    },
+    {
+        "text": "Bitcoin seed phrase: abandon, bacon, cargo, dragon, echo, fossil, galaxy, hedge, index, jungle, knife, lunar",
+        "class": "Security"
+    },
+    {
+        "text": "Security: API key for Stripe — sk_live_4eC39HqLyjWDarjtT1zdp7dc. Rotate every 90 days and store in Vault.",
+        "class": "Security"
+    },
+    {
+        "text": "Encrypted backup of ~/Documents using age — recipient key age1qyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpq",
+        "class": "Security"
+    },
+    {
+        "text": "Security: Recovery codes for iCloud and Google Account — printed and kept in a fireproof safe.",
+        "class": "Security"
+    },
+    {
+        "text": "- [x] Morning run 5K\n- [ ] Shower and breakfast\n- [x] Check emails\n- [ ] Review pull requests\n- [x] Call mom\n- [ ] Buy groceries",
+        "class": "Journal"
+    },
+    {
+        "text": "Daily plan:\n* 7:00 AM wake up\n* 7:30 AM meditation\n* 8:00 AM breakfast\n* 9:00 AM – 12:00 PM deep work\n* 12:30 PM lunch\n* 6:00 PM gym\n* 9:00 PM read",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: \n- Finish quarterly report\n- Schedule dentist appointment\n- Water the plants\n- Clean the fridge\n- Pay electricity bill",
+        "class": "Journal"
+    },
+    {
+        "text": "- Vacuum the living room\n- Do laundry (whites + colors)\n- Take out recycling\n- Change bed sheets\n- Order cat food",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: 1. Write 3 gratitude notes 2. Review weekly goals 3. Update habit tracker 4. Plan tomorrow's meals 5. Shut down by 10 PM",
+        "class": "Journal"
+    },
+    {
+        "text": "Comprehensive guide to async Python: https://realpython.com/async-io-python/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://github.com/TheAlgorithms/Python — collection of algorithms implemented in Python, great for reference.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://css-tricks.com/snippets/css/a-guide-to-flexbox/ — keep this open while working on the dashboard layout.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: http://localhost:4000/graphql — GraphQL playground for testing queries and mutations locally.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Awesome blog post about system design: https://highscalability.com/pinterest-architecture-update-2024/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Personal: Feeling tired today — maybe because I slept only 6 hours. Go to bed early and skip the late-night coding.",
+        "class": "Personal"
+    },
+    {
+        "text": "Buy groceries: milk, eggs, bread, cheese, spinach, salmon, and dark chocolate. Also get dish soap and sponges.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Book an eye exam for next Tuesday. Haven't checked my vision in two years.",
+        "class": "Personal"
+    },
+    {
+        "text": "Dinner recipe: baked salmon with lemon, garlic, and rosemary + quinoa salad with cucumbers and feta.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Call dad on Sunday — it's his birthday. Already bought a gift (Leatherman multi-tool).",
+        "class": "Personal"
+    },
+    {
+        "text": "Gym workout: deadlift 3x5 (225 lbs), pull-ups 4x6, bent-over rows 4x8, face pulls 3x15.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Order new running shoes — current ones have 500 miles and the sole is worn out.",
+        "class": "Personal"
+    },
+    {
+        "text": "Wash the car, vacuum the interior, and check tire pressure. Also top up the windshield fluid.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Movie night with friends on Saturday — planning to watch Dune: Part Two and order pizza.",
+        "class": "Personal"
+    },
+    {
+        "text": "Work: Set up GitHub Actions for automatic deployments — runs tests, builds Docker image, pushes to ECR.",
+        "class": "Work"
+    },
+    {
+        "text": "Merged PR #342 — adds pagination to the users endpoint using cursor-based strategy with 50 items per page.",
+        "class": "Work"
+    },
+    {
+        "text": "Finance: Sold 50 shares of TSLA at $180 each. Profit was $2500. Transferring to high-yield savings (4.2% APY).",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: NY Penn Station to Washington DC Union Station on Amtrak Acela. Business class ticket cost $168.",
+        "class": "Travel"
+    },
+    {
+        "text": "Security: Set up 2FA for Bitwarden using YubiKey. Removed SMS as a backup method.",
+        "class": "Security"
+    },
+    {
+        "text": "- [ ] Change air filter in HVAC\n- [x] Schedule furnace inspection\n- [ ] Clean gutters\n- [x] Buy de-icer for winter\n- [ ] Test smoke detectors",
+        "class": "Journal"
+    },
+    {
+        "text": "Understanding Docker networking: https://docs.docker.com/network/ — bridge vs overlay vs host explained.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Personal: Adoption appointment for the rescue dog is on Friday. Need to buy a leash, bowls, and a crate beforehand.",
+        "class": "Personal"
+    },
+    {
+        "text": "Work: Refactored monolith to microservices: extracted payment service, now communicating via gRPC with TLS.",
+        "class": "Work"
+    },
+    {
+        "text": "Finance: Opened a 529 plan for my nephew with $2000 initial deposit. Monthly contribution set to $100.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Denver International Airport, Concourse B, flight WN 4567 to Chicago Midway. Boarding group B, no assigned seat.",
+        "class": "Travel"
+    },
+    {
+        "text": "Bookmarks: https://roadmap.sh/backend — comprehensive backend developer roadmap, saved for career planning.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://excalidraw.com/ — perfect for quick architecture diagrams and whiteboarding sessions.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://github.com/andrewng/llm-course — Andrew Ng's LLM course materials, great for understanding transformers.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://news.ycombinator.com/item?id=40572819 — discussion about Rust vs Go for microservices, bookmark to read later.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: http://localhost:3000/api-docs — Swagger UI for internal API, keep this tab open during development.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://www.figma.com/community/file/1276481829394746745 — free UI kit for mobile apps, download and use for the mood journal project.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://www.raycast.com/ — productivity launcher for macOS, consider switching from Alfred.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.com/features/copilot — try Copilot for 30 days, might speed up boilerplate code generation.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://www.sql-practice.com/ — practice SQL queries online, good for interview prep next month.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://www.typescriptlang.org/docs/handbook/intro.html — keep TypeScript handbook open, still forgetting utility types.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://www.youtube.com/watch?v=8aGhZQkoFbQ — conference talk on event-driven architecture, watch during commute.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://overreacted.io/making-setinterval-declarative-with-react-hooks/ — Dan Abramov's post about useEffect and setInterval, save for later.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://docs.docker.com/compose/compose-file/ — Docker Compose reference, always forget volume syntax.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://www.reddit.com/r/selfhosted/wiki/index — wiki for self-hosted alternatives to cloud services, bookmark for homelab projects.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: http://localhost:8080/metrics — Prometheus metrics endpoint, add to Grafana dashboard later.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Work: git rebase -i HEAD~3 && squash commits before pushing to main branch.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Deployed new version of auth service to Kubernetes, configured HorizontalPodAutoscaler based on CPU.",
+        "class": "Work"
+    },
+    {
+        "text": "Fixed memory leak in Node.js worker — was missing .destroy() on event emitter after each job.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Added rate limiting to API gateway using Redis sliding window: 100 requests per minute per IP.",
+        "class": "Work"
+    },
+    {
+        "text": "Created new CI pipeline in GitLab with 4 stages: lint, test, build, deploy. Caching node_modules for speed.",
+        "class": "Work"
+    },
+    {
+        "text": "Finance: Transferred $2000 to Vanguard brokerage and bought VOO (S&P 500 ETF). Expense ratio 0.03%.",
+        "class": "Finance"
+    },
+    {
+        "text": "Paid $75 for electric bill and $40 for water. Both on autopay now from checking account.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Credit card statement balance is $850. Paid in full to avoid interest. Rewards earned: $12 cashback.",
+        "class": "Finance"
+    },
+    {
+        "text": "Sold 0.5 ETH for $1850 on Coinbase. Fee was $4.50. Transferring proceeds to savings account.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Monthly budget: income $5400, rent $1800, groceries $400, utilities $150, savings $1000, rest for fun.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Chicago Union Station to Milwaukee on Hiawatha line. Round trip ticket cost $49. Departure at 8:25 AM.",
+        "class": "Travel"
+    },
+    {
+        "text": "Booked hostel in Bangkok for 3 nights — $12 per night, shared dorm with AC. Walking distance to Khao San Road.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: JFK Terminal 4, Delta flight DL 567 to Amsterdam. SkyTeam lounge access via Amex Platinum card.",
+        "class": "Travel"
+    },
+    {
+        "text": "Rental car booked at Denver airport: Toyota Camry, 7 days for $340. Includes unlimited mileage and insurance.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Take the Eurostar from London St Pancras to Paris Gare du Nord. E-ticket saved in Apple Wallet.",
+        "class": "Travel"
+    },
+    {
+        "text": "Security: PostgreSQL backup encrypted with GPG — symmetric passphrase stored in 1Password separately.",
+        "class": "Security"
+    },
+    {
+        "text": "SSH key fingerprint for prod server: SHA256:3b5a8f2c91d4e6f8a1c3d7e9f2b4a6c8d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5",
+        "class": "Security"
+    },
+    {
+        "text": "Security: nsec1example1234567890abcdefghijklmnopqrstuvwxyz0123456789 — never share this Nostr private key.",
+        "class": "Security"
+    },
+    {
+        "text": "Enabled 2FA on GitHub, Gmail, and AWS. Backup codes stored in encrypted USB drive at home.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: WireGuard private key for home VPN — keep in /etc/wireguard/ with 600 permissions only.",
+        "class": "Security"
+    },
+    {
+        "text": "- [x] Morning stretch 10 min\n- [x] Breakfast (oatmeal + berries)\n- [ ] Respond to urgent emails\n- [ ] Finish presentation slides\n- [x] Call dentist for appointment",
+        "class": "Journal"
+    },
+    {
+        "text": "Daily plan:\n6:30 AM wake up\n7:00 AM run 3 miles\n8:00 AM shower & coffee\n9:00 AM – 12:00 PM focused work\n12:30 PM lunch break\n1:00 PM – 4:00 PM meetings\n5:00 PM gym\n7:00 PM cook dinner\n9:00 PM reading\n10:30 PM sleep",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal:\n- Order new laptop charger\n- Cancel unused subscription ($15/month)\n- Call mom for her birthday\n- Schedule car maintenance\n- Pay credit card bill",
+        "class": "Journal"
+    },
+    {
+        "text": "- Mop kitchen floor\n- Clean bathroom mirror\n- Take recycling to bin\n- Change HVAC filter\n- Water orchids",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: 1. Write daily reflection 2. Review weekly goals progress 3. Plan meals for next 3 days 4. Meditate for 10 min 5. No screens after 9 PM",
+        "class": "Journal"
+    },
+    {
+        "text": "Personal: Feeling anxious about the presentation tomorrow. Take deep breaths and practice one more time before bed.",
+        "class": "Personal"
+    },
+    {
+        "text": "Buy: almond milk, granola, bananas, peanut butter, whole wheat bread, and coffee beans. Also paper towels.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Schedule dermatologist appointment — new mole on my back needs to be checked.",
+        "class": "Personal"
+    },
+    {
+        "text": "Recipe: chicken tikka masala — marinate overnight, grill, then simmer in creamy tomato sauce with fenugreek.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Send wedding gift to Sarah and Mike — they registered at Crate & Barrel. Picked the espresso machine.",
+        "class": "Personal"
+    },
+    {
+        "text": "Gym: chest day — bench press 4x6 (185 lbs), incline dumbbell 3x10, dips 3x12, cable flyes 3x15.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Order new headphones — current Sony WH-1000XM4 has battery degradation. Looking at XM6 or Bose QC Ultra.",
+        "class": "Personal"
+    },
+    {
+        "text": "Work: Added integration test for /api/v2/checkout using Testcontainers for PostgreSQL and Redis.",
+        "class": "Work"
+    },
+    {
+        "text": "Finance: Sold 200 shares of PLTR at $25 each. Average cost was $18. Profit $1400 before taxes.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Sydney Airport (SYD) to Queenstown (ZQN) on Air New Zealand. Window seat, 19A. Booked two months ago.",
+        "class": "Travel"
+    },
+    {
+        "text": "Bookmarks: https://www.postgresql.org/docs/15/indexes.html — official PostgreSQL indexing guide, need to optimize slow queries.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.com/dwmkerr/hacker-laws — useful laws and principles for software engineering, bookmark for team reference.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/ — common Nginx configuration mistakes to avoid.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://stackoverflow.com/questions/671118/what-is-the-difference-between-var-let-and-const-in-javascript — keep this for juniors on the team.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: http://localhost:8501 — Streamlit app dashboard for internal metrics, running on dev server.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.com/ollama/ollama — run LLMs locally, bookmark for experimenting with local AI models.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions — GitHub Actions syntax reference, I always forget 'needs' and 'if' conditions.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://redis.io/commands/ — Redis command reference, bookmark for quick lookups during development.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi — 3Blue1Brown neural networks series, watch again for intuition.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://medium.com/@netflixtechblog/linux-performance-analysis-in-60s-000000000000 — Netflix performance analysis guide, bookmark for on-call rotations.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://www.freecodecamp.org/news/the-react-handbook-b71c27b0a795/ — React handbook, share with new team members.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.com/jlevy/the-art-of-command-line — command line mastery guide, bookmark for daily reference.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://www.toptal.com/developers/gitignore — gitignore generator, use for every new project.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://crontab.guru/ — cron schedule expression editor, bookmark because I can never remember syntax.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: http://localhost:9090/targets — Prometheus targets page, check when metrics stop appearing.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://www.kernel.org/doc/html/latest/admin-guide/mm/concepts.html — Linux memory management concepts, deep dive for performance tuning.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.com/awesome-selfhosted/awesome-selfhosted — self-hosted software list, bookmark for homelab ideas.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://www.terraform.io/docs/language/syntax/configuration.html — Terraform configuration syntax, rebuilding infrastructure next quarter.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://www.python.org/dev/peps/pep-0008/ — PEP 8 style guide, bookmark for code review checklist.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://grafana.com/docs/grafana/latest/dashboards/ — Grafana dashboard documentation, need to add alerts for SLO violations.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Work: git bisect to find the commit that broke production — found it after 7 steps. Reverted and deployed hotfix.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Wrote GitHub Actions workflow for automated dependency updates (Dependabot + auto-merge for patches).",
+        "class": "Work"
+    },
+    {
+        "text": "Refactored legacy cron jobs to Kubernetes CronJobs — now using 3 replicas for HA.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Added OpenTelemetry instrumentation to payment service — traces now visible in Jaeger UI.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Created Docker multi-stage build for frontend: build stage with Node.js, runtime with Nginx alpine.",
+        "class": "Work"
+    },
+    {
+        "text": "Finance: Paid $2100 for mortgage (principal + interest + escrow). Rate is 4.5% fixed for 30 years.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Sold 50 shares of MSFT at $420 each. Bought at $280, profit $7000 long-term capital gain.",
+        "class": "Finance"
+    },
+    {
+        "text": "Bought 100 shares of SCHD (dividend ETF) for $7600. Expected annual dividend yield 3.4%.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Monthly car loan payment $385. Remaining balance $8700 at 6.2% APR. Paying extra $200/month.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: 401(k) contribution set to 15% of salary. Employer match is 4%. Current balance $47,000.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: San Francisco International (SFO) to Tokyo Haneda (HND) on Zipair — round trip $780. No frills but cheap.",
+        "class": "Travel"
+    },
+    {
+        "text": "Booked Airbnb in New Orleans for Jazz Fest — $180/night, 2 bedrooms, French Quarter. Shared with two friends.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Amtrak Coast Starlight from Seattle to Los Angeles — roomette with meals included. $420 one way.",
+        "class": "Travel"
+    },
+    {
+        "text": "Eurostar from Paris to Brussels at 8:52 AM. Standard premier class with light meal and wifi.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Rent a car in Reykjavik for ring road trip — 4x4 Dacia Duster, 7 days for $650 including gravel insurance.",
+        "class": "Travel"
+    },
+    {
+        "text": "Security: GPG key fingerprint for software signing: 3B5A 8F2C 91D4 E6F8 1A3C 7D9E F2B4 6A8C 0D1E 2F3A — verify before installing packages.",
+        "class": "Security"
+    },
+    {
+        "text": "Encrypted S3 backup using AWS KMS with customer-managed key. Key rotation set to 365 days.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: OAuth2 client secret for production app — store in HashiCorp Vault, never in .env files committed to git.",
+        "class": "Security"
+    },
+    {
+        "text": "Set up fail2ban on public servers with 5 retries in 10 minutes, ban for 1 hour.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: WebAuthn hardware keys (YubiKey 5C) registered for Google, GitHub, and AWS root account.",
+        "class": "Security"
+    },
+    {
+        "text": "- [ ] Morning meditation 5 min\n- [ ] Prepare meeting agenda\n- [x] Submit timesheet\n- [ ] Review team's PRs\n- [ ] Buy birthday card for Lisa\n- [x] Call plumber",
+        "class": "Journal"
+    },
+    {
+        "text": "Weekly checklist:\nMonday: laundry + meal prep\nTuesday: vacuum + dust\nWednesday: water plants + clean bathroom\nThursday: change sheets + grocery shopping\nFriday: take trash out + mop floors\nWeekend: relax",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal:\n- Finish 2 chapters of system design book\n- Write blog post draft\n- Schedule follow-up with recruiter\n- Cancel forgotten subscription ($9/month)\n- Book flight for conference",
+        "class": "Journal"
+    },
+    {
+        "text": "- Clean keyboard with compressed air\n- Organize Downloads folder\n- Update resume\n- Reply to LinkedIn messages\n- Backup phone photos",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: 1. Stand up every hour 2. Drink 2L water 3. Take vitamins 4. 10 min stretch at lunch 5. No phone during dinner 6. Sleep by 11 PM",
+        "class": "Journal"
+    },
+    {
+        "text": "Personal: Great mood today — sunny weather and no meetings. Go for a walk at lunch and buy flowers for the desk.",
+        "class": "Personal"
+    },
+    {
+        "text": "Shopping list: avocados, limes, cilantro, tortilla chips, black beans, corn, red onion — making guacamole and salsa.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Take dog to the vet for annual checkup and vaccines. Also ask about teeth cleaning.",
+        "class": "Personal"
+    },
+    {
+        "text": "Home maintenance: Replace air filter (size 20x20x1), test sump pump, clean dryer vent.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Call grandparents on Sunday — haven't spoken in two weeks. Ask about their garden and health.",
+        "class": "Personal"
+    },
+    {
+        "text": "- [ ] Morning run 5k\n- [ ] Shower and coffee\n- [x] Reply to urgent emails\n- [ ] Write project update\n- [ ] Call mom\n- [ ] Buy milk and eggs",
+        "class": "Journal"
+    },
+    {
+        "text": "Weekly habit tracker:\n* Mon: gym + reading\n* Tue: yoga + groceries\n* Wed: run + laundry\n* Thu: gym + cleaning\n* Fri: rest + movie\n* Sat: hike + friends\n* Sun: meal prep + relax",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal:\n- Finish Q2 report\n- Schedule dentist\n- Cancel unused subscription ($14/month)\n- Water plants\n- Change bedsheets\n- Pay electricity bill",
+        "class": "Journal"
+    },
+    {
+        "text": "- Vacuum living room\n- Clean bathroom sink\n- Take out recycling\n- Order dog food\n- Replace lightbulb in kitchen\n- Wipe down countertops",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: 1. Meditate 10 min 2. Write 3 gratitudes 3. Review today's goals 4. Plan tomorrow's meals 5. No screens after 10 PM 6. Read 20 pages",
+        "class": "Journal"
+    },
+    {
+        "text": "- [x] Breakfast at 8am\n- [ ] Work 9am-12pm\n- [x] Lunch at 12:30\n- [ ] Meeting at 2pm\n- [ ] Gym at 6pm\n- [ ] Dinner at 7:30\n- [ ] Read before bed",
+        "class": "Journal"
+    },
+    {
+        "text": "Spring cleaning checklist:\n- wash windows\n- vacuum under furniture\n- clean fridge inside\n- organize pantry\n- donate old clothes\n- wash curtains",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal:\n• Write 500 words for blog\n• Finish book chapter 3\n• Prepare presentation slides\n• Call plumber\n• Buy birthday gift\n• Schedule car service",
+        "class": "Journal"
+    },
+    {
+        "text": "- [x] Morning stretch\n- [x] Take vitamins\n- [ ] Reply to Sarah\n- [ ] Submit timesheet\n- [ ] Clean desk\n- [ ] Water orchids\n- [ ] Plan weekend trip",
+        "class": "Journal"
+    },
+    {
+        "text": "Daily routine:\n07:00 wake up\n07:30 run\n08:30 shower\n09:00 breakfast\n09:30 work start\n12:30 lunch\n13:00 work resume\n18:00 end work\n19:00 dinner\n20:00 relax\n22:00 sleep",
+        "class": "Journal"
+    },
+    {
+        "text": "Security: nsec1abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrs — Nostr private key, never share.",
+        "class": "Security"
+    },
+    {
+        "text": "SSH private key for prod server: -----BEGIN OPENSSH PRIVATE KEY----- ... -----END OPENSSH PRIVATE KEY-----",
+        "class": "Security"
+    },
+    {
+        "text": "Security: API key for OpenAI — sk-proj-1234567890abcdefghijklmnopqrstuvwxyz. Rotate monthly.",
+        "class": "Security"
+    },
+    {
+        "text": "Bitcoin seed phrase: abandon, bonus, cereal, dragon, echo, fossil, galaxy, hedge, index, jungle, knife, lunar",
+        "class": "Security"
+    },
+    {
+        "text": "Security: 2FA backup codes for iCloud — store in encrypted USB drive and fireproof safe.",
+        "class": "Security"
+    },
+    {
+        "text": "WireGuard private key: ABCdefGHI123jklMNO456pqrSTU789vwxYZ0=, keep in /etc/wireguard with 600 permissions.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: JWT secret for production — 256-bit key stored in AWS Secrets Manager, rotated every 90 days.",
+        "class": "Security"
+    },
+    {
+        "text": "GPG key fingerprint: 8F2C 91D4 E6F8 1A3C 7D9E F2B4 6A8C 0D1E 2F3A 4B5C — verify all package signatures.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: OAuth2 client secret for Google login — store in Vault, never in .env files committed to git.",
+        "class": "Security"
+    },
+    {
+        "text": "Encrypted backup of ~/Documents using age — recipient key age1qyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpq",
+        "class": "Security"
+    },
+    {
+        "text": "Security: Root password for MySQL: Tr0ub4dor&3! — change to 32-character random string immediately.",
+        "class": "Security"
+    },
+    {
+        "text": "YubiKey registered for GitHub, Google, AWS, and Bitwarden. Backup keys stored at home and office.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: TLS certificate private key — encrypted with passphrase, stored offline. Backup in two locations.",
+        "class": "Security"
+    },
+    {
+        "text": "Docker registry credentials: username + PAT token. Never expose in images or logs.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: PGP private key for email encryption — 4096-bit RSA, passphrase-protected, on hardware key only.",
+        "class": "Security"
+    },
+    {
+        "text": "Finance: Mortgage payment $1850 due on 1st. 30-year fixed at 6.2%. Remaining principal $320k.",
+        "class": "Finance"
+    },
+    {
+        "text": "Transferred $500 to Roth IRA, bought VTSAX. Expense ratio 0.04%. Dollar cost averaging monthly.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Sold 100 shares of AAPL at $175 each. Bought at $120, profit $5500 long-term capital gain.",
+        "class": "Finance"
+    },
+    {
+        "text": "Paid $120 for electricity, $45 for water, and $80 for gas. All on autopay from checking account.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Credit card balance $2300 at 0% until October. Paying $400 per month to clear before promo ends.",
+        "class": "Finance"
+    },
+    {
+        "text": "Bought 0.1 BTC for $9500 on Kraken, transferred to Ledger hardware wallet. Fee was $3.50.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Emergency fund target $25,000 — currently $18,500. Adding $1500 monthly until goal met.",
+        "class": "Finance"
+    },
+    {
+        "text": "Car loan balance $12,400 at 5.9% APR. Monthly payment $380, adding extra $200 principal each month.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Contributed $15,000 to 401(k) this year. Employer match 5%. Next target: max out at $23,000.",
+        "class": "Finance"
+    },
+    {
+        "text": "Paid $3500 for property taxes. Due April 15th. Save receipt for tax deduction next year.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Sold 200 shares of PLTR at $28. Average cost $14. Profit $2800. Reinvesting into SCHD.",
+        "class": "Finance"
+    },
+    {
+        "text": "Opened 529 plan for niece with $2000. Monthly contribution $100. Target $50,000 by age 18.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Cryptocurrency portfolio: BTC 60%, ETH 25%, SOL 10%, other 5%. Up 15% this quarter.",
+        "class": "Finance"
+    },
+    {
+        "text": "Paid $150 for annual life insurance premium. $500k term policy. Beneficiary updated.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Rental property income $2200/month. Mortgage $1200, taxes $300, insurance $100, profit $600.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: JFK to LHR on Virgin Atlantic, flight VS 154. Seat 12A. Lounge access via Priority Pass.",
+        "class": "Travel"
+    },
+    {
+        "text": "Booked hotel in Rome for 4 nights — $180/night, near Colosseum. Breakfast included, free cancellation.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Shinkansen from Tokyo to Kyoto — reserved seat, window side. Departure 9:45 AM, arrives 11:30 AM.",
+        "class": "Travel"
+    },
+    {
+        "text": "Rental car at Miami airport: Ford Mustang convertible, 5 days for $420. Includes unlimited mileage and LDW.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Airbnb in Barcelona's Gothic Quarter — $110/night, 2 bedrooms, rooftop pool. Host speaks English.",
+        "class": "Travel"
+    },
+    {
+        "text": "Eurostar London St Pancras to Paris Gare du Nord — 7:30 AM departure. Standard premier, meal included.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: LAX to Tokyo Narita (NRT) on Singapore Airlines — business class using points. 80k miles + $50 tax.",
+        "class": "Travel"
+    },
+    {
+        "text": "Ferry from Helsinki to Tallinn — 2 hours, economy class. Departure 9 AM, return 6 PM same day.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Hostel in Bangkok — $12/night, shared dorm, AC, free wifi. Walking distance to Khao San Road.",
+        "class": "Travel"
+    },
+    {
+        "text": "Amtrak Pacific Surfliner San Diego to Los Angeles — business class, $45 one way. Coastal views on the right.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Booked tour of Alhambra in Granada — skip-the-line ticket, guided 3-hour tour. €25 per person.",
+        "class": "Travel"
+    },
+    {
+        "text": "Work: git rebase -i HEAD~4 && squash commits before merging to main branch.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Deployed backend to EKS, configured HPA based on CPU and memory, 3 replicas min.",
+        "class": "Work"
+    },
+    {
+        "text": "Fixed memory leak in Node.js worker — added .destroy() after each job completion.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Added rate limiting to API gateway using Redis sliding window: 100 req/min per IP.",
+        "class": "Work"
+    },
+    {
+        "text": "Created GitLab CI pipeline with 5 stages: lint, test, build, deploy, notify. Cached node_modules.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Refactored monolith to microservices — payment service extracted, gRPC with TLS mutual auth.",
+        "class": "Work"
+    },
+    {
+        "text": "Optimized Nginx config: added Brotli compression, cache static assets for 1 year, HSTS enabled.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Wrote migration script for MongoDB to add compound index on user_id + created_at.",
+        "class": "Work"
+    },
+    {
+        "text": "Set up Prometheus + Grafana dashboards for API latency, error rate, and request volume.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Integrated Sentry for error tracking. Capture exceptions and send to Slack channel #alerts.",
+        "class": "Work"
+    },
+    {
+        "text": "Bookmarks: https://github.com/changkun/ocaml-tutorial — practical OCaml tutorial for working programmers.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://react.dev/reference/react/memo — React.memo documentation, keep open for performance optimization.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: http://localhost:3000/graphql — GraphQL playground for testing queries against local backend.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://www.fast.ai/ — free deep learning course, practical approach with FastAI library.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://excalidraw.com/ — quick architecture diagrams and whiteboard sketches, no account needed.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://news.ycombinator.com/item?id=40572819 — HN discussion about Rust vs Go for microservices.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://www.raycast.com/ — Spotlight replacement for macOS, includes extensions and scripts.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.com/features/copilot — GitHub Copilot docs, try for 30 days to evaluate productivity gains.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://www.postgresql.org/docs/15/sql-explain.html — PostgreSQL EXPLAIN guide, for query optimization.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://docs.docker.com/compose/compose-file/ — Docker Compose reference, always forget volume and network syntax.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Personal: Feeling exhausted today — only 5 hours of sleep. Going to bed at 9 PM, no caffeine after 2 PM.",
+        "class": "Personal"
+    },
+    {
+        "text": "Grocery list: almond milk, Greek yogurt, granola, bananas, spinach, avocados, eggs, salmon, sweet potatoes.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Schedule colonoscopy (turning 45). Annual physical next week — blood work and EKG.",
+        "class": "Personal"
+    },
+    {
+        "text": "Recipe: lentil soup — onion, garlic, carrots, celery, lentils, vegetable broth, cumin, lemon juice.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Send birthday gift to brother — new wallet from Bellroy. Order by Friday for Sunday delivery.",
+        "class": "Personal"
+    },
+    {
+        "text": "Gym: leg day — squats 4x6 (225 lbs), deadlifts 3x5 (275 lbs), leg press 3x10, calf raises 4x15.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Order new sneakers — Hoka Clifton 9, size 10.5. Current ones have 450 miles, soles worn out.",
+        "class": "Personal"
+    },
+    {
+        "text": "Call plumber for leaky faucet in kitchen — dripping since Tuesday. Also check water pressure.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Movie night with friends on Saturday — Oppenheimer at IMAX, then dinner at Italian place.",
+        "class": "Personal"
+    },
+    {
+        "text": "Work: Fixed a bug in the API authentication flow and pushed changes to git repository.",
+        "class": "Work"
+    },
+    {
+        "text": "Развернул docker-контейнеры и настроил CI/CD pipeline для деплоя.",
+        "class": "Work"
+    },
+    {
+        "text": "Updated backend service, deployed via Kubernetes, monitored logs.",
+        "class": "Work"
+    },
+    {
+        "text": "Написал скрипт для миграции базы данных и закоммитил в git.",
+        "class": "Work"
+    },
+    {
+        "text": "Configured nginx and docker-compose for staging environment.",
+        "class": "Work"
+    },
+    {
+        "text": "Сегодня дебажил API и исправил ошибку авторизации.",
+        "class": "Work"
+    },
+    {
+        "text": "Refactored code and pushed commit to git, prepared for deploy.",
+        "class": "Work"
+    },
+    {
+        "text": "Перевел 500 USD на брокерский счет и купил акции.",
+        "class": "Finance"
+    },
+    {
+        "text": "Reviewed monthly expenses in EUR and planned savings.",
+        "class": "Finance"
+    },
+    {
+        "text": "Оплатил кредит и коммунальные услуги, осталось 20000 рублей.",
+        "class": "Finance"
+    },
+    {
+        "text": "Invested $1000 into index funds and tracked portfolio.",
+        "class": "Finance"
+    },
+    {
+        "text": "Составил бюджет, учел доходы и расходы.",
+        "class": "Finance"
+    },
+    {
+        "text": "Paid rent and utilities, updated bank account balance.",
+        "class": "Finance"
+    },
+    {
+        "text": "Купил криптовалюту и проверил курс BTC.",
+        "class": "Finance"
+    },
+    {
+        "text": "Booked hotel in Paris and bought flight tickets.",
+        "class": "Travel"
+    },
+    {
+        "text": "Забронировал билеты на поезд до Москвы.",
+        "class": "Travel"
+    },
+    {
+        "text": "Flight to Berlin departs from airport at 6 AM.",
+        "class": "Travel"
+    },
+    {
+        "text": "Проверил бронирование отеля в Турции.",
+        "class": "Travel"
+    },
+    {
+        "text": "Reserved Airbnb in Rome for vacation.",
+        "class": "Travel"
+    },
+    {
+        "text": "Собрал чемодан перед поездкой в Испанию.",
+        "class": "Travel"
+    },
+    {
+        "text": "Train tickets to Prague booked successfully.",
+        "class": "Travel"
+    },
+    {
+        "text": "Saved API token: sk-12345-secret-key in config.",
+        "class": "Security"
+    },
+    {
+        "text": "Сменил пароль и включил 2FA для аккаунта.",
+        "class": "Security"
+    },
+    {
+        "text": "Encrypted backup created and stored securely.",
+        "class": "Security"
+    },
+    {
+        "text": "Добавил SSH ключ в конфиг сервера.",
+        "class": "Security"
+    },
+    {
+        "text": "Generated new JWT token for authentication.",
+        "class": "Security"
+    },
+    {
+        "text": "Сделал backup базы данных и зашифровал файл.",
+        "class": "Security"
+    },
+    {
+        "text": "Stored password in encrypted vault.",
+        "class": "Security"
+    },
+    {
+        "text": "- Wake up\n- Gym\n- Work\n- Read a book",
+        "class": "Journal"
+    },
+    {
+        "text": "- Купить продукты\n- Позвонить маме\n- Уборка",
+        "class": "Journal"
+    },
+    {
+        "text": "* Finish project\n* Deploy API\n* Write report",
+        "class": "Journal"
+    },
+    {
+        "text": "1. Завтрак\n2. Работа\n3. Прогулка",
+        "class": "Journal"
+    },
+    {
+        "text": "- Meditate\n- Plan day\n- Review goals",
+        "class": "Journal"
+    },
+    {
+        "text": "- Тренировка\n- Душ\n- Сон",
+        "class": "Journal"
+    },
+    {
+        "text": "Check this article: https://example.com/devops-guide",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Интересная ссылка: http://finance-blog.ru/invest",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.com/project/repo useful repo",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Сохранил статью https://habr.com/ru/post/123456/",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Watch later: https://youtube.com/video123",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Полезный ресурс http://travel-tips.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Сегодня встретился с другом и сходили в кафе.",
+        "class": "Personal"
+    },
+    {
+        "text": "Went to the gym and felt great after workout.",
+        "class": "Personal"
+    },
+    {
+        "text": "Позвонил маме и обсудили планы на выходные.",
+        "class": "Personal"
+    },
+    {
+        "text": "Cooked pasta and watched a movie in the evening.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сходил к врачу и купил лекарства в аптеке.",
+        "class": "Personal"
+    },
+    {
+        "text": "Played with my dog and went for a walk.",
+        "class": "Personal"
+    },
+    {
+        "text": "Почитал книгу перед сном, настроение спокойное.",
+        "class": "Personal"
+    },
+    {
+        "text": "Had dinner with family and discussed vacation.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сделал уборку дома и приготовил ужин.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Cook dinner for friends on Friday — lasagna, garlic bread, Caesar salad, tiramisu for dessert.",
+        "class": "Personal"
+    },
+    {
+        "text": "Weekly goal: exercise 5 times, read 2 book chapters, finish work project, call grandparents, declutter closet.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Feeling grateful today — good health, supportive family, and interesting work. Write this down.",
+        "class": "Personal"
+    },
+    {
+        "text": "Buy: laundry detergent, dryer sheets, dishwasher pods, trash bags, sponges, and paper towels. Running low on everything.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Sign up for half marathon in October — start training plan in July. Need new running shoes and hydration vest.",
+        "class": "Personal"
+    },
+    {
+        "text": "Call dentist to reschedule cleaning — conflicted with work meeting. New slot next Tuesday at 10 AM.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Organize garage this weekend — throw away old paint cans, donate unused tools, sell bike on Craigslist.",
+        "class": "Personal"
+    },
+    {
+        "text": "Recipe: chicken noodle soup with homemade broth — carrots, celery, onion, thyme, egg noodles, shredded rotisserie chicken.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Therapist appointment on Thursday at 3 PM — Zoom link in calendar. Topics: stress management, sleep hygiene.",
+        "class": "Personal"
+    },
+    {
+        "text": "Buy houseplant for living room — monstera or fiddle leaf fig. Also need pot, soil, and fertilizer.",
+        "class": "Personal"
+    },
+    {
+        "text": "Work: Added unit tests for payment validation logic — coverage up from 68% to 85%. Need to hit 90% next sprint.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Docker multi-stage build for Python app — builder stage with deps, runtime with slim image. Image size reduced by 60%.",
+        "class": "Work"
+    },
+    {
+        "text": "git push origin main && git tag v2.3.0 && git push --tags",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Set up Blue/Green deployment for API service — load balancer swaps traffic after health checks pass.",
+        "class": "Work"
+    },
+    {
+        "text": "Optimized slow SQL query using partial index on orders.status — time dropped from 4.5s to 50ms.",
+        "class": "Work"
+    },
+    {
+        "text": "Finance: HSA contribution $300 per month. Current balance $12,000. Invested in VTI and BND.",
+        "class": "Finance"
+    },
+    {
+        "text": "Paid $85 for internet, $45 for streaming services (Netflix, Hulu, Disney+), and $15 for iCloud storage.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Sold covered calls on 100 shares of AMD at $150 strike, received $350 premium. Expires in 3 weeks.",
+        "class": "Finance"
+    },
+    {
+        "text": "Bought $500 worth of I bonds at 5.2% fixed rate. Max purchase per year is $15,000.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Refinanced student loans — new rate 3.5% down from 6.8%. Monthly payment $320, term 10 years.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Booked flight Chicago to Denver on Southwest — $89 one way, includes 2 free checked bags. Boarding group B.",
+        "class": "Travel"
+    },
+    {
+        "text": "Hotel in Singapore — Marina Bay Sands, 2 nights for $680. Infinity pool access included. Booked with points.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Train from Florence to Venice — regional train, 2.5 hours, €40. Departure at 8:30 AM from Santa Maria Novella.",
+        "class": "Travel"
+    },
+    {
+        "text": "Airbnb in Montreal — $80/night, studio near Plateau Mont-Royal. Host recommends bagels from St-Viateur.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Ferry from Athens to Santorini — high-speed 5 hours, €70. Booked deck seats, luggage included.",
+        "class": "Travel"
+    },
+    {
+        "text": "Security: Recovery phrase for Ledger hardware wallet: canvas, primary, object, cruise, balcony, hidden, virtual, plastic, jungle, oxygen, wing, picnic. Never enter online.",
+        "class": "Security"
+    },
+    {
+        "text": "PGP private key for email encryption — 4096-bit, stored on YubiKey only. Backup in safe deposit box.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: AWS access key ID and secret for automation account — rotate every 60 days, last rotated on March 15.",
+        "class": "Security"
+    },
+    {
+        "text": "Docker Hub PAT token: dckr_pat_1234567890abcdefghijklmnopqrstuv — use for CI only, never share.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: Encrypted ZFS dataset for backups — passphrase required to mount. Copy key to offline storage.",
+        "class": "Security"
+    },
+    {
+        "text": "- [x] Morning pages (3 pages handwritten)\n- [ ] 10 min meditation\n- [x] Workout (upper body)\n- [ ] Reply to 5 emails\n- [ ] Finish presentation\n- [x] Call mom",
+        "class": "Journal"
+    },
+    {
+        "text": "Daily reflection:\nWent well: finished report ahead of deadline\nCould improve: checked phone too often\nGrateful for: sunny weather and good coffee",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal:\n• Buy anniversary gift\n• Plan weekend hiking trip\n• Update LinkedIn profile\n• Schedule AC maintenance\n• Pay credit card bill",
+        "class": "Journal"
+    },
+    {
+        "text": "- Wash car exterior and interior\n- Check tire pressure and oil\n- Replace windshield wipers\n- Top up washer fluid\n- Vacuum floor mats",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: 1. Journal for 10 min 2. Duolingo Spanish 3. Stretch at desk 4. Review calendar 5. Prioritize top 3 tasks 6. Evening review",
+        "class": "Journal"
+    },
+    {
+        "text": "Bookmarks: https://www.mongodb.com/docs/manual/indexes/ — MongoDB indexing strategies, need for aggregation pipelines.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.com/ollama/ollama — run LLMs locally, bookmark for offline AI experiments.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ — K8s probes docs, keep for deployment configs.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://www.terraform.io/docs/language/modules/index.html — Terraform modules documentation, rebuilding AWS infra next month.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: http://localhost:9090/alerts — Prometheus Alertmanager UI, check during on-call rotation.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Work: Fixed flaky CI test — was timing out due to external API call. Added mock and reduced timeout to 5s.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Implemented circuit breaker in API gateway using Resilience4j — fallback returns cached response for 30s.",
+        "class": "Work"
+    },
+    {
+        "text": "git revert HEAD~2 && git commit -m 'rollback broken deploy' && git push",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Updated OpenAPI spec v3 to v3.1 — added new endpoint GET /api/v2/health and examples for error responses.",
+        "class": "Work"
+    },
+    {
+        "text": "Set up log aggregation with Loki and Promtail — all service logs in Grafana with labels for environment.",
+        "class": "Work"
+    },
+    {
+        "text": "Finance: Sold 50 shares of NVDA at $900 each. Bought at $400, profit $25,000 long-term. Set aside $5,000 for taxes.",
+        "class": "Finance"
+    },
+    {
+        "text": "Mortgage payment $2,100 due on 15th. Principal $350k, rate 5.5%. Paying biweekly to save on interest.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Contributed $7,000 to Roth IRA for 2026. Maxed out. Invested in target date fund 2055.",
+        "class": "Finance"
+    },
+    {
+        "text": "Personal loan balance $8,500 at 11% APR — pay off aggressively, $1,000 per month until cleared.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Monthly budget review — spent $400 on eating out, $250 on groceries, $120 on transportation. Under budget by $80.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: Amsterdam Schiphol (AMS) to Dublin (DUB) on Ryanair — €45 round trip, no checked bags. Departure 7 AM on Friday.",
+        "class": "Travel"
+    },
+    {
+        "text": "Booked glamping site in Big Sur — $250/night, tent with real bed and fireplace. 2 nights, includes breakfast.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Drive from San Francisco to Los Angeles via Highway 1 — stop in Monterey, Big Sur, Santa Barbara. 3 days total.",
+        "class": "Travel"
+    },
+    {
+        "text": "Security: Backup codes for Bitwarden — stored in encrypted 7z archive. Password known only to me and my partner.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: Snowflake account private key for service user — stored in S3 bucket with KMS encryption and strict IAM policies.",
+        "class": "Security"
+    },
+    {
+        "text": "- [ ] Yoga 20 min\n- [ ] Smoothie for breakfast\n- [x] Email client about contract\n- [ ] Research new laptop\n- [x] Water plants\n- [ ] 10k steps goal",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: \n• Write thank you notes\n• Schedule annual physical\n• Cancel old subscription ($8.99/mo)\n• Backup phone photos\n• Order birthday gift for nephew",
+        "class": "Journal"
+    },
+    {
+        "text": "Bookmarks: https://www.eff.org/ — Electronic Frontier Foundation, keep for digital rights and privacy resources.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.blog/2023-05-15-github-actions-artifacts-v3/ — GitHub Actions artifacts v3 release notes, upgrade workflows.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Personal: Feeling anxious about job interview tomorrow — practice answers for behavioral questions, get good sleep, arrive early.",
+        "class": "Personal"
+    },
+    {
+        "text": "Recipe: homemade pizza dough — flour, yeast, salt, olive oil, water. Proof for 2 hours, stretch thin, bake at 500°F.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Order anniversary gift for partner — weekend getaway to Napa Valley. Wine tour, spa treatment, nice dinner.",
+        "class": "Personal"
+    },
+    {
+        "text": "Work: Updated API endpoints and pushed to git.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Deployed docker container to production.",
+        "class": "Work"
+    },
+    {
+        "text": "Fix bug in auth API and commit to git.",
+        "class": "Work"
+    },
+    {
+        "text": "Настроил docker и сделал deploy сервиса.",
+        "class": "Work"
+    },
+    {
+        "text": "Refactored backend and pushed changes.",
+        "class": "Work"
+    },
+    {
+        "text": "Добавил новый endpoint в API.",
+        "class": "Work"
+    },
+    {
+        "text": "Debugged microservice and redeployed.",
+        "class": "Work"
+    },
+    {
+        "text": "Настроил CI/CD pipeline.",
+        "class": "Work"
+    },
+    {
+        "text": "Worked with Kubernetes deployment.",
+        "class": "Work"
+    },
+    {
+        "text": "Commit and push to git repo.",
+        "class": "Work"
+    },
+    {
+        "text": "Настроил nginx и backend сервис.",
+        "class": "Work"
+    },
+    {
+        "text": "Fixed API timeout issue.",
+        "class": "Work"
+    },
+    {
+        "text": "Docker build and deploy done.",
+        "class": "Work"
+    },
+    {
+        "text": "Updated config and restarted service.",
+        "class": "Work"
+    },
+    {
+        "text": "Работал с логами сервера.",
+        "class": "Work"
+    },
+    {
+        "text": "Wrote script for deployment.",
+        "class": "Work"
+    },
+    {
+        "text": "Merged pull request in git.",
+        "class": "Work"
+    },
+    {
+        "text": "Добавил middleware в API.",
+        "class": "Work"
+    },
+    {
+        "text": "Optimized database queries.",
+        "class": "Work"
+    },
+    {
+        "text": "Setup staging environment.",
+        "class": "Work"
+    },
+    {
+        "text": "Debugged docker-compose issue.",
+        "class": "Work"
+    },
+    {
+        "text": "Updated backend logic.",
+        "class": "Work"
+    },
+    {
+        "text": "Закоммитил изменения в git.",
+        "class": "Work"
+    },
+    {
+        "text": "Worked on REST API.",
+        "class": "Work"
+    },
+    {
+        "text": "Fixed deploy script.",
+        "class": "Work"
+    },
+    {
+        "text": "Настроил сервер и конфиг.",
+        "class": "Work"
+    },
+    {
+        "text": "Implemented caching layer.",
+        "class": "Work"
+    },
+    {
+        "text": "Updated API docs.",
+        "class": "Work"
+    },
+    {
+        "text": "Resolved merge conflict in git.",
+        "class": "Work"
+    },
+    {
+        "text": "Deployed new release.",
+        "class": "Work"
+    },
+    {
+        "text": "Работа с docker volumes.",
+        "class": "Work"
+    },
+    {
+        "text": "Added logging to service.",
+        "class": "Work"
+    },
+    {
+        "text": "Improved API performance.",
+        "class": "Work"
+    },
+    {
+        "text": "Настроил redis cache.",
+        "class": "Work"
+    },
+    {
+        "text": "Pushed hotfix to production.",
+        "class": "Work"
+    },
+    {
+        "text": "Configured environment variables.",
+        "class": "Work"
+    },
+    {
+        "text": "Debugging backend error.",
+        "class": "Work"
+    },
+    {
+        "text": "Добавил cron job.",
+        "class": "Work"
+    },
+    {
+        "text": "Updated CI pipeline.",
+        "class": "Work"
+    },
+    {
+        "text": "Rebuilt docker image.",
+        "class": "Work"
+    },
+    {
+        "text": "Работал с GraphQL API.",
+        "class": "Work"
+    },
+    {
+        "text": "Added unit tests.",
+        "class": "Work"
+    },
+    {
+        "text": "Fixed bug in service.",
+        "class": "Work"
+    },
+    {
+        "text": "Настроил webhook.",
+        "class": "Work"
+    },
+    {
+        "text": "Monitoring logs after deploy.",
+        "class": "Work"
+    },
+    {
+        "text": "Updated dependencies.",
+        "class": "Work"
+    },
+    {
+        "text": "Оптимизировал backend.",
+        "class": "Work"
+    },
+    {
+        "text": "Fixed auth issue.",
+        "class": "Work"
+    },
+    {
+        "text": "Added API validation.",
+        "class": "Work"
+    },
+    {
+        "text": "Настроил load balancer.",
+        "class": "Work"
+    },
+    {
+        "text": "Restarted server.",
+        "class": "Work"
+    },
+    {
+        "text": "Improved docker setup.",
+        "class": "Work"
+    },
+    {
+        "text": "Работа с kubernetes.",
+        "class": "Work"
+    },
+    {
+        "text": "Updated API routes.",
+        "class": "Work"
+    },
+    {
+        "text": "Fixed CI error.",
+        "class": "Work"
+    },
+    {
+        "text": "Deploy via script.",
+        "class": "Work"
+    },
+    {
+        "text": "Настроил TLS.",
+        "class": "Work"
+    },
+    {
+        "text": "Debugged API logs.",
+        "class": "Work"
+    },
+    {
+        "text": "Added new feature.",
+        "class": "Work"
+    },
+    {
+        "text": "Pushed code changes.",
+        "class": "Work"
+    },
+    {
+        "text": "Обновил backend сервис.",
+        "class": "Work"
+    },
+    {
+        "text": "Refactored modules.",
+        "class": "Work"
+    },
+    {
+        "text": "Worked on infra.",
+        "class": "Work"
+    },
+    {
+        "text": "Fixed docker issue.",
+        "class": "Work"
+    },
+    {
+        "text": "Updated configs.",
+        "class": "Work"
+    },
+    {
+        "text": "Merged branch.",
+        "class": "Work"
+    },
+    {
+        "text": "Reployed service.",
+        "class": "Work"
+    },
+    {
+        "text": "API integration done.",
+        "class": "Work"
+    },
+    {
+        "text": "Настроил сервер.",
+        "class": "Work"
+    },
+    {
+        "text": "Перевел 100 USD на счет.",
+        "class": "Finance"
+    },
+    {
+        "text": "Paid rent 500 EUR.",
+        "class": "Finance"
+    },
+    {
+        "text": "Купил акции на 20000 рублей.",
+        "class": "Finance"
+    },
+    {
+        "text": "Invested $300 in ETF.",
+        "class": "Finance"
+    },
+    {
+        "text": "Оплатил кредит.",
+        "class": "Finance"
+    },
+    {
+        "text": "Tracked monthly expenses.",
+        "class": "Finance"
+    },
+    {
+        "text": "Купил BTC.",
+        "class": "Finance"
+    },
+    {
+        "text": "Saved money in bank.",
+        "class": "Finance"
+    },
+    {
+        "text": "Оплатил коммунальные услуги.",
+        "class": "Finance"
+    },
+    {
+        "text": "Income updated.",
+        "class": "Finance"
+    },
+    {
+        "text": "Перевел деньги другу.",
+        "class": "Finance"
+    },
+    {
+        "text": "Bought stocks.",
+        "class": "Finance"
+    },
+    {
+        "text": "Проверил баланс счета.",
+        "class": "Finance"
+    },
+    {
+        "text": "Paid subscription.",
+        "class": "Finance"
+    },
+    {
+        "text": "Составил бюджет.",
+        "class": "Finance"
+    },
+    {
+        "text": "Tracked expenses.",
+        "class": "Finance"
+    },
+    {
+        "text": "Оплатил интернет.",
+        "class": "Finance"
+    },
+    {
+        "text": "Saved 100 EUR.",
+        "class": "Finance"
+    },
+    {
+        "text": "Купил криптовалюту.",
+        "class": "Finance"
+    },
+    {
+        "text": "Reviewed investments.",
+        "class": "Finance"
+    },
+    {
+        "text": "Погасил долг.",
+        "class": "Finance"
+    },
+    {
+        "text": "Bank transfer done.",
+        "class": "Finance"
+    },
+    {
+        "text": "Оплатил аренду.",
+        "class": "Finance"
+    },
+    {
+        "text": "Tracked savings.",
+        "class": "Finance"
+    },
+    {
+        "text": "Купил облигации.",
+        "class": "Finance"
+    },
+    {
+        "text": "Updated budget.",
+        "class": "Finance"
+    },
+    {
+        "text": "Перевел 50 USD.",
+        "class": "Finance"
+    },
+    {
+        "text": "Paid loan.",
+        "class": "Finance"
+    },
+    {
+        "text": "Доход за месяц записал.",
+        "class": "Finance"
+    },
+    {
+        "text": "Checked crypto portfolio.",
+        "class": "Finance"
+    },
+    {
+        "text": "Оплатил счет.",
+        "class": "Finance"
+    },
+    {
+        "text": "Saved money.",
+        "class": "Finance"
+    },
+    {
+        "text": "Купил акции Apple.",
+        "class": "Finance"
+    },
+    {
+        "text": "Tracked expenses in app.",
+        "class": "Finance"
+    },
+    {
+        "text": "Проверил курс валют.",
+        "class": "Finance"
+    },
+    {
+        "text": "Invested more funds.",
+        "class": "Finance"
+    },
+    {
+        "text": "Оплатил кредитку.",
+        "class": "Finance"
+    },
+    {
+        "text": "Budget planning done.",
+        "class": "Finance"
+    },
+    {
+        "text": "Перевод средств выполнен.",
+        "class": "Finance"
+    },
+    {
+        "text": "Savings updated.",
+        "class": "Finance"
+    },
+    {
+        "text": "Купил ETF.",
+        "class": "Finance"
+    },
+    {
+        "text": "Checked bank account.",
+        "class": "Finance"
+    },
+    {
+        "text": "Оплатил сервис.",
+        "class": "Finance"
+    },
+    {
+        "text": "Income tracked.",
+        "class": "Finance"
+    },
+    {
+        "text": "Перевел евро.",
+        "class": "Finance"
+    },
+    {
+        "text": "Invested monthly.",
+        "class": "Finance"
+    },
+    {
+        "text": "Купил золото.",
+        "class": "Finance"
+    },
+    {
+        "text": "Tracked assets.",
+        "class": "Finance"
+    },
+    {
+        "text": "Оплатил страховку.",
+        "class": "Finance"
+    },
+    {
+        "text": "Saved USD.",
+        "class": "Finance"
+    },
+    {
+        "text": "Проверил баланс.",
+        "class": "Finance"
+    },
+    {
+        "text": "Paid utilities.",
+        "class": "Finance"
+    },
+    {
+        "text": "Инвестиции обновил.",
+        "class": "Finance"
+    },
+    {
+        "text": "Bought crypto.",
+        "class": "Finance"
+    },
+    {
+        "text": "Оплатил налог.",
+        "class": "Finance"
+    },
+    {
+        "text": "Savings plan updated.",
+        "class": "Finance"
+    },
+    {
+        "text": "Перевел деньги.",
+        "class": "Finance"
+    },
+    {
+        "text": "Paid bill.",
+        "class": "Finance"
+    },
+    {
+        "text": "Купил акции Tesla.",
+        "class": "Finance"
+    },
+    {
+        "text": "Tracked spending.",
+        "class": "Finance"
+    },
+    {
+        "text": "Оплатил аренду.",
+        "class": "Finance"
+    },
+    {
+        "text": "Saved funds.",
+        "class": "Finance"
+    },
+    {
+        "text": "Купил ETF фонд.",
+        "class": "Finance"
+    },
+    {
+        "text": "Checked expenses.",
+        "class": "Finance"
+    },
+    {
+        "text": "Оплатил кредит.",
+        "class": "Finance"
+    },
+    {
+        "text": "Updated portfolio.",
+        "class": "Finance"
+    },
+    {
+        "text": "Перевел USD.",
+        "class": "Finance"
+    },
+    {
+        "text": "Booked flight to Paris.",
+        "class": "Travel"
+    },
+    {
+        "text": "Купил билет на поезд.",
+        "class": "Travel"
+    },
+    {
+        "text": "Hotel reservation confirmed.",
+        "class": "Travel"
+    },
+    {
+        "text": "Поездка в Берлин.",
+        "class": "Travel"
+    },
+    {
+        "text": "Flight at airport.",
+        "class": "Travel"
+    },
+    {
+        "text": "Забронировал отель.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel to Rome.",
+        "class": "Travel"
+    },
+    {
+        "text": "Купил авиабилеты.",
+        "class": "Travel"
+    },
+    {
+        "text": "Checked hotel booking.",
+        "class": "Travel"
+    },
+    {
+        "text": "Trip to Spain planned.",
+        "class": "Travel"
+    },
+    {
+        "text": "Поезд до Праги.",
+        "class": "Travel"
+    },
+    {
+        "text": "Airport transfer booked.",
+        "class": "Travel"
+    },
+    {
+        "text": "Забронировал Airbnb.",
+        "class": "Travel"
+    },
+    {
+        "text": "Vacation in Italy.",
+        "class": "Travel"
+    },
+    {
+        "text": "Train tickets ready.",
+        "class": "Travel"
+    },
+    {
+        "text": "Полет в Турцию.",
+        "class": "Travel"
+    },
+    {
+        "text": "Hotel in London.",
+        "class": "Travel"
+    },
+    {
+        "text": "Booked tickets.",
+        "class": "Travel"
+    },
+    {
+        "text": "Путешествие в Грецию.",
+        "class": "Travel"
+    },
+    {
+        "text": "Flight boarding.",
+        "class": "Travel"
+    },
+    {
+        "text": "Забронировал поезд.",
+        "class": "Travel"
+    },
+    {
+        "text": "Trip planned.",
+        "class": "Travel"
+    },
+    {
+        "text": "Airport check-in.",
+        "class": "Travel"
+    },
+    {
+        "text": "Билеты куплены.",
+        "class": "Travel"
+    },
+    {
+        "text": "Hotel reserved.",
+        "class": "Travel"
+    },
+    {
+        "text": "Vacation booked.",
+        "class": "Travel"
+    },
+    {
+        "text": "Путешествие.",
+        "class": "Travel"
+    },
+    {
+        "text": "Train departure.",
+        "class": "Travel"
+    },
+    {
+        "text": "Flight delay.",
+        "class": "Travel"
+    },
+    {
+        "text": "Забронировал поездку.",
+        "class": "Travel"
+    },
+    {
+        "text": "Hotel stay.",
+        "class": "Travel"
+    },
+    {
+        "text": "Trip details saved.",
+        "class": "Travel"
+    },
+    {
+        "text": "Поездка в Париж.",
+        "class": "Travel"
+    },
+    {
+        "text": "Flight ticket.",
+        "class": "Travel"
+    },
+    {
+        "text": "Hotel check-in.",
+        "class": "Travel"
+    },
+    {
+        "text": "Забронировал билет.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel plan.",
+        "class": "Travel"
+    },
+    {
+        "text": "Airport arrival.",
+        "class": "Travel"
+    },
+    {
+        "text": "Поездка в Рим.",
+        "class": "Travel"
+    },
+    {
+        "text": "Booked vacation.",
+        "class": "Travel"
+    },
+    {
+        "text": "Hotel booked.",
+        "class": "Travel"
+    },
+    {
+        "text": "Забронировал номер.",
+        "class": "Travel"
+    },
+    {
+        "text": "Flight scheduled.",
+        "class": "Travel"
+    },
+    {
+        "text": "Trip to Berlin.",
+        "class": "Travel"
+    },
+    {
+        "text": "Поезд отправляется.",
+        "class": "Travel"
+    },
+    {
+        "text": "Airport boarding.",
+        "class": "Travel"
+    },
+    {
+        "text": "Hotel reservation.",
+        "class": "Travel"
+    },
+    {
+        "text": "Путешествие запланировано.",
+        "class": "Travel"
+    },
+    {
+        "text": "Flight booked.",
+        "class": "Travel"
+    },
+    {
+        "text": "Trip confirmed.",
+        "class": "Travel"
+    },
+    {
+        "text": "Забронировал рейс.",
+        "class": "Travel"
+    },
+    {
+        "text": "Hotel stay confirmed.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel itinerary.",
+        "class": "Travel"
+    },
+    {
+        "text": "Поездка в Испанию.",
+        "class": "Travel"
+    },
+    {
+        "text": "Flight boarding pass.",
+        "class": "Travel"
+    },
+    {
+        "text": "Hotel reserved.",
+        "class": "Travel"
+    },
+    {
+        "text": "Trip booked.",
+        "class": "Travel"
+    },
+    {
+        "text": "Забронировал тур.",
+        "class": "Travel"
+    },
+    {
+        "text": "Airport security.",
+        "class": "Travel"
+    },
+    {
+        "text": "Flight info.",
+        "class": "Travel"
+    },
+    {
+        "text": "Путешествие в Чехию.",
+        "class": "Travel"
+    },
+    {
+        "text": "Saved API key sk-xxx.",
+        "class": "Security"
+    },
+    {
+        "text": "Сменил пароль.",
+        "class": "Security"
+    },
+    {
+        "text": "Generated token.",
+        "class": "Security"
+    },
+    {
+        "text": "Encrypted backup.",
+        "class": "Security"
+    },
+    {
+        "text": "Добавил SSH ключ.",
+        "class": "Security"
+    },
+    {
+        "text": "Stored password.",
+        "class": "Security"
+    },
+    {
+        "text": "Backup created.",
+        "class": "Security"
+    },
+    {
+        "text": "Включил 2FA.",
+        "class": "Security"
+    },
+    {
+        "text": "JWT token updated.",
+        "class": "Security"
+    },
+    {
+        "text": "Config secret added.",
+        "class": "Security"
+    },
+    {
+        "text": "Зашифровал данные.",
+        "class": "Security"
+    },
+    {
+        "text": "Saved credentials.",
+        "class": "Security"
+    },
+    {
+        "text": "API token rotated.",
+        "class": "Security"
+    },
+    {
+        "text": "Backup encrypted.",
+        "class": "Security"
+    },
+    {
+        "text": "Обновил пароль.",
+        "class": "Security"
+    },
+    {
+        "text": "Secure config.",
+        "class": "Security"
+    },
+    {
+        "text": "Stored secret.",
+        "class": "Security"
+    },
+    {
+        "text": "Generated key.",
+        "class": "Security"
+    },
+    {
+        "text": "Шифрование включено.",
+        "class": "Security"
+    },
+    {
+        "text": "Vault updated.",
+        "class": "Security"
+    },
+    {
+        "text": "Password changed.",
+        "class": "Security"
+    },
+    {
+        "text": "Backup done.",
+        "class": "Security"
+    },
+    {
+        "text": "Добавил token.",
+        "class": "Security"
+    },
+    {
+        "text": "Encrypted vault.",
+        "class": "Security"
+    },
+    {
+        "text": "Secret saved.",
+        "class": "Security"
+    },
+    {
+        "text": "2FA enabled.",
+        "class": "Security"
+    },
+    {
+        "text": "Config secured.",
+        "class": "Security"
+    },
+    {
+        "text": "Пароль обновлен.",
+        "class": "Security"
+    },
+    {
+        "text": "Key generated.",
+        "class": "Security"
+    },
+    {
+        "text": "Backup stored.",
+        "class": "Security"
+    },
+    {
+        "text": "JWT created.",
+        "class": "Security"
+    },
+    {
+        "text": "Secret rotated.",
+        "class": "Security"
+    },
+    {
+        "text": "Зашифровал backup.",
+        "class": "Security"
+    },
+    {
+        "text": "Stored key.",
+        "class": "Security"
+    },
+    {
+        "text": "API secret.",
+        "class": "Security"
+    },
+    {
+        "text": "Password stored.",
+        "class": "Security"
+    },
+    {
+        "text": "Backup verified.",
+        "class": "Security"
+    },
+    {
+        "text": "Token saved.",
+        "class": "Security"
+    },
+    {
+        "text": "Config encrypted.",
+        "class": "Security"
+    },
+    {
+        "text": "Secret updated.",
+        "class": "Security"
+    },
+    {
+        "text": "Vault secured.",
+        "class": "Security"
+    },
+    {
+        "text": "Пароль сохранен.",
+        "class": "Security"
+    },
+    {
+        "text": "Key stored.",
+        "class": "Security"
+    },
+    {
+        "text": "Backup file.",
+        "class": "Security"
+    },
+    {
+        "text": "Token rotated.",
+        "class": "Security"
+    },
+    {
+        "text": "Encryption done.",
+        "class": "Security"
+    },
+    {
+        "text": "Stored API key.",
+        "class": "Security"
+    },
+    {
+        "text": "Config secret.",
+        "class": "Security"
+    },
+    {
+        "text": "Backup encrypted.",
+        "class": "Security"
+    },
+    {
+        "text": "Password reset.",
+        "class": "Security"
+    },
+    {
+        "text": "Key rotated.",
+        "class": "Security"
+    },
+    {
+        "text": "Secret stored.",
+        "class": "Security"
+    },
+    {
+        "text": "Vault backup.",
+        "class": "Security"
+    },
+    {
+        "text": "2FA setup.",
+        "class": "Security"
+    },
+    {
+        "text": "Token created.",
+        "class": "Security"
+    },
+    {
+        "text": "Encrypted config.",
+        "class": "Security"
+    },
+    {
+        "text": "Secret file.",
+        "class": "Security"
+    },
+    {
+        "text": "Backup ready.",
+        "class": "Security"
+    },
+    {
+        "text": "Password updated.",
+        "class": "Security"
+    },
+    {
+        "text": "- Wake up\n- Work\n- Sleep",
+        "class": "Journal"
+    },
+    {
+        "text": "- Купить еду\n- Уборка",
+        "class": "Journal"
+    },
+    {
+        "text": "* Gym\n* Code",
+        "class": "Journal"
+    },
+    {
+        "text": "1. Завтрак\n2. Работа",
+        "class": "Journal"
+    },
+    {
+        "text": "- Read\n- Walk",
+        "class": "Journal"
+    },
+    {
+        "text": "- Тренировка\n- Душ",
+        "class": "Journal"
+    },
+    {
+        "text": "- Plan\n- Execute",
+        "class": "Journal"
+    },
+    {
+        "text": "- Позвонить\n- Купить",
+        "class": "Journal"
+    },
+    {
+        "text": "* Tasks\n* Goals",
+        "class": "Journal"
+    },
+    {
+        "text": "1. Work\n2. Rest",
+        "class": "Journal"
+    },
+    {
+        "text": "- Медитация\n- Сон",
+        "class": "Journal"
+    },
+    {
+        "text": "- Run\n- Eat",
+        "class": "Journal"
+    },
+    {
+        "text": "- Делать\n- Завершить",
+        "class": "Journal"
+    },
+    {
+        "text": "- Code\n- Test",
+        "class": "Journal"
+    },
+    {
+        "text": "- Купить\n- Приготовить",
+        "class": "Journal"
+    },
+    {
+        "text": "* Plan\n* Review",
+        "class": "Journal"
+    },
+    {
+        "text": "- Gym\n- Shower",
+        "class": "Journal"
+    },
+    {
+        "text": "- Уборка\n- Готовка",
+        "class": "Journal"
+    },
+    {
+        "text": "- Work\n- Learn",
+        "class": "Journal"
+    },
+    {
+        "text": "- Sleep\n- Repeat",
+        "class": "Journal"
+    },
+    {
+        "text": "- Завтрак\n- Обед",
+        "class": "Journal"
+    },
+    {
+        "text": "- Tasks\n- Done",
+        "class": "Journal"
+    },
+    {
+        "text": "- Walk\n- Relax",
+        "class": "Journal"
+    },
+    {
+        "text": "- День\n- Ночь",
+        "class": "Journal"
+    },
+    {
+        "text": "- Focus\n- Finish",
+        "class": "Journal"
+    },
+    {
+        "text": "- Купить\n- Позвонить",
+        "class": "Journal"
+    },
+    {
+        "text": "- Code\n- Push",
+        "class": "Journal"
+    },
+    {
+        "text": "- Train\n- Eat",
+        "class": "Journal"
+    },
+    {
+        "text": "- Work\n- Sleep",
+        "class": "Journal"
+    },
+    {
+        "text": "- План\n- Выполнить",
+        "class": "Journal"
+    },
+    {
+        "text": "- Read\n- Sleep",
+        "class": "Journal"
+    },
+    {
+        "text": "- Study\n- Practice",
+        "class": "Journal"
+    },
+    {
+        "text": "- Run\n- Rest",
+        "class": "Journal"
+    },
+    {
+        "text": "- Eat\n- Sleep",
+        "class": "Journal"
+    },
+    {
+        "text": "- Clean\n- Cook",
+        "class": "Journal"
+    },
+    {
+        "text": "- Work\n- Relax",
+        "class": "Journal"
+    },
+    {
+        "text": "- План\n- Отдых",
+        "class": "Journal"
+    },
+    {
+        "text": "- Gym\n- Work",
+        "class": "Journal"
+    },
+    {
+        "text": "- Read\n- Think",
+        "class": "Journal"
+    },
+    {
+        "text": "- Learn\n- Build",
+        "class": "Journal"
+    },
+    {
+        "text": "- Code\n- Debug",
+        "class": "Journal"
+    },
+    {
+        "text": "- Walk\n- Think",
+        "class": "Journal"
+    },
+    {
+        "text": "- Cook\n- Eat",
+        "class": "Journal"
+    },
+    {
+        "text": "- Buy\n- Use",
+        "class": "Journal"
+    },
+    {
+        "text": "- Test\n- Deploy",
+        "class": "Journal"
+    },
+    {
+        "text": "- Think\n- Write",
+        "class": "Journal"
+    },
+    {
+        "text": "- Study\n- Sleep",
+        "class": "Journal"
+    },
+    {
+        "text": "- Run\n- Code",
+        "class": "Journal"
+    },
+    {
+        "text": "- Work\n- Rest",
+        "class": "Journal"
+    },
+    {
+        "text": "- Clean\n- Sleep",
+        "class": "Journal"
+    },
+    {
+        "text": "- Plan\n- Do",
+        "class": "Journal"
+    },
+    {
+        "text": "- Fix\n- Test",
+        "class": "Journal"
+    },
+    {
+        "text": "- Cook\n- Clean",
+        "class": "Journal"
+    },
+    {
+        "text": "- Read\n- Code",
+        "class": "Journal"
+    },
+    {
+        "text": "- Think\n- Act",
+        "class": "Journal"
+    },
+    {
+        "text": "- Write\n- Publish",
+        "class": "Journal"
+    },
+    {
+        "text": "- Work\n- Eat",
+        "class": "Journal"
+    },
+    {
+        "text": "- Rest\n- Sleep",
+        "class": "Journal"
+    },
+    {
+        "text": "- Learn\n- Grow",
+        "class": "Journal"
+    },
+    {
+        "text": "https://example.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://test.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://site.ru",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://news.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://blog.ru",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://docs.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://link.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://video.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://page.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://tool.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://guide.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://learn.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://read.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://code.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://ref.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://api.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://dev.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://site.org",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://info.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://wiki.org",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://help.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://data.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://cloud.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://store.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://repo.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://design.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://ux.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://tools.dev",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://tips.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://app.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://service.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://platform.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://engine.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://system.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://node.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://js.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://python.org",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://rust-lang.org",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://go.dev",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://java.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://cpp.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://ai.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://ml.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://dl.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://nn.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://data.ai",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://stats.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://math.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://calc.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://viz.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://plot.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://chart.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://graph.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://image.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://photo.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://media.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://sound.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Позвонил маме.",
+        "class": "Personal"
+    },
+    {
+        "text": "Went to gym.",
+        "class": "Personal"
+    },
+    {
+        "text": "Купил продукты.",
+        "class": "Personal"
+    },
+    {
+        "text": "Cooked dinner.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сходил к врачу.",
+        "class": "Personal"
+    },
+    {
+        "text": "Walked with dog.",
+        "class": "Personal"
+    },
+    {
+        "text": "Прочитал книгу.",
+        "class": "Personal"
+    },
+    {
+        "text": "Watched movie.",
+        "class": "Personal"
+    },
+    {
+        "text": "Уборка дома.",
+        "class": "Personal"
+    },
+    {
+        "text": "Met friend.",
+        "class": "Personal"
+    },
+    {
+        "text": "Позвонил другу.",
+        "class": "Personal"
+    },
+    {
+        "text": "Played football.",
+        "class": "Personal"
+    },
+    {
+        "text": "Купил подарок.",
+        "class": "Personal"
+    },
+    {
+        "text": "Relaxed at home.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сходил в магазин.",
+        "class": "Personal"
+    },
+    {
+        "text": "Cooked breakfast.",
+        "class": "Personal"
+    },
+    {
+        "text": "Погулял вечером.",
+        "class": "Personal"
+    },
+    {
+        "text": "Watched series.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сделал тренировку.",
+        "class": "Personal"
+    },
+    {
+        "text": "Had dinner.",
+        "class": "Personal"
+    },
+    {
+        "text": "Позвонил семье.",
+        "class": "Personal"
+    },
+    {
+        "text": "Read book.",
+        "class": "Personal"
+    },
+    {
+        "text": "Купил еду.",
+        "class": "Personal"
+    },
+    {
+        "text": "Played games.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сходил на прогулку.",
+        "class": "Personal"
+    },
+    {
+        "text": "Watched TV.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сделал уборку.",
+        "class": "Personal"
+    },
+    {
+        "text": "Met family.",
+        "class": "Personal"
+    },
+    {
+        "text": "Cooked lunch.",
+        "class": "Personal"
+    },
+    {
+        "text": "Позвонил папе.",
+        "class": "Personal"
+    },
+    {
+        "text": "Went outside.",
+        "class": "Personal"
+    },
+    {
+        "text": "Купил одежду.",
+        "class": "Personal"
+    },
+    {
+        "text": "Relaxed.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сходил в аптеку.",
+        "class": "Personal"
+    },
+    {
+        "text": "Watched film.",
+        "class": "Personal"
+    },
+    {
+        "text": "Почитал.",
+        "class": "Personal"
+    },
+    {
+        "text": "Met friends.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сходил в спортзал.",
+        "class": "Personal"
+    },
+    {
+        "text": "Cooked food.",
+        "class": "Personal"
+    },
+    {
+        "text": "Позвонил.",
+        "class": "Personal"
+    },
+    {
+        "text": "Walked.",
+        "class": "Personal"
+    },
+    {
+        "text": "Купил кофе.",
+        "class": "Personal"
+    },
+    {
+        "text": "Relax.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сходил в парк.",
+        "class": "Personal"
+    },
+    {
+        "text": "Watched show.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сделал дела.",
+        "class": "Personal"
+    },
+    {
+        "text": "Met people.",
+        "class": "Personal"
+    },
+    {
+        "text": "Cooked meal.",
+        "class": "Personal"
+    },
+    {
+        "text": "Позвонил другу.",
+        "class": "Personal"
+    },
+    {
+        "text": "Went shopping.",
+        "class": "Personal"
+    },
+    {
+        "text": "Купил подарок.",
+        "class": "Personal"
+    },
+    {
+        "text": "Relaxed evening.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сходил гулять.",
+        "class": "Personal"
+    },
+    {
+        "text": "Watched movie.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сделал зарядку.",
+        "class": "Personal"
+    },
+    {
+        "text": "Met friend.",
+        "class": "Personal"
+    },
+    {
+        "text": "Cooked dinner.",
+        "class": "Personal"
+    },
+    {
+        "text": "- Fix API bug\n- Deploy service\n- Check logs",
+        "class": "Journal"
+    },
+    {
+        "text": "- Купить билеты\n- Забронировать отель\n- Собрать вещи",
+        "class": "Journal"
+    },
+    {
+        "text": "- Backup database\n- Rotate API keys\n- Enable 2FA",
+        "class": "Journal"
+    },
+    {
+        "text": "- Gym\n- Call mom\n- Buy food",
+        "class": "Journal"
+    },
+    {
+        "text": "- Проверить сервер\n- Деплой\n- Логи",
+        "class": "Journal"
+    },
+    {
+        "text": "Stored token sk_live_9283asd in config file.",
+        "class": "Security"
+    },
+    {
+        "text": "Пароль: qwerty123! сохранить в менеджере.",
+        "class": "Security"
+    },
+    {
+        "text": "Backup.sql encrypted and uploaded.",
+        "class": "Security"
+    },
+    {
+        "text": "Добавил private key в ~/.ssh/config.",
+        "class": "Security"
+    },
+    {
+        "text": "JWT token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+        "class": "Security"
+    },
+    {
+        "text": "Booked flight to Tokyo, paid 800 USD for tickets.",
+        "class": "Travel"
+    },
+    {
+        "text": "Купил билет на поезд за 3000 рублей до Казани.",
+        "class": "Travel"
+    },
+    {
+        "text": "Hotel in Berlin booked, payment 200 EUR.",
+        "class": "Travel"
+    },
+    {
+        "text": "Перелет в Рим, вылет из аэропорта в 7 утра.",
+        "class": "Travel"
+    },
+    {
+        "text": "Airbnb in Paris reserved for vacation.",
+        "class": "Travel"
+    },
+    {
+        "text": "Invested $500 after reading https://finance.com guide.",
+        "class": "Finance"
+    },
+    {
+        "text": "Купил акции после анализа статьи http://stocks.ru",
+        "class": "Finance"
+    },
+    {
+        "text": "Paid 120 EUR rent and utilities.",
+        "class": "Finance"
+    },
+    {
+        "text": "Перевел деньги на брокерский счет.",
+        "class": "Finance"
+    },
+    {
+        "text": "Bought BTC after checking market.",
+        "class": "Finance"
+    },
+    {
+        "text": "Deploy API and check https://monitoring.dev logs.",
+        "class": "Work"
+    },
+    {
+        "text": "Закоммитил изменения и посмотрел https://github.com repo.",
+        "class": "Work"
+    },
+    {
+        "text": "Docker container failed, checking logs.",
+        "class": "Work"
+    },
+    {
+        "text": "Fixed bug and deployed service.",
+        "class": "Work"
+    },
+    {
+        "text": "Настроил CI и backend API.",
+        "class": "Work"
+    },
+    {
+        "text": "Сходил в магазин и потратил 50 EUR на еду.",
+        "class": "Personal"
+    },
+    {
+        "text": "Went to gym and paid $10 for entry.",
+        "class": "Personal"
+    },
+    {
+        "text": "Позвонил другу и обсудили работу.",
+        "class": "Personal"
+    },
+    {
+        "text": "Cooked dinner and watched Netflix.",
+        "class": "Personal"
+    },
+    {
+        "text": "Купил подарок маме.",
+        "class": "Personal"
+    },
+    {
+        "text": "https://example.com/api-docs",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Полезная ссылка http://travel-guide.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.com/docker/docker",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://finance-blog.ru",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://security.org/2fa",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "- Pay rent\n- Buy food\n- Call bank",
+        "class": "Journal"
+    },
+    {
+        "text": "- Проверить баланс\n- Оплатить счет\n- Перевод",
+        "class": "Journal"
+    },
+    {
+        "text": "- Flight check-in\n- Taxi\n- Hotel",
+        "class": "Journal"
+    },
+    {
+        "text": "- Change password\n- Backup\n- Encrypt",
+        "class": "Journal"
+    },
+    {
+        "text": "API key leaked: sk_test_123456 fix immediately.",
+        "class": "Security"
+    },
+    {
+        "text": "Сохранил пароль и включил 2FA.",
+        "class": "Security"
+    },
+    {
+        "text": "Encrypted vault with secrets.",
+        "class": "Security"
+    },
+    {
+        "text": "Backup created before deploy.",
+        "class": "Security"
+    },
+    {
+        "text": "Flight delayed, waiting at airport.",
+        "class": "Travel"
+    },
+    {
+        "text": "Поезд опаздывает на вокзале.",
+        "class": "Travel"
+    },
+    {
+        "text": "Hotel check-in completed.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel to Spain planned.",
+        "class": "Travel"
+    },
+    {
+        "text": "Paid subscription $15 monthly.",
+        "class": "Finance"
+    },
+    {
+        "text": "Оплатил кредит и проценты.",
+        "class": "Finance"
+    },
+    {
+        "text": "Saved 200 USD this month.",
+        "class": "Finance"
+    },
+    {
+        "text": "Tracked expenses in app.",
+        "class": "Finance"
+    },
+    {
+        "text": "Fixed docker issue and redeployed.",
+        "class": "Work"
+    },
+    {
+        "text": "Работал с Kubernetes cluster.",
+        "class": "Work"
+    },
+    {
+        "text": "Updated API endpoints.",
+        "class": "Work"
+    },
+    {
+        "text": "Merged git branch.",
+        "class": "Work"
+    },
+    {
+        "text": "Прогулка с собакой и отдых.",
+        "class": "Personal"
+    },
+    {
+        "text": "Watched movie with family.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сходил к врачу.",
+        "class": "Personal"
+    },
+    {
+        "text": "Cooked pasta.",
+        "class": "Personal"
+    },
+    {
+        "text": "https://news.ycombinator.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://dev.to article",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://medium.com/post",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "- Code\n- Test\n- Deploy",
+        "class": "Journal"
+    },
+    {
+        "text": "- Eat\n- Sleep\n- Repeat",
+        "class": "Journal"
+    },
+    {
+        "text": "- Купить\n- Приготовить\n- Убрать",
+        "class": "Journal"
+    },
+    {
+        "text": "Secret token rotated and stored.",
+        "class": "Security"
+    },
+    {
+        "text": "Пароль обновлен и сохранен.",
+        "class": "Security"
+    },
+    {
+        "text": "Booked hotel and flight together.",
+        "class": "Travel"
+    },
+    {
+        "text": "Trip to Greece with tickets.",
+        "class": "Travel"
+    },
+    {
+        "text": "Invested in ETF after reading report.",
+        "class": "Finance"
+    },
+    {
+        "text": "Перевел USD на карту.",
+        "class": "Finance"
+    },
+    {
+        "text": "Deploy failed, checking logs.",
+        "class": "Work"
+    },
+    {
+        "text": "Fixed API bug.",
+        "class": "Work"
+    },
+    {
+        "text": "Met friend and had dinner.",
+        "class": "Personal"
+    },
+    {
+        "text": "Сходил на тренировку.",
+        "class": "Personal"
+    },
+    {
+        "text": "- API fix\n- deploy\n- logs",
+        "class": "Journal"
+    },
+    {
+        "text": "- билет\n- отель\n- вылет",
+        "class": "Journal"
+    },
+    {
+        "text": "- token\n- password\n- backup",
+        "class": "Journal"
+    },
+    {
+        "text": "- купить\n- приготовить\n- убрать",
+        "class": "Journal"
+    },
+    {
+        "text": "- gym\n- call\n- eat",
+        "class": "Journal"
+    },
+    {
+        "text": "token=sk_live_abc123 saved in config",
+        "class": "Security"
+    },
+    {
+        "text": "пароль 123qwe сменить срочно",
+        "class": "Security"
+    },
+    {
+        "text": "backup.sql encrypted and uploaded",
+        "class": "Security"
+    },
+    {
+        "text": "ssh key added to server",
+        "class": "Security"
+    },
+    {
+        "text": "jwt token created for auth",
+        "class": "Security"
+    },
+    {
+        "text": "secret stored in .env file",
+        "class": "Security"
+    },
+    {
+        "text": "пароль сохранен в vault",
+        "class": "Security"
+    },
+    {
+        "text": "flight to paris booked",
+        "class": "Travel"
+    },
+    {
+        "text": "купил билет на поезд",
+        "class": "Travel"
+    },
+    {
+        "text": "hotel in rome reserved",
+        "class": "Travel"
+    },
+    {
+        "text": "вылет из аэропорта утром",
+        "class": "Travel"
+    },
+    {
+        "text": "trip to berlin planned",
+        "class": "Travel"
+    },
+    {
+        "text": "забронировал отель",
+        "class": "Travel"
+    },
+    {
+        "text": "train tickets ready",
+        "class": "Travel"
+    },
+    {
+        "text": "paid 200 usd rent",
+        "class": "Finance"
+    },
+    {
+        "text": "купил акции apple",
+        "class": "Finance"
+    },
+    {
+        "text": "перевел деньги на счет",
+        "class": "Finance"
+    },
+    {
+        "text": "invested in crypto",
+        "class": "Finance"
+    },
+    {
+        "text": "оплатил кредит",
+        "class": "Finance"
+    },
+    {
+        "text": "saved 100 eur",
+        "class": "Finance"
+    },
+    {
+        "text": "checked bank balance",
+        "class": "Finance"
+    },
+    {
+        "text": "deploy api and check logs",
+        "class": "Work"
+    },
+    {
+        "text": "закоммитил изменения в git",
+        "class": "Work"
+    },
+    {
+        "text": "docker container restarted",
+        "class": "Work"
+    },
+    {
+        "text": "fixed bug in backend",
+        "class": "Work"
+    },
+    {
+        "text": "configured nginx",
+        "class": "Work"
+    },
+    {
+        "text": "updated service config",
+        "class": "Work"
+    },
+    {
+        "text": "worked on api",
+        "class": "Work"
+    },
+    {
+        "text": "went to gym",
+        "class": "Personal"
+    },
+    {
+        "text": "купил продукты",
+        "class": "Personal"
+    },
+    {
+        "text": "позвонил другу",
+        "class": "Personal"
+    },
+    {
+        "text": "приготовил ужин",
+        "class": "Personal"
+    },
+    {
+        "text": "сходил гулять",
+        "class": "Personal"
+    },
+    {
+        "text": "прочитал книгу",
+        "class": "Personal"
+    },
+    {
+        "text": "сходил к врачу",
+        "class": "Personal"
+    },
+    {
+        "text": "https://example.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://site.ru",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://docs.dev",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://blog.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "deploy api https://logs.dev",
+        "class": "Work"
+    },
+    {
+        "text": "fixed bug see http://tracker.dev",
+        "class": "Work"
+    },
+    {
+        "text": "docker logs at https://monitor.dev",
+        "class": "Work"
+    },
+    {
+        "text": "купил билет за 200 usd",
+        "class": "Travel"
+    },
+    {
+        "text": "hotel cost 300 eur",
+        "class": "Travel"
+    },
+    {
+        "text": "flight delayed 2 hours",
+        "class": "Travel"
+    },
+    {
+        "text": "paid for dinner 20 usd",
+        "class": "Personal"
+    },
+    {
+        "text": "купил кофе за 5 eur",
+        "class": "Personal"
+    },
+    {
+        "text": "invested after reading https://finance.com",
+        "class": "Finance"
+    },
+    {
+        "text": "оплатил счет http://bank.ru",
+        "class": "Finance"
+    },
+    {
+        "text": "password leaked in logs",
+        "class": "Security"
+    },
+    {
+        "text": "backup before deploy",
+        "class": "Security"
+    },
+    {
+        "text": "- deploy https://prod.dev\n- fix api",
+        "class": "Journal"
+    },
+    {
+        "text": "- билет http://tickets.ru\n- поезд",
+        "class": "Journal"
+    },
+    {
+        "text": "trip to madrid cost 500 usd",
+        "class": "Travel"
+    },
+    {
+        "text": "поездка в рим",
+        "class": "Travel"
+    },
+    {
+        "text": "saved 50 usd",
+        "class": "Finance"
+    },
+    {
+        "text": "перевел eur",
+        "class": "Finance"
+    },
+    {
+        "text": "commit to git repo",
+        "class": "Work"
+    },
+    {
+        "text": "api updated",
+        "class": "Work"
+    },
+    {
+        "text": "met friend",
+        "class": "Personal"
+    },
+    {
+        "text": "погулял вечером",
+        "class": "Personal"
+    },
+    {
+        "text": "http://random.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://test.dev",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "token rotated and saved",
+        "class": "Security"
+    },
+    {
+        "text": "пароль обновлен",
+        "class": "Security"
+    },
+    {
+        "text": "flight booked",
+        "class": "Travel"
+    },
+    {
+        "text": "hotel check-in",
+        "class": "Travel"
+    },
+    {
+        "text": "paid rent",
+        "class": "Finance"
+    },
+    {
+        "text": "оплатил интернет",
+        "class": "Finance"
+    },
+    {
+        "text": "deploy done",
+        "class": "Work"
+    },
+    {
+        "text": "фикс бага",
+        "class": "Work"
+    },
+    {
+        "text": "сходил в магазин",
+        "class": "Personal"
+    },
+    {
+        "text": "watched movie",
+        "class": "Personal"
+    },
+    {
+        "text": "https://news.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://info.org",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "- test\n- deploy\n- done",
+        "class": "Journal"
+    },
+    {
+        "text": "- купить\n- убрать\n- приготовить",
+        "class": "Journal"
+    },
+    {
+        "text": "secret key stored",
+        "class": "Security"
+    },
+    {
+        "text": "backup encrypted",
+        "class": "Security"
+    },
+    {
+        "text": "trip planned",
+        "class": "Travel"
+    },
+    {
+        "text": "поездка оформлена",
+        "class": "Travel"
+    },
+    {
+        "text": "invested money",
+        "class": "Finance"
+    },
+    {
+        "text": "доход записал",
+        "class": "Finance"
+    },
+    {
+        "text": "api bug fixed",
+        "class": "Work"
+    },
+    {
+        "text": "docker updated",
+        "class": "Work"
+    },
+    {
+        "text": "call mom",
+        "class": "Personal"
+    },
+    {
+        "text": "позвонил семье",
+        "class": "Personal"
+    },
+    {
+        "text": "- [ ] Wake up at 6 AM\n- [ ] Cold shower\n- [ ] 10 min meditation\n- [ ] Prepare breakfast\n- [ ] Review daily goals\n- [ ] Check calendar\n- [ ] Start work at 8 AM",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal: Today I want to focus on:\n1. Finish report draft\n2. Call insurance company\n3. Buy groceries\n4. Gym after work\n5. Read 30 pages\n6. Sleep by 10:30 PM",
+        "class": "Journal"
+    },
+    {
+        "text": "- [x] Morning run 3 miles\n- [x] Shower and dress\n- [ ] Answer Slack messages\n- [ ] Write project update\n- [x] Lunch with Maria\n- [ ] Submit expense report\n- [ ] Buy cat food",
+        "class": "Journal"
+    },
+    {
+        "text": "Weekly meal plan:\nMon: pasta + salad\nTue: chicken + rice\nWed: leftovers\nThu: fish + veggies\nFri: pizza night\nSat: eating out\nSun: soup + bread",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal:\n• Renew driver's license (expires next month)\n• Schedule HVAC maintenance\n• Order contacts online\n• Return Amazon package\n• Print tax documents\n• Clean out fridge",
+        "class": "Journal"
+    },
+    {
+        "text": "- Make bed every morning\n- Drink 2L water\n- Take vitamins\n- 10k steps\n- No phone 1 hour before bed\n- Journal before sleep",
+        "class": "Journal"
+    },
+    {
+        "text": "Daily gratitude:\n1. Woke up early without alarm\n2. Sunny weather for a walk\n3. Good coffee\n4. Productive morning\n5. Call with an old friend\n6. Healthy dinner",
+        "class": "Journal"
+    },
+    {
+        "text": "Journal:\n- Backup photos to external drive\n- Update resume and LinkedIn\n- Research new phone (Pixel 9 or S25)\n- Cancel gym membership (switching to home gym)\n- Book flight for conference",
+        "class": "Journal"
+    },
+    {
+        "text": "- [ ] Shave and skincare routine\n- [ ] Pack lunch for tomorrow\n- [ ] Prepare clothes for morning\n- [ ] Charge all devices\n- [ ] Lock doors and windows\n- [ ] Set alarm for 6:30 AM",
+        "class": "Journal"
+    },
+    {
+        "text": "Month-end review:\n✅ Finished 3 projects\n✅ Exercised 18 days\n❌ Didn't read enough (only 1 book)\n✅ Saved $1200\n❌ Too much takeout\n→ Improve next month",
+        "class": "Journal"
+    },
+    {
+        "text": "Security: nsec1w0lf9x7c8k3j5t2p6q9r4s7u8v2n3m5b7c9x1z4a6s8d2f4g6h8j0k — Nostr secret key, never expose.",
+        "class": "Security"
+    },
+    {
+        "text": "SSH ED25519 private key for GitHub: -----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW\nQyNTUxOQAAACD1234567890abcdefghijklmnopqrstuvwxyz0123456789\n-----END OPENSSH PRIVATE KEY-----",
+        "class": "Security"
+    },
+    {
+        "text": "Security: Stripe webhook secret — whsec_1234567890abcdefghijklmnopqrstuvwxyz. Store in Vault, rotate every 90 days.",
+        "class": "Security"
+    },
+    {
+        "text": "Ethereum wallet mnemonic: abandon, artifact, bicycle, canyon, diamond, echo, fossil, galaxy, habitat, jungle, knife, lunar, motion, nectar, ocean, puzzle, quantum, rocket, solar, thunder, umbrella, victory, whale, xenon, yoga, zebra",
+        "class": "Security"
+    },
+    {
+        "text": "Security: 2FA backup codes for Google, GitHub, AWS, Bitwarden, Apple ID, and Microsoft — printed and stored in safe deposit box at bank.",
+        "class": "Security"
+    },
+    {
+        "text": "WireGuard private key for office VPN: ABCdefGHI123jklMNO456pqrSTU789vwxYZ0=1234567890abcdefghijklmnopqrstuvw",
+        "class": "Security"
+    },
+    {
+        "text": "Security: JWT secret key for production API — 32-byte random: 3f5c8a2d1b4e7f9a6c2d8e1b4f7a3c6e. Rotated monthly using AWS Secrets Manager.",
+        "class": "Security"
+    },
+    {
+        "text": "GPG key with subkeys for signing and encryption: fingerprint 8A2F 4C6E 9B1D 3F5H 7J9K L2M4 N6P8 Q0R2 S4T6 U8V0 — stored on YubiKey.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: OAuth2 client credentials for internal service — id: internal-service-123, secret: ghp_abcdefghijklmnopqrstuvwxyz1234567890. Never log.",
+        "class": "Security"
+    },
+    {
+        "text": "Encrypted backup of home folder using Borg + repokey: borg://user@backup.host:22/./repo encryption key saved to 1Password.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: Database master password for MySQL replication — M@sterP@ssw0rd!2026 — change immediately to 32-char random string.",
+        "class": "Security"
+    },
+    {
+        "text": "YubiKey 5C NFC registered for FIDO2/WebAuthn on 15 accounts. Pin code 123456. Backup key stored at friend's house.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: TLS certificate private key for example.com — RSA 4096-bit, encrypted with AES-256, stored offline on encrypted USB.",
+        "class": "Security"
+    },
+    {
+        "text": "Docker Hub organization secrets: username: ci-bot, PAT: dckr_pat_QwErTyUiOpAsDfGhJkLzXcVbNm1234567890 — limited to read-only access to base images.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: Tailscale auth key for new nodes — tskey-auth-k1234567890abcdefghijklmnopqrstuv. Valid for 90 days, single use.",
+        "class": "Security"
+    },
+    {
+        "text": "PGP private key fingerprint: 7D9E F2B4 6A8C 0D1E 2F3A 4B5C 6D8F 9A2C 4E6F 8B1D — stored on Ledger device with passphrase.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: Amazon RDS master password for production cluster — RdsP@ssw0rd_Prod_2026! — rotate immediately via Lambda rotation function.",
+        "class": "Security"
+    },
+    {
+        "text": "Redis AUTH password for production cache — redis_auth_1234567890abcdef — stored in Kubernetes secret, never in ConfigMap.",
+        "class": "Security"
+    },
+    {
+        "text": "Security: Vault unseal keys (5 of 5) — distributed across 5 trusted team members, each stored in separate encrypted file.",
+        "class": "Security"
+    },
+    {
+        "text": "Finance: Mortgage $2150 due May 1st. Principal $320k, rate 5.25%. Paying biweekly saves $38k interest over loan.",
+        "class": "Finance"
+    },
+    {
+        "text": "Transferred $1000 to brokerage. Bought 20 shares of QQQM ($50 each) and 50 shares of SCHD ($10 each).",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Sold 200 shares of Intel at $42. Bought at $35. Profit $1400. Reinvesting into AMD and NVDA.",
+        "class": "Finance"
+    },
+    {
+        "text": "Paid electricity $95, gas $60, water $45, trash $25, internet $80, Netflix $16, Spotify $12. Total $333.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Credit card balance $2800 at 0% APR until November. Paying $500 per month to clear 2 months early.",
+        "class": "Finance"
+    },
+    {
+        "text": "Bought $2000 of I bonds at 4.8% fixed rate plus inflation. Annual purchase limit $10,000.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Emergency fund target $30,000. Currently $22,500. Adding $1500 monthly. Should hit goal in 5 months.",
+        "class": "Finance"
+    },
+    {
+        "text": "Car loan refinanced: new rate 4.2% down from 7.1%. Monthly payment $340, remaining $11,200.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: 401(k) contribution 10% of salary ($800/month) plus 4% employer match. Current balance $62,000.",
+        "class": "Finance"
+    },
+    {
+        "text": "Property tax bill $4800 due in June. Saving $400 monthly in separate account. Already have $3200.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Sold covered call on 100 shares of TSLA at $200 strike. Collected $450 premium. Expires in 4 weeks.",
+        "class": "Finance"
+    },
+    {
+        "text": "Opened 529 college savings plan for son. Initial $5000, monthly $200. Target $150,000 by age 18.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: HSA balance $18,000. Invested 80% in VTI, 20% in BND. Maxing annual contribution $4,150.",
+        "class": "Finance"
+    },
+    {
+        "text": "Rental property income $1800/month. Mortgage $800, taxes $250, insurance $80, repairs $100 = profit $570.",
+        "class": "Finance"
+    },
+    {
+        "text": "Finance: Crypto portfolio: BTC 50%, ETH 25%, SOL 15%, MATIC 5%, others 5%. Up 8% this month.",
+        "class": "Finance"
+    },
+    {
+        "text": "Travel: LAX to Singapore (SIN) on United, flight UA 123. Business class using 110k miles + $65 tax. Seat 3A.",
+        "class": "Travel"
+    },
+    {
+        "text": "Booked hotel in Kyoto — ryokan with onsen, $220/night, includes kaiseki dinner. 3 nights during cherry blossom season.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Shinkansen from Tokyo to Osaka — reserved seat, Fuji side. Departure 8:30 AM, arrives 10:45 AM. ¥14,000.",
+        "class": "Travel"
+    },
+    {
+        "text": "Rental car at Denver airport: Jeep Wrangler, 5 days $480. Includes 4x4, roof rack, unlimited miles. Driving to Rocky Mountains.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Airbnb in Paris's Le Marais district — $150/night, 1 bedroom, elevator, AC. Host recommends bakeries nearby.",
+        "class": "Travel"
+    },
+    {
+        "text": "Eurostar London to Paris — 6:30 AM departure, €89 standard premier. Meal included: croissant, juice, coffee.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: JFK to Rome (FCO) on Delta, flight DL 234. Premium Select $1800 round trip. Seat 12D (aisle).",
+        "class": "Travel"
+    },
+    {
+        "text": "Ferry from Barcelona to Mallorca — 4 hours, €60 return. Departure 8 AM, arrives 12 PM. Rent scooter upon arrival.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Hostel in Lisbon — $20/night, 6-bed dorm, free breakfast, walking distance to Time Out Market.",
+        "class": "Travel"
+    },
+    {
+        "text": "Amtrak California Zephyr from Chicago to San Francisco — roomette $580, 2 nights, meals included. Great scenery through Rockies.",
+        "class": "Travel"
+    },
+    {
+        "text": "Travel: Booked Alhambra tour in Granada — skip-the-line, 3-hour guided tour, €35 per person. Reserve 2 months ahead.",
+        "class": "Travel"
+    },
+    {
+        "text": "Work: git merge --squash feature/new-api && git commit -m 'feat: add user preferences endpoint'",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Deployed Python service to AWS Fargate with 2 replicas, 256 CPU, 512 MB RAM. CloudWatch alarms configured.",
+        "class": "Work"
+    },
+    {
+        "text": "Fixed database connection leak in Java app — added HikariCP connection pool with max 20 connections and validation.",
+        "class": "Work"
+    },
+    {
+        "text": "Work: Added Redis caching for session store — TTL 24 hours, LRU eviction. Reduced database load by 40%.",
+        "class": "Work"
+    },
+    {
+        "text": "Created GitHub Actions workflow for semantic release — auto bumps version, creates tag, publishes to NPM.",
+        "class": "Work"
+    },
+    {
+        "text": "Bookmarks: https://github.com/d3/d3 — D3.js documentation, bookmark for data visualization projects.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://socket.io/docs/v4/ — Socket.IO documentation for real-time features. Need for chat app prototype.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: http://localhost:8080/swagger-ui/ — local Swagger UI for testing API endpoints during development.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://www.typescriptlang.org/play/ — TypeScript playground, bookmark for quick type experimentation.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Bookmarks: https://tailwindcss.com/docs/installation — Tailwind CSS docs, keep open for utility class reference.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Personal: Feeling overwhelmed with work deadlines. Take 5 deep breaths, prioritize top 3 tasks, delegate the rest. Call therapist if needed.",
+        "class": "Personal"
+    },
+    {
+        "text": "Shopping list: oat milk, chia seeds, frozen berries, spinach, tofu, brown rice, black beans, salsa, tortillas.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Schedule COVID booster and flu shot — CVS on Saturday at 2 PM. Also pick up asthma prescription.",
+        "class": "Personal"
+    },
+    {
+        "text": "Dinner recipe: black bean tacos — corn tortillas, black beans, avocado, cabbage slaw, lime crema, hot sauce.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Buy birthday present for dad — new golf putter (Odyssey White Hot #7). Order online by Thursday.",
+        "class": "Personal"
+    },
+    {
+        "text": "Gym workout: push day — bench press 4x8 (185 lbs), overhead press 3x10 (95 lbs), triceps dips 3x12, lateral raises 3x15.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Order new running shoes — Brooks Ghost 16, size 9.5 wide. Current shoes have 350 miles.",
+        "class": "Personal"
+    },
+    {
+        "text": "Call exterminator — ants in the kitchen. Need treatment scheduled for next week. Also check for termites.",
+        "class": "Personal"
+    },
+    {
+        "text": "Personal: Date night on Saturday — reservation at Italian restaurant at 7 PM. Movie or walk after dinner.",
+        "class": "Personal"
+    },
+    {
+        "text": "Security: Kubernetes TLS secret for ingress — tls.crt and tls.key stored in Vault, injected via external-secrets operator.",
+        "class": "Security"
+    },
+    {
+        "text": "Work: Refactored error handling to use centralized logger and sentry.io for production errors. Added correlation IDs.",
+        "class": "Work"
+    },
+    {
+        "text": "Journal:\n- Research new laptop (MacBook Pro M4 vs Dell XPS)\n- Compare phone plans\n- Read product reviews\n- Check credit score\n- Update budget spreadsheet",
+        "class": "Journal"
+    },
+    {
+        "text": "Travel: Miami to Cancun on American Airlines, flight AA 345. Economy $280 round trip. Hotel all-inclusive 5 nights.",
+        "class": "Travel"
+    },
+    {
+        "text": "Finance: Medical bill $450 after insurance. Payment plan: $75/month for 6 months. Set up autopay.",
+        "class": "Finance"
+    },
+    {
+        "text": "Bookmarks: https://www.postgresql.org/docs/15/runtime-config.html — PostgreSQL runtime configuration, tuning shared_buffers and effective_cache_size.",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "Personal: Adopt a cat from shelter — application submitted. Need to buy litter box, food bowls, scratching post, toys.",
+        "class": "Personal"
+    },
+    {
+        "text": "Security: LastPass master password — change immediately after breach. Use 20-character diceware phrase with 2FA.",
+        "class": "Security"
+    },
+    {
+        "text": "Work: git commit -m \"fix(api): handle null user_id in auth middleware\" && git push origin hotfix/user-auth",
+        "class": "Work"
+    },
+    {
+        "text": "Travel: Backpacking through Southeast Asia — flights to Bangkok $650, hostels avg $15/night, budget $50/day.",
+        "class": "Travel"
+    },
+    {
+        "text": "Finance: Quarterly dividend income $450 from SCHD, VTI, and O. Reinvested automatically via DRIP.",
+        "class": "Finance"
+    },
+    {
+        "text": "- fix api\n- deploy\n- logs",
+        "class": "Journal"
+    },
+    {
+        "text": "- купить билет\n- отель\n- вылет",
+        "class": "Journal"
+    },
+    {
+        "text": "- token\n- password\n- secret",
+        "class": "Journal"
+    },
+    {
+        "text": "- gym\n- eat\n- sleep",
+        "class": "Journal"
+    },
+    {
+        "text": "- позвонить\n- купить\n- встретиться",
+        "class": "Journal"
+    },
+    {
+        "text": "- code\n- test\n- push",
+        "class": "Journal"
+    },
+    {
+        "text": "- read\n- write\n- think",
+        "class": "Journal"
+    },
+    {
+        "text": "- уборка\n- готовка\n- сон",
+        "class": "Journal"
+    },
+    {
+        "text": "- deploy https://prod.dev\n- fix api",
+        "class": "Journal"
+    },
+    {
+        "text": "- билет http://tickets.ru\n- поезд",
+        "class": "Journal"
+    },
+    {
+        "text": "token=sk_live_7788 saved",
+        "class": "Security"
+    },
+    {
+        "text": "password changed and stored",
+        "class": "Security"
+    },
+    {
+        "text": "backup.sql encrypted",
+        "class": "Security"
+    },
+    {
+        "text": "ssh key added",
+        "class": "Security"
+    },
+    {
+        "text": "jwt token issued",
+        "class": "Security"
+    },
+    {
+        "text": "secret in .env",
+        "class": "Security"
+    },
+    {
+        "text": "пароль обновлен",
+        "class": "Security"
+    },
+    {
+        "text": "backup before deploy",
+        "class": "Security"
+    },
+    {
+        "text": "api key rotated",
+        "class": "Security"
+    },
+    {
+        "text": "vault updated",
+        "class": "Security"
+    },
+    {
+        "text": "flight to rome booked",
+        "class": "Travel"
+    },
+    {
+        "text": "купил билет на поезд",
+        "class": "Travel"
+    },
+    {
+        "text": "hotel reserved",
+        "class": "Travel"
+    },
+    {
+        "text": "вылет завтра",
+        "class": "Travel"
+    },
+    {
+        "text": "trip to paris",
+        "class": "Travel"
+    },
+    {
+        "text": "забронировал отель",
+        "class": "Travel"
+    },
+    {
+        "text": "train tickets ready",
+        "class": "Travel"
+    },
+    {
+        "text": "airport checkin",
+        "class": "Travel"
+    },
+    {
+        "text": "поездка в берлин",
+        "class": "Travel"
+    },
+    {
+        "text": "hotel check-in",
+        "class": "Travel"
+    },
+    {
+        "text": "paid 100 usd",
+        "class": "Finance"
+    },
+    {
+        "text": "купил акции",
+        "class": "Finance"
+    },
+    {
+        "text": "перевел деньги",
+        "class": "Finance"
+    },
+    {
+        "text": "invested funds",
+        "class": "Finance"
+    },
+    {
+        "text": "оплатил кредит",
+        "class": "Finance"
+    },
+    {
+        "text": "saved 50 eur",
+        "class": "Finance"
+    },
+    {
+        "text": "checked balance",
+        "class": "Finance"
+    },
+    {
+        "text": "paid rent",
+        "class": "Finance"
+    },
+    {
+        "text": "оплатил интернет",
+        "class": "Finance"
+    },
+    {
+        "text": "купил btc",
+        "class": "Finance"
+    },
+    {
+        "text": "https://example.com/page",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://site.ru/blog",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://github.com/repo",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://docs.dev/api",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://news.com/post",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://info.org/page",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://tool.dev",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://guide.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "https://learn.dev",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "http://ref.com",
+        "class": "Bookmarks"
+    },
+    {
+        "text": "went to gym",
+        "class": "Personal"
+    },
+    {
+        "text": "купил продукты",
+        "class": "Personal"
+    },
+    {
+        "text": "позвонил другу",
+        "class": "Personal"
+    },
+    {
+        "text": "приготовил ужин",
+        "class": "Personal"
+    },
+    {
+        "text": "сходил гулять",
+        "class": "Personal"
+    },
+    {
+        "text": "прочитал книгу",
+        "class": "Personal"
+    },
+    {
+        "text": "сходил к врачу",
+        "class": "Personal"
+    },
+    {
+        "text": "watched movie",
+        "class": "Personal"
+    },
+    {
+        "text": "met friend",
+        "class": "Personal"
+    },
+    {
+        "text": "call mom",
+        "class": "Personal"
+    },
+    {
+        "text": "deploy api",
+        "class": "Work"
+    },
+    {
+        "text": "commit to git",
+        "class": "Work"
+    },
+    {
+        "text": "docker restarted",
+        "class": "Work"
+    },
+    {
+        "text": "fixed backend bug",
+        "class": "Work"
+    },
+    {
+        "text": "configured nginx",
+        "class": "Work"
+    },
+    {
+        "text": "updated api",
+        "class": "Work"
+    },
+    {
+        "text": "работал с сервером",
+        "class": "Work"
+    },
+    {
+        "text": "merge branch",
+        "class": "Work"
+    },
+    {
+        "text": "deploy done",
+        "class": "Work"
+    },
+    {
+        "text": "ci pipeline updated",
+        "class": "Work"
+    }
+]

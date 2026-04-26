@@ -753,6 +753,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Privacy Policy'**
   String get privacyPolicyScreenTitle;
+
+  /// No description provided for @classificationClassFinance.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance'**
+  String get classificationClassFinance;
+
+  /// No description provided for @classificationClassJournal.
+  ///
+  /// In en, this message translates to:
+  /// **'Journal'**
+  String get classificationClassJournal;
+
+  /// No description provided for @classificationClassPersonal.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal'**
+  String get classificationClassPersonal;
+
+  /// No description provided for @classificationClassSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get classificationClassSecurity;
+
+  /// No description provided for @classificationClassTravel.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel'**
+  String get classificationClassTravel;
+
+  /// No description provided for @classificationClassWork.
+  ///
+  /// In en, this message translates to:
+  /// **'Work'**
+  String get classificationClassWork;
+
+  /// No description provided for @classificationClassBookmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmarks'**
+  String get classificationClassBookmarks;
+
+  /// No description provided for @classificationClassOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get classificationClassOther;
 }
 
 class _AppLocalizationsDelegate

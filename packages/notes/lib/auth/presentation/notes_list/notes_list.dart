@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nostr_notes/auth/domain/model/category.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/drawer_router.dart';
@@ -54,6 +55,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
       child: BlocConsumer<NotesListBloc, NotesListState>(
         listener: _listener,
         builder: (context, state) {
+          final bloc = context.read<NotesListBloc>();
           return Scaffold(
             appBar: AppBar(
               title: Text(context.l10n.notesListScreenTitle),
@@ -77,6 +79,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
                 isLoading: state is LoadingState,
                 sections: state.data.sections,
                 onTap: onTap,
+                getSymbol: bloc.getSymbol,
               ),
             ),
           );
@@ -97,12 +100,14 @@ final class _List extends StatelessWidget {
     required this.isLoading,
     required this.sections,
     required this.onTap,
+    required this.getSymbol,
   });
 
   final String? selectedNoteDTag;
   final bool isLoading;
   final List<NotesListSection> sections;
   final ValueChanged<Note> onTap;
+  final Stream<Category> Function(Note) getSymbol;
 
   @override
   Widget build(BuildContext context) {
@@ -146,6 +151,7 @@ final class _List extends StatelessWidget {
                 isNextSelected: isNextSelected,
                 onTap: onTap,
                 onDelete: (note) => bloc.add(NotesListEvent.deleteNote(note)),
+                getSymbol: getSymbol,
               );
             } else {
               return const SizedBox.shrink();
