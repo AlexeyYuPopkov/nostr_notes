@@ -45,11 +45,13 @@ final class AppDi implements Di {
     final di = DiStorage.shared;
 
     di.removeScope<AuthDiScope>();
+    // di.removeScope<ClassificationDi>();
 
     const AuthDiScope().bind(di);
     testOverrides?.call(di);
     final outbox = di.tryResolve<OutboxPublisher>();
     await outbox?.init();
+    // const ClassificationDi().bind(di);
   }
 
   @override

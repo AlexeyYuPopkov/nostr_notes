@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/core/tools/optional_box.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/auth/domain/usecase/delete_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
@@ -21,6 +22,7 @@ import 'notes_list_state.dart';
 final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   static const errorStreamDebounce = Duration(milliseconds: 500);
   static const debounceGuard = Duration(milliseconds: 200);
+  DiStorage get _di => DiStorage.shared;
   NotesListData get data => state.data;
 
   final BuildContext Function() contextProvider;
@@ -31,13 +33,13 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     },
   );
 
-  late final FetchNotesUsecase _fetchNotesUsecase = DiStorage.shared.resolve();
-  late final GetNotesUsecase _getNotesUsecase = DiStorage.shared.resolve();
+  late final FetchNotesUsecase _fetchNotesUsecase = _di.resolve();
+  late final GetNotesUsecase _getNotesUsecase = _di.resolve();
   late final pendingVm = PendingVm(
-    getPendingUsecase: DiStorage.shared.resolve<GetPendingUsecase>(),
+    getPendingUsecase: _di.resolve<GetPendingUsecase>(),
   );
-  late final DeleteNoteUsecase _deleteNoteUsecase = DiStorage.shared.resolve();
-  late final OutboxPublisher _outbox = DiStorage.shared.resolve();
+  late final DeleteNoteUsecase _deleteNoteUsecase = _di.resolve();
+  late final OutboxPublisher _outbox = _di.resolve();
 
   StreamSubscription? _fetchNotesSubscription;
   StreamSubscription? _getNotesSubscription;
@@ -68,6 +70,11 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     on<DeleteNoteEvent>(_onDeleteNoteEvent);
     on<RefreshEvent>(
       _onRefreshEvent,
+      transformer: (events, mapper) =>
+          events.debounceTime(debounceGuard).switchMap(mapper),
+    );
+    on<SelectCategoryEvent>(
+      _onSelectCategoryEvent,
       transformer: (events, mapper) =>
           events.debounceTime(debounceGuard).switchMap(mapper),
     );
@@ -169,11 +176,23 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   ) async {
     try {
       final context = contextProvider();
+
+      if (isClosed || !context.mounted) {
+        return;
+      }
+
       final sections = NotesListSection.groupNotesByDate(
-        event.notes,
-        context.l10n,
+        notes: event.notes,
+        l10n: context.l10n,
+        selectedCategory: data.selectedCategory.value,
+        categoriesProbs: {},
       );
-      emit(NotesListState.common(data: data.copyWith(sections: sections)));
+
+      emit(
+        NotesListState.common(
+          data: data.copyWith(notes: event.notes, sections: sections),
+        ),
+      );
     } catch (e) {
       emit(NotesListState.error(e: e, data: data));
     } finally {
@@ -199,5 +218,30 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   void _onRefreshEvent(RefreshEvent event, Emitter<NotesListState> emit) {
     _outbox.refresh();
     add(const NotesListEvent.initial());
+  }
+
+  void _onSelectCategoryEvent(
+    SelectCategoryEvent event,
+    Emitter<NotesListState> emit,
+  ) async {
+    final context = contextProvider();
+
+    if (isClosed || !context.mounted) {
+      return;
+    }
+    final sections = NotesListSection.groupNotesByDate(
+      notes: data.notes,
+      l10n: context.l10n,
+      selectedCategory: event.category,
+      categoriesProbs: {},
+    );
+    emit(
+      NotesListState.common(
+        data: data.copyWith(
+          sections: sections,
+          selectedCategory: OptionalBox(event.category),
+        ),
+      ),
+    );
   }
 }

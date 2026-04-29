@@ -1,0 +1,5 @@
+name: nostr_workspace
+
+command:
+  exec:
+    concurrency: 1

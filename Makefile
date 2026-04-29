@@ -3,7 +3,7 @@ bootstrap:
 	melos bootstrap
 
 pubget:
-	melos exec --concurrency=1 -- flutter pub get
+	flutter pub get
 
 codegen:
 	melos exec --concurrency=1 -- dart run build_runner build --delete-conflicting-outputs

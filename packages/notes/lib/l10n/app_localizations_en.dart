@@ -381,4 +381,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyPolicyScreenTitle => 'Privacy Policy';
+
+  @override
+  String get classificationClassFinance => 'Finance';
+
+  @override
+  String get classificationClassJournal => 'Journal';
+
+  @override
+  String get classificationClassPersonal => 'Personal';
+
+  @override
+  String get classificationClassSecurity => 'Security';
+
+  @override
+  String get classificationClassTravel => 'Travel';
+
+  @override
+  String get classificationClassWork => 'Work';
+
+  @override
+  String get classificationClassBookmarks => 'Bookmarks';
+
+  @override
+  String get classificationClassOther => 'Other';
 }

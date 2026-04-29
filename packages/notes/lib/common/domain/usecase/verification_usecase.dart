@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
 import 'package:nostr_notes/common/domain/repository/biometric_repository.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
@@ -47,7 +48,7 @@ final class VerificationUsecase implements Disposable {
               return const Verification.allow();
             }
           })
-          .distinct((a, b) => a.runtimeType == b.runtimeType),
+          .distinct((a, b) => a == b),
       _userInitiated,
     ]).asyncMap((e) async {
       if (e is Deny) {
@@ -68,10 +69,11 @@ final class VerificationUsecase implements Disposable {
     final denyTime = _deniedAt;
 
     if (currentStatus is Allow && denyTime != null) {
-      if (await _isOutdated(denyTime: denyTime)) {
+      if (_isOutdated(denyTime: denyTime)) {
         _passBiometry(biometricRequest: biometryRequest);
         return const Verification.processing();
       } else {
+        resetDenyTime();
         return currentStatus;
       }
     } else {
@@ -79,7 +81,7 @@ final class VerificationUsecase implements Disposable {
     }
   }
 
-  FutureOr<bool> _isOutdated({required DateTime denyTime}) async {
+  bool _isOutdated({required DateTime denyTime}) {
     return denyTime.add(maxInactiveDuration).isBefore(DateTime.now());
   }
 
@@ -111,7 +113,7 @@ final class VerificationUsecase implements Disposable {
 }
 
 // Verification
-sealed class Verification {
+sealed class Verification extends Equatable {
   const Verification();
 
   const factory Verification.allow() = Allow;
@@ -123,12 +125,19 @@ sealed class Verification {
 
 final class Allow extends Verification {
   const Allow();
+
+  @override
+  List<Object?> get props => [];
 }
 
 final class Deny extends Verification {
   const Deny();
+  @override
+  List<Object?> get props => [];
 }
 
 final class Processing extends Verification {
   const Processing();
+  @override
+  List<Object?> get props => [];
 }
