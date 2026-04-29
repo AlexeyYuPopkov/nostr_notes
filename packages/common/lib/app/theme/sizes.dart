@@ -91,6 +91,9 @@ final class Sizes {
 
   /// [fabSize = 56.0] - Standard FloatingActionButton size
   static const fabSize = 56.0;
+
+  /// [appBarHeight = 56.0] - Standard AppBar height
+  static const appBarHeight = 56.0;
 }
 
 final class TextSizes {

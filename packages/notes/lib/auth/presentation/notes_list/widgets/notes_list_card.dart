@@ -1,7 +1,6 @@
 import 'package:common/l10n/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:nostr_notes/auth/domain/model/category.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
@@ -26,7 +25,7 @@ final class NotesListCard extends StatelessWidget
   final bool isNextSelected;
   final ValueChanged<Note> onTap;
   final ValueChanged<Note> onDelete;
-  final Stream<Category> Function(Note) getSymbol;
+  // final Stream<Category> Function(Note) getSymbol;
 
   const NotesListCard({
     super.key,
@@ -36,7 +35,7 @@ final class NotesListCard extends StatelessWidget
     required this.isNextSelected,
     required this.onTap,
     required this.onDelete,
-    required this.getSymbol,
+    // required this.getSymbol,
   });
 
   @override
@@ -111,7 +110,7 @@ final class NotesListCard extends StatelessWidget
                       children: [
                         _Title(
                           sectionItem: sectionItem,
-                          getSymbol: getSymbol,
+                          // getSymbol: getSymbol,
                           onTap: () => onTap(sectionItem.note),
                         ),
                         SizedBox(
@@ -197,12 +196,12 @@ final class NotesListCard extends StatelessWidget
 
 final class _Title extends StatelessWidget {
   final NotesListItem sectionItem;
-  final Stream<Category> Function(Note) getSymbol;
+  // final Stream<Category> Function(Note) getSymbol;
   final VoidCallback onTap;
 
   const _Title({
     required this.sectionItem,
-    required this.getSymbol,
+    // required this.getSymbol,
     required this.onTap,
   });
 
@@ -214,19 +213,21 @@ final class _Title extends StatelessWidget {
 
     final hasDecryptError = sectionItem.note.error != null;
 
-    return StreamBuilder(
-      stream: getSymbol(sectionItem.note),
-      builder: (context, snapshot) {
-        final Category? category = snapshot.data;
+    return Builder(
+      // stream: getSymbol(sectionItem.note),
+      builder: (context) {
+        // final Category? category = snapshot.data;
         final summary = hasDecryptError
             ? l10n.notePreviewCannotDecryptTitle
             : sectionItem.note.summary;
         final titleComponents = summary.split('\n');
 
-        final title = category == null
-            ? titleComponents.firstOrNull?.trim() ?? ''
-            : '${category.symbol} ${titleComponents.firstOrNull?.trim() ?? ''}'
-                  .trim();
+        // final title = category == null
+        //     ? titleComponents.firstOrNull?.trim() ?? ''
+        //     : '${category.symbol} ${titleComponents.firstOrNull?.trim() ?? ''}'
+        //           .trim();
+
+        final title = titleComponents.firstOrNull?.trim() ?? '';
 
         final subtitle = titleComponents.length > 1
             ? titleComponents
@@ -263,23 +264,24 @@ final class _Title extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         );
 
-        return category == null
-            ? richText
-            : Stack(
-                children: [
-                  richText,
-                  CommonTooltip(
-                    title: category.getLocalizedName(context),
-                    message: '',
-                    margin: EdgeInsets.zero,
-                    onTap: onTap,
-                    child: SizedBox(
-                      height: Sizes.defaultRowHeight,
-                      width: Sizes.defaultRowHeight,
-                    ),
-                  ),
-                ],
-              );
+        return richText;
+        //  category == null
+        //     ? richText
+        //     : Stack(
+        //         children: [
+        //           richText,
+        //           CommonTooltip(
+        //             title: category.type.getLocalizedName(context),
+        //             message: '',
+        //             margin: EdgeInsets.zero,
+        //             onTap: onTap,
+        //             child: SizedBox(
+        //               height: Sizes.defaultRowHeight,
+        //               width: Sizes.defaultRowHeight,
+        //             ),
+        //           ),
+        //         ],
+        //       );
       },
     );
   }
@@ -328,29 +330,5 @@ final class NotesListCardShimmer extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-extension on Category {
-  String getLocalizedName(BuildContext context) {
-    final l10n = context.l10n;
-    switch (name) {
-      case 'finance':
-        return l10n.classificationClassFinance;
-      case 'journal':
-        return l10n.classificationClassJournal;
-      case 'personal':
-        return l10n.classificationClassPersonal;
-      case 'security':
-        return l10n.classificationClassSecurity;
-      case 'travel':
-        return l10n.classificationClassTravel;
-      case 'work':
-        return l10n.classificationClassWork;
-      case 'bookmarks':
-        return l10n.classificationClassBookmarks;
-      default:
-        return l10n.classificationClassOther;
-    }
   }
 }

@@ -2,7 +2,7 @@ import 'package:common/domain/repo/get_classification_repo.dart';
 import 'package:nostr_notes/auth/domain/model/category.dart';
 
 final class GetClassificationUsecase {
-  static const minProbability = 0.3;
+  static const minProbability = 0.1;
 
   final GetClassificationRepo _getClassificationRepo;
 
@@ -14,27 +14,11 @@ final class GetClassificationUsecase {
     return _getClassificationRepo.getProbabilities(eventIds);
   }
 
-  // Future<Map<String, String>> getSymbols(Set<String> eventIds) async {
-  //   final futureProbs = await _getClassificationRepo.getProbabilities(
-  //     eventIds,
-  //     minProbability: minProbability,
-  //   );
-
-  //   final result = <String, String>{};
-
-  //   for (final entry in futureProbs.entries) {
-  //     final eventId = entry.key;
-  //     final probs = entry.value;
-
-  //     if (probs.isEmpty) {
-  //       continue;
-  //     }
-
-  //     result[eventId] = probs.getSymbol();
-  //   }
-
-  //   return result;
-  // }
+  Future<Map<String, CategoryType>> executeAsType(Set<String> eventIds) {
+    return execute(
+      eventIds,
+    ).then((probs) => probs.map((k, v) => MapEntry(k, v.getCategoryType())));
+  }
 
   Stream<Category> getSymbol(String eventId) {
     return _getClassificationRepo
@@ -45,12 +29,18 @@ final class GetClassificationUsecase {
 
 extension on Map<String, double> {
   Category getSymbol() {
+    return isEmpty
+        ? Category.fromCategoryType(.other)
+        : Category.fromCategoryType(getCategoryType());
+  }
+
+  CategoryType getCategoryType() {
     if (isEmpty) {
-      return Category.from(null);
+      return .other;
     }
 
     final maxEntry = entries.reduce((a, b) => a.value > b.value ? a : b);
     final category = maxEntry.key;
-    return Category.from(category);
+    return CategoryType.fromString(category);
   }
 }

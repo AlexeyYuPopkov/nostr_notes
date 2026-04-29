@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/nip44_exception.dart';
-import 'package:nostr_notes/auth/domain/usecase/calculate_classification_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
@@ -28,10 +26,10 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   StreamSubscription? _getNoteSubscription;
   StreamSubscription? _fetchNoteSubscription;
 
-  late final CalculateClassificationUsecase _calculateClassificationUsecase =
-      _di.resolve();
+  // late final CalculateClassificationUsecase _calculateClassificationUsecase =
+  //     _di.resolve();
 
-  final _classificationResult = <String, double>{};
+  // final _classificationResult = <String, double>{};
 
   late final refreshButtonVm = RefreshButtonVm(
     onRefresh: () => add(const NotePreviewEvent.refresh()),
@@ -112,25 +110,25 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
     final note = event.note;
     emit(NotePreviewState.common(data: data.copyWith(note: OptionalBox(note))));
 
-    if (_classificationResult.isEmpty) {
-      try {
-        final classification = await _calculateClassificationUsecase.execute(
-          note,
-          useCorrection: true,
-        );
+    // if (_classificationResult.isEmpty) {
+    //   try {
+    //     final classification = await _calculateClassificationUsecase.execute(
+    //       note,
+    //       useCorrection: true,
+    //     );
 
-        _classificationResult
-          ..clear()
-          ..addAll(classification);
+    //     _classificationResult
+    //       ..clear()
+    //       ..addAll(classification);
 
-        log(
-          'Classification: ${(classification..removeWhere((_, val) => val < 0.2)).toString()}',
-          name: 'Classification',
-        );
-      } catch (e) {
-        log('Error during classification: $e', name: 'Classification');
-      }
-    }
+    //     log(
+    //       'Classification: ${(classification..removeWhere((_, val) => val < 0.2)).toString()}',
+    //       name: 'Classification',
+    //     );
+    //   } catch (e) {
+    //     log('Error during classification: $e', name: 'Classification');
+    //   }
+    // }
     Future.delayed(
       Durations.short1,
       () => refreshButtonVm.isRefreshing = false,

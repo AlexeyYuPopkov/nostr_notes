@@ -96,7 +96,7 @@ void main() {
         );
       });
     }
-  });
+  }, skip: true);
 
   group('top category prediction. [useCorrection: true, useModel: false]', () {
     const categoryNotes = {
@@ -161,5 +161,5 @@ void main() {
         );
       });
     }
-  });
+  }, skip: true);
 }

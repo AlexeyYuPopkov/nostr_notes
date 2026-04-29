@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:di_storage/di_storage.dart';
 import 'package:nostr_notes/app/di/auth/auth_di_scope.dart';
-import 'package:nostr_notes/app/di/auth/classification_di.dart';
 import 'package:nostr_notes/app/di/unauth/db_module.dart';
 import 'package:nostr_notes/services/outbox_publisher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,13 +45,13 @@ final class AppDi implements Di {
     final di = DiStorage.shared;
 
     di.removeScope<AuthDiScope>();
-    di.removeScope<ClassificationDi>();
+    // di.removeScope<ClassificationDi>();
 
     const AuthDiScope().bind(di);
     testOverrides?.call(di);
     final outbox = di.tryResolve<OutboxPublisher>();
     await outbox?.init();
-    const ClassificationDi().bind(di);
+    // const ClassificationDi().bind(di);
   }
 
   @override

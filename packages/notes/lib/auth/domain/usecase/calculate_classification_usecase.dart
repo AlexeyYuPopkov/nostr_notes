@@ -13,7 +13,6 @@ final class CalculateClassificationUsecase {
   final ClassificationRepo _classificationRepo;
   final GetClassificationRepo _noteClassificationRepo;
   final ClassificationCorrections _corrections;
-  final GetClassificationUsecase _getClassificationUsecase;
 
   const CalculateClassificationUsecase({
     required ClassificationRepo classificationRepo,
@@ -22,29 +21,28 @@ final class CalculateClassificationUsecase {
     ClassificationCorrections corrections = const ClassificationCorrections(),
   }) : _classificationRepo = classificationRepo,
        _noteClassificationRepo = getClassificationRepo,
-       _getClassificationUsecase = getClassificationUsecase,
        _corrections = corrections;
 
   Future<Map<String, double>> execute(
     Note note, {
     bool useCorrection = false,
     bool useModel = true,
-    bool force = true,
+    // bool force = true,
   }) async {
     try {
-      if (!force) {
-        final existing = await _getClassificationUsecase.execute({
-          note.eventId,
-        });
-        if (existing.containsKey(note.eventId) &&
-            existing[note.eventId]!.isNotEmpty) {
-          dev.log(
-            'Using existing classification for event ${note.eventId}',
-            name: 'Classification',
-          );
-          return existing[note.eventId]!;
-        }
-      }
+      // if (!force) {
+      //   final existing = await _getClassificationUsecase.execute({
+      //     note.eventId,
+      //   });
+      //   if (existing.containsKey(note.eventId) &&
+      //       existing[note.eventId]!.isNotEmpty) {
+      //     dev.log(
+      //       'Using existing classification for event ${note.eventId}',
+      //       name: 'Classification',
+      //     );
+      //     return existing[note.eventId]!;
+      //   }
+      // }
 
       final eventId = note.eventId;
       Map<String, double> classification = {};

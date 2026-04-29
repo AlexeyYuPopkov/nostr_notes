@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:nostr_notes/auth/domain/model/category.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 
 sealed class NotesListEvent extends Equatable {
@@ -10,6 +11,8 @@ sealed class NotesListEvent extends Equatable {
   const factory NotesListEvent.refresh() = RefreshEvent;
   const factory NotesListEvent.error({required Object error}) = ErrorEvent;
   const factory NotesListEvent.deleteNote(Note note) = DeleteNoteEvent;
+  const factory NotesListEvent.selectCategory(CategoryType? category) =
+      SelectCategoryEvent;
 
   @override
   List<Object?> get props => const [];
@@ -43,4 +46,11 @@ final class DeleteNoteEvent extends NotesListEvent {
   const DeleteNoteEvent(this.note);
   @override
   List<Object?> get props => [note];
+}
+
+final class SelectCategoryEvent extends NotesListEvent {
+  final CategoryType? category;
+  const SelectCategoryEvent(this.category);
+  @override
+  List<Object?> get props => [category];
 }

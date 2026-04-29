@@ -18,7 +18,7 @@ class NoteClassProbabilitiesDao extends DatabaseAccessor<AppDatabase>
   Future<void> upsertProbabilities(
     String eventId,
     Map<String, double> probabilities, {
-    double minProbability = 0.2,
+    double minProbability = 0.1,
   }) async {
     final rows = probabilities.entries
         .where((e) => e.value >= minProbability)
@@ -43,7 +43,7 @@ class NoteClassProbabilitiesDao extends DatabaseAccessor<AppDatabase>
   @override
   Future<Map<String, Map<String, double>>> getProbabilities(
     Set<String> eventIds, {
-    double minProbability = 0.2,
+    double minProbability = 0.1,
   }) async {
     if (eventIds.isEmpty) return {};
 
@@ -66,7 +66,7 @@ class NoteClassProbabilitiesDao extends DatabaseAccessor<AppDatabase>
   @override
   Stream<Map<String, double>> watchProbabilities(
     String eventId, {
-    double minProbability = 0.2,
+    double minProbability = 0.1,
   }) {
     return (select(noteClassProbabilities)..where(
           (t) =>
@@ -87,7 +87,7 @@ class NoteClassProbabilitiesDao extends DatabaseAccessor<AppDatabase>
   /// Returns event IDs that have a category with probability >= [minProbability].
   Future<List<String>> getEventIdsByCategory(
     String category, {
-    double minProbability = 0.5,
+    double minProbability = 0.1,
   }) async {
     final rows =
         await (select(noteClassProbabilities)

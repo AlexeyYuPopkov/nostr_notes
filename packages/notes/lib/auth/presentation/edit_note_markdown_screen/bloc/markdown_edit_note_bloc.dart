@@ -4,7 +4,6 @@ import 'package:common/domain/error/error_messages_provider.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nostr_notes/auth/domain/usecase/calculate_classification_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/presentation/edit_note_markdown_screen/markdown_highlight_controller.dart';
@@ -23,8 +22,8 @@ final class MarkdownEditNoteBloc
   late final MarkdownHighlightController textController;
   late final GetNoteUsecase _getNoteUsecase = DiStorage.shared.resolve();
   late final CreateNoteUsecase _createNoteUsecase = DiStorage.shared.resolve();
-  late final CalculateClassificationUsecase _calculateClassificationUsecase =
-      DiStorage.shared.resolve();
+  // late final CalculateClassificationUsecase _calculateClassificationUsecase =
+  //     DiStorage.shared.resolve();
 
   MarkdownEditNoteData get data => state.data;
 
@@ -100,11 +99,11 @@ final class MarkdownEditNoteBloc
         dTag: data.initialNote.value?.dTag,
       );
 
-      try {
-        await _calculateClassificationUsecase.execute(result);
-      } catch (e) {
-        log('Error during classification: $e', name: 'Classification');
-      }
+      // try {
+      //   await _calculateClassificationUsecase.execute(result);
+      // } catch (e) {
+      //   log('Error during classification: $e', name: 'Classification');
+      // }
 
       emit(
         MarkdownEditNoteState.didSave(
