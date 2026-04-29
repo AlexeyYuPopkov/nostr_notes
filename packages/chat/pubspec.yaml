@@ -43,7 +43,7 @@ dependencies:
   intl: any
 dependency_overrides:
   analyzer: ^10.0.0 # https://github.com/rrousselGit/riverpod/issues/4698
-  dart_style: ^3.1.6
+  dart_style: 3.1.7
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +66,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true 
+  config:
+    enable-swift-package-manager: true 
 
   assets:
     - assets/images/

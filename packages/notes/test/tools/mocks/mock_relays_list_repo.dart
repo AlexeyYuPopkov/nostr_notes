@@ -6,7 +6,7 @@ class MockRelaysListRepo implements RelaysListRepo {
   static const relayUrl1 = 'wss://relay1.example.com';
   static const relayUrl2 = 'wss://relay2.example.com';
 
-  late final BehaviorSubject _relaysListSubject =
+  late final BehaviorSubject<Set<String>> _relaysListSubject =
       BehaviorSubject<Set<String>>.seeded({});
 
   MockRelaysListRepo();
@@ -40,7 +40,7 @@ class MockRelaysListRepo implements RelaysListRepo {
   }
 
   @override
-  Stream<Set<String>> get relaysListStream => Stream.value(getRelaysList());
+  Stream<Set<String>> get relaysListStream => _relaysListSubject.stream;
 
   @override
   Future<void> clear() async {

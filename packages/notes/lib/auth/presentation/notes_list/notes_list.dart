@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nostr_notes/auth/domain/model/category.dart';
+import 'package:nostr_notes/auth/presentation/model/category_localization.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/drawer_router.dart';
@@ -54,6 +56,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
       child: BlocConsumer<NotesListBloc, NotesListState>(
         listener: _listener,
         builder: (context, state) {
+          // final bloc = context.read<NotesListBloc>();
           return Scaffold(
             appBar: AppBar(
               title: Text(context.l10n.notesListScreenTitle),
@@ -64,7 +67,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
                     padding: const EdgeInsets.only(left: Sizes.indent2x),
                     alignment: Alignment.centerRight,
                   ),
-
+                // if (AppConfig.applyClassification) const _FilterButton(),
                 const _SettingsButton(),
               ],
             ),
@@ -77,6 +80,7 @@ final class NotesList extends StatelessWidget with DialogHelper {
                 isLoading: state is LoadingState,
                 sections: state.data.sections,
                 onTap: onTap,
+                // getSymbol: bloc.getSymbol,
               ),
             ),
           );
@@ -97,12 +101,14 @@ final class _List extends StatelessWidget {
     required this.isLoading,
     required this.sections,
     required this.onTap,
+    // required this.getSymbol,
   });
 
   final String? selectedNoteDTag;
   final bool isLoading;
   final List<NotesListSection> sections;
   final ValueChanged<Note> onTap;
+  // final Stream<Category> Function(Note) getSymbol;
 
   @override
   Widget build(BuildContext context) {
@@ -146,6 +152,7 @@ final class _List extends StatelessWidget {
                 isNextSelected: isNextSelected,
                 onTap: onTap,
                 onDelete: (note) => bloc.add(NotesListEvent.deleteNote(note)),
+                // getSymbol: getSymbol,
               );
             } else {
               return const SizedBox.shrink();
@@ -225,5 +232,38 @@ final class _SettingsButton extends StatelessWidget {
 
   void _onNewNote(BuildContext context) {
     RouteHandler.of(context)?.onRoute(const OnEndDrawer(), context);
+  }
+}
+
+// ignore: unused_element
+final class _FilterButton extends StatelessWidget {
+  const _FilterButton();
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final categories = CategoryType.values;
+    return PopupMenuButton<CategoryType>(
+      icon: Icon(
+        Icons.filter_list_rounded,
+        color: theme.colorScheme.onSurfaceVariant,
+      ),
+      offset: Offset(0, Sizes.appBarHeight),
+      itemBuilder: (context) => [
+        for (final type in categories)
+          PopupMenuItem<CategoryType>(
+            value: type,
+            child: Row(
+              children: [
+                Text(type.symbol, style: const TextStyle(fontSize: 18)),
+                const SizedBox(width: 8),
+                Text(type.getLocalizedName(context)),
+              ],
+            ),
+          ),
+      ],
+      onSelected: (value) {
+        context.read<NotesListBloc>().add(NotesListEvent.selectCategory(value));
+      },
+    );
   }
 }

@@ -23,9 +23,9 @@ final class NotesListCard extends StatelessWidget
   final PendingVm pendingVm;
   final bool isSelected;
   final bool isNextSelected;
-  // final String? selectedNoteDTag;
   final ValueChanged<Note> onTap;
   final ValueChanged<Note> onDelete;
+  // final Stream<Category> Function(Note) getSymbol;
 
   const NotesListCard({
     super.key,
@@ -35,6 +35,7 @@ final class NotesListCard extends StatelessWidget
     required this.isNextSelected,
     required this.onTap,
     required this.onDelete,
+    // required this.getSymbol,
   });
 
   @override
@@ -43,22 +44,9 @@ final class NotesListCard extends StatelessWidget
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final commonL10n = context.commonL10n;
-    // final isSelected = sectionItem.note.dTag == selectedNoteDTag;
+
     final hasDecryptError = sectionItem.note.error != null;
-    final summary = hasDecryptError
-        ? l10n.notePreviewCannotDecryptTitle
-        : sectionItem.note.summary;
-    final titleComponents = summary.split('\n');
-    final title = titleComponents.firstOrNull?.trim() ?? '';
-    final subtitle = titleComponents.length > 1
-        ? titleComponents
-              .skip(1)
-              .firstWhere(
-                (component) => component.trim().isNotEmpty,
-                orElse: () => '',
-              )
-              .trim()
-        : '';
+
     final needsSeparator =
         sectionItem.position.needsSeparator() && !isSelected && !isNextSelected;
 
@@ -120,29 +108,10 @@ final class NotesListCard extends StatelessWidget
                       spacing: Sizes.halfIndent,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        RichText(
-                          text: TextSpan(
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              height: lineHeight,
-                            ),
-                            children: [
-                              TextSpan(text: title),
-                              if (subtitle.isNotEmpty) ...[
-                                const TextSpan(text: '\n'),
-                                TextSpan(
-                                  text: subtitle,
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    color: theme.colorScheme.onSurfaceVariant,
-                                    height: lineHeight,
-                                  ),
-                                ),
-                              ],
-                            ],
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                        _Title(
+                          sectionItem: sectionItem,
+                          // getSymbol: getSymbol,
+                          onTap: () => onTap(sectionItem.note),
                         ),
                         SizedBox(
                           height: subtitleHeight,
@@ -222,6 +191,99 @@ final class NotesListCard extends StatelessWidget
       message: l10n.notesListConfirmationDialogDeletion,
     );
     return result ?? false;
+  }
+}
+
+final class _Title extends StatelessWidget {
+  final NotesListItem sectionItem;
+  // final Stream<Category> Function(Note) getSymbol;
+  final VoidCallback onTap;
+
+  const _Title({
+    required this.sectionItem,
+    // required this.getSymbol,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    const lineHeight = 1.5;
+    final theme = Theme.of(context);
+    final l10n = context.l10n;
+
+    final hasDecryptError = sectionItem.note.error != null;
+
+    return Builder(
+      // stream: getSymbol(sectionItem.note),
+      builder: (context) {
+        // final Category? category = snapshot.data;
+        final summary = hasDecryptError
+            ? l10n.notePreviewCannotDecryptTitle
+            : sectionItem.note.summary;
+        final titleComponents = summary.split('\n');
+
+        // final title = category == null
+        //     ? titleComponents.firstOrNull?.trim() ?? ''
+        //     : '${category.symbol} ${titleComponents.firstOrNull?.trim() ?? ''}'
+        //           .trim();
+
+        final title = titleComponents.firstOrNull?.trim() ?? '';
+
+        final subtitle = titleComponents.length > 1
+            ? titleComponents
+                  .skip(1)
+                  .firstWhere(
+                    (component) => component.trim().isNotEmpty,
+                    orElse: () => '',
+                  )
+                  .trim()
+            : '';
+
+        final richText = RichText(
+          text: TextSpan(
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              height: lineHeight,
+            ),
+            children: [
+              TextSpan(text: title),
+              if (subtitle.isNotEmpty) ...[
+                const TextSpan(text: '\n'),
+                TextSpan(
+                  text: subtitle,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w400,
+                    color: theme.colorScheme.onSurfaceVariant,
+                    height: lineHeight,
+                  ),
+                ),
+              ],
+            ],
+          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        );
+
+        return richText;
+        //  category == null
+        //     ? richText
+        //     : Stack(
+        //         children: [
+        //           richText,
+        //           CommonTooltip(
+        //             title: category.type.getLocalizedName(context),
+        //             message: '',
+        //             margin: EdgeInsets.zero,
+        //             onTap: onTap,
+        //             child: SizedBox(
+        //               height: Sizes.defaultRowHeight,
+        //               width: Sizes.defaultRowHeight,
+        //             ),
+        //           ),
+        //         ],
+        //       );
+      },
+    );
   }
 }
 

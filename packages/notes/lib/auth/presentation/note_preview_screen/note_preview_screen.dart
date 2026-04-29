@@ -16,13 +16,143 @@ import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
-
 import 'bloc/note_preview_event.dart';
 
-final class NotePreviewScreen extends StatelessWidget with DialogHelper {
+typedef _Match = ({int start, int end});
+
+List<_Match> _findMatches(String text, String query) {
+  if (query.isEmpty) return const [];
+  final lowerText = text.toLowerCase();
+  final lowerQuery = query.toLowerCase();
+  final matches = <_Match>[];
+  int start = 0;
+  while (true) {
+    final idx = lowerText.indexOf(lowerQuery, start);
+    if (idx == -1) break;
+    matches.add((start: idx, end: idx + query.length));
+    start = idx + query.length;
+  }
+  return matches;
+}
+
+final class SearchVM extends ChangeNotifier {
+  final searchController = TextEditingController();
+  final scrollController = ScrollController();
+
+  final isSearchVisible = ValueNotifier(false);
+  final searchQuery = ValueNotifier('');
+  final currentMatchIndex = ValueNotifier(0);
+
+  bool get isVisible => isSearchVisible.value;
+  bool get isSearchEmpty => searchQuery.value.isEmpty;
+  bool get isSearchNotEmpty => searchQuery.value.isNotEmpty;
+
+  late final Listenable searchStateListenable = Listenable.merge([
+    isSearchVisible,
+    searchQuery,
+    currentMatchIndex,
+  ]);
+
+  SearchVM() {
+    searchController.addListener(() {
+      searchQuery.value = searchController.text;
+      currentMatchIndex.value = 0;
+    });
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  void toggleSearch() {
+    final newValue = !isSearchVisible.value;
+    isSearchVisible.value = newValue;
+    if (!newValue) {
+      searchController.clear();
+      searchQuery.value = '';
+      currentMatchIndex.value = 0;
+    }
+  }
+
+  void onSearchChanged(String query) {
+    searchQuery.value = query;
+    currentMatchIndex.value = 0;
+  }
+
+  void nextMatch(String content, int matchCount) {
+    if (matchCount == 0) {
+      return;
+    }
+    final next = (currentMatchIndex.value + 1) % matchCount;
+    currentMatchIndex.value = next;
+
+    _scrollToMatch(content, next);
+  }
+
+  void prevMatch(String content, int matchCount) {
+    if (matchCount == 0) {
+      return;
+    }
+    final prev = (currentMatchIndex.value - 1 + matchCount) % matchCount;
+    currentMatchIndex.value = prev;
+    _scrollToMatch(content, prev);
+  }
+
+  void _scrollToMatch(String content, int index) {
+    if (content.isEmpty) {
+      return;
+    }
+    final matches = _findMatches(content, searchQuery.value);
+    if (index >= matches.length) {
+      return;
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!scrollController.hasClients) {
+        return;
+      }
+      final maxScroll = scrollController.position.maxScrollExtent;
+      if (maxScroll <= 0) {
+        return;
+      }
+      final ratio = matches[index].start / content.length;
+      scrollController.animateTo(
+        (ratio * maxScroll).clamp(0.0, maxScroll),
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    });
+  }
+
+  List<({int end, int start})> getMatches(String content) {
+    final matches = isSearchVisible.value && searchQuery.value.isNotEmpty
+        ? _findMatches(content, searchQuery.value)
+        : const <_Match>[];
+    return matches;
+  }
+}
+
+final class NotePreviewScreen extends StatefulWidget {
   final PathParams pathParams;
 
-  NotePreviewScreen({super.key, required this.pathParams});
+  const NotePreviewScreen({super.key, required this.pathParams});
+
+  @override
+  State<NotePreviewScreen> createState() => _NotePreviewScreenState();
+}
+
+final class _NotePreviewScreenState extends State<NotePreviewScreen>
+    with DialogHelper {
+  final vm = SearchVM();
+
+  @override
+  void dispose() {
+    vm.dispose();
+    super.dispose();
+  }
 
   void _listener(BuildContext context, NotePreviewState state) {
     switch (state) {
@@ -40,71 +170,147 @@ final class NotePreviewScreen extends StatelessWidget with DialogHelper {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return BlocProvider(
-      create: (context) => NotePreviewBloc(pathParams: pathParams),
+      create: (context) => NotePreviewBloc(pathParams: widget.pathParams),
       child: BlocConsumer<NotePreviewBloc, NotePreviewState>(
         listener: _listener,
         builder: (context, state) {
           final note = state.data.note.value;
-          final content = note?.content ?? '';
-          final mediaPaddings = MediaQuery.paddingOf(context);
-          return Scaffold(
-            backgroundColor: theme.colorScheme.surface,
-            appBar: AppBar(
-              actions: [
-                if (const AppPlatform().isDesktopLayout)
-                  RefreshButton(
-                    vm: context.read<NotePreviewBloc>().refreshButtonVm,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: Sizes.indent2x,
+
+          return ValueListenableBuilder(
+            valueListenable: vm.searchQuery,
+            builder: (context, _, _) {
+              final content = note?.content ?? '';
+              final mediaPaddings = MediaQuery.paddingOf(context);
+              final matches = vm.getMatches(content);
+              final matchCount = matches.length;
+
+              return Scaffold(
+                backgroundColor: theme.colorScheme.surface,
+                appBar: AppBar(
+                  actions: [
+                    if (const AppPlatform().isDesktopLayout)
+                      RefreshButton(
+                        vm: context.read<NotePreviewBloc>().refreshButtonVm,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: Sizes.indent2x,
+                        ),
+                        alignment: Alignment.centerRight,
+                      ),
+                    ValueListenableBuilder(
+                      valueListenable: vm.isSearchVisible,
+                      builder: (context, value, _) {
+                        return _SearchButton(
+                          active: value,
+                          onPressed: vm.toggleSearch,
+                        );
+                      },
                     ),
-                    alignment: Alignment.centerRight,
-                  ),
-                _InfoButton(
-                  onPressed: note == null || state is CannotDecryptState
-                      ? null
-                      : () => _onInfo(context, note.eventId),
+                    _InfoButton(
+                      onPressed: note == null || state is CannotDecryptState
+                          ? null
+                          : () => _onInfo(context, note.eventId),
+                    ),
+                    _EditButton(
+                      onPressed: note == null || state is CannotDecryptState
+                          ? null
+                          : () => _onEdit(context, note.dTag),
+                    ),
+                    const SizedBox(width: Sizes.indent2x),
+                  ],
                 ),
-                _EditButton(
-                  onPressed: note == null || state is CannotDecryptState
-                      ? null
-                      : () => _onEdit(context, note.dTag),
-                ),
-                const SizedBox(width: Sizes.indent2x),
-              ],
-            ),
-            body: SafeArea(
-              bottom: false,
-              child: ConstrainedBox(
-                constraints: const BoxConstraints.expand(),
-                child: state is CannotDecryptState
-                    ? _CannotDecryptPlaceholder(error: note?.error)
-                    : RefreshIndicator.adaptive(
-                        onRefresh: () async => _onRefresh(context),
-                        child: SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          padding: EdgeInsets.only(
-                            left: Sizes.indent2x,
-                            right: Sizes.indent2x,
-                            bottom:
-                                mediaPaddings.bottom +
-                                kFloatingActionButtonMargin +
-                                Sizes.fabSize,
-                          ),
-                          child: SelectionArea(
-                            child: GptMarkdownWidget(
-                              md: content,
-                              codeBuilder: (context, name, code, closed) {
-                                return NoteCodeField(name: name, codes: code);
-                              },
-                              highlightBuilder: (context, code, closed) {
-                                return ShortNoteCodeField(codes: code);
-                              },
-                            ),
-                          ),
+                body: SafeArea(
+                  bottom: false,
+                  child: Column(
+                    children: [
+                      ListenableBuilder(
+                        listenable: vm.searchStateListenable,
+                        builder: (context, _) {
+                          return AnimatedSize(
+                            duration: const Duration(milliseconds: 200),
+                            curve: Curves.easeOut,
+                            child: vm.isVisible
+                                ? _SearchBar(
+                                    controller: vm.searchController,
+                                    matchCount: matchCount,
+                                    currentIndex: vm.currentMatchIndex.value,
+                                    queryNotEmpty: vm.isSearchNotEmpty,
+                                    onChanged: vm.onSearchChanged,
+                                    onNext: () =>
+                                        vm.nextMatch(content, matchCount),
+                                    onPrev: () =>
+                                        vm.prevMatch(content, matchCount),
+                                  )
+                                : const SizedBox.shrink(),
+                          );
+                        },
+                      ),
+                      Expanded(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints.expand(),
+                          child: state is CannotDecryptState
+                              ? _CannotDecryptPlaceholder(error: note?.error)
+                              : RefreshIndicator.adaptive(
+                                  onRefresh: () async => _onRefresh(context),
+                                  child: SingleChildScrollView(
+                                    controller: vm.scrollController,
+                                    physics:
+                                        const AlwaysScrollableScrollPhysics(),
+                                    padding: EdgeInsets.only(
+                                      left: Sizes.indent2x,
+                                      right: Sizes.indent2x,
+                                      bottom:
+                                          mediaPaddings.bottom +
+                                          kFloatingActionButtonMargin +
+                                          Sizes.fabSize,
+                                    ),
+                                    child: ListenableBuilder(
+                                      listenable: vm.searchStateListenable,
+                                      builder: (context, snapshot) {
+                                        final isSearchActive =
+                                            vm.isSearchVisible.value &&
+                                            vm.isSearchNotEmpty;
+
+                                        return isSearchActive
+                                            ? _SearchableText(
+                                                text: content,
+                                                matches: matches,
+                                                currentMatchIndex:
+                                                    vm.currentMatchIndex.value,
+                                              )
+                                            : SelectionArea(
+                                                child: GptMarkdownWidget(
+                                                  md: content,
+                                                  codeBuilder:
+                                                      (
+                                                        context,
+                                                        name,
+                                                        code,
+                                                        closed,
+                                                      ) {
+                                                        return NoteCodeField(
+                                                          name: name,
+                                                          codes: code,
+                                                        );
+                                                      },
+                                                  highlightBuilder:
+                                                      (context, code, closed) {
+                                                        return ShortNoteCodeField(
+                                                          codes: code,
+                                                        );
+                                                      },
+                                                ),
+                                              );
+                                      },
+                                    ),
+                                  ),
+                                ),
                         ),
                       ),
-              ),
-            ),
+                    ],
+                  ),
+                ),
+              );
+            },
           );
         },
       ),
@@ -124,6 +330,178 @@ final class NotePreviewScreen extends StatelessWidget with DialogHelper {
 
   void _onInfo(BuildContext context, String eventId) {
     RouteHandler.of(context)?.onRoute(RawEventRoute(eventId: eventId), context);
+  }
+}
+
+final class _SearchButton extends StatelessWidget {
+  final bool active;
+  final VoidCallback onPressed;
+
+  const _SearchButton({required this.active, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return CupertinoButton(
+      minimumSize: Size.zero,
+      padding: const EdgeInsets.symmetric(
+        horizontal: Sizes.indent2x,
+        vertical: Sizes.indent,
+      ),
+      onPressed: onPressed,
+      child: Icon(
+        active ? Icons.search_off_rounded : Icons.search_rounded,
+        size: Sizes.iconMedium,
+        color: active
+            ? theme.colorScheme.primary
+            : theme.colorScheme.onSurfaceVariant,
+      ),
+    );
+  }
+}
+
+final class _SearchBar extends StatelessWidget {
+  final TextEditingController controller;
+  final int matchCount;
+  final int currentIndex;
+  final bool queryNotEmpty;
+  final ValueChanged<String> onChanged;
+  final VoidCallback onNext;
+  final VoidCallback onPrev;
+
+  const _SearchBar({
+    required this.controller,
+    required this.matchCount,
+    required this.currentIndex,
+    required this.queryNotEmpty,
+    required this.onChanged,
+    required this.onNext,
+    required this.onPrev,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: Sizes.indent,
+        vertical: Sizes.indent,
+      ),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        border: Border(
+          bottom: BorderSide(color: theme.colorScheme.outlineVariant),
+        ),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: controller,
+              onChanged: onChanged,
+              autofocus: true,
+              textInputAction: TextInputAction.search,
+              onSubmitted: (_) => onNext(),
+              decoration: InputDecoration(
+                hintText: 'Поиск...',
+                isDense: true,
+                prefixIcon: const Icon(Icons.search, size: Sizes.iconSmall),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(Sizes.radius),
+                  borderSide: BorderSide.none,
+                ),
+                filled: true,
+                fillColor: theme.colorScheme.surfaceContainerHighest,
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: Sizes.indent,
+                  horizontal: Sizes.indent,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: Sizes.indent),
+          if (queryNotEmpty)
+            Text(
+              matchCount > 0 ? '${currentIndex + 1} / $matchCount' : '0',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: matchCount > 0
+                    ? theme.colorScheme.onSurfaceVariant
+                    : theme.colorScheme.error,
+              ),
+            ),
+          IconButton(
+            onPressed: matchCount > 0 ? onPrev : null,
+            icon: const Icon(Icons.keyboard_arrow_up_rounded),
+            iconSize: Sizes.iconMedium,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+          ),
+          IconButton(
+            onPressed: matchCount > 0 ? onNext : null,
+            icon: const Icon(Icons.keyboard_arrow_down_rounded),
+            iconSize: Sizes.iconMedium,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+final class _SearchableText extends StatelessWidget {
+  final String text;
+  final List<_Match> matches;
+  final int currentMatchIndex;
+
+  const _SearchableText({
+    required this.text,
+    required this.matches,
+    required this.currentMatchIndex,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final defaultStyle = theme.textTheme.bodyMedium ?? const TextStyle();
+
+    if (matches.isEmpty) {
+      return Text(text, style: defaultStyle);
+    }
+
+    final spans = <InlineSpan>[];
+    int cursor = 0;
+
+    for (int i = 0; i < matches.length; i++) {
+      final match = matches[i];
+      if (cursor < match.start) {
+        spans.add(
+          TextSpan(
+            text: text.substring(cursor, match.start),
+            style: defaultStyle,
+          ),
+        );
+      }
+      final isCurrent = i == currentMatchIndex;
+      spans.add(
+        TextSpan(
+          text: text.substring(match.start, match.end),
+          style: defaultStyle.copyWith(
+            backgroundColor: isCurrent
+                ? Colors.orange.withValues(alpha: 0.7)
+                : Colors.yellow.withValues(alpha: 0.5),
+            color: Colors.black,
+          ),
+        ),
+      );
+      cursor = match.end;
+    }
+
+    if (cursor < text.length) {
+      spans.add(TextSpan(text: text.substring(cursor), style: defaultStyle));
+    }
+
+    return SelectionArea(child: Text.rich(TextSpan(children: spans)));
   }
 }
 

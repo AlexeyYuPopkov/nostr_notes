@@ -6,6 +6,8 @@ import 'package:nostr_notes/core/tools/now.dart';
 import 'package:uuid/uuid.dart';
 
 abstract interface class NotesRepository {
+  void syncRelays(Set<String> relays);
+
   void sendNotesRequest({
     required String pubkey,
     required Set<String> relays,

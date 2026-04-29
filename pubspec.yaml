@@ -16,6 +16,9 @@ dev_dependencies:
   melos: ^7.5.0
 
 melos:
+  command:
+    exec:
+      concurrency: 1
   # Optional: Add custom scripts or other melos configuration
   # Example script to run both apps:
   scripts:

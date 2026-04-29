@@ -124,5 +124,13 @@
     "notesListSectionPrevious30Days": "Previous 30 Days",
     "notesListSectionOther": "Other",
     "notesListConfirmationDialogDeletion": "Are you sure you want to delete this note? This action cannot be undone.",
-    "privacyPolicyScreenTitle": "Privacy Policy"
+    "privacyPolicyScreenTitle": "Privacy Policy",
+    "classificationClassFinance": "Finance",
+    "classificationClassJournal": "Journal",
+    "classificationClassPersonal": "Personal",
+    "classificationClassSecurity": "Security",
+    "classificationClassTravel": "Travel",
+    "classificationClassWork": "Work",
+    "classificationClassBookmarks": "Bookmarks",
+    "classificationClassOther": "Other"
 }

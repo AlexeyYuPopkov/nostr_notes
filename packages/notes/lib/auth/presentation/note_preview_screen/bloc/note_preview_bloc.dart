@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,12 +18,18 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   static const debounceGuard = Duration(milliseconds: 200);
   final PathParams pathParams;
   NotePreviewData get data => state.data;
-  late final FetchNotesUsecase _fetchNotesUsecase = DiStorage.shared.resolve();
+  DiStorage get _di => DiStorage.shared;
+  late final FetchNotesUsecase _fetchNotesUsecase = _di.resolve();
 
-  late final GetNoteUsecase _getNoteUsecase = DiStorage.shared.resolve();
-  late final OutboxPublisher _outbox = DiStorage.shared.resolve();
+  late final GetNoteUsecase _getNoteUsecase = _di.resolve();
+  late final OutboxPublisher _outbox = _di.resolve();
   StreamSubscription? _getNoteSubscription;
   StreamSubscription? _fetchNoteSubscription;
+
+  // late final CalculateClassificationUsecase _calculateClassificationUsecase =
+  //     _di.resolve();
+
+  // final _classificationResult = <String, double>{};
 
   late final refreshButtonVm = RefreshButtonVm(
     onRefresh: () => add(const NotePreviewEvent.refresh()),
@@ -81,7 +86,10 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
     }, onError: (e) => add(NotePreviewEvent.error(error: e)));
   }
 
-  void _onInitialEvent(InitialEvent event, Emitter<NotePreviewState> emit) {
+  void _onInitialEvent(
+    InitialEvent event,
+    Emitter<NotePreviewState> emit,
+  ) async {
     _setupSubscriptions();
   }
 
@@ -98,9 +106,29 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   void _onNoteUpdatedEvent(
     NoteUpdatedEvent event,
     Emitter<NotePreviewState> emit,
-  ) {
+  ) async {
     final note = event.note;
     emit(NotePreviewState.common(data: data.copyWith(note: OptionalBox(note))));
+
+    // if (_classificationResult.isEmpty) {
+    //   try {
+    //     final classification = await _calculateClassificationUsecase.execute(
+    //       note,
+    //       useCorrection: true,
+    //     );
+
+    //     _classificationResult
+    //       ..clear()
+    //       ..addAll(classification);
+
+    //     log(
+    //       'Classification: ${(classification..removeWhere((_, val) => val < 0.2)).toString()}',
+    //       name: 'Classification',
+    //     );
+    //   } catch (e) {
+    //     log('Error during classification: $e', name: 'Classification');
+    //   }
+    // }
     Future.delayed(
       Durations.short1,
       () => refreshButtonVm.isRefreshing = false,

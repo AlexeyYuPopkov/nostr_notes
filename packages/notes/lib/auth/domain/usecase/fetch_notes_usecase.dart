@@ -37,23 +37,26 @@ class FetchNotesUsecase {
       throw const AppError.notAuthenticated();
     }
 
-    _notesRepository.sendNotesRequest(
-      pubkey: publicKey,
-      relays: _relaysListRepo.getRelaysList().toSet(),
-      until: _now.now(),
-    );
-
-    return _notesRepository.eventsStream.doOnError((error, stackTrace) {
-      log(
-        'Error in FetchNotesUsecase: $error',
-        name: runtimeType.toString(),
-        error: error,
-        stackTrace: stackTrace,
+    return _relaysListRepo.relaysListStream.switchMap((relays) {
+      _notesRepository.syncRelays(relays);
+      _notesRepository.sendNotesRequest(
+        pubkey: publicKey,
+        relays: relays,
+        until: _now.now(),
       );
 
-      if (error is SocketException || error is WebSocketException) {
-        throw FetchNotesUsecaseNetworkError(parentError: error);
-      }
+      return _notesRepository.eventsStream.doOnError((error, stackTrace) {
+        log(
+          'Error in FetchNotesUsecase: $error',
+          name: runtimeType.toString(),
+          error: error,
+          stackTrace: stackTrace,
+        );
+
+        if (error is SocketException || error is WebSocketException) {
+          throw FetchNotesUsecaseNetworkError(parentError: error);
+        }
+      });
     });
   }
 
