@@ -16,7 +16,7 @@ final class VerificationWidget extends StatefulWidget {
   State<VerificationWidget> createState() => _VerificationWidgetState();
 }
 
-class _VerificationWidgetState extends State<VerificationWidget> {
+final class _VerificationWidgetState extends State<VerificationWidget> {
   OverlayEntry? overlayEntry;
   final _overlayKey = GlobalKey<OverlayState>();
   late final _bloc = VerificationBloc(
