@@ -43,6 +43,7 @@ void main() {
   late VerificationUsecase sut;
 
   const allow = Verification.allow();
+  const deny = Verification.deny();
   const processing = Verification.processing();
   const biometryRequest = BiometricRepositoryRequest(
     localizedReason: 'Unlock application',
@@ -173,7 +174,7 @@ void main() {
 
         lifecycle.isActiveStream.add(false);
         await pumpEventQueue();
-        expect(emitted, [isA<Deny>()]);
+        expect(emitted, [deny]);
 
         // slight delay ensures _deniedAt < DateTime.now() with Duration.zero
         await Future.delayed(const Duration(milliseconds: 1));
@@ -181,7 +182,7 @@ void main() {
         lifecycle.isActiveStream.add(true);
         await pumpEventQueue();
 
-        expect(emitted, [isA<Deny>(), processing, allow]);
+        expect(emitted, [deny, processing, allow]);
         await sub.cancel();
       },
       timeout: maxTimeout,
@@ -200,14 +201,16 @@ void main() {
 
         lifecycle.isActiveStream.add(false);
         await pumpEventQueue();
-        expect(emitted, [isA<Deny>()]);
+        expect(emitted, [deny]);
 
         await Future.delayed(const Duration(milliseconds: 1));
+
+        // await Future.delayed(VerificationUsecase.defaultMaxInactiveDuration);
 
         lifecycle.isActiveStream.add(true);
         await pumpEventQueue();
 
-        expect(emitted, [isA<Deny>(), processing, isA<Deny>()]);
+        expect(emitted, [deny, processing, deny]);
         // secureStorage is empty → restore() sets Unauth
         expect(sessionUsecase.currentSession, isA<Unauth>());
         await sub.cancel();

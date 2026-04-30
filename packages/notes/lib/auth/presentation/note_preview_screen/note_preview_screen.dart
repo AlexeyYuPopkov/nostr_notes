@@ -270,36 +270,72 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
                                             vm.isSearchVisible.value &&
                                             vm.isSearchNotEmpty;
 
-                                        return isSearchActive
-                                            ? _SearchableText(
-                                                text: content,
-                                                matches: matches,
-                                                currentMatchIndex:
-                                                    vm.currentMatchIndex.value,
-                                              )
-                                            : SelectionArea(
-                                                child: GptMarkdownWidget(
-                                                  md: content,
-                                                  codeBuilder:
-                                                      (
-                                                        context,
-                                                        name,
-                                                        code,
-                                                        closed,
-                                                      ) {
-                                                        return NoteCodeField(
-                                                          name: name,
-                                                          codes: code,
-                                                        );
-                                                      },
-                                                  highlightBuilder:
-                                                      (context, code, closed) {
-                                                        return ShortNoteCodeField(
-                                                          codes: code,
-                                                        );
-                                                      },
-                                                ),
-                                              );
+                                        return AnimatedCrossFade(
+                                          duration: AppDurations.medium,
+                                          crossFadeState: isSearchActive
+                                              ? CrossFadeState.showSecond
+                                              : CrossFadeState.showFirst,
+                                          firstChild: SelectionArea(
+                                            child: GptMarkdownWidget(
+                                              md: content,
+                                              codeBuilder:
+                                                  (
+                                                    context,
+                                                    name,
+                                                    code,
+                                                    closed,
+                                                  ) {
+                                                    return NoteCodeField(
+                                                      name: name,
+                                                      codes: code,
+                                                    );
+                                                  },
+                                              highlightBuilder:
+                                                  (context, code, closed) {
+                                                    return ShortNoteCodeField(
+                                                      codes: code,
+                                                    );
+                                                  },
+                                            ),
+                                          ),
+                                          secondChild: _SearchableText(
+                                            text: content,
+                                            matches: matches,
+                                            currentMatchIndex:
+                                                vm.currentMatchIndex.value,
+                                          ),
+
+                                          // child: isSearchActive
+                                          //     ? _SearchableText(
+                                          //         text: content,
+                                          //         matches: matches,
+                                          //         currentMatchIndex:
+                                          //             vm.currentMatchIndex.value,
+                                          //       )
+                                          //     : SelectionArea(
+                                          //         child: GptMarkdownWidget(
+                                          //           md: content,
+                                          //           codeBuilder:
+                                          //               (
+                                          //                 context,
+                                          //                 name,
+                                          //                 code,
+                                          //                 closed,
+                                          //               ) {
+                                          //                 return NoteCodeField(
+                                          //                   name: name,
+                                          //                   codes: code,
+                                          //                 );
+                                          //               },
+                                          //           highlightBuilder:
+                                          //               (context, code, closed) {
+                                          //                 return ShortNoteCodeField(
+                                          //                   codes: code,
+                                          //                 );
+                                          //               },
+                                          //         ),
+                                          //       ),
+                                        );
                                       },
                                     ),
                                   ),
