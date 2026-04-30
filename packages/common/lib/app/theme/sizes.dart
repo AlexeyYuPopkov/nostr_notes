@@ -123,9 +123,18 @@ final class TextSizes {
 }
 
 abstract interface class AppDurations {
+  /// [short = 200 milliseconds]
   static const short = Duration(milliseconds: 200);
+
+  /// [medium = 300 milliseconds]
   static const medium = Duration(milliseconds: 300);
+
+  /// [long = 500 milliseconds]
   static const long = Duration(milliseconds: 500);
+
+  /// [extraLong = 1 second]
   static const extraLong = Duration(seconds: 1);
+
+  /// [extraLong2x = 2 seconds]
   static const extraLong2x = Duration(seconds: 2);
 }

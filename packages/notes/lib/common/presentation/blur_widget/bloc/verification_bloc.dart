@@ -27,9 +27,9 @@ final class VerificationBloc
   }
 
   @override
-  Future<void> close() {
-    stateStreamSubscription.cancel();
-    verificationUsecase.dispose();
+  Future<void> close() async {
+    await stateStreamSubscription.cancel();
+    await verificationUsecase.dispose();
     return super.close();
   }
 

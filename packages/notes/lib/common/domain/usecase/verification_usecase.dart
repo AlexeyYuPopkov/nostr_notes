@@ -5,7 +5,6 @@ import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repo
 import 'package:nostr_notes/common/domain/repository/biometric_repository.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/core/tools/disposable.dart';
-import 'package:rxdart/rxdart.dart';
 
 final class VerificationUsecase implements Disposable {
   static const defaultMaxInactiveDuration = Duration(seconds: 5);
@@ -14,9 +13,8 @@ final class VerificationUsecase implements Disposable {
   final AppLifecycleListenerRepository appLifecycleListenerRepository;
   final AuthUsecase _authUsecase;
 
-  late final _userInitiated = PublishSubject<Verification>();
-
   DateTime? _deniedAt;
+  bool _isActive = true;
 
   void setDeniedAtIfNeeded() {
     _deniedAt ??= DateTime.now();
@@ -34,50 +32,51 @@ final class VerificationUsecase implements Disposable {
   Stream<Verification> createStream({
     required BiometricRepositoryRequest biometryRequest,
   }) {
-    return Rx.merge([
-      appLifecycleListenerRepository.isActiveStream
-          .distinct()
-          .map((isActive) {
-            final isUnlocked = _authUsecase.currentSession.isUnlocked;
+    return appLifecycleListenerRepository.isActiveStream.distinct().asyncExpand(
+      (isActive) {
+        _isActive = isActive;
+        if (!isActive) {
+          setDeniedAtIfNeeded();
+        }
 
-            if (isUnlocked) {
-              return isActive
-                  ? const Verification.allow()
-                  : const Verification.deny();
-            } else {
-              return const Verification.allow();
-            }
-          })
-          .distinct((a, b) => a == b),
-      _userInitiated,
-    ]).asyncMap((e) async {
-      if (e is Deny) {
-        setDeniedAtIfNeeded();
-      }
+        final isLocked = !_authUsecase.currentSession.isUnlocked;
 
-      return await _performAuthorizationIfNeeded(
-        currentStatus: e,
-        biometryRequest: biometryRequest,
-      );
-    });
+        if (isLocked) {
+          return Stream.value(const Verification.allow());
+        }
+
+        return _performAuthorizationIfNeeded(
+          isActive: isActive,
+          biometryRequest: biometryRequest,
+        ).map((value) {
+          final isLocked = !_authUsecase.currentSession.isUnlocked;
+          return _isActive
+              ? value
+              : isLocked
+              ? const Verification.allow()
+              : const Verification.deny();
+        });
+      },
+    ).distinct();
   }
 
-  Future<Verification> _performAuthorizationIfNeeded({
-    required Verification currentStatus,
+  Stream<Verification> _performAuthorizationIfNeeded({
+    required bool isActive,
     required BiometricRepositoryRequest biometryRequest,
-  }) async {
+  }) async* {
     final denyTime = _deniedAt;
 
-    if (currentStatus is Allow && denyTime != null) {
+    if (isActive && denyTime != null) {
       if (_isOutdated(denyTime: denyTime)) {
-        _passBiometry(biometricRequest: biometryRequest);
-        return const Verification.processing();
+        yield const Verification.processing();
+        final status = await _passBiometry(biometricRequest: biometryRequest);
+        yield status;
       } else {
         resetDenyTime();
-        return currentStatus;
+        yield Verification.allow();
       }
     } else {
-      return currentStatus;
+      yield Verification.deny();
     }
   }
 
@@ -85,30 +84,29 @@ final class VerificationUsecase implements Disposable {
     return denyTime.add(maxInactiveDuration).isBefore(DateTime.now());
   }
 
-  void _passBiometry({
+  Future<Verification> _passBiometry({
     required BiometricRepositoryRequest biometricRequest,
   }) async {
     try {
       final isAuthorized = await biometricRepository.execute(biometricRequest);
 
       if (isAuthorized) {
-        _userInitiated.sink.add(const Verification.allow());
+        resetDenyTime();
+        return const Verification.allow();
       } else {
-        _userInitiated.sink.add(const Verification.deny());
         await _authUsecase.restore();
+        resetDenyTime();
+        return const Verification.deny();
       }
     } catch (e) {
       await _authUsecase.restore();
-      _userInitiated.sink.add(const Verification.allow());
-    } finally {
-      resetDenyTime();
+      return const Verification.deny();
     }
   }
 
   @override
   Future<void> dispose() async {
-    appLifecycleListenerRepository.dispose();
-    _userInitiated.close();
+    await appLifecycleListenerRepository.dispose();
   }
 }
 
