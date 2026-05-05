@@ -3,7 +3,7 @@ import 'package:common/services/event_store/database/daos/note_class_probabiliti
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/auth/data/ai/classification_repo_impl.dart';
-import 'package:nostr_notes/auth/domain/model/category.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/calculate_classification_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_classification_usecase.dart';
@@ -47,6 +47,7 @@ void main() {
       content: 'Bought some stocks today and checked my portfolio performance.',
       summary: '',
       createdAt: DateTime.now(),
+      initAt: DateTime.now(),
     );
 
     // Calculate and persist classification
@@ -68,7 +69,7 @@ void main() {
     final category = await sut2.getSymbol(eventId).first;
 
     expect(category.symbol, isNotEmpty);
-    expect(Category.categorySymbols.containsValue(category.symbol), isTrue);
+    expect(Label.categorySymbols.containsValue(category.symbol), isTrue);
   }, skip: true);
 
   test('get returns empty map for unknown event', () async {
@@ -84,6 +85,7 @@ void main() {
         content: 'Traveling to Japan next month, booking flights.',
         summary: '',
         createdAt: DateTime.now(),
+        initAt: DateTime.now(),
       ),
       Note(
         eventId: 'event-002',
@@ -91,6 +93,7 @@ void main() {
         content: 'Fixed a critical security vulnerability in the codebase.',
         summary: '',
         createdAt: DateTime.now(),
+        initAt: DateTime.now(),
       ),
     ];
 

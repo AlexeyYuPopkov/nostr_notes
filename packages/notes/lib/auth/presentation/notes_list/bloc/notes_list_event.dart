@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:nostr_notes/auth/domain/model/category.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 
 sealed class NotesListEvent extends Equatable {

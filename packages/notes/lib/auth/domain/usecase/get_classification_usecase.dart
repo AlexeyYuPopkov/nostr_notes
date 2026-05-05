@@ -1,5 +1,5 @@
 import 'package:common/domain/repo/get_classification_repo.dart';
-import 'package:nostr_notes/auth/domain/model/category.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
 
 final class GetClassificationUsecase {
   static const minProbability = 0.1;
@@ -20,7 +20,7 @@ final class GetClassificationUsecase {
     ).then((probs) => probs.map((k, v) => MapEntry(k, v.getCategoryType())));
   }
 
-  Stream<Category> getSymbol(String eventId) {
+  Stream<Label> getSymbol(String eventId) {
     return _getClassificationRepo
         .watchProbabilities(eventId, minProbability: minProbability)
         .map((probs) => probs.getSymbol());
@@ -28,10 +28,10 @@ final class GetClassificationUsecase {
 }
 
 extension on Map<String, double> {
-  Category getSymbol() {
+  Label getSymbol() {
     return isEmpty
-        ? Category.fromCategoryType(.other)
-        : Category.fromCategoryType(getCategoryType());
+        ? Label.fromCategoryType(.other)
+        : Label.fromCategoryType(getCategoryType());
   }
 
   CategoryType getCategoryType() {

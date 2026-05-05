@@ -1,6 +1,22 @@
 import 'package:equatable/equatable.dart';
 
-final class Category extends Equatable {
+abstract class BaseLabel extends Equatable {
+  final String textValue;
+
+  const BaseLabel({required this.textValue});
+
+  @override
+  List<Object?> get props => [textValue];
+}
+
+final class EncryptedLabel extends BaseLabel {
+  const EncryptedLabel({required super.textValue});
+
+  @override
+  List<Object?> get props => [textValue];
+}
+
+final class Label extends BaseLabel {
   static const other = '📁';
   static const categorySymbols = {
     'finance': '💰',
@@ -15,21 +31,25 @@ final class Category extends Equatable {
   final CategoryType type;
   final String symbol;
 
-  const Category._({required this.type, required this.symbol});
+  @override
+  String get textValue => type.toStringValue();
 
-  factory Category.from(String? name) {
+  Label._({required this.type, required this.symbol})
+    : super(textValue: type.toStringValue());
+
+  factory Label.from(String? name) {
     if (name == null || name.isEmpty) {
-      return const Category._(type: .other, symbol: other);
+      return Label._(type: .other, symbol: other);
     }
 
     final type = CategoryType.fromString(name);
-    final symbol = Category.categorySymbols[type.name] ?? other;
-    return Category._(type: type, symbol: symbol);
+    final symbol = Label.categorySymbols[type.name] ?? other;
+    return Label._(type: type, symbol: symbol);
   }
 
-  factory Category.fromCategoryType(CategoryType type) {
-    final symbol = Category.categorySymbols[type.name] ?? other;
-    return Category._(type: type, symbol: symbol);
+  factory Label.fromCategoryType(CategoryType type) {
+    final symbol = Label.categorySymbols[type.name] ?? other;
+    return Label._(type: type, symbol: symbol);
   }
 
   @override
@@ -56,7 +76,7 @@ enum CategoryType {
     'bookmarks': '🔖',
   };
 
-  String get symbol => Category.categorySymbols[name] ?? Category.other;
+  String get symbol => Label.categorySymbols[name] ?? Label.other;
 
   static CategoryType fromString(String? name) {
     if (name == null || name.isEmpty) {

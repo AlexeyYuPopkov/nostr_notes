@@ -214,14 +214,14 @@ void main() {
       channel.onAdd = (data, ch) {
         const publishReq =
             r'["EVENT",{"kind":30023,'
-            '"id":"2d06c02fc41379a50af52945750372b5839d27dedf7e595f3f60fed28314c116",'
+            '"id":"861d14424c63c29c818aca97ae8bff315d3282cb00ee8ad63a8c30850868b2ff",'
             '"pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",'
             '"created_at":1750157400,'
             '"tags":[["client","996e10ba"],["t","996e10ba"],'
             '["d","test-dtag"],["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"],'
-            '["summary","encrypted-message"]],'
+            '["summary","encrypted-message"],["init_at","1750157400"]],'
             '"content":"encrypted-message",'
-            '"sig":"4ee2bbd8d4a71d2356b1421018671cbb3ac7f097d1f2da14282f38140e6c43f53611360f05570c172c953d3f5c52f2e082ce0ebb0115caea5efedf29a9508dd7"}]';
+            '"sig":"8bed5df6c77bfb7bfd8c21b4932157133a98c8f4611164f16fd50ac6c52d22505ed29e4d697184e496d66c88e8a462d10668b96e95daf5d53a573af9f49f559f"}]';
 
         const delReq =
             r'["EVENT",{"kind":30023,'
@@ -249,6 +249,7 @@ void main() {
         dTag: null,
         now: mockNow,
         uuid: mockUuid,
+        initAt: null,
         // randomBytes: SomeMokedData.randomBytes,
       );
 

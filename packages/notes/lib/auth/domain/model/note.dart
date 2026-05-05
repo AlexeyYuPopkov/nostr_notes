@@ -1,12 +1,17 @@
 import 'package:equatable/equatable.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
 
 final class Note extends Equatable {
+  static const initAtTag = 'init_at';
+  static const labelsTag = 'labels';
   final String eventId;
   final String dTag;
   final String content;
   final String _summary;
   final DateTime createdAt;
+  final DateTime initAt;
   final Object? error;
+  final List<BaseLabel> labels;
 
   const Note({
     required this.eventId,
@@ -14,6 +19,8 @@ final class Note extends Equatable {
     required this.content,
     required String summary,
     required this.createdAt,
+    required this.initAt,
+    this.labels = const [],
     this.error,
   }) : _summary = summary;
 
@@ -24,7 +31,9 @@ final class Note extends Equatable {
     content,
     _summary,
     createdAt,
+    initAt,
     error,
+    labels,
   ];
 
   Note copyWith({
@@ -32,6 +41,8 @@ final class Note extends Equatable {
     String? summary,
     Object? error,
     DateTime? createdAt,
+    DateTime? initAt,
+    List<BaseLabel>? labels,
   }) {
     return Note(
       eventId: eventId,
@@ -39,6 +50,8 @@ final class Note extends Equatable {
       content: content ?? this.content,
       summary: summary ?? _summary,
       createdAt: createdAt ?? this.createdAt,
+      initAt: initAt ?? this.initAt,
+      labels: labels ?? this.labels,
       error: error ?? this.error,
     );
   }

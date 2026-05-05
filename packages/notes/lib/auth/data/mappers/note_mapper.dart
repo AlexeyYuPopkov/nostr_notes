@@ -11,13 +11,27 @@ final class NoteMapper {
     }
 
     final summaryTag = event.getFirstTag(const SummaryTag()) ?? '';
+    final createdAt = DateTime.fromMillisecondsSinceEpoch(
+      event.createdAt * 1000,
+    );
+    final initAtTagValue = event.getFirstTagStr(Note.initAtTag);
+    final int? initAtIntSeconds =
+        initAtTagValue != null && initAtTagValue.isNotEmpty
+        ? int.tryParse(initAtTagValue)
+        : null;
+
+    final DateTime? initAt = initAtIntSeconds == null
+        ? null
+        : DateTime.fromMillisecondsSinceEpoch(initAtIntSeconds * 1000);
 
     return Note(
       eventId: event.id,
       dTag: dTag,
       content: event.content,
       summary: summaryTag,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(event.createdAt * 1000),
+      createdAt: createdAt,
+      initAt: initAt ?? createdAt,
+      // labels:
     );
   }
 }

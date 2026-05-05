@@ -40,6 +40,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   );
   late final DeleteNoteUsecase _deleteNoteUsecase = _di.resolve();
   late final OutboxPublisher _outbox = _di.resolve();
+  // late final CreateNoteUsecase _createNoteUsecase = DiStorage.shared.resolve();
 
   StreamSubscription? _fetchNotesSubscription;
   StreamSubscription? _getNotesSubscription;
