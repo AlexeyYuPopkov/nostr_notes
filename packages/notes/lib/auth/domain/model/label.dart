@@ -66,6 +66,16 @@ enum CategoryType {
   bookmarks,
   other;
 
+  static const valuesList = [
+    finance,
+    journal,
+    personal,
+    security,
+    travel,
+    work,
+    bookmarks,
+  ];
+
   static const categorySymbols = {
     'finance': '💰',
     'journal': '📝',
