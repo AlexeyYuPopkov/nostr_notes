@@ -32,10 +32,10 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
   )
   _spec256k1Wasm;
 
-  CryptoServiceImplWeb._([Uint8List? randomBytes]) : _randomBytes = randomBytes;
+  CryptoServiceImplWeb._({Uint8List? randomBytes}) : _randomBytes = randomBytes;
 
-  factory CryptoServiceImplWeb() {
-    return _instance ??= CryptoServiceImplWeb._();
+  factory CryptoServiceImplWeb({Uint8List? randomBytes}) {
+    return _instance ??= CryptoServiceImplWeb._(randomBytes: randomBytes);
   }
 
   @override
@@ -196,7 +196,7 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
 }
 
 final class CryptoServiceImplMobile implements CryptoService {
-  const CryptoServiceImplMobile();
+  const CryptoServiceImplMobile({Uint8List? randomBytes});
   @override
   Future<void> init() async {}
 
