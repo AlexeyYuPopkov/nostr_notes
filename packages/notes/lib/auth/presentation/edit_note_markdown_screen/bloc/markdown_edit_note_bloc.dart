@@ -97,7 +97,7 @@ final class MarkdownEditNoteBloc
       final result = await _createNoteUsecase.execute(
         content: trimmedText,
         dTag: data.initialNote.value?.dTag,
-        initAt: data.initialNote.value?.initAt,
+        updatedAt: data.initialNote.value?.updatedAt,
       );
 
       // try {

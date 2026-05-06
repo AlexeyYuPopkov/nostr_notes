@@ -748,6 +748,12 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete this note? This action cannot be undone.'**
   String get notesListConfirmationDialogDeletion;
 
+  /// No description provided for @notesListAssignLabels.
+  ///
+  /// In en, this message translates to:
+  /// **'Labels'**
+  String get notesListAssignLabels;
+
   /// No description provided for @privacyPolicyScreenTitle.
   ///
   /// In en, this message translates to:

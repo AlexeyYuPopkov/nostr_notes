@@ -1,6 +1,7 @@
 import 'package:common/l10n/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
@@ -25,6 +26,7 @@ final class NotesListCard extends StatelessWidget
   final bool isNextSelected;
   final ValueChanged<Note> onTap;
   final ValueChanged<Note> onDelete;
+  final ValueChanged<Note> onAssignLabels;
   // final Stream<Category> Function(Note) getSymbol;
 
   const NotesListCard({
@@ -35,6 +37,7 @@ final class NotesListCard extends StatelessWidget
     required this.isNextSelected,
     required this.onTap,
     required this.onDelete,
+    required this.onAssignLabels,
     // required this.getSymbol,
   });
 
@@ -69,9 +72,28 @@ final class NotesListCard extends StatelessWidget
 
         child: Slidable(
           key: ValueKey(sectionItem.note.dTag),
+          // startActionPane: ActionPane(
+          //   motion: const DrawerMotion(),
+          //   children: [
+          //     SlidableAction(
+          //       onPressed: (context) => onAssignLabels(sectionItem.note),
+          //       backgroundColor: theme.colorScheme.primary,
+          //       foregroundColor: theme.colorScheme.onPrimary,
+          //       icon: Icons.label_outline,
+          //       label: context.l10n.notesListAssignLabels,
+          //     ),
+          //   ],
+          // ),
           endActionPane: ActionPane(
             motion: const DrawerMotion(),
             children: [
+              SlidableAction(
+                onPressed: (context) => onAssignLabels(sectionItem.note),
+                backgroundColor: theme.colorScheme.primary,
+                foregroundColor: theme.colorScheme.onPrimary,
+                icon: Icons.label_outline,
+                label: context.l10n.notesListAssignLabels,
+              ),
               SlidableAction(
                 onPressed: (context) async {
                   if (await _confirmDismiss(context)) {
@@ -117,7 +139,7 @@ final class NotesListCard extends StatelessWidget
                           height: subtitleHeight,
                           child: Text(
                             DateFormatter.formatDateTimeOrEmpty(
-                              sectionItem.note.createdAt,
+                              sectionItem.note.updatedAt,
                             ),
                             style: theme.textTheme.bodySmall?.copyWith(
                               fontWeight: FontWeight.w400,
@@ -128,7 +150,8 @@ final class NotesListCard extends StatelessWidget
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        SizedBox(height: Sizes.indent),
+                        _LabelChips(note: sectionItem.note),
+                        SizedBox(height: Sizes.halfIndent),
                       ],
                     ),
                   ),
@@ -283,6 +306,60 @@ final class _Title extends StatelessWidget {
         //         ],
         //       );
       },
+    );
+  }
+}
+
+final class _LabelChips extends StatelessWidget {
+  final Note note;
+  const _LabelChips({required this.note});
+
+  @override
+  Widget build(BuildContext context) {
+    final labelTypes = note.labels
+        .whereType<Label>()
+        .where((l) => l.type != CategoryType.other)
+        .toList();
+
+    if (labelTypes.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final theme = Theme.of(context);
+    return SizedBox(
+      width: double.infinity,
+      child: Wrap(
+        spacing: Sizes.halfIndent,
+        runSpacing: Sizes.halfIndent / 2,
+        alignment: .end,
+
+        children: [
+          for (final label in labelTypes)
+            Padding(
+              padding: const EdgeInsets.only(right: Sizes.indent),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.secondaryContainer,
+                  borderRadius: BorderRadius.all(Radius.circular(Sizes.radius)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: Sizes.indentVariant,
+                    right: Sizes.indent,
+                    top: Sizes.tinyIndent,
+                    bottom: Sizes.halfIndent,
+                  ),
+                  child: Text(
+                    '${label.symbol} ${label.type.name}',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: theme.colorScheme.onSecondaryContainer,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

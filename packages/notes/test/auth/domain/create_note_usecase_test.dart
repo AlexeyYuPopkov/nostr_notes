@@ -35,58 +35,58 @@ class MockChannelFactory extends Mock implements ChannelFactory {}
 
 class MockUuid extends Mock implements Uuid {}
 
-class MockCryptoRepo implements CryptoService {
-  @override
-  Future<String> decryptNip44({
-    required String payload,
-    required Uint8List conversationKey,
-  }) async {
-    return 'message';
-  }
+// class MockCryptoRepo implements CryptoService {
+//   @override
+//   Future<String> decryptNip44({
+//     required String payload,
+//     required Uint8List conversationKey,
+//   }) async {
+//     return 'message';
+//   }
 
-  @override
-  Future<Uint8List> deriveKeysAsync({
-    required String senderPrivateKey,
-    required String recipientPublicKey,
-    Future<Uint8List> Function(Uint8List p1)? extraDerivation,
-  }) async {
-    return Uint8List.fromList(List<int>.generate(32, (i) => i));
-  }
+//   @override
+//   Future<Uint8List> deriveKeysAsync({
+//     required String senderPrivateKey,
+//     required String recipientPublicKey,
+//     Future<Uint8List> Function(Uint8List p1)? extraDerivation,
+//   }) async {
+//     return Uint8List.fromList(List<int>.generate(32, (i) => i));
+//   }
 
-  @override
-  Future<String> encryptNip44({
-    required String plaintext,
-    required Uint8List conversationKey,
-    Uint8List? customNonce,
-  }) async {
-    return 'encrypted-message';
-  }
+//   @override
+//   Future<String> encryptNip44({
+//     required String plaintext,
+//     required Uint8List conversationKey,
+//     Uint8List? customNonce,
+//   }) async {
+//     return 'encrypted-message';
+//   }
 
-  @override
-  FutureOr<void> init() {}
+//   @override
+//   FutureOr<void> init() {}
 
-  @override
-  Uint8List spec256k1({
-    required Uint8List senderPrivateKey,
-    required Uint8List recipientPublicKey,
-  }) => throw UnimplementedError();
+//   @override
+//   Uint8List spec256k1({
+//     required Uint8List senderPrivateKey,
+//     required Uint8List recipientPublicKey,
+//   }) => throw UnimplementedError();
 
-  @override
-  Future<Uint8List> spec256k1Async({
-    required Uint8List senderPrivateKey,
-    required Uint8List recipientPublicKey,
-  }) {
-    return Future(
-      () => spec256k1(
-        senderPrivateKey: senderPrivateKey,
-        recipientPublicKey: recipientPublicKey,
-      ),
-    );
-  }
+//   @override
+//   Future<Uint8List> spec256k1Async({
+//     required Uint8List senderPrivateKey,
+//     required Uint8List recipientPublicKey,
+//   }) {
+//     return Future(
+//       () => spec256k1(
+//         senderPrivateKey: senderPrivateKey,
+//         recipientPublicKey: recipientPublicKey,
+//       ),
+//     );
+//   }
 
-  @override
-  Future<void> dispose() => Future.value();
-}
+//   @override
+//   Future<void> dispose() => Future.value();
+// }
 
 class MockExtraDerivation implements ExtraDerivation {
   @override
@@ -112,9 +112,12 @@ void main() {
     late CreateNoteUsecase sut1;
     late OutboxDaoInterface sut2;
     late OutboxPublisher sut3;
+
+    final sut4 = CryptoService.create(
+      Uint8List.fromList(SomeMokedData.randomBytes),
+    );
     final mockNow = MockNow();
     final mockUuid = MockUuid();
-    final mockCryptoService = MockCryptoRepo();
 
     setUp(() {
       final di = DiStorage.shared;
@@ -156,7 +159,7 @@ void main() {
         sessionUsecase: sessionUsecase,
         noteCryptoUseCase: NoteCryptoUseCase(
           sessionUsecase: sessionUsecase,
-          cryptoService: mockCryptoService,
+          cryptoService: sut4,
           extraDerivation: MockExtraDerivation(),
         ),
         notesRepository: NotesRepositoryImpl(
@@ -187,7 +190,7 @@ void main() {
         dTag: null,
         now: mockNow,
         uuid: mockUuid,
-        initAt: null,
+        updatedAt: null,
       );
 
       expect(note, isA<Note>());
@@ -202,7 +205,7 @@ void main() {
 
     test('OutboxPublisher picks up event and publishes to both relays', () async {
       const eventId =
-          'd17c2718a55177f133739af5b0a56c6ca1f23a7850c0f51d758b99c46db03d44';
+          'f99328fd84e2571e8715652ed33b2fbaa27651e622a582a17eaaa071deeb0636';
       when(() => mockUuid.v1()).thenReturn('uuid-v1');
       when(() => mockUuid.v4()).thenReturn('sub-id');
       when(
@@ -231,7 +234,7 @@ void main() {
         dTag: null,
         now: mockNow,
         uuid: mockUuid,
-        initAt: null,
+        updatedAt: null,
         labels: [Label.from('work'), Label.from('journal')],
       );
 
@@ -247,16 +250,16 @@ void main() {
       const sentEvent =
           '["EVENT",{'
           '"kind":30023,'
-          '"id":"d17c2718a55177f133739af5b0a56c6ca1f23a7850c0f51d758b99c46db03d44",'
+          '"id":"f99328fd84e2571e8715652ed33b2fbaa27651e622a582a17eaaa071deeb0636",'
           '"pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",'
           '"created_at":1750157400,'
           '"tags":[["client","996e10ba"],["t","996e10ba"],["d","uuid-v1"],'
           '["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"],'
-          '["summary","encrypted-message"],'
-          '["init_at","1750157400"],'
-          '["labels","encrypted-message"]],'
-          '"content":"encrypted-message",'
-          '"sig":"426210b6e199067ecbce6c6981cd3dd1ec0fb5285cd0f9b05c4890a1d9201ce8ea3b3d6d068aba04fa87eb6345e15549e182328c16681be41f128c9cef8bf89b"}]';
+          '["summary","AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5MgglehbzsNjlKVP2pURGJCzdQgzLK8YLoTvhDY+2SM3HQaY62I4LStarNw5IQJc7dgdfVkUof7BqVEJ8YsAUvjfC"],'
+          '["updated_at","1750157400"],'
+          '["labels","AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5Mh0TPRLvo9SiBXGcyjE0Sk2xYFHLK8YLoTvhDY+2SM3HQXyVyN0bWhAykUrQVvd8hxVQqvF/Ti2tKbQ74GFrSasx"]],'
+          '"content":"AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5MgglehbzsNjlKVP2pURGJCzdQgzLK8YLoTvhDY+2SM3HQaY62I4LStarNw5IQJc7dgdfVkUof7BqVEJ8YsAUvjfC",'
+          '"sig":"ef997766585a9c7cd1f8d18cdb291ecec427dd44f5399c35696fd5e4dd12578c69eeab7fbfae0b2fefda329e67e7c7e51f1e2c7cfcccb2dc507b1a2518e95b05"}]';
 
       final eventJson = jsonDecode(sentEvent);
 
@@ -272,7 +275,7 @@ void main() {
 
     test('OutboxPublisher publishes with partial relay response', () async {
       const eventId =
-          'd17c2718a55177f133739af5b0a56c6ca1f23a7850c0f51d758b99c46db03d44';
+          'f99328fd84e2571e8715652ed33b2fbaa27651e622a582a17eaaa071deeb0636';
       when(() => mockUuid.v1()).thenReturn('uuid-v1');
       when(() => mockUuid.v4()).thenReturn('sub-id');
       when(
@@ -296,7 +299,7 @@ void main() {
         dTag: null,
         now: mockNow,
         uuid: mockUuid,
-        initAt: null,
+        updatedAt: null,
         labels: [Label.from('work'), Label.from('journal')],
       );
 
@@ -311,16 +314,16 @@ void main() {
       const sentEvent =
           '["EVENT",{'
           '"kind":30023,'
-          '"id":"d17c2718a55177f133739af5b0a56c6ca1f23a7850c0f51d758b99c46db03d44",'
+          '"id":"f99328fd84e2571e8715652ed33b2fbaa27651e622a582a17eaaa071deeb0636",'
           '"pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",'
           '"created_at":1750157400,'
           '"tags":[["client","996e10ba"],["t","996e10ba"],["d","uuid-v1"],'
           '["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"],'
-          '["summary","encrypted-message"],'
-          '["init_at","1750157400"],'
-          '["labels","encrypted-message"]],'
-          '"content":"encrypted-message",'
-          '"sig":"426210b6e199067ecbce6c6981cd3dd1ec0fb5285cd0f9b05c4890a1d9201ce8ea3b3d6d068aba04fa87eb6345e15549e182328c16681be41f128c9cef8bf89b"}]';
+          '["summary","AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5MgglehbzsNjlKVP2pURGJCzdQgzLK8YLoTvhDY+2SM3HQaY62I4LStarNw5IQJc7dgdfVkUof7BqVEJ8YsAUvjfC"],'
+          '["updated_at","1750157400"],'
+          '["labels","AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5Mh0TPRLvo9SiBXGcyjE0Sk2xYFHLK8YLoTvhDY+2SM3HQXyVyN0bWhAykUrQVvd8hxVQqvF/Ti2tKbQ74GFrSasx"]],'
+          '"content":"AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5MgglehbzsNjlKVP2pURGJCzdQgzLK8YLoTvhDY+2SM3HQaY62I4LStarNw5IQJc7dgdfVkUof7BqVEJ8YsAUvjfC",'
+          '"sig":"ef997766585a9c7cd1f8d18cdb291ecec427dd44f5399c35696fd5e4dd12578c69eeab7fbfae0b2fefda329e67e7c7e51f1e2c7cfcccb2dc507b1a2518e95b05"}]';
 
       final eventJson = jsonDecode(sentEvent);
 

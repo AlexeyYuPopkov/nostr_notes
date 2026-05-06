@@ -1,5 +1,6 @@
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/tag/tag.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 
 final class NoteMapper {
@@ -14,15 +15,17 @@ final class NoteMapper {
     final createdAt = DateTime.fromMillisecondsSinceEpoch(
       event.createdAt * 1000,
     );
-    final initAtTagValue = event.getFirstTagStr(Note.initAtTag);
+    final initAtTagValue = event.getFirstTagStr(Note.updatedAtTag);
     final int? initAtIntSeconds =
         initAtTagValue != null && initAtTagValue.isNotEmpty
         ? int.tryParse(initAtTagValue)
         : null;
 
-    final DateTime? initAt = initAtIntSeconds == null
+    final DateTime? updatedAt = initAtIntSeconds == null
         ? null
         : DateTime.fromMillisecondsSinceEpoch(initAtIntSeconds * 1000);
+
+    final labelsTagValue = event.getFirstTagStr(Note.labelsTag);
 
     return Note(
       eventId: event.id,
@@ -30,8 +33,10 @@ final class NoteMapper {
       content: event.content,
       summary: summaryTag,
       createdAt: createdAt,
-      initAt: initAt ?? createdAt,
-      // labels:
+      updatedAt: updatedAt ?? createdAt,
+      labels: labelsTagValue == null || labelsTagValue.isEmpty
+          ? []
+          : [EncryptedLabel(textValue: labelsTagValue)],
     );
   }
 }

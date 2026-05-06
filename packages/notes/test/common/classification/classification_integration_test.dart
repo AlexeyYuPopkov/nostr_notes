@@ -47,7 +47,7 @@ void main() {
       content: 'Bought some stocks today and checked my portfolio performance.',
       summary: '',
       createdAt: DateTime.now(),
-      initAt: DateTime.now(),
+      updatedAt: DateTime.now(),
     );
 
     // Calculate and persist classification
@@ -85,7 +85,7 @@ void main() {
         content: 'Traveling to Japan next month, booking flights.',
         summary: '',
         createdAt: DateTime.now(),
-        initAt: DateTime.now(),
+        updatedAt: DateTime.now(),
       ),
       Note(
         eventId: 'event-002',
@@ -93,7 +93,7 @@ void main() {
         content: 'Fixed a critical security vulnerability in the codebase.',
         summary: '',
         createdAt: DateTime.now(),
-        initAt: DateTime.now(),
+        updatedAt: DateTime.now(),
       ),
     ];
 

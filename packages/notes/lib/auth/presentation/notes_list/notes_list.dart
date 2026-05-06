@@ -1,4 +1,5 @@
 import 'package:common/app/icons/app_icons.dart';
+import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -152,6 +153,8 @@ final class _List extends StatelessWidget {
                 isNextSelected: isNextSelected,
                 onTap: onTap,
                 onDelete: (note) => bloc.add(NotesListEvent.deleteNote(note)),
+                onAssignLabels: (note) =>
+                    _showLabelsPicker(context, note, bloc),
                 // getSymbol: getSymbol,
               );
             } else {
@@ -262,8 +265,108 @@ final class _FilterButton extends StatelessWidget {
           ),
       ],
       onSelected: (value) {
-        context.read<NotesListBloc>().add(NotesListEvent.selectCategory(value));
+        // context.read<NotesListBloc>().add(NotesListEvent.selectCategory(value));
       },
+    );
+  }
+}
+
+void _showLabelsPicker(BuildContext context, Note note, NotesListBloc bloc) {
+  showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    builder: (_) => _LabelsPickerSheet(
+      note: note,
+      onApply: (labels) {
+        bloc.add(NotesListEvent.assignLabels(note: note, labels: labels));
+      },
+    ),
+  );
+}
+
+final class _LabelsPickerSheet extends StatefulWidget {
+  final Note note;
+  final void Function(List<CategoryType> labels) onApply;
+
+  const _LabelsPickerSheet({required this.note, required this.onApply});
+
+  @override
+  State<_LabelsPickerSheet> createState() => _LabelsPickerSheetState();
+}
+
+final class _LabelsPickerSheetState extends State<_LabelsPickerSheet> {
+  late final Set<CategoryType> _selected;
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = widget.note.labels
+        .whereType<Label>()
+        .map((l) => l.type)
+        .where((t) => t != CategoryType.other)
+        .toSet();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final categories = CategoryType.values
+        .where((t) => t != CategoryType.other)
+        .toList();
+
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(Sizes.indent2x),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              context.l10n.notesListAssignLabels,
+              style: theme.textTheme.titleMedium,
+            ),
+            const SizedBox(height: Sizes.indent2x),
+            Wrap(
+              spacing: Sizes.halfIndent,
+              runSpacing: Sizes.halfIndent,
+              children: [
+                for (final type in categories)
+                  FilterChip(
+                    selected: _selected.contains(type),
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(type.symbol, style: const TextStyle(fontSize: 16)),
+                        const SizedBox(width: 6),
+                        Text(type.getLocalizedName(context)),
+                      ],
+                    ),
+                    onSelected: (selected) {
+                      setState(() {
+                        if (selected) {
+                          _selected.add(type);
+                        } else {
+                          _selected.remove(type);
+                        }
+                      });
+                    },
+                  ),
+              ],
+            ),
+            const SizedBox(height: Sizes.indent2x),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  widget.onApply(_selected.toList());
+                },
+                child: Text(context.commonL10n.commonButtonDone),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

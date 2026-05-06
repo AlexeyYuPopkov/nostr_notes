@@ -255,7 +255,7 @@ class NotesRepositoryImpl implements NotesRepository {
       [Tag.d.value, dTagValue],
       [Tag.p.value, pubkey],
       [const SummaryTag().value, note.summary],
-      if (initAtSeconds != null) [Note.initAtTag, initAtSeconds.toString()],
+      if (initAtSeconds != null) [Note.updatedAtTag, initAtSeconds.toString()],
       if (labels.isNotEmpty)
         [
           Note.labelsTag,

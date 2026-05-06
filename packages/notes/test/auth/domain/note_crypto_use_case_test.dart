@@ -59,7 +59,7 @@ void main() {
         content: text,
         summary: summary,
         createdAt: DateTime.now(),
-        initAt: DateTime.now(),
+        updatedAt: DateTime.now(),
         labels: [Label.from('work'), Label.from('journal')],
       );
 
@@ -84,7 +84,7 @@ void main() {
         content: text,
         summary: summary,
         createdAt: DateTime.now(),
-        initAt: DateTime.now(),
+        updatedAt: DateTime.now(),
         labels: [Label.from('work'), Label.from('journal')],
       );
 
@@ -109,7 +109,7 @@ void main() {
         content: text,
         summary: summary,
         createdAt: DateTime.now(),
-        initAt: DateTime.now(),
+        updatedAt: DateTime.now(),
         labels: [Label.from('work'), Label.from('journal')],
       );
 
@@ -136,7 +136,7 @@ void main() {
           content: text,
           summary: summary,
           createdAt: DateTime.now(),
-          initAt: DateTime.now(),
+          updatedAt: DateTime.now(),
           labels: [Label.from('work'), Label.from('journal')],
         );
 
@@ -197,7 +197,7 @@ void main() {
           content: '$text $i',
           summary: '$summary $i',
           createdAt: DateTime.now(),
-          initAt: DateTime.now(),
+          updatedAt: DateTime.now(),
         );
 
         final encrypted = await sut.encryptNote(initialNote);

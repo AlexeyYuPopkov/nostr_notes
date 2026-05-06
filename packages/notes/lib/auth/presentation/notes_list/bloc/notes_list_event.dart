@@ -11,8 +11,11 @@ sealed class NotesListEvent extends Equatable {
   const factory NotesListEvent.refresh() = RefreshEvent;
   const factory NotesListEvent.error({required Object error}) = ErrorEvent;
   const factory NotesListEvent.deleteNote(Note note) = DeleteNoteEvent;
-  const factory NotesListEvent.selectCategory(CategoryType? category) =
-      SelectCategoryEvent;
+
+  const factory NotesListEvent.assignLabels({
+    required Note note,
+    required List<CategoryType> labels,
+  }) = AssignLabelsEvent;
 
   @override
   List<Object?> get props => const [];
@@ -48,9 +51,10 @@ final class DeleteNoteEvent extends NotesListEvent {
   List<Object?> get props => [note];
 }
 
-final class SelectCategoryEvent extends NotesListEvent {
-  final CategoryType? category;
-  const SelectCategoryEvent(this.category);
+final class AssignLabelsEvent extends NotesListEvent {
+  final Note note;
+  final List<CategoryType> labels;
+  const AssignLabelsEvent({required this.note, required this.labels});
   @override
-  List<Object?> get props => [category];
+  List<Object?> get props => [note, labels];
 }

@@ -25,7 +25,7 @@ final class CreateNoteUsecase {
   Future<Note> execute({
     required String content,
     required String? dTag,
-    required DateTime? initAt,
+    required DateTime? updatedAt,
     List<Label> labels = const [],
     Now? now,
     Uuid? uuid,
@@ -41,7 +41,7 @@ final class CreateNoteUsecase {
       content: content,
       summary: '',
       createdAt: DateTime.fromMicrosecondsSinceEpoch(0),
-      initAt: initAt ?? (now?.now() ?? DateTime.now()),
+      updatedAt: updatedAt ?? (now?.now() ?? DateTime.now()),
       labels: labels,
     );
 
@@ -59,7 +59,7 @@ final class CreateNoteUsecase {
       privateKey: keys.privateKey,
       now: now,
       uuid: uuid,
-      initAt: encryptedNote.initAt,
+      initAt: encryptedNote.updatedAt,
       labels: encryptedNote.labels,
     );
 

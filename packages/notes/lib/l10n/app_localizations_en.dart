@@ -380,6 +380,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to delete this note? This action cannot be undone.';
 
   @override
+  String get notesListAssignLabels => 'Labels';
+
+  @override
   String get privacyPolicyScreenTitle => 'Privacy Policy';
 
   @override

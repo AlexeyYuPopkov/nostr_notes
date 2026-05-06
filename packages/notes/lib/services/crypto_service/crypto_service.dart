@@ -24,7 +24,6 @@ abstract interface class CryptoService implements Disposable {
   Future<String> encryptNip44({
     required String plaintext,
     required Uint8List conversationKey,
-    Uint8List? customNonce,
   });
 
   Future<String> decryptNip44({
@@ -34,11 +33,11 @@ abstract interface class CryptoService implements Disposable {
 
   FutureOr<void> init();
 
-  factory CryptoService.create() {
+  factory CryptoService.create([Uint8List? randomBytes]) {
     if (kIsWeb) {
-      return CryptoServiceImplWeb();
+      return CryptoServiceImplWeb(randomBytes: randomBytes);
     } else {
-      return CryptoServiceImplMobile();
+      return CryptoServiceImplMobile(randomBytes: randomBytes);
     }
   }
 }
