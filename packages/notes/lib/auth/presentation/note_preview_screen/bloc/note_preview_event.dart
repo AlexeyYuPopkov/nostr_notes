@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 
 sealed class NotePreviewEvent extends Equatable {
@@ -8,6 +9,10 @@ sealed class NotePreviewEvent extends Equatable {
   const factory NotePreviewEvent.error({required Object error}) = ErrorEvent;
   const factory NotePreviewEvent.noteUpdated(Note note) = NoteUpdatedEvent;
   const factory NotePreviewEvent.refresh() = RefreshEvent;
+  const factory NotePreviewEvent.assignLabels({
+    required Note note,
+    required List<CategoryType> labels,
+  }) = AssignLabelsEvent;
 
   @override
   @override
@@ -30,4 +35,13 @@ final class NoteUpdatedEvent extends NotePreviewEvent {
 
 final class RefreshEvent extends NotePreviewEvent {
   const RefreshEvent();
+}
+
+final class AssignLabelsEvent extends NotePreviewEvent {
+  final Note note;
+  final List<CategoryType> labels;
+  const AssignLabelsEvent({required this.note, required this.labels});
+
+  @override
+  List<Object?> get props => [note, labels];
 }

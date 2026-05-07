@@ -1,8 +1,12 @@
 import 'package:common/l10n/localization.dart';
+import 'package:common/presentation/widgets/common_popup_menu_button.dart';
 import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
+import 'package:nostr_notes/auth/presentation/notes_list/widgets/labels_picker.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/note_router.dart';
@@ -15,6 +19,7 @@ import 'package:common/presentation/widgets/markdown/note_code_field.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 
 import 'package:common/presentation/dialogs/dialog_helper.dart';
+import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
 import 'bloc/note_preview_event.dart';
 
@@ -145,7 +150,7 @@ final class NotePreviewScreen extends StatefulWidget {
 }
 
 final class _NotePreviewScreenState extends State<NotePreviewScreen>
-    with DialogHelper {
+    with DialogHelper, LabelsPickerHelper {
   final vm = SearchVM();
 
   @override
@@ -183,6 +188,7 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
               final mediaPaddings = MediaQuery.paddingOf(context);
               final matches = vm.getMatches(content);
               final matchCount = matches.length;
+              final isEnabled = note != null && state is! CannotDecryptState;
 
               return Scaffold(
                 backgroundColor: theme.colorScheme.surface,
@@ -205,11 +211,18 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
                         );
                       },
                     ),
-                    _InfoButton(
-                      onPressed: note == null || state is CannotDecryptState
-                          ? null
-                          : () => _onInfo(context, note.eventId),
+                    _MoreButton(
+                      onAssignFolder: isEnabled
+                          ? () => _onAssignFolder(context, note)
+                          : null,
+                      onCopyContent: isEnabled
+                          ? () => _onCopyContent(note.content)
+                          : null,
+                      onInfo: isEnabled
+                          ? () => _onInfo(context, note.eventId)
+                          : null,
                     ),
+
                     _EditButton(
                       onPressed: note == null || state is CannotDecryptState
                           ? null
@@ -304,37 +317,6 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
                                             currentMatchIndex:
                                                 vm.currentMatchIndex.value,
                                           ),
-
-                                          // child: isSearchActive
-                                          //     ? _SearchableText(
-                                          //         text: content,
-                                          //         matches: matches,
-                                          //         currentMatchIndex:
-                                          //             vm.currentMatchIndex.value,
-                                          //       )
-                                          //     : SelectionArea(
-                                          //         child: GptMarkdownWidget(
-                                          //           md: content,
-                                          //           codeBuilder:
-                                          //               (
-                                          //                 context,
-                                          //                 name,
-                                          //                 code,
-                                          //                 closed,
-                                          //               ) {
-                                          //                 return NoteCodeField(
-                                          //                   name: name,
-                                          //                   codes: code,
-                                          //                 );
-                                          //               },
-                                          //           highlightBuilder:
-                                          //               (context, code, closed) {
-                                          //                 return ShortNoteCodeField(
-                                          //                   codes: code,
-                                          //                 );
-                                          //               },
-                                          //         ),
-                                          //       ),
                                         );
                                       },
                                     ),
@@ -366,6 +348,31 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
 
   void _onInfo(BuildContext context, String eventId) {
     RouteHandler.of(context)?.onRoute(RawEventRoute(eventId: eventId), context);
+  }
+
+  void _onAssignFolder(BuildContext context, Note note) {
+    showLabelsPicker(
+      context,
+      note: note,
+      onApply: (labels) => _onApplyLabels(context, note, labels),
+    );
+  }
+
+  void _onApplyLabels(
+    BuildContext context,
+    Note note,
+    List<CategoryType> labels,
+  ) {
+    context.read<NotePreviewBloc>().add(
+      NotePreviewEvent.assignLabels(note: note, labels: labels),
+    );
+  }
+
+  void _onCopyContent(String content) {
+    Clipboard.setData(ClipboardData(text: content));
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(context.commonL10n.commonCopied)));
   }
 }
 
@@ -439,7 +446,7 @@ final class _SearchBar extends StatelessWidget {
               textInputAction: TextInputAction.search,
               onSubmitted: (_) => onNext(),
               decoration: InputDecoration(
-                hintText: 'Поиск...',
+                hintText: context.commonL10n.commonHintSearch,
                 isDense: true,
                 prefixIcon: const Icon(Icons.search, size: Sizes.iconSmall),
                 border: OutlineInputBorder(
@@ -470,14 +477,20 @@ final class _SearchBar extends StatelessWidget {
             icon: const Icon(Icons.keyboard_arrow_up_rounded),
             iconSize: Sizes.iconMedium,
             padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+            constraints: const BoxConstraints(
+              minWidth: Sizes.indent4x,
+              minHeight: Sizes.indent4x,
+            ),
           ),
           IconButton(
             onPressed: matchCount > 0 ? onNext : null,
             icon: const Icon(Icons.keyboard_arrow_down_rounded),
             iconSize: Sizes.iconMedium,
             padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+            constraints: const BoxConstraints(
+              minWidth: Sizes.indent4x,
+              minHeight: Sizes.indent4x,
+            ),
           ),
         ],
       ),
@@ -561,24 +574,64 @@ final class _EditButton extends StatelessWidget {
   }
 }
 
-final class _InfoButton extends StatelessWidget {
-  final VoidCallback? onPressed;
-  const _InfoButton({this.onPressed});
+final class _MoreButton extends StatelessWidget {
+  final VoidCallback? onAssignFolder;
+  final VoidCallback? onCopyContent;
+  final VoidCallback? onInfo;
+
+  const _MoreButton({this.onAssignFolder, this.onCopyContent, this.onInfo});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return CupertinoButton(
-      minimumSize: Size.zero,
-      padding: const EdgeInsets.symmetric(
-        horizontal: Sizes.indent2x,
-        vertical: Sizes.indent,
+    final isEnabled =
+        onAssignFolder != null || onCopyContent != null || onInfo != null;
+    return CommonPopupMenuButton(
+      size: Size(40, 40),
+      icon: Center(
+        child: Icon(
+          Icons.more_horiz_rounded,
+          size: Sizes.iconMedium,
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
       ),
-      onPressed: onPressed,
-      child: Icon(
-        Icons.info_outline_rounded,
-        size: Sizes.iconMedium,
-        color: theme.colorScheme.onSurfaceVariant,
+      onSelected: (p0) async {
+        p0.payload?.call();
+      },
+      offset: const Offset(0.0, 40.0),
+      items: [
+        CommonPopupMenuItem(
+          title: _MenuItem(title: 'Assign folder', icon: Icons.label_outline),
+          payload: isEnabled ? onAssignFolder : null,
+        ),
+        CommonPopupMenuItem(
+          title: _MenuItem(title: 'Copy content', icon: Icons.copy_outlined),
+          payload: isEnabled ? onCopyContent : null,
+        ),
+        CommonPopupMenuItem(
+          title: _MenuItem(title: 'Info', icon: Icons.info_outline),
+          payload: isEnabled ? onInfo : null,
+        ),
+      ],
+    );
+  }
+}
+
+final class _MenuItem extends StatelessWidget {
+  final String title;
+  final IconData icon;
+
+  const _MenuItem({required this.title, required this.icon});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Sizes.indentVariant2x),
+      child: Row(
+        spacing: Sizes.indent,
+        children: [
+          Icon(icon, size: Sizes.iconSmall),
+          Text(title),
+        ],
       ),
     );
   }

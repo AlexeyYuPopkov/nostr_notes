@@ -136,5 +136,8 @@
     "classificationClassTravel": "Travel",
     "classificationClassWork": "Work",
     "classificationClassBookmarks": "Bookmarks",
-    "classificationClassOther": "Other"
+    "classificationClassOther": "Other",
+    "notePreviewMoreMenuAssignFolder": "Assign folder",
+    "notePreviewMoreMenuCopyContent": "Copy content",
+    "notePreviewMoreMenuInfo": "Info"
 }

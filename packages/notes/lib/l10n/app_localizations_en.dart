@@ -418,4 +418,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get classificationClassOther => 'Other';
+
+  @override
+  String get notePreviewMoreMenuAssignFolder => 'Assign folder';
+
+  @override
+  String get notePreviewMoreMenuCopyContent => 'Copy content';
+
+  @override
+  String get notePreviewMoreMenuInfo => 'Info';
 }

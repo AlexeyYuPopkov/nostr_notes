@@ -224,6 +224,7 @@ final class _FolderCard extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         elevation: 0.5,
         margin: EdgeInsets.zero,
+        shadowColor: theme.colorScheme.onSurface.withValues(alpha: 0.5),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: Sizes.indentVariant,
