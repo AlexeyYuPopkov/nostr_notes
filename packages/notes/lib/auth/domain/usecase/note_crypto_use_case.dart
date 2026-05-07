@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:common/domain/error/app_error.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
@@ -52,7 +53,28 @@ final class NoteCryptoUseCase {
       conversationKey: conversationKey,
     );
 
-    return note.copyWith(content: encryptedContent, summary: encryptedSummary);
+    final labels = <EncryptedLabel>[];
+
+    if (note.labels.isNotEmpty) {
+      final joinedLabels = jsonEncode(
+        note.labels.map((label) => label.textValue).toList(),
+      );
+
+      final encryptedLabels = await _cryptoService.encryptNip44(
+        plaintext: joinedLabels,
+        conversationKey: conversationKey,
+      );
+
+      final encryptedLabel = EncryptedLabel(textValue: encryptedLabels);
+
+      labels.add(encryptedLabel);
+    }
+
+    return note.copyWith(
+      content: encryptedContent,
+      summary: encryptedSummary,
+      labels: labels,
+    );
   }
 
   Future<Note> decryptNote(Note note) async {
@@ -86,12 +108,33 @@ final class NoteCryptoUseCase {
       conversationKey: conversationKey,
     );
 
+    final labels = <BaseLabel>[];
+
+    if (note.labels.isNotEmpty) {
+      final encryptedLabel = note.labels.first;
+      final decryptedLabelsJson = await _cryptoService.decryptNip44(
+        payload: encryptedLabel.textValue,
+        conversationKey: conversationKey,
+      );
+
+      final decryptedLabelsList =
+          jsonDecode(decryptedLabelsJson) as List<dynamic>;
+
+      for (final labelText in decryptedLabelsList) {
+        labels.add(Label.from(labelText as String));
+      }
+    }
+
     log(
       'Note decryption took: ${stopwatch.elapsedMilliseconds} ms',
       name: 'Crypto',
     );
 
-    return note.copyWith(content: decryptedContent, summary: decryptedSummary);
+    return note.copyWith(
+      content: decryptedContent,
+      summary: decryptedSummary,
+      labels: labels,
+    );
   }
 
   Future<Note> decryptSummary(Note note) async {

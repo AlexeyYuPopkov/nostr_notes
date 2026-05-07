@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
-import 'package:nostr_notes/auth/domain/model/category.dart';
 import 'package:nostr_notes/l10n/app_localizations.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
@@ -12,8 +11,6 @@ sealed class NotesListSection extends Equatable {
   static List<NotesListSection> groupNotesByDate({
     required List<Note> notes,
     required AppLocalizations l10n,
-    required CategoryType? selectedCategory,
-    required Map<String, CategoryType> categoriesProbs,
   }) {
     if (notes.isEmpty) return [];
 
@@ -27,14 +24,7 @@ sealed class NotesListSection extends Equatable {
     final List<String> orderedKeys = [];
 
     for (final note in notes) {
-      if (selectedCategory != null) {
-        final noteCategory = categoriesProbs[note.eventId] ?? .other;
-        if (noteCategory != selectedCategory) {
-          continue;
-        }
-      }
-
-      final date = note.createdAt;
+      final date = note.updatedAt;
       final String key;
 
       if (date.isAfter(startOfToday) || _isSameDay(date, startOfToday)) {
@@ -66,7 +56,7 @@ sealed class NotesListSection extends Equatable {
       final length = notes.length;
       result.addAll(
         notes
-            .sorted((a, b) => b.createdAt.compareTo(a.createdAt))
+            .sorted((a, b) => b.updatedAt.compareTo(a.updatedAt))
             .mapIndexed(
               (index, note) => NotesListItem(
                 note: note,

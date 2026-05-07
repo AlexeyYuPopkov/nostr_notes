@@ -5,11 +5,13 @@ import 'package:nostr_notes/app/data/theme_mode_repo_impl.dart';
 import 'package:nostr_notes/app/domain/theme_mode_repo.dart';
 import 'package:nostr_notes/auth/data/desktop_ratio_repo_impl.dart';
 import 'package:nostr_notes/auth/data/is_first_launch_repo_impl.dart';
+import 'package:nostr_notes/auth/data/notes_list_tab_repo_impl.dart';
 import 'package:nostr_notes/auth/data/pin_enabled_repo_impl.dart';
 import 'package:nostr_notes/auth/data/pin_keyboard_type_repo_impl.dart';
 import 'package:nostr_notes/auth/data/relays_list_repo_impl.dart';
 import 'package:nostr_notes/auth/domain/repo/desktop_ratio_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/is_first_launch_repo.dart';
+import 'package:nostr_notes/auth/domain/repo/notes_list_tab_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/pin_enabled_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/pin_keyboard_type_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
@@ -70,6 +72,12 @@ final class UnauthDiScope extends DiScope {
       () => DesktopRatioRepoImpl(prefs),
       module: this,
       lifeTime: const LifeTime.prototype(),
+    );
+
+    di.bind<NotesListTabRepo>(
+      () => NotesListTabRepoImpl(prefs),
+      module: this,
+      lifeTime: const LifeTime.single(),
     );
 
     di.bind<ErrorMessagesProvider>(

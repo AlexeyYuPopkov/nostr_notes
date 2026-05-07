@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
@@ -58,6 +59,8 @@ void main() {
         content: text,
         summary: summary,
         createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        labels: [Label.from('work'), Label.from('journal')],
       );
 
       final encrypted = await sut.encryptNote(initialNote);
@@ -81,6 +84,8 @@ void main() {
         content: text,
         summary: summary,
         createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        labels: [Label.from('work'), Label.from('journal')],
       );
 
       final encrypted = await sut.encryptNote(initialNote);
@@ -104,6 +109,8 @@ void main() {
         content: text,
         summary: summary,
         createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        labels: [Label.from('work'), Label.from('journal')],
       );
 
       final encrypted = await sut.encryptNote(initialNote);
@@ -129,6 +136,8 @@ void main() {
           content: text,
           summary: summary,
           createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+          labels: [Label.from('work'), Label.from('journal')],
         );
 
         final encrypted = await sut.encryptNote(initialNote);
@@ -188,6 +197,7 @@ void main() {
           content: '$text $i',
           summary: '$summary $i',
           createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
         );
 
         final encrypted = await sut.encryptNote(initialNote);

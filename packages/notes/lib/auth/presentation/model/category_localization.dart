@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_notes/auth/domain/model/category.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 
 extension CategoryLocalization on CategoryType {

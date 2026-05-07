@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:custom_adaptive_scaffold/custom_adaptive_scaffold.dart' as asc;
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +17,7 @@ import 'package:nostr_notes/auth/domain/usecase/desktop_ratio_usecase.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/widgets/resize_divider.dart';
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../notes_list/notes_list.dart';
 
@@ -38,27 +41,51 @@ final class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-final class _HomeScreenState extends State<HomeScreen> {
-  late double _bodyRatio = LayoutConfig.getRatio(_ratioUsecase.get());
+final class _DesktopRatioVM {
+  StreamSubscription? _subscription;
+  late final _bodyRatio = BehaviorSubject<double>.seeded(
+    LayoutConfig.getRatio(_ratioUsecase.get()),
+  );
+
   late final _ratioUsecase = DesktopRatioUsecase(
     repo: DiStorage.shared.resolve(),
     sessionUsecase: DiStorage.shared.resolve(),
   );
 
+  _DesktopRatioVM() {
+    _subscription = _bodyRatio.debounceTime(AppDurations.long).listen((_) {
+      _ratioUsecase.set(_bodyRatio.value);
+    });
+  }
+
+  void dispose() {
+    _ratioUsecase.set(_bodyRatio.value);
+    _subscription?.cancel();
+    _bodyRatio.close();
+  }
+
+  void onRatioChange(double delta, double screenWidth) {
+    final newRatio = (_bodyRatio.value + delta / screenWidth).clamp(
+      LayoutConfig.minBodyRatio,
+      LayoutConfig.maxBodyRatio,
+    );
+    if (newRatio != _bodyRatio.value) {
+      _bodyRatio.value = newRatio;
+    }
+  }
+}
+
+final class _HomeScreenState extends State<HomeScreen> {
+  late final _ratioVM = _DesktopRatioVM();
+
   @override
   void dispose() {
-    _ratioUsecase.set(_bodyRatio);
+    _ratioVM.dispose();
     super.dispose();
   }
 
   void _onResizeDividerDrag(double delta, double screenWidth) {
-    final newRatio = (_bodyRatio + delta / screenWidth).clamp(
-      LayoutConfig.minBodyRatio,
-      LayoutConfig.maxBodyRatio,
-    );
-    if (newRatio != _bodyRatio) {
-      setState(() => _bodyRatio = newRatio);
-    }
+    _ratioVM.onRatioChange(delta, screenWidth);
   }
 
   @override
@@ -140,27 +167,34 @@ final class _HomeScreenState extends State<HomeScreen> {
       ),
     );
 
-    return asc.AdaptiveLayout(
-      bodyRatio: _bodyRatio,
-      bodyOrientation: Axis.horizontal,
-      internalAnimations: LayoutConfig.internalAnimations,
-      body: asc.SlotLayout(
-        config: {
-          asc.Breakpoints.small: smallConfig(),
-          asc.Breakpoints.medium: bodyConfig(),
-          asc.Breakpoints.mediumLarge: bodyConfig(),
-          asc.Breakpoints.large: bodyConfig(),
-          asc.Breakpoints.extraLarge: bodyConfig(),
-        },
-      ),
-      secondaryBody: asc.SlotLayout(
-        config: {
-          asc.Breakpoints.medium: secondaryConfig(),
-          asc.Breakpoints.mediumLarge: secondaryConfig(),
-          asc.Breakpoints.large: secondaryConfig(),
-          asc.Breakpoints.extraLarge: secondaryConfig(),
-        },
-      ),
+    return StreamBuilder(
+      stream: _ratioVM._bodyRatio,
+      initialData: _ratioVM._bodyRatio.value,
+      builder: (context, snapshot) {
+        final value = snapshot.data!;
+        return asc.AdaptiveLayout(
+          bodyRatio: value,
+          bodyOrientation: Axis.horizontal,
+          internalAnimations: LayoutConfig.internalAnimations,
+          body: asc.SlotLayout(
+            config: {
+              asc.Breakpoints.small: smallConfig(),
+              asc.Breakpoints.medium: bodyConfig(),
+              asc.Breakpoints.mediumLarge: bodyConfig(),
+              asc.Breakpoints.large: bodyConfig(),
+              asc.Breakpoints.extraLarge: bodyConfig(),
+            },
+          ),
+          secondaryBody: asc.SlotLayout(
+            config: {
+              asc.Breakpoints.medium: secondaryConfig(),
+              asc.Breakpoints.mediumLarge: secondaryConfig(),
+              asc.Breakpoints.large: secondaryConfig(),
+              asc.Breakpoints.extraLarge: secondaryConfig(),
+            },
+          ),
+        );
+      },
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:common/domain/error/app_error.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
@@ -24,6 +25,8 @@ final class CreateNoteUsecase {
   Future<Note> execute({
     required String content,
     required String? dTag,
+    required DateTime? updatedAt,
+    List<Label> labels = const [],
     Now? now,
     Uuid? uuid,
   }) async {
@@ -38,6 +41,8 @@ final class CreateNoteUsecase {
       content: content,
       summary: '',
       createdAt: DateTime.fromMicrosecondsSinceEpoch(0),
+      updatedAt: updatedAt ?? (now?.now() ?? DateTime.now()),
+      labels: labels,
     );
 
     final summary = note.content.length > summaryLength
@@ -54,6 +59,8 @@ final class CreateNoteUsecase {
       privateKey: keys.privateKey,
       now: now,
       uuid: uuid,
+      initAt: encryptedNote.updatedAt,
+      labels: encryptedNote.labels,
     );
 
     final targetNote = result;

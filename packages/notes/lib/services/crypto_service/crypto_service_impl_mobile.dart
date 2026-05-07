@@ -31,6 +31,7 @@ final class IsWasmAvailable {
 final class CryptoServiceImplMobile implements CryptoService {
   final Spec256k1Isolate _spec256k1Isolate;
   final DeriveKeys _deriveKeys;
+  final Uint8List? _randomBytes;
   final _mobileNip44 = const Nip44();
 
   late final lib = ffi.DynamicLibrary.open(libName);
@@ -53,16 +54,20 @@ final class CryptoServiceImplMobile implements CryptoService {
   CryptoServiceImplMobile._({
     required Spec256k1Isolate spec256k1Isolate,
     DeriveKeys deriveKeys = const DeriveKeys(),
+    Uint8List? randomBytes,
   }) : _spec256k1Isolate = spec256k1Isolate,
-       _deriveKeys = deriveKeys;
+       _deriveKeys = deriveKeys,
+       _randomBytes = randomBytes;
 
   factory CryptoServiceImplMobile({
     Spec256k1Isolate? spec256k1Isolate,
     DeriveKeys deriveKeys = const DeriveKeys(),
+    Uint8List? randomBytes,
   }) {
     return CryptoServiceImplMobile._(
       spec256k1Isolate: spec256k1Isolate ?? Spec256k1Isolate(),
       deriveKeys: const DeriveKeys(),
+      randomBytes: randomBytes,
     );
   }
 
@@ -211,11 +216,10 @@ final class CryptoServiceImplMobile implements CryptoService {
   Future<String> encryptNip44({
     required String plaintext,
     required Uint8List conversationKey,
-    Uint8List? customNonce,
   }) {
     return _mobileNip44.encryptMessage(
       plaintext: plaintext,
-      customNonce: customNonce,
+      customNonce: _randomBytes,
       conversationKey: conversationKey,
     );
   }
@@ -227,7 +231,7 @@ final class CryptoServiceImplMobile implements CryptoService {
 }
 
 final class CryptoServiceImplWeb implements CryptoService {
-  CryptoServiceImplWeb();
+  CryptoServiceImplWeb({Uint8List? randomBytes});
 
   @override
   Future<void> init() async {}
@@ -244,7 +248,6 @@ final class CryptoServiceImplWeb implements CryptoService {
   Future<String> encryptNip44({
     required String plaintext,
     required Uint8List conversationKey,
-    Uint8List? customNonce,
   }) {
     throw UnimplementedError();
   }
