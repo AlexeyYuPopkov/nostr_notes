@@ -1,9 +1,11 @@
 import 'package:common/app/theme/sizes.dart';
+import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
+import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
 
 import 'bloc/onboarding_screen_bloc.dart';
@@ -29,57 +31,76 @@ final class OnboardingScreen extends StatelessWidget with DialogHelper {
 
   @override
   Widget build(BuildContext context) {
+    final auth = DiStorage.shared.resolve<AuthUsecase>();
     return Scaffold(
-      body: SafeArea(
-        child: DefaultTabController(
-          length: OnboardingStep.pages.length,
-          initialIndex: 0,
-          child: BlocProvider(
-            create: (context) => OnboardingScreenBloc(),
-            child: BlocListener<OnboardingScreenBloc, OnboardingScreenState>(
-              listenWhen: (a, b) => a.data.step != b.data.step,
-              listener: (context, state) {
-                DefaultTabController.of(
-                  context,
-                ).animateTo(OnboardingStep.pages.indexOf(state.data.step));
-              },
-              child: BlocConsumer<OnboardingScreenBloc, OnboardingScreenState>(
-                listener: _listener,
-                builder: (context, state) {
-                  if (state is InitialState) {
-                    final theme = Theme.of(context);
-                    return Container(
-                      color: theme.colorScheme.surface,
-                      child: const Center(
-                        child: CircularProgressIndicator.adaptive(),
-                      ),
-                    );
-                  }
-                  return AbsorbPointer(
-                    absorbing: state is LoadingState,
-                    child: TabBarView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        for (final page in OnboardingStep.pages)
-                          Center(
-                            child: ConstrainedBox(
-                              constraints: const BoxConstraints(
-                                maxWidth: Sizes.webMaxWidth,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(Sizes.indent2x),
-                                child: page.build(context),
-                              ),
-                            ),
+      body: FutureBuilder(
+        future: auth.restore(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Container(
+              color: Theme.of(context).colorScheme.surface,
+              child: const Center(child: CircularProgressIndicator.adaptive()),
+            );
+          }
+          return SafeArea(
+            child: DefaultTabController(
+              length: OnboardingStep.pages.length,
+              initialIndex: 0,
+              child: BlocProvider(
+                create: (context) => OnboardingScreenBloc(),
+                child:
+                    BlocListener<OnboardingScreenBloc, OnboardingScreenState>(
+                      listenWhen: (a, b) => a.data.step != b.data.step,
+                      listener: (context, state) {
+                        DefaultTabController.of(context).animateTo(
+                          OnboardingStep.pages.indexOf(state.data.step),
+                        );
+                      },
+                      child:
+                          BlocConsumer<
+                            OnboardingScreenBloc,
+                            OnboardingScreenState
+                          >(
+                            listener: _listener,
+                            builder: (context, state) {
+                              if (state is InitialState) {
+                                final theme = Theme.of(context);
+                                return Container(
+                                  color: theme.colorScheme.surface,
+                                  child: const Center(
+                                    child: CircularProgressIndicator.adaptive(),
+                                  ),
+                                );
+                              }
+                              return AbsorbPointer(
+                                absorbing: state is LoadingState,
+                                child: TabBarView(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  children: [
+                                    for (final page in OnboardingStep.pages)
+                                      Center(
+                                        child: ConstrainedBox(
+                                          constraints: const BoxConstraints(
+                                            maxWidth: Sizes.webMaxWidth,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(
+                                              Sizes.indent2x,
+                                            ),
+                                            child: page.build(context),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
-                      ],
                     ),
-                  );
-                },
               ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

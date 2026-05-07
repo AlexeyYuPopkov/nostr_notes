@@ -10,6 +10,7 @@ import 'package:nostr/nostr_client/nostr_publisher.dart';
 import 'package:nostr/nostr_client/publish_event_report.dart';
 import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:common/domain/error/app_error.dart';
@@ -235,6 +236,8 @@ class NotesRepositoryImpl implements NotesRepository {
     required Note note,
     required String pubkey,
     required String privateKey,
+    required DateTime? initAt,
+    required List<BaseLabel> labels,
     Now? now,
     Uuid? uuid,
   }) async {
@@ -242,12 +245,22 @@ class NotesRepositoryImpl implements NotesRepository {
         ? note.dTag
         : (uuid ?? const Uuid()).v1();
 
+    final int? initAtSeconds = initAt == null
+        ? null
+        : (initAt.millisecondsSinceEpoch / 1000).floor();
+
     final List<List<String>> tags = [
       AppConfig.clientTagList(),
       [Tag.t.value, AppConfig.clientTagValue],
       [Tag.d.value, dTagValue],
       [Tag.p.value, pubkey],
       [const SummaryTag().value, note.summary],
+      if (initAtSeconds != null) [Note.updatedAtTag, initAtSeconds.toString()],
+      if (labels.isNotEmpty)
+        [
+          Note.labelsTag,
+          ...[for (final label in labels) label.textValue],
+        ],
     ];
 
     final createdAt = (now ?? _now).now();

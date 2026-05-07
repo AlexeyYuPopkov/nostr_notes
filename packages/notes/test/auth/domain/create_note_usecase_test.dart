@@ -4,11 +4,13 @@ import 'dart:typed_data';
 import 'package:common/domain/error/error_messages_provider.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:di_storage/di_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
@@ -33,58 +35,58 @@ class MockChannelFactory extends Mock implements ChannelFactory {}
 
 class MockUuid extends Mock implements Uuid {}
 
-class MockCryptoRepo implements CryptoService {
-  @override
-  Future<String> decryptNip44({
-    required String payload,
-    required Uint8List conversationKey,
-  }) async {
-    return 'message';
-  }
+// class MockCryptoRepo implements CryptoService {
+//   @override
+//   Future<String> decryptNip44({
+//     required String payload,
+//     required Uint8List conversationKey,
+//   }) async {
+//     return 'message';
+//   }
 
-  @override
-  Future<Uint8List> deriveKeysAsync({
-    required String senderPrivateKey,
-    required String recipientPublicKey,
-    Future<Uint8List> Function(Uint8List p1)? extraDerivation,
-  }) async {
-    return Uint8List.fromList(List<int>.generate(32, (i) => i));
-  }
+//   @override
+//   Future<Uint8List> deriveKeysAsync({
+//     required String senderPrivateKey,
+//     required String recipientPublicKey,
+//     Future<Uint8List> Function(Uint8List p1)? extraDerivation,
+//   }) async {
+//     return Uint8List.fromList(List<int>.generate(32, (i) => i));
+//   }
 
-  @override
-  Future<String> encryptNip44({
-    required String plaintext,
-    required Uint8List conversationKey,
-    Uint8List? customNonce,
-  }) async {
-    return 'encrypted-message';
-  }
+//   @override
+//   Future<String> encryptNip44({
+//     required String plaintext,
+//     required Uint8List conversationKey,
+//     Uint8List? customNonce,
+//   }) async {
+//     return 'encrypted-message';
+//   }
 
-  @override
-  FutureOr<void> init() {}
+//   @override
+//   FutureOr<void> init() {}
 
-  @override
-  Uint8List spec256k1({
-    required Uint8List senderPrivateKey,
-    required Uint8List recipientPublicKey,
-  }) => throw UnimplementedError();
+//   @override
+//   Uint8List spec256k1({
+//     required Uint8List senderPrivateKey,
+//     required Uint8List recipientPublicKey,
+//   }) => throw UnimplementedError();
 
-  @override
-  Future<Uint8List> spec256k1Async({
-    required Uint8List senderPrivateKey,
-    required Uint8List recipientPublicKey,
-  }) {
-    return Future(
-      () => spec256k1(
-        senderPrivateKey: senderPrivateKey,
-        recipientPublicKey: recipientPublicKey,
-      ),
-    );
-  }
+//   @override
+//   Future<Uint8List> spec256k1Async({
+//     required Uint8List senderPrivateKey,
+//     required Uint8List recipientPublicKey,
+//   }) {
+//     return Future(
+//       () => spec256k1(
+//         senderPrivateKey: senderPrivateKey,
+//         recipientPublicKey: recipientPublicKey,
+//       ),
+//     );
+//   }
 
-  @override
-  Future<void> dispose() => Future.value();
-}
+//   @override
+//   Future<void> dispose() => Future.value();
+// }
 
 class MockExtraDerivation implements ExtraDerivation {
   @override
@@ -110,9 +112,12 @@ void main() {
     late CreateNoteUsecase sut1;
     late OutboxDaoInterface sut2;
     late OutboxPublisher sut3;
+
+    final sut4 = CryptoService.create(
+      Uint8List.fromList(SomeMokedData.randomBytes),
+    );
     final mockNow = MockNow();
     final mockUuid = MockUuid();
-    final mockCryptoService = MockCryptoRepo();
 
     setUp(() {
       final di = DiStorage.shared;
@@ -154,7 +159,7 @@ void main() {
         sessionUsecase: sessionUsecase,
         noteCryptoUseCase: NoteCryptoUseCase(
           sessionUsecase: sessionUsecase,
-          cryptoService: mockCryptoService,
+          cryptoService: sut4,
           extraDerivation: MockExtraDerivation(),
         ),
         notesRepository: NotesRepositoryImpl(
@@ -185,6 +190,7 @@ void main() {
         dTag: null,
         now: mockNow,
         uuid: mockUuid,
+        updatedAt: null,
       );
 
       expect(note, isA<Note>());
@@ -197,77 +203,79 @@ void main() {
       expect(pending.first.eventId, isNotEmpty);
     });
 
-    test(
-      'OutboxPublisher picks up event and publishes to both relays',
-      () async {
-        const eventId =
-            '9d1c1d765e572b5914ed838cba42bb22b9fb50f5ac0532c494caf75bc7363143';
-        when(() => mockUuid.v1()).thenReturn('uuid-v1');
-        when(() => mockUuid.v4()).thenReturn('sub-id');
-        when(
-          () => channelFactory.create(MockRelaysListRepo.relayUrl1),
-        ).thenReturn(channel1);
-        when(
-          () => channelFactory.create(MockRelaysListRepo.relayUrl2),
-        ).thenReturn(channel2);
+    test('OutboxPublisher picks up event and publishes to both relays', () async {
+      const eventId =
+          'f99328fd84e2571e8715652ed33b2fbaa27651e622a582a17eaaa071deeb0636';
+      when(() => mockUuid.v1()).thenReturn('uuid-v1');
+      when(() => mockUuid.v4()).thenReturn('sub-id');
+      when(
+        () => channelFactory.create(MockRelaysListRepo.relayUrl1),
+      ).thenReturn(channel1);
+      when(
+        () => channelFactory.create(MockRelaysListRepo.relayUrl2),
+      ).thenReturn(channel2);
 
-        const response = '''["OK","$eventId",true,""]''';
+      const response = '''["OK","$eventId",true,""]''';
 
-        channel1.onAdd = (data, channel) {
-          channel.mockStream.add(response);
-        };
+      channel1.onAdd = (data, channel) {
+        channel.mockStream.add(response);
+      };
 
-        channel2.onAdd = (data, channel) {
-          channel.mockStream.add(response);
-        };
+      channel2.onAdd = (data, channel) {
+        channel.mockStream.add(response);
+      };
 
-        // 1. Init OutboxPublisher so it watches pending events
-        await sut3.init();
+      // 1. Init OutboxPublisher so it watches pending events
+      await sut3.init();
 
-        // 2. Create note -> saves to store + outbox
-        final note = await sut1.execute(
-          content: 'message',
-          dTag: null,
-          now: mockNow,
-          uuid: mockUuid,
-        );
+      // 2. Create note -> saves to store + outbox
+      final note = await sut1.execute(
+        content: 'message',
+        dTag: null,
+        now: mockNow,
+        uuid: mockUuid,
+        updatedAt: null,
+        labels: [Label.from('work'), Label.from('journal')],
+      );
 
-        expect(note, isA<Note>());
+      expect(note, isA<Note>());
 
-        // 3. Wait for OutboxPublisher to pick up and publish
-        await Future.delayed(const Duration(milliseconds: 200));
+      // 3. Wait for OutboxPublisher to pick up and publish
+      await Future.delayed(const Duration(milliseconds: 200));
 
-        // 4. Verify channels received the event
-        expect(channel1.verifyAddCalled(), 1);
-        expect(channel2.verifyAddCalled(), 1);
+      // 4. Verify channels received the event
+      expect(channel1.verifyAddCalled(), 1);
+      expect(channel2.verifyAddCalled(), 1);
 
-        const sentEvent = r'''
-          ["EVENT",{
-          "kind":30023,
-          "id":"9d1c1d765e572b5914ed838cba42bb22b9fb50f5ac0532c494caf75bc7363143",
-          "pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",
-          "created_at":1750157400,
-          "tags":[["client","996e10ba"],["t","996e10ba"],["d","uuid-v1"],["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"],["summary","encrypted-message"]],
-          "content":"encrypted-message",
-          "sig":"ceb65b126c335f6659769493ae8c309f9061c9cd11dd34d3e0fa606f2e40d9b5bc26f041a26b8ecf124aaa5d0d3438a21761ebc956a10aa576ea67c916696950"}]
-        ''';
+      const sentEvent =
+          '["EVENT",{'
+          '"kind":30023,'
+          '"id":"f99328fd84e2571e8715652ed33b2fbaa27651e622a582a17eaaa071deeb0636",'
+          '"pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",'
+          '"created_at":1750157400,'
+          '"tags":[["client","996e10ba"],["t","996e10ba"],["d","uuid-v1"],'
+          '["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"],'
+          '["summary","AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5MgglehbzsNjlKVP2pURGJCzdQgzLK8YLoTvhDY+2SM3HQaY62I4LStarNw5IQJc7dgdfVkUof7BqVEJ8YsAUvjfC"],'
+          '["updated_at","1750157400"],'
+          '["labels","AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5Mh0TPRLvo9SiBXGcyjE0Sk2xYFHLK8YLoTvhDY+2SM3HQXyVyN0bWhAykUrQVvd8hxVQqvF/Ti2tKbQ74GFrSasx"]],'
+          '"content":"AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5MgglehbzsNjlKVP2pURGJCzdQgzLK8YLoTvhDY+2SM3HQaY62I4LStarNw5IQJc7dgdfVkUof7BqVEJ8YsAUvjfC",'
+          '"sig":"ef997766585a9c7cd1f8d18cdb291ecec427dd44f5399c35696fd5e4dd12578c69eeab7fbfae0b2fefda329e67e7c7e51f1e2c7cfcccb2dc507b1a2518e95b05"}]';
 
-        final eventJson = jsonDecode(sentEvent);
+      final eventJson = jsonDecode(sentEvent);
 
-        final addCall1 = channel1.calls.firstWhere((e) => e.key == 'add');
-        final addCall2 = channel2.calls.firstWhere((e) => e.key == 'add');
-        expect(jsonDecode(addCall1.value), eventJson);
-        expect(jsonDecode(addCall2.value), eventJson);
+      final addCall1 = channel1.calls.firstWhere((e) => e.key == 'add');
+      final addCall2 = channel2.calls.firstWhere((e) => e.key == 'add');
+      expect(jsonDecode(addCall1.value), eventJson);
+      expect(jsonDecode(addCall2.value), eventJson);
 
-        // 5. Verify outbox marked as sent
-        final pending = await sut2.getPending();
-        expect(pending, isEmpty);
-      },
-    );
+      // 5. Verify outbox marked as sent
+      final pending = await sut2.getPending();
+      expect(pending, isEmpty);
+    });
 
     test('OutboxPublisher publishes with partial relay response', () async {
       const eventId =
-          '9d1c1d765e572b5914ed838cba42bb22b9fb50f5ac0532c494caf75bc7363143';
+          'f99328fd84e2571e8715652ed33b2fbaa27651e622a582a17eaaa071deeb0636';
       when(() => mockUuid.v1()).thenReturn('uuid-v1');
       when(() => mockUuid.v4()).thenReturn('sub-id');
       when(
@@ -291,6 +299,8 @@ void main() {
         dTag: null,
         now: mockNow,
         uuid: mockUuid,
+        updatedAt: null,
+        labels: [Label.from('work'), Label.from('journal')],
       );
 
       expect(note, isA<Note>());
@@ -301,16 +311,19 @@ void main() {
       expect(channel1.verifyAddCalled(), 1);
       expect(channel2.verifyAddCalled(), 1);
 
-      const sentEvent = r'''
-          ["EVENT",{
-          "kind":30023,
-          "id":"9d1c1d765e572b5914ed838cba42bb22b9fb50f5ac0532c494caf75bc7363143",
-          "pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",
-          "created_at":1750157400,
-          "tags":[["client","996e10ba"],["t","996e10ba"],["d","uuid-v1"],["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"],["summary","encrypted-message"]],
-          "content":"encrypted-message",
-          "sig":"ceb65b126c335f6659769493ae8c309f9061c9cd11dd34d3e0fa606f2e40d9b5bc26f041a26b8ecf124aaa5d0d3438a21761ebc956a10aa576ea67c916696950"}]
-        ''';
+      const sentEvent =
+          '["EVENT",{'
+          '"kind":30023,'
+          '"id":"f99328fd84e2571e8715652ed33b2fbaa27651e622a582a17eaaa071deeb0636",'
+          '"pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",'
+          '"created_at":1750157400,'
+          '"tags":[["client","996e10ba"],["t","996e10ba"],["d","uuid-v1"],'
+          '["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"],'
+          '["summary","AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5MgglehbzsNjlKVP2pURGJCzdQgzLK8YLoTvhDY+2SM3HQaY62I4LStarNw5IQJc7dgdfVkUof7BqVEJ8YsAUvjfC"],'
+          '["updated_at","1750157400"],'
+          '["labels","AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5Mh0TPRLvo9SiBXGcyjE0Sk2xYFHLK8YLoTvhDY+2SM3HQXyVyN0bWhAykUrQVvd8hxVQqvF/Ti2tKbQ74GFrSasx"]],'
+          '"content":"AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5MgglehbzsNjlKVP2pURGJCzdQgzLK8YLoTvhDY+2SM3HQaY62I4LStarNw5IQJc7dgdfVkUof7BqVEJ8YsAUvjfC",'
+          '"sig":"ef997766585a9c7cd1f8d18cdb291ecec427dd44f5399c35696fd5e4dd12578c69eeab7fbfae0b2fefda329e67e7c7e51f1e2c7cfcccb2dc507b1a2518e95b05"}]';
 
       final eventJson = jsonDecode(sentEvent);
 

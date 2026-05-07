@@ -36,7 +36,7 @@ class GetNotesUsecase {
 
       return Stream.fromFuture(_decryptNotes(items)).map((decryptedNotes) {
         return decryptedNotes.sorted(
-          (a, b) => b.createdAt.compareTo(a.createdAt),
+          (a, b) => b.updatedAt.compareTo(a.updatedAt),
         );
       });
     });

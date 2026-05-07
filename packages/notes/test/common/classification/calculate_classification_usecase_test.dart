@@ -73,6 +73,7 @@ void main() {
           content: content,
           summary: '',
           createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
         );
 
         final result = await sut.execute(
@@ -138,6 +139,7 @@ void main() {
           content: content,
           summary: '',
           createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
         );
 
         final result = await sut.execute(

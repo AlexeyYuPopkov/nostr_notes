@@ -1,41 +1,40 @@
 import 'package:equatable/equatable.dart';
-import 'package:nostr_notes/auth/domain/model/category.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
-import 'package:nostr_notes/core/tools/optional_box.dart';
+
+import '../tabs/notes_list_tab.dart';
 
 final class NotesListData extends Equatable {
   final List<Note> notes;
   final List<NotesListSection> sections;
-
-  final OptionalBox<CategoryType> selectedCategory;
+  final NotesListTab tab;
 
   const NotesListData._({
     required this.notes,
     required this.sections,
-    required this.selectedCategory,
+    required this.tab,
   });
 
   factory NotesListData.initial() {
     return const NotesListData._(
       notes: [],
       sections: [],
-      selectedCategory: OptionalBox(null),
+      tab: NotesListTab.all(),
     );
   }
 
   @override
-  List<Object?> get props => [notes, sections, selectedCategory];
+  List<Object?> get props => [notes, sections, tab];
 
   NotesListData copyWith({
     List<Note>? notes,
     List<NotesListSection>? sections,
-    OptionalBox<CategoryType>? selectedCategory,
+    NotesListTab? tab,
   }) {
     return NotesListData._(
       notes: notes ?? this.notes,
       sections: sections ?? this.sections,
-      selectedCategory: selectedCategory ?? this.selectedCategory,
+      tab: tab ?? this.tab,
     );
   }
 }

@@ -712,6 +712,24 @@ abstract class AppLocalizations {
   /// **'Notes'**
   String get notesListScreenTitle;
 
+  /// No description provided for @notesListTabAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get notesListTabAll;
+
+  /// No description provided for @notesListTabFolders.
+  ///
+  /// In en, this message translates to:
+  /// **'Folders'**
+  String get notesListTabFolders;
+
+  /// No description provided for @notesFoldersEmptyStatePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign labels to notes to organize them into folders'**
+  String get notesFoldersEmptyStatePlaceholder;
+
   /// No description provided for @homeScreenEmptyStatePlaceholder.
   ///
   /// In en, this message translates to:
@@ -747,6 +765,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete this note? This action cannot be undone.'**
   String get notesListConfirmationDialogDeletion;
+
+  /// No description provided for @notesListAssignFolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Folder'**
+  String get notesListAssignFolder;
 
   /// No description provided for @privacyPolicyScreenTitle.
   ///
@@ -801,6 +825,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other'**
   String get classificationClassOther;
+
+  /// No description provided for @notePreviewMoreMenuAssignFolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign folder'**
+  String get notePreviewMoreMenuAssignFolder;
+
+  /// No description provided for @notePreviewMoreMenuCopyContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy content'**
+  String get notePreviewMoreMenuCopyContent;
+
+  /// No description provided for @notePreviewMoreMenuInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Info'**
+  String get notePreviewMoreMenuInfo;
 }
 
 class _AppLocalizationsDelegate

@@ -18,6 +18,7 @@ final class IsWasmAvailable {
 
 final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
   static CryptoServiceImplWeb? _instance;
+  final Uint8List? _randomBytes;
   static bool _isInit = false;
 
   final _mobileNip44 = const Nip44();
@@ -31,10 +32,10 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
   )
   _spec256k1Wasm;
 
-  CryptoServiceImplWeb._();
+  CryptoServiceImplWeb._({Uint8List? randomBytes}) : _randomBytes = randomBytes;
 
-  factory CryptoServiceImplWeb() {
-    return _instance ??= CryptoServiceImplWeb._();
+  factory CryptoServiceImplWeb({Uint8List? randomBytes}) {
+    return _instance ??= CryptoServiceImplWeb._(randomBytes: randomBytes);
   }
 
   @override
@@ -169,11 +170,10 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
   Future<String> encryptNip44({
     required String plaintext,
     required Uint8List conversationKey,
-    Uint8List? customNonce,
   }) {
     return _mobileNip44.encryptMessage(
       plaintext: plaintext,
-      customNonce: customNonce,
+      customNonce: _randomBytes,
       conversationKey: conversationKey,
     );
   }
@@ -196,7 +196,7 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
 }
 
 final class CryptoServiceImplMobile implements CryptoService {
-  const CryptoServiceImplMobile();
+  const CryptoServiceImplMobile({Uint8List? randomBytes});
   @override
   Future<void> init() async {}
 

@@ -3,8 +3,11 @@ import 'dart:developer';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nostr_notes/core/tools/optional_box.dart';
-import 'package:nostr_notes/l10n/localization.dart';
+import 'package:nostr_notes/auth/domain/repo/notes_list_tab_repo.dart';
+import 'package:nostr_notes/auth/presentation/notes_list/tabs/folders_tab_content.dart';
+import 'package:nostr_notes/l10n/app_localizations.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
+import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/delete_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
@@ -18,6 +21,7 @@ import 'package:rxdart/transformers.dart';
 import 'notes_list_data.dart';
 import 'notes_list_event.dart';
 import 'notes_list_state.dart';
+import '../tabs/notes_list_tab.dart';
 
 final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   static const errorStreamDebounce = Duration(milliseconds: 500);
@@ -25,7 +29,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   DiStorage get _di => DiStorage.shared;
   NotesListData get data => state.data;
 
-  final BuildContext Function() contextProvider;
+  final AppLocalizations l10n;
 
   late final refreshButtonVm = RefreshButtonVm(
     onRefresh: () {
@@ -40,11 +44,16 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   );
   late final DeleteNoteUsecase _deleteNoteUsecase = _di.resolve();
   late final OutboxPublisher _outbox = _di.resolve();
+  late final CreateNoteUsecase _createNoteUsecase = _di.resolve();
+
+  late final foldersVm = FoldersTabContentVM.fromNotes([], null, l10n);
+  late final NotesListTabRepo _tabRepo = _di.resolve();
 
   StreamSubscription? _fetchNotesSubscription;
   StreamSubscription? _getNotesSubscription;
   StreamSubscription? _errorSubscription;
-  NotesListBloc({required this.contextProvider})
+
+  NotesListBloc({required this.l10n})
     : super(NotesListState.loading(data: NotesListData.initial())) {
     _setupHandlers();
 
@@ -73,8 +82,10 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
       transformer: (events, mapper) =>
           events.debounceTime(debounceGuard).switchMap(mapper),
     );
-    on<SelectCategoryEvent>(
-      _onSelectCategoryEvent,
+
+    on<AssignLabelsEvent>(_onAssignLabelsEvent);
+    on<SelectFolderEvent>(
+      _onSelectFolderEvent,
       transformer: (events, mapper) =>
           events.debounceTime(debounceGuard).switchMap(mapper),
     );
@@ -159,7 +170,12 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   }
 
   void _onInitialEvent(InitialEvent event, Emitter<NotesListState> emit) async {
-    emit(NotesListState.loading(data: data));
+    final savedTabIndex = _tabRepo.getTabIndex();
+    final savedTab =
+        NotesListTab.tabs.elementAtOrNull(savedTabIndex) ??
+        NotesListTab.tabs.first;
+
+    emit(NotesListState.loading(data: data.copyWith(tab: savedTab)));
 
     _setupSubscription();
     await Future.delayed(const Duration(seconds: 3));
@@ -175,17 +191,15 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     Emitter<NotesListState> emit,
   ) async {
     try {
-      final context = contextProvider();
-
-      if (isClosed || !context.mounted) {
+      if (isClosed) {
         return;
       }
 
+      foldersVm.setNotes(event.notes, l10n);
+
       final sections = NotesListSection.groupNotesByDate(
         notes: event.notes,
-        l10n: context.l10n,
-        selectedCategory: data.selectedCategory.value,
-        categoriesProbs: {},
+        l10n: l10n,
       );
 
       emit(
@@ -215,33 +229,37 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     }
   }
 
+  void _onAssignLabelsEvent(
+    AssignLabelsEvent event,
+    Emitter<NotesListState> emit,
+  ) async {
+    try {
+      final labels = event.labels.map(Label.fromCategoryType).toList();
+      await _createNoteUsecase.execute(
+        content: event.note.content,
+        dTag: event.note.dTag,
+        updatedAt: event.note.updatedAt,
+        labels: labels,
+      );
+    } catch (e) {
+      emit(NotesListState.error(e: e, data: data));
+    }
+  }
+
   void _onRefreshEvent(RefreshEvent event, Emitter<NotesListState> emit) {
     _outbox.refresh();
     add(const NotesListEvent.initial());
   }
 
-  void _onSelectCategoryEvent(
-    SelectCategoryEvent event,
+  void _onSelectFolderEvent(
+    SelectFolderEvent event,
     Emitter<NotesListState> emit,
-  ) async {
-    final context = contextProvider();
-
-    if (isClosed || !context.mounted) {
+  ) {
+    if (isClosed) {
       return;
     }
-    final sections = NotesListSection.groupNotesByDate(
-      notes: data.notes,
-      l10n: context.l10n,
-      selectedCategory: event.category,
-      categoriesProbs: {},
-    );
-    emit(
-      NotesListState.common(
-        data: data.copyWith(
-          sections: sections,
-          selectedCategory: OptionalBox(event.category),
-        ),
-      ),
-    );
+
+    _tabRepo.setTabIndex(event.tab.index);
+    emit(NotesListState.common(data: data.copyWith(tab: event.tab)));
   }
 }

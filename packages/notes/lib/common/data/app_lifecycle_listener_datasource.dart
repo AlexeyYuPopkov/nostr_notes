@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
 import 'package:nostr_notes/core/tools/disposable.dart';
@@ -15,6 +17,10 @@ final class AppLifecycleListenerDatasource
 
   void _onStateChanged(AppLifecycleState state) {
     _isActiveStream.sink.add(state.isActive);
+    log(
+      'App lifecycle state changed: $state, isActive: ${state.isActive}',
+      name: 'AppLifecycleListenerDatasource',
+    );
   }
 
   @override
@@ -22,7 +28,8 @@ final class AppLifecycleListenerDatasource
 
   @override
   Future<void> dispose() async {
-    _isActiveStream.close();
+    appLifecycleListener.dispose();
+    await _isActiveStream.close();
   }
 }
 

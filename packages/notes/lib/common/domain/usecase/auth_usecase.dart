@@ -44,23 +44,25 @@ final class AuthUsecase {
     }
   }
 
-  Future<void> restore() async {
+  Future<Session> restore() async {
     final privateKey = await _secureStorage.getValue(key: secureStorageKey);
     if (privateKey.isEmpty) {
       _sessionUsecase.setSession(const Unauth());
-      return;
+      return _sessionUsecase.currentSession;
     }
 
     final isValid = validatePrivateKey(privateKey) == null;
     if (!isValid) {
       _sessionUsecase.setSession(const Unauth());
-      return;
+      return _sessionUsecase.currentSession;
     }
 
     final userKeys = _keyToolRepository.getUserKeysWithPrivateKey(
       privateKey: privateKey,
     );
     _sessionUsecase.setSession(Auth(userKeys));
+
+    return _sessionUsecase.currentSession;
   }
 
   Future<void> logout() async {
