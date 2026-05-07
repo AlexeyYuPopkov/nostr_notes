@@ -712,6 +712,24 @@ abstract class AppLocalizations {
   /// **'Notes'**
   String get notesListScreenTitle;
 
+  /// No description provided for @notesListTabAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get notesListTabAll;
+
+  /// No description provided for @notesListTabFolders.
+  ///
+  /// In en, this message translates to:
+  /// **'Folders'**
+  String get notesListTabFolders;
+
+  /// No description provided for @notesFoldersEmptyStatePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign labels to notes to organize them into folders'**
+  String get notesFoldersEmptyStatePlaceholder;
+
   /// No description provided for @homeScreenEmptyStatePlaceholder.
   ///
   /// In en, this message translates to:
@@ -748,11 +766,11 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete this note? This action cannot be undone.'**
   String get notesListConfirmationDialogDeletion;
 
-  /// No description provided for @notesListAssignLabels.
+  /// No description provided for @notesListAssignFolder.
   ///
   /// In en, this message translates to:
-  /// **'Labels'**
-  String get notesListAssignLabels;
+  /// **'Folder'**
+  String get notesListAssignFolder;
 
   /// No description provided for @privacyPolicyScreenTitle.
   ///

@@ -361,6 +361,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notesListScreenTitle => 'Notes';
 
   @override
+  String get notesListTabAll => 'All';
+
+  @override
+  String get notesListTabFolders => 'Folders';
+
+  @override
+  String get notesFoldersEmptyStatePlaceholder =>
+      'Assign labels to notes to organize them into folders';
+
+  @override
   String get homeScreenEmptyStatePlaceholder => 'Tap + to start writing';
 
   @override
@@ -380,7 +390,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to delete this note? This action cannot be undone.';
 
   @override
-  String get notesListAssignLabels => 'Labels';
+  String get notesListAssignFolder => 'Folder';
 
   @override
   String get privacyPolicyScreenTitle => 'Privacy Policy';

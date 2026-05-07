@@ -130,7 +130,7 @@ final class _LabelsPickerContentState extends State<_LabelsPickerContent> {
             bottom: Sizes.indent2x,
           ),
           child: Text(
-            context.l10n.notesListAssignLabels,
+            context.l10n.notesListAssignFolder,
             style: theme.textTheme.titleMedium,
           ),
         ),

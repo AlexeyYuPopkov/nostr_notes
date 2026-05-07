@@ -6,7 +6,9 @@ import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 
 final class NewNotePromptPlaceholder extends StatelessWidget {
   static const double opacity = 0.4;
-  const NewNotePromptPlaceholder({super.key});
+  final String? text;
+
+  const NewNotePromptPlaceholder({super.key, this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ final class NewNotePromptPlaceholder extends StatelessWidget {
                     height: iconSize,
                   ),
                   Text(
-                    context.l10n.homeScreenEmptyStatePlaceholder,
+                    text ?? context.l10n.homeScreenEmptyStatePlaceholder,
                     style: textStyle,
                     textAlign: TextAlign.center,
                   ),

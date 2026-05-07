@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
+import 'package:nostr_notes/auth/presentation/notes_list/tabs/notes_list_tab.dart';
 
 sealed class NotesListEvent extends Equatable {
   const NotesListEvent();
@@ -16,6 +17,9 @@ sealed class NotesListEvent extends Equatable {
     required Note note,
     required List<CategoryType> labels,
   }) = AssignLabelsEvent;
+
+  const factory NotesListEvent.selectFolder(NotesListTab tab) =
+      SelectFolderEvent;
 
   @override
   List<Object?> get props => const [];
@@ -57,4 +61,11 @@ final class AssignLabelsEvent extends NotesListEvent {
   const AssignLabelsEvent({required this.note, required this.labels});
   @override
   List<Object?> get props => [note, labels];
+}
+
+final class SelectFolderEvent extends NotesListEvent {
+  final NotesListTab tab;
+  const SelectFolderEvent(this.tab);
+  @override
+  List<Object?> get props => [tab];
 }

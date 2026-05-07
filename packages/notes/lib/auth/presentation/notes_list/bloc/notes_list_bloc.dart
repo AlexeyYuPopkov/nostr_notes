@@ -3,7 +3,8 @@ import 'dart:developer';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nostr_notes/l10n/localization.dart';
+import 'package:nostr_notes/auth/presentation/notes_list/tabs/folders_tab_content.dart';
+import 'package:nostr_notes/l10n/app_localizations.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/delete_note_usecase.dart';
@@ -26,7 +27,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   DiStorage get _di => DiStorage.shared;
   NotesListData get data => state.data;
 
-  final BuildContext Function() contextProvider;
+  final AppLocalizations l10n;
 
   late final refreshButtonVm = RefreshButtonVm(
     onRefresh: () {
@@ -43,10 +44,13 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   late final OutboxPublisher _outbox = _di.resolve();
   late final CreateNoteUsecase _createNoteUsecase = _di.resolve();
 
+  late final foldersVm = FoldersTabContentVM.fromNotes([], null, l10n);
+
   StreamSubscription? _fetchNotesSubscription;
   StreamSubscription? _getNotesSubscription;
   StreamSubscription? _errorSubscription;
-  NotesListBloc({required this.contextProvider})
+
+  NotesListBloc({required this.l10n})
     : super(NotesListState.loading(data: NotesListData.initial())) {
     _setupHandlers();
 
@@ -77,6 +81,11 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     );
 
     on<AssignLabelsEvent>(_onAssignLabelsEvent);
+    on<SelectFolderEvent>(
+      _onSelectFolderEvent,
+      transformer: (events, mapper) =>
+          events.debounceTime(debounceGuard).switchMap(mapper),
+    );
   }
 
   void _setupSubscription() {
@@ -174,15 +183,15 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     Emitter<NotesListState> emit,
   ) async {
     try {
-      final context = contextProvider();
-
-      if (isClosed || !context.mounted) {
+      if (isClosed) {
         return;
       }
 
+      foldersVm.setNotes(event.notes, l10n);
+
       final sections = NotesListSection.groupNotesByDate(
         notes: event.notes,
-        l10n: context.l10n,
+        l10n: l10n,
       );
 
       emit(
@@ -232,5 +241,16 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   void _onRefreshEvent(RefreshEvent event, Emitter<NotesListState> emit) {
     _outbox.refresh();
     add(const NotesListEvent.initial());
+  }
+
+  void _onSelectFolderEvent(
+    SelectFolderEvent event,
+    Emitter<NotesListState> emit,
+  ) {
+    if (isClosed) {
+      return;
+    }
+
+    emit(NotesListState.common(data: data.copyWith(tab: event.tab)));
   }
 }
