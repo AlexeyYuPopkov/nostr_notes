@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/domain/repo/notes_list_tab_repo.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/tabs/folders_tab_content.dart';
 import 'package:nostr_notes/l10n/app_localizations.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
@@ -20,6 +21,7 @@ import 'package:rxdart/transformers.dart';
 import 'notes_list_data.dart';
 import 'notes_list_event.dart';
 import 'notes_list_state.dart';
+import '../tabs/notes_list_tab.dart';
 
 final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   static const errorStreamDebounce = Duration(milliseconds: 500);
@@ -45,6 +47,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   late final CreateNoteUsecase _createNoteUsecase = _di.resolve();
 
   late final foldersVm = FoldersTabContentVM.fromNotes([], null, l10n);
+  late final NotesListTabRepo _tabRepo = _di.resolve();
 
   StreamSubscription? _fetchNotesSubscription;
   StreamSubscription? _getNotesSubscription;
@@ -167,7 +170,12 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   }
 
   void _onInitialEvent(InitialEvent event, Emitter<NotesListState> emit) async {
-    emit(NotesListState.loading(data: data));
+    final savedTabIndex = _tabRepo.getTabIndex();
+    final savedTab =
+        NotesListTab.tabs.elementAtOrNull(savedTabIndex) ??
+        NotesListTab.tabs.first;
+
+    emit(NotesListState.loading(data: data.copyWith(tab: savedTab)));
 
     _setupSubscription();
     await Future.delayed(const Duration(seconds: 3));
@@ -251,6 +259,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
       return;
     }
 
+    _tabRepo.setTabIndex(event.tab.index);
     emit(NotesListState.common(data: data.copyWith(tab: event.tab)));
   }
 }
