@@ -142,6 +142,12 @@ abstract class CommonLocalizations {
   /// **'Edit'**
   String get commonButtonEdit;
 
+  /// No description provided for @commonHintSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search...'**
+  String get commonHintSearch;
+
   /// No description provided for @commonClose.
   ///
   /// In en, this message translates to:

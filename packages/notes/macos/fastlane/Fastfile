@@ -26,8 +26,8 @@ platform :mac do
       initial_build_number: 12
     )
 
-    if latest_build <= 16
-      latest_build = 16
+    if latest_build <= 19
+      latest_build = 19
       puts "Latest build number is #{latest_build}, which is less than or equal to 10. Setting it to 10 to avoid issues with TestFlight."
     end
 

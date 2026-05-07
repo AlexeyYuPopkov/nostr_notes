@@ -2,7 +2,9 @@ import 'dart:async';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/nip44_exception.dart';
+import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
@@ -20,8 +22,8 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   NotePreviewData get data => state.data;
   DiStorage get _di => DiStorage.shared;
   late final FetchNotesUsecase _fetchNotesUsecase = _di.resolve();
-
   late final GetNoteUsecase _getNoteUsecase = _di.resolve();
+  late final CreateNoteUsecase _createNoteUsecase = _di.resolve();
   late final OutboxPublisher _outbox = _di.resolve();
   StreamSubscription? _getNoteSubscription;
   StreamSubscription? _fetchNoteSubscription;
@@ -69,6 +71,8 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
       transformer: (events, mapper) =>
           events.debounceTime(debounceGuard).switchMap(mapper),
     );
+
+    on<AssignLabelsEvent>(_onAssignLabelsEvent);
   }
 
   void _setupSubscriptions() {
@@ -138,5 +142,22 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   void _onRefreshEvent(RefreshEvent event, Emitter<NotePreviewState> emit) {
     _outbox.refresh();
     _setupSubscriptions();
+  }
+
+  void _onAssignLabelsEvent(
+    AssignLabelsEvent event,
+    Emitter<NotePreviewState> emit,
+  ) async {
+    try {
+      final labels = event.labels.map(Label.fromCategoryType).toList();
+      await _createNoteUsecase.execute(
+        content: event.note.content,
+        dTag: event.note.dTag,
+        updatedAt: event.note.updatedAt,
+        labels: labels,
+      );
+    } catch (e) {
+      emit(NotePreviewState.error(error: e, data: data));
+    }
   }
 }

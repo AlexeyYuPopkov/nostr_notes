@@ -33,6 +33,9 @@ class CommonLocalizationsEn extends CommonLocalizations {
   String get commonButtonEdit => 'Edit';
 
   @override
+  String get commonHintSearch => 'Search...';
+
+  @override
   String get commonClose => 'Close';
 
   @override

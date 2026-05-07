@@ -825,6 +825,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other'**
   String get classificationClassOther;
+
+  /// No description provided for @notePreviewMoreMenuAssignFolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign folder'**
+  String get notePreviewMoreMenuAssignFolder;
+
+  /// No description provided for @notePreviewMoreMenuCopyContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy content'**
+  String get notePreviewMoreMenuCopyContent;
+
+  /// No description provided for @notePreviewMoreMenuInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Info'**
+  String get notePreviewMoreMenuInfo;
 }
 
 class _AppLocalizationsDelegate
