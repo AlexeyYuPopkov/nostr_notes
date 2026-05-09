@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:nostr_notes/auth/domain/model/relay_info.dart';
-import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
+import 'package:common/domain/repo/relays_list_repo.dart';
 
 final class GetRelaysUsecase {
   final RelaysListRepo _relaysListRepo;

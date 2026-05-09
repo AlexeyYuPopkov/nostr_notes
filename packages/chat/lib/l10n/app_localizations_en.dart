@@ -49,6 +49,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingWelcomeButtonNext => 'Get Started';
 
   @override
+  String get onboardingWelcomeButtonHelp => 'Help';
+
+  @override
   String get onboardingSignUpPageTitle => 'Sign Up with Nostr';
 
   @override

@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
 import 'package:nostr_notes/common/domain/repository/biometric_repository.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
-import 'package:nostr_notes/core/tools/disposable.dart';
+import 'package:common/tools/disposable.dart';
 
 final class VerificationUsecase implements Disposable {
   static const defaultMaxInactiveDuration = Duration(seconds: 5);

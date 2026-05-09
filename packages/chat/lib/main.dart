@@ -1,3 +1,4 @@
+import 'package:chat/common/di/di.dart';
 import 'package:chat/l10n/localization.dart';
 import 'package:chat/router/app_router.dart';
 import 'package:common/app/theme/app_theme.dart';
@@ -21,6 +22,7 @@ void main() async {
   // await Di.instance.bindUnauthModules();
   // HttpOverrides.global = MyHttpOverrides();
   // timeDilation = 4.0;
+  Di.registerUnauthModules();
   runApp(ProviderScope(child: const App()));
 }
 
@@ -32,7 +34,6 @@ final class App extends StatefulWidget {
 }
 
 final class _AppState extends State<App> with WidgetsBindingObserver {
-  // late final BlurScreenUsecase _blurScreenUsecase = DiStorage.shared.resolve();
   final _appRouter = AppRouter();
   late final _globalSettingsVm = GlobalSettingsVm();
 

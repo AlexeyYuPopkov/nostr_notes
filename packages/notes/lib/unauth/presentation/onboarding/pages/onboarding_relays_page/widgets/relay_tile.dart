@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:common/app/theme/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/auth/domain/model/relay_info.dart';
-import 'package:nostr_notes/common/data/relays_monitoring_usecase_impl.dart';
+import 'package:common/data/repo/relays_monitoring_usecase_impl.dart';
 import 'package:nostr_notes/common/domain/model/relay_health.dart';
-import 'package:nostr_notes/common/domain/relays_monitoring_usecase.dart';
+import 'package:common/domain/usecases/relays_monitoring_usecase.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:rxdart/rxdart.dart';
 

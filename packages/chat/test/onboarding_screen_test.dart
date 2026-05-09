@@ -1,4 +1,4 @@
-import 'package:chat/unauth/onboarding/onboarding_screen.dart';
+import 'package:chat/unauth/presentation/onboarding/onboarding_screen.dart';
 import 'package:common/app/vm/global_settings_vm.dart';
 import 'package:flutter_test/flutter_test.dart';
 

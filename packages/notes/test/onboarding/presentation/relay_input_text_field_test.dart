@@ -4,7 +4,7 @@ import 'package:fake_async/fake_async.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
-import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/widgets/relay_input_text_field.dart';
+import 'package:common/presentation/relay_input_text_field.dart';
 
 import '../../tools/mock_wschannel.dart';
 

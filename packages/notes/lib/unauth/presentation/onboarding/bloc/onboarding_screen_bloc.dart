@@ -3,7 +3,7 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/repo/pin_enabled_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/pin_keyboard_type_repo.dart';
-import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
+import 'package:common/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_nsec_page/onboarding_nsec_page.dart';

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
 import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
-import 'package:nostr_notes/core/tools/disposable.dart';
+import 'package:common/tools/disposable.dart';
 import 'package:rxdart/rxdart.dart';
 
 final class AppLifecycleListenerDatasource

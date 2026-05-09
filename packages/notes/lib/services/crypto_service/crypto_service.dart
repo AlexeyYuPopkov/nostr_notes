@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
-import 'package:nostr_notes/core/tools/disposable.dart';
+import 'package:common/tools/disposable.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service_impl_mobile.dart'
     if (dart.library.js_interop) 'package:nostr_notes/services/crypto_service/crypto_service_impl_web.dart';
 

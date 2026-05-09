@@ -2009,8 +2009,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final NostrEventDao nostrEventDao = NostrEventDao(this as AppDatabase);
   late final OutboxDao outboxDao = OutboxDao(this as AppDatabase);
-  late final NoteClassProbabilitiesDao noteClassProbabilitiesDao =
-      NoteClassProbabilitiesDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nostr/model/user_keys.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
-import 'package:nostr_notes/common/domain/model/session/user_keys.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
 

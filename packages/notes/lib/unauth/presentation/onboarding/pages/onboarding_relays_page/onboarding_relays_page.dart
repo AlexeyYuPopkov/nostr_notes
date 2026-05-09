@@ -8,7 +8,7 @@ import 'package:common/presentation/buttons/prymary_button.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/bloc/onboarding_relays_bloc.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/bloc/onboarding_relays_event.dart';
-import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/widgets/relay_input_text_field.dart';
+import 'package:common/presentation/relay_input_text_field.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/widgets/relay_tile.dart';
 
 import 'bloc/onboarding_relays_state.dart';
