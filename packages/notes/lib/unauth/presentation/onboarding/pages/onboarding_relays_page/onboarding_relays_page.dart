@@ -2,14 +2,13 @@ import 'package:common/app/theme/sizes.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nostr_notes/l10n/localization.dart';
-import 'package:nostr_notes/auth/domain/model/relay_info.dart';
+import 'package:common/domain/model/relay_info.dart';
 import 'package:common/presentation/buttons/prymary_button.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/bloc/onboarding_relays_bloc.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/bloc/onboarding_relays_event.dart';
 import 'package:common/presentation/relay_input_text_field.dart';
-import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/widgets/relay_tile.dart';
+import 'package:common/presentation/widgets/relay_tile.dart';
 
 import 'bloc/onboarding_relays_state.dart';
 
@@ -31,7 +30,6 @@ final class OnboardingRelaysPage extends StatelessWidget with DialogHelper {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = context.l10n;
     final commonL10n = context.commonL10n;
 
     return BlocProvider(
@@ -51,7 +49,7 @@ final class OnboardingRelaysPage extends StatelessWidget with DialogHelper {
               SliverToBoxAdapter(
                 child: Center(
                   child: Text(
-                    l10n.relaysPageTitle,
+                    commonL10n.relaysPageTitle,
                     style: theme.textTheme.headlineLarge,
                     textAlign: TextAlign.center,
                   ),
@@ -63,7 +61,7 @@ final class OnboardingRelaysPage extends StatelessWidget with DialogHelper {
               SliverToBoxAdapter(
                 child: Center(
                   child: Text(
-                    l10n.relaysPageDescription,
+                    commonL10n.relaysPageDescription,
                     style: theme.textTheme.titleSmall,
                     textAlign: TextAlign.center,
                   ),
@@ -122,8 +120,7 @@ final class OnboardingRelaysPage extends StatelessWidget with DialogHelper {
 
   void _onAddCustom(BuildContext context, {required String urlStr}) {
     final bloc = context.read<OnboardingRelaysBloc>();
-    final relay = RelayInfo(url: Uri.parse(urlStr));
-    bloc.add(OnboardingRelaysEvent.onAdd(relay));
+    bloc.add(OnboardingRelaysEvent.onAdd(urlStr));
   }
 
   void _onNext(BuildContext context) {

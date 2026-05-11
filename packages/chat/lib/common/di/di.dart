@@ -5,6 +5,7 @@ import 'package:common/data/repo/secure_storage_impl.dart';
 import 'package:common/domain/repo/key_tool_repository.dart';
 import 'package:common/domain/repo/relays_list_repo.dart';
 import 'package:common/domain/repo/secure_storage.dart';
+import 'package:common/domain/usecases/get_relays_usecase.dart';
 import 'package:common/domain/usecases/relays_list_repo_impl.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +13,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class Di {
   static Future<void> registerUnauthModules() async {
     final prefs = await SharedPreferences.getInstance();
+
+    GetIt.I.pushNewScope(scopeName: 'unauth-scope');
+
     GetIt.I.registerSingleton<RelaysListRepo>(
       RelaysListRepoImpl(prefs),
       dispose: (i) => i.dispose(),
@@ -23,7 +27,7 @@ abstract class Di {
     );
     GetIt.I.registerSingleton<KeyToolRepository>(KeyToolRepositoryImpl());
 
-    GetIt.I.registerFactory(
+    GetIt.I.registerLazySingleton<AuthUsecase>(
       () => AuthUsecase(
         secureStorage: GetIt.I.get(),
         sessionUsecase: GetIt.I.get(),
@@ -31,5 +35,13 @@ abstract class Di {
         relaysListRepo: GetIt.I.get(),
       ),
     );
+
+    GetIt.I.registerFactory<GetRelaysUsecase>(
+      () => GetRelaysUsecase(relaysListRepo: GetIt.I.get()),
+    );
+  }
+
+  static Future<void> dropUnauthModules() {
+    return GetIt.I.dropScope('unauth-scope');
   }
 }

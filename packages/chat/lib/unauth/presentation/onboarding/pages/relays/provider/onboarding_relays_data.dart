@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
-import 'package:equatable/equatable.dart';
 import 'package:common/domain/model/relay_info.dart';
+import 'package:equatable/equatable.dart';
 
 final class OnboardingRelaysData extends Equatable {
   final List<RelayInfo> relays;

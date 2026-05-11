@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'onboarding_welcome_page.dart';
 import 'onboarding_nsec_page.dart';
 import 'onboarding_show_nsec_page.dart';
-import 'onboarding_relays_page.dart';
+import 'relays/onboarding_relays_page.dart';
 
 sealed class OnboardingStep extends Equatable {
   static const pages = <OnboardingStep>[

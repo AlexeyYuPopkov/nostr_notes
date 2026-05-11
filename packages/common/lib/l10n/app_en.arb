@@ -21,7 +21,24 @@
     "themeScreenLabelSystem": "System",
     "themeScreenLabelLight": "Light",
     "themeScreenLabelDark": "Dark",
-
+    "relaysPageTitle": "Select Relays",
+    "relaysPageDescription": "Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue",
+    "relaysPageAddCustomHint": "wss://...",
+    "relaysPageAddButton": "Add",
+    "relaysPageCheckButton": "Check",
+    "relaysPageErrorSelectAtLeastOne": "Select at least one relay",
+    "relaysPageErrorInvalidRelayUrlEmpty": "URL cannot be empty",
+    "relaysPageErrorInvalidUrl": "URL must start with wss:// or ws://",
+    "relaysPageErrorInvalidRelayAddressFormat": "Invalid relay address format",
+    "relaysPageErrorFailedToConnectToRelay": "Failed to connect to relay {url}",
+    "@relaysPageErrorFailedToConnectToRelay": {
+        "placeholders": {
+            "url": {
+                "format": "String",
+                "type": "String"
+            }
+        }
+    },
     "rawEventScreenTitle": "Raw event",
     "rawEventScreenSectionTitleRelaysCount": "Relays ({count})",
     "@rawEventScreenSectionTitleRelaysCount": {

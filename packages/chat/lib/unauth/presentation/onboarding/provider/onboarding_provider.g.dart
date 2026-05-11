@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'onboarding_state.dart';
+part of 'onboarding_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,11 +9,11 @@ part of 'onboarding_state.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(OnboardingState)
+@ProviderFor(OnboardingProvider)
 final onboardingStateProvider = OnboardingStateProvider._();
 
 final class OnboardingStateProvider
-    extends $NotifierProvider<OnboardingState, OnboardingScreenState> {
+    extends $NotifierProvider<OnboardingProvider, OnboardingState> {
   OnboardingStateProvider._()
     : super(
         from: null,
@@ -30,30 +30,30 @@ final class OnboardingStateProvider
 
   @$internal
   @override
-  OnboardingState create() => OnboardingState();
+  OnboardingProvider create() => OnboardingProvider();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(OnboardingScreenState value) {
+  Override overrideWithValue(OnboardingState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<OnboardingScreenState>(value),
+      providerOverride: $SyncValueProvider<OnboardingState>(value),
     );
   }
 }
 
-String _$onboardingStateHash() => r'5eccfa2552dfa420debc55f817ec9c73dace6425';
+String _$onboardingStateHash() => r'6e160d73697d7820c8ace863f9bca2b43893876a';
 
-abstract class _$OnboardingState extends $Notifier<OnboardingScreenState> {
-  OnboardingScreenState build();
+abstract class _$OnboardingState extends $Notifier<OnboardingState> {
+  OnboardingState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<OnboardingScreenState, OnboardingScreenState>;
+    final ref = this.ref as $Ref<OnboardingState, OnboardingState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<OnboardingScreenState, OnboardingScreenState>,
-              OnboardingScreenState,
+              AnyNotifier<OnboardingState, OnboardingState>,
+              OnboardingState,
               Object?,
               Object?
             >;

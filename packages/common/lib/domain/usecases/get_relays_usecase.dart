@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
-import 'package:nostr_notes/auth/domain/model/relay_info.dart';
+import 'package:common/domain/model/relay_info.dart';
 import 'package:common/domain/repo/relays_list_repo.dart';
 
 final class GetRelaysUsecase {

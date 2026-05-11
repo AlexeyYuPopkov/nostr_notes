@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:nostr_notes/auth/domain/model/relay_info.dart';
+import 'package:common/domain/model/relay_info.dart';
 
 sealed class OnboardingRelaysEvent extends Equatable {
   const OnboardingRelaysEvent();
@@ -7,7 +7,7 @@ sealed class OnboardingRelaysEvent extends Equatable {
   const factory OnboardingRelaysEvent.initial() = InitialEvent;
   const factory OnboardingRelaysEvent.toggle(RelayInfo relay) = ToggleEvent;
   const factory OnboardingRelaysEvent.save() = SaveEvent;
-  const factory OnboardingRelaysEvent.onAdd(RelayInfo relay) = OnAddEvent;
+  const factory OnboardingRelaysEvent.onAdd(String urlStr) = OnAddEvent;
 }
 
 final class InitialEvent extends OnboardingRelaysEvent {
@@ -30,8 +30,8 @@ final class SaveEvent extends OnboardingRelaysEvent {
 }
 
 final class OnAddEvent extends OnboardingRelaysEvent {
-  final RelayInfo relay;
-  const OnAddEvent(this.relay);
+  final String urlStr;
+  const OnAddEvent(this.urlStr);
   @override
-  List<Object?> get props => [relay];
+  List<Object?> get props => [urlStr];
 }

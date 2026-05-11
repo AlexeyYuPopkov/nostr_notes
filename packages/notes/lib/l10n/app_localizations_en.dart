@@ -127,40 +127,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingNsecPageButtonSignUp => 'Sign Up';
 
   @override
-  String get relaysPageTitle => 'Select Relays';
-
-  @override
-  String get relaysPageDescription =>
-      'Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue';
-
-  @override
-  String get relaysPageAddCustomHint => 'wss://...';
-
-  @override
-  String get relaysPageAddButton => 'Add';
-
-  @override
-  String get relaysPageCheckButton => 'Check';
-
-  @override
-  String get relaysPageErrorSelectAtLeastOne => 'Select at least one relay';
-
-  @override
-  String get relaysPageErrorInvalidRelayUrlEmpty => 'URL cannot be empty';
-
-  @override
-  String get relaysPageErrorInvalidUrl => 'URL must start with wss:// or ws://';
-
-  @override
-  String get relaysPageErrorInvalidRelayAddressFormat =>
-      'Invalid relay address format';
-
-  @override
-  String relaysPageErrorFailedToConnectToRelay(String url) {
-    return 'Failed to connect to relay $url';
-  }
-
-  @override
   String get onboardingPinPageTitle => 'Set a PIN or password';
 
   @override

@@ -8,8 +8,10 @@ void main() {
   group('OnboardingScreen', () {
     late GlobalSettingsVm vm;
 
-    setUp(() {
+    setUp(() async {
       vm = GlobalSettingsVm();
+      await AppLauncher.setUp();
+      addTearDown(AppLauncher.tearDown);
     });
 
     testWidgets('check flow', (tester) async {

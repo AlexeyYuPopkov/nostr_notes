@@ -22,7 +22,7 @@ void main() async {
   // await Di.instance.bindUnauthModules();
   // HttpOverrides.global = MyHttpOverrides();
   // timeDilation = 4.0;
-  Di.registerUnauthModules();
+  await Di.registerUnauthModules();
   runApp(ProviderScope(child: const App()));
 }
 

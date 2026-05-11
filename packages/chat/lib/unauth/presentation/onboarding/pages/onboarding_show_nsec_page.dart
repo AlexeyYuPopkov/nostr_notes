@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../onboarding_state.dart';
+import '../provider/onboarding_provider.dart';
 
 final class OnboardingShowNsecPage extends ConsumerWidget {
   const OnboardingShowNsecPage({super.key});

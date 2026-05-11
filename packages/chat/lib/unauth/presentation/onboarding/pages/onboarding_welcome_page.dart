@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../onboarding_state.dart';
+import '../provider/onboarding_provider.dart';
 import 'onboarding_screen_step.dart';
 
 final class OnboardingWelcomePage extends ConsumerWidget {

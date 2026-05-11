@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'pages/onboarding_screen_step.dart';
+import '../pages/onboarding_screen_step.dart';
 
 final class OnboardingData extends Equatable {
   final OnboardingStep step;

@@ -22,7 +22,7 @@ dependencies:
   di_storage: ^2.0.1
   # auto_route: ^11.1.0
   meta: ^1.17.0
-  # flutter_bloc: ^9.1.1
+  equatable: ^2.0.8
   # riverpod: ^3.2.1
 
 
@@ -36,6 +36,7 @@ dependencies:
 
   collection: ^1.19.0
   json_annotation: ^4.11.0
+
 
   flutter_svg: ^2.2.4
   url_launcher: ^6.3.2

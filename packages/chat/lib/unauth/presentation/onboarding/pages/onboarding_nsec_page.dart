@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../onboarding_state.dart';
+import '../provider/onboarding_provider.dart';
 import 'onboarding_nsec_sign_in.dart';
 import 'onboarding_sign_up_page.dart';
 

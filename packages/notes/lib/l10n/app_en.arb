@@ -33,24 +33,6 @@
     "onboardingNsecPageLabelHint": "You can import from another app or paste it manually",
     "onboardingNsecPageDontHaveAccount": "Don't have an account?",
     "onboardingNsecPageButtonSignUp": "Sign Up",
-    "relaysPageTitle": "Select Relays",
-    "relaysPageDescription": "Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue",
-    "relaysPageAddCustomHint": "wss://...",
-    "relaysPageAddButton": "Add",
-    "relaysPageCheckButton": "Check",
-    "relaysPageErrorSelectAtLeastOne": "Select at least one relay",
-    "relaysPageErrorInvalidRelayUrlEmpty": "URL cannot be empty",
-    "relaysPageErrorInvalidUrl": "URL must start with wss:// or ws://",
-    "relaysPageErrorInvalidRelayAddressFormat": "Invalid relay address format",
-    "relaysPageErrorFailedToConnectToRelay": "Failed to connect to relay {url}",
-    "@relaysPageErrorFailedToConnectToRelay": {
-        "placeholders": {
-            "url": {
-                "format": "String",
-                "type": "String"
-            }
-        }
-    },
     "onboardingPinPageTitle": "Set a PIN or password",
     "onboardingPinPageDescription": "This is used for an additional layer of encryption – even if someone obtains your nsec, your notes will remain protected",
     "onboardingPinPageTextFieldHint": "PIN or password",

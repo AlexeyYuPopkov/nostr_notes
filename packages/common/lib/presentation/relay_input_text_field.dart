@@ -1,8 +1,7 @@
 import 'dart:async';
+import 'package:common/l10n/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
-
-import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/data/repo/relays_monitoring_usecase_impl.dart';
 import 'package:nostr_notes/common/domain/relay_validator.dart';
@@ -93,7 +92,7 @@ final class _RelayInputTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
+    final commonL10n = context.commonL10n;
     return Row(
       crossAxisAlignment: .start,
       children: [
@@ -110,7 +109,7 @@ final class _RelayInputTextField extends StatelessWidget {
                   keyboardType: TextInputType.url,
                   forceErrorText: _forceErrorText(context),
                   decoration: InputDecoration(
-                    hintText: l10n.relaysPageAddCustomHint,
+                    hintText: commonL10n.relaysPageAddCustomHint,
                     border: const OutlineInputBorder(),
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: Sizes.indent2x,
@@ -171,8 +170,8 @@ final class _RelayInputTextField extends StatelessWidget {
                           : null,
                       child: Text(
                         vm.canConnect == true
-                            ? l10n.relaysPageAddButton
-                            : l10n.relaysPageCheckButton,
+                            ? commonL10n.relaysPageAddButton
+                            : commonL10n.relaysPageCheckButton,
                       ),
                     ),
                   ),
@@ -194,18 +193,20 @@ final class _RelayInputTextField extends StatelessWidget {
 
     switch (error) {
       case RelayValidatorErrorEmpty():
-        return context.l10n.relaysPageErrorInvalidRelayUrlEmpty;
+        return context.commonL10n.relaysPageErrorInvalidRelayUrlEmpty;
       case RelayValidatorErrorScheme():
-        return context.l10n.relaysPageErrorInvalidUrl;
+        return context.commonL10n.relaysPageErrorInvalidUrl;
       case RelayValidatorErrorFormat():
-        return context.l10n.relaysPageErrorInvalidRelayAddressFormat;
+        return context.commonL10n.relaysPageErrorInvalidRelayAddressFormat;
     }
   }
 
   String? _forceErrorText(BuildContext context) {
-    final l10n = context.l10n;
+    final commonL10n = context.commonL10n;
     if (vm.canConnect == false) {
-      return l10n.relaysPageErrorFailedToConnectToRelay(vm.controller.text);
+      return commonL10n.relaysPageErrorFailedToConnectToRelay(
+        vm.controller.text,
+      );
     }
     return null;
   }

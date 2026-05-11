@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr/key_tool/key_tool.dart';
-import '../onboarding_state.dart';
+import '../provider/onboarding_provider.dart';
 
 final class OnboardingNsecSignIn extends ConsumerStatefulWidget {
   const OnboardingNsecSignIn({super.key});

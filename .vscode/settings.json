@@ -3,5 +3,6 @@
         "iostream": "cpp"
     },
     "cmake.sourceDirectory": "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp",
-    "specstory.cloudSync.enabled": "never"
+    "specstory.cloudSync.enabled": "never",
+    "dart.mcpServer": true
 }
