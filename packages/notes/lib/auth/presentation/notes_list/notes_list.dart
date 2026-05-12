@@ -53,45 +53,47 @@ final class NotesList extends StatelessWidget with DialogHelper {
           return DefaultTabController(
             length: NotesListTab.tabs.length,
             child: Scaffold(
-              appBar: AppBar(
-                title: Text(context.l10n.notesListScreenTitle),
-                actions: [
-                  if (const AppPlatform().isDesktopLayout)
-                    RefreshButton(
-                      vm: context.read<NotesListBloc>().refreshButtonVm,
-                      padding: const EdgeInsets.only(left: Sizes.indent2x),
-                      alignment: Alignment.centerRight,
-                    ),
-                  const _SettingsButton(),
-                ],
-                bottom: PreferredSize(
-                  preferredSize: const Size.fromHeight(
-                    CommonToolbarTabsWidget.height,
-                  ),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: HelphubScreenToolbar(),
-                  ),
-                ),
-              ),
               floatingActionButton: breakpoint.isSmall ? const Fab() : null,
-              body: BlocListener<NotesListBloc, NotesListState>(
-                listenWhen: (a, b) => a.data.tab != b.data.tab,
-                listener: (context, state) => DefaultTabController.of(
-                  context,
-                ).animateTo(NotesListTab.tabs.indexOf(state.data.tab)),
-                child: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    for (final tab in NotesListTab.tabs)
-                      tab.build(
-                        context,
-                        params: TabParams(
-                          selectedNoteDTag: selectedNoteDTag,
-                          onTap: onTap,
+              body: NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                  SliverAppBar(
+                    pinned: true,
+                    title: Text(context.l10n.notesListScreenTitle),
+                    actions: [
+                      if (const AppPlatform().isDesktopLayout)
+                        RefreshButton(
+                          vm: context.read<NotesListBloc>().refreshButtonVm,
+                          padding: const EdgeInsets.only(left: Sizes.indent2x),
+                          alignment: Alignment.centerRight,
                         ),
-                      ),
-                  ],
+                      const _SettingsButton(),
+                    ],
+                  ),
+                  SliverToBoxAdapter(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: HelphubScreenToolbar(),
+                    ),
+                  ),
+                ],
+                body: BlocListener<NotesListBloc, NotesListState>(
+                  listenWhen: (a, b) => a.data.tab != b.data.tab,
+                  listener: (context, state) => DefaultTabController.of(
+                    context,
+                  ).animateTo(NotesListTab.tabs.indexOf(state.data.tab)),
+                  child: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      for (final tab in NotesListTab.tabs)
+                        tab.build(
+                          context,
+                          params: TabParams(
+                            selectedNoteDTag: selectedNoteDTag,
+                            onTap: onTap,
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),

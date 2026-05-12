@@ -13,13 +13,16 @@ final class AppColorScheme {
     onSecondary: Colors.white,
     secondaryContainer: Color(0xFFF5EEE3),
     onSecondaryContainer: Color(0xFF5B4A2F),
-    surface: Color(0xFFffffff), // тёплый почти-белый фон
+    surface: Color(
+      0xFFF2F2F7,
+    ), // Apple Notes: iOS system grey6 — main background
     onSurface: Color(0xFF2E2E2E),
     onSurfaceVariant: Color(0xaa2E2E2E),
+    tertiaryContainer: Colors.white,
     error: Color(0xFFE81212), // Color(0xFFB00020),
     onError: Colors.white,
     outline: Color(0xFFE0E0E0),
-    outlineVariant: Color(0xFFF1F3F4),
+    outlineVariant: Color(0xFFE5E5EA), // Apple Notes separator color
   );
 
   static const dark = ColorScheme(
@@ -30,13 +33,16 @@ final class AppColorScheme {
     onPrimaryContainer: Color(0xFFE5D4FF),
     secondary: Color(0xFFD4C3A4),
     onSecondary: Colors.black,
-    secondaryContainer: Color(0xFF3E372A),
+    secondaryContainer: Color(0xFF2C2C2E), // Apple Notes dark: card background
     onSecondaryContainer: Color(0xFFF5EBDD),
-    surface: Color(0xFF1A1A1A),
+    tertiaryContainer: Color(
+      0xFF3A3A3C,
+    ), // Apple Notes dark: elevated grouped background
+    surface: Color(0xFF000000), // Apple Notes dark: pure black background
     onSurface: Color(0xFFE6E6E6),
     error: Color(0xFFFF6B6B),
     onError: Colors.black,
     outline: Color(0xFF3A3A3A),
-    outlineVariant: Color(0xFF3D3C41),
+    outlineVariant: Color(0xFF38383A), // Apple Notes dark separator
   );
 }

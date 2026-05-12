@@ -14,7 +14,7 @@ final class AppTheme {
     useMaterial3: true,
     scaffoldBackgroundColor: AppColorScheme.light.surface,
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColorScheme.light.surface, // scaffoldBackgroundColor
+      backgroundColor: AppColorScheme.light.surface,
       surfaceTintColor: AppColorScheme.light.surface,
       shadowColor: Colors.transparent,
       foregroundColor: AppColorScheme.light.onSurface,
@@ -25,12 +25,13 @@ final class AppTheme {
         fontWeight: FontWeight.w600,
       ),
     ),
+    drawerTheme: DrawerThemeData(backgroundColor: AppColorScheme.light.surface),
     textTheme: AppTextTheme.createTextThemeWithColor(
       AppColorScheme.light.onSurface,
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: AppColorScheme.light.surface,
+      fillColor: const Color(0xFFFFFFFF),
       errorStyle: TextStyle(
         color: AppColorScheme.light.error,
         fontSize: TextSizes.small,
@@ -63,11 +64,14 @@ final class AppTheme {
       ),
     ),
     cardTheme: CardThemeData(
-      color: AppColorScheme.light.surface,
+      color: const Color(
+        0xFFFFFFFF,
+      ), // Apple Notes: white card on grey background
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Sizes.radiusVariant),
       ),
-      elevation: 2,
+      elevation: 0,
+      shadowColor: Colors.transparent,
       margin: const EdgeInsets.all(Sizes.indent),
     ),
     progressIndicatorTheme: ProgressIndicatorThemeData(
@@ -142,11 +146,14 @@ final class AppTheme {
       ),
     ),
     cardTheme: CardThemeData(
-      color: AppColorScheme.dark.surface,
+      color: const Color(
+        0xFF1C1C1E,
+      ), // Apple Notes dark: card on black background
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Sizes.radiusVariant),
       ),
-      elevation: 2,
+      elevation: 0,
+      shadowColor: Colors.transparent,
       margin: const EdgeInsets.all(Sizes.indent),
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(

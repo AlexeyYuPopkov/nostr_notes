@@ -32,39 +32,66 @@ final class CredentialsDataScreen extends StatelessWidget with DialogHelper {
       child: BlocConsumer<CredentialsDataBloc, CredentialsDataState>(
         listener: _listener,
         builder: (context, state) {
+          final l10n = context.l10n;
           return Scaffold(
-            appBar: AppBar(
-              title: Text(context.l10n.credentialsDataScreenTitle),
-            ),
-            body: SafeArea(
-              child: ListView(
-                padding: const EdgeInsets.all(Sizes.indent2x),
-                children: [
-                  _Item(
+            // appBar: AppBar(
+            //   title: Text(context.l10n.credentialsDataScreenTitle),
+            // ),
+            body: CustomScrollView(
+              slivers: [
+                SliverAppBar.medium(
+                  title: Text(l10n.credentialsDataScreenTitle),
+                  toolbarHeight: 56.0,
+                ),
+                SliverToBoxAdapter(
+                  child: _Item(
                     title: context.l10n.credentialsDataScreenLabelNsec,
                     value: state.data.nsec,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: Sizes.indent2x,
+                    ),
                   ),
-                  InfoText(text: context.l10n.credentialsDataScreenWarningNsec),
-                  _Item(
+                ),
+                SliverToBoxAdapter(
+                  child: InfoText(
+                    text: context.l10n.credentialsDataScreenWarningNsec,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: _Item(
                     title: context.l10n.credentialsDataScreenLabelPrivateKey,
                     value: state.data.privateKey,
                   ),
-                  InfoText(
+                ),
+                SliverToBoxAdapter(
+                  child: InfoText(
                     text: context.l10n.credentialsDataScreenWarningPrivateKey,
                   ),
-                  _Item(
+                ),
+                SliverToBoxAdapter(
+                  child: _Item(
                     title: context.l10n.credentialsDataScreenLabelPubKey,
                     value: state.data.pubkey,
                     secure: false,
                   ),
-                  InfoText(text: context.l10n.credentialsDataScreenInfoPubKey),
-                  _Item(
+                ),
+                SliverToBoxAdapter(
+                  child: InfoText(
+                    text: context.l10n.credentialsDataScreenInfoPubKey,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: _Item(
                     title: context.l10n.credentialsDataScreenLabelPin,
                     value: state.data.pin,
                   ),
-                  InfoText(text: context.l10n.credentialsDataScreenWarningPin),
-                ],
-              ),
+                ),
+                SliverToBoxAdapter(
+                  child: InfoText(
+                    text: context.l10n.credentialsDataScreenWarningPin,
+                  ),
+                ),
+              ],
             ),
           );
         },
@@ -77,8 +104,18 @@ final class _Item extends StatefulWidget {
   final String title;
   final String value;
   final bool secure;
+  final EdgeInsets padding;
 
-  const _Item({required this.title, required this.value, this.secure = true});
+  const _Item({
+    required this.title,
+    required this.value,
+    this.secure = true,
+    this.padding = const EdgeInsets.only(
+      left: Sizes.indent2x,
+      right: Sizes.indent2x,
+      top: Sizes.indent2x,
+    ),
+  });
 
   @override
   State<_Item> createState() => _ItemState();
@@ -122,12 +159,11 @@ final class _ItemState extends State<_Item> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
+      padding: widget.padding,
       child: Column(
         mainAxisSize: .min,
         crossAxisAlignment: .start,
         children: [
-          const SizedBox(height: Sizes.indent2x),
           Text(
             widget.title,
             style: theme.textTheme.titleMedium,
@@ -144,7 +180,6 @@ final class _ItemState extends State<_Item> {
             style: theme.textTheme.bodyLarge,
             decoration: InputDecoration(
               filled: true,
-              fillColor: theme.colorScheme.outlineVariant,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(Sizes.radius),
                 borderSide: BorderSide.none,

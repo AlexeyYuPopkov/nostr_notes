@@ -19,7 +19,7 @@ final class _ResizeDividerState extends State<ResizeDivider> {
 
     final color = _isDragging
         ? theme.colorScheme.primary
-        : theme.colorScheme.outlineVariant;
+        : theme.colorScheme.outline;
 
     return MouseRegion(
       cursor: SystemMouseCursors.resizeColumn,

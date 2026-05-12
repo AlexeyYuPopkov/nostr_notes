@@ -13,24 +13,24 @@ final class ThemeSettingsScreen extends StatelessWidget
   Widget build(BuildContext context) {
     final l10n = context.commonL10n;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.themeScreenTitle)),
       body: ValueListenableBuilder(
         valueListenable: GlobalSettingsScope.of(context).themeModeNotifier,
         builder: (context, themeMode, child) {
           return RadioGroup(
             groupValue: themeMode,
             onChanged: (mode) => onChanged(context, mode: mode),
-            child: ListView(
-              children: const [
-                _Tile(
+            child: CustomScrollView(
+              slivers: [
+                SliverAppBar.medium(title: Text(l10n.themeScreenTitle)),
+                const _SliverTile(
                   themeMode: ThemeMode.system,
                   position: ListItemPosition.first,
                 ),
-                _Tile(
+                const _SliverTile(
                   themeMode: ThemeMode.light,
                   position: ListItemPosition.middle,
                 ),
-                _Tile(
+                const _SliverTile(
                   themeMode: ThemeMode.dark,
                   position: ListItemPosition.last,
                 ),
@@ -43,24 +43,26 @@ final class ThemeSettingsScreen extends StatelessWidget
   }
 }
 
-final class _Tile extends StatelessWidget with _OnThemeChanged {
+final class _SliverTile extends StatelessWidget with _OnThemeChanged {
   final ThemeMode themeMode;
   final ListItemPosition position;
 
-  const _Tile({required this.themeMode, required this.position});
+  const _SliverTile({required this.themeMode, required this.position});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return SettingsItemTile(
-      title: themeMode.getName(context),
-      position: position,
-      trailing: Radio.adaptive(
-        value: themeMode,
-        activeColor: theme.colorScheme.primary,
+    return SliverToBoxAdapter(
+      child: SettingsItemTile(
+        title: themeMode.getName(context),
+        position: position,
+        trailing: Radio.adaptive(
+          value: themeMode,
+          activeColor: theme.colorScheme.primary,
+        ),
+        onTap: () => onChanged(context, mode: themeMode),
       ),
-      onTap: () => onChanged(context, mode: themeMode),
     );
   }
 }

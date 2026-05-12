@@ -44,12 +44,12 @@ final class SettingsItemTile extends StatelessWidget {
     return Column(
       children: [
         if (showSectionTitle && sectionTitle.isNotEmpty)
-          _SectionTitle(sectionTitle: sectionTitle),
+          SectionTitle(sectionTitle: sectionTitle),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: theme.colorScheme.outlineVariant,
+              color: theme.colorScheme.tertiaryContainer,
 
               borderRadius: position.getRadius(),
               border: position.getBorder(
@@ -148,9 +148,9 @@ final class _ButtonContentWithSubtitle extends StatelessWidget {
   }
 }
 
-final class _SectionTitle extends StatelessWidget {
+final class SectionTitle extends StatelessWidget {
   final String sectionTitle;
-  const _SectionTitle({required this.sectionTitle});
+  const SectionTitle({super.key, required this.sectionTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +164,7 @@ final class _SectionTitle extends StatelessWidget {
       ),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text(sectionTitle, style: theme.textTheme.titleMedium),
+        child: Text(sectionTitle, style: theme.textTheme.titleLarge),
       ),
     );
   }
