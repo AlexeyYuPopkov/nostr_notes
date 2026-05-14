@@ -134,10 +134,9 @@ void main() {
 
       final note = await sut1.execute(
         content: 'message',
-        dTag: null,
+        noteToEdit: null,
         now: mockNow,
         uuid: mockUuid,
-        updatedAt: null,
       );
 
       expect(note, isA<Note>());
@@ -176,13 +175,20 @@ void main() {
       await sut3.init();
 
       // 2. Create note -> saves to store + outbox
+      final noteToEdit = Note(
+        eventId: '',
+        dTag: '',
+        content: '',
+        summary: '',
+        createdAt: DateTime(2025),
+        updatedAt: DateTime(2025),
+        labels: [Label.from('work'), Label.from('journal')],
+      );
       final note = await sut1.execute(
         content: 'message',
-        dTag: null,
+        noteToEdit: noteToEdit,
         now: mockNow,
         uuid: mockUuid,
-        updatedAt: null,
-        labels: [Label.from('work'), Label.from('journal')],
       );
 
       expect(note, isA<Note>());
@@ -241,13 +247,20 @@ void main() {
 
       await sut3.init();
 
+      final noteToEdit = Note(
+        eventId: '',
+        dTag: '',
+        content: '',
+        summary: '',
+        createdAt: DateTime(2025),
+        updatedAt: DateTime(2025),
+        labels: [Label.from('work'), Label.from('journal')],
+      );
       final note = await sut1.execute(
         content: 'message',
-        dTag: null,
+        noteToEdit: noteToEdit,
         now: mockNow,
         uuid: mockUuid,
-        updatedAt: null,
-        labels: [Label.from('work'), Label.from('journal')],
       );
 
       expect(note, isA<Note>());

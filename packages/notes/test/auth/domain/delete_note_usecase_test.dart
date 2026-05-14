@@ -246,11 +246,9 @@ void main() {
       // 2. Create a note first (this will also be published)
       final createdNote = await createNoteUsecase.execute(
         content: 'message to delete',
-        dTag: null,
+        noteToEdit: null,
         now: mockNow,
         uuid: mockUuid,
-        updatedAt: null,
-        // randomBytes: SomeMokedData.randomBytes,
       );
 
       // Wait for create to be published

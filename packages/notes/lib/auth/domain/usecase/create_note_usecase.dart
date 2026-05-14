@@ -24,8 +24,42 @@ final class CreateNoteUsecase {
 
   Future<Note> execute({
     required String content,
+    required Note? noteToEdit,
+    Now? now,
+    Uuid? uuid,
+  }) {
+    DateTime nowToUse() => now?.now() ?? DateTime.now();
+
+    return _execute(
+      content: content,
+      dTag: noteToEdit?.dTag,
+      updatedAt: nowToUse(),
+      labels: noteToEdit?.labels.whereType<Label>().toList() ?? [],
+      now: now,
+      uuid: uuid,
+    );
+  }
+
+  Future<Note> assignLabels({
+    required Note note,
+    required List<Label> labels,
+    Now? now,
+    Uuid? uuid,
+  }) {
+    return _execute(
+      content: note.content,
+      dTag: note.dTag,
+      updatedAt: note.updatedAt,
+      labels: labels,
+      now: now,
+      uuid: uuid,
+    );
+  }
+
+  Future<Note> _execute({
+    required String content,
     required String? dTag,
-    required DateTime? updatedAt,
+    required DateTime updatedAt,
     List<Label> labels = const [],
     Now? now,
     Uuid? uuid,
@@ -41,7 +75,7 @@ final class CreateNoteUsecase {
       content: content,
       summary: '',
       createdAt: DateTime.fromMicrosecondsSinceEpoch(0),
-      updatedAt: updatedAt ?? (now?.now() ?? DateTime.now()),
+      updatedAt: updatedAt,
       labels: labels,
     );
 
@@ -63,9 +97,7 @@ final class CreateNoteUsecase {
       labels: encryptedNote.labels,
     );
 
-    final targetNote = result;
-
-    final decryptedNote = await _noteCryptoUseCase.decryptNote(targetNote);
+    final decryptedNote = await _noteCryptoUseCase.decryptNote(result);
 
     return decryptedNote;
   }
