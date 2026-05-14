@@ -89,6 +89,7 @@ final class AppAlertDialog extends StatelessWidget {
     final theme = Theme.of(context);
 
     return AlertDialog(
+      backgroundColor: theme.scaffoldBackgroundColor,
       constraints: BoxConstraints(
         maxWidth: math.min(400, mediaSize.width * 0.9),
       ),
@@ -107,7 +108,7 @@ final class AppAlertDialog extends StatelessWidget {
         right: Sizes.indentVariant2x * 1.25,
       ),
       contentPadding: contentPadding,
-      backgroundColor: theme.colorScheme.surface,
+
       title: Center(child: title),
 
       content: content,

@@ -52,3 +52,6 @@ app.*.map.json
 **/fastlane/.env
 **/fastlane/AuthKey.p8
 /coverage/
+
+# FVM Version Cache
+.fvm/

@@ -1,4 +1,8 @@
-import 'package:common/app/vm/global_settings_vm.dart';
+import 'package:common/app/theme/app_background_colors.dart';
+import 'package:common/data/repo/app_shared_prefs_impl.dart';
+import 'package:common/data/repo/app_theme_data_repo_impl.dart';
+import 'package:common/domain/repo/app_shared_prefs.dart';
+import 'package:common/presentation/theme_settings/global_settings_vm.dart';
 import 'package:common/app/vm/global_settings_scope.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:di_storage/di_storage.dart';
@@ -11,6 +15,7 @@ import 'package:nostr_notes/app/router/app_router.dart';
 import 'package:common/presentation/tools/root_context_provider/root_context_provider.dart';
 import 'package:nostr_notes/services/outbox_publisher.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final _appRouter = AppRouter();
 
@@ -22,20 +27,23 @@ void main() async {
   await Di.instance.bindUnauthModules();
   // HttpOverrides.global = MyHttpOverrides();
   // timeDilation = 4.0;
-  runApp(const App());
+  final prefs = AppSharedPrefsImpl(await SharedPreferences.getInstance());
+  runApp(App(prefs: prefs));
 }
 
 final class App extends StatefulWidget {
-  const App({super.key});
+  final AppSharedPrefs prefs;
+
+  const App({super.key, required this.prefs});
 
   @override
   State<App> createState() => _AppState();
 }
 
 final class _AppState extends State<App> with WidgetsBindingObserver {
-  // late final BlurScreenUsecase _blurScreenUsecase = DiStorage.shared.resolve();
-
-  late final _globalSettingsVm = GlobalSettingsVm();
+  late final _globalSettingsVm = GlobalSettingsVm(
+    appThemeDataRepo: AppThemeDataRepoImpl(widget.prefs),
+  );
 
   @override
   void initState() {
@@ -72,14 +80,27 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return GlobalSettingsScope(
       vm: _globalSettingsVm,
-      child: ValueListenableBuilder(
-        valueListenable: _globalSettingsVm.themeModeNotifier,
-        builder: (context, themeMode, child) {
+      child: ListenableBuilder(
+        listenable: Listenable.merge([
+          _globalSettingsVm.themeModeNotifier,
+          _globalSettingsVm.lightBgIndexNotifier,
+          _globalSettingsVm.darkBgIndexNotifier,
+          _globalSettingsVm.lightCardIndexNotifier,
+          _globalSettingsVm.darkCardIndexNotifier,
+        ]),
+        builder: (context, _) {
+          final vm = _globalSettingsVm;
           return MaterialApp.router(
             onGenerateTitle: (context) => context.l10n.appDisplayName,
-            theme: AppTheme.light,
-            darkTheme: AppTheme.dark,
-            themeMode: themeMode,
+            theme: AppTheme.light(
+              backgroundColor: AppBackgroundColors.light[vm.lightBgIndex],
+              cardColor: AppBackgroundColors.lightCard[vm.lightCardIndex],
+            ),
+            darkTheme: AppTheme.dark(
+              backgroundColor: AppBackgroundColors.dark[vm.darkBgIndex],
+              cardColor: AppBackgroundColors.darkCard[vm.darkCardIndex],
+            ),
+            themeMode: vm.themeMode,
             // locale: , // TODO: implement locale change
             localizationsDelegates: const [
               ...CommonL10n.localizationsDelegates,

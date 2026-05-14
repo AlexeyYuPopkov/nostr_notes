@@ -27,7 +27,6 @@ final class NotesListCard extends StatelessWidget
   final ValueChanged<Note> onTap;
   final ValueChanged<Note> onDelete;
   final void Function(Note, BuildContext) onAssignLabels;
-  // final Stream<Category> Function(Note) getSymbol;
 
   const NotesListCard({
     super.key,
@@ -38,6 +37,7 @@ final class NotesListCard extends StatelessWidget
     required this.onTap,
     required this.onDelete,
     required this.onAssignLabels,
+
     // required this.getSymbol,
   });
 

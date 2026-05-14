@@ -1,3 +1,4 @@
+import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:di_storage/di_storage.dart';
@@ -38,7 +39,10 @@ final class _MobileKeyboardTypeScreenState
         },
         child: CustomScrollView(
           slivers: [
-            SliverAppBar.medium(title: Text(l10n.pinKeyboardTypeScreenTitle)),
+            SliverAppBar.medium(
+              title: Text(l10n.pinKeyboardTypeScreenTitle),
+              toolbarHeight: Sizes.appBarHeight,
+            ),
             SliverList.builder(
               itemCount: PinKeyboardType.values.length,
               itemBuilder: (context, index) {

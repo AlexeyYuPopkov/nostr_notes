@@ -226,6 +226,18 @@ abstract class CommonLocalizations {
   /// **'Dark'**
   String get themeScreenLabelDark;
 
+  /// No description provided for @themeScreenLabelBackground.
+  ///
+  /// In en, this message translates to:
+  /// **'Background'**
+  String get themeScreenLabelBackground;
+
+  /// No description provided for @themeScreenLabelCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards'**
+  String get themeScreenLabelCards;
+
   /// No description provided for @relaysPageTitle.
   ///
   /// In en, this message translates to:

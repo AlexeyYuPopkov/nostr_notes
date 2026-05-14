@@ -1,4 +1,5 @@
 import 'package:common/app/theme/sizes.dart';
+import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
@@ -38,6 +39,7 @@ final class FoldersTabContentVM extends ChangeNotifier {
 
   int getCount({required CategoryType folder}) => _folders[folder]?.length ?? 0;
   List<CategoryType> getFolders() => _folders.keys.toList();
+  CategoryType? get folder => _folder;
 
   void setNotes(List<Note> notes, AppLocalizations l10n) {
     _folders = createFolders(notes);
@@ -99,6 +101,7 @@ final class FoldersTabContent extends StatelessWidget {
   final String? selectedNoteDTag;
   final bool isLoading;
   final ValueChanged<Note> onTap;
+  final SectionScrollVm _scrollSectionsVm;
 
   const FoldersTabContent({
     super.key,
@@ -106,7 +109,8 @@ final class FoldersTabContent extends StatelessWidget {
     required this.selectedNoteDTag,
     required this.isLoading,
     required this.onTap,
-  });
+    required SectionScrollVm scrollSectionsVm,
+  }) : _scrollSectionsVm = scrollSectionsVm;
 
   void _openFolder(BuildContext context, CategoryType folder) {
     vm.setFolder(folder, context.l10n);
@@ -147,6 +151,7 @@ final class FoldersTabContent extends StatelessWidget {
                     sections: vm._sections,
                     onTap: onTap,
                     onBack: () => _closeFolder(context),
+                    scrollSectionsVm: _scrollSectionsVm,
                   ),
                 )
               : KeyedSubtree(
@@ -272,6 +277,7 @@ final class _FolderDetail extends StatelessWidget with LabelsPickerHelper {
   final List<NotesListSection> sections;
   final ValueChanged<Note> onTap;
   final VoidCallback onBack;
+  final SectionScrollVm _scrollSectionsVm;
 
   const _FolderDetail({
     required this.folder,
@@ -280,7 +286,8 @@ final class _FolderDetail extends StatelessWidget with LabelsPickerHelper {
     required this.sections,
     required this.onTap,
     required this.onBack,
-  });
+    required SectionScrollVm scrollSectionsVm,
+  }) : _scrollSectionsVm = scrollSectionsVm;
 
   @override
   Widget build(BuildContext context) {
@@ -310,6 +317,7 @@ final class _FolderDetail extends StatelessWidget with LabelsPickerHelper {
             isLoading: isLoading,
             sections: sections,
             onTap: onTap,
+            scrollSectionsVm: _scrollSectionsVm,
           ),
         ),
       ],

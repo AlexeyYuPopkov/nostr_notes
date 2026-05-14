@@ -83,6 +83,7 @@ dependencies:
   di_storage: ^2.0.1
   local_auth: ^3.0.1
   drift: ^2.32.1
+  url_launcher: ^6.3.2
 
 
   custom_adaptive_scaffold: ^2.0.2

@@ -41,7 +41,7 @@ final class CredentialsDataScreen extends StatelessWidget with DialogHelper {
               slivers: [
                 SliverAppBar.medium(
                   title: Text(l10n.credentialsDataScreenTitle),
-                  toolbarHeight: 56.0,
+                  toolbarHeight: Sizes.appBarHeight,
                 ),
                 SliverToBoxAdapter(
                   child: _Item(

@@ -75,6 +75,12 @@ class CommonLocalizationsEn extends CommonLocalizations {
   String get themeScreenLabelDark => 'Dark';
 
   @override
+  String get themeScreenLabelBackground => 'Background';
+
+  @override
+  String get themeScreenLabelCards => 'Cards';
+
+  @override
   String get relaysPageTitle => 'Select Relays';
 
   @override

@@ -472,11 +472,35 @@ abstract class AppLocalizations {
   /// **'Contacts'**
   String get settingsItemContacts;
 
-  /// No description provided for @settingsItemContactsContentMd.
+  /// No description provided for @settingsItemBuyMeACoffee.
   ///
   /// In en, this message translates to:
-  /// **'### Contacts\n\n- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)\n\n### FAQ\n\n- Forgot PIN? Notes cannot be recovered — PIN is never stored.\n- Lost nsec? Account cannot be restored without private key.'**
-  String get settingsItemContactsContentMd;
+  /// **'Buy me a coffee ☕'**
+  String get settingsItemBuyMeACoffee;
+
+  /// No description provided for @settingsItemContactsLabelContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts'**
+  String get settingsItemContactsLabelContacts;
+
+  /// No description provided for @settingsItemContactsContactsMd.
+  ///
+  /// In en, this message translates to:
+  /// **'- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)'**
+  String get settingsItemContactsContactsMd;
+
+  /// No description provided for @settingsItemContactsLabelFAQ.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ'**
+  String get settingsItemContactsLabelFAQ;
+
+  /// No description provided for @settingsItemContactsMdFaq.
+  ///
+  /// In en, this message translates to:
+  /// **'\n\n- Forgot PIN? Notes cannot be recovered — PIN is never stored.\n- Lost nsec? Account cannot be restored without private key.'**
+  String get settingsItemContactsMdFaq;
 
   /// No description provided for @preferencesScreenItemRelays.
   ///

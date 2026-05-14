@@ -1,7 +1,8 @@
 import 'package:chat/unauth/presentation/onboarding/onboarding_screen.dart';
-import 'package:common/app/vm/global_settings_vm.dart';
+import 'package:common/data/repo/app_theme_data_repo_impl.dart';
+import 'package:common/presentation/theme_settings/global_settings_vm.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import '../../common/test/tools/moks/app_shared_prefs_mock.dart';
 import 'tools/app_launcher/app_launcher.dart';
 
 void main() {
@@ -9,7 +10,9 @@ void main() {
     late GlobalSettingsVm vm;
 
     setUp(() async {
-      vm = GlobalSettingsVm();
+      vm = GlobalSettingsVm(
+        appThemeDataRepo: AppThemeDataRepoImpl(AppSharedPrefsMock()),
+      );
       await AppLauncher.setUp();
       addTearDown(AppLauncher.tearDown);
     });

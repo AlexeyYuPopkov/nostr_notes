@@ -4,16 +4,25 @@ import 'package:common/app/theme/sizes.dart';
 final class NotesListSectionHeader extends StatelessWidget {
   final String title;
   final bool isFirst;
+  final void Function(BuildContext)? onBuildSectionTitle;
 
   const NotesListSectionHeader({
     super.key,
     required this.title,
     this.isFirst = false,
+    this.onBuildSectionTitle,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    if (onBuildSectionTitle != null) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => onBuildSectionTitle?.call(context),
+      );
+    }
+
     return Padding(
       padding: EdgeInsets.only(
         left: Sizes.indent2x,

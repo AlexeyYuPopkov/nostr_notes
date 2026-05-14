@@ -225,8 +225,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsItemContacts => 'Contacts';
 
   @override
-  String get settingsItemContactsContentMd =>
-      '### Contacts\n\n- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)\n\n### FAQ\n\n- Forgot PIN? Notes cannot be recovered — PIN is never stored.\n- Lost nsec? Account cannot be restored without private key.';
+  String get settingsItemBuyMeACoffee => 'Buy me a coffee ☕';
+
+  @override
+  String get settingsItemContactsLabelContacts => 'Contacts';
+
+  @override
+  String get settingsItemContactsContactsMd =>
+      '- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)';
+
+  @override
+  String get settingsItemContactsLabelFAQ => 'FAQ';
+
+  @override
+  String get settingsItemContactsMdFaq =>
+      '\n\n- Forgot PIN? Notes cannot be recovered — PIN is never stored.\n- Lost nsec? Account cannot be restored without private key.';
 
   @override
   String get preferencesScreenItemRelays => 'Connected Relays';

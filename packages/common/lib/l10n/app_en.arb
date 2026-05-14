@@ -21,6 +21,8 @@
     "themeScreenLabelSystem": "System",
     "themeScreenLabelLight": "Light",
     "themeScreenLabelDark": "Dark",
+    "themeScreenLabelBackground": "Background",
+    "themeScreenLabelCards": "Cards",
     "relaysPageTitle": "Select Relays",
     "relaysPageDescription": "Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue",
     "relaysPageAddCustomHint": "wss://...",
