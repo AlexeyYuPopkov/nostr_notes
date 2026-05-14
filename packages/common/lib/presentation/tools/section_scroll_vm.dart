@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 /// [T] - must be hashable to store in Map as key, and comparable to find the best match for current scroll offset.
@@ -9,7 +7,7 @@ final class SectionScrollVm<T> {
   final ValueNotifier<T?> currentItemNotifier = ValueNotifier(null);
 
   final _contentOffsets = <T, double>{};
-  final _additionalControllers = <ScrollController>[];
+  ScrollController? _innerController;
 
   SectionScrollVm({
     required this.scrollController,
@@ -21,24 +19,16 @@ final class SectionScrollVm<T> {
   /// Добавляет дополнительный контроллер скролла (например, inner controller
   /// от [NestedScrollView]), чтобы учитывать суммарный scroll offset.
   void setInnerScrollController(ScrollController controller) {
-    for (final e in _additionalControllers) {
-      e.removeListener(_onScroll);
-    }
-
-    _additionalControllers.clear();
-    _additionalControllers.add(controller);
-
+    _innerController?.removeListener(_onScroll);
+    _innerController = controller;
     controller.addListener(_onScroll);
   }
 
   double get _totalScrollOffset {
-    final primaryOffset = _safeOffset(scrollController);
-    final additionalOffsets = _additionalControllers.fold(
-      0.0,
-      (sum, e) => sum + _safeOffset(e),
-    );
-
-    return primaryOffset + additionalOffsets;
+    final innerOffset = _innerController != null
+        ? _safeOffset(_innerController!)
+        : 0.0;
+    return _safeOffset(scrollController) + innerOffset;
   }
 
   double _safeOffset(ScrollController c) =>
@@ -47,17 +37,11 @@ final class SectionScrollVm<T> {
   /// Записывает позицию секции в координатах контента скролла.
   /// Вызывается через postFrameCallback при каждом rebuild секции.
   void registerSection(T item, BuildContext ctx) {
-    if (!ctx.mounted) {
-      return;
-    }
-    try {
-      final renderObj = ctx.findRenderObject();
-      if (renderObj is! RenderBox || !renderObj.attached) return;
-      final globalY = renderObj.localToGlobal(Offset.zero).dy;
-      _contentOffsets[item] = globalY - appBarHeight + _totalScrollOffset;
-    } catch (e) {
-      log('Error registering section: $e', error: e);
-    }
+    if (!ctx.mounted) return;
+    final renderObj = ctx.findRenderObject();
+    if (renderObj is! RenderBox || !renderObj.attached) return;
+    final globalY = renderObj.localToGlobal(Offset.zero).dy;
+    _contentOffsets[item] = globalY - appBarHeight + _totalScrollOffset;
   }
 
   void _onScroll() {
@@ -73,15 +57,21 @@ final class SectionScrollVm<T> {
         }
       }
     }
-    currentItemNotifier.value = best;
+
+    if (currentItemNotifier.value != best) {
+      currentItemNotifier.value = best;
+    }
+  }
+
+  void clearSections() {
+    _contentOffsets.clear();
+    currentItemNotifier.value = null;
   }
 
   void dispose() {
     scrollController.removeListener(_onScroll);
-    for (final c in _additionalControllers) {
-      c.removeListener(_onScroll);
-    }
-    _additionalControllers.clear();
+    _innerController?.removeListener(_onScroll);
+    _innerController = null;
     currentItemNotifier.dispose();
   }
 }

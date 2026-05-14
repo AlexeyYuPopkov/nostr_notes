@@ -208,6 +208,12 @@ abstract class CommonLocalizations {
   /// **'Theme'**
   String get themeScreenTitle;
 
+  /// No description provided for @themeScreenSectionTitleColorTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Color theme'**
+  String get themeScreenSectionTitleColorTheme;
+
   /// No description provided for @themeScreenLabelSystem.
   ///
   /// In en, this message translates to:

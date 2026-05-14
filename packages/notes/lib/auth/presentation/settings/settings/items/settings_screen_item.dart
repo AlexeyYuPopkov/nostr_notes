@@ -62,7 +62,7 @@ final class SettingsItemPreferences extends SettingsItem {
 
   @override
   String getSectionTitle(BuildContext context) {
-    return context.l10n.settingsScreenSectionSettingsTitle;
+    return context.l10n.settingsItemPreferences;
   }
 
   @override

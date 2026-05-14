@@ -96,7 +96,7 @@ final class RawSettingsItemTile extends StatelessWidget {
         if (showSectionTitle && sectionTitle.isNotEmpty)
           SectionTitle(
             sectionTitle: sectionTitle,
-            onBuild: (ctx) {
+            onChangeDependencies: (ctx) {
               onBuildSectionTitle?.call(ctx);
             },
           ),
@@ -190,31 +190,44 @@ final class _ButtonContentWithSubtitle extends StatelessWidget {
   }
 }
 
-final class SectionTitle extends StatelessWidget {
+final class SectionTitle extends StatefulWidget {
   final String sectionTitle;
-  final void Function(BuildContext)? onBuild;
-  const SectionTitle({super.key, required this.sectionTitle, this.onBuild});
+  final EdgeInsetsGeometry padding;
+  final void Function(BuildContext)? onChangeDependencies;
+  const SectionTitle({
+    super.key,
+    required this.sectionTitle,
+    this.onChangeDependencies,
+    this.padding = const EdgeInsets.all(Sizes.indent2x),
+  });
+
+  @override
+  State<SectionTitle> createState() => _SectionTitleState();
+}
+
+class _SectionTitleState extends State<SectionTitle> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (widget.onChangeDependencies != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && context.mounted) {
+          widget.onChangeDependencies?.call(context);
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    if (onBuild != null) {
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) => onBuild?.call(context),
-      );
-    }
-
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        Sizes.indent2x,
-        Sizes.indent2x,
-        Sizes.indent2x,
-        Sizes.indent2x,
-      ),
+      padding: widget.padding,
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text(sectionTitle, style: theme.textTheme.titleLarge),
+        child: Text(widget.sectionTitle, style: theme.textTheme.titleLarge),
       ),
     );
   }

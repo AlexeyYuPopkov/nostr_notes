@@ -13,44 +13,35 @@ final class ContactsScreen extends StatelessWidget {
     final l10n = context.l10n;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(l10n.settingsItemContacts),
+
+        leading: showAppBarLeading ? null : const SizedBox(),
+      ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
+        padding: const EdgeInsets.symmetric(horizontal: Sizes.zero),
         child: Align(
           alignment: Alignment.topCenter,
-          child: CustomScrollView(
-            slivers: [
-              SliverAppBar.medium(
-                title: Text(l10n.settingsItemContacts),
-                toolbarHeight: Sizes.appBarHeight,
-                leading: showAppBarLeading ? null : const SizedBox(),
-              ),
-
-              //settingsItemContactsLabelContacts
-              SliverToBoxAdapter(
-                child: RawSettingsItemTile(
-                  title: MarkdownScreenContent(
-                    content: l10n.settingsItemContactsContactsMd,
-                  ),
-                  sectionTitle: '',
-                  position: .single,
-                  onTap: null,
+          child: ListView(
+            children: [
+              RawSettingsItemTile(
+                title: MarkdownScreenContent(
+                  padding: const EdgeInsets.all(Sizes.indent2x),
+                  content: l10n.settingsItemContactsContactsMd,
                 ),
+                sectionTitle: '',
+                position: .single,
+                onTap: null,
               ),
-              SliverToBoxAdapter(
-                child: RawSettingsItemTile(
-                  title: MarkdownScreenContent(
-                    content: l10n.settingsItemContactsMdFaq,
-                  ),
-                  sectionTitle: l10n.settingsItemContactsLabelFAQ,
-                  position: .single,
-                  onTap: null,
+              RawSettingsItemTile(
+                title: MarkdownScreenContent(
+                  padding: const EdgeInsets.all(Sizes.indent2x),
+                  content: l10n.settingsItemContactsMdFaq,
                 ),
+                sectionTitle: l10n.settingsItemContactsLabelFAQ,
+                position: .single,
+                onTap: null,
               ),
-              // SliverToBoxAdapter(
-              //   child: MarkdownScreenContent(
-              //     content: l10n.settingsItemContactsMdFaq,
-              //   ),
-              // ),
             ],
           ),
         ),

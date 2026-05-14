@@ -19,19 +19,24 @@ final class MarkdownScreen extends StatelessWidget {
 
 final class MarkdownScreenContent extends StatelessWidget with LinkTapHandler {
   final String content;
-  const MarkdownScreenContent({super.key, required this.content});
+  final EdgeInsetsGeometry padding;
+  const MarkdownScreenContent({
+    super.key,
+    required this.content,
+    this.padding = const EdgeInsets.only(
+      left: Sizes.indent2x,
+      right: Sizes.indent2x,
+      top: Sizes.indent2x,
+      bottom: 2.0 * Sizes.indent4x,
+    ),
+  });
 
   @override
   Widget build(BuildContext context) {
     return SelectionArea(
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(
-            left: Sizes.indent2x,
-            right: Sizes.indent2x,
-            top: Sizes.indent2x,
-            bottom: 2.0 * Sizes.indent4x,
-          ),
+          padding: padding,
           child: GptMarkdownWidget(
             md: content,
             orderedListBuilder: (context, no, child, config) => OrderedListView(

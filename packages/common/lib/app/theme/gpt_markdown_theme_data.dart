@@ -24,6 +24,7 @@ final class AppGptMarkdownTheme extends ThemeExtension<AppGptMarkdownTheme> {
       brightness: Brightness.light,
       data: GptMarkdownThemeData(
         brightness: Brightness.light,
+        autoAddDividerLineAfterH1: false,
         h1: const TextStyle(
           color: onSurface,
           fontSize: TextSizes.headlineExtraLarge,
@@ -44,6 +45,7 @@ final class AppGptMarkdownTheme extends ThemeExtension<AppGptMarkdownTheme> {
         ),
         hrLineColor: const Color(0xFFE0E0E0),
         hrLineThickness: Sizes.thicknessHalf,
+
         linkColor: const Color(0xFF7C43C7),
       ),
       codeBlocColor: const Color.fromARGB(255, 38, 71, 111),

@@ -87,6 +87,7 @@ void main() {
       final darkRadio = find.byWidgetPredicate(
         (w) => w is Radio<ThemeMode> && w.value == ThemeMode.dark,
       );
+      await tester.ensureVisible(darkRadio);
       await tester.tap(darkRadio);
       await tester.pumpAndSettle();
 
@@ -104,16 +105,18 @@ void main() {
       );
 
       // Tap 3-й цвет для тёмной темы
+      // Порядок _ColorSwatchRow в ListView: 0=lightBg, 1=lightCard, 2=darkBg, 3=darkCard
       final darkBgRow = find
           .byWidgetPredicate(
             (w) =>
                 w.runtimeType.toString() == '_ColorSwatchRow' &&
                 w is StatelessWidget,
           )
-          .last;
+          .at(2);
       final darkBgSwatch = find
           .descendant(of: darkBgRow, matching: find.byType(GestureDetector))
           .at(2); // индекс 2 — третий цвет
+      await tester.ensureVisible(darkBgSwatch);
       await tester.tap(darkBgSwatch);
       await tester.pumpAndSettle();
       expect(vm.darkBgIndex, 2);

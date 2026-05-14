@@ -55,6 +55,7 @@ final class DelAccScreen extends StatelessWidget
                     ),
                     child: ListView(
                       children: [
+                        SizedBox(height: Sizes.indent2x),
                         GptMarkdownWidget(
                           md: context
                               .l10n

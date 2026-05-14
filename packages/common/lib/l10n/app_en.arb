@@ -18,6 +18,7 @@
     "commonInfo": "Information",
     "authError": "Authentication error",
     "themeScreenTitle": "Theme",
+    "themeScreenSectionTitleColorTheme": "Color theme",
     "themeScreenLabelSystem": "System",
     "themeScreenLabelLight": "Light",
     "themeScreenLabelDark": "Dark",

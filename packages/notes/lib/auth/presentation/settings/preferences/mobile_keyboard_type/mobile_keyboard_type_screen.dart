@@ -1,4 +1,3 @@
-import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:di_storage/di_storage.dart';
@@ -30,6 +29,7 @@ final class _MobileKeyboardTypeScreenState
     final l10n = context.l10n;
     final theme = Theme.of(context);
     return Scaffold(
+      appBar: AppBar(title: Text(l10n.pinKeyboardTypeScreenTitle)),
       body: RadioGroup(
         groupValue: _selected,
         onChanged: (v) {
@@ -37,29 +37,21 @@ final class _MobileKeyboardTypeScreenState
             _onChanged(v);
           }
         },
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar.medium(
-              title: Text(l10n.pinKeyboardTypeScreenTitle),
-              toolbarHeight: Sizes.appBarHeight,
-            ),
-            SliverList.builder(
-              itemCount: PinKeyboardType.values.length,
-              itemBuilder: (context, index) {
-                final item = PinKeyboardType.values[index];
-                return SettingsItemTile(
-                  title: item.getSectionTitle(l10n),
-                  position: item.position,
-                  sectionTitle: '',
-                  trailing: Radio.adaptive(
-                    value: item,
-                    activeColor: theme.colorScheme.primary,
-                  ),
-                  onTap: () => _onChanged(item),
-                );
-              },
-            ),
-          ],
+        child: ListView.builder(
+          itemCount: PinKeyboardType.values.length,
+          itemBuilder: (context, index) {
+            final item = PinKeyboardType.values[index];
+            return SettingsItemTile(
+              title: item.getSectionTitle(l10n),
+              position: item.position,
+              sectionTitle: '',
+              trailing: Radio.adaptive(
+                value: item,
+                activeColor: theme.colorScheme.primary,
+              ),
+              onTap: () => _onChanged(item),
+            );
+          },
         ),
       ),
     );

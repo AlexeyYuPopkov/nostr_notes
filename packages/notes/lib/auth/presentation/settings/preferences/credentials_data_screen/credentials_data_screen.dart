@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:common/presentation/tools/section_scroll_vm.dart';
+import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,8 +12,40 @@ import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_d
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/common/presentation/widgets/info_text.dart';
 
-final class CredentialsDataScreen extends StatelessWidget with DialogHelper {
+final class CredentialsDataScreen extends StatefulWidget with DialogHelper {
   const CredentialsDataScreen({super.key});
+
+  @override
+  State<CredentialsDataScreen> createState() => _CredentialsDataScreenState();
+}
+
+enum _Section {
+  nsec,
+  privateKey,
+  pubKey,
+  pin;
+
+  String title(Localization l10n) => switch (this) {
+    _Section.nsec => l10n.credentialsDataScreenLabelNsec,
+    _Section.privateKey => l10n.credentialsDataScreenLabelPrivateKey,
+    _Section.pubKey => l10n.credentialsDataScreenLabelPubKey,
+    _Section.pin => l10n.credentialsDataScreenLabelPin,
+  };
+}
+
+final class _CredentialsDataScreenState extends State<CredentialsDataScreen>
+    with DialogHelper {
+  final scrollController = ScrollController();
+  late final _vm = SectionScrollVm<_Section>(
+    scrollController: scrollController,
+  );
+
+  @override
+  void dispose() {
+    _vm.dispose();
+    scrollController.dispose();
+    super.dispose();
+  }
 
   void _listener(BuildContext context, CredentialsDataState state) {
     switch (state) {
@@ -34,63 +68,53 @@ final class CredentialsDataScreen extends StatelessWidget with DialogHelper {
         builder: (context, state) {
           final l10n = context.l10n;
           return Scaffold(
-            // appBar: AppBar(
-            //   title: Text(context.l10n.credentialsDataScreenTitle),
-            // ),
-            body: CustomScrollView(
-              slivers: [
-                SliverAppBar.medium(
-                  title: Text(l10n.credentialsDataScreenTitle),
-                  toolbarHeight: Sizes.appBarHeight,
+            appBar: AppBar(
+              title: ValueListenableBuilder(
+                valueListenable: _vm.currentItemNotifier,
+                builder: (context, value, _) => Text(
+                  value == null
+                      ? l10n.credentialsDataScreenTitle
+                      : value.title(l10n),
                 ),
-                SliverToBoxAdapter(
-                  child: _Item(
-                    title: context.l10n.credentialsDataScreenLabelNsec,
-                    value: state.data.nsec,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: Sizes.indent2x,
-                    ),
+              ),
+
+              // title: Text(l10n.credentialsDataScreenTitle),
+            ),
+
+            body: ListView(
+              controller: _vm.scrollController,
+              children: [
+                _Item(
+                  title: _Section.nsec.title(l10n),
+                  value: state.data.nsec,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: Sizes.indent2x,
                   ),
+                  onChangeDependencies: (ctx) =>
+                      _vm.registerSection(.nsec, ctx),
                 ),
-                SliverToBoxAdapter(
-                  child: InfoText(
-                    text: context.l10n.credentialsDataScreenWarningNsec,
-                  ),
+                InfoText(text: l10n.credentialsDataScreenWarningNsec),
+                _Item(
+                  title: _Section.privateKey.title(l10n),
+                  value: state.data.privateKey,
+                  onChangeDependencies: (ctx) =>
+                      _vm.registerSection(.privateKey, ctx),
                 ),
-                SliverToBoxAdapter(
-                  child: _Item(
-                    title: context.l10n.credentialsDataScreenLabelPrivateKey,
-                    value: state.data.privateKey,
-                  ),
+                InfoText(text: l10n.credentialsDataScreenWarningPrivateKey),
+                _Item(
+                  title: _Section.pubKey.title(l10n),
+                  value: state.data.pubkey,
+                  secure: false,
+                  onChangeDependencies: (ctx) =>
+                      _vm.registerSection(.pubKey, ctx),
                 ),
-                SliverToBoxAdapter(
-                  child: InfoText(
-                    text: context.l10n.credentialsDataScreenWarningPrivateKey,
-                  ),
+                InfoText(text: l10n.credentialsDataScreenInfoPubKey),
+                _Item(
+                  title: _Section.pin.title(l10n),
+                  value: state.data.pin,
+                  onChangeDependencies: (ctx) => _vm.registerSection(.pin, ctx),
                 ),
-                SliverToBoxAdapter(
-                  child: _Item(
-                    title: context.l10n.credentialsDataScreenLabelPubKey,
-                    value: state.data.pubkey,
-                    secure: false,
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: InfoText(
-                    text: context.l10n.credentialsDataScreenInfoPubKey,
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: _Item(
-                    title: context.l10n.credentialsDataScreenLabelPin,
-                    value: state.data.pin,
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: InfoText(
-                    text: context.l10n.credentialsDataScreenWarningPin,
-                  ),
-                ),
+                InfoText(text: l10n.credentialsDataScreenWarningPin),
               ],
             ),
           );
@@ -105,6 +129,7 @@ final class _Item extends StatefulWidget {
   final String value;
   final bool secure;
   final EdgeInsets padding;
+  final void Function(BuildContext)? onChangeDependencies;
 
   const _Item({
     required this.title,
@@ -115,6 +140,7 @@ final class _Item extends StatefulWidget {
       right: Sizes.indent2x,
       top: Sizes.indent2x,
     ),
+    this.onChangeDependencies,
   });
 
   @override
@@ -164,11 +190,16 @@ final class _ItemState extends State<_Item> {
         mainAxisSize: .min,
         crossAxisAlignment: .start,
         children: [
-          Text(
-            widget.title,
-            style: theme.textTheme.titleMedium,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+          // Text(
+          //   widget.title,
+          //   style: theme.textTheme.titleMedium,
+          //   maxLines: 1,
+          //   overflow: TextOverflow.ellipsis,
+          // ),
+          SectionTitle(
+            sectionTitle: widget.title,
+            padding: EdgeInsets.symmetric(vertical: Sizes.indent2x),
+            onChangeDependencies: widget.onChangeDependencies,
           ),
           const SizedBox(height: Sizes.indent),
           TextFormField(

@@ -99,8 +99,12 @@ final class AppTheme {
     Color backgroundColor = const Color(0xFF000000),
     Color cardColor = const Color(0xFF3A3A3C),
   }) {
+    final outline = _outlineFromCardColor(cardColor);
     return ThemeData(
-      colorScheme: AppColorScheme.dark.copyWith(tertiaryContainer: cardColor),
+      colorScheme: AppColorScheme.dark.copyWith(
+        tertiaryContainer: cardColor,
+        outline: outline,
+      ),
       useMaterial3: true,
       scaffoldBackgroundColor: backgroundColor,
       appBarTheme: AppBarTheme(
@@ -180,5 +184,12 @@ final class AppTheme {
         AppGptMarkdownTheme.dark(),
       ],
     );
+  }
+
+  static Color _outlineFromCardColor(Color cardColor) {
+    const lightnessStep = 0.18;
+    final hsl = HSLColor.fromColor(cardColor);
+    final lightness = (hsl.lightness + lightnessStep).clamp(0.0, 1.0);
+    return hsl.withLightness(lightness).toColor();
   }
 }

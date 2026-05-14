@@ -22,7 +22,8 @@ sealed class PreferencesItem {
   const PreferencesItem();
 
   String getTitle(BuildContext context);
-  String getSectionTitle(BuildContext context) => '';
+  String getSectionTitle(BuildContext context) =>
+      context.l10n.settingsItemPreferences;
 
   FutureOr<dynamic> onTap(BuildContext context);
 
@@ -51,11 +52,6 @@ final class ThemePreferencesItem extends PreferencesItem {
 
   @override
   ListItemPosition get position => .first;
-
-  @override
-  String getSectionTitle(BuildContext context) {
-    return context.l10n.settingsItemPreferences;
-  }
 }
 
 final class RelaysList extends PreferencesItem {

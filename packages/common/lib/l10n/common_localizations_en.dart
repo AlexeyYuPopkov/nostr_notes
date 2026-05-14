@@ -66,6 +66,9 @@ class CommonLocalizationsEn extends CommonLocalizations {
   String get themeScreenTitle => 'Theme';
 
   @override
+  String get themeScreenSectionTitleColorTheme => 'Color theme';
+
+  @override
   String get themeScreenLabelSystem => 'System';
 
   @override

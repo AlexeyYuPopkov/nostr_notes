@@ -16,6 +16,7 @@ final class FoldersTabContentVM extends ChangeNotifier {
   Map<CategoryType, List<Note>> _folders;
   CategoryType? _folder;
   List<NotesListSection> _sections;
+  List<NotesListSection> get sections => _sections;
 
   FoldersTabContentVM._({
     required List<NotesListSection> sections,
@@ -113,10 +114,12 @@ final class FoldersTabContent extends StatelessWidget {
   }) : _scrollSectionsVm = scrollSectionsVm;
 
   void _openFolder(BuildContext context, CategoryType folder) {
+    _scrollSectionsVm.clearSections();
     vm.setFolder(folder, context.l10n);
   }
 
   void _closeFolder(BuildContext context) {
+    _scrollSectionsVm.clearSections();
     vm.setFolder(null, context.l10n);
   }
 
@@ -148,7 +151,7 @@ final class FoldersTabContent extends StatelessWidget {
                     folder: folder,
                     selectedNoteDTag: selectedNoteDTag,
                     isLoading: isLoading,
-                    sections: vm._sections,
+                    sections: vm.sections,
                     onTap: onTap,
                     onBack: () => _closeFolder(context),
                     scrollSectionsVm: _scrollSectionsVm,

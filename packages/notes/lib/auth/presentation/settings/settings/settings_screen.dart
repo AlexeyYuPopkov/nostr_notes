@@ -5,10 +5,11 @@ import 'package:nostr_notes/auth/presentation/settings/settings/bloc/settings_sc
 import 'package:nostr_notes/auth/presentation/settings/settings/bloc/settings_screen_state.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
+import 'package:nostr_notes/l10n/localization.dart';
 
 import 'items/settings_screen_item.dart';
 
-final class SettingsScreen extends StatefulWidget {
+final class SettingsScreen extends StatefulWidget with DialogHelper {
   const SettingsScreen({super.key});
 
   @override
@@ -42,6 +43,7 @@ final class _SettingsScreenState extends State<SettingsScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final onBack = Scaffold.of(context).closeEndDrawer;
     return Scaffold(
       appBar: AppBar(
@@ -51,7 +53,7 @@ final class _SettingsScreenState extends State<SettingsScreen>
           valueListenable: _vm.currentItemNotifier,
           builder: (context, value, child) {
             return value == null
-                ? SizedBox()
+                ? Text(l10n.settingsScreenSectionSettingsTitle)
                 : Text(value.getSectionTitle(context));
           },
         ),
