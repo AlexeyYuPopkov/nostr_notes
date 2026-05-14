@@ -1,8 +1,9 @@
+import 'package:common/domain/model/relay_info.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
-import 'package:nostr_notes/auth/domain/usecase/get_relays_usecase.dart';
+import 'package:common/domain/repo/relays_list_repo.dart';
+import 'package:common/domain/usecases/get_relays_usecase.dart';
 import 'package:common/presentation/buttons/prymary_button.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -102,17 +103,22 @@ final class OnboardingRelaysBloc
   }
 
   void _onAddEvent(OnAddEvent event, Emitter<OnboardingRelaysState> emit) {
-    final selectedRelays = {...data.selectedRelays, event.relay};
+    try {
+      final relay = RelayInfo(url: Uri.parse(event.urlStr));
+      final selectedRelays = {...data.selectedRelays, relay};
 
-    emit(
-      OnboardingRelaysState.common(
-        data: data.copyWith(
-          relays: data.relays.any((r) => r.url == event.relay.url)
-              ? null
-              : [...data.relays, event.relay],
-          selectedRelays: selectedRelays,
+      emit(
+        OnboardingRelaysState.common(
+          data: data.copyWith(
+            relays: data.relays.any((r) => r.url == relay.url)
+                ? null
+                : [...data.relays, relay],
+            selectedRelays: selectedRelays,
+          ),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      emit(OnboardingRelaysState.error(e: e, data: data));
+    }
   }
 }

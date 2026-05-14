@@ -2,7 +2,7 @@
 
 # 2026-03-16 08:36:22Z
 
-<!-- copilotide Session 924e0aac-1134-4cfc-b75a-2466d26087bf (2026-03-16 08:36:22Z) -->
+<!-- VS Code Copilot IDE Session 924e0aac-1134-4cfc-b75a-2466d26087bf (2026-03-16 08:36:22Z) -->
 
 _**User (2026-03-16 08:36:22Z)**_
 

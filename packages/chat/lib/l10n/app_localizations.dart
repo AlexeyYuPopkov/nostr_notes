@@ -160,6 +160,12 @@ abstract class AppLocalizations {
   /// **'Get Started'**
   String get onboardingWelcomeButtonNext;
 
+  /// No description provided for @onboardingWelcomeButtonHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get onboardingWelcomeButtonHelp;
+
   /// No description provided for @onboardingSignUpPageTitle.
   ///
   /// In en, this message translates to:

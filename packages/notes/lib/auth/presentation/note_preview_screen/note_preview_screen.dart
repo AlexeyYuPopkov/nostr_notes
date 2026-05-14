@@ -173,7 +173,6 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return BlocProvider(
       create: (context) => NotePreviewBloc(pathParams: widget.pathParams),
       child: BlocConsumer<NotePreviewBloc, NotePreviewState>(
@@ -191,7 +190,6 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
               final isEnabled = note != null && state is! CannotDecryptState;
 
               return Scaffold(
-                backgroundColor: theme.colorScheme.surface,
                 appBar: AppBar(
                   actions: [
                     if (const AppPlatform().isDesktopLayout)

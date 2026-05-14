@@ -1,28 +1,48 @@
+import 'package:common/app/theme/app_background_colors.dart';
 import 'package:common/app/vm/global_settings_scope.dart';
-import 'package:common/app/vm/global_settings_vm.dart';
+import 'package:common/data/repo/app_theme_data_repo_impl.dart';
+import 'package:common/presentation/theme_settings/global_settings_vm.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/app_theme.dart';
 import 'package:common/presentation/tools/root_context_provider/root_context_provider.dart';
-
-final globalSettingsVm = GlobalSettingsVm();
+import '../../../../common/test/tools/moks/app_shared_prefs_mock.dart';
 
 final class AppLauncher {
   static Widget launchApp({
     required Widget child,
     required WidgetTester tester,
   }) {
+    final globalSettingsVm = GlobalSettingsVm(
+      appThemeDataRepo: AppThemeDataRepoImpl(AppSharedPrefsMock()),
+    );
     return GlobalSettingsScope(
       vm: globalSettingsVm,
-      child: ValueListenableBuilder(
-        valueListenable: globalSettingsVm.themeModeNotifier,
-        builder: (context, themeMode, _) => MaterialApp(
+      child: ListenableBuilder(
+        listenable: Listenable.merge([
+          globalSettingsVm.themeModeNotifier,
+          globalSettingsVm.lightBgIndexNotifier,
+          globalSettingsVm.darkBgIndexNotifier,
+          globalSettingsVm.lightCardIndexNotifier,
+          globalSettingsVm.darkCardIndexNotifier,
+        ]),
+        builder: (context, _) => MaterialApp(
           onGenerateTitle: (context) => context.l10n.appDisplayName,
-          theme: AppTheme.light,
-          darkTheme: AppTheme.dark,
-          themeMode: themeMode,
+          theme: AppTheme.light(
+            backgroundColor:
+                AppBackgroundColors.light[globalSettingsVm.lightBgIndex],
+            cardColor:
+                AppBackgroundColors.lightCard[globalSettingsVm.lightCardIndex],
+          ),
+          darkTheme: AppTheme.dark(
+            backgroundColor:
+                AppBackgroundColors.dark[globalSettingsVm.darkBgIndex],
+            cardColor:
+                AppBackgroundColors.darkCard[globalSettingsVm.darkCardIndex],
+          ),
+          themeMode: globalSettingsVm.themeMode,
           localizationsDelegates: const [
             ...Localization.localizationsDelegates,
             ...CommonL10n.localizationsDelegates,

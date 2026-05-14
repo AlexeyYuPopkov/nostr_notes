@@ -1,3 +1,4 @@
+import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,8 +30,13 @@ sealed class NotesListTab extends Equatable
 final class TabParams extends Equatable {
   final String? selectedNoteDTag;
   final ValueChanged<Note> onTap;
+  final SectionScrollVm _scrollSectionsVm;
 
-  const TabParams({required this.selectedNoteDTag, required this.onTap});
+  const TabParams({
+    required this.selectedNoteDTag,
+    required this.onTap,
+    required SectionScrollVm scrollSectionsVm,
+  }) : _scrollSectionsVm = scrollSectionsVm;
 
   @override
   List<Object?> get props => [selectedNoteDTag];
@@ -51,6 +57,7 @@ final class AllNotesTab extends NotesListTab {
           isLoading: state is LoadingState,
           sections: state.data.sections,
           onTap: params.onTap,
+          scrollSectionsVm: params._scrollSectionsVm,
         );
       },
     );
@@ -79,6 +86,7 @@ final class FoldersTab extends NotesListTab {
           selectedNoteDTag: params.selectedNoteDTag,
           isLoading: state is LoadingState,
           onTap: params.onTap,
+          scrollSectionsVm: params._scrollSectionsVm,
         );
       },
     );

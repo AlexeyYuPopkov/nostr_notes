@@ -1,5 +1,6 @@
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
+import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
@@ -15,18 +16,20 @@ import 'package:nostr_notes/common/presentation/layout/breakpoints.dart';
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 
 final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
+  final String? selectedNoteDTag;
+  final bool isLoading;
+  final List<NotesListSection> sections;
+  final ValueChanged<Note> onTap;
+  final SectionScrollVm _scrollSectionsVm;
+
   const AllTabContent({
     super.key,
     required this.selectedNoteDTag,
     required this.isLoading,
     required this.sections,
     required this.onTap,
-  });
-
-  final String? selectedNoteDTag;
-  final bool isLoading;
-  final List<NotesListSection> sections;
-  final ValueChanged<Note> onTap;
+    required SectionScrollVm scrollSectionsVm,
+  }) : _scrollSectionsVm = scrollSectionsVm;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +62,8 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
                 return NotesListSectionHeader(
                   title: section.title,
                   isFirst: index == 0,
+                  onBuildSectionTitle: (ctx) =>
+                      _scrollSectionsVm.registerSection(section, ctx),
                 );
               } else if (section is NotesListItem) {
                 final isSelected = section.note.dTag == selectedNoteDTag;

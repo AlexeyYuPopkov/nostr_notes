@@ -6,6 +6,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nostr/model/user_keys.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
@@ -15,7 +16,6 @@ import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
-import 'package:nostr_notes/common/domain/model/session/user_keys.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:common/services/event_store/database/app_database.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
@@ -34,59 +34,6 @@ import '../../tools/some_moked_data.dart';
 class MockChannelFactory extends Mock implements ChannelFactory {}
 
 class MockUuid extends Mock implements Uuid {}
-
-// class MockCryptoRepo implements CryptoService {
-//   @override
-//   Future<String> decryptNip44({
-//     required String payload,
-//     required Uint8List conversationKey,
-//   }) async {
-//     return 'message';
-//   }
-
-//   @override
-//   Future<Uint8List> deriveKeysAsync({
-//     required String senderPrivateKey,
-//     required String recipientPublicKey,
-//     Future<Uint8List> Function(Uint8List p1)? extraDerivation,
-//   }) async {
-//     return Uint8List.fromList(List<int>.generate(32, (i) => i));
-//   }
-
-//   @override
-//   Future<String> encryptNip44({
-//     required String plaintext,
-//     required Uint8List conversationKey,
-//     Uint8List? customNonce,
-//   }) async {
-//     return 'encrypted-message';
-//   }
-
-//   @override
-//   FutureOr<void> init() {}
-
-//   @override
-//   Uint8List spec256k1({
-//     required Uint8List senderPrivateKey,
-//     required Uint8List recipientPublicKey,
-//   }) => throw UnimplementedError();
-
-//   @override
-//   Future<Uint8List> spec256k1Async({
-//     required Uint8List senderPrivateKey,
-//     required Uint8List recipientPublicKey,
-//   }) {
-//     return Future(
-//       () => spec256k1(
-//         senderPrivateKey: senderPrivateKey,
-//         recipientPublicKey: recipientPublicKey,
-//       ),
-//     );
-//   }
-
-//   @override
-//   Future<void> dispose() => Future.value();
-// }
 
 class MockExtraDerivation implements ExtraDerivation {
   @override
@@ -187,10 +134,9 @@ void main() {
 
       final note = await sut1.execute(
         content: 'message',
-        dTag: null,
+        noteToEdit: null,
         now: mockNow,
         uuid: mockUuid,
-        updatedAt: null,
       );
 
       expect(note, isA<Note>());
@@ -229,13 +175,20 @@ void main() {
       await sut3.init();
 
       // 2. Create note -> saves to store + outbox
+      final noteToEdit = Note(
+        eventId: '',
+        dTag: '',
+        content: '',
+        summary: '',
+        createdAt: DateTime(2025),
+        updatedAt: DateTime(2025),
+        labels: [Label.from('work'), Label.from('journal')],
+      );
       final note = await sut1.execute(
         content: 'message',
-        dTag: null,
+        noteToEdit: noteToEdit,
         now: mockNow,
         uuid: mockUuid,
-        updatedAt: null,
-        labels: [Label.from('work'), Label.from('journal')],
       );
 
       expect(note, isA<Note>());
@@ -294,13 +247,20 @@ void main() {
 
       await sut3.init();
 
+      final noteToEdit = Note(
+        eventId: '',
+        dTag: '',
+        content: '',
+        summary: '',
+        createdAt: DateTime(2025),
+        updatedAt: DateTime(2025),
+        labels: [Label.from('work'), Label.from('journal')],
+      );
       final note = await sut1.execute(
         content: 'message',
-        dTag: null,
+        noteToEdit: noteToEdit,
         now: mockNow,
         uuid: mockUuid,
-        updatedAt: null,
-        labels: [Label.from('work'), Label.from('journal')],
       );
 
       expect(note, isA<Note>());

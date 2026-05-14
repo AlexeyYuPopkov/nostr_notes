@@ -1,5 +1,5 @@
-import 'package:nostr_notes/auth/data/relays_list_repo_impl.dart';
-import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
+import 'package:common/domain/usecases/relays_list_repo_impl.dart';
+import 'package:common/domain/repo/relays_list_repo.dart';
 import 'package:rxdart/subjects.dart';
 
 class MockRelaysListRepo implements RelaysListRepo {

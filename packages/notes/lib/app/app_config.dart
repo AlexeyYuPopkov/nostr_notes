@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:nostr/model/tag/tag_value.dart';
 
 final class AppConfig {
+  static const kKofiUrl = 'https://ko-fi.com/alekseiipopkov';
   static const kUsesInMemoryStorage = bool.fromEnvironment(
     'IN_MEMORY_STORAGE',
     defaultValue: false,

@@ -10,6 +10,7 @@
     "onboardingWelcomePageOptionMD3": "🌐 **Delivered** via Nostr relays",
     "onboardingWelcomePageOptionMD4": "🔑 **Access** with your **nsec** key",
     "onboardingWelcomeButtonNext": "Get Started",
+    "onboardingWelcomeButtonHelp": "Help",
     "onboardingSignUpPageTitle": "Sign Up with Nostr",
     "onboardingSignUpPageSubtitle": "What is Nostr?",
     "onboardingSignUpPageDescription": "Nostr is a decentralized network designed for secure and censorship-resistant communication. Unlike traditional platforms, Nostr doesn't rely on centralized servers—your identity and data belong to you.",

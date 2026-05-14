@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
 import 'package:nostr_notes/common/domain/repository/biometric_repository.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
-import 'package:nostr_notes/core/tools/disposable.dart';
+import 'package:common/tools/disposable.dart';
 
 final class VerificationUsecase implements Disposable {
   static const defaultMaxInactiveDuration = Duration(seconds: 5);
@@ -49,9 +49,16 @@ final class VerificationUsecase implements Disposable {
           isActive: isActive,
           biometryRequest: biometryRequest,
         ).map((value) {
+          // Preserve explicit Deny from biometry failure — even if session was
+          // restored to Unauth, the lock overlay must stay visible.
+          if (value == const Verification.deny()) {
+            return const Verification.deny();
+          }
           final isLocked = !_authUsecase.currentSession.isUnlocked;
           return _isActive
-              ? value
+              ? isLocked
+                    ? const Verification.allow()
+                    : value
               : isLocked
               ? const Verification.allow()
               : const Verification.deny();

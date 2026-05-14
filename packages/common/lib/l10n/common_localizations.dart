@@ -208,6 +208,12 @@ abstract class CommonLocalizations {
   /// **'Theme'**
   String get themeScreenTitle;
 
+  /// No description provided for @themeScreenSectionTitleColorTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Color theme'**
+  String get themeScreenSectionTitleColorTheme;
+
   /// No description provided for @themeScreenLabelSystem.
   ///
   /// In en, this message translates to:
@@ -225,6 +231,78 @@ abstract class CommonLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get themeScreenLabelDark;
+
+  /// No description provided for @themeScreenLabelBackground.
+  ///
+  /// In en, this message translates to:
+  /// **'Background'**
+  String get themeScreenLabelBackground;
+
+  /// No description provided for @themeScreenLabelCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards'**
+  String get themeScreenLabelCards;
+
+  /// No description provided for @relaysPageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Relays'**
+  String get relaysPageTitle;
+
+  /// No description provided for @relaysPageDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue'**
+  String get relaysPageDescription;
+
+  /// No description provided for @relaysPageAddCustomHint.
+  ///
+  /// In en, this message translates to:
+  /// **'wss://...'**
+  String get relaysPageAddCustomHint;
+
+  /// No description provided for @relaysPageAddButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get relaysPageAddButton;
+
+  /// No description provided for @relaysPageCheckButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Check'**
+  String get relaysPageCheckButton;
+
+  /// No description provided for @relaysPageErrorSelectAtLeastOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least one relay'**
+  String get relaysPageErrorSelectAtLeastOne;
+
+  /// No description provided for @relaysPageErrorInvalidRelayUrlEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'URL cannot be empty'**
+  String get relaysPageErrorInvalidRelayUrlEmpty;
+
+  /// No description provided for @relaysPageErrorInvalidUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'URL must start with wss:// or ws://'**
+  String get relaysPageErrorInvalidUrl;
+
+  /// No description provided for @relaysPageErrorInvalidRelayAddressFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid relay address format'**
+  String get relaysPageErrorInvalidRelayAddressFormat;
+
+  /// No description provided for @relaysPageErrorFailedToConnectToRelay.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to connect to relay {url}'**
+  String relaysPageErrorFailedToConnectToRelay(String url);
 
   /// No description provided for @rawEventScreenTitle.
   ///

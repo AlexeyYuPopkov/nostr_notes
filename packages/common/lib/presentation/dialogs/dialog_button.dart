@@ -46,6 +46,7 @@ final class DialogTextButton extends StatelessWidget {
 
     return CupertinoButton(
       onPressed: onPressed,
+
       child: Text(
         text,
         style: theme.textTheme.titleMedium?.copyWith(

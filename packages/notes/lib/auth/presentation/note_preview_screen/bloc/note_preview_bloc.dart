@@ -150,10 +150,11 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   ) async {
     try {
       final labels = event.labels.map(Label.fromCategoryType).toList();
-      await _createNoteUsecase.execute(
-        content: event.note.content,
-        dTag: event.note.dTag,
-        updatedAt: event.note.updatedAt,
+      await _createNoteUsecase.assignLabels(
+        note: event.note,
+        // content: event.note.content,
+        // dTag: event.note.dTag,
+        // updatedAt: event.note.updatedAt,
         labels: labels,
       );
     } catch (e) {

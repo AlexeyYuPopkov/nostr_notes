@@ -62,7 +62,6 @@ final class EditMarkdownNoteScreen extends StatelessWidget with DialogHelper {
         builder: (context, state) {
           final bloc = context.read<MarkdownEditNoteBloc>();
           return Scaffold(
-            backgroundColor: theme.colorScheme.surface,
             appBar: AppBar(
               actions: const [
                 _SaveButton(),

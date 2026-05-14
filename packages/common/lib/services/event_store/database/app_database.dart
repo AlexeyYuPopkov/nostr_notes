@@ -2,7 +2,6 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
 import 'daos/nostr_event_dao.dart';
-import 'daos/note_class_probabilities_dao.dart';
 import 'daos/outbox_dao.dart';
 import 'tables/nostr_event_relays.dart';
 import 'tables/nostr_events.dart';
@@ -20,7 +19,7 @@ part 'app_database.g.dart';
     OutboxEvents,
     NoteClassProbabilities,
   ],
-  daos: [NostrEventDao, OutboxDao, NoteClassProbabilitiesDao],
+  daos: [NostrEventDao, OutboxDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());

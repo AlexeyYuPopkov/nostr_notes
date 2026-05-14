@@ -1,12 +1,12 @@
+import 'package:common/domain/repo/secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:fake_async/fake_async.dart';
 import 'package:nostr_notes/unauth/domain/blur_screen_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
-import 'package:nostr_notes/common/domain/repository/secure_storage.dart';
-import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
-import 'package:nostr_notes/common/data/key_tool_repository_impl.dart';
+import 'package:common/domain/repo/relays_list_repo.dart';
+import 'package:common/data/repo/key_tool_repository_impl.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 
 class MockSecureStorage extends Mock implements SecureStorage {}
@@ -38,31 +38,6 @@ void main() {
     nowProvider = NowMock(() => now);
     sut = BlurScreenUsecase(authUsecase: authUsecase, now: nowProvider);
   });
-
-  // test('onBackground after blurDelay -> blured', () {
-  //   fakeAsync((async) {
-  //     expect(sut.currentState, BlurScreenState.unlocked);
-  //     sut.onBackground();
-  //     async.elapse(
-  //       BlurScreenUsecase.blurDelay - const Duration(milliseconds: 1),
-  //     );
-  //     expect(sut.currentState, BlurScreenState.unlocked);
-  //     async.elapse(const Duration(milliseconds: 1));
-  //     expect(sut.currentState, BlurScreenState.blured);
-  //   });
-  // });
-
-  // test('onForeground befire blurDelay -> no blur', () async {
-  //   fakeAsync((async) {
-  //     sut.onBackground();
-  //     async.elapse(
-  //       BlurScreenUsecase.blurDelay - const Duration(milliseconds: 1),
-  //     );
-  //     sut.onForeground();
-  //     async.elapse(const Duration(seconds: 1));
-  //     expect(sut.currentState, BlurScreenState.unlocked);
-  //   });
-  // });
 
   test('onForeground after validTill -> restore & locked', () async {
     fakeAsync((async) {

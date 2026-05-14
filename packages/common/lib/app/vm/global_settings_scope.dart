@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'global_settings_vm.dart';
+import '../../presentation/theme_settings/global_settings_vm.dart';
 
 class GlobalSettingsScope extends InheritedWidget {
   const GlobalSettingsScope({

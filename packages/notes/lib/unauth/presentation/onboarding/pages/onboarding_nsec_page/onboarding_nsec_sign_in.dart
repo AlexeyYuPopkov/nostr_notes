@@ -1,4 +1,5 @@
 import 'package:common/l10n/localization.dart';
+import 'package:common/presentation/widgets/onboarding_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,7 +13,6 @@ import 'package:nostr_notes/unauth/presentation/onboarding/validators/nsec_valid
 
 import '../../bloc/onboarding_screen_bloc.dart';
 import '../../bloc/onboarding_screen_event.dart';
-import '../../widgets/onboarding_text_field.dart';
 
 final class OnboardingNsecSignIn extends StatefulWidget {
   static final _formKey = GlobalKey<FormState>(

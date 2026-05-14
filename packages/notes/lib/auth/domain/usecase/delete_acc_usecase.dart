@@ -1,6 +1,6 @@
 import 'package:nostr/nostr_client/publish_event_report.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
-import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
+import 'package:common/domain/repo/relays_list_repo.dart';
 import 'package:common/domain/error/app_error.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';

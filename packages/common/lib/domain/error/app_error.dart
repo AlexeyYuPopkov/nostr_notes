@@ -21,6 +21,12 @@ abstract class AppError implements Exception {
     String reason,
   }) = CommonError;
 
+  static AppError custom<T>({
+    required T payload,
+    Object? parentError,
+    String reason = '',
+  }) => CustomError(payload: payload, parentError: parentError, reason: reason);
+
   const factory AppError.undefined({Object? parentError, String reason}) =
       UndefinedError;
 
@@ -69,4 +75,27 @@ final class NotUnlockedError extends AppError {
 
   @override
   String get message => ErrorMessagesProvider.defaultProvider.authError;
+}
+
+final class CustomError<T> extends AppError {
+  final T payload;
+
+  final String _message;
+
+  @override
+  String get message => _message;
+
+  const CustomError({
+    required this.payload,
+    super.parentError,
+    super.reason,
+    String message = '',
+  }) : _message = message;
+
+  CustomError<T> copyWithMessage(String message) => CustomError<T>(
+    payload: payload,
+    parentError: parentError,
+    reason: reason,
+    message: message,
+  );
 }
