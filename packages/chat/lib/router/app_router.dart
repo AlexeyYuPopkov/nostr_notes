@@ -6,10 +6,6 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
     AutoRoute(page: OnboardingRoute.page, initial: true),
+    AutoRoute(page: HomeRoute.page),
   ];
 }
-
-// @AutoRoute()
-// class OnboardingScreenRoute extends AutoRoute {
-//   const OnboardingScreenRoute();
-// }

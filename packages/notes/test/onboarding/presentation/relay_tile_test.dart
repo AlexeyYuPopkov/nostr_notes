@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr_notes/common/domain/model/relay_health.dart';
-import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/widgets/relay_tile.dart';
+import 'package:common/presentation/widgets/relay_tile.dart';
 
 import '../../tools/mock_wschannel.dart';
 

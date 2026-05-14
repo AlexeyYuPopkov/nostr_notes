@@ -1,4 +1,4 @@
-import 'package:nostr_notes/common/domain/repository/secure_storage.dart';
+import 'package:common/domain/repo/secure_storage.dart';
 
 class MockSecureStorage implements SecureStorage {
   late final Map<String, String> _storage = {};

@@ -36,16 +36,20 @@ mixin DialogHelper {
         final theme = Theme.of(context);
 
         return AppAlertDialog(
+          contentPadding: const EdgeInsets.all(Sizes.indent2x),
           title: Text(
             title,
             style: theme.textTheme.titleLarge?.copyWith(
               color: isDestructive ? theme.colorScheme.error : null,
             ),
           ),
-          content: Text(
-            message,
-            style: theme.textTheme.bodyLarge,
-            textAlign: .center,
+          content: Padding(
+            padding: const EdgeInsets.only(top: Sizes.indent),
+            child: Text(
+              message,
+              style: theme.textTheme.bodyLarge,
+              textAlign: .center,
+            ),
           ),
 
           actions: [
@@ -89,6 +93,7 @@ final class AppAlertDialog extends StatelessWidget {
     final theme = Theme.of(context);
 
     return AlertDialog(
+      backgroundColor: theme.scaffoldBackgroundColor,
       constraints: BoxConstraints(
         maxWidth: math.min(400, mediaSize.width * 0.9),
       ),
@@ -100,14 +105,14 @@ final class AppAlertDialog extends StatelessWidget {
       insetPadding: EdgeInsets.symmetric(
         horizontal: math.max(Sizes.indent2x, 0.1 * mediaSize.width),
       ),
-      actionsPadding: const EdgeInsets.only(bottom: Sizes.paddingVariant2x * 2),
+      actionsPadding: const EdgeInsets.only(bottom: Sizes.paddingVariant2x),
       titlePadding: const EdgeInsets.only(
-        top: Sizes.paddingVariant2x * 2.0,
+        top: Sizes.indentVariant4x,
         left: Sizes.indentVariant2x * 1.25,
         right: Sizes.indentVariant2x * 1.25,
       ),
       contentPadding: contentPadding,
-      backgroundColor: theme.colorScheme.surface,
+
       title: Center(child: title),
 
       content: content,

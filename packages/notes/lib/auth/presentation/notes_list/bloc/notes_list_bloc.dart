@@ -235,10 +235,11 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   ) async {
     try {
       final labels = event.labels.map(Label.fromCategoryType).toList();
-      await _createNoteUsecase.execute(
-        content: event.note.content,
-        dTag: event.note.dTag,
-        updatedAt: event.note.updatedAt,
+      await _createNoteUsecase.assignLabels(
+        note: event.note,
+        // content: event.note.content,
+        // dTag: event.note.dTag,
+        // updatedAt: event.note.updatedAt,
         labels: labels,
       );
     } catch (e) {

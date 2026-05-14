@@ -6,7 +6,7 @@ import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_nsec
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_nsec_page/onboarding_sign_up_page.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_pin_page.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/onboarding_relays_page.dart';
-import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/widgets/relay_input_text_field.dart';
+import 'package:common/presentation/relay_input_text_field.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_show_nsec_page.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_welcome_page.dart';
 

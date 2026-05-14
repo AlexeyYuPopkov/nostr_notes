@@ -11,6 +11,7 @@ final class SettingsItemTile extends StatelessWidget {
   final String sectionTitle;
   final ListItemPosition position;
   final VoidCallback? onTap;
+  final void Function(BuildContext)? onBuildSectionTitle;
 
   const SettingsItemTile({
     super.key,
@@ -21,6 +22,7 @@ final class SettingsItemTile extends StatelessWidget {
     this.sectionTitle = '',
     required this.position,
     required this.onTap,
+    this.onBuildSectionTitle,
   });
 
   @override
@@ -34,6 +36,54 @@ final class SettingsItemTile extends StatelessWidget {
       .middle => EdgeInsets.zero,
     };
 
+    return RawSettingsItemTile(
+      title: CupertinoButton(
+        foregroundColor:
+            titleTextColorBuilder?.call(context) ?? theme.colorScheme.onSurface,
+        padding: const EdgeInsets.all(Sizes.indent2x) + insets,
+        minimumSize: .zero,
+        onPressed: onTap,
+        child: _ButtonContent(
+          title: title,
+          subtitle: subtitle,
+          trailing: trailing,
+        ),
+      ),
+      trailing: trailing,
+      titleTextColorBuilder: titleTextColorBuilder,
+      sectionTitle: sectionTitle,
+      position: position,
+      onTap: onTap,
+      onBuildSectionTitle: onBuildSectionTitle,
+    );
+  }
+}
+
+final class RawSettingsItemTile extends StatelessWidget {
+  final Widget title;
+  final Widget? trailing;
+  final Color? Function(BuildContext)? titleTextColorBuilder;
+  final String sectionTitle;
+  final ListItemPosition position;
+  final VoidCallback? onTap;
+  final void Function(BuildContext)? onBuildSectionTitle;
+
+  const RawSettingsItemTile({
+    super.key,
+    required this.title,
+
+    this.trailing,
+    this.titleTextColorBuilder,
+    this.sectionTitle = '',
+    required this.position,
+    required this.onTap,
+    this.onBuildSectionTitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     final showSectionTitle = switch (position) {
       .first => true,
       .single => true,
@@ -44,13 +94,17 @@ final class SettingsItemTile extends StatelessWidget {
     return Column(
       children: [
         if (showSectionTitle && sectionTitle.isNotEmpty)
-          _SectionTitle(sectionTitle: sectionTitle),
+          SectionTitle(
+            sectionTitle: sectionTitle,
+            onChangeDependencies: (ctx) {
+              onBuildSectionTitle?.call(ctx);
+            },
+          ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: theme.colorScheme.outlineVariant,
-
+              color: theme.colorScheme.tertiaryContainer,
               borderRadius: position.getRadius(),
               border: position.getBorder(
                 theme.colorScheme.outline,
@@ -59,19 +113,7 @@ final class SettingsItemTile extends StatelessWidget {
             ),
             child: Column(
               children: [
-                CupertinoButton(
-                  foregroundColor:
-                      titleTextColorBuilder?.call(context) ??
-                      theme.colorScheme.onSurface,
-                  padding: const EdgeInsets.all(Sizes.indent2x) + insets,
-                  minimumSize: .zero,
-                  onPressed: onTap,
-                  child: _ButtonContent(
-                    title: title,
-                    subtitle: subtitle,
-                    trailing: trailing,
-                  ),
-                ),
+                title,
                 if (position.needsSeparator())
                   Divider(
                     indent: Sizes.indent2x,
@@ -148,23 +190,44 @@ final class _ButtonContentWithSubtitle extends StatelessWidget {
   }
 }
 
-final class _SectionTitle extends StatelessWidget {
+final class SectionTitle extends StatefulWidget {
   final String sectionTitle;
-  const _SectionTitle({required this.sectionTitle});
+  final EdgeInsetsGeometry padding;
+  final void Function(BuildContext)? onChangeDependencies;
+  const SectionTitle({
+    super.key,
+    required this.sectionTitle,
+    this.onChangeDependencies,
+    this.padding = const EdgeInsets.all(Sizes.indent2x),
+  });
+
+  @override
+  State<SectionTitle> createState() => _SectionTitleState();
+}
+
+class _SectionTitleState extends State<SectionTitle> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (widget.onChangeDependencies != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && context.mounted) {
+          widget.onChangeDependencies?.call(context);
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        Sizes.indent2x,
-        Sizes.indent2x,
-        Sizes.indent2x,
-        Sizes.indent,
-      ),
+      padding: widget.padding,
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text(sectionTitle, style: theme.textTheme.titleMedium),
+        child: Text(widget.sectionTitle, style: theme.textTheme.titleLarge),
       ),
     );
   }

@@ -22,8 +22,6 @@ final class MarkdownEditNoteBloc
   late final MarkdownHighlightController textController;
   late final GetNoteUsecase _getNoteUsecase = DiStorage.shared.resolve();
   late final CreateNoteUsecase _createNoteUsecase = DiStorage.shared.resolve();
-  // late final CalculateClassificationUsecase _calculateClassificationUsecase =
-  //     DiStorage.shared.resolve();
 
   MarkdownEditNoteData get data => state.data;
 
@@ -96,15 +94,8 @@ final class MarkdownEditNoteBloc
 
       final result = await _createNoteUsecase.execute(
         content: trimmedText,
-        dTag: data.initialNote.value?.dTag,
-        updatedAt: data.initialNote.value?.updatedAt,
+        noteToEdit: data.initialNote.value,
       );
-
-      // try {
-      //   await _calculateClassificationUsecase.execute(result);
-      // } catch (e) {
-      //   log('Error during classification: $e', name: 'Classification');
-      // }
 
       emit(
         MarkdownEditNoteState.didSave(

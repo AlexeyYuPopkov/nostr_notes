@@ -27,7 +27,6 @@ final class NotesListCard extends StatelessWidget
   final ValueChanged<Note> onTap;
   final ValueChanged<Note> onDelete;
   final void Function(Note, BuildContext) onAssignLabels;
-  // final Stream<Category> Function(Note) getSymbol;
 
   const NotesListCard({
     super.key,
@@ -38,6 +37,7 @@ final class NotesListCard extends StatelessWidget
     required this.onTap,
     required this.onDelete,
     required this.onAssignLabels,
+
     // required this.getSymbol,
   });
 
@@ -59,7 +59,7 @@ final class NotesListCard extends StatelessWidget
       decoration: BoxDecoration(
         color: isSelected
             ? theme.colorScheme.secondaryContainer
-            : theme.colorScheme.outlineVariant,
+            : theme.colorScheme.tertiaryContainer,
         borderRadius: sectionItem.position.getRadius(),
         border: sectionItem.position.getBorder(
           theme.colorScheme.outline,
@@ -101,6 +101,7 @@ final class NotesListCard extends StatelessWidget
             padding: const EdgeInsets.only(
               left: Sizes.indent2x,
               top: Sizes.indent,
+              right: Sizes.indent,
             ),
             child: DecoratedBox(
               decoration: BoxDecoration(

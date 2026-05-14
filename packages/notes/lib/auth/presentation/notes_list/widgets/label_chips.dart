@@ -45,15 +45,13 @@ final class LabelChips extends StatelessWidget {
                     text: TextSpan(
                       style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w600,
-                        fontSize: TextSizes.small,
+                        fontSize: TextSizes.tiny,
                         color: theme.colorScheme.onSecondaryContainer,
                       ),
                       children: [
                         TextSpan(
-                          text: "${label.symbol} ",
-                          style: TextStyle(
-                            fontSize: theme.textTheme.titleMedium?.fontSize,
-                          ),
+                          text: label.symbol,
+                          style: TextStyle(fontSize: TextSizes.tiny),
                         ),
                         TextSpan(text: label.type.name),
                       ],

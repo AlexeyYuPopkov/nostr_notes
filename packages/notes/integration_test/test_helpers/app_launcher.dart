@@ -32,8 +32,8 @@ final class AppLauncherRobot {
     await tester.pumpWidget(
       MaterialApp.router(
         title: 'Nostr Notes',
-        theme: AppTheme.light,
-        darkTheme: AppTheme.dark,
+        theme: AppTheme.light(),
+        darkTheme: AppTheme.dark(),
         themeMode: ThemeMode.light,
         localizationsDelegates: const [...Localization.localizationsDelegates],
         supportedLocales: Localization.supportedLocales,

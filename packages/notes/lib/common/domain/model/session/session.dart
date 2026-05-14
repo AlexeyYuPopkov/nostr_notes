@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:nostr_notes/common/domain/model/session/user_keys.dart';
+import 'package:nostr/model/user_keys.dart';
 
 sealed class Session extends Equatable {
   const Session();

@@ -6,7 +6,7 @@ import 'dart:typed_data';
 import 'dart:ffi' as ffi;
 import 'package:ffi/ffi.dart' as ffi_ffi;
 import 'package:nostr_notes/app/app_config.dart';
-import 'package:nostr_notes/core/tools/disposable.dart';
+import 'package:common/tools/disposable.dart';
 import 'package:nostr_notes/ffigen/ffigen_crypto_module.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
 import 'package:nostr_notes/services/hex_to_bytes.dart';

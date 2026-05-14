@@ -5,6 +5,7 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr/model/tag/nostr_event_tags.dart';
 import 'package:nostr/model/tag/tag.dart';
+import 'package:nostr/model/user_keys.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
@@ -14,7 +15,6 @@ import 'package:nostr_notes/auth/domain/usecase/delete_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:common/domain/error/error_messages_provider.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
-import 'package:nostr_notes/common/domain/model/session/user_keys.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:common/services/event_store/database/app_database.dart';
@@ -246,11 +246,9 @@ void main() {
       // 2. Create a note first (this will also be published)
       final createdNote = await createNoteUsecase.execute(
         content: 'message to delete',
-        dTag: null,
+        noteToEdit: null,
         now: mockNow,
         uuid: mockUuid,
-        updatedAt: null,
-        // randomBytes: SomeMokedData.randomBytes,
       );
 
       // Wait for create to be published

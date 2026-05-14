@@ -298,66 +298,6 @@ abstract class AppLocalizations {
   /// **'Sign Up'**
   String get onboardingNsecPageButtonSignUp;
 
-  /// No description provided for @relaysPageTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Select Relays'**
-  String get relaysPageTitle;
-
-  /// No description provided for @relaysPageDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue'**
-  String get relaysPageDescription;
-
-  /// No description provided for @relaysPageAddCustomHint.
-  ///
-  /// In en, this message translates to:
-  /// **'wss://...'**
-  String get relaysPageAddCustomHint;
-
-  /// No description provided for @relaysPageAddButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Add'**
-  String get relaysPageAddButton;
-
-  /// No description provided for @relaysPageCheckButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Check'**
-  String get relaysPageCheckButton;
-
-  /// No description provided for @relaysPageErrorSelectAtLeastOne.
-  ///
-  /// In en, this message translates to:
-  /// **'Select at least one relay'**
-  String get relaysPageErrorSelectAtLeastOne;
-
-  /// No description provided for @relaysPageErrorInvalidRelayUrlEmpty.
-  ///
-  /// In en, this message translates to:
-  /// **'URL cannot be empty'**
-  String get relaysPageErrorInvalidRelayUrlEmpty;
-
-  /// No description provided for @relaysPageErrorInvalidUrl.
-  ///
-  /// In en, this message translates to:
-  /// **'URL must start with wss:// or ws://'**
-  String get relaysPageErrorInvalidUrl;
-
-  /// No description provided for @relaysPageErrorInvalidRelayAddressFormat.
-  ///
-  /// In en, this message translates to:
-  /// **'Invalid relay address format'**
-  String get relaysPageErrorInvalidRelayAddressFormat;
-
-  /// No description provided for @relaysPageErrorFailedToConnectToRelay.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to connect to relay {url}'**
-  String relaysPageErrorFailedToConnectToRelay(String url);
-
   /// No description provided for @onboardingPinPageTitle.
   ///
   /// In en, this message translates to:
@@ -532,11 +472,35 @@ abstract class AppLocalizations {
   /// **'Contacts'**
   String get settingsItemContacts;
 
-  /// No description provided for @settingsItemContactsContentMd.
+  /// No description provided for @settingsItemBuyMeACoffee.
   ///
   /// In en, this message translates to:
-  /// **'### Contacts\n\n- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)\n\n### FAQ\n\n- Forgot PIN? Notes cannot be recovered — PIN is never stored.\n- Lost nsec? Account cannot be restored without private key.'**
-  String get settingsItemContactsContentMd;
+  /// **'Buy me a coffee ☕'**
+  String get settingsItemBuyMeACoffee;
+
+  /// No description provided for @settingsItemContactsLabelContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts'**
+  String get settingsItemContactsLabelContacts;
+
+  /// No description provided for @settingsItemContactsContactsMd.
+  ///
+  /// In en, this message translates to:
+  /// **'- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)'**
+  String get settingsItemContactsContactsMd;
+
+  /// No description provided for @settingsItemContactsLabelFAQ.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ'**
+  String get settingsItemContactsLabelFAQ;
+
+  /// No description provided for @settingsItemContactsMdFaq.
+  ///
+  /// In en, this message translates to:
+  /// **'\n\n- Forgot PIN? Notes cannot be recovered — PIN is never stored.\n- Lost nsec? Account cannot be restored without private key.'**
+  String get settingsItemContactsMdFaq;
 
   /// No description provided for @preferencesScreenItemRelays.
   ///
@@ -703,7 +667,7 @@ abstract class AppLocalizations {
   /// No description provided for @helpScreenContent.
   ///
   /// In en, this message translates to:
-  /// **'# Private Notes (Nostr)\n\nPrivate Notes (Nostr) is a private, encrypted note-taking app built on the **Nostr** protocol. Your notes are encrypted on your device and synced through decentralized relays — no company owns your data.\n\n---\n\n## What is Nostr?\n\nNostr (Notes and Other Stuff Transmitted by Relays) is an open, decentralized protocol. Instead of a central server, it uses a network of **relays** — independent servers that store and forward your data. Your identity is a cryptographic key pair, not an email or phone number.\n\n---\n\n## Key Concepts\n\n### 🔑 Nsec (Private Key)\n\nYour **nsec** is your master key. It starts with `nsec1...` and is the bech32 encoding of your private key (hex). It is used to:\n\n- **Sign** your notes so relays can verify they come from you\n- **Encrypt** and **decrypt** your note content\n- **Prove ownership** of your account\n\n> ⚠️ **Never share your nsec with anyone.** Anyone who has it gains full control of your account. There is no \"forgot password\" — if you lose your nsec, your data is gone forever.\n\nYour nsec is stored only on this device in secure storage (Keychain on iOS, Keystore on Android). It is never sent to any server.\n\n### 🌐 Public Key (npub)\n\nYour **public key** (displayed as `npub1...`) is your public identity on the Nostr network. It is derived from your nsec and is safe to share. Anyone can use it to look up your profile across Nostr apps.\n\n### 🔒 PIN / Password\n\nThe PIN provides an **extra layer of encryption** on top of your nsec. Even if someone obtains your private key, they still cannot read your notes without the PIN.\n\nImportant details:\n\n- The PIN is **never saved to disk** — it lives only in memory while the app is open\n- If you **forget your PIN**, existing notes **cannot be decrypted**\n- If you enter a **wrong PIN**, new or edited notes will be encrypted with that incorrect PIN, making them unreadable with the correct one\n\n### 📡 Relays\n\nRelays are servers that store and deliver your encrypted notes. You can choose which relays to use in **Settings → Preferences → Connected Relays**. Using multiple relays increases redundancy — if one goes offline, your data is still available on others.\n\n---\n\n## How It Works\n\n1. **Create** a note in the editor\n2. The note is **encrypted** on your device using NIP-44 encryption with your nsec and PIN\n3. The encrypted note is **signed** and **published** to your selected relays\n4. When you open the app, notes are **fetched** from relays and **decrypted** locally\n\nNo one — not the relay operators, not us — can read your notes. Only you, with your nsec and PIN, can decrypt them.\n\n---\n\n## Tips\n\n- **Back up your nsec** in a secure place (e.g., a password manager). Without it, your account cannot be recovered.\n- **Remember your PIN.** It is not stored anywhere and cannot be reset.\n- **Use multiple relays** for better availability and redundancy.\n- Your nsec works across all Nostr apps — you can use the same identity everywhere.'**
+  /// **'# Private Notes (Nostr)\n\nPrivate Notes (Nostr) is a private, encrypted note-taking app built on the **Nostr** protocol. Your notes are encrypted on your device and synced through decentralized relays — no company owns your data.\n\n\n## What is Nostr?\n\nNostr (Notes and Other Stuff Transmitted by Relays) is an open, decentralized protocol. Instead of a central server, it uses a network of **relays** — independent servers that store and forward your data. Your identity is a cryptographic key pair, not an email or phone number.\n\n\n## Key Concepts\n\n### 🔑 Nsec (Private Key)\n\nYour **nsec** is your master key. It starts with `nsec1...` and is the bech32 encoding of your private key (hex). It is used to:\n\n- **Sign** your notes so relays can verify they come from you\n- **Encrypt** and **decrypt** your note content\n- **Prove ownership** of your account\n\n> ⚠️ **Never share your nsec with anyone.** Anyone who has it gains full control of your account. There is no \"forgot password\" — if you lose your nsec, your data is gone forever.\n\nYour nsec is stored only on this device in secure storage (Keychain on iOS, Keystore on Android). It is never sent to any server.\n\n### 🌐 Public Key (npub)\n\nYour **public key** (displayed as `npub1...`) is your public identity on the Nostr network. It is derived from your nsec and is safe to share. Anyone can use it to look up your profile across Nostr apps.\n\n### 🔒 PIN / Password\n\nThe PIN provides an **extra layer of encryption** on top of your nsec. Even if someone obtains your private key, they still cannot read your notes without the PIN.\n\nImportant details:\n\n- The PIN is **never saved to disk** — it lives only in memory while the app is open\n- If you **forget your PIN**, existing notes **cannot be decrypted**\n- If you enter a **wrong PIN**, new or edited notes will be encrypted with that incorrect PIN, making them unreadable with the correct one\n\n### 📡 Relays\n\nRelays are servers that store and deliver your encrypted notes. You can choose which relays to use in **Settings → Preferences → Connected Relays**. Using multiple relays increases redundancy — if one goes offline, your data is still available on others.\n\n\n## How It Works\n\n1. **Create** a note in the editor\n2. The note is **encrypted** on your device using NIP-44 encryption with your nsec and PIN\n3. The encrypted note is **signed** and **published** to your selected relays\n4. When you open the app, notes are **fetched** from relays and **decrypted** locally\n\nNo one — not the relay operators, not us — can read your notes. Only you, with your nsec and PIN, can decrypt them.\n\n\n## Tips\n\n- **Back up your nsec** in a secure place (e.g., a password manager). Without it, your account cannot be recovered.\n- **Remember your PIN.** It is not stored anywhere and cannot be reset.\n- **Use multiple relays** for better availability and redundancy.\n- Your nsec works across all Nostr apps — you can use the same identity everywhere.'**
   String get helpScreenContent;
 
   /// No description provided for @notesListScreenTitle.

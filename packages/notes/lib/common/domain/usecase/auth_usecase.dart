@@ -1,7 +1,7 @@
-import 'package:nostr_notes/auth/domain/repo/relays_list_repo.dart';
+import 'package:common/domain/repo/secure_storage.dart';
+import 'package:common/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
-import 'package:nostr_notes/common/domain/repository/key_tool_repository.dart';
-import 'package:nostr_notes/common/domain/repository/secure_storage.dart';
+import 'package:common/domain/repo/key_tool_repository.dart';
 
 import 'session_usecase.dart';
 

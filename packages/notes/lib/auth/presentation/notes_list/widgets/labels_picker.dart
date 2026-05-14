@@ -43,10 +43,12 @@ mixin LabelsPickerHelper {
     required ValueChanged<List<CategoryType>> onApply,
   }) {
     const maxWidth = 500.0;
+    final theme = Theme.of(context);
     showDialog<void>(
       context: context,
 
       builder: (dialogContext) => Dialog(
+        backgroundColor: theme.scaffoldBackgroundColor,
         constraints: const BoxConstraints(maxWidth: maxWidth),
         child: Padding(
           padding: const EdgeInsets.all(Sizes.indent2x),

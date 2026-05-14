@@ -2,8 +2,10 @@ import 'package:common/l10n/localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/bloc/settings_screen_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
@@ -17,6 +19,7 @@ abstract class SettingsItem extends Equatable {
     SettingsItemPreferences(),
     SettingsItemHelp(),
     SettingsItemContacts(),
+    SettingsItemBuyMeACoffee(),
     SettingsItemLogout(),
     SettingsItemLogoutAndClear(),
     DeleteAcc(),
@@ -59,7 +62,7 @@ final class SettingsItemPreferences extends SettingsItem {
 
   @override
   String getSectionTitle(BuildContext context) {
-    return context.l10n.settingsScreenSectionSettingsTitle;
+    return context.l10n.settingsItemPreferences;
   }
 
   @override
@@ -104,6 +107,32 @@ final class SettingsItemContacts extends SettingsItem {
   Widget trailing(BuildContext context) {
     return const Icon(Icons.arrow_forward_ios, size: Sizes.iconSmall);
   }
+
+  @override
+  String getSectionTitle(BuildContext context) => '';
+
+  @override
+  ListItemPosition get position => .middle;
+}
+
+final class SettingsItemBuyMeACoffee extends SettingsItem {
+  const SettingsItemBuyMeACoffee();
+
+  static final _uri = Uri.parse(AppConfig.kKofiUrl);
+
+  @override
+  String getTitle(context) => context.l10n.settingsItemBuyMeACoffee;
+
+  @override
+  void onTap(BuildContext context) {
+    url_launcher.launchUrl(
+      _uri,
+      mode: url_launcher.LaunchMode.externalApplication,
+    );
+  }
+
+  @override
+  Widget trailing(BuildContext context) => const SizedBox();
 
   @override
   String getSectionTitle(BuildContext context) => '';

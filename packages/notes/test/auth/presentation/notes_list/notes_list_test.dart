@@ -1,6 +1,7 @@
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nostr/model/user_keys.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
@@ -8,7 +9,6 @@ import 'package:nostr_notes/auth/presentation/notes_list/notes_list.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/widgets/notes_list_card.dart';
 import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholder.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
-import 'package:nostr_notes/common/domain/model/session/user_keys.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
 import 'package:nostr_notes/core/tools/now.dart';
