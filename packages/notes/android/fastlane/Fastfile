@@ -41,7 +41,7 @@ platform :android do
     # Собираем AAB через Flutter
     sh("cd ../.. && flutter clean") # опционально, для чистой сборки
     sh("cd ../.. && flutter pub get")
-    sh("cd ../.. && flutter build appbundle --release")
+    sh("cd ../.. && flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info")
     
     # Загружаем в Google Play (использует SUPPLY_JSON_KEY_FILE из env)
     upload_to_play_store(
