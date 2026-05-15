@@ -1,8 +1,10 @@
+import 'package:common/data/zap/lightning_donation_repo.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/auth/data/get_pending_usecase_impl.dart';
+import 'package:nostr_notes/auth/data/lightning_donation_repo_impl.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
@@ -132,6 +134,15 @@ final class AuthDiScope extends DiScope {
       () => GetPendingUsecaseImpl(outboxDao: di.resolve()),
       module: this,
       lifeTime: const LifeTime.prototype(),
+    );
+
+    di.bind<LightningDonationRepo>(
+      () => LightningDonationRepoImpl(
+        sessionUsecase: di.resolve(),
+        relaysListRepo: di.resolve(),
+      ),
+      module: this,
+      lifeTime: const LifeTime.single(),
     );
   }
 }

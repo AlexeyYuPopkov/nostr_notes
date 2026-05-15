@@ -8,7 +8,6 @@ import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/bloc/pending_vm.dart';
 import 'package:common/presentation/dialogs/common_tooltip.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
-import 'package:nostr_notes/common/presentation/formatters/date_formatter.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
@@ -43,7 +42,6 @@ final class NotesListCard extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    const lineHeight = 1.5;
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final commonL10n = context.commonL10n;
@@ -123,25 +121,27 @@ final class NotesListCard extends StatelessWidget
                       children: [
                         _Title(
                           sectionItem: sectionItem,
-                          // getSymbol: getSymbol,
                           onTap: () => onTap(sectionItem.note),
                         ),
-                        SizedBox(
-                          height: subtitleHeight,
-                          child: Text(
-                            DateFormatter.formatDateTimeOrEmpty(
-                              sectionItem.note.updatedAt,
-                            ),
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w400,
-                              color: theme.colorScheme.onSurfaceVariant,
-                              height: lineHeight,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                        // SizedBox(
+                        //   height: subtitleHeight,
+                        //   child: Text(
+                        //     DateFormatter.formatDateTimeOrEmpty(
+                        //       sectionItem.note.updatedAt,
+                        //     ),
+                        //     style: theme.textTheme.bodySmall?.copyWith(
+                        //       fontWeight: FontWeight.w400,
+                        //       color: theme.colorScheme.onSurfaceVariant,
+                        //       height: lineHeight,
+                        //     ),
+                        //     maxLines: 1,
+                        //     overflow: TextOverflow.ellipsis,
+                        //   ),
+                        // ),
+                        LabelChips(
+                          note: sectionItem.note,
+                          updatedAt: sectionItem.note.updatedAt,
                         ),
-                        LabelChips(note: sectionItem.note),
                         SizedBox(height: Sizes.halfIndent),
                       ],
                     ),

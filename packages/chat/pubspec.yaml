@@ -69,6 +69,3 @@ flutter:
   generate: true 
   config:
     enable-swift-package-manager: true 
-
-  assets:
-    - assets/images/

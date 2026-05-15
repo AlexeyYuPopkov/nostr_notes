@@ -7,6 +7,7 @@ import 'package:nostr_notes/auth/presentation/edit_note_markdown_screen/edit_not
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/note_preview_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/del_acc/del_acc_screen.dart';
+import 'package:nostr_notes/auth/presentation/settings/donate_lightning/donate_lightning_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/help_screen/help_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/preferences_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/privacy_policy_screen/privacy_policy_screen.dart';
@@ -48,4 +49,7 @@ final class AppScreensAssembly implements ScreensAssembly {
 
   @override
   Widget deleteAccUsecaseScreen() => const DelAccScreen();
+
+  @override
+  Widget createDonateLightningScreen() => const DonateLightningScreen();
 }

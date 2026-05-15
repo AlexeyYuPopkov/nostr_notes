@@ -49,19 +49,17 @@ final class VerificationUsecase implements Disposable {
           isActive: isActive,
           biometryRequest: biometryRequest,
         ).map((value) {
-          // Preserve explicit Deny from biometry failure — even if session was
-          // restored to Unauth, the lock overlay must stay visible.
+          final isLocked = !_authUsecase.currentSession.isUnlocked;
+          // In unauthorized zone blur must never be shown.
+          if (isLocked) {
+            return const Verification.allow();
+          }
+          // Preserve explicit Deny from biometry failure — the lock overlay
+          // must stay visible while the session is still authorized.
           if (value == const Verification.deny()) {
             return const Verification.deny();
           }
-          final isLocked = !_authUsecase.currentSession.isUnlocked;
-          return _isActive
-              ? isLocked
-                    ? const Verification.allow()
-                    : value
-              : isLocked
-              ? const Verification.allow()
-              : const Verification.deny();
+          return _isActive ? value : const Verification.deny();
         });
       },
     ).distinct();

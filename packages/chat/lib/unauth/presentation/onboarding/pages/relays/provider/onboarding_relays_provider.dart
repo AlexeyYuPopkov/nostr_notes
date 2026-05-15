@@ -11,7 +11,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'onboarding_relays_provider.g.dart';
 
 @riverpod
-final class OnboardingRelaysProvider extends _$OnboardingRelaysVm {
+final class OnboardingRelaysProvider extends _$OnboardingRelaysProvider {
   late final RelaysListRepo _relaysListRepo = GetIt.I.get();
   late final _getRelaysUsecase = GetRelaysUsecase(
     relaysListRepo: _relaysListRepo,

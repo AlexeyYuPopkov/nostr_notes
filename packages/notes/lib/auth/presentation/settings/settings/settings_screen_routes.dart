@@ -31,3 +31,7 @@ final class ThemeSettingsRoute implements AppRoute {
 final class DeleteAccRoute implements AppRoute {
   const DeleteAccRoute();
 }
+
+final class DonateLightningRoute implements AppRoute {
+  const DonateLightningRoute();
+}
