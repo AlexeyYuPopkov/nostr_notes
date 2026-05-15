@@ -6,10 +6,13 @@ import 'package:common/presentation/raw_event/widgets/copy_button.dart';
 final class RawEventScreenRelay extends StatefulWidget {
   final ListItemPosition position;
   final String relay;
+  final void Function(BuildContext)? onChangeDependencies;
+
   const RawEventScreenRelay({
     super.key,
     required this.relay,
     required this.position,
+    this.onChangeDependencies,
   });
 
   @override
@@ -18,6 +21,19 @@ final class RawEventScreenRelay extends StatefulWidget {
 
 final class _RelayTileState extends State<RawEventScreenRelay> {
   late final _vm = CopyButtonVM(widget.relay);
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (widget.onChangeDependencies != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && context.mounted) {
+          widget.onChangeDependencies?.call(context);
+        }
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -30,15 +46,15 @@ final class _RelayTileState extends State<RawEventScreenRelay> {
     final theme = Theme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: theme.colorScheme.outlineVariant,
+        color: theme.colorScheme.tertiaryContainer,
         borderRadius: widget.position.getRadius(),
       ),
       child: Padding(
         padding: EdgeInsets.only(
-          left: Sizes.indent,
-          top: widget.position == .first ? Sizes.halfIndent : Sizes.zero,
-          right: Sizes.indent,
-          bottom: widget.position == .last ? Sizes.halfIndent : Sizes.zero,
+          left: Sizes.indent2x,
+          top: widget.position == .first ? Sizes.indent : Sizes.zero,
+          right: Sizes.indent2x,
+          bottom: widget.position == .last ? Sizes.indent : Sizes.zero,
         ),
         child: Row(
           spacing: Sizes.indentVariant2x,

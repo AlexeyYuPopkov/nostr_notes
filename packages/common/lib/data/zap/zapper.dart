@@ -1,46 +1,44 @@
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
-// ignore: depend_on_referenced_packages
-import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
-import 'package:nostr/key_tool/bech32_tool.dart';
-import 'package:nostr_notes/services/hex_to_bytes.dart';
+
+part 'zapper.g.dart';
 
 @JsonSerializable()
 final class UserDataZapper extends Equatable {
   /// {@macro user_data_zapper}
   const UserDataZapper({
-    required this.callback,
-    required this.maxSendable,
-    required this.minSendable,
-    required this.metadata,
-    required this.tag,
-    required this.allowsNostr,
-    required this.nostrPubkey,
-    required this.originalLnurl,
+    this.callback,
+    this.maxSendable,
+    this.minSendable,
+    this.metadata,
+    this.tag,
+    this.allowsNostr,
+    this.nostrPubkey,
+    this.originalLnurl = '',
   });
 
-  /// Creates a [UserDataZapper] from the given [map].
+  factory UserDataZapper.fromJson(Map<String, dynamic> json) =>
+      _$UserDataZapperFromJson(json);
+
+  /// Creates a [UserDataZapper] from the given [map] with an [originalLnurl].
   factory UserDataZapper.fromMap(
     Map<String, dynamic> map, {
     required String originalLnurl,
   }) {
+    final zapper = UserDataZapper.fromJson(map);
     return UserDataZapper(
-      callback: map['callback'] as String?,
-      maxSendable: map['maxSendable'] as num?,
-      minSendable: map['minSendable'] as num?,
-      // maybe decode it here, or decode it on demand?
-      metadata: map['metadata'] as String?,
-      tag: map['tag'] as String?,
-      allowsNostr: map['allowsNostr'] as bool?,
-      nostrPubkey: map['nostrPubkey'] as String?,
+      callback: zapper.callback,
+      maxSendable: zapper.maxSendable,
+      minSendable: zapper.minSendable,
+      metadata: zapper.metadata,
+      tag: zapper.tag,
+      allowsNostr: zapper.allowsNostr,
+      nostrPubkey: zapper.nostrPubkey,
       originalLnurl: originalLnurl,
     );
   }
 
   /// The callback url of the zapper.
-  ///   @JsonKey(name: "'")
   final String? callback;
 
   /// The maximum amount that can be sent.
@@ -61,37 +59,11 @@ final class UserDataZapper extends Equatable {
   /// The nostr public key of the zapper.
   final String? nostrPubkey;
 
-  /// The original lnurl of the zapper.
+  /// The original lnurl of the zapper (not part of the JSON payload).
+  @JsonKey(includeFromJson: false, includeToJson: true)
   final String originalLnurl;
 
-  /// Tries to get the user data zapper from the given [lnurl].
-  static Future<UserDataZapper?> tryGet(String lnurl) async {
-    try {
-      final decodeLnrl = Bech32Tool.decodeBech32(lnurl);
-
-      final data = decodeLnrl[0];
-
-      final url = utf8.decode(HexToBytes.hexToBytes(data));
-      final uri = Uri.parse(url);
-
-      final res = await http.get(uri);
-      final body = res.body;
-
-      if (body.canBeParsedToJson()) {
-        final parsed = jsonDecode(body) as Map<String, dynamic>;
-
-        if (parsed.containsKey('callback')) {
-          return UserDataZapper.fromMap(parsed, originalLnurl: lnurl);
-        } else {
-          return null;
-        }
-      } else {
-        return null;
-      }
-    } catch (e) {
-      return null;
-    }
-  }
+  Map<String, dynamic> toJson() => _$UserDataZapperToJson(this);
 
   @override
   List<Object?> get props => [
@@ -101,15 +73,4 @@ final class UserDataZapper extends Equatable {
     metadata,
     tag,
   ];
-}
-
-extension on String {
-  bool canBeParsedToJson() {
-    try {
-      jsonDecode(this) as Map<String, dynamic>;
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
 }

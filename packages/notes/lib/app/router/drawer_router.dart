@@ -95,6 +95,14 @@ final class DrawerRouter extends StatelessWidget {
                         screensAssembly.deleteAccUsecaseScreen(),
                   ),
                 );
+              } else if (route is DonateLightningRoute) {
+                return Navigator.of(context).push(
+                  MaterialPageRoute(
+                    settings: const RouteSettings(name: 'donate_lightning'),
+                    builder: (context) =>
+                        screensAssembly.createDonateLightningScreen(),
+                  ),
+                );
               }
 
               return RouteHandler.of(context)?.onRoute(route, context);

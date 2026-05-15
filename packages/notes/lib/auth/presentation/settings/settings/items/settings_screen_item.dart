@@ -19,6 +19,7 @@ abstract class SettingsItem extends Equatable {
     SettingsItemPreferences(),
     SettingsItemHelp(),
     SettingsItemContacts(),
+    // SettingsItemDonateLightning(),
     SettingsItemBuyMeACoffee(),
     SettingsItemLogout(),
     SettingsItemLogoutAndClear(),
@@ -107,6 +108,28 @@ final class SettingsItemContacts extends SettingsItem {
   Widget trailing(BuildContext context) {
     return const Icon(Icons.arrow_forward_ios, size: Sizes.iconSmall);
   }
+
+  @override
+  String getSectionTitle(BuildContext context) => '';
+
+  @override
+  ListItemPosition get position => .middle;
+}
+
+final class SettingsItemDonateLightning extends SettingsItem {
+  const SettingsItemDonateLightning();
+
+  @override
+  String getTitle(BuildContext context) => context.l10n.settingsItemDonateBTC;
+
+  @override
+  void onTap(BuildContext context) {
+    RouteHandler.of(context)?.onRoute(const DonateLightningRoute(), context);
+  }
+
+  @override
+  Widget trailing(BuildContext context) =>
+      const Icon(Icons.arrow_forward_ios, size: Sizes.iconSmall);
 
   @override
   String getSectionTitle(BuildContext context) => '';

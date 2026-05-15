@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:common/data/zap/zap_callback_response.dart';
 import 'package:common/data/zap/zapper.dart';
-import 'package:common/data/zap/zaps.dart';
 import 'package:common/domain/error/app_error.dart';
-// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:nostr/key_tool/bech32_tool.dart';
 import 'package:nostr/model/nostr_event.dart';
@@ -16,15 +15,15 @@ class FetchUserZapperService {
     if (lnurl == null) {
       return null;
     }
-    return tryGet(lnurl);
+    return _tryGet(lnurl);
   }
 
   Future<String?> userLnUrl(String lightningAddress) async {
-    final lnurl = ZapUtils.deriveLnUrl(lightningAddress);
+    final lnurl = _deriveLnUrl(lightningAddress);
     return lnurl == null || lnurl.isEmpty ? null : lnurl;
   }
 
-  Future<UserDataZapper?> tryGet(String lnurl) async {
+  Future<UserDataZapper?> _tryGet(String lnurl) async {
     try {
       final decodeLnrl = Bech32Tool.decodeBytes(lnurl);
 
@@ -64,13 +63,47 @@ class FetchUserZapperService {
     return _Inv.getInvoice(zapper: zapper, sats: sats, event: event);
   }
 
-  static T? _tryParseJson<T>(String source) {
-    try {
-      final result = jsonDecode(source);
-      return result is T ? result : null;
-    } catch (e) {
-      return null;
+  String? _deriveLnUrl(String address) {
+    if (address.startsWith('lnurl1')) {
+      return address;
     }
+
+    // url
+    if (address.contains('://')) {
+      final url = address;
+
+      final bytes = utf8.encode(url);
+
+      final result = Bech32Tool.encodeBech32FromBytes(
+        'lnurl',
+        bytes,
+        maxLength: 200,
+      );
+
+      return result;
+    }
+
+    // lud16 address
+    if (address.contains('@')) {
+      final split = address.split('@');
+
+      if (split.length == 2) {
+        final [name, domain] = split;
+
+        final url = 'https://$domain/.well-known/lnurlp/$name';
+
+        final bytes = utf8.encode(url);
+
+        final result = Bech32Tool.encodeBech32FromBytes(
+          'lnurl',
+          bytes,
+          maxLength: 300,
+        );
+
+        return result;
+      }
+    }
+    return null;
   }
 }
 
@@ -107,44 +140,50 @@ abstract class _Inv {
       final result = await http.get(Uri.parse(url));
 
       if (result.statusCode >= 200 && result.statusCode < 300) {
-        final decoded = jsonDecode(result.body) as Map<String, dynamic>;
-
-        if (decoded['status'] == 'ERROR') {
+        final decoded = _tryParseJson<Map<String, dynamic>>(result.body);
+        if (decoded == null) {
           throw FailedToGetInvoiceError(
+            payload: FetchUserZapperServiceErrorType.invalidResponse,
             statusCode: result.statusCode,
-            reason: decoded['reason'] as String? ?? '',
           );
         }
 
-        final invoice = decoded['pr'] as String;
+        final response = ZapCallbackResponse.fromJson(decoded);
+
+        if (response.isLnurlError) {
+          throw FailedToGetInvoiceError(
+            payload: FetchUserZapperServiceErrorType.lnurlError,
+            statusCode: result.statusCode,
+            reason: response.errorReason,
+          );
+        }
+
+        final invoice = response.pr;
+        if (invoice == null || invoice.isEmpty) {
+          throw FailedToGetInvoiceError(
+            payload: FetchUserZapperServiceErrorType.missingInvoice,
+            statusCode: result.statusCode,
+          );
+        }
 
         return invoice;
       } else {
-        try {
-          final decoded = jsonDecode(result.body) as Map<String, dynamic>;
-          throw FailedToGetInvoiceError(
-            statusCode: result.statusCode,
-            reason: decoded['error'] == true
-                ? decoded['message'] as String? ??
-                      decoded['reason'] as String? ??
-                      ''
-                : '',
-          );
-        } catch (e) {
-          throw FailedToGetInvoiceError(
-            statusCode: result.statusCode,
-            reason: '',
-            parentError: e,
-          );
-        }
+        final decoded = _tryParseJson<Map<String, dynamic>>(result.body);
+        final response = decoded != null
+            ? ZapCallbackResponse.fromJson(decoded)
+            : null;
+        throw FailedToGetInvoiceError(
+          payload: FetchUserZapperServiceErrorType.httpError,
+          statusCode: result.statusCode,
+          reason: response?.errorReason ?? '',
+        );
       }
     } catch (e) {
       if (e is FailedToGetInvoiceError) {
         rethrow;
       } else {
         throw FailedToGetInvoiceError(
-          statusCode: null,
-          reason: '',
+          payload: FetchUserZapperServiceErrorType.unknown,
           parentError: e,
         );
       }
@@ -152,24 +191,49 @@ abstract class _Inv {
   }
 }
 
-final class FailedToGetInvoiceError extends AppError {
-  const FailedToGetInvoiceError({
-    required this.statusCode,
-    required super.reason,
-    super.parentError,
-  });
+T? _tryParseJson<T>(String source) {
+  try {
+    final result = jsonDecode(source);
+    return result is T ? result : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+enum FetchUserZapperServiceErrorType {
+  invalidResponse,
+  lnurlError,
+  missingInvoice,
+  httpError,
+  unknown,
+}
+
+final class FailedToGetInvoiceError
+    extends CustomError<FetchUserZapperServiceErrorType> {
   final int? statusCode;
 
-  @override
-  String get message {
-    final parentErrorStr = parentError != null ? parentError.toString() : '';
-    final str = <String>[
-      'Failed to get invoice',
+  const FailedToGetInvoiceError({
+    required super.payload,
+    this.statusCode,
+    super.reason,
+    super.parentError,
+  });
+
+  String get debugMessage {
+    final description = switch (payload) {
+      FetchUserZapperServiceErrorType.invalidResponse =>
+        'Invalid response from server',
+      FetchUserZapperServiceErrorType.lnurlError => 'LNURL error',
+      FetchUserZapperServiceErrorType.missingInvoice =>
+        'Missing payment request in response',
+      FetchUserZapperServiceErrorType.httpError => 'HTTP error',
+      FetchUserZapperServiceErrorType.unknown => 'Unknown error',
+    };
+    return <String>[
+      description,
       if (statusCode != null) 'Status code: $statusCode',
       if (reason.isNotEmpty) 'Reason: $reason',
-      if (parentErrorStr.isNotEmpty) 'Parent error: $parentErrorStr',
+      if (parentError != null) 'Parent error: $parentError',
     ].join('. ');
-
-    return str;
   }
 }

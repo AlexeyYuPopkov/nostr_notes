@@ -27,7 +27,6 @@ final class RawEventScreenJson extends StatelessWidget {
       builder: (context, expanded, _) {
         return Column(
           crossAxisAlignment: .start,
-          spacing: Sizes.indent,
 
           children: [
             Row(
@@ -38,11 +37,17 @@ final class RawEventScreenJson extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     minimumSize: .zero,
                     child: Row(
-                      spacing: Sizes.indent,
                       children: [
-                        Text(
-                          context.commonL10n.rawEventScreenSectionTitleJson,
-                          style: theme.textTheme.titleSmall,
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: Sizes.indent2x,
+                            bottom: Sizes.indent2x,
+                            right: Sizes.indent2x,
+                          ),
+                          child: Text(
+                            context.commonL10n.rawEventScreenSectionTitleJson,
+                            style: theme.textTheme.titleLarge,
+                          ),
                         ),
                         AnimatedRotation(
                           turns: expanded ? 0.25 : 0.0,
@@ -88,7 +93,7 @@ final class RawEventScreenJson extends StatelessWidget {
                           code.trim(),
                           language: language,
                           theme: _highlightTheme(theme),
-                          padding: const EdgeInsets.all(Sizes.indent),
+                          padding: const EdgeInsets.all(Sizes.indent2x),
                           textStyle: jsonStyle,
                         ),
                       );
@@ -112,7 +117,7 @@ final class RawEventScreenJson extends StatelessWidget {
             ...{
               'root': TextStyle(
                 color: theme.colorScheme.onSurface,
-                backgroundColor: theme.colorScheme.outlineVariant,
+                backgroundColor: theme.colorScheme.tertiaryContainer,
               ),
             },
           };

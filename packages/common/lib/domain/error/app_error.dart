@@ -77,7 +77,7 @@ final class NotUnlockedError extends AppError {
   String get message => ErrorMessagesProvider.defaultProvider.authError;
 }
 
-final class CustomError<T> extends AppError {
+class CustomError<T> extends AppError {
   final T payload;
 
   final String _message;
