@@ -52,13 +52,7 @@ mixin LabelsPickerHelper {
         constraints: const BoxConstraints(maxWidth: maxWidth),
         child: Padding(
           padding: const EdgeInsets.all(Sizes.indent2x),
-          child: _LabelsPickerContent(
-            note: note,
-            onApply: (labels) {
-              Navigator.of(dialogContext).pop();
-              onApply(labels);
-            },
-          ),
+          child: _LabelsPickerContent(note: note, onApply: onApply),
         ),
       ),
     );
@@ -185,6 +179,7 @@ final class _LabelsPickerContentState extends State<_LabelsPickerContent> {
                     title: context.commonL10n.commonButtonDone,
                     onTap: _vm.canUpdate
                         ? () {
+                            Navigator.of(context).maybePop();
                             widget.onApply(selected.toList());
                           }
                         : null,

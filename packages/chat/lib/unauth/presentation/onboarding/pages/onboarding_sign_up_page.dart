@@ -79,11 +79,11 @@ final class OnboardingSignUpPage extends ConsumerWidget {
   }
 
   void _onGenerateKey(WidgetRef ref) {
-    ref.read(onboardingStateProvider.notifier).onGenerateKey();
+    ref.read(onboardingProviderProvider.notifier).onGenerateKey();
   }
 
   void _onLogin(WidgetRef ref) {
-    ref.read(onboardingStateProvider.notifier).nsecPageVm.toggleMode();
+    ref.read(onboardingProviderProvider.notifier).nsecPageVm.toggleMode();
   }
 }
 

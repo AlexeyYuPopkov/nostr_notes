@@ -15,7 +15,10 @@ final class OnboardingRelaysPage extends ConsumerWidget with DialogHelper {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<OnboardingRelaysState>(onboardingRelaysVmProvider, (prev, next) {
+    ref.listen<OnboardingRelaysState>(onboardingRelaysProviderProvider, (
+      prev,
+      next,
+    ) {
       switch (next) {
         case CommonState():
           break;
@@ -61,7 +64,7 @@ final class OnboardingRelaysPage extends ConsumerWidget with DialogHelper {
         ),
         Builder(
           builder: (context) {
-            final state = ref.watch(onboardingRelaysVmProvider);
+            final state = ref.watch(onboardingRelaysProviderProvider);
             return SliverList.separated(
               itemBuilder: (context, index) {
                 final relay = state.data.relays[index];
@@ -90,11 +93,11 @@ final class OnboardingRelaysPage extends ConsumerWidget with DialogHelper {
               Center(
                 child: Builder(
                   builder: (context) {
-                    final state = ref.watch(onboardingRelaysVmProvider);
+                    final state = ref.watch(onboardingRelaysProviderProvider);
                     return PrymaryLoadingButton(
                       title: commonL10n.commonButtonSave,
                       vm: ref
-                          .read(onboardingRelaysVmProvider.notifier)
+                          .read(onboardingRelaysProviderProvider.notifier)
                           .saveButtonVm,
                       onTap: state.data.hasChanges ? () => _onNext(ref) : null,
                     );
@@ -109,14 +112,14 @@ final class OnboardingRelaysPage extends ConsumerWidget with DialogHelper {
   }
 
   void _onToggle(WidgetRef ref, RelayInfo relay) {
-    ref.read(onboardingRelaysVmProvider.notifier).onToggle(relay);
+    ref.read(onboardingRelaysProviderProvider.notifier).onToggle(relay);
   }
 
   void _onAddCustom(WidgetRef ref, {required String urlStr}) {
-    ref.read(onboardingRelaysVmProvider.notifier).onAdd(urlStr);
+    ref.read(onboardingRelaysProviderProvider.notifier).onAdd(urlStr);
   }
 
   void _onNext(WidgetRef ref) {
-    ref.read(onboardingRelaysVmProvider.notifier).onSave();
+    ref.read(onboardingRelaysProviderProvider.notifier).onSave();
   }
 }
