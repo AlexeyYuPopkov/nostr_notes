@@ -10,23 +10,23 @@ part of 'onboarding_relays_provider.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(OnboardingRelaysProvider)
-final onboardingRelaysVmProvider = OnboardingRelaysVmProvider._();
+final onboardingRelaysProviderProvider = OnboardingRelaysProviderProvider._();
 
-final class OnboardingRelaysVmProvider
+final class OnboardingRelaysProviderProvider
     extends $NotifierProvider<OnboardingRelaysProvider, OnboardingRelaysState> {
-  OnboardingRelaysVmProvider._()
+  OnboardingRelaysProviderProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'onboardingRelaysVmProvider',
+        name: r'onboardingRelaysProviderProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$onboardingRelaysVmHash();
+  String debugGetCreateSourceHash() => _$onboardingRelaysProviderHash();
 
   @$internal
   @override
@@ -41,10 +41,11 @@ final class OnboardingRelaysVmProvider
   }
 }
 
-String _$onboardingRelaysVmHash() =>
-    r'7168f91181d229aeeed8f5c3f0cf636dba03f5da';
+String _$onboardingRelaysProviderHash() =>
+    r'93a0559e2913f123ad67ab9e25ddda0e90042551';
 
-abstract class _$OnboardingRelaysVm extends $Notifier<OnboardingRelaysState> {
+abstract class _$OnboardingRelaysProvider
+    extends $Notifier<OnboardingRelaysState> {
   OnboardingRelaysState build();
   @$mustCallSuper
   @override

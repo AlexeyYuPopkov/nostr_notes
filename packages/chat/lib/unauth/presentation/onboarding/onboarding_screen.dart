@@ -46,7 +46,7 @@ final class _OnboardingBody extends ConsumerWidget with DialogHelper {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<OnboardingState>(onboardingStateProvider, (prev, next) {
+    ref.listen<OnboardingState>(onboardingProviderProvider, (prev, next) {
       if (prev?.data.step != next.data.step) {
         final index = OnboardingStep.pages.indexOf(next.data.step);
         if (index >= 0) {
@@ -63,7 +63,7 @@ final class _OnboardingBody extends ConsumerWidget with DialogHelper {
       }
     });
 
-    final state = ref.watch(onboardingStateProvider);
+    final state = ref.watch(onboardingProviderProvider);
 
     return AbsorbPointer(
       absorbing: state is OnboardingLoading,

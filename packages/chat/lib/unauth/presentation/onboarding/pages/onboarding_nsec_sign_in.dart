@@ -126,7 +126,7 @@ final class _OnboardingNsecSignInState
   }
 
   void _onSignUp() {
-    ref.read(onboardingStateProvider.notifier).nsecPageVm.toggleMode();
+    ref.read(onboardingProviderProvider.notifier).nsecPageVm.toggleMode();
   }
 
   Future<void> _onNext(LoadingButtonVM vm) async {
@@ -134,7 +134,7 @@ final class _OnboardingNsecSignInState
     if (isValid) {
       _formKey.currentState?.save();
       await ref
-          .read(onboardingStateProvider.notifier)
+          .read(onboardingProviderProvider.notifier)
           .onNsec(_controller.text.trim(), vm);
     }
   }

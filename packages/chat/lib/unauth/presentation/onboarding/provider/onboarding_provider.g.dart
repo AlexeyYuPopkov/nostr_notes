@@ -10,23 +10,23 @@ part of 'onboarding_provider.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(OnboardingProvider)
-final onboardingStateProvider = OnboardingStateProvider._();
+final onboardingProviderProvider = OnboardingProviderProvider._();
 
-final class OnboardingStateProvider
+final class OnboardingProviderProvider
     extends $NotifierProvider<OnboardingProvider, OnboardingState> {
-  OnboardingStateProvider._()
+  OnboardingProviderProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'onboardingStateProvider',
+        name: r'onboardingProviderProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$onboardingStateHash();
+  String debugGetCreateSourceHash() => _$onboardingProviderHash();
 
   @$internal
   @override
@@ -41,9 +41,10 @@ final class OnboardingStateProvider
   }
 }
 
-String _$onboardingStateHash() => r'6e160d73697d7820c8ace863f9bca2b43893876a';
+String _$onboardingProviderHash() =>
+    r'76f1085c1338bb49b503d3239d96a59083457968';
 
-abstract class _$OnboardingState extends $Notifier<OnboardingState> {
+abstract class _$OnboardingProvider extends $Notifier<OnboardingState> {
   OnboardingState build();
   @$mustCallSuper
   @override

@@ -24,7 +24,7 @@ final class NsecPageVm extends ChangeNotifier {
 }
 
 @riverpod
-final class OnboardingProvider extends _$OnboardingState {
+final class OnboardingProvider extends _$OnboardingProvider {
   late final nsecPageVm = NsecPageVm();
   late final AuthUsecase authUsecase = GetIt.I.get();
   late final RelaysListRepo relaysListRepo = GetIt.I.get();

@@ -18,7 +18,7 @@ final class OnboardingShowNsecPage extends ConsumerWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final nsec = ref.watch(
-      onboardingStateProvider.select((s) => s.data.generatedNsec ?? ''),
+      onboardingProviderProvider.select((s) => s.data.generatedNsec ?? ''),
     );
 
     return SingleChildScrollView(
@@ -85,7 +85,7 @@ final class OnboardingShowNsecPage extends ConsumerWidget {
         duration: const Duration(seconds: 2),
       ),
     );
-    ref.read(onboardingStateProvider.notifier).onNsecGenerated(nsec);
+    ref.read(onboardingProviderProvider.notifier).onNsecGenerated(nsec);
   }
 }
 

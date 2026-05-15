@@ -10,4 +10,10 @@ enum EventKind {
 abstract final class NostrKind {
   static const int note = 30023;
   static const int deletion = 5;
+
+  /// [zapConfirmation = 9735]
+  static const zapConfirmation = 9735;
+
+  /// [zapInvoice = 9734]
+  static const zapInvoice = 9734;
 }

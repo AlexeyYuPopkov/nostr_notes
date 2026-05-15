@@ -87,7 +87,9 @@ final class OnboardingWelcomePage extends ConsumerWidget {
   }
 
   void _onNext(WidgetRef ref) {
-    ref.read(onboardingStateProvider.notifier).onStep(const OnboardingNsec());
+    ref
+        .read(onboardingProviderProvider.notifier)
+        .onStep(const OnboardingNsec());
   }
 
   void _onHelp(BuildContext context) {

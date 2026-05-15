@@ -10,7 +10,7 @@ final class OnboardingNsecPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vm = ref.read(onboardingStateProvider.notifier).nsecPageVm;
+    final vm = ref.read(onboardingProviderProvider.notifier).nsecPageVm;
 
     return ListenableBuilder(
       listenable: vm,
