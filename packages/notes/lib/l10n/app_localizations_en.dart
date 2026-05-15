@@ -228,6 +228,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsItemBuyMeACoffee => 'Buy me a coffee ☕';
 
   @override
+  String get settingsItemDonateBTC => 'Donate via Lightning ⚡';
+
+  @override
   String get settingsItemContactsLabelContacts => 'Contacts';
 
   @override

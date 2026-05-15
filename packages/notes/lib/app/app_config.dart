@@ -5,6 +5,14 @@ import 'package:nostr/model/tag/tag_value.dart';
 
 final class AppConfig {
   static const kKofiUrl = 'https://ko-fi.com/alekseiipopkov';
+
+  /// Developer's lightning address for in-app donations (LUD-16).
+  static const kDevLightningAddress = 'visualgemini28@walletofsatoshi.com';
+
+  /// Developer's nostr hex pubkey — used to create NIP-57 zap events.
+  static const kDevNostrPubkey =
+      'cf2e0ca7070a28e7c24041160689f37bedd654a86a86bb172881b00621f250e3';
+
   static const kUsesInMemoryStorage = bool.fromEnvironment(
     'IN_MEMORY_STORAGE',
     defaultValue: false,

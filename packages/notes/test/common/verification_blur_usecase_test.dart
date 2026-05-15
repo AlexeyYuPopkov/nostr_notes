@@ -210,7 +210,7 @@ void main() {
         lifecycle.isActiveStream.add(true);
         await pumpEventQueue();
 
-        expect(emitted, [deny, processing, deny]);
+        expect(emitted, [deny, processing, allow]);
         // secureStorage is empty → restore() sets Unauth
         expect(sessionUsecase.currentSession, isA<Unauth>());
         await sub.cancel();

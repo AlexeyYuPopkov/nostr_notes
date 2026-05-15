@@ -1,4 +1,6 @@
 import 'package:common/l10n/localization.dart';
+import 'package:common/presentation/tools/section_scroll_vm.dart';
+import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
@@ -16,9 +18,27 @@ final class RawEventScreen extends StatefulWidget {
   State<RawEventScreen> createState() => _RawEventScreenState();
 }
 
+enum _Section {
+  relays,
+  json;
+
+  String getSectionTitle(CommonL10n l10n, int relaysCount) {
+    switch (this) {
+      case .relays:
+        return l10n.relaysCount(relaysCount);
+      case .json:
+        return l10n.rawEventScreenSectionTitleJson;
+    }
+  }
+}
+
 final class _RawEventScreenState extends State<RawEventScreen>
     with DialogHelper {
   late final _vm = RawEventScreenVm(eventId: widget.eventId);
+  final scrollController = ScrollController();
+  late final _scrollVm = SectionScrollVm<_Section>(
+    scrollController: scrollController,
+  );
 
   @override
   void initState() {
@@ -29,6 +49,8 @@ final class _RawEventScreenState extends State<RawEventScreen>
   @override
   void dispose() {
     _vm.dispose();
+    _scrollVm.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -42,61 +64,84 @@ final class _RawEventScreenState extends State<RawEventScreen>
   @override
   Widget build(BuildContext context) {
     final commonL10n = context.commonL10n;
-    final theme = Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(title: Text(commonL10n.title)),
-      body: ListenableBuilder(
-        listenable: _vm,
-        builder: (context, _) {
-          if (_vm.isLoading.value) {
-            return const Center(child: CircularProgressIndicator.adaptive());
-          }
 
-          final event = _vm.event.value;
+    return ListenableBuilder(
+      listenable: _vm,
+      builder: (context, _) {
+        final relaysCount = _vm.relays.length;
+        return Scaffold(
+          appBar: AppBar(
+            title: ValueListenableBuilder(
+              valueListenable: _scrollVm.currentItemNotifier,
+              builder: (context, value, child) {
+                return Text(
+                  value == null
+                      ? commonL10n.title
+                      : value.getSectionTitle(commonL10n, relaysCount),
+                );
+              },
+            ),
+          ),
+          body: Builder(
+            builder: (context) {
+              if (_vm.isLoading.value) {
+                return const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                );
+              }
 
-          if (event == null) {
-            // TODO: improve placeholder
-            return Center(child: Text(commonL10n.commonNoDataPlaceholderText));
-          }
+              final event = _vm.event.value;
 
-          final relaysCount = _vm.relays.length;
-          return Column(
-            crossAxisAlignment: .start,
-            children: [
-              Padding(
+              if (event == null) {
+                // TODO: improve placeholder
+                return Center(
+                  child: Text(commonL10n.commonNoDataPlaceholderText),
+                );
+              }
+
+              return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
-                child: Text(
-                  commonL10n.relaysCount(relaysCount),
-                  style: theme.textTheme.titleSmall,
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.all(Sizes.indent2x),
-                  itemBuilder: (context, index) {
-                    if (index < relaysCount) {
-                      return RawEventScreenRelay(
-                        relay: _vm.relays[index],
+                child: ListView(
+                  controller: _scrollVm.scrollController,
+                  children: [
+                    SectionTitle(
+                      padding: const EdgeInsets.only(
+                        top: Sizes.indent2x,
+                        bottom: Sizes.indent2x,
+                        right: Sizes.indent2x,
+                      ),
+                      sectionTitle: _Section.relays.getSectionTitle(
+                        commonL10n,
+                        relaysCount,
+                      ),
+                      onChangeDependencies: (ctx) =>
+                          _scrollVm.registerSection(.relays, ctx),
+                    ),
+
+                    for (int i = 0; i < relaysCount; i++)
+                      RawEventScreenRelay(
+                        relay: _vm.relays[i],
                         position: ListItemPosition.fromIndex(
-                          index,
+                          i,
                           length: relaysCount,
                         ),
-                      );
-                    } else {
-                      return Padding(
-                        padding: const EdgeInsets.only(top: Sizes.indent),
-                        child: RawEventScreenJson(vm: _vm),
-                      );
-                    }
-                  },
-
-                  itemCount: relaysCount + 1,
+                        onChangeDependencies: (ctx) =>
+                            _scrollVm.registerSection(.json, ctx),
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: Sizes.indent,
+                        bottom: Sizes.indent4x,
+                      ),
+                      child: RawEventScreenJson(vm: _vm),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          );
-        },
-      ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

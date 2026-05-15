@@ -478,6 +478,12 @@ abstract class AppLocalizations {
   /// **'Buy me a coffee ☕'**
   String get settingsItemBuyMeACoffee;
 
+  /// No description provided for @settingsItemDonateBTC.
+  ///
+  /// In en, this message translates to:
+  /// **'Donate via Lightning ⚡'**
+  String get settingsItemDonateBTC;
+
   /// No description provided for @settingsItemContactsLabelContacts.
   ///
   /// In en, this message translates to:
