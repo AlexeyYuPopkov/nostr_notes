@@ -185,7 +185,6 @@ final class _LabelsPickerContentState extends State<_LabelsPickerContent> {
                     title: context.commonL10n.commonButtonDone,
                     onTap: _vm.canUpdate
                         ? () {
-                            Navigator.of(context).pop();
                             widget.onApply(selected.toList());
                           }
                         : null,
