@@ -813,6 +813,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Info'**
   String get notePreviewMoreMenuInfo;
+
+  /// No description provided for @donateLightningScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Donate via Lightning ⚡'**
+  String get donateLightningScreenTitle;
+
+  /// No description provided for @donateLightningScreenSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support development with a lightning payment'**
+  String get donateLightningScreenSubtitle;
+
+  /// No description provided for @donateLightningScreenErrorInvoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to generate invoice'**
+  String get donateLightningScreenErrorInvoice;
+
+  /// No description provided for @donateLightningScreenInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount (sats)'**
+  String get donateLightningScreenInputHint;
+
+  /// No description provided for @donateLightningScreenWalletSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in wallet (optional)'**
+  String get donateLightningScreenWalletSectionTitle;
+
+  /// No description provided for @donateLightningScreenSubmitButtonOpenInWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in {walletName}'**
+  String donateLightningScreenSubmitButtonOpenInWallet(String walletName);
+
+  /// No description provided for @donateLightningScreenSubmitButtonGenerateInvoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate invoice'**
+  String get donateLightningScreenSubmitButtonGenerateInvoice;
 }
 
 class _AppLocalizationsDelegate

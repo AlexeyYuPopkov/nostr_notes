@@ -409,4 +409,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notePreviewMoreMenuInfo => 'Info';
+
+  @override
+  String get donateLightningScreenTitle => 'Donate via Lightning ⚡';
+
+  @override
+  String get donateLightningScreenSubtitle =>
+      'Support development with a lightning payment';
+
+  @override
+  String get donateLightningScreenErrorInvoice => 'Failed to generate invoice';
+
+  @override
+  String get donateLightningScreenInputHint => 'Amount (sats)';
+
+  @override
+  String get donateLightningScreenWalletSectionTitle =>
+      'Open in wallet (optional)';
+
+  @override
+  String donateLightningScreenSubmitButtonOpenInWallet(String walletName) {
+    return 'Open in $walletName';
+  }
+
+  @override
+  String get donateLightningScreenSubmitButtonGenerateInvoice =>
+      'Generate invoice';
 }

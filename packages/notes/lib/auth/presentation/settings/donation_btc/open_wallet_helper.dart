@@ -7,9 +7,9 @@ class OpenWalletHelper {
     String lightningInvoice, {
     LightningApps? lightningApp,
   }) async {
-    final uriStr = lightningApp != null
-        ? '${lightningApp.uriPrefix}$lightningInvoice'
-        : 'lightning:$lightningInvoice';
+    final uriStr = kIsWeb || lightningApp == null
+        ? 'lightning:$lightningInvoice'
+        : '${lightningApp.uriPrefix}$lightningInvoice';
 
     final launched = await tryLaunchUri(uriStr);
 

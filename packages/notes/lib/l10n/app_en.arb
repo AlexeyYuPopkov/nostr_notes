@@ -126,5 +126,20 @@
     "classificationClassOther": "Other",
     "notePreviewMoreMenuAssignFolder": "Assign folder",
     "notePreviewMoreMenuCopyContent": "Copy content",
-    "notePreviewMoreMenuInfo": "Info"
+    "notePreviewMoreMenuInfo": "Info",
+    "donateLightningScreenTitle": "Donate via Lightning ⚡",
+    "donateLightningScreenSubtitle": "Support development with a lightning payment",
+    "donateLightningScreenErrorInvoice":"Failed to generate invoice",
+    "donateLightningScreenInputHint": "Amount (sats)",
+    "donateLightningScreenWalletSectionTitle": "Open in wallet (optional)",
+    "donateLightningScreenSubmitButtonOpenInWallet": "Open in {walletName}",
+       "@donateLightningScreenSubmitButtonOpenInWallet": {
+        "placeholders": {
+            "walletName": {
+                "format": "String",
+                "type": "String"
+            }
+        }
+    },
+    "donateLightningScreenSubmitButtonGenerateInvoice": "Generate invoice"
 }

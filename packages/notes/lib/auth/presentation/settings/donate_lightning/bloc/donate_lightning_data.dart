@@ -17,3 +17,25 @@ final class DonateLightningData extends Equatable {
   @override
   List<Object?> get props => [sats, selectedWallet];
 }
+
+enum DonationPreset {
+  preset100(100),
+  preset500(500),
+  preset1000(1000),
+  preset5000(5000),
+  preset10000(10000);
+
+  final int amount;
+  const DonationPreset(this.amount);
+
+  static List<DonationPreset> get presets => const [
+    DonationPreset.preset100,
+    DonationPreset.preset500,
+    DonationPreset.preset1000,
+    DonationPreset.preset5000,
+    DonationPreset.preset10000,
+  ];
+
+  @override
+  String toString() => amount.toString();
+}

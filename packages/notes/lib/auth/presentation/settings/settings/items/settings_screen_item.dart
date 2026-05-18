@@ -19,7 +19,7 @@ abstract class SettingsItem extends Equatable {
     SettingsItemPreferences(),
     SettingsItemHelp(),
     SettingsItemContacts(),
-    // SettingsItemDonateLightning(),
+    SettingsItemDonateLightning(),
     SettingsItemBuyMeACoffee(),
     SettingsItemLogout(),
     SettingsItemLogoutAndClear(),

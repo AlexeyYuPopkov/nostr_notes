@@ -48,11 +48,14 @@ final class PrymaryLoadingButtonVM extends ChangeNotifier {
 
 final class PrymaryLoadingButton extends StatelessWidget {
   final String title;
+  final double? width;
   final PrymaryLoadingButtonVM vm;
   final VoidCallback? onTap;
+
   const PrymaryLoadingButton({
     super.key,
     required this.title,
+    this.width,
     required this.vm,
     this.onTap,
   });
@@ -73,20 +76,23 @@ final class PrymaryLoadingButton extends StatelessWidget {
 
         return Stack(
           children: [
-            CupertinoButton.filled(
-              onPressed: vm.isLoading || onTap == null
-                  ? null
-                  : () {
-                      vm.setLoading(true);
-                      onTap?.call();
-                    },
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  minWidth: PrymaryButton.minWidth,
-                ),
-                child: DefaultTextStyle(
-                  style: TextStyle(color: color),
-                  child: Text(title, textAlign: TextAlign.center),
+            SizedBox(
+              width: width,
+              child: CupertinoButton.filled(
+                onPressed: vm.isLoading || onTap == null
+                    ? null
+                    : () {
+                        vm.setLoading(true);
+                        onTap?.call();
+                      },
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minWidth: PrymaryButton.minWidth,
+                  ),
+                  child: DefaultTextStyle(
+                    style: TextStyle(color: color),
+                    child: Text(title, textAlign: TextAlign.center),
+                  ),
                 ),
               ),
             ),
