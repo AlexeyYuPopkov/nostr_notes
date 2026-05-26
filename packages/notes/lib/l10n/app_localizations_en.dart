@@ -424,8 +424,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get donateLightningScreenInputHint => 'Amount (sats)';
 
   @override
-  String get donateLightningScreenWalletSectionTitle =>
-      'Open in wallet (optional)';
+  String get donateLightningScreenWalletSectionTitle => 'Open in wallet';
 
   @override
   String donateLightningScreenSubmitButtonOpenInWallet(String walletName) {
@@ -435,4 +434,22 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get donateLightningScreenSubmitButtonGenerateInvoice =>
       'Generate invoice';
+
+  @override
+  String get donateLightningScreenButtonEditAmount => 'Edit amount';
+
+  @override
+  String get donateLightningScreenButtonCopyInvoice => 'Copy invoice';
+
+  @override
+  String get donateLightningScreenButtonOpenWithLightning =>
+      'Open with Lightning';
+
+  @override
+  String get donateLightningScreenQrInstruction =>
+      'Scan this QR code with your Lightning wallet app on your phone.';
+
+  @override
+  String get donateLightningScreenMessageInvoiceCopied =>
+      'Invoice copied to clipboard';
 }

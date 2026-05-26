@@ -4,6 +4,7 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../tabs/donation_screen_tab.dart';
 import 'donate_lightning_data.dart';
 import 'donate_lightning_event.dart';
 import 'donate_lightning_state.dart';
@@ -14,13 +15,14 @@ final class DonateLightningBloc
   late final TextEditingController controller = TextEditingController(
     text: data.sats.toString(),
   );
+
   late final buttonVM = PrymaryLoadingButtonVM();
 
   DonateLightningData get data => state.data;
 
   DonateLightningBloc({LightningDonationRepo? repo})
     : _repo = repo ?? DiStorage.shared.resolve(),
-      super(DonateLightningState.idle(data: const DonateLightningData())) {
+      super(DonateLightningState.idle(data: DonateLightningData.initial())) {
     _setupHandlers();
   }
 
@@ -33,6 +35,7 @@ final class DonateLightningBloc
   void _setupHandlers() {
     on<UpdateSatsEvent>(_onUpdateSats);
     on<SelectWalletEvent>(_onSelectWallet);
+    on<ChangeTabEvent>(_onChangeTabEvent);
     on<SubmitEvent>(_onSubmit);
   }
 
@@ -52,6 +55,17 @@ final class DonateLightningBloc
     emit(DonateLightningState.idle(data: data.copyWith(wallet: () => next)));
   }
 
+  void _onChangeTabEvent(
+    ChangeTabEvent event,
+    Emitter<DonateLightningState> emit,
+  ) {
+    emit(
+      DonateLightningState.idle(
+        data: data.copyWith(selectedTab: event.selectedTab),
+      ),
+    );
+  }
+
   Future<void> _onSubmit(
     SubmitEvent event,
     Emitter<DonateLightningState> emit,
@@ -60,7 +74,17 @@ final class DonateLightningBloc
     emit(DonateLightningState.loading(data: data));
     try {
       final invoice = await _repo.getInvoice(sats: data.sats);
-      emit(DonateLightningState.invoiceReady(data: data, invoice: invoice));
+      emit(
+        DonateLightningState.idle(
+          data: invoice.isNotEmpty
+              ? data.copyWith(
+                  selectedTab: DonationScreenTab.pay(),
+                  // wallet: () => null,
+                  invoice: invoice,
+                )
+              : data,
+        ),
+      );
     } catch (e) {
       emit(DonateLightningState.error(data: data, e: e));
     } finally {

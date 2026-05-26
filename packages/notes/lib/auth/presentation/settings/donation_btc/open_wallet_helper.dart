@@ -1,21 +1,33 @@
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OpenWalletHelper {
+  static bool get isWebOrDesktop =>
+      kIsWeb ||
+      (!kIsWeb && (Platform.isMacOS || Platform.isWindows || Platform.isLinux));
+
   static Future<void> openLightningInvoice(
-    String lightningInvoice, {
-    LightningApps? lightningApp,
+    BuildContext context, {
+    required String lightningInvoice,
+    required LightningApps? lightningApp,
   }) async {
+    assert(isWebOrDesktop == false);
     final uriStr = kIsWeb || lightningApp == null
         ? 'lightning:$lightningInvoice'
         : '${lightningApp.uriPrefix}$lightningInvoice';
 
     final launched = await tryLaunchUri(uriStr);
 
-    if (!launched && lightningApp != null) {
-      // App not installed — redirect to the store.
-      await tryLaunchUri(lightningApp.crossPlatformUri());
+    if (!launched) {
+      if (lightningApp != null) {
+        await tryLaunchUri(lightningApp.crossPlatformUri());
+      } else {
+        await tryLaunchUri(
+          '${LightningApps.walletOfSatoshis.uriPrefix}$lightningInvoice',
+        );
+      }
     }
   }
 
@@ -94,11 +106,7 @@ enum LightningApps {
     } else if (!kIsWeb && Platform.isIOS) {
       return appStoreUri;
     } else {
-      if (kIsWeb) {
-        return appStoreUri;
-      } else {
-        throw UnsupportedError('Unsupported platform');
-      }
+      return appStoreUri;
     }
   }
 }

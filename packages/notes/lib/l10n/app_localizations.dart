@@ -841,7 +841,7 @@ abstract class AppLocalizations {
   /// No description provided for @donateLightningScreenWalletSectionTitle.
   ///
   /// In en, this message translates to:
-  /// **'Open in wallet (optional)'**
+  /// **'Open in wallet'**
   String get donateLightningScreenWalletSectionTitle;
 
   /// No description provided for @donateLightningScreenSubmitButtonOpenInWallet.
@@ -855,6 +855,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Generate invoice'**
   String get donateLightningScreenSubmitButtonGenerateInvoice;
+
+  /// No description provided for @donateLightningScreenButtonEditAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit amount'**
+  String get donateLightningScreenButtonEditAmount;
+
+  /// No description provided for @donateLightningScreenButtonCopyInvoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy invoice'**
+  String get donateLightningScreenButtonCopyInvoice;
+
+  /// No description provided for @donateLightningScreenButtonOpenWithLightning.
+  ///
+  /// In en, this message translates to:
+  /// **'Open with Lightning'**
+  String get donateLightningScreenButtonOpenWithLightning;
+
+  /// No description provided for @donateLightningScreenQrInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan this QR code with your Lightning wallet app on your phone.'**
+  String get donateLightningScreenQrInstruction;
+
+  /// No description provided for @donateLightningScreenMessageInvoiceCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Invoice copied to clipboard'**
+  String get donateLightningScreenMessageInvoiceCopied;
 }
 
 class _AppLocalizationsDelegate

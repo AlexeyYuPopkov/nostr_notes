@@ -24,10 +24,11 @@ final class OnboardingPinPage extends StatefulWidget {
 }
 
 final class _OnboardingPinPageState extends State<OnboardingPinPage>
-    with PinValidator {
+    with PinValidator, WidgetsBindingObserver {
   final _formKey = GlobalKey<FormState>(
     debugLabel: 'OnboardingPinPage.FormKey',
   );
+  final _doneButtonKey = GlobalKey(debugLabel: 'OnboardingPinPage.DoneButton');
 
   late final PinUsecase _pinUsecase = context
       .read<OnboardingScreenBloc>()
@@ -38,12 +39,37 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
 
   late final _controller = TextEditingController();
 
+  bool _keyboardVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    if (!mounted) return;
+    final bottom = View.of(context).viewInsets.bottom;
+    final visible = bottom > 0;
+    if (visible != _keyboardVisible) {
+      setState(() => _keyboardVisible = visible);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final commonL10n = context.commonL10n;
-
+    final keyboardVisible = _keyboardVisible;
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -98,6 +124,19 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
                       validator: (str) =>
                           validatePin(context, str, usePin: data.$2),
                       onSubmitted: (_) => _onNext(context, null),
+                      onTapOutside: (e) {
+                        final box =
+                            _doneButtonKey.currentContext?.findRenderObject()
+                                as RenderBox?;
+                        if (box != null) {
+                          final rect =
+                              box.localToGlobal(Offset.zero) & box.size;
+                          if (rect.contains(e.position)) {
+                            return;
+                          }
+                        }
+                        FocusScope.of(context).unfocus();
+                      },
                     );
                   },
                 ),
@@ -165,17 +204,27 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
               ],
             ),
           ),
-          const SizedBox(height: Sizes.indentVariant4x),
-          Center(
-            child: Text(
-              l10n.onboardingNsecPageLabelHint,
-              style: theme.textTheme.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
+          AnimatedSize(
+            duration: AppDurations.medium,
+            child: keyboardVisible
+                ? const SizedBox()
+                : Column(
+                    children: [
+                      const SizedBox(height: Sizes.indentVariant4x),
+                      Center(
+                        child: Text(
+                          l10n.onboardingNsecPageLabelHint,
+                          style: theme.textTheme.bodyMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      const SizedBox(height: Sizes.indent4x),
+                    ],
+                  ),
           ),
-          const SizedBox(height: Sizes.indent4x),
-          const SizedBox(height: Sizes.indent4x),
+
           Center(
+            key: _doneButtonKey,
             child: PrymaryLoadingButton(
               title: commonL10n.commonButtonDone,
               onTap: (vm) => _onNext(context, vm),

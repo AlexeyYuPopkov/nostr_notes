@@ -72,9 +72,9 @@
     "settingsItemContacts": "Contacts",
     "settingsItemBuyMeACoffee": "Buy me a coffee ☕",
     "settingsItemDonateBTC": "Donate via Lightning ⚡",
-    "settingsItemContactsLabelContacts":"Contacts",
+    "settingsItemContactsLabelContacts": "Contacts",
     "settingsItemContactsContactsMd": "- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)",
-    "settingsItemContactsLabelFAQ":"FAQ",
+    "settingsItemContactsLabelFAQ": "FAQ",
     "settingsItemContactsMdFaq": "\n\n- Forgot PIN? Notes cannot be recovered — PIN is never stored.\n- Lost nsec? Account cannot be restored without private key.",
     "preferencesScreenItemRelays": "Connected Relays",
     "preferencesScreenItemMobilePinKeyboardType": "PIN Keyboard Type",
@@ -129,11 +129,11 @@
     "notePreviewMoreMenuInfo": "Info",
     "donateLightningScreenTitle": "Donate via Lightning ⚡",
     "donateLightningScreenSubtitle": "Support development with a lightning payment",
-    "donateLightningScreenErrorInvoice":"Failed to generate invoice",
+    "donateLightningScreenErrorInvoice": "Failed to generate invoice",
     "donateLightningScreenInputHint": "Amount (sats)",
-    "donateLightningScreenWalletSectionTitle": "Open in wallet (optional)",
+    "donateLightningScreenWalletSectionTitle": "Open in wallet",
     "donateLightningScreenSubmitButtonOpenInWallet": "Open in {walletName}",
-       "@donateLightningScreenSubmitButtonOpenInWallet": {
+    "@donateLightningScreenSubmitButtonOpenInWallet": {
         "placeholders": {
             "walletName": {
                 "format": "String",
@@ -141,5 +141,10 @@
             }
         }
     },
-    "donateLightningScreenSubmitButtonGenerateInvoice": "Generate invoice"
+    "donateLightningScreenSubmitButtonGenerateInvoice": "Generate invoice",
+    "donateLightningScreenButtonEditAmount": "Edit amount",
+    "donateLightningScreenButtonCopyInvoice": "Copy invoice",
+    "donateLightningScreenButtonOpenWithLightning": "Open with Lightning",
+    "donateLightningScreenQrInstruction": "Scan this QR code with your Lightning wallet app on your phone.",
+    "donateLightningScreenMessageInvoiceCopied":"Invoice copied to clipboard"
 }

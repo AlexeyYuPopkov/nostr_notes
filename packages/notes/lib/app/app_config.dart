@@ -7,7 +7,8 @@ final class AppConfig {
   static const kKofiUrl = 'https://ko-fi.com/alekseiipopkov';
 
   /// Developer's lightning address for in-app donations (LUD-16).
-  static const kDevLightningAddress = 'visualgemini28@walletofsatoshi.com';
+  // static const kDevLightningAddress = 'visualgemini28@walletofsatoshi.com';
+  static const kDevLightningAddress = 'dioramaexperienced776464@getalby.com';
 
   /// Developer's nostr hex pubkey — used to create NIP-57 zap events.
   static const kDevNostrPubkey =

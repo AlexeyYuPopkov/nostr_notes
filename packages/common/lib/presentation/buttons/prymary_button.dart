@@ -33,6 +33,47 @@ final class PrymaryButton extends StatelessWidget {
   }
 }
 
+final class OpacityOutlinedButton extends StatelessWidget {
+  static const minWidth = 100.0;
+  static const disabledOpacity = 0.5;
+  final Widget title;
+  final VoidCallback? onTap;
+
+  const OpacityOutlinedButton({super.key, required this.title, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return CupertinoButton(
+      onPressed: onTap,
+      padding: .zero,
+      sizeStyle: .small,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          minWidth: minWidth,
+          maxHeight: Sizes.buttonHeight,
+        ),
+
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            border: Border.all(color: theme.colorScheme.outline),
+            borderRadius: BorderRadius.circular(Sizes.buttonHeight),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: Sizes.indent2x,
+              vertical: Sizes.indent,
+            ),
+            child: title,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 final class PrymaryLoadingButtonVM extends ChangeNotifier {
   bool _isLoading = false;
 
