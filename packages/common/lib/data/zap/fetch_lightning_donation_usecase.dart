@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/nostr_filter.dart';
@@ -8,11 +7,6 @@ import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:rxdart/rxdart.dart';
-
-final class ZapConfirmation {
-  const ZapConfirmation(this.event);
-  final NostrEvent event;
-}
 
 final class FetchLightningDonationUsecase {
   const FetchLightningDonationUsecase({
@@ -27,21 +21,23 @@ final class FetchLightningDonationUsecase {
   final Now _now;
   final RawEventStore _eventStore;
 
-  Stream<ZapConfirmation> execute({
+  Stream<NostrEvent> execute({
     required String eventATag,
     required String eventPubkey,
     required String invoiceEventId,
     required String payerPubKey,
   }) {
-    late final StreamController<ZapConfirmation> controller;
+    late final StreamController<NostrEvent> controller;
     late StreamSubscription sub;
     late String subscriptionId;
 
-    controller = StreamController<ZapConfirmation>(
+    controller = StreamController<NostrEvent>(
       onListen: () {
         sub = _nostrClient
             .stream()
-            .where((e) => e is NostrEvent)
+            .where(
+              (e) => e is NostrEvent && e.kind == NostrKind.zapConfirmation,
+            )
             .map((e) => e as NostrEvent)
             .where(
               (e) => _isValidZap(
@@ -51,8 +47,7 @@ final class FetchLightningDonationUsecase {
                 payerPubKey: payerPubKey,
               ),
             )
-            .doOnData((e) => _eventStore.upsert([e]))
-            .map((e) => ZapConfirmation(e))
+            .doOnData((event) => _eventStore.upsert([event]))
             .listen(controller.add, onError: controller.addError);
 
         subscriptionId = _nostrClient.sendRequestToAll(
@@ -71,8 +66,8 @@ final class FetchLightningDonationUsecase {
           ),
         );
       },
-      onCancel: () {
-        sub.cancel();
+      onCancel: () async {
+        await sub.cancel();
         _nostrClient.sendCloseForAll(subscriptionId);
       },
     );

@@ -1,4 +1,5 @@
-import 'package:common/data/zap/fetch_lightning_donation_usecase.dart';
+import 'package:common/data/zap/zap_confirmation_dto.dart';
+import 'package:common/domain/model/zap_confirmation.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:nostr/model/tag/tag_value.dart';
 import 'package:nostr_notes/core/event_kind.dart';
@@ -23,6 +24,6 @@ final class GetLightningDonationUsecase {
             ],
           ),
         )
-        .map((events) => events.map((e) => ZapConfirmation(e)).toList());
+        .map((events) => events.map(ZapConfirmationMapper.map).toList());
   }
 }

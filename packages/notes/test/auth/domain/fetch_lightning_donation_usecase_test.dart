@@ -158,13 +158,13 @@ void main() {
             .first;
 
         final result = await stream.first;
-        expect(result.event.kind, equals(NostrKind.zapConfirmation));
-        expect(result.event.getFirstTagStr('P'), equals(_payerPubKey));
+        expect(result.kind, equals(NostrKind.zapConfirmation));
+        expect(result.getFirstTagStr('P'), equals(_payerPubKey));
 
         final zaps = await futureResult.timeout(const Duration(seconds: 5));
         expect(zaps, hasLength(1));
-        expect(zaps[0].event.id, equals('zap-event-id'));
-        expect(zaps[0].event.kind, equals(NostrKind.zapConfirmation));
+        expect(zaps[0].id, equals('zap-event-id'));
+        expect(zaps[0].kind, equals(NostrKind.zapConfirmation));
       },
     );
   });

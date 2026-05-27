@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/app_config.dart';
+import 'package:nostr_notes/auth/presentation/settings/settings/items/donate_via_lightning/donate_via_lightning.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
@@ -28,7 +29,7 @@ abstract class SettingsItem extends Equatable {
 
   const SettingsItem();
 
-  String getTitle(BuildContext context);
+  Widget getTitle(BuildContext context);
 
   Color? getTitleTextColor(BuildContext context) =>
       Theme.of(context).colorScheme.onSurface;
@@ -49,7 +50,8 @@ abstract class SettingsItem extends Equatable {
 final class SettingsItemPreferences extends SettingsItem {
   const SettingsItemPreferences();
   @override
-  String getTitle(context) => context.l10n.settingsItemPreferences;
+  Widget getTitle(BuildContext context) =>
+      Text(context.l10n.settingsItemPreferences);
 
   @override
   void onTap(BuildContext context) {
@@ -73,7 +75,7 @@ final class SettingsItemPreferences extends SettingsItem {
 final class SettingsItemHelp extends SettingsItem {
   const SettingsItemHelp();
   @override
-  String getTitle(context) => context.l10n.settingsItemHelp;
+  Widget getTitle(BuildContext context) => Text(context.l10n.settingsItemHelp);
 
   @override
   void onTap(BuildContext context) {
@@ -97,7 +99,8 @@ final class SettingsItemHelp extends SettingsItem {
 final class SettingsItemContacts extends SettingsItem {
   const SettingsItemContacts();
   @override
-  String getTitle(context) => context.l10n.settingsItemContacts;
+  Widget getTitle(BuildContext context) =>
+      Text(context.l10n.settingsItemContacts);
 
   @override
   void onTap(BuildContext context) {
@@ -120,7 +123,7 @@ final class SettingsItemDonateLightning extends SettingsItem {
   const SettingsItemDonateLightning();
 
   @override
-  String getTitle(BuildContext context) => context.l10n.settingsItemDonateBTC;
+  Widget getTitle(BuildContext context) => const DonateViaLightning();
 
   @override
   void onTap(BuildContext context) {
@@ -144,7 +147,8 @@ final class SettingsItemBuyMeACoffee extends SettingsItem {
   static final _uri = Uri.parse(AppConfig.kKofiUrl);
 
   @override
-  String getTitle(context) => context.l10n.settingsItemBuyMeACoffee;
+  Widget getTitle(BuildContext context) =>
+      Text(context.l10n.settingsItemBuyMeACoffee);
 
   @override
   void onTap(BuildContext context) {
@@ -167,7 +171,8 @@ final class SettingsItemBuyMeACoffee extends SettingsItem {
 final class SettingsItemLogout extends SettingsItem {
   const SettingsItemLogout();
   @override
-  String getTitle(context) => context.l10n.settingsScreenExit;
+  Widget getTitle(BuildContext context) =>
+      Text(context.l10n.settingsScreenExit);
 
   @override
   void onTap(BuildContext context) {
@@ -189,7 +194,8 @@ final class SettingsItemLogout extends SettingsItem {
 final class SettingsItemLogoutAndClear extends SettingsItem with DialogHelper {
   const SettingsItemLogoutAndClear();
   @override
-  String getTitle(context) => context.l10n.settingsScreenLogout;
+  Widget getTitle(BuildContext context) =>
+      Text(context.l10n.settingsScreenLogout);
 
   @override
   Color? getTitleTextColor(BuildContext context) =>
@@ -231,7 +237,8 @@ final class DeleteAcc extends SettingsItem with DialogHelper {
   const DeleteAcc();
 
   @override
-  String getTitle(context) => context.l10n.settingsScreenDeleteAccount;
+  Widget getTitle(BuildContext context) =>
+      Text(context.l10n.settingsScreenDeleteAccount);
 
   @override
   Color? getTitleTextColor(BuildContext context) =>
