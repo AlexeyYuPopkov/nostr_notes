@@ -1,4 +1,5 @@
 import 'package:common/data/zap/lightning_donation_repo.dart';
+import 'package:common/domain/error/app_error.dart';
 import 'package:common/presentation/buttons/prymary_button.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
@@ -74,19 +75,28 @@ final class DonateLightningBloc
     emit(DonateLightningState.loading(data: data));
     try {
       final invoice = await _repo.getInvoice(sats: data.sats);
+      if (invoice.isEmpty) {
+        emit(
+          DonateLightningState.error(
+            data: data,
+            error: AppError.common(
+              message: '',
+              reason: 'Received empty invoice from the server',
+            ),
+          ),
+        );
+        return;
+      }
       emit(
         DonateLightningState.idle(
-          data: invoice.isNotEmpty
-              ? data.copyWith(
-                  selectedTab: DonationScreenTab.pay(),
-                  // wallet: () => null,
-                  invoice: invoice,
-                )
-              : data,
+          data: data.copyWith(
+            selectedTab: DonationScreenTab.pay(),
+            invoice: invoice,
+          ),
         ),
       );
     } catch (e) {
-      emit(DonateLightningState.error(data: data, e: e));
+      emit(DonateLightningState.error(data: data, error: e));
     } finally {
       buttonVM.setLoading(false);
     }

@@ -22,7 +22,7 @@ sealed class DonateLightningState extends Equatable {
 
   const factory DonateLightningState.error({
     required DonateLightningData data,
-    required Object e,
+    required Object error,
   }) = ErrorState;
 }
 
@@ -43,9 +43,9 @@ final class LoadingState extends DonateLightningState {
 // }
 
 final class ErrorState extends DonateLightningState {
-  final Object e;
-  const ErrorState({required super.data, required this.e});
+  final Object error;
+  const ErrorState({required super.data, required this.error});
 
   @override
-  List<Object?> get props => [data, e];
+  List<Object?> get props => [data, error];
 }

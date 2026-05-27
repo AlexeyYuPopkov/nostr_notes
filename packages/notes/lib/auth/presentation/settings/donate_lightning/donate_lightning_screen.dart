@@ -15,7 +15,7 @@ final class DonateLightningScreen extends StatelessWidget with DialogHelper {
     switch (state) {
       case ErrorState():
         final message =
-            AppError.getMessageOrNull(state.e) ??
+            AppError.getMessageOrNull(state.error) ??
             context.l10n.donateLightningScreenErrorInvoice;
         showError(context, error: AppError.common(message: message));
 

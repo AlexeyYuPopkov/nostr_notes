@@ -9,11 +9,11 @@ import 'package:nostr/nostr_client/nostr_event_creator.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 
-final class PerformLightingInvoiceUsecase {
+final class PerformLightingInvoiceService {
   final FetchUserZapperService _fetchUserZapperService;
   final ZapEventCreator _zapEventCreator;
 
-  PerformLightingInvoiceUsecase({
+  PerformLightingInvoiceService({
     required FetchUserZapperService fetchUserZapperService,
     required ZapEventCreator zapEventCreator,
   }) : _zapEventCreator = zapEventCreator,

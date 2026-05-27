@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:common/l10n/localization.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -77,13 +78,14 @@ final class _ButtonsMobile extends StatelessWidget {
                       wallet.displayName,
                     )
                   : l10n.donateLightningScreenButtonOpenWithLightning,
-              onTap: wallet == null
-                  ? null
-                  : () => OpenWalletHelper.openLightningInvoice(
-                      context,
-                      lightningInvoice: state.data.invoice,
-                      lightningApp: wallet,
-                    ),
+              onTap: () async {
+                await OpenWalletHelper.openLightningInvoice(
+                  context,
+                  lightningInvoice: state.data.invoice,
+                  lightningApp: wallet,
+                );
+                if (context.mounted) Navigator.of(context).pop();
+              },
             );
           },
         ),
@@ -116,6 +118,18 @@ final class _ButtonBack extends StatelessWidget {
   }
 }
 
+final class _ButtonDone extends StatelessWidget {
+  const _ButtonDone();
+
+  @override
+  Widget build(BuildContext context) {
+    return PrymaryButton(
+      title: context.commonL10n.commonButtonDone,
+      onTap: () => Navigator.of(context).pop(),
+    );
+  }
+}
+
 final class _PayWebDesktopContent extends StatelessWidget {
   const _PayWebDesktopContent();
 
@@ -129,6 +143,8 @@ final class _PayWebDesktopContent extends StatelessWidget {
         SizedBox(height: Sizes.indent4x),
         _Qr(),
         SizedBox(height: Sizes.indent4x),
+        Align(alignment: Alignment.center, child: _ButtonDone()),
+        SizedBox(height: Sizes.indent2x),
         Align(alignment: Alignment.center, child: _ButtonBack()),
         SizedBox(height: Sizes.indent4x),
       ],
