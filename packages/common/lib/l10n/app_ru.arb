@@ -1,0 +1,56 @@
+{
+    "commonButtonBack": "Назад",
+    "commonButtonOk": "OK",
+    "commonButtonCancel": "Отмена",
+    "commonButtonContinue": "Продолжить",
+    "commonButtonNext": "Далее",
+    "commonButtonSave": "Сохранить",
+    "commonButtonDone": "Готово",
+    "commonButtonEdit": "Изменить",
+    "commonHintSearch": "Поиск...",
+    "commonClose": "Закрыть",
+    "commonDelete": "Удалить",
+    "commonError": "Ошибка",
+    "commonAttention": "Внимание",
+    "commonUndefinedError": "Что-то пошло не так",
+    "commonNoDataPlaceholderText": "Данных нет",
+    "commonCopied": "Скопировано",
+    "commonInfo": "Информация",
+    "authError": "Ошибка аутентификации",
+    "themeScreenTitle": "Тема",
+    "themeScreenSectionTitleColorTheme": "Цветовая тема",
+    "themeScreenLabelSystem": "Системная",
+    "themeScreenLabelLight": "Светлая",
+    "themeScreenLabelDark": "Темная",
+    "themeScreenLabelBackground": "Фон",
+    "themeScreenLabelCards": "Карточки",
+    "relaysPageTitle": "Выбор реле",
+    "relaysPageDescription": "Реле - это серверы, которые хранят и доставляют ваши зашифрованные заметки. Выберите хотя бы одно реле, чтобы продолжить",
+    "relaysPageAddCustomHint": "wss://...",
+    "relaysPageAddButton": "Добавить",
+    "relaysPageCheckButton": "Проверить",
+    "relaysPageErrorSelectAtLeastOne": "Выберите хотя бы одно реле",
+    "relaysPageErrorInvalidRelayUrlEmpty": "URL не может быть пустым",
+    "relaysPageErrorInvalidUrl": "URL должен начинаться с wss:// или ws://",
+    "relaysPageErrorInvalidRelayAddressFormat": "Неверный формат адреса реле",
+    "relaysPageErrorFailedToConnectToRelay": "Не удалось подключиться к реле {url}",
+    "@relaysPageErrorFailedToConnectToRelay": {
+        "placeholders": {
+            "url": {
+                "format": "String",
+                "type": "String"
+            }
+        }
+    },
+    "rawEventScreenTitle": "Сырой event",
+    "rawEventScreenSectionTitleRelaysCount": "Реле ({count})",
+    "@rawEventScreenSectionTitleRelaysCount": {
+        "placeholders": {
+            "count": {
+                "format": "String",
+                "type": "String"
+            }
+        }
+    },
+    "rawEventScreenSectionTitleJson": "JSON"
+}

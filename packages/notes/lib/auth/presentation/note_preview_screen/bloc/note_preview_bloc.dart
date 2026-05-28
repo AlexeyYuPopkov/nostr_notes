@@ -11,6 +11,7 @@ import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_data.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_event.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
+import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:nostr_notes/core/tools/optional_box.dart';
 import 'package:nostr_notes/services/outbox_publisher.dart';
@@ -25,13 +26,11 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   late final GetNoteUsecase _getNoteUsecase = _di.resolve();
   late final CreateNoteUsecase _createNoteUsecase = _di.resolve();
   late final OutboxPublisher _outbox = _di.resolve();
+  late final AppLifecycleListenerRepository _appLifecycleListener = _di
+      .resolve();
   StreamSubscription? _getNoteSubscription;
   StreamSubscription? _fetchNoteSubscription;
-
-  // late final CalculateClassificationUsecase _calculateClassificationUsecase =
-  //     _di.resolve();
-
-  // final _classificationResult = <String, double>{};
+  StreamSubscription? _lifecycleSubscription;
 
   late final refreshButtonVm = RefreshButtonVm(
     onRefresh: () => add(const NotePreviewEvent.refresh()),
@@ -50,6 +49,8 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
     _getNoteSubscription = null;
     _fetchNoteSubscription?.cancel();
     _fetchNoteSubscription = null;
+    _lifecycleSubscription?.cancel();
+    _lifecycleSubscription = null;
     return super.close();
   }
 
@@ -88,6 +89,13 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
     _getNoteSubscription = _getNoteUsecase.watch(pathParams.id).listen((note) {
       add(NotePreviewEvent.noteUpdated(note));
     }, onError: (e) => add(NotePreviewEvent.error(error: e)));
+
+    _lifecycleSubscription ??= _appLifecycleListener.isActiveStream
+        .distinct()
+        .where((isActive) => isActive)
+        .listen((_) {
+          add(const NotePreviewEvent.refresh());
+        });
   }
 
   void _onInitialEvent(

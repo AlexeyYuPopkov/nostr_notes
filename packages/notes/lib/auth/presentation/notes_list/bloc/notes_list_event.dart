@@ -6,7 +6,7 @@ import 'package:nostr_notes/auth/presentation/notes_list/tabs/notes_list_tab.dar
 sealed class NotesListEvent extends Equatable {
   const NotesListEvent();
 
-  const factory NotesListEvent.initial() = InitialEvent;
+  const factory NotesListEvent.initial({bool showShimmers}) = InitialEvent;
   const factory NotesListEvent.getNotes({required List<Note> notes}) =
       GetNotesEvent;
   const factory NotesListEvent.refresh() = RefreshEvent;
@@ -26,7 +26,8 @@ sealed class NotesListEvent extends Equatable {
 }
 
 final class InitialEvent extends NotesListEvent {
-  const InitialEvent();
+  final bool showShimmers;
+  const InitialEvent({this.showShimmers = true});
 }
 
 final class GetNotesEvent extends NotesListEvent {

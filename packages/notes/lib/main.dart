@@ -83,6 +83,7 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
       child: ListenableBuilder(
         listenable: Listenable.merge([
           _globalSettingsVm.themeModeNotifier,
+          _globalSettingsVm.localeNotifier,
           _globalSettingsVm.lightBgIndexNotifier,
           _globalSettingsVm.darkBgIndexNotifier,
           _globalSettingsVm.lightCardIndexNotifier,
@@ -101,7 +102,7 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
               cardColor: AppBackgroundColors.darkCard[vm.darkCardIndex],
             ),
             themeMode: vm.themeMode,
-            // locale: , // TODO: implement locale change
+            locale: vm.locale,
             localizationsDelegates: const [
               ...CommonL10n.localizationsDelegates,
               ...Localization.localizationsDelegates,
@@ -114,39 +115,6 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
               return VerificationWidget(
                 child: child ?? const SizedBox.shrink(),
               );
-
-              // return StreamBuilder<BlurScreenState>(
-              //   stream: _blurScreenUsecase.stateStream.distinct(),
-              //   initialData: _blurScreenUsecase.currentState,
-              //   builder: (context, snapshot) {
-              //     final state = snapshot.data ?? BlurScreenState.unlocked;
-
-              //     if (state != BlurScreenState.blured) {
-              //       return child!;
-              //     }
-
-              //     final theme = Theme.of(context);
-
-              //     return Stack(
-              //       key: const ValueKey('blurred_screen'),
-              //       children: [
-              //         child!,
-              //         Positioned.fill(
-              //           child: AbsorbPointer(
-              //             child: BackdropFilter(
-              //               filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-              //               child: ColoredBox(
-              //                 color: theme.colorScheme.onSurfaceVariant.withValues(
-              //                   alpha: 0.16,
-              //                 ),
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //       ],
-              //     );
-              //   },
-              // );
             },
           );
         },

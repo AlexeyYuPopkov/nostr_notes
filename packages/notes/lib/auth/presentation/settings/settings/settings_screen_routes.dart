@@ -12,6 +12,10 @@ final class PinKeyboardTypeRoute implements AppRoute {
   const PinKeyboardTypeRoute();
 }
 
+final class LocaleSettingsRoute implements AppRoute {
+  const LocaleSettingsRoute();
+}
+
 final class CredentialsDataRoute implements AppRoute {
   const CredentialsDataRoute();
 }

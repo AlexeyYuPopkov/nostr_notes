@@ -3,6 +3,7 @@ import 'package:nostr_notes/app/router/app_route/app_route.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_data_screen/credentials_data_screen.dart';
+import 'package:nostr_notes/auth/presentation/settings/preferences/locale/locale_settings_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/mobile_keyboard_type/mobile_keyboard_type_screen.dart';
 import 'package:common/presentation/theme_settings/theme_settings_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen.dart';
@@ -46,6 +47,16 @@ final class DrawerRouter extends StatelessWidget {
                               ),
                               builder: (context) =>
                                   const MobileKeyboardTypeScreen(),
+                            ),
+                          );
+                        } else if (route is LocaleSettingsRoute) {
+                          return Navigator.of(context).push(
+                            MaterialPageRoute(
+                              settings: const RouteSettings(
+                                name: 'locale_settings',
+                              ),
+                              builder: (context) =>
+                                  const LocaleSettingsScreen(),
                             ),
                           );
                         } else if (route is CredentialsDataRoute) {

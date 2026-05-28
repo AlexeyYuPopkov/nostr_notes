@@ -110,9 +110,7 @@ final class VerificationUsecase implements Disposable {
   }
 
   @override
-  Future<void> dispose() async {
-    await appLifecycleListenerRepository.dispose();
-  }
+  Future<void> dispose() async {}
 }
 
 // Verification

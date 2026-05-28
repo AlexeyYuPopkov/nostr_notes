@@ -45,6 +45,7 @@ class OutboxPublisher implements Disposable {
   bool _isProcessing = false;
   bool _isPaused = false;
   bool _isDisposing = false;
+  bool _refreshRequested = false;
   // bool _isOffline = false;
 
   // static const _retryDelays = [
@@ -120,6 +121,7 @@ class OutboxPublisher implements Disposable {
   void refresh() {
     _isPaused = false;
     _subscription?.resume();
+    _refreshRequested = true;
     _processQueue();
   }
 
@@ -133,36 +135,49 @@ class OutboxPublisher implements Disposable {
     _isPaused = false;
     _subscription?.resume();
     // Process any pending events that accumulated while paused
+    _refreshRequested = true;
     _processQueue();
     dev.log('OutboxPublisher resumed', name: 'OutboxPublisher');
   }
 
   void _onPendingEvents(List<OutboxEventData> pending) {
-    if (pending.isEmpty || _isProcessing || _isPaused) return;
+    if (pending.isEmpty || _isPaused) return;
+    if (_isProcessing) {
+      _refreshRequested = true;
+      return;
+    }
+    _refreshRequested = true;
     _processQueue();
   }
 
   Future<void> _processQueue() async {
-    if (_isProcessing || _isPaused || _isDisposing) return;
+    if (_isPaused || _isDisposing) return;
+    if (_isProcessing) {
+      _refreshRequested = true;
+      return;
+    }
     _isProcessing = true;
 
     try {
-      final pending = await _outboxDao.getPending();
+      do {
+        _refreshRequested = false;
+        final pending = await _outboxDao.getPending();
 
-      for (final item in pending) {
-        if (_isDisposing || _isPaused) break;
+        for (final item in pending) {
+          if (_isDisposing || _isPaused) break;
 
-        try {
-          await _publishEvent(item);
-        } catch (e, stackTrace) {
-          dev.log(
-            'Exception processing ${item.eventId}: $e\n$stackTrace',
-            name: 'OutboxPublisher',
-            error: e,
-            stackTrace: stackTrace,
-          );
+          try {
+            await _publishEvent(item);
+          } catch (e, stackTrace) {
+            dev.log(
+              'Exception processing ${item.eventId}: $e\n$stackTrace',
+              name: 'OutboxPublisher',
+              error: e,
+              stackTrace: stackTrace,
+            );
+          }
         }
-      }
+      } while (_refreshRequested && !_isPaused && !_isDisposing);
     } finally {
       _isProcessing = false;
     }
@@ -306,6 +321,9 @@ class NoopOutboxPublisher implements OutboxPublisher, Disposable {
 
   @override
   bool _isProcessing = false;
+
+  @override
+  bool _refreshRequested = false;
 
   @override
   StreamSubscription<List<OutboxEventData>>? _subscription;

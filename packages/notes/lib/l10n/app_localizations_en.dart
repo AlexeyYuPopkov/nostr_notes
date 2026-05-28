@@ -248,6 +248,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get preferencesScreenItemRelays => 'Connected Relays';
 
   @override
+  String get preferencesScreenItemLanguage => 'Language';
+
+  @override
+  String get preferencesScreenLanguageSystem => 'System';
+
+  @override
+  String get preferencesScreenLanguageEnglish => 'English';
+
+  @override
+  String get preferencesScreenLanguageRussian => 'Русский';
+
+  @override
   String get preferencesScreenItemMobilePinKeyboardType => 'PIN Keyboard Type';
 
   @override
