@@ -145,12 +145,14 @@ void main() {
           }
         };
 
-        final stream = sut1.execute(
+        final params = FetchLightningDonationUsecaseParams(
           eventATag: _eventATag,
           eventPubkey: _eventPubkey,
           invoiceEventId: _invoiceEventId,
           payerPubKey: _payerPubKey,
         );
+
+        final stream = sut1.execute(params);
 
         final futureResult = sut2
             .execute(eventATag: _eventATag, eventPubkey: _eventPubkey)

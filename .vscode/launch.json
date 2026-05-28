@@ -18,8 +18,9 @@
             "flutterMode": "debug"
         },
         {
-            "name": "Profile",
+            "name": "Notes (profile)",
             "request": "launch",
+            "program": "packages/notes/lib/main.dart",
             "type": "dart",
             "flutterMode": "profile"
         },

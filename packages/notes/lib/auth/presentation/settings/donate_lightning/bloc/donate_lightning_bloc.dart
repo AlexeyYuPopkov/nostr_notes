@@ -35,7 +35,6 @@ final class DonateLightningBloc
 
   void _setupHandlers() {
     on<UpdateSatsEvent>(_onUpdateSats);
-    on<SelectWalletEvent>(_onSelectWallet);
     on<ChangeTabEvent>(_onChangeTabEvent);
     on<SubmitEvent>(_onSubmit);
   }
@@ -45,15 +44,6 @@ final class DonateLightningBloc
     Emitter<DonateLightningState> emit,
   ) {
     emit(DonateLightningState.idle(data: data.copyWith(sats: event.sats)));
-  }
-
-  void _onSelectWallet(
-    SelectWalletEvent event,
-    Emitter<DonateLightningState> emit,
-  ) {
-    // Toggle: selecting the same wallet deselects it.
-    final next = event.wallet == data.selectedWallet ? null : event.wallet;
-    emit(DonateLightningState.idle(data: data.copyWith(wallet: () => next)));
   }
 
   void _onChangeTabEvent(

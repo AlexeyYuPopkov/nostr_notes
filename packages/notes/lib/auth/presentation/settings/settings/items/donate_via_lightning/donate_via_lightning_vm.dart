@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:common/data/zap/fetch_lightning_donation_usecase.dart';
 import 'package:common/data/zap/get_lightning_donation_usecase.dart';
 import 'package:common/domain/model/zap_confirmation.dart';
@@ -33,6 +34,13 @@ final class DonateViaLightningVm {
        _payerPubKey = payerPubKey;
 
   void subscribe() {
+    final params = FetchLightningDonationUsecaseParams(
+      eventATag: _eventATag,
+      eventPubkey: _eventPubkey,
+      invoiceEventId: _invoiceEventId,
+      payerPubKey: _payerPubKey,
+    );
+
     _getSubscription?.cancel();
     _getSubscription = _getLightningDonationUsecase
         .execute(eventATag: _eventATag, eventPubkey: _eventPubkey)
@@ -40,19 +48,13 @@ final class DonateViaLightningVm {
           invoice.value = ZapConfirmationSum.fromEvents(zaps).satsAmount;
         });
 
-    if (_eventATag.isNotEmpty &&
-        _eventPubkey.isNotEmpty &&
-        _invoiceEventId.isNotEmpty &&
-        _payerPubKey.isNotEmpty) {
+    if (_eventPubkey.isNotEmpty && params.hasRequiredTags) {
       _fetchSubscription?.cancel();
       _fetchSubscription = _fetchLightningDonationUsecase
-          .execute(
-            eventATag: _eventATag,
-            eventPubkey: _eventPubkey,
-            invoiceEventId: _invoiceEventId,
-            payerPubKey: _payerPubKey,
-          )
-          .listen((_) {});
+          .execute(params)
+          .listen((e) {
+            log(e.toString(), name: 'DonateViaLightningVm');
+          });
     }
   }
 

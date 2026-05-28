@@ -30,6 +30,10 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs access to the photo library to save images from notes.</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>lightning</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

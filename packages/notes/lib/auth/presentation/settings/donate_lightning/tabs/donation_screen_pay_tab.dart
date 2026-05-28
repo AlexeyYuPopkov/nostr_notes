@@ -19,78 +19,7 @@ final class DonationScreenPayTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return _PayWebDesktopContent(onEditAmount: () => _onAmountTab(context));
-    if (OpenWalletHelper.isWebOrDesktop) {
-      return const _PayWebDesktopContent();
-    } else {
-      return const _PayMobileContent();
-    }
-  }
-}
-
-final class _PayMobileContent extends StatelessWidget {
-  const _PayMobileContent();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(Sizes.indent2x),
-      children: const [
-        SizedBox(height: Sizes.indent2x),
-        _Summary(),
-        SizedBox(height: Sizes.indent4x),
-        _WalletPicker(),
-        SizedBox(height: Sizes.indent4x),
-        _ButtonsMobile(),
-        SizedBox(height: Sizes.indent4x),
-      ],
-    );
-  }
-}
-
-final class _ButtonsMobile extends StatelessWidget {
-  const _ButtonsMobile();
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Row(
-      spacing: Sizes.indent,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        const _ButtonBack(),
-        BlocBuilder<DonateLightningBloc, DonateLightningState>(
-          builder: (context, state) {
-            final wallet = state.data.selectedWallet;
-
-            assert(
-              state.data.invoice.isNotEmpty,
-              'Invoice should be ready at this point',
-            );
-
-            if (state.data.invoice.isEmpty) {
-              return const SizedBox.shrink();
-            }
-
-            return PrymaryButton(
-              title: wallet != null
-                  ? context.l10n.donateLightningScreenSubmitButtonOpenInWallet(
-                      wallet.displayName,
-                    )
-                  : l10n.donateLightningScreenButtonOpenWithLightning,
-              onTap: () async {
-                await OpenWalletHelper.openLightningInvoice(
-                  context,
-                  lightningInvoice: state.data.invoice,
-                  lightningApp: wallet,
-                );
-                if (context.mounted) Navigator.of(context).pop();
-              },
-            );
-          },
-        ),
-      ],
-    );
+    return const _PayWebDesktopContent();
   }
 }
 
@@ -137,17 +66,50 @@ final class _PayWebDesktopContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.all(Sizes.indent2x),
-      children: const [
-        SizedBox(height: Sizes.indent2x),
-        _Summary(),
-        SizedBox(height: Sizes.indent4x),
-        _Qr(),
-        SizedBox(height: Sizes.indent4x),
-        Align(alignment: Alignment.center, child: _ButtonDone()),
-        SizedBox(height: Sizes.indent2x),
-        Align(alignment: Alignment.center, child: _ButtonBack()),
-        SizedBox(height: Sizes.indent4x),
+      children: [
+        const SizedBox(height: Sizes.indent2x),
+        const _Summary(),
+        const SizedBox(height: Sizes.indent4x),
+        const _Qr(),
+        if (!OpenWalletHelper.isWebOrDesktop) ...[
+          const SizedBox(height: Sizes.indent2x),
+          const Align(alignment: Alignment.center, child: _OpenWithLightning()),
+        ],
+        const SizedBox(height: Sizes.indent4x),
+        const Align(alignment: Alignment.center, child: _ButtonDone()),
+        const SizedBox(height: Sizes.indent2x),
+        const Align(alignment: Alignment.center, child: _ButtonBack()),
+        const SizedBox(height: Sizes.indent4x),
       ],
+    );
+  }
+}
+
+final class _OpenWithLightning extends StatelessWidget {
+  const _OpenWithLightning();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<DonateLightningBloc, DonateLightningState, String>(
+      selector: (state) => state.data.invoice,
+      builder: (context, invoice) {
+        if (invoice.isEmpty) return const SizedBox.shrink();
+
+        return PrymaryButton(
+          title: context.l10n.donateLightningScreenButtonOpenWithLightning,
+          onTap: () async {
+            final opened = await OpenWalletHelper.openLightningInvoice(
+              lightningInvoice: invoice,
+            );
+            if (context.mounted && !opened) {
+              final msg = context.l10n.donateLightningScreenQrInstruction;
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(msg)));
+            }
+          },
+        );
+      },
     );
   }
 }
@@ -194,7 +156,15 @@ final class _Qr extends StatelessWidget {
         return Column(
           spacing: Sizes.indent2x,
           children: [
-            Center(child: QrImageView(data: 'lightning:$invoice', size: 300)),
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(Sizes.indent),
+                ),
+                child: QrImageView(data: 'lightning:$invoice', size: 300),
+              ),
+            ),
             Text(
               l10n.donateLightningScreenQrInstruction,
               style: theme.textTheme.bodyMedium,
@@ -225,48 +195,5 @@ final class _Qr extends StatelessWidget {
       final msg = context.l10n.donateLightningScreenMessageInvoiceCopied;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
     }
-  }
-}
-
-final class _WalletPicker extends StatelessWidget {
-  const _WalletPicker();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Column(
-      spacing: Sizes.indent,
-      crossAxisAlignment: .start,
-      children: [
-        Text(
-          context.l10n.donateLightningScreenWalletSectionTitle,
-          style: theme.textTheme.titleSmall,
-        ),
-
-        BlocBuilder<DonateLightningBloc, DonateLightningState>(
-          builder: (context, s) {
-            final selected = s.data.selectedWallet;
-            return Wrap(
-              spacing: Sizes.indent,
-              runSpacing: Sizes.halfIndent,
-              children: LightningApps.values.map((app) {
-                return FilterChip(
-                  label: Text(app.displayName),
-                  selected: selected == app,
-                  onSelected: (_) => _onSelected(context, app),
-                );
-              }).toList(),
-            );
-          },
-        ),
-      ],
-    );
-  }
-
-  void _onSelected(BuildContext context, LightningApps app) {
-    context.read<DonateLightningBloc>().add(
-      DonateLightningEvent.selectWallet(app),
-    );
   }
 }

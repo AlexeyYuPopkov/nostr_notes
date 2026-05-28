@@ -8,6 +8,29 @@ import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:rxdart/rxdart.dart';
 
+final class FetchLightningDonationUsecaseParams {
+  final String eventATag;
+  final String eventPubkey;
+  final String invoiceEventId;
+  final String payerPubKey;
+
+  const FetchLightningDonationUsecaseParams({
+    required this.eventATag,
+    required this.eventPubkey,
+    required this.invoiceEventId,
+    required this.payerPubKey,
+  });
+
+  bool get hasRequiredTags {
+    final result =
+        eventATag.isNotEmpty ||
+        eventPubkey.isNotEmpty ||
+        invoiceEventId.isNotEmpty ||
+        payerPubKey.isNotEmpty;
+    return result;
+  }
+}
+
 final class FetchLightningDonationUsecase {
   const FetchLightningDonationUsecase({
     required NostrClient nostrClient,
@@ -21,12 +44,14 @@ final class FetchLightningDonationUsecase {
   final Now _now;
   final RawEventStore _eventStore;
 
-  Stream<NostrEvent> execute({
-    required String eventATag,
-    required String eventPubkey,
-    required String invoiceEventId,
-    required String payerPubKey,
-  }) {
+  Stream<NostrEvent> execute(FetchLightningDonationUsecaseParams params) {
+    assert(
+      params.hasRequiredTags,
+      'At least one of the parameters should be provided',
+    );
+    if (!params.hasRequiredTags) {
+      return const Stream.empty();
+    }
     late final StreamController<NostrEvent> controller;
     late StreamSubscription sub;
     late String subscriptionId;
@@ -42,29 +67,30 @@ final class FetchLightningDonationUsecase {
             .where(
               (e) => _isValidZap(
                 e,
-                eventPubkey: eventPubkey,
-                invoiceEventId: invoiceEventId,
-                payerPubKey: payerPubKey,
+                eventPubkey: params.eventPubkey,
+                invoiceEventId: params.invoiceEventId,
+                payerPubKey: params.payerPubKey,
               ),
             )
             .doOnData((event) => _eventStore.upsert([event]))
             .listen(controller.add, onError: controller.addError);
 
-        subscriptionId = _nostrClient.sendRequestToAll(
-          NostrReq(
-            filters: [
-              NostrFilter(
-                kinds: const [NostrKind.zapConfirmation],
-                a: [eventATag],
-                p: [eventPubkey],
-                additional: {
-                  '#P': [payerPubKey],
-                },
-                since: _now.now().millisecondsSinceEpoch ~/ 1000,
-              ),
-            ],
-          ),
+        final req = NostrReq(
+          filters: [
+            NostrFilter(
+              kinds: const [NostrKind.zapConfirmation],
+              a: params.eventATag.isNotEmpty ? [params.eventATag] : null,
+              p: params.eventPubkey.isNotEmpty ? [params.eventPubkey] : null,
+              additional: params.payerPubKey.isNotEmpty
+                  ? {
+                      '#P': [params.payerPubKey],
+                    }
+                  : null,
+            ),
+          ],
         );
+
+        subscriptionId = _nostrClient.sendRequestToAll(req);
       },
       onCancel: () async {
         await sub.cancel();
@@ -86,12 +112,12 @@ final class FetchLightningDonationUsecase {
     }
 
     final pTag = e.getFirstTagStr('p');
-    if (pTag != eventPubkey) {
+    if (pTag != null && pTag != eventPubkey) {
       return false;
     }
 
     final payerTag = e.getFirstTagStr('P');
-    if (payerTag != payerPubKey) {
+    if (payerTag != null && payerTag != payerPubKey) {
       return false;
     }
 
