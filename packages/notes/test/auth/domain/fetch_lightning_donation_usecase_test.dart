@@ -12,7 +12,6 @@ import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/core/event_kind.dart';
-import 'package:nostr_notes/core/tools/now.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../integration_test/di/in_memory_db_module.dart';
@@ -24,11 +23,6 @@ import '../../tools/some_moked_data.dart';
 class _MockChannelFactory extends Mock implements ChannelFactory {}
 
 class _MockUuid extends Mock implements Uuid {}
-
-class _MockNow implements Now {
-  @override
-  DateTime now() => DateTime(2025, 06, 17, 13, 50);
-}
 
 const _eventATag =
     '30023:${SomeMokedData.publicKey}:listing-d-tag:${MockRelaysListRepo.relayUrl1}';
@@ -68,7 +62,6 @@ void main() {
     late FetchLightningDonationUsecase sut1;
     late GetLightningDonationUsecase sut2;
 
-    final mockNow = _MockNow();
     final mockUuid = _MockUuid();
 
     setUp(() {
@@ -89,7 +82,6 @@ void main() {
 
       sut1 = FetchLightningDonationUsecase(
         nostrClient: client,
-        now: mockNow,
         eventStore: eventStore,
       );
 

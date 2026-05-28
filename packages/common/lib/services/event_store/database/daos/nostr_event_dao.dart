@@ -292,7 +292,9 @@ class NostrEventDao extends DatabaseAccessor<AppDatabase>
     } else {
       final joined = _buildJoinedSelect(query);
       final rows = await joined.get();
-      final events = rows.map((r) => r.readTable(nostrEvents)).toList();
+      final events = _deduplicateEventRowsById(
+        rows.map((r) => r.readTable(nostrEvents)).toList(),
+      );
       return _mapEventRowsFromEvents(events);
     }
   }
@@ -304,10 +306,20 @@ class NostrEventDao extends DatabaseAccessor<AppDatabase>
     } else {
       final joined = _buildJoinedSelect(query);
       return joined.watch().map((rows) {
-        final events = rows.map((r) => r.readTable(nostrEvents)).toList();
+        final events = _deduplicateEventRowsById(
+          rows.map((r) => r.readTable(nostrEvents)).toList(),
+        );
         return _mapEventRowsFromEvents(events);
       });
     }
+  }
+
+  List<NostrEventData> _deduplicateEventRowsById(List<NostrEventData> rows) {
+    final uniqueById = <String, NostrEventData>{};
+    for (final row in rows) {
+      uniqueById.putIfAbsent(row.id, () => row);
+    }
+    return uniqueById.values.toList(growable: false);
   }
 
   // Simple select on nostr_events with no tag filters

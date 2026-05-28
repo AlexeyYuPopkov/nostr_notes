@@ -5,7 +5,6 @@ import 'package:nostr/model/nostr_filter.dart';
 import 'package:nostr/model/nostr_req.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/core/event_kind.dart';
-import 'package:nostr_notes/core/tools/now.dart';
 import 'package:rxdart/rxdart.dart';
 
 final class FetchLightningDonationUsecaseParams {
@@ -21,27 +20,19 @@ final class FetchLightningDonationUsecaseParams {
     required this.payerPubKey,
   });
 
-  bool get hasRequiredTags {
-    final result =
-        eventATag.isNotEmpty ||
-        eventPubkey.isNotEmpty ||
-        invoiceEventId.isNotEmpty ||
-        payerPubKey.isNotEmpty;
-    return result;
-  }
+  bool get hasRequiredTags => eventPubkey.isNotEmpty;
+
+  bool get hasInvoiceScope => invoiceEventId.isNotEmpty;
 }
 
 final class FetchLightningDonationUsecase {
   const FetchLightningDonationUsecase({
     required NostrClient nostrClient,
     required RawEventStore eventStore,
-    Now now = const Now(),
   }) : _nostrClient = nostrClient,
-       _eventStore = eventStore,
-       _now = now;
+       _eventStore = eventStore;
 
   final NostrClient _nostrClient;
-  final Now _now;
   final RawEventStore _eventStore;
 
   Stream<NostrEvent> execute(FetchLightningDonationUsecaseParams params) {
@@ -112,13 +103,18 @@ final class FetchLightningDonationUsecase {
     }
 
     final pTag = e.getFirstTagStr('p');
-    if (pTag != null && pTag != eventPubkey) {
+    if (eventPubkey.isNotEmpty && (pTag == null || pTag != eventPubkey)) {
       return false;
     }
 
     final payerTag = e.getFirstTagStr('P');
-    if (payerTag != null && payerTag != payerPubKey) {
+    if (payerPubKey.isNotEmpty &&
+        (payerTag == null || payerTag != payerPubKey)) {
       return false;
+    }
+
+    if (invoiceEventId.isEmpty) {
+      return true;
     }
 
     final description = e.getFirstTagStr('description');

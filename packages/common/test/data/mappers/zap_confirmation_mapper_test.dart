@@ -94,6 +94,29 @@ void main() {
 
       expect(sum.satsAmount, 71);
     });
+
+    test('does not double count duplicate zap ids', () {
+      final validA = ZapConfirmationMapper.map(
+        _nip57ReceiptEvent(
+          id: 'duplicate-zap-id',
+          descriptionJson: _nip57ZapRequestDescription(
+            amountMillisats: '21000',
+          ),
+        ),
+      );
+      final duplicatedValidA = ZapConfirmationMapper.map(
+        _nip57ReceiptEvent(
+          id: 'duplicate-zap-id',
+          descriptionJson: _nip57ZapRequestDescription(
+            amountMillisats: '21000',
+          ),
+        ),
+      );
+
+      final sum = ZapConfirmationSum.fromEvents([validA, duplicatedValidA]);
+
+      expect(sum.satsAmount, 21);
+    });
   });
 }
 

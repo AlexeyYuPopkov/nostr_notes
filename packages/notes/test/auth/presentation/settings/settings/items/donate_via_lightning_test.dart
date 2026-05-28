@@ -14,7 +14,6 @@ import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/items/donate_via_lightning/donate_via_lightning.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/items/donate_via_lightning/donate_via_lightning_vm.dart';
 import 'package:nostr_notes/core/event_kind.dart';
-import 'package:nostr_notes/core/tools/now.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../../integration_test/di/in_memory_db_module.dart';
@@ -28,11 +27,6 @@ import '../../../../../tools/some_moked_data.dart';
 class _MockChannelFactory extends Mock implements ChannelFactory {}
 
 class _MockUuid extends Mock implements Uuid {}
-
-class _MockNow implements Now {
-  @override
-  DateTime now() => DateTime(2025, 06, 17, 13, 50);
-}
 
 const _eventATag =
     '30023:${SomeMokedData.publicKey}:listing-d-tag:${MockRelaysListRepo.relayUrl1}';
@@ -79,7 +73,6 @@ void main() {
     late AppDatabase db;
     late DonateViaLightningVm vm;
 
-    final mockNow = _MockNow();
     final mockUuid = _MockUuid();
 
     setUp(() {
@@ -102,7 +95,6 @@ void main() {
       vm = DonateViaLightningVm(
         fetchLightningDonationUsecase: FetchLightningDonationUsecase(
           nostrClient: client,
-          now: mockNow,
           eventStore: eventStore,
         ),
         getLightningDonationUsecase: GetLightningDonationUsecase(

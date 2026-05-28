@@ -48,7 +48,7 @@ final class DonateViaLightningVm {
           invoice.value = ZapConfirmationSum.fromEvents(zaps).satsAmount;
         });
 
-    if (_eventPubkey.isNotEmpty && params.hasRequiredTags) {
+    if (params.hasRequiredTags) {
       _fetchSubscription?.cancel();
       _fetchSubscription = _fetchLightningDonationUsecase
           .execute(params)
