@@ -11,6 +11,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
+import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:uuid/uuid.dart';
 
@@ -32,7 +33,12 @@ const _payerPubKey =
     'a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2';
 
 String _buildZapEventJson(String subscriptionId) {
-  final description = jsonEncode({'id': _invoiceEventId});
+  final description = jsonEncode({
+    'id': _invoiceEventId,
+    'tags': [
+      ['client', AppConfig.clientTagValue],
+    ],
+  });
   final event = {
     'kind': NostrKind.zapConfirmation,
     'id': 'zap-event-id',
@@ -112,7 +118,12 @@ void main() {
             Future.microtask(() {
               // Wrong payer pubkey — should be ignored
               final wrongPayer = 'wrong-payer-key';
-              final description = jsonEncode({'id': _invoiceEventId});
+              final description = jsonEncode({
+                'id': _invoiceEventId,
+                'tags': [
+                  ['client', AppConfig.clientTagValue],
+                ],
+              });
               final event = jsonEncode({
                 'kind': NostrKind.zapConfirmation,
                 'id': 'bad-zap-id',
@@ -142,12 +153,17 @@ void main() {
           eventPubkey: _eventPubkey,
           invoiceEventId: _invoiceEventId,
           payerPubKey: _payerPubKey,
+          clientTagValue: AppConfig.clientTagValue,
         );
 
         final stream = sut1.execute(params);
 
         final futureResult = sut2
-            .execute(eventATag: _eventATag, eventPubkey: _eventPubkey)
+            .execute(
+              eventATag: _eventATag,
+              eventPubkey: _eventPubkey,
+              clientTagValue: AppConfig.clientTagValue,
+            )
             .where((list) => list.isNotEmpty)
             .first;
 

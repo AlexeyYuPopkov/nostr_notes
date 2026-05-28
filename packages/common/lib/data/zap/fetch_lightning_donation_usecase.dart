@@ -7,17 +7,21 @@ import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'zap_request_description.dart';
+
 final class FetchLightningDonationUsecaseParams {
   final String eventATag;
   final String eventPubkey;
   final String invoiceEventId;
   final String payerPubKey;
+  final String clientTagValue;
 
   const FetchLightningDonationUsecaseParams({
     required this.eventATag,
     required this.eventPubkey,
     required this.invoiceEventId,
     required this.payerPubKey,
+    required this.clientTagValue,
   });
 
   bool get hasRequiredTags => eventPubkey.isNotEmpty;
@@ -61,6 +65,7 @@ final class FetchLightningDonationUsecase {
                 eventPubkey: params.eventPubkey,
                 invoiceEventId: params.invoiceEventId,
                 payerPubKey: params.payerPubKey,
+                clientTagValue: params.clientTagValue,
               ),
             )
             .doOnData((event) => _eventStore.upsert([event]))
@@ -97,6 +102,7 @@ final class FetchLightningDonationUsecase {
     required String eventPubkey,
     required String invoiceEventId,
     required String payerPubKey,
+    required String clientTagValue,
   }) {
     if (e.kind != NostrKind.zapConfirmation) {
       return false;
@@ -113,11 +119,14 @@ final class FetchLightningDonationUsecase {
       return false;
     }
 
-    if (invoiceEventId.isEmpty) {
-      return true;
+    final descriptionMap = ZapRequestDescription.parseFromReceipt(e);
+    if (!ZapRequestDescription.hasClientTag(descriptionMap, clientTagValue)) {
+      return false;
     }
 
-    final description = e.getFirstTagStr('description');
-    return description != null && description.contains(invoiceEventId);
+    return ZapRequestDescription.matchesInvoiceId(
+      descriptionMap,
+      invoiceEventId,
+    );
   }
 }

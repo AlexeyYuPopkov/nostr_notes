@@ -53,7 +53,7 @@ final class PerformLightingInvoiceService {
       lnurl: zapper.originalLnurl,
       zappedEventAddress: null,
       recipientPubKey: params.recepientPubKey,
-      additionalTags: null,
+      additionalTags: params.additionalTags,
     );
 
     final invoiceEventId = event.id;
@@ -104,6 +104,7 @@ final class PerformLightingPaymentUsecaseParams extends Equatable {
   final UserKeys keys;
   final Set<String> relays;
   final String recepientPubKey;
+  final List<List<String>>? additionalTags;
 
   const PerformLightingPaymentUsecaseParams({
     required this.lightningAddress,
@@ -111,10 +112,18 @@ final class PerformLightingPaymentUsecaseParams extends Equatable {
     required this.keys,
     required this.relays,
     required this.recepientPubKey,
+    this.additionalTags,
   });
 
   @override
-  List<Object?> get props => [lightningAddress, satsAmount, keys, relays];
+  List<Object?> get props => [
+    lightningAddress,
+    satsAmount,
+    keys,
+    relays,
+    recepientPubKey,
+    additionalTags,
+  ];
 }
 
 final class ZapEventCreator {

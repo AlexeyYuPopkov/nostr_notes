@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:common/data/zap/fetch_user_zapper_service.dart';
 import 'package:common/data/zap/perform_lighting_invoice_service.dart';
 import 'package:common/data/zap/zapper.dart';
@@ -14,6 +12,7 @@ import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/data/lightning_donation_repo_impl.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
+import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 
 import '../../tools/some_moked_data.dart';
@@ -144,24 +143,11 @@ void main() {
         ),
       ).thenAnswer((_) async => expectedZapper);
 
-      const invoiceEventStr =
-          r'{"kind":9734,'
-          '"id":"7602e2cf416ac396c45559d151d9c54e4df5b47563fe9966fec982eebad476a3",'
-          '"pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",'
-          '"created_at":1779888816,'
-          '"tags":[["relays","wss://relay.example.com"],["amount","1000000"],'
-          '["lnurl","lnurl1dp68gurn8ghj7ampd3kx2ar0veekzar0wd5xjtnrdakj7tnhv4kxctttdehhwm30d3h82unvwqhhv6tnw4skcem9d45ku6fj8qzjdgp8"],'
-          '["p","cf2e0ca7070a28e7c24041160689f37bedd654a86a86bb172881b00621f250e3"]],'
-          '"content":"",'
-          '"sig":"2ab8d7c29e6fee7ec4d73ea80e2afabf090c196225f7ac2cdad08d97fd9f9fff47710a4178e431b3051e6698100c557899c2e98ddb0fe92e4462a5c8c3b270eb"}';
-
-      final invoiceEvent = NostrEvent.fromJson(jsonDecode(invoiceEventStr));
-
       when(
         () => fetchUserZapperService.getInvoice(
           zapper: expectedZapper,
           sats: 1000,
-          event: invoiceEvent,
+          event: any(named: 'event'),
         ),
       ).thenAnswer((_) async => expectedInvoice);
 
@@ -170,23 +156,22 @@ void main() {
       expect(invoice, expectedInvoice);
       expect(relaysListRepo.getRelaysListCallCount, 1);
 
-      // verify(
-      //   () => fetchUserZapperService.fetchUserZapper(
-      //     AppConfig.kDevLightningAddress,
-      //   ),
-      // ).called(1);
+      final capturedInvocation = verify(
+        () => fetchUserZapperService.getInvoice(
+          zapper: expectedZapper,
+          sats: 1000,
+          event: captureAny(named: 'event'),
+        ),
+      ).captured;
+      expect(capturedInvocation.length, 1);
 
-      // final capturedInvocation = verify(
-      //   () => fetchUserZapperService.getInvoice(
-      //     zapper: expectedZapper,
-      //     sats: 1000,
-      //     event: NostrEvent.fromJson(jsonDecode(invoiceEvent)),
-      //   ),
-      // ).captured;
-      // expect(capturedInvocation.length, 1);
-      // final capturedEvent = capturedInvocation.single as NostrEvent;
-
-      // expect(capturedEvent.id, expectedEvent.id);
+      final capturedEvent = capturedInvocation.single as NostrEvent;
+      expect(capturedEvent.kind, NostrKind.zapInvoice);
+      expect(capturedEvent.pubkey, SomeMokedData.publicKey);
+      expect(capturedEvent.createdAt, 1779888816);
+      expect(capturedEvent.getFirstTagStr('p'), AppConfig.kDevNostrPubkey);
+      expect(capturedEvent.getFirstTagStr('client'), AppConfig.clientTagValue);
+      expect(capturedEvent.getFirstTagStr('amount'), '1000000');
     });
   });
 }

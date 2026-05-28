@@ -13,6 +13,7 @@ final class DonateViaLightningVm {
   final String _eventPubkey;
   final String _invoiceEventId;
   final String _payerPubKey;
+  final String _clientTagValue;
 
   StreamSubscription? _getSubscription;
   StreamSubscription? _fetchSubscription;
@@ -26,12 +27,14 @@ final class DonateViaLightningVm {
     String eventPubkey = AppConfig.kDevNostrPubkey,
     String invoiceEventId = '',
     String payerPubKey = '',
+    String clientTagValue = AppConfig.appId,
   }) : _fetchLightningDonationUsecase = fetchLightningDonationUsecase,
        _getLightningDonationUsecase = getLightningDonationUsecase,
        _eventATag = eventATag,
        _eventPubkey = eventPubkey,
        _invoiceEventId = invoiceEventId,
-       _payerPubKey = payerPubKey;
+       _payerPubKey = payerPubKey,
+       _clientTagValue = clientTagValue;
 
   void subscribe() {
     final params = FetchLightningDonationUsecaseParams(
@@ -39,11 +42,16 @@ final class DonateViaLightningVm {
       eventPubkey: _eventPubkey,
       invoiceEventId: _invoiceEventId,
       payerPubKey: _payerPubKey,
+      clientTagValue: _clientTagValue,
     );
 
     _getSubscription?.cancel();
     _getSubscription = _getLightningDonationUsecase
-        .execute(eventATag: _eventATag, eventPubkey: _eventPubkey)
+        .execute(
+          eventATag: _eventATag,
+          eventPubkey: _eventPubkey,
+          clientTagValue: _clientTagValue,
+        )
         .listen((zaps) {
           invoice.value = ZapConfirmationSum.fromEvents(zaps).satsAmount;
         });

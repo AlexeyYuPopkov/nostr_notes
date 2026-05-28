@@ -11,6 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
+import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/items/donate_via_lightning/donate_via_lightning.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/items/donate_via_lightning/donate_via_lightning_vm.dart';
 import 'package:nostr_notes/core/event_kind.dart';
@@ -40,6 +41,7 @@ String _buildZapEventJson(String subscriptionId) {
     'id': _invoiceEventId,
     'kind': NostrKind.zapInvoice,
     'tags': [
+      ['client', AppConfig.clientTagValue],
       ['amount', '21000'],
     ],
   });
