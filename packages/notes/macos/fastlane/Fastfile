@@ -23,11 +23,11 @@ platform :mac do
       api_key: api_key,
       app_identifier: "com.alekseii.yu.popkov.nostrNotes",
       platform: "osx",
-      initial_build_number: 12
+      initial_build_number: 22
     )
 
-    if latest_build <= 21
-      latest_build = 21
+    if latest_build <= 22
+      latest_build = 22
       puts "Latest build number is #{latest_build}, which is less than or equal to 10. Setting it to 10 to avoid issues with TestFlight."
     end
 
