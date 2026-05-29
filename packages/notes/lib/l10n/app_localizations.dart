@@ -212,6 +212,54 @@ abstract class AppLocalizations {
   /// **'Generate a Nostr Key'**
   String get onboardingSignUpButtonGenerateKey;
 
+  /// No description provided for @apkDistributionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download APK'**
+  String get apkDistributionTitle;
+
+  /// No description provided for @apkDistributionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'You can download the installation file directly. It is recommended to verify the SHA-256 checksum after downloading.'**
+  String get apkDistributionDescription;
+
+  /// No description provided for @apkDistributionDownloadButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Download .apk'**
+  String get apkDistributionDownloadButton;
+
+  /// No description provided for @apkDistributionViewChecksum.
+  ///
+  /// In en, this message translates to:
+  /// **'View Checksum (SHA-256)'**
+  String get apkDistributionViewChecksum;
+
+  /// No description provided for @appStoreBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Available on the App Store'**
+  String get appStoreBannerTitle;
+
+  /// No description provided for @appStoreBannerButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in AppStore'**
+  String get appStoreBannerButton;
+
+  /// No description provided for @apkBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Android APK'**
+  String get apkBannerTitle;
+
+  /// No description provided for @apkBannerButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Download APK'**
+  String get apkBannerButton;
+
   /// No description provided for @onboardingSignUpAlreadyHaveAccount.
   ///
   /// In en, this message translates to:
@@ -497,7 +545,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsItemContactsContactsMd.
   ///
   /// In en, this message translates to:
-  /// **'- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)'**
+  /// **'- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [@alexey_yu_popkov](https://t.me/alexey_yu_popkov)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)'**
   String get settingsItemContactsContactsMd;
 
   /// No description provided for @settingsItemContactsLabelFAQ.

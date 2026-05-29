@@ -77,6 +77,32 @@ class AppLocalizationsRu extends AppLocalizations {
   String get onboardingSignUpButtonGenerateKey => 'Создать ключ Nostr';
 
   @override
+  String get apkDistributionTitle => 'Скачать APK';
+
+  @override
+  String get apkDistributionDescription =>
+      'Вы можете скачать установочный файл напрямую. Рекомендуется проверить контрольную сумму SHA-256 после скачивания.';
+
+  @override
+  String get apkDistributionDownloadButton => 'Скачать .apk';
+
+  @override
+  String get apkDistributionViewChecksum =>
+      'Посмотреть контрольную сумму (SHA-256)';
+
+  @override
+  String get appStoreBannerTitle => 'Доступно в App Store';
+
+  @override
+  String get appStoreBannerButton => 'Открыть в AppStore';
+
+  @override
+  String get apkBannerTitle => 'Android APK';
+
+  @override
+  String get apkBannerButton => 'Скачать APK';
+
+  @override
   String get onboardingSignUpAlreadyHaveAccount => 'Уже есть аккаунт?';
 
   @override
@@ -237,7 +263,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsItemContactsContactsMd =>
-      '- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)';
+      '- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [@alexey_yu_popkov](https://t.me/alexey_yu_popkov)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)';
 
   @override
   String get settingsItemContactsLabelFAQ => 'Частые вопросы';

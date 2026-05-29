@@ -101,3 +101,6 @@ ffi-android: ffi-android-arm64-crypto ffi-android-arm64-crypto
 
 ffi-gen-crypto_module:
 	dart run ffigen --config ffigen_crypto_module.yaml
+
+build_apk:
+	flutter build apk --release --obfuscate --split-debug-info=build/symbols/release

@@ -12,6 +12,7 @@ import 'package:nostr_notes/app/router/screens_assembly/app_screens_assembly.dar
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/home_screen.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
+import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
 import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholder.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
@@ -51,7 +52,8 @@ final class AppRouter {
     debugLogDiagnostics: true,
     redirect: (context, state) {
       if (state.matchedLocation.contains(AppRouterPath.contacts) ||
-          state.matchedLocation.contains(AppRouterPath.privacyPolicy)) {
+          state.matchedLocation.contains(AppRouterPath.privacyPolicy) ||
+          state.matchedLocation.contains(AppRouterPath.apkDistribution)) {
         return null;
       }
 
@@ -69,21 +71,43 @@ final class AppRouter {
         name: AppRouterName.onboarding,
         path: AppRouterPath.onboarding,
         builder: (BuildContext context, GoRouterState state) {
-          return const OnboardingScreen();
+          return RouteHandlerWidget(
+            child: const OnboardingScreen(),
+            onRoute: (route, context) {
+              if (route is ApkDistributionRoute) {
+                return GoRouter.of(
+                  context,
+                ).pushNamed(AppRouterName.apkDistribution, extra: true);
+              }
+
+              return RouteHandler.of(context)?.onRoute(route, context);
+            },
+          );
         },
         routes: [
           GoRoute(
             path: AppRouterPath.contacts,
             builder: (BuildContext context, GoRouterState state) {
               return _screensAssembly.createContactsScreen(
-                showAppBarLeading: false,
+                showAppBar: state.extra != null,
               );
             },
           ),
           GoRoute(
             path: AppRouterPath.privacyPolicy,
             builder: (BuildContext context, GoRouterState state) {
-              return _screensAssembly.createPrivacyPolicyScreen();
+              return _screensAssembly.createPrivacyPolicyScreen(
+                showAppBar: state.extra != null,
+              );
+            },
+          ),
+          GoRoute(
+            name: AppRouterName.apkDistribution,
+            path: AppRouterPath.apkDistribution,
+            builder: (BuildContext context, GoRouterState state) {
+              return _screensAssembly.createApkDistributionScreen(
+                showAppBar: state.extra != null,
+              );
             },
           ),
         ],

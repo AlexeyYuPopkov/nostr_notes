@@ -88,18 +88,18 @@ final class PrivacyPolicyScreen extends StatelessWidget {
 
   📧 alexey.yu.popkov@gmail.com
 ''';
+  const PrivacyPolicyScreen({super.key, this.showAppBar = true});
 
-  const PrivacyPolicyScreen({super.key});
+  final bool showAppBar;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     // createPrivacyPolicyScreen
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.privacyPolicyScreenTitle),
-        leading: const SizedBox(),
-      ),
+      appBar: showAppBar
+          ? AppBar(title: Text(l10n.privacyPolicyScreenTitle))
+          : null,
       body: const Center(child: MarkdownScreenContent(content: _text)),
     );
   }

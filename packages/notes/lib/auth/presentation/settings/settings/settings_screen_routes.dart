@@ -39,3 +39,7 @@ final class DeleteAccRoute implements AppRoute {
 final class DonateLightningRoute implements AppRoute {
   const DonateLightningRoute();
 }
+
+final class ApkDistributionRoute implements AppRoute {
+  const ApkDistributionRoute();
+}

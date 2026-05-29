@@ -37,9 +37,16 @@ final class OpacityOutlinedButton extends StatelessWidget {
   static const minWidth = 100.0;
   static const disabledOpacity = 0.5;
   final Widget title;
+  final Color? backgroundColor;
+
   final VoidCallback? onTap;
 
-  const OpacityOutlinedButton({super.key, required this.title, this.onTap});
+  const OpacityOutlinedButton({
+    super.key,
+    required this.title,
+    this.backgroundColor,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +64,7 @@ final class OpacityOutlinedButton extends StatelessWidget {
 
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: Colors.transparent,
+            color: backgroundColor ?? Colors.transparent,
             border: Border.all(color: theme.colorScheme.outline),
             borderRadius: BorderRadius.circular(Sizes.buttonHeight),
           ),

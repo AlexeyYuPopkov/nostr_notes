@@ -112,6 +112,7 @@ final class RawSettingsItemTile extends StatelessWidget {
               ),
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 title,
                 if (position.needsSeparator())
@@ -147,7 +148,7 @@ final class _ButtonContent extends StatelessWidget {
     return subtitle.isEmpty
         ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [title, ?trailing],
+            children: [title, if (trailing != null) trailing!],
           )
         : _ButtonContentWithSubtitle(
             title: title,
@@ -176,7 +177,7 @@ final class _ButtonContentWithSubtitle extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [title, ?trailing],
+          children: [title, if (trailing != null) trailing!],
         ),
         const SizedBox(height: Sizes.halfIndent),
         Text(
