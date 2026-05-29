@@ -145,11 +145,14 @@ void main() {
 
       await PumpHelpers.waitFor(
         tester,
-        find.textContaining('(21 sats)'),
+        find.textContaining('21 sats', findRichText: true),
         reason: 'zap total should appear after receiving the receipt',
       );
 
-      expect(find.textContaining('(21 sats)'), findsOneWidget);
+      expect(
+        find.textContaining('21 sats', findRichText: true),
+        findsOneWidget,
+      );
 
       await tester.pumpWidget(
         const Directionality(

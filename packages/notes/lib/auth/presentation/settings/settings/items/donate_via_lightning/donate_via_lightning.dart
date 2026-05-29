@@ -51,9 +51,24 @@ final class _DonateViaLightningState extends State<DonateViaLightning> {
     return ValueListenableBuilder<int>(
       valueListenable: _vm.invoice,
       builder: (context, sats, _) {
+        final theme = Theme.of(context);
         final prefix = context.l10n.settingsItemDonateBTC;
-        final title = sats <= 0 ? prefix : '$prefix ($sats sats)';
-        return Text(title);
+        return Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(text: prefix),
+              if (sats > 0)
+                TextSpan(
+                  text: '$sats sats',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+            ],
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        );
       },
     );
   }
