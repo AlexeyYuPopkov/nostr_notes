@@ -8,8 +8,9 @@ abstract interface class ScreensAssembly {
   Widget createAppSettingsScreen();
   Widget createRelaysListScreen();
   Widget createHelpScreen();
-  Widget createContactsScreen({bool showAppBarLeading = true});
-  Widget createPrivacyPolicyScreen();
+  Widget createContactsScreen({bool showAppBar = true});
+  Widget createPrivacyPolicyScreen({bool showAppBar = true});
   Widget deleteAccUsecaseScreen();
   Widget createDonateLightningScreen();
+  Widget createApkDistributionScreen({bool showAppBar = true});
 }

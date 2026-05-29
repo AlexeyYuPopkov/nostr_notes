@@ -33,7 +33,7 @@ final class AppLifecycleListenerDatasource
   }
 }
 
-extension on AppLifecycleState {
+extension AppLifecycleStateIsActive on AppLifecycleState {
   bool get isActive {
     switch (this) {
       case AppLifecycleState.resumed:

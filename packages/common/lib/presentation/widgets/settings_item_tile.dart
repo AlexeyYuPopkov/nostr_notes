@@ -4,7 +4,7 @@ import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
 
 final class SettingsItemTile extends StatelessWidget {
-  final String title;
+  final Widget title;
   final String subtitle;
   final Widget? trailing;
   final Color? Function(BuildContext)? titleTextColorBuilder;
@@ -112,6 +112,7 @@ final class RawSettingsItemTile extends StatelessWidget {
               ),
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 title,
                 if (position.needsSeparator())
@@ -132,7 +133,7 @@ final class RawSettingsItemTile extends StatelessWidget {
 }
 
 final class _ButtonContent extends StatelessWidget {
-  final String title;
+  final Widget title;
   final String subtitle;
   final Widget? trailing;
 
@@ -147,7 +148,7 @@ final class _ButtonContent extends StatelessWidget {
     return subtitle.isEmpty
         ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text(title), ?trailing],
+            children: [title, if (trailing != null) trailing!],
           )
         : _ButtonContentWithSubtitle(
             title: title,
@@ -158,7 +159,7 @@ final class _ButtonContent extends StatelessWidget {
 }
 
 final class _ButtonContentWithSubtitle extends StatelessWidget {
-  final String title;
+  final Widget title;
   final String subtitle;
   final Widget? trailing;
 
@@ -176,7 +177,7 @@ final class _ButtonContentWithSubtitle extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text(title), ?trailing],
+          children: [title, if (trailing != null) trailing!],
         ),
         const SizedBox(height: Sizes.halfIndent),
         Text(

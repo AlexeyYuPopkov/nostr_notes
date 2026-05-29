@@ -1,4 +1,5 @@
 import 'package:common/presentation/raw_event/raw_event_screen.dart';
+import 'package:nostr_notes/auth/presentation/settings/apk_distribution/apk_distribution_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/contacts/contacts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
@@ -41,15 +42,20 @@ final class AppScreensAssembly implements ScreensAssembly {
   Widget createHelpScreen() => const HelpScreen();
 
   @override
-  Widget createContactsScreen({bool showAppBarLeading = true}) =>
-      ContactsScreen(showAppBarLeading: showAppBarLeading);
+  Widget createContactsScreen({bool showAppBar = true}) =>
+      ContactsScreen(showAppBar: showAppBar);
 
   @override
-  Widget createPrivacyPolicyScreen() => const PrivacyPolicyScreen();
+  Widget createPrivacyPolicyScreen({bool showAppBar = true}) =>
+      PrivacyPolicyScreen(showAppBar: showAppBar);
 
   @override
   Widget deleteAccUsecaseScreen() => const DelAccScreen();
 
   @override
   Widget createDonateLightningScreen() => const DonateLightningScreen();
+
+  @override
+  Widget createApkDistributionScreen({bool showAppBar = true}) =>
+      ApkDistributionScreen(showAppBar: showAppBar);
 }

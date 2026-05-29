@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:common/l10n/localization.dart';
+import 'package:common/app/vm/global_settings_scope.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/l10n/localization.dart';
@@ -14,6 +15,7 @@ sealed class PreferencesItem {
   static final List<PreferencesItem> items = [
     const ThemePreferencesItem(),
     const RelaysList(),
+    const LocalePreferencesItem(),
     if (!kIsWeb && (Platform.isAndroid || Platform.isIOS))
       const MobileKeyboardType(),
     const CredentialsDataPreferencesItem(),
@@ -92,6 +94,47 @@ final class MobileKeyboardType extends PreferencesItem {
   @override
   Widget trailing(BuildContext context) {
     return const Icon(Icons.arrow_forward_ios, size: Sizes.iconSmall);
+  }
+
+  @override
+  ListItemPosition get position => .middle;
+}
+
+final class LocalePreferencesItem extends PreferencesItem {
+  const LocalePreferencesItem();
+
+  @override
+  String getTitle(BuildContext context) {
+    return context.l10n.preferencesScreenItemLanguage;
+  }
+
+  @override
+  FutureOr<dynamic> onTap(BuildContext context) {
+    RouteHandler.of(context)?.onRoute(const LocaleSettingsRoute(), context);
+  }
+
+  @override
+  Widget trailing(BuildContext context) {
+    final vm = GlobalSettingsScope.of(context);
+    final languageCode = vm.localeNotifier.value?.languageCode;
+    final label = switch (languageCode) {
+      null => context.l10n.preferencesScreenLanguageSystem,
+      'ru' => context.l10n.preferencesScreenLanguageRussian,
+      _ => context.l10n.preferencesScreenLanguageEnglish,
+    };
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          label,
+          style: Theme.of(context).textTheme.bodyMedium,
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(width: Sizes.halfIndent),
+        const Icon(Icons.arrow_forward_ios, size: Sizes.iconSmall),
+      ],
+    );
   }
 
   @override

@@ -1,43 +1,99 @@
+import 'package:common/app/theme/sizes.dart';
 import 'package:common/domain/error/app_error.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/donate_lightning/bloc/donate_lightning_bloc.dart';
-import 'package:nostr_notes/auth/presentation/settings/donate_lightning/bloc/donate_lightning_event.dart';
 import 'package:nostr_notes/auth/presentation/settings/donate_lightning/bloc/donate_lightning_state.dart';
-import 'package:nostr_notes/auth/presentation/settings/donation_btc/open_wallet_helper.dart';
+import 'package:nostr_notes/auth/presentation/settings/donate_lightning/tabs/donation_screen_tab.dart';
+import 'package:nostr_notes/l10n/localization.dart';
 
 final class DonateLightningScreen extends StatelessWidget with DialogHelper {
   const DonateLightningScreen({super.key});
 
+  void _listener(BuildContext context, DonateLightningState state) {
+    switch (state) {
+      case ErrorState():
+        final message =
+            AppError.getMessageOrNull(state.error) ??
+            context.l10n.donateLightningScreenErrorInvoice;
+        showError(context, error: AppError.common(message: message));
+
+      case IdleState():
+      case LoadingState():
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => DonateLightningBloc(),
-      child: const _Body(),
+    final l10n = context.l10n;
+    return DefaultTabController(
+      length: DonationScreenTab.tabs.length,
+      child: BlocProvider(
+        create: (_) => DonateLightningBloc(),
+        child: BlocConsumer<DonateLightningBloc, DonateLightningState>(
+          listener: _listener,
+          buildWhen: (a, b) =>
+              a.data.selectedTab != b.data.selectedTab ||
+              a.runtimeType != b.runtimeType,
+          builder: (context, state) {
+            return BlocListener<DonateLightningBloc, DonateLightningState>(
+              listenWhen: (a, b) => a.data.selectedTab != b.data.selectedTab,
+              listener: (context, state) {
+                DefaultTabController.of(
+                  context,
+                ).animateTo(state.data.selectedTab.getIndex());
+              },
+              child: Scaffold(
+                appBar: AppBar(
+                  title: Text(l10n.donateLightningScreenTitle),
+                  bottom: _Tabbar(index: state.data.selectedTab.getIndex()),
+                ),
+                body: AbsorbPointer(
+                  absorbing: state is LoadingState,
+                  child: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      for (final tab in DonationScreenTab.tabs)
+                        tab.build(context),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }
 
-final class _Body extends StatefulWidget {
-  const _Body();
+final class _Tabbar extends StatefulWidget implements PreferredSizeWidget {
+  static const thikness = Sizes.thickness2x;
+  final int index;
+
+  const _Tabbar({required this.index});
 
   @override
-  State<_Body> createState() => _BodyState();
+  State<_Tabbar> createState() => _TabbarState();
+
+  @override
+  Size get preferredSize => Size.fromHeight(_Tabbar.thikness);
 }
 
-final class _BodyState extends State<_Body> with DialogHelper {
-  late final TextEditingController _controller;
+class _TabbarState extends State<_Tabbar> with SingleTickerProviderStateMixin {
+  late int index = widget.index;
 
-  static const _presets = [100, 500, 1000, 5000, 10000];
+  late final _controller = AnimationController(
+    vsync: this,
+    duration: Duration(milliseconds: 300),
+  );
 
-  @override
-  void initState() {
-    super.initState();
-    final initialSats = context.read<DonateLightningBloc>().data.sats;
-    _controller = TextEditingController(text: initialSats.toString());
-  }
+  late final _animation = Tween<double>(
+    begin: 0.0,
+    end: 1.0,
+  ).animate(_controller);
 
   @override
   void dispose() {
@@ -45,124 +101,47 @@ final class _BodyState extends State<_Body> with DialogHelper {
     super.dispose();
   }
 
-  void _listener(BuildContext context, DonateLightningState state) {
-    switch (state) {
-      case InvoiceReadyState():
-        OpenWalletHelper.openLightningInvoice(
-          state.invoice,
-          lightningApp: state.data.selectedWallet,
-        );
-      case ErrorState():
-        final message =
-            AppError.getMessageOrNull(state.e) ?? 'Failed to generate invoice';
-        showError(context, error: AppError.common(message: message));
-      default:
-        break;
+  @override
+  void didUpdateWidget(covariant _Tabbar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.index != widget.index) {
+      index = widget.index;
+      if (index == 0) {
+        _controller.reverse();
+      } else {
+        _controller.forward();
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<DonateLightningBloc, DonateLightningState>(
-      listener: _listener,
-      builder: (context, state) {
-        final isLoading = state is LoadingState;
-        final data = state.data;
-
-        return Scaffold(
-          appBar: AppBar(title: const Text('Donate via Lightning ⚡')),
-          body: AbsorbPointer(
-            absorbing: isLoading,
-            child: ListView(
-              padding: const EdgeInsets.all(16),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        final width2 = width / 2.0;
+        final theme = Theme.of(context);
+        return AnimatedBuilder(
+          animation: _animation,
+          builder: (context, _) {
+            return Stack(
               children: [
-                const SizedBox(height: 8),
-                Text(
-                  'Support development with a lightning payment',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                const SizedBox(height: 24),
-
-                // --- Sats input ---
-                TextField(
-                  controller: _controller,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  decoration: const InputDecoration(
-                    labelText: 'Amount (sats)',
-                    border: OutlineInputBorder(),
-                    suffixText: 'sats',
+                SizedBox(height: _Tabbar.thikness, width: width),
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: _animation.value * width2,
+                  width: width2,
+                  child: Divider(
+                    height: _Tabbar.thikness,
+                    color: theme.colorScheme.primary,
+                    thickness: _Tabbar.thikness,
                   ),
-                  onChanged: (v) {
-                    final sats = int.tryParse(v) ?? 0;
-                    context.read<DonateLightningBloc>().add(
-                      DonateLightningEvent.updateSats(sats),
-                    );
-                  },
                 ),
-                const SizedBox(height: 12),
-
-                // --- Preset buttons ---
-                Wrap(
-                  spacing: 8,
-                  children: _presets.map((amount) {
-                    return ActionChip(
-                      label: Text('$amount'),
-                      onPressed: () {
-                        _controller.text = amount.toString();
-                        context.read<DonateLightningBloc>().add(
-                          DonateLightningEvent.updateSats(amount),
-                        );
-                      },
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 32),
-
-                // --- Wallet picker ---
-                Text(
-                  'Open in wallet (optional)',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 4,
-                  children: LightningApps.values.map((app) {
-                    final selected = data.selectedWallet == app;
-                    return FilterChip(
-                      label: Text(app.displayName),
-                      selected: selected,
-                      onSelected: (_) {
-                        context.read<DonateLightningBloc>().add(
-                          DonateLightningEvent.selectWallet(app),
-                        );
-                      },
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 32),
-
-                // --- Submit ---
-                if (isLoading)
-                  const Center(child: CircularProgressIndicator())
-                else
-                  FilledButton.icon(
-                    onPressed: data.sats > 0
-                        ? () => context.read<DonateLightningBloc>().add(
-                            const DonateLightningEvent.submit(),
-                          )
-                        : null,
-                    icon: const Icon(Icons.bolt),
-                    label: Text(
-                      data.selectedWallet != null
-                          ? 'Open in ${data.selectedWallet!.displayName}'
-                          : 'Generate invoice',
-                    ),
-                  ),
               ],
-            ),
-          ),
+            );
+          },
         );
       },
     );

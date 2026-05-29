@@ -33,6 +33,54 @@ final class PrymaryButton extends StatelessWidget {
   }
 }
 
+final class OpacityOutlinedButton extends StatelessWidget {
+  static const minWidth = 100.0;
+  static const disabledOpacity = 0.5;
+  final Widget title;
+  final Color? backgroundColor;
+
+  final VoidCallback? onTap;
+
+  const OpacityOutlinedButton({
+    super.key,
+    required this.title,
+    this.backgroundColor,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return CupertinoButton(
+      onPressed: onTap,
+      padding: .zero,
+      sizeStyle: .small,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          minWidth: minWidth,
+          maxHeight: Sizes.buttonHeight,
+        ),
+
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: backgroundColor ?? Colors.transparent,
+            border: Border.all(color: theme.colorScheme.outline),
+            borderRadius: BorderRadius.circular(Sizes.buttonHeight),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: Sizes.indent2x,
+              vertical: Sizes.indent,
+            ),
+            child: title,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 final class PrymaryLoadingButtonVM extends ChangeNotifier {
   bool _isLoading = false;
 
@@ -48,11 +96,14 @@ final class PrymaryLoadingButtonVM extends ChangeNotifier {
 
 final class PrymaryLoadingButton extends StatelessWidget {
   final String title;
+  final double? width;
   final PrymaryLoadingButtonVM vm;
   final VoidCallback? onTap;
+
   const PrymaryLoadingButton({
     super.key,
     required this.title,
+    this.width,
     required this.vm,
     this.onTap,
   });
@@ -73,20 +124,23 @@ final class PrymaryLoadingButton extends StatelessWidget {
 
         return Stack(
           children: [
-            CupertinoButton.filled(
-              onPressed: vm.isLoading || onTap == null
-                  ? null
-                  : () {
-                      vm.setLoading(true);
-                      onTap?.call();
-                    },
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  minWidth: PrymaryButton.minWidth,
-                ),
-                child: DefaultTextStyle(
-                  style: TextStyle(color: color),
-                  child: Text(title, textAlign: TextAlign.center),
+            SizedBox(
+              width: width,
+              child: CupertinoButton.filled(
+                onPressed: vm.isLoading || onTap == null
+                    ? null
+                    : () {
+                        vm.setLoading(true);
+                        onTap?.call();
+                      },
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minWidth: PrymaryButton.minWidth,
+                  ),
+                  child: DefaultTextStyle(
+                    style: TextStyle(color: color),
+                    child: Text(title, textAlign: TextAlign.center),
+                  ),
                 ),
               ),
             ),

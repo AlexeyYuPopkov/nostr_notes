@@ -116,7 +116,7 @@ final class NotesListCard extends StatelessWidget
                 children: [
                   Expanded(
                     child: Column(
-                      spacing: Sizes.halfIndent,
+                      spacing: Sizes.indentVariant,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _Title(

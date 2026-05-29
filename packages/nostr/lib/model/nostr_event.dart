@@ -54,4 +54,18 @@ class NostrEvent extends BaseNostrEvent {
 
     return result;
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! NostrEvent) return false;
+
+    return kind == other.kind && id == other.id && sig == other.sig;
+  }
+
+  @override
+  int get hashCode {
+    final tagsHash = Object.hashAll(tags.map((tag) => Object.hashAll(tag)));
+    return Object.hash(kind, id, pubkey, createdAt, tagsHash, content, sig);
+  }
 }

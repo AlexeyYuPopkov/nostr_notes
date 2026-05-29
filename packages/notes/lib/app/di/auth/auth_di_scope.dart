@@ -1,8 +1,11 @@
+import 'package:common/data/zap/fetch_user_zapper_service.dart';
 import 'package:common/data/zap/lightning_donation_repo.dart';
+import 'package:common/data/zap/perform_lighting_invoice_service.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
+import 'package:nostr/nostr_client/nostr_event_creator.dart';
 import 'package:nostr_notes/auth/data/get_pending_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/lightning_donation_repo_impl.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
@@ -140,6 +143,12 @@ final class AuthDiScope extends DiScope {
       () => LightningDonationRepoImpl(
         sessionUsecase: di.resolve(),
         relaysListRepo: di.resolve(),
+        performLightingInvoiceService: PerformLightingInvoiceService(
+          fetchUserZapperService: const FetchUserZapperService(),
+          zapEventCreator: const ZapEventCreator(
+            eventCreator: NostrEventCreator(),
+          ),
+        ),
       ),
       module: this,
       lifeTime: const LifeTime.single(),

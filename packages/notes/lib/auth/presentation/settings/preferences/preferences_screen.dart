@@ -22,7 +22,7 @@ final class PreferencesScreen extends StatelessWidget with DialogHelper {
           final item = PreferencesItem.items[index];
 
           return SettingsItemTile(
-            title: item.getTitle(context),
+            title: Text(item.getTitle(context)),
             position: item.position,
 
             trailing: item.trailing(context),

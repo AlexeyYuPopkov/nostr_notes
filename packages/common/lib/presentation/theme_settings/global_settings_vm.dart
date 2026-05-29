@@ -1,6 +1,7 @@
 import 'package:common/domain/error/app_error.dart';
 import 'package:common/domain/repo/app_theme_data_repo_impl.dart';
 import 'package:flutter/material.dart';
+import 'package:nostr_notes/core/tools/optional_box.dart';
 
 final class GlobalSettingsError extends AppError {
   const GlobalSettingsError({super.parentError, super.reason});
@@ -20,6 +21,7 @@ final class GlobalSettingsError extends AppError {
 final class GlobalSettingsVm {
   final AppThemeDataRepo _appThemeDataRepo;
   late final ValueNotifier<ThemeMode> themeModeNotifier;
+  late final ValueNotifier<Locale?> localeNotifier;
   late final ValueNotifier<int> lightBgIndexNotifier;
   late final ValueNotifier<int> darkBgIndexNotifier;
   late final ValueNotifier<int> lightCardIndexNotifier;
@@ -30,6 +32,7 @@ final class GlobalSettingsVm {
     : _appThemeDataRepo = appThemeDataRepo {
     final appThemeData = _appThemeDataRepo.load();
     themeModeNotifier = ValueNotifier(appThemeData.themeMode);
+    localeNotifier = ValueNotifier(_parseLocale(appThemeData.localeCode.value));
     lightBgIndexNotifier = ValueNotifier(appThemeData.lightBgIndex);
     darkBgIndexNotifier = ValueNotifier(appThemeData.darkBgIndex);
     lightCardIndexNotifier = ValueNotifier(appThemeData.lightCardIndex);
@@ -38,6 +41,7 @@ final class GlobalSettingsVm {
   }
 
   ThemeMode get themeMode => themeModeNotifier.value;
+  Locale? get locale => localeNotifier.value;
 
   Future<void> setThemeMode(ThemeMode value) async {
     final result = await _setAppThemeData(
@@ -84,6 +88,16 @@ final class GlobalSettingsVm {
     }
   }
 
+  Future<void> setLocale(Locale? value) async {
+    final localeCode = value?.languageCode;
+    final result = await _setAppThemeData(
+      _appThemeDataRepo.load().copyWith(localeCode: OptionalBox(localeCode)),
+    );
+    if (result != null) {
+      localeNotifier.value = _parseLocale(result.localeCode.value);
+    }
+  }
+
   Future<AppThemeData?> _setAppThemeData(AppThemeData data) async {
     try {
       await _appThemeDataRepo.save(data);
@@ -104,4 +118,14 @@ final class GlobalSettingsVm {
   int get darkBgIndex => darkBgIndexNotifier.value;
   int get lightCardIndex => lightCardIndexNotifier.value;
   int get darkCardIndex => darkCardIndexNotifier.value;
+
+  Locale? _parseLocale(String? value) {
+    if (value == null || value.isEmpty) return null;
+
+    final parts = value.split(RegExp(r'[-_]'));
+    if (parts.length == 1) {
+      return Locale(parts.first);
+    }
+    return Locale(parts.first, parts[1]);
+  }
 }

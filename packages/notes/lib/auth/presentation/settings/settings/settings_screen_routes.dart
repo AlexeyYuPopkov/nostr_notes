@@ -12,6 +12,10 @@ final class PinKeyboardTypeRoute implements AppRoute {
   const PinKeyboardTypeRoute();
 }
 
+final class LocaleSettingsRoute implements AppRoute {
+  const LocaleSettingsRoute();
+}
+
 final class CredentialsDataRoute implements AppRoute {
   const CredentialsDataRoute();
 }
@@ -34,4 +38,8 @@ final class DeleteAccRoute implements AppRoute {
 
 final class DonateLightningRoute implements AppRoute {
   const DonateLightningRoute();
+}
+
+final class ApkDistributionRoute implements AppRoute {
+  const ApkDistributionRoute();
 }

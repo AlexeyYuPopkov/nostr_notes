@@ -10,6 +10,7 @@ final class AppRouterPath {
   static const String notePreview = 'note_preview';
   static const String contacts = 'contacts';
   static const String privacyPolicy = 'privacy_policy';
+  static const String apkDistribution = 'apk_distribution';
 }
 
 final class AppRouterName {
@@ -18,5 +19,6 @@ final class AppRouterName {
   static const String onboarding = 'onboarding';
   static const String home = 'home';
   static const String note = 'note';
+  static const String apkDistribution = 'apk_distribution';
   // static const String noteDetails = 'note_details';
 }
