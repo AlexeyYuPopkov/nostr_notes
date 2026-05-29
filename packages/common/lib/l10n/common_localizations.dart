@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'common_localizations_en.dart';
+import 'common_localizations_ru.dart';
 
 // ignore_for_file: type=lint
 
@@ -92,7 +93,10 @@ abstract class CommonLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('ru'),
+  ];
 
   /// No description provided for @commonButtonBack.
   ///
@@ -336,7 +340,7 @@ class _CommonLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['en', 'ru'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_CommonLocalizationsDelegate old) => false;
@@ -347,6 +351,8 @@ CommonLocalizations lookupCommonLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return CommonLocalizationsEn();
+    case 'ru':
+      return CommonLocalizationsRu();
   }
 
   throw FlutterError(

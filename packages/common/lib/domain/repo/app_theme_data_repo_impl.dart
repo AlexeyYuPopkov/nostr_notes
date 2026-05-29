@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:nostr_notes/core/tools/optional_box.dart';
 
 final class AppThemeData {
   final ThemeMode themeMode;
+  final OptionalBox<String> localeCode;
   final int lightBgIndex;
   final int darkBgIndex;
   final int lightCardIndex;
@@ -9,6 +11,7 @@ final class AppThemeData {
 
   const AppThemeData({
     required this.themeMode,
+    required this.localeCode,
     required this.lightBgIndex,
     required this.darkBgIndex,
     this.lightCardIndex = 0,
@@ -17,6 +20,8 @@ final class AppThemeData {
 
   AppThemeData copyWith({
     ThemeMode? themeMode,
+    OptionalBox<String>? localeCode,
+
     int? lightBgIndex,
     int? darkBgIndex,
     int? lightCardIndex,
@@ -24,6 +29,7 @@ final class AppThemeData {
   }) {
     return AppThemeData(
       themeMode: themeMode ?? this.themeMode,
+      localeCode: localeCode ?? this.localeCode,
       lightBgIndex: lightBgIndex ?? this.lightBgIndex,
       darkBgIndex: darkBgIndex ?? this.darkBgIndex,
       lightCardIndex: lightCardIndex ?? this.lightCardIndex,

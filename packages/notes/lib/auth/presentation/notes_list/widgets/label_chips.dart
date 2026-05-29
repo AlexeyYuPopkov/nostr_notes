@@ -30,7 +30,6 @@ final class LabelChips extends StatelessWidget {
             style: theme.textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w400,
               color: theme.colorScheme.onSurfaceVariant,
-              // height: lineHeight,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -66,9 +65,9 @@ final class LabelChips extends StatelessWidget {
                               color: theme.colorScheme.onSecondaryContainer,
                             ),
                             children: [
-                              TextSpan(
-                                text: label.symbol,
-                                style: TextStyle(fontSize: TextSizes.tiny),
+                              TextSpan(text: label.symbol),
+                              const WidgetSpan(
+                                child: SizedBox(width: Sizes.tinyIndent),
                               ),
                               TextSpan(text: label.type.name),
                             ],
@@ -76,14 +75,6 @@ final class LabelChips extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-
-                        //  Text(
-
-                        //   '${label.symbol} ${label.type.name}',
-                        //   style: theme.textTheme.titleMedium?.copyWith(
-                        //     color: theme.colorScheme.onSecondaryContainer,
-                        //   ),
-                        // ),
                       ),
                     ),
                   ),

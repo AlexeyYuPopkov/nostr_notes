@@ -18,6 +18,14 @@
     "onboardingSignUpPageOptionMD2": "🔐 **You own your identity** - Your key is your identity. No company controls your account.",
     "onboardingSignUpPageOptionMD3": "🌍 **Works Everywhere** - Use the same key across all Nostr-powered apps",
     "onboardingSignUpButtonGenerateKey": "Generate a Nostr Key",
+    "apkDistributionTitle": "Download APK",
+    "apkDistributionDescription": "You can download the installation file directly. It is recommended to verify the SHA-256 checksum after downloading.",
+    "apkDistributionDownloadButton": "Download .apk",
+    "apkDistributionViewChecksum": "View Checksum (SHA-256)",
+    "appStoreBannerTitle": "Available on the App Store",
+    "appStoreBannerButton": "Open in AppStore",
+    "apkBannerTitle": "Android APK",
+    "apkBannerButton": "Download APK",
     "onboardingSignUpAlreadyHaveAccount": "Already have an account?",
     "onboardingSignUpButtonLogin": "Log In",
     "onboardingShowNsecPageTitle": "Your Nostr Private Key (Nsec Key)",
@@ -72,11 +80,15 @@
     "settingsItemContacts": "Contacts",
     "settingsItemBuyMeACoffee": "Buy me a coffee ☕",
     "settingsItemDonateBTC": "Donate via Lightning ⚡",
-    "settingsItemContactsLabelContacts":"Contacts",
-    "settingsItemContactsContactsMd": "- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)",
-    "settingsItemContactsLabelFAQ":"FAQ",
+    "settingsItemContactsLabelContacts": "Contacts",
+    "settingsItemContactsContactsMd": "- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [@alexey_yu_popkov](https://t.me/alexey_yu_popkov)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)",
+    "settingsItemContactsLabelFAQ": "FAQ",
     "settingsItemContactsMdFaq": "\n\n- Forgot PIN? Notes cannot be recovered — PIN is never stored.\n- Lost nsec? Account cannot be restored without private key.",
     "preferencesScreenItemRelays": "Connected Relays",
+    "preferencesScreenItemLanguage": "Language",
+    "preferencesScreenLanguageSystem": "System",
+    "preferencesScreenLanguageEnglish": "English",
+    "preferencesScreenLanguageRussian": "Русский",
     "preferencesScreenItemMobilePinKeyboardType": "PIN Keyboard Type",
     "pinKeyboardTypeScreenTitle": "PIN Keyboard Type",
     "pinKeyboardTypeScreenDescription": "Choose the keyboard type shown when entering your PIN",
@@ -126,5 +138,25 @@
     "classificationClassOther": "Other",
     "notePreviewMoreMenuAssignFolder": "Assign folder",
     "notePreviewMoreMenuCopyContent": "Copy content",
-    "notePreviewMoreMenuInfo": "Info"
+    "notePreviewMoreMenuInfo": "Info",
+    "donateLightningScreenTitle": "Donate via Lightning ⚡",
+    "donateLightningScreenSubtitle": "Support development with a lightning payment",
+    "donateLightningScreenErrorInvoice": "Failed to generate invoice",
+    "donateLightningScreenInputHint": "Amount (sats)",
+    "donateLightningScreenWalletSectionTitle": "Open in wallet",
+    "donateLightningScreenSubmitButtonOpenInWallet": "Open in {walletName}",
+    "@donateLightningScreenSubmitButtonOpenInWallet": {
+        "placeholders": {
+            "walletName": {
+                "format": "String",
+                "type": "String"
+            }
+        }
+    },
+    "donateLightningScreenSubmitButtonGenerateInvoice": "Generate invoice",
+    "donateLightningScreenButtonEditAmount": "Edit amount",
+    "donateLightningScreenButtonCopyInvoice": "Copy invoice",
+    "donateLightningScreenButtonOpenWithLightning": "Open with Lightning",
+    "donateLightningScreenQrInstruction": "Scan this QR code with your Lightning wallet app on your phone.",
+    "donateLightningScreenMessageInvoiceCopied":"Invoice copied to clipboard"
 }

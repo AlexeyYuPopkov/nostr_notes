@@ -15,14 +15,14 @@ sealed class DonateLightningState extends Equatable {
     required DonateLightningData data,
   }) = LoadingState;
 
-  const factory DonateLightningState.invoiceReady({
-    required DonateLightningData data,
-    required String invoice,
-  }) = InvoiceReadyState;
+  // const factory DonateLightningState.invoiceReady({
+  //   required DonateLightningData data,
+  //   required String invoice,
+  // }) = InvoiceReadyState;
 
   const factory DonateLightningState.error({
     required DonateLightningData data,
-    required Object e,
+    required Object error,
   }) = ErrorState;
 }
 
@@ -34,18 +34,18 @@ final class LoadingState extends DonateLightningState {
   const LoadingState({required super.data});
 }
 
-final class InvoiceReadyState extends DonateLightningState {
-  final String invoice;
-  const InvoiceReadyState({required super.data, required this.invoice});
+// final class InvoiceReadyState extends DonateLightningState {
+//   final String invoice;
+//   const InvoiceReadyState({required super.data, required this.invoice});
 
-  @override
-  List<Object?> get props => [data, invoice];
-}
+//   @override
+//   List<Object?> get props => [data, invoice];
+// }
 
 final class ErrorState extends DonateLightningState {
-  final Object e;
-  const ErrorState({required super.data, required this.e});
+  final Object error;
+  const ErrorState({required super.data, required this.error});
 
   @override
-  List<Object?> get props => [data, e];
+  List<Object?> get props => [data, error];
 }

@@ -23,6 +23,7 @@ import 'package:common/data/repo/key_tool_repository_impl.dart';
 import 'package:common/presentation/tools/root_context_provider/root_context_provider.dart';
 import 'package:common/data/repo/secure_storage_impl.dart';
 import 'package:common/domain/repo/key_tool_repository.dart';
+import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
@@ -133,10 +134,21 @@ final class UnauthDiScope extends DiScope {
       },
     );
 
+    di.bind<AppLifecycleListenerRepository>(
+      () => AppLifecycleListenerDatasource(),
+      module: this,
+      lifeTime: const LifeTime.single(),
+      onRemove: (e) {
+        if (e is AppLifecycleListenerDatasource) {
+          e.dispose();
+        }
+      },
+    );
+
     di.bind<VerificationUsecase>(
       () => VerificationUsecase(
         biometricRepository: BiometricDatasourceImpl(),
-        appLifecycleListenerRepository: AppLifecycleListenerDatasource(),
+        appLifecycleListenerRepository: di.resolve(),
         authUsecase: di.resolve(),
       ),
       module: this,

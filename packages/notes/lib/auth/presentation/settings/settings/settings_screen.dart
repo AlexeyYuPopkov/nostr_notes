@@ -1,3 +1,4 @@
+import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:nostr_notes/auth/presentation/settings/settings/bloc/settings_sc
 import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/l10n/localization.dart';
+import 'package:nostr_notes/app/presentation/widgets/banners/distribution_banners.dart';
 
 import 'items/settings_screen_item.dart';
 
@@ -68,8 +70,14 @@ final class _SettingsScreenState extends State<SettingsScreen>
               child: ListView.builder(
                 physics: AlwaysScrollableScrollPhysics(),
                 controller: _vm.scrollController,
-                itemCount: SettingsItem.items.length,
+                itemCount: SettingsItem.items.length + 1,
                 itemBuilder: (context, index) {
+                  if (index == SettingsItem.items.length) {
+                    return const Padding(
+                      padding: EdgeInsets.all(Sizes.indent2x),
+                      child: DistributionBanners(),
+                    );
+                  }
                   final item = SettingsItem.items[index];
                   return SettingsItemTile(
                     title: item.getTitle(context),

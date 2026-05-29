@@ -5,9 +5,17 @@ import 'package:nostr/model/tag/tag_value.dart';
 
 final class AppConfig {
   static const kKofiUrl = 'https://ko-fi.com/alekseiipopkov';
+  static const appStoreLink =
+      'https://apps.apple.com/bg/app/private-notes-nostr/id6757975921';
+
+  static const apkGHPagesUrl =
+      'https://alexeyyupopkov.github.io/downloads/nostr_notes-release.apk';
+  static const apkGHPagesSha256Url =
+      'https://alexeyyupopkov.github.io/downloads/nostr_notes-release.apk.sha256';
 
   /// Developer's lightning address for in-app donations (LUD-16).
   static const kDevLightningAddress = 'visualgemini28@walletofsatoshi.com';
+  // static const kDevLightningAddress = 'dioramaexperienced776464@getalby.com';
 
   /// Developer's nostr hex pubkey — used to create NIP-57 zap events.
   static const kDevNostrPubkey =

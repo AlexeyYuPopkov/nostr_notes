@@ -9,11 +9,11 @@ import 'package:nostr/nostr_client/nostr_event_creator.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 
-final class PerformLightingInvoiceUsecase {
+final class PerformLightingInvoiceService {
   final FetchUserZapperService _fetchUserZapperService;
   final ZapEventCreator _zapEventCreator;
 
-  PerformLightingInvoiceUsecase({
+  PerformLightingInvoiceService({
     required FetchUserZapperService fetchUserZapperService,
     required ZapEventCreator zapEventCreator,
   }) : _zapEventCreator = zapEventCreator,
@@ -53,7 +53,7 @@ final class PerformLightingInvoiceUsecase {
       lnurl: zapper.originalLnurl,
       zappedEventAddress: null,
       recipientPubKey: params.recepientPubKey,
-      additionalTags: null,
+      additionalTags: params.additionalTags,
     );
 
     final invoiceEventId = event.id;
@@ -104,6 +104,7 @@ final class PerformLightingPaymentUsecaseParams extends Equatable {
   final UserKeys keys;
   final Set<String> relays;
   final String recepientPubKey;
+  final List<List<String>>? additionalTags;
 
   const PerformLightingPaymentUsecaseParams({
     required this.lightningAddress,
@@ -111,10 +112,18 @@ final class PerformLightingPaymentUsecaseParams extends Equatable {
     required this.keys,
     required this.relays,
     required this.recepientPubKey,
+    this.additionalTags,
   });
 
   @override
-  List<Object?> get props => [lightningAddress, satsAmount, keys, relays];
+  List<Object?> get props => [
+    lightningAddress,
+    satsAmount,
+    keys,
+    relays,
+    recepientPubKey,
+    additionalTags,
+  ];
 }
 
 final class ZapEventCreator {

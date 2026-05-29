@@ -4,6 +4,7 @@
         {
             "name": "Notes (debug)",
             "request": "launch",
+            "program": "packages/notes/lib/main.dart",
             "type": "dart"
         },
         {
@@ -17,8 +18,9 @@
             "flutterMode": "debug"
         },
         {
-            "name": "Profile",
+            "name": "Notes (profile)",
             "request": "launch",
+            "program": "packages/notes/lib/main.dart",
             "type": "dart",
             "flutterMode": "profile"
         },
@@ -44,6 +46,13 @@
             "program": "${workspaceFolder}/packages/chat/lib/main.dart",
             "cwd": "${workspaceFolder}/packages/chat",
             "flutterMode": "profile"
+        },
+        {
+            "name": "Flutter (lib/auth/data/lightning_donation_repo_impl.dart)",
+            "type": "dart",
+            "request": "launch",
+            "cwd": "packages/notes",
+            "program": "lib/auth/data/lightning_donation_repo_impl.dart"
         }
     ]
 }

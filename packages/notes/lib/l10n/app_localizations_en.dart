@@ -76,6 +76,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingSignUpButtonGenerateKey => 'Generate a Nostr Key';
 
   @override
+  String get apkDistributionTitle => 'Download APK';
+
+  @override
+  String get apkDistributionDescription =>
+      'You can download the installation file directly. It is recommended to verify the SHA-256 checksum after downloading.';
+
+  @override
+  String get apkDistributionDownloadButton => 'Download .apk';
+
+  @override
+  String get apkDistributionViewChecksum => 'View Checksum (SHA-256)';
+
+  @override
+  String get appStoreBannerTitle => 'Available on the App Store';
+
+  @override
+  String get appStoreBannerButton => 'Open in AppStore';
+
+  @override
+  String get apkBannerTitle => 'Android APK';
+
+  @override
+  String get apkBannerButton => 'Download APK';
+
+  @override
   String get onboardingSignUpAlreadyHaveAccount => 'Already have an account?';
 
   @override
@@ -235,7 +260,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsItemContactsContactsMd =>
-      '- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)';
+      '- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [@alexey_yu_popkov](https://t.me/alexey_yu_popkov)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)';
 
   @override
   String get settingsItemContactsLabelFAQ => 'FAQ';
@@ -246,6 +271,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get preferencesScreenItemRelays => 'Connected Relays';
+
+  @override
+  String get preferencesScreenItemLanguage => 'Language';
+
+  @override
+  String get preferencesScreenLanguageSystem => 'System';
+
+  @override
+  String get preferencesScreenLanguageEnglish => 'English';
+
+  @override
+  String get preferencesScreenLanguageRussian => 'Русский';
 
   @override
   String get preferencesScreenItemMobilePinKeyboardType => 'PIN Keyboard Type';
@@ -409,4 +446,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notePreviewMoreMenuInfo => 'Info';
+
+  @override
+  String get donateLightningScreenTitle => 'Donate via Lightning ⚡';
+
+  @override
+  String get donateLightningScreenSubtitle =>
+      'Support development with a lightning payment';
+
+  @override
+  String get donateLightningScreenErrorInvoice => 'Failed to generate invoice';
+
+  @override
+  String get donateLightningScreenInputHint => 'Amount (sats)';
+
+  @override
+  String get donateLightningScreenWalletSectionTitle => 'Open in wallet';
+
+  @override
+  String donateLightningScreenSubmitButtonOpenInWallet(String walletName) {
+    return 'Open in $walletName';
+  }
+
+  @override
+  String get donateLightningScreenSubmitButtonGenerateInvoice =>
+      'Generate invoice';
+
+  @override
+  String get donateLightningScreenButtonEditAmount => 'Edit amount';
+
+  @override
+  String get donateLightningScreenButtonCopyInvoice => 'Copy invoice';
+
+  @override
+  String get donateLightningScreenButtonOpenWithLightning =>
+      'Open with Lightning';
+
+  @override
+  String get donateLightningScreenQrInstruction =>
+      'Scan this QR code with your Lightning wallet app on your phone.';
+
+  @override
+  String get donateLightningScreenMessageInvoiceCopied =>
+      'Invoice copied to clipboard';
 }

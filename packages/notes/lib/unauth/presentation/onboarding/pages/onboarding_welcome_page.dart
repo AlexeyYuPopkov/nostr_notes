@@ -9,6 +9,7 @@ import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/auth/presentation/settings/help_screen/help_screen.dart';
 import 'package:common/presentation/buttons/prymary_button.dart';
+import 'package:nostr_notes/app/presentation/widgets/banners/distribution_banners.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
 
 import '../bloc/onboarding_screen_bloc.dart';
@@ -85,6 +86,7 @@ final class OnboardingWelcomePage extends StatelessWidget {
               ),
             ),
           ),
+          const DistributionBanners(),
         ],
       ),
     );

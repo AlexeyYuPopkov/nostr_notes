@@ -147,7 +147,7 @@ final class _Tile extends StatelessWidget with _OnThemeChanged {
     final theme = Theme.of(context);
 
     return SettingsItemTile(
-      title: themeMode.getName(context),
+      title: Text(themeMode.getName(context)),
       position: position,
       trailing: Radio.adaptive(
         value: themeMode,
@@ -183,7 +183,7 @@ final class _ColorPicker extends StatelessWidget {
       valueListenable: notifier,
       builder: (context, selectedIndex, _) {
         return SettingsItemTile(
-          title: title,
+          title: Text(title),
           position: position,
           sectionTitle: _getSectionTitle(context),
           trailing: _ColorSwatchRow(

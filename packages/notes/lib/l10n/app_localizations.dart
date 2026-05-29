@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_ru.dart';
 
 // ignore_for_file: type=lint
 
@@ -92,7 +93,10 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('ru'),
+  ];
 
   /// No description provided for @appDisplayName.
   ///
@@ -207,6 +211,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Generate a Nostr Key'**
   String get onboardingSignUpButtonGenerateKey;
+
+  /// No description provided for @apkDistributionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download APK'**
+  String get apkDistributionTitle;
+
+  /// No description provided for @apkDistributionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'You can download the installation file directly. It is recommended to verify the SHA-256 checksum after downloading.'**
+  String get apkDistributionDescription;
+
+  /// No description provided for @apkDistributionDownloadButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Download .apk'**
+  String get apkDistributionDownloadButton;
+
+  /// No description provided for @apkDistributionViewChecksum.
+  ///
+  /// In en, this message translates to:
+  /// **'View Checksum (SHA-256)'**
+  String get apkDistributionViewChecksum;
+
+  /// No description provided for @appStoreBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Available on the App Store'**
+  String get appStoreBannerTitle;
+
+  /// No description provided for @appStoreBannerButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in AppStore'**
+  String get appStoreBannerButton;
+
+  /// No description provided for @apkBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Android APK'**
+  String get apkBannerTitle;
+
+  /// No description provided for @apkBannerButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Download APK'**
+  String get apkBannerButton;
 
   /// No description provided for @onboardingSignUpAlreadyHaveAccount.
   ///
@@ -493,7 +545,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsItemContactsContactsMd.
   ///
   /// In en, this message translates to:
-  /// **'- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [+359 87 6138328](tel:+359876138328)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)'**
+  /// **'- 📧 Email: [alexey.yu.popkov@gmail.com](mailto:alexey.yu.popkov@gmail.com)\n- 📱 Telegram: [@alexey_yu_popkov](https://t.me/alexey_yu_popkov)\n- 💼 LinkedIn: [https://www.linkedin.com/in/alekseii-popkov-57007282](https://www.linkedin.com/in/alekseii-popkov-57007282)'**
   String get settingsItemContactsContactsMd;
 
   /// No description provided for @settingsItemContactsLabelFAQ.
@@ -513,6 +565,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Connected Relays'**
   String get preferencesScreenItemRelays;
+
+  /// No description provided for @preferencesScreenItemLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get preferencesScreenItemLanguage;
+
+  /// No description provided for @preferencesScreenLanguageSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get preferencesScreenLanguageSystem;
+
+  /// No description provided for @preferencesScreenLanguageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get preferencesScreenLanguageEnglish;
+
+  /// No description provided for @preferencesScreenLanguageRussian.
+  ///
+  /// In en, this message translates to:
+  /// **'Русский'**
+  String get preferencesScreenLanguageRussian;
 
   /// No description provided for @preferencesScreenItemMobilePinKeyboardType.
   ///
@@ -813,6 +889,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Info'**
   String get notePreviewMoreMenuInfo;
+
+  /// No description provided for @donateLightningScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Donate via Lightning ⚡'**
+  String get donateLightningScreenTitle;
+
+  /// No description provided for @donateLightningScreenSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support development with a lightning payment'**
+  String get donateLightningScreenSubtitle;
+
+  /// No description provided for @donateLightningScreenErrorInvoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to generate invoice'**
+  String get donateLightningScreenErrorInvoice;
+
+  /// No description provided for @donateLightningScreenInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount (sats)'**
+  String get donateLightningScreenInputHint;
+
+  /// No description provided for @donateLightningScreenWalletSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in wallet'**
+  String get donateLightningScreenWalletSectionTitle;
+
+  /// No description provided for @donateLightningScreenSubmitButtonOpenInWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in {walletName}'**
+  String donateLightningScreenSubmitButtonOpenInWallet(String walletName);
+
+  /// No description provided for @donateLightningScreenSubmitButtonGenerateInvoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate invoice'**
+  String get donateLightningScreenSubmitButtonGenerateInvoice;
+
+  /// No description provided for @donateLightningScreenButtonEditAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit amount'**
+  String get donateLightningScreenButtonEditAmount;
+
+  /// No description provided for @donateLightningScreenButtonCopyInvoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy invoice'**
+  String get donateLightningScreenButtonCopyInvoice;
+
+  /// No description provided for @donateLightningScreenButtonOpenWithLightning.
+  ///
+  /// In en, this message translates to:
+  /// **'Open with Lightning'**
+  String get donateLightningScreenButtonOpenWithLightning;
+
+  /// No description provided for @donateLightningScreenQrInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan this QR code with your Lightning wallet app on your phone.'**
+  String get donateLightningScreenQrInstruction;
+
+  /// No description provided for @donateLightningScreenMessageInvoiceCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Invoice copied to clipboard'**
+  String get donateLightningScreenMessageInvoiceCopied;
 }
 
 class _AppLocalizationsDelegate
@@ -826,7 +974,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['en', 'ru'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -837,6 +985,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
+    case 'ru':
+      return AppLocalizationsRu();
   }
 
   throw FlutterError(

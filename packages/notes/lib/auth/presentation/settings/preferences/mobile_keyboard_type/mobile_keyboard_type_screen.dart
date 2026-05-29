@@ -42,7 +42,7 @@ final class _MobileKeyboardTypeScreenState
           itemBuilder: (context, index) {
             final item = PinKeyboardType.values[index];
             return SettingsItemTile(
-              title: item.getSectionTitle(l10n),
+              title: Text(item.getSectionTitle(l10n)),
               position: item.position,
               sectionTitle: '',
               trailing: Radio.adaptive(

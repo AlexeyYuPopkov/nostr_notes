@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_list_tab_repo.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/tabs/folders_tab_content.dart';
+import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
 import 'package:nostr_notes/l10n/app_localizations.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
@@ -49,9 +50,13 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   late final foldersVm = FoldersTabContentVM.fromNotes([], null, l10n);
   late final NotesListTabRepo _tabRepo = _di.resolve();
 
+  late final AppLifecycleListenerRepository appLifecycleListener = _di
+      .resolve();
+
   StreamSubscription? _fetchNotesSubscription;
   StreamSubscription? _getNotesSubscription;
   StreamSubscription? _errorSubscription;
+  StreamSubscription? _lifecycleSubscription;
 
   NotesListBloc({required this.l10n})
     : super(NotesListState.loading(data: NotesListData.initial())) {
@@ -68,6 +73,8 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     _getNotesSubscription = null;
     _errorSubscription?.cancel();
     _errorSubscription = null;
+    _lifecycleSubscription?.cancel();
+    _lifecycleSubscription = null;
     pendingVm.dispose();
     return super.close();
   }
@@ -166,6 +173,13 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
           add(NotesListEvent.error(error: error));
         });
 
+    _lifecycleSubscription ??= appLifecycleListener.isActiveStream
+        .distinct()
+        .where((isActive) => isActive)
+        .listen((_) {
+          add(const InitialEvent(showShimmers: false));
+        });
+
     pendingVm.subscribe();
   }
 
@@ -175,9 +189,20 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         NotesListTab.tabs.elementAtOrNull(savedTabIndex) ??
         NotesListTab.tabs.first;
 
-    emit(NotesListState.loading(data: data.copyWith(tab: savedTab)));
+    final nextData = data.copyWith(tab: savedTab);
+
+    if (event.showShimmers) {
+      emit(NotesListState.loading(data: nextData));
+    } else if (state is! CommonState) {
+      emit(NotesListState.common(data: nextData));
+    }
 
     _setupSubscription();
+    if (!event.showShimmers) {
+      refreshButtonVm.isRefreshing = false;
+      return;
+    }
+
     await Future.delayed(const Duration(seconds: 3));
 
     if (state is LoadingState && isClosed == false) {

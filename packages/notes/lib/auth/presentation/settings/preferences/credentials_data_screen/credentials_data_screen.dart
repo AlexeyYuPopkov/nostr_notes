@@ -227,6 +227,7 @@ final class _ItemState extends State<_Item> {
                 horizontal: Sizes.indent2x,
                 vertical: Sizes.indentVariant2x,
               ),
+              fillColor: theme.colorScheme.tertiaryContainer,
               suffixIcon: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
