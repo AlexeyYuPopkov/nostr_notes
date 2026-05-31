@@ -1,1 +1,0 @@
-/usr/bin/cc  -arch arm64 -mmacosx-version-min=11.0 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/exhaustive_tests.dir/tests_exhaustive.c.o -o ../bin/exhaustive_tests
