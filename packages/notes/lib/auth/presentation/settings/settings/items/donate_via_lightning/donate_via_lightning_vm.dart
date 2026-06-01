@@ -11,12 +11,6 @@ final class DonateViaLightningVm {
   final FetchLightningDonationUsecase _fetchLightningDonationUsecase;
   final GetLightningDonationUsecase _getLightningDonationUsecase;
 
-  final String _eventATag;
-  final String _eventPubkey;
-  final String _invoiceEventId;
-  final String _payerPubKey;
-  final String _clientTagValue;
-
   StreamSubscription? _getSubscription;
   StreamSubscription? _fetchSubscription;
 
@@ -25,30 +19,11 @@ final class DonateViaLightningVm {
   DonateViaLightningVm({
     required FetchLightningDonationUsecase fetchLightningDonationUsecase,
     required GetLightningDonationUsecase getLightningDonationUsecase,
-
-    String eventATag = '',
-    String eventPubkey = AppConfig.kDevNostrPubkey,
-    String invoiceEventId = '',
-    String payerPubKey = '',
     String clientTagValue = AppConfig.appId,
   }) : _fetchLightningDonationUsecase = fetchLightningDonationUsecase,
-       _getLightningDonationUsecase = getLightningDonationUsecase,
+       _getLightningDonationUsecase = getLightningDonationUsecase;
 
-       _eventATag = eventATag,
-       _eventPubkey = eventPubkey,
-       _invoiceEventId = invoiceEventId,
-       _payerPubKey = payerPubKey,
-       _clientTagValue = clientTagValue;
-
-  void subscribe() {
-    final params = FetchLightningPaymentParams(
-      eventATag: _eventATag,
-      eventPubkey: _eventPubkey,
-      invoiceEventId: _invoiceEventId,
-      payerPubKey: _payerPubKey,
-      clientTagValue: _clientTagValue,
-    );
-
+  void subscribe(FetchLightningPaymentParams params) {
     _getSubscription?.cancel();
     _getSubscription = _getLightningDonationUsecase
         .execute(params: params)

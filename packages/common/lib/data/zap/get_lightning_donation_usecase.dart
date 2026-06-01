@@ -14,9 +14,6 @@ final class GetLightningDonationUsecase {
 
   Stream<List<ZapConfirmation>> execute({
     required FetchLightningPaymentParams params,
-    // required String eventATag,
-    // required String eventPubkey,
-    // String clientTagValue = '',
   }) {
     return _eventStore
         .watchEvents(
@@ -27,6 +24,8 @@ final class GetLightningDonationUsecase {
                 TagFilter(TagValue.a, [params.eventATag]),
               if (params.eventPubkey.isNotEmpty)
                 TagFilter(TagValue.p, [params.eventPubkey]),
+              if (params.payerPubKey.isNotEmpty)
+                TagFilter('P', [params.payerPubKey]),
             ],
           ),
         )

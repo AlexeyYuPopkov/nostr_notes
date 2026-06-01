@@ -9,11 +9,14 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:nostr/model/user_keys.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/items/donate_via_lightning/donate_via_lightning.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/items/donate_via_lightning/donate_via_lightning_vm.dart';
+import 'package:nostr_notes/common/domain/model/session/session.dart';
+import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:uuid/uuid.dart';
 
@@ -87,6 +90,17 @@ void main() {
 
       const InMemoryDbModule().bind(di);
 
+      di.bind<SessionUsecase>(
+        () => SessionUsecase(),
+        module: null,
+        lifeTime: const LifeTime.single(),
+        onRemove: (e) {
+          if (e is SessionUsecase) {
+            e.dispose();
+          }
+        },
+      );
+
       channelFactory = _MockChannelFactory();
       channel = MockWSChannel(url: MockRelaysListRepo.relayUrl1);
       client = NostrClient(channelFactory: channelFactory, uuid: mockUuid);
@@ -102,10 +116,10 @@ void main() {
         getLightningDonationUsecase: GetLightningDonationUsecase(
           eventStore: eventStore,
         ),
-        eventATag: _eventATag,
-        eventPubkey: _eventPubkey,
-        invoiceEventId: _invoiceEventId,
-        payerPubKey: _payerPubKey,
+        // eventATag: _eventATag,
+        // eventPubkey: _eventPubkey,
+        // invoiceEventId: _invoiceEventId,
+        // payerPubKey: _payerPubKey,
       );
     });
 
@@ -119,6 +133,11 @@ void main() {
     testWidgets('shows total sats after receiving valid zap receipt', (
       tester,
     ) async {
+      final session = DiStorage.shared.resolve<SessionUsecase>();
+      session.setSession(
+        Session.auth(UserKeys(publicKey: _payerPubKey, privateKey: '')),
+      );
+
       when(() => mockUuid.v4()).thenReturn('sub-id');
       when(
         () => channelFactory.create(MockRelaysListRepo.relayUrl1),
@@ -136,7 +155,7 @@ void main() {
 
       await tester.pumpWidget(
         AppLauncher.launchApp(
-          child: DonateViaLightning(vm: vm),
+          child: DonateViaLightning(vm: vm, eventPubkey: _eventPubkey),
           tester: tester,
         ),
       );
