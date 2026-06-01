@@ -7,27 +7,8 @@ import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'fetch_lightning_payment_params.dart';
 import 'zap_request_description.dart';
-
-final class FetchLightningDonationUsecaseParams {
-  final String eventATag;
-  final String eventPubkey;
-  final String invoiceEventId;
-  final String payerPubKey;
-  final String clientTagValue;
-
-  const FetchLightningDonationUsecaseParams({
-    required this.eventATag,
-    required this.eventPubkey,
-    required this.invoiceEventId,
-    required this.payerPubKey,
-    required this.clientTagValue,
-  });
-
-  bool get hasRequiredTags => eventPubkey.isNotEmpty;
-
-  bool get hasInvoiceScope => invoiceEventId.isNotEmpty;
-}
 
 final class FetchLightningDonationUsecase {
   const FetchLightningDonationUsecase({
@@ -39,7 +20,7 @@ final class FetchLightningDonationUsecase {
   final NostrClient _nostrClient;
   final RawEventStore _eventStore;
 
-  Stream<NostrEvent> execute(FetchLightningDonationUsecaseParams params) {
+  Stream<NostrEvent> execute(FetchLightningPaymentParams params) {
     assert(
       params.hasRequiredTags,
       'At least one of the parameters should be provided',

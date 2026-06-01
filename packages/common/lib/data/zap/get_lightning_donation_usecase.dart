@@ -1,3 +1,4 @@
+import 'package:common/data/zap/fetch_lightning_payment_params.dart';
 import 'package:common/data/zap/zap_confirmation_dto.dart';
 import 'package:common/data/zap/zap_request_description.dart';
 import 'package:common/domain/model/zap_confirmation.dart';
@@ -12,17 +13,20 @@ final class GetLightningDonationUsecase {
   final RawEventStore _eventStore;
 
   Stream<List<ZapConfirmation>> execute({
-    required String eventATag,
-    required String eventPubkey,
-    String clientTagValue = '',
+    required FetchLightningPaymentParams params,
+    // required String eventATag,
+    // required String eventPubkey,
+    // String clientTagValue = '',
   }) {
     return _eventStore
         .watchEvents(
           RawEventQuery(
             kinds: const [NostrKind.zapConfirmation],
             tagFilters: [
-              if (eventATag.isNotEmpty) TagFilter(TagValue.a, [eventATag]),
-              if (eventPubkey.isNotEmpty) TagFilter(TagValue.p, [eventPubkey]),
+              if (params.eventATag.isNotEmpty)
+                TagFilter(TagValue.a, [params.eventATag]),
+              if (params.eventPubkey.isNotEmpty)
+                TagFilter(TagValue.p, [params.eventPubkey]),
             ],
           ),
         )
@@ -34,7 +38,7 @@ final class GetLightningDonationUsecase {
                 );
                 return ZapRequestDescription.hasClientTag(
                   descriptionMap,
-                  clientTagValue,
+                  params.clientTagValue,
                 );
               })
               .toList(growable: false),

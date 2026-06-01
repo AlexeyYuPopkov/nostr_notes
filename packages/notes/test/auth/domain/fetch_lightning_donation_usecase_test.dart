@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:common/data/zap/fetch_lightning_donation_usecase.dart';
+import 'package:common/data/zap/fetch_lightning_payment_params.dart';
 import 'package:common/data/zap/get_lightning_donation_usecase.dart';
 import 'package:common/domain/error/error_messages_provider.dart';
 import 'package:common/services/event_store/database/app_database.dart';
@@ -148,7 +149,7 @@ void main() {
           }
         };
 
-        final params = FetchLightningDonationUsecaseParams(
+        final params = FetchLightningPaymentParams(
           eventATag: _eventATag,
           eventPubkey: _eventPubkey,
           invoiceEventId: _invoiceEventId,
@@ -159,11 +160,7 @@ void main() {
         final stream = sut1.execute(params);
 
         final futureResult = sut2
-            .execute(
-              eventATag: _eventATag,
-              eventPubkey: _eventPubkey,
-              clientTagValue: AppConfig.clientTagValue,
-            )
+            .execute(params: params)
             .where((list) => list.isNotEmpty)
             .first;
 

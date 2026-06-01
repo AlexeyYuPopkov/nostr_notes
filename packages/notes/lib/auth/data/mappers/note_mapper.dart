@@ -4,6 +4,10 @@ import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 
 final class NoteMapper {
+  static List<Note> fromNostrEvents(Iterable<NostrEvent> events) {
+    return events.map((e) => fromNostrEvent(e)).whereType<Note>().toList();
+  }
+
   static Note? fromNostrEvent(NostrEvent event) {
     final dTag = event.getFirstTag(Tag.d) ?? '';
 
