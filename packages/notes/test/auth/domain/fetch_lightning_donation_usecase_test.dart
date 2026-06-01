@@ -36,6 +36,7 @@ const _payerPubKey =
 String _buildZapEventJson(String subscriptionId) {
   final description = jsonEncode({
     'id': _invoiceEventId,
+    'pubkey': _payerPubKey,
     'tags': [
       ['client', AppConfig.clientTagValue],
     ],
@@ -121,6 +122,7 @@ void main() {
               final wrongPayer = 'wrong-payer-key';
               final description = jsonEncode({
                 'id': _invoiceEventId,
+                'pubkey': wrongPayer,
                 'tags': [
                   ['client', AppConfig.clientTagValue],
                 ],
@@ -133,7 +135,7 @@ void main() {
                 'tags': [
                   ['p', _eventPubkey],
                   ['a', _eventATag],
-                  ['P', wrongPayer],
+                  // ['P', wrongPayer],
                   ['description', description],
                 ],
                 'content': '',
@@ -166,6 +168,10 @@ void main() {
 
         final result = await stream.first;
         expect(result.kind, equals(NostrKind.zapConfirmation));
+        final description =
+            jsonDecode(result.getFirstTagStr('description') as String)
+                as Map<String, dynamic>;
+        expect(description['pubkey'], equals(_payerPubKey));
         expect(result.getFirstTagStr('P'), equals(_payerPubKey));
 
         final zaps = await futureResult.timeout(const Duration(seconds: 5));

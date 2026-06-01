@@ -24,8 +24,8 @@ final class GetLightningDonationUsecase {
                 TagFilter(TagValue.a, [params.eventATag]),
               if (params.eventPubkey.isNotEmpty)
                 TagFilter(TagValue.p, [params.eventPubkey]),
-              if (params.payerPubKey.isNotEmpty)
-                TagFilter('P', [params.payerPubKey]),
+              // if (params.payerPubKey.isNotEmpty)
+              //   TagFilter('P', [params.payerPubKey]),
             ],
           ),
         )
@@ -35,6 +35,15 @@ final class GetLightningDonationUsecase {
                 final descriptionMap = ZapRequestDescription.parseFromReceipt(
                   event,
                 );
+
+                if (descriptionMap == null) {
+                  return false;
+                }
+
+                if (descriptionMap['pubkey'] != params.payerPubKey) {
+                  return false;
+                }
+
                 return ZapRequestDescription.hasClientTag(
                   descriptionMap,
                   params.clientTagValue,

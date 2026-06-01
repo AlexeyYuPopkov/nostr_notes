@@ -43,6 +43,7 @@ String _buildZapEventJson(String subscriptionId) {
   final description = jsonEncode({
     'id': _invoiceEventId,
     'kind': NostrKind.zapInvoice,
+    'pubkey': _payerPubKey,
     'tags': [
       ['client', AppConfig.clientTagValue],
       ['amount', '21000'],
@@ -116,10 +117,6 @@ void main() {
         getLightningDonationUsecase: GetLightningDonationUsecase(
           eventStore: eventStore,
         ),
-        // eventATag: _eventATag,
-        // eventPubkey: _eventPubkey,
-        // invoiceEventId: _invoiceEventId,
-        // payerPubKey: _payerPubKey,
       );
     });
 

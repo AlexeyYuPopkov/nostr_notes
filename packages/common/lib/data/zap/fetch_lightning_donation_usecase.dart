@@ -3,6 +3,7 @@ import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/nostr_filter.dart';
 import 'package:nostr/model/nostr_req.dart';
+import 'package:nostr/model/tag/tag_value.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:rxdart/rxdart.dart';
@@ -58,11 +59,11 @@ final class FetchLightningDonationUsecase {
               kinds: const [NostrKind.zapConfirmation],
               a: params.eventATag.isNotEmpty ? [params.eventATag] : null,
               p: params.eventPubkey.isNotEmpty ? [params.eventPubkey] : null,
-              additional: params.payerPubKey.isNotEmpty
-                  ? {
-                      '#P': [params.payerPubKey],
-                    }
-                  : null,
+              // additional: params.payerPubKey.isNotEmpty
+              //     ? {
+              //         '#P': [params.payerPubKey],
+              //       }
+              //     : null,
             ),
           ],
         );
@@ -75,7 +76,15 @@ final class FetchLightningDonationUsecase {
       },
     );
 
-    return controller.stream;
+    return controller.stream.where(
+      (event) => _isValidZap(
+        event,
+        eventPubkey: params.eventPubkey,
+        invoiceEventId: params.invoiceEventId,
+        payerPubKey: params.payerPubKey,
+        clientTagValue: params.clientTagValue,
+      ),
+    );
   }
 
   bool _isValidZap(
@@ -89,18 +98,21 @@ final class FetchLightningDonationUsecase {
       return false;
     }
 
-    final pTag = e.getFirstTagStr('p');
+    final pTag = e.getFirstTagStr(TagValue.p);
     if (eventPubkey.isNotEmpty && (pTag == null || pTag != eventPubkey)) {
       return false;
     }
 
-    final payerTag = e.getFirstTagStr('P');
-    if (payerPubKey.isNotEmpty &&
-        (payerTag == null || payerTag != payerPubKey)) {
+    final descriptionMap = ZapRequestDescription.parseFromReceipt(e);
+
+    if (descriptionMap == null) {
       return false;
     }
 
-    final descriptionMap = ZapRequestDescription.parseFromReceipt(e);
+    if (descriptionMap['pubkey'] != payerPubKey) {
+      return false;
+    }
+
     if (!ZapRequestDescription.hasClientTag(descriptionMap, clientTagValue)) {
       return false;
     }
