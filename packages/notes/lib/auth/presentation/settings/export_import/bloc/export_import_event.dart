@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/auth/domain/usecase/import_usecase.dart';
 
@@ -8,7 +10,8 @@ sealed class ExportImportEvent extends Equatable {
       ExportEvent;
 
   const factory ExportImportEvent.import({
-    required String filePath,
+    String filePath,
+    Uint8List? fileBytes,
     required String password,
     required ImportPolicy policy,
   }) = ImportEvent;
@@ -28,11 +31,13 @@ final class ExportEvent extends ExportImportEvent {
 
 final class ImportEvent extends ExportImportEvent {
   final String filePath;
+  final Uint8List? fileBytes;
   final String password;
   final ImportPolicy policy;
 
   const ImportEvent({
-    required this.filePath,
+    this.filePath = '',
+    this.fileBytes,
     required this.password,
     required this.policy,
   });

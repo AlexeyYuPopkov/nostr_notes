@@ -2,16 +2,20 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:archive/archive.dart';
-
+import 'package:common/domain/error/error_messages_provider.dart';
 import 'package:common/services/event_store/database/app_database.dart';
+import 'package:common/services/event_store/database/daos/outbox_dao_interface.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:nostr/key_tool/key_tool.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/user_keys.dart';
+import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr_notes/auth/data/export_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/import_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
@@ -25,10 +29,16 @@ import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
 import 'package:nostr_notes/services/hex_to_bytes.dart';
+import 'package:nostr_notes/services/outbox_publisher.dart';
 
 import '../../../integration_test/di/in_memory_db_module.dart';
+import '../../tools/mock_error_messages_provider.dart';
+import '../../tools/mock_wschannel.dart';
+import '../../tools/mocks/mock_relays_list_repo.dart';
 import '../../tools/some_moked_data.dart';
 import 'fixtures/notes_fixtures.dart';
+
+class _MockChannelFactory extends Mock implements ChannelFactory {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -50,6 +60,7 @@ void main() {
 
   group('ExportUsecaseImpl + ImportUsecaseImpl', () {
     late RawEventStore eventStore;
+    late OutboxDaoInterface outboxDao;
     late NoteCryptoUseCase noteCryptoUseCase;
     late SessionUsecase sessionUsecase;
     late ExportUsecaseImpl exportSut;
@@ -57,8 +68,14 @@ void main() {
 
     setUp(() async {
       final di = DiStorage.shared;
+      di.bind<ErrorMessagesProvider>(
+        () => const MockErrorMessagesProvider(),
+        module: null,
+        lifeTime: const LifeTime.single(),
+      );
       const InMemoryDbModule().bind(di);
       eventStore = di.resolve<RawEventStore>();
+      outboxDao = di.resolve<OutboxDaoInterface>();
 
       final cryptoService = CryptoService.create(
         Uint8List.fromList(SomeMokedData.randomBytes),
@@ -91,6 +108,7 @@ void main() {
         eventStore: eventStore,
         noteCryptoUseCase: noteCryptoUseCase,
         sessionUsecase: sessionUsecase,
+        outboxDao: outboxDao,
       );
     });
 
@@ -117,7 +135,7 @@ void main() {
         note: backupNote,
       );
 
-      final exportPath = await exportSut.exportNotes(
+      final (exportPath, _, _) = await exportSut.exportNotes(
         password: password,
         fileUri: '',
       );
@@ -135,12 +153,12 @@ void main() {
       return exportPath;
     }
 
-    test('returns empty string when no notes in the store', () async {
-      final result = await exportSut.exportNotes(
+    test('returns empty bytes when no notes in the store', () async {
+      final (_, resultBytes, _) = await exportSut.exportNotes(
         password: password,
         fileUri: '',
       );
-      expect(result, isEmpty);
+      expect(resultBytes, isEmpty);
     });
 
     test('exports plaintext content when password is empty', () async {
@@ -154,7 +172,10 @@ void main() {
         note: note,
       );
 
-      final filePath = await exportSut.exportNotes(password: '', fileUri: '');
+      final (filePath, _, _) = await exportSut.exportNotes(
+        password: '',
+        fileUri: '',
+      );
       addTearDown(() => File(filePath).deleteSync());
 
       final payload = _readExportJson(filePath);
@@ -190,7 +211,7 @@ void main() {
           note: note,
         );
 
-        final filePath = await exportSut.exportNotes(
+        final (filePath, _, _) = await exportSut.exportNotes(
           password: password,
           fileUri: '',
         );
@@ -216,7 +237,7 @@ void main() {
         note: note,
       );
 
-      final filePath = await exportSut.exportNotes(
+      final (filePath, _, _) = await exportSut.exportNotes(
         password: password,
         fileUri: '',
       );
@@ -244,7 +265,7 @@ void main() {
         note: note,
       );
 
-      final filePath = await exportSut.exportNotes(
+      final (filePath, _, _) = await exportSut.exportNotes(
         password: password,
         fileUri: '',
       );
@@ -285,7 +306,7 @@ void main() {
           note: note,
         );
 
-        final filePath = await exportSut.exportNotes(
+        final (filePath, _, _) = await exportSut.exportNotes(
           password: password,
           fileUri: '',
         );
@@ -336,7 +357,7 @@ void main() {
         note: note2,
       );
 
-      final filePath = await exportSut.exportNotes(
+      final (filePath, _, _) = await exportSut.exportNotes(
         password: password,
         fileUri: '',
       );
@@ -409,6 +430,85 @@ void main() {
         );
       });
 
+      test('imported notes are queued in outbox for publishing', () async {
+        final original = await noteCryptoUseCase.decryptNote(
+          NoteMapper.fromJsonStr(NotesFixtures.eventJson1)!,
+        );
+        await _seedEncryptedNote(
+          eventStore: eventStore,
+          noteCryptoUseCase: noteCryptoUseCase,
+          note: original,
+        );
+
+        final (exportPath, _, _) = await exportSut.exportNotes(
+          password: password,
+          fileUri: '',
+        );
+        addTearDown(() => File(exportPath).deleteSync());
+
+        await _clearNotes(eventStore);
+
+        await importSut.importNotes(password: password, filePath: exportPath);
+
+        final pending = await outboxDao.getPending();
+        expect(pending, hasLength(1));
+        expect(pending.first.eventId, isNotEmpty);
+      });
+
+      test('imported notes are published to relay', () async {
+        final channelFactory = _MockChannelFactory();
+        final channel = MockWSChannel(url: MockRelaysListRepo.relayUrl1);
+        when(
+          () => channelFactory.create(MockRelaysListRepo.relayUrl1),
+        ).thenReturn(channel);
+
+        channel.onAdd = (data, ch) {
+          final parsed = jsonDecode(data as String) as List<dynamic>;
+          if (parsed.first == 'EVENT') {
+            final eventId = (parsed[1] as Map<String, dynamic>)['id'] as String;
+            ch.mockStream.add('["OK","$eventId",true,""]');
+          }
+        };
+
+        final publisher = OutboxPublisher(
+          outboxDao: outboxDao,
+          rawEventStore: eventStore,
+          relaysListRepo: MockRelaysListRepo.withRelays({
+            MockRelaysListRepo.relayUrl1,
+          }),
+          channelFactory: channelFactory,
+          connectivity: _MockConnectivity(),
+        );
+        addTearDown(publisher.dispose);
+        await publisher.init();
+
+        final original = await noteCryptoUseCase.decryptNote(
+          NoteMapper.fromJsonStr(NotesFixtures.eventJson1)!,
+        );
+        await _seedEncryptedNote(
+          eventStore: eventStore,
+          noteCryptoUseCase: noteCryptoUseCase,
+          note: original,
+        );
+
+        final (exportPath, _, _) = await exportSut.exportNotes(
+          password: password,
+          fileUri: '',
+        );
+        addTearDown(() => File(exportPath).deleteSync());
+
+        await _clearNotes(eventStore);
+
+        await importSut.importNotes(password: password, filePath: exportPath);
+
+        await Future.delayed(const Duration(milliseconds: 200));
+
+        expect(channel.verifyAddCalled(), 1);
+
+        final pending = await outboxDao.getPending();
+        expect(pending, isEmpty);
+      });
+
       test(
         'round-trip (encrypted): content, summary and labels survive export → import',
         () async {
@@ -422,7 +522,7 @@ void main() {
             note: original,
           );
 
-          final exportPath = await exportSut.exportNotes(
+          final (exportPath, _, _) = await exportSut.exportNotes(
             password: password,
             fileUri: '',
           );
@@ -463,7 +563,7 @@ void main() {
             note: original,
           );
 
-          final exportPath = await exportSut.exportNotes(
+          final (exportPath, _, _) = await exportSut.exportNotes(
             password: '',
             fileUri: '',
           );
@@ -502,7 +602,7 @@ void main() {
           note: note,
         );
 
-        final exportPath = await exportSut.exportNotes(
+        final (exportPath, _, _) = await exportSut.exportNotes(
           password: password,
           fileUri: '',
         );
@@ -537,7 +637,7 @@ void main() {
           note: note2,
         );
 
-        final exportPath = await exportSut.exportNotes(
+        final (exportPath, _, _) = await exportSut.exportNotes(
           password: password,
           fileUri: '',
         );
@@ -655,7 +755,7 @@ void main() {
             note: original,
           );
 
-          final exportPath = await exportSut.exportNotes(
+          final (exportPath, _, _) = await exportSut.exportNotes(
             password: password,
             fileUri: '',
           );
@@ -695,7 +795,7 @@ void main() {
             eventStore: eventStore,
             noteCryptoUseCase: noteCryptoB,
             sessionUsecase: sessionB,
-            outboxDao: null,
+            outboxDao: outboxDao,
           );
 
           await importSutB.importNotes(
@@ -796,4 +896,15 @@ Future<String> _decryptExportField(
       );
 
   return utf8.decode(plainBytes);
+}
+
+class _MockConnectivity implements Connectivity {
+  @override
+  Future<List<ConnectivityResult>> checkConnectivity() async => [
+    ConnectivityResult.wifi,
+  ];
+
+  @override
+  Stream<List<ConnectivityResult>> get onConnectivityChanged =>
+      const Stream.empty();
 }

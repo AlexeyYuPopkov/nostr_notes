@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:common/domain/error/app_error.dart';
 
 abstract interface class ExportUsecase {
-  Future<String> exportNotes({
+  /// Returns `(filePath, zipBytes, fileName)`.
+  /// On web [filePath] is empty; callers must use [zipBytes] + [fileName] instead.
+  Future<(String, Uint8List, String)> exportNotes({
     required String password,
     required String fileUri,
   });

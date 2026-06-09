@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import/bloc/export_import_data.dart';
 
@@ -18,6 +20,8 @@ sealed class ExportImportState extends Equatable {
   const factory ExportImportState.success({
     required ExportImportData data,
     required String filePath,
+    required Uint8List bytes,
+    required String fileName,
   }) = SuccessState;
 
   const factory ExportImportState.error({
@@ -40,11 +44,18 @@ final class LoadingState extends ExportImportState {
 
 final class SuccessState extends ExportImportState {
   final String filePath;
+  final Uint8List bytes;
+  final String fileName;
 
-  const SuccessState({required super.data, required this.filePath});
+  const SuccessState({
+    required super.data,
+    required this.filePath,
+    required this.bytes,
+    required this.fileName,
+  });
 
   @override
-  List<Object?> get props => [data, filePath];
+  List<Object?> get props => [data, filePath, fileName];
 }
 
 final class ImportSuccessState extends ExportImportState {

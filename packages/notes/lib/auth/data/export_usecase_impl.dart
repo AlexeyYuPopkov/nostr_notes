@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:math' as math;
-import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 
 import 'package:archive/archive.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
@@ -31,7 +31,7 @@ final class ExportUsecaseImpl implements ExportUsecase {
        _noteCryptoUseCase = noteCryptoUseCase;
 
   @override
-  Future<String> exportNotes({
+  Future<(String, Uint8List, String)> exportNotes({
     required String password,
     required String fileUri,
   }) async {
@@ -40,10 +40,10 @@ final class ExportUsecaseImpl implements ExportUsecase {
         RawEventQuery(kinds: [EventKind.note.value]),
       );
 
-      // Nothing stored — surfaced as an empty path so the caller can show the
+      // Nothing stored — surfaced as empty bytes so the caller can show the
       // "no notes" message; not an error per se.
       if (events.isEmpty) {
-        return '';
+        return ('', Uint8List(0), '');
       }
 
       final notes = NoteMapper.fromNostrEvents(events);
@@ -59,7 +59,7 @@ final class ExportUsecaseImpl implements ExportUsecase {
       }
 
       if (decryptedNotes.isEmpty) {
-        return '';
+        return ('', Uint8List(0), '');
       }
 
       final BackupPayload payload;
@@ -72,9 +72,12 @@ final class ExportUsecaseImpl implements ExportUsecase {
         );
       }
 
+      final fileName = _fileName();
+      final Uint8List zipBytes;
       final String filePath;
       try {
-        filePath = await _sevePayloadToFile(payload);
+        zipBytes = _buildZipBytes(payload);
+        filePath = kIsWeb ? '' : await _writeToTempFile(zipBytes, fileName);
       } catch (e) {
         throw ExportError(
           payload: ExportErrorType.fileWriteFailed,
@@ -82,11 +85,11 @@ final class ExportUsecaseImpl implements ExportUsecase {
         );
       }
 
-      if (filePath.isEmpty) {
+      if (zipBytes.isEmpty) {
         throw const ExportError(payload: ExportErrorType.fileWriteFailed);
       }
 
-      return filePath;
+      return (filePath, zipBytes, fileName);
     } on ExportError {
       rethrow;
     } catch (e) {
@@ -136,19 +139,18 @@ final class ExportUsecaseImpl implements ExportUsecase {
     }
   }
 
-  Future<String> _sevePayloadToFile(BackupPayload payload) async {
+  Uint8List _buildZipBytes(BackupPayload payload) {
     final jsonBytes = utf8.encode(
       const JsonEncoder.withIndent('  ').convert(payload.toJson()),
     );
-
     final archive = Archive()
       ..addFile(ArchiveFile(archivedFileName, jsonBytes.length, jsonBytes));
+    return Uint8List.fromList(ZipEncoder().encode(archive));
+  }
 
-    final zipBytes = ZipEncoder().encode(archive);
-    if (zipBytes.isEmpty) return '';
-
-    final file = File('${(await getTemporaryDirectory()).path}/${_fileName()}');
-    await file.writeAsBytes(zipBytes);
+  Future<String> _writeToTempFile(Uint8List bytes, String fileName) async {
+    final file = File('${(await getTemporaryDirectory()).path}/$fileName');
+    await file.writeAsBytes(bytes);
     return file.path;
   }
 

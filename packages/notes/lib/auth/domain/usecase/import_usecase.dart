@@ -1,12 +1,15 @@
+import 'dart:typed_data';
+
 import 'package:common/domain/error/app_error.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 
 abstract interface class ImportUsecase {
+  /// Provide either [filePath] (mobile/desktop) or [fileBytes] (web).
   Future<void> importNotes({
     required String password,
-    required String filePath,
+    String filePath,
+    Uint8List? fileBytes,
     ImportPolicy policy = const ImportPolicy.mergeContent(),
-    bool needsPublish = false,
   });
 }
 

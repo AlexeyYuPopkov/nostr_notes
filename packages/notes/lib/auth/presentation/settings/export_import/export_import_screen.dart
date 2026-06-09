@@ -8,6 +8,7 @@ import 'package:common/presentation/widgets/onboarding_text_field.dart';
 import 'package:common/presentation/widgets/progress_hud/progress_hud.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,20 +47,26 @@ final class _ExportImportView extends StatelessWidget
     final l10n = context.l10n;
 
     switch (state) {
-      case SuccessState(:final filePath):
-        await SharePlus.instance.share(ShareParams(files: [XFile(filePath)]));
+      case SuccessState(:final filePath, :final bytes, :final fileName):
+        final xFile = kIsWeb
+            ? XFile.fromData(bytes, name: fileName, mimeType: 'application/zip')
+            : XFile(filePath);
+        await SharePlus.instance.share(ShareParams(files: [xFile]));
+        break;
       case ImportSuccessState():
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(l10n.exportImportImportSuccess)));
 
         RouteHandler.of(context)?.onRoute(const CloseSettingsRoute(), context);
+        break;
       case ErrorState(:final error):
         await showError(
           context,
           error: error,
           messageBuilder: (err) => _errorMessage(l10n, err),
         );
+        break;
       case IdleState():
         break;
       case LoadingState():
@@ -151,15 +158,15 @@ mixin _PassAlert {
       type: FileType.custom,
       allowedExtensions: ['zip'],
     );
-    final path = file?.path;
-    if (path == null) {
-      return;
-    }
+    if (file == null) return;
+
+    final bytes = await file.readAsBytes();
 
     if (context.mounted) {
       context.read<ExportImportBloc>().add(
         ExportImportEvent.import(
-          filePath: path,
+          filePath: file.path ?? '',
+          fileBytes: bytes,
           password: result.password,
           policy: result.policy,
         ),
