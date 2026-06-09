@@ -1,6 +1,7 @@
 import 'package:common/data/zap/fetch_user_zapper_service.dart';
 import 'package:common/data/zap/lightning_donation_repo.dart';
 import 'package:common/data/zap/perform_lighting_invoice_service.dart';
+import 'package:common/services/event_store/database/daos/daos.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
@@ -137,8 +138,10 @@ final class AuthDiScope extends DiScope {
       lifeTime: const LifeTime.prototype(),
     );
 
+    final OutboxDaoInterface outboxDao = di.resolve();
+
     di.bind<GetPendingUsecase>(
-      () => GetPendingUsecaseImpl(outboxDao: di.resolve()),
+      () => GetPendingUsecaseImpl(outboxDao: outboxDao),
       module: this,
       lifeTime: const LifeTime.prototype(),
     );
@@ -157,7 +160,7 @@ final class AuthDiScope extends DiScope {
         eventStore: di.resolve(),
         noteCryptoUseCase: di.resolve(),
         sessionUsecase: di.resolve(),
-        outboxDao: di.resolve(),
+        outboxDao: outboxDao,
       ),
       module: this,
       lifeTime: const LifeTime.prototype(),

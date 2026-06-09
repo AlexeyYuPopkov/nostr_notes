@@ -37,7 +37,7 @@ sealed class ImportPolicy {
 final class MergeContent extends ImportPolicy {
   const MergeContent();
 
-  static const separator = '\n\n------ Imported ------\n\n';
+  static const separator = '\n\n## ------ Imported ------\n\n';
 
   @override
   Note apply(Note incoming, Note? existing) {

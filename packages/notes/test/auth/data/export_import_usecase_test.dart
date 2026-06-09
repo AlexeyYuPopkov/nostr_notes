@@ -2,13 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:archive/archive.dart';
-import 'package:bip340/bip340.dart' as bip340;
+
 import 'package:common/services/event_store/database/app_database.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nostr/key_tool/key_tool.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/user_keys.dart';
 import 'package:nostr_notes/auth/data/export_usecase_impl.dart';
@@ -665,7 +666,7 @@ void main() {
           // ── Account B ────────────────────────────────────────────────────
           const privateKeyB =
               'b7e151628aed2a6abf7158809cf4f3c762e7160f38b4da56a784d9045190cfef';
-          final publicKeyB = bip340.getPublicKey(privateKeyB);
+          final publicKeyB = KeyTool.tryGetPubKey(privateKey: privateKeyB)!;
 
           final cryptoServiceB = CryptoService.create(
             Uint8List.fromList(SomeMokedData.randomBytes),
@@ -694,6 +695,7 @@ void main() {
             eventStore: eventStore,
             noteCryptoUseCase: noteCryptoB,
             sessionUsecase: sessionB,
+            outboxDao: null,
           );
 
           await importSutB.importNotes(

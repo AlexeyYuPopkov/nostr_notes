@@ -11,10 +11,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/auth/domain/usecase/export_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/import_usecase.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import/bloc/export_import_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import/bloc/export_import_state.dart';
+import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -50,6 +52,8 @@ final class _ExportImportView extends StatelessWidget
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(l10n.exportImportImportSuccess)));
+
+        RouteHandler.of(context)?.onRoute(const CloseSettingsRoute(), context);
       case ErrorState(:final error):
         await showError(
           context,
@@ -63,8 +67,6 @@ final class _ExportImportView extends StatelessWidget
     }
   }
 
-  /// Maps typed export/import errors to localized messages. Returning `null`
-  /// lets [showError] fall back to its default message.
   String? _errorMessage(Localization l10n, Object? error) {
     return switch (error) {
       ExportError(:final payload) => switch (payload) {
@@ -104,14 +106,14 @@ final class _ExportImportView extends StatelessWidget
                   subtitle: l10n.exportImportItemExportSubtitle,
                   sectionTitle: l10n.exportImportSectionDataTitle,
                   position: .first,
-                  trailing: const Icon(Icons.download, size: Sizes.iconSmall),
+                  trailing: const Icon(Icons.upload, size: Sizes.iconMedium),
                   onTap: isLoading ? null : () => _onExportTap(context),
                 ),
                 SettingsItemTile(
                   title: Text(l10n.exportImportItemImportTitle),
                   subtitle: l10n.exportImportItemImportSubtitle,
                   position: .last,
-                  trailing: const Icon(Icons.upload, size: Sizes.iconSmall),
+                  trailing: const Icon(Icons.download, size: Sizes.iconMedium),
                   onTap: isLoading ? null : () => _onImportTap(context),
                 ),
               ],
@@ -150,7 +152,9 @@ mixin _PassAlert {
       allowedExtensions: ['zip'],
     );
     final path = file?.path;
-    if (path == null) return;
+    if (path == null) {
+      return;
+    }
 
     if (context.mounted) {
       context.read<ExportImportBloc>().add(

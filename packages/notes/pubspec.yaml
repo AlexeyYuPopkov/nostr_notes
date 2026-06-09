@@ -55,17 +55,12 @@ dependencies:
   ffi: ^2.2.0
 
   web_socket_channel: ^3.0.3
-  bech32: ^0.2.2
-  hex: ^0.2.0
-  bip340: ^0.3.1
   # kepler: ^1.0.3
-  pointycastle: ^4.0.0
   crypto: ^3.0.7
   cryptography: ^2.9.0
-  convert: ^3.1.2
   elliptic: ^0.3.12
   # cryptography_plus: ^2.7.0
-  # cryptography_flutter_plus: ^2.3.2 
+  # cryptography_flutter_plus: ^2.3.2
 
 
   # freezed_annotation: ^3.0.0
@@ -105,7 +100,6 @@ dependencies:
 
   markdown: ^7.3.1 
   connectivity_plus: ^7.1.1
-  cryptography_flutter: ^2.3.4
   archive: ^4.0.9
   path_provider: ^2.1.5
 

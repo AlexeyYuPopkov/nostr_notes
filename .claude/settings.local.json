@@ -21,7 +21,8 @@
       "Read(//Users/alekseypopkov/.pub-cache/hosted/pub.dev/**)",
       "Bash(grep -v \"^\\\\s*$\")",
       "Bash(git -C /Users/alekseypopkov/Doc/nostr_notes/nostr_notes status --short)",
-      "Bash(git -C /Users/alekseypopkov/Doc/nostr_notes/nostr_notes add .)"
+      "Bash(git -C /Users/alekseypopkov/Doc/nostr_notes/nostr_notes add .)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }
