@@ -1,8 +1,9 @@
 import 'package:common/app/theme/sizes.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/items/preferences_item.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
-import 'package:common/presentation/dialogs/dialog_helper.dart';
+
 import 'package:nostr_notes/l10n/localization.dart';
 
 final class PreferencesScreen extends StatelessWidget with DialogHelper {

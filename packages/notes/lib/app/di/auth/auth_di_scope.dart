@@ -6,12 +6,16 @@ import 'package:di_storage/di_storage.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
+import 'package:nostr_notes/auth/data/export_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/get_pending_usecase_impl.dart';
+import 'package:nostr_notes/auth/data/import_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/lightning_donation_repo_impl.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/delete_note_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/export_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/import_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
@@ -135,6 +139,26 @@ final class AuthDiScope extends DiScope {
 
     di.bind<GetPendingUsecase>(
       () => GetPendingUsecaseImpl(outboxDao: di.resolve()),
+      module: this,
+      lifeTime: const LifeTime.prototype(),
+    );
+
+    di.bind<ExportUsecase>(
+      () => ExportUsecaseImpl(
+        eventStore: di.resolve(),
+        noteCryptoUseCase: di.resolve(),
+      ),
+      module: this,
+      lifeTime: const LifeTime.prototype(),
+    );
+
+    di.bind<ImportUsecase>(
+      () => ImportUsecaseImpl(
+        eventStore: di.resolve(),
+        noteCryptoUseCase: di.resolve(),
+        sessionUsecase: di.resolve(),
+        outboxDao: di.resolve(),
+      ),
       module: this,
       lifeTime: const LifeTime.prototype(),
     );

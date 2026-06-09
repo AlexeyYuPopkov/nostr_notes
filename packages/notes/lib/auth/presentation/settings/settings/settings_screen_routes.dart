@@ -40,6 +40,10 @@ final class DonateLightningRoute implements AppRoute {
   const DonateLightningRoute();
 }
 
+final class ExportImportRoute implements AppRoute {
+  const ExportImportRoute();
+}
+
 final class ApkDistributionRoute implements AppRoute {
   const ApkDistributionRoute();
 }

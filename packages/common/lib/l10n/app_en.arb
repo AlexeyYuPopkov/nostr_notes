@@ -16,6 +16,7 @@
     "commonNoDataPlaceholderText": "No data found",
     "commonCopied": "Copied",
     "commonInfo": "Information",
+    "commonWarning": "Warning",
     "authError": "Authentication error",
     "themeScreenTitle": "Theme",
     "themeScreenSectionTitleColorTheme": "Color theme",

@@ -60,6 +60,9 @@ class CommonLocalizationsRu extends CommonLocalizations {
   String get commonInfo => 'Информация';
 
   @override
+  String get commonWarning => 'Предупреждение';
+
+  @override
   String get authError => 'Ошибка аутентификации';
 
   @override

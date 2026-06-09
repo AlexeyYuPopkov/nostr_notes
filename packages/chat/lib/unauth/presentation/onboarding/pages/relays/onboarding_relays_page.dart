@@ -3,12 +3,13 @@ import 'package:common/app/theme/sizes.dart';
 import 'package:common/domain/model/relay_info.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/buttons/prymary_button.dart';
-import 'package:common/presentation/dialogs/dialog_helper.dart';
+
 import 'package:common/presentation/relay_input_text_field.dart';
 import 'package:common/presentation/widgets/relay_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'provider/onboarding_relays_provider.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 
 final class OnboardingRelaysPage extends ConsumerWidget with DialogHelper {
   const OnboardingRelaysPage({super.key});

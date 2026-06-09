@@ -6,7 +6,7 @@
 
 _**User (2026-05-18 09:19:16Z)**_
 
-packages/notes/lib/auth/presentation/settings/donation_btc/open_wallet_helper.dart
+packages/notes/lib/auth/presentation/settings/donation_btc/open_walletNotesFixtures.dart
 
 could you suggest options how can I open wallet (native or via web if possible)  for web or desktop? what is common aproaches to handle such a situatiuon ? 
 

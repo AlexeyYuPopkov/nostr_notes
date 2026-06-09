@@ -132,7 +132,7 @@ void main() {
     ) async {
       final session = DiStorage.shared.resolve<SessionUsecase>();
       session.setSession(
-        Session.auth(UserKeys(publicKey: _payerPubKey, privateKey: '')),
+        const Session.auth(UserKeys(publicKey: _payerPubKey, privateKey: '')),
       );
 
       when(() => mockUuid.v4()).thenReturn('sub-id');

@@ -6,7 +6,22 @@
       "Bash(flutter gen-l10n)",
       "Bash(dart analyze lib/auth/presentation/settings/preferences/mobile_keyboard_type/mobile_keyboard_type_screen.dart lib/app/router/drawer_router.dart lib/app/di/unauth/unauth_di_scope.dart lib/auth/presentation/settings/preferences/bloc/items/preferences_item.dart lib/common/domain/model/pin_keyboard_type.dart lib/auth/domain/repo/pin_keyboard_type_repo.dart lib/auth/data/pin_keyboard_type_repo_impl.dart)",
       "Bash(flutter build ios --simulator)",
-      "Bash(dart run build_runner build --delete-conflicting-outputs)"
+      "Bash(dart run build_runner build --delete-conflicting-outputs)",
+      "mcp__dart__analyze_files",
+      "Bash(make l10n *)",
+      "mcp__dart__run_tests",
+      "Bash(make codegen *)",
+      "Bash(xargs cat)",
+      "Bash(cat ~/.pub-cache/hosted/pub.dev/file_picker-10.3.10/pubspec.yaml)",
+      "Read(//Users/alekseypopkov/.pub-cache/hosted/pub.dev/file_picker-10.3.10/**)",
+      "Bash(ls ~/.pub-cache/hosted/pub.dev/file_picker-10.3.10/ios/ 2>/dev/null)",
+      "Read(//Users/alekseypopkov/.pub-cache/hosted/pub.dev/file_picker-10.3.10/ios/**)",
+      "Bash(fvm flutter *)",
+      "Bash(ls ~/.pub-cache/hosted/pub.dev/ | grep \"^file_picker-1[2-9]\")",
+      "Read(//Users/alekseypopkov/.pub-cache/hosted/pub.dev/**)",
+      "Bash(grep -v \"^\\\\s*$\")",
+      "Bash(git -C /Users/alekseypopkov/Doc/nostr_notes/nostr_notes status --short)",
+      "Bash(git -C /Users/alekseypopkov/Doc/nostr_notes/nostr_notes add .)"
     ]
   }
 }

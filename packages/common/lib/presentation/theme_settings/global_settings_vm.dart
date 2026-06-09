@@ -1,7 +1,7 @@
 import 'package:common/domain/error/app_error.dart';
 import 'package:common/domain/repo/app_theme_data_repo_impl.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_notes/core/tools/optional_box.dart';
+import 'package:common/presentation/tools/optional_box.dart';
 
 final class GlobalSettingsError extends AppError {
   const GlobalSettingsError({super.parentError, super.reason});

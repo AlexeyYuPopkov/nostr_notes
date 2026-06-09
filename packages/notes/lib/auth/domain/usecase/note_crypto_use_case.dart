@@ -10,6 +10,7 @@ import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
 
+// TODO: create interface. Move impl to data layer.
 final class NoteCryptoUseCase {
   final CryptoService _cryptoService;
   final SessionUsecase _sessionUsecase;
@@ -56,9 +57,7 @@ final class NoteCryptoUseCase {
     final labels = <EncryptedLabel>[];
 
     if (note.labels.isNotEmpty) {
-      final joinedLabels = jsonEncode(
-        note.labels.map((label) => label.textValue).toList(),
-      );
+      final joinedLabels = BaseLabel.joinLabels(note.labels.whereType<Label>());
 
       final encryptedLabels = await _cryptoService.encryptNip44(
         plaintext: joinedLabels,
@@ -112,17 +111,14 @@ final class NoteCryptoUseCase {
 
     if (note.labels.isNotEmpty) {
       final encryptedLabel = note.labels.first;
+
       final decryptedLabelsJson = await _cryptoService.decryptNip44(
         payload: encryptedLabel.textValue,
         conversationKey: conversationKey,
       );
 
-      final decryptedLabelsList =
-          jsonDecode(decryptedLabelsJson) as List<dynamic>;
-
-      for (final labelText in decryptedLabelsList) {
-        labels.add(Label.from(labelText as String));
-      }
+      final decryptedLabelsList = BaseLabel.fromJoinedText(decryptedLabelsJson);
+      labels.addAll(decryptedLabelsList);
     }
 
     log(

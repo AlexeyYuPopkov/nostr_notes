@@ -100,8 +100,8 @@ void main() {
       await tester.pumpWidget(
         AppLauncher.launchApp(
           tester: tester,
-          child: NotePreviewScreen(
-            pathParams: const PathParams(id: _TestEvents.noteDTag),
+          child: const NotePreviewScreen(
+            pathParams: PathParams(id: _TestEvents.noteDTag),
           ),
         ),
       );
@@ -145,8 +145,8 @@ void main() {
       await tester.pumpWidget(
         AppLauncher.launchApp(
           tester: tester,
-          child: NotePreviewScreen(
-            pathParams: const PathParams(id: _TestEvents.noteDTag),
+          child: const NotePreviewScreen(
+            pathParams: PathParams(id: _TestEvents.noteDTag),
           ),
         ),
       );
@@ -194,8 +194,8 @@ void main() {
       await tester.pumpWidget(
         AppLauncher.launchApp(
           tester: tester,
-          child: NotePreviewScreen(
-            pathParams: const PathParams(id: _TestEvents.noteDTag),
+          child: const NotePreviewScreen(
+            pathParams: PathParams(id: _TestEvents.noteDTag),
           ),
         ),
       );

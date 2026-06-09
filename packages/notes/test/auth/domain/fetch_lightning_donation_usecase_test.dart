@@ -119,7 +119,7 @@ void main() {
           if ((data as String).contains('"REQ"')) {
             Future.microtask(() {
               // Wrong payer pubkey — should be ignored
-              final wrongPayer = 'wrong-payer-key';
+              const wrongPayer = 'wrong-payer-key';
               final description = jsonEncode({
                 'id': _invoiceEventId,
                 'pubkey': wrongPayer,

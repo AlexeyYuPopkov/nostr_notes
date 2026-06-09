@@ -1,5 +1,6 @@
 import 'package:common/app/icons/app_icons.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,6 @@ import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
 import 'package:nostr_notes/common/presentation/layout/breakpoints.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
-
-import 'package:common/presentation/dialogs/dialog_helper.dart';
 
 import 'bloc/notes_list_bloc.dart';
 import 'bloc/notes_list_event.dart';
@@ -136,7 +135,7 @@ class _NotesListState extends State<NotesList> with DialogHelper {
                       const _SettingsButton(),
                     ],
                   ),
-                  SliverToBoxAdapter(
+                  const SliverToBoxAdapter(
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: HelphubScreenToolbar(),

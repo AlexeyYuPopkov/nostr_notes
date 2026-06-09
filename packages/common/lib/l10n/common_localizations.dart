@@ -200,6 +200,12 @@ abstract class CommonLocalizations {
   /// **'Information'**
   String get commonInfo;
 
+  /// No description provided for @commonWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning'**
+  String get commonWarning;
+
   /// No description provided for @authError.
   ///
   /// In en, this message translates to:

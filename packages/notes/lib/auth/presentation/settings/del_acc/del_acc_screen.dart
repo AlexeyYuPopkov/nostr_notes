@@ -1,4 +1,5 @@
 import 'package:common/l10n/localization.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/tools/link_tap_handler.dart';
 import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,6 @@ import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 import 'package:nostr_notes/auth/presentation/settings/del_acc/bloc/del_acc_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/del_acc/bloc/del_acc_state.dart';
 import 'package:common/presentation/dialogs/dialog_button.dart';
-import 'package:common/presentation/dialogs/dialog_helper.dart';
 
 import 'bloc/del_acc_event.dart';
 
@@ -55,7 +55,7 @@ final class DelAccScreen extends StatelessWidget
                     ),
                     child: ListView(
                       children: [
-                        SizedBox(height: Sizes.indent2x),
+                        const SizedBox(height: Sizes.indent2x),
                         GptMarkdownWidget(
                           md: context
                               .l10n

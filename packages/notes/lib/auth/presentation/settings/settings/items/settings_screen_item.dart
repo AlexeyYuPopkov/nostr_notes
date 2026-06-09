@@ -1,4 +1,5 @@
 import 'package:common/l10n/localization.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/bloc/settings_screen_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
-import 'package:common/presentation/dialogs/dialog_helper.dart';
+
 import 'package:common/presentation/tools/list_item_position.dart';
 
 import '../bloc/settings_screen_event.dart';
@@ -18,6 +19,7 @@ import '../bloc/settings_screen_event.dart';
 abstract class SettingsItem extends Equatable {
   static const items = [
     SettingsItemPreferences(),
+    SettingsItemImportExport(),
     SettingsItemHelp(),
     SettingsItemContacts(),
     SettingsItemDonateLightning(),
@@ -70,6 +72,30 @@ final class SettingsItemPreferences extends SettingsItem {
 
   @override
   ListItemPosition get position => .first;
+}
+
+final class SettingsItemImportExport extends SettingsItem {
+  const SettingsItemImportExport();
+  @override
+  String getSectionTitle(BuildContext context) => '';
+  @override
+  Widget getTitle(BuildContext context) {
+    // TODO: localization
+    return const Text('Export/Import');
+  }
+
+  @override
+  void onTap(BuildContext context) {
+    RouteHandler.of(context)?.onRoute(const ExportImportRoute(), context);
+  }
+
+  @override
+  ListItemPosition get position => .middle;
+
+  @override
+  Widget trailing(BuildContext context) {
+    return const Icon(Icons.arrow_forward_ios, size: Sizes.iconSmall);
+  }
 }
 
 final class SettingsItemHelp extends SettingsItem {

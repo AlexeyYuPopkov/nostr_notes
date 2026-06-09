@@ -1,4 +1,5 @@
 import 'package:common/l10n/localization.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/widgets/common_popup_menu_button.dart';
 import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +19,6 @@ import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_prev
 import 'package:common/presentation/widgets/markdown/note_code_field.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 
-import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
 import 'bloc/note_preview_event.dart';
@@ -582,10 +582,11 @@ final class _MoreButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final isEnabled =
         onAssignFolder != null || onCopyContent != null || onInfo != null;
     return CommonPopupMenuButton(
-      size: Size(40, 40),
+      size: const Size(40, 40),
       icon: Center(
         child: Icon(
           Icons.more_horiz_rounded,
@@ -599,15 +600,24 @@ final class _MoreButton extends StatelessWidget {
       offset: const Offset(0.0, 40.0),
       items: [
         CommonPopupMenuItem(
-          title: _MenuItem(title: 'Assign folder', icon: Icons.label_outline),
+          title: _MenuItem(
+            title: l10n.notePreviewMoreMenuAssignFolder,
+            icon: Icons.label_outline,
+          ),
           payload: isEnabled ? onAssignFolder : null,
         ),
         CommonPopupMenuItem(
-          title: _MenuItem(title: 'Copy content', icon: Icons.copy_outlined),
+          title: _MenuItem(
+            title: l10n.notePreviewMoreMenuCopyContent,
+            icon: Icons.copy_outlined,
+          ),
           payload: isEnabled ? onCopyContent : null,
         ),
         CommonPopupMenuItem(
-          title: _MenuItem(title: 'Info', icon: Icons.info_outline),
+          title: _MenuItem(
+            title: l10n.notePreviewMoreMenuInfo,
+            icon: Icons.info_outline,
+          ),
           payload: isEnabled ? onInfo : null,
         ),
       ],

@@ -315,6 +315,116 @@ class AppLocalizationsRu extends AppLocalizations {
       'Истекло время ожидания публикации';
 
   @override
+  String get exportImportScreenTitle => 'Экспорт и импорт';
+
+  @override
+  String get exportImportSectionExportTitle => 'Экспорт';
+
+  @override
+  String get exportImportSectionImportTitle => 'Импорт';
+
+  @override
+  String get exportImportItemExportTitle => 'Экспортировать все заметки';
+
+  @override
+  String get exportImportItemExportSubtitle =>
+      'Экспорт всех заметок в защищенный паролем ZIP-архив. Заметки шифруются алгоритмом AES-256-CBC. Если пароль не указан, архив будет создан без шифрования.';
+
+  @override
+  String get exportImportItemImportTitle => 'Импортировать все заметки';
+
+  @override
+  String get exportImportItemImportSubtitle =>
+      'Восстановить заметки из ранее экспортированного архива.';
+
+  @override
+  String get exportImportSectionDataTitle => 'Данные';
+
+  @override
+  String get exportImportPasswordDialogTitle => 'Задать пароль для экспорта';
+
+  @override
+  String get exportImportPasswordDialogHint =>
+      'Оставьте пустым для экспорта без шифрования';
+
+  @override
+  String get exportImportPasswordDialogTextFieldHint =>
+      'Пароль (необязательно)';
+
+  @override
+  String get exportImportExportEmptyError => 'Нет заметок для экспорта';
+
+  @override
+  String get exportImportExportEncryptionError =>
+      'Не удалось зашифровать резервную копию. Попробуйте ещё раз.';
+
+  @override
+  String get exportImportExportFileError =>
+      'Не удалось создать файл резервной копии. Попробуйте ещё раз.';
+
+  @override
+  String get exportImportImportInvalidFileError =>
+      'Этот файл не является корректной резервной копией заметок.';
+
+  @override
+  String get exportImportImportWrongPasswordError =>
+      'Неверный пароль или резервная копия повреждена.';
+
+  @override
+  String get exportImportImportAuthError =>
+      'Чтобы импортировать заметки, нужно войти в аккаунт.';
+
+  @override
+  String get exportImportImportSuccess => 'Заметки успешно импортированы';
+
+  @override
+  String get exportImportImportDialogTitle => 'Импорт заметок';
+
+  @override
+  String get exportImportImportDialogPasswordHint =>
+      'Оставьте пустым, если резервная копия без пароля';
+
+  @override
+  String get exportImportImportDialogPasswordFieldHint =>
+      'Пароль (если зашифровано)';
+
+  @override
+  String get exportImportImportDialogPolicyLabel =>
+      'Если заметка уже существует:';
+
+  @override
+  String get exportImportImportPolicyMergeTitle => 'Объединить содержимое';
+
+  @override
+  String get exportImportImportPolicyMergeSubtitle =>
+      'Добавить импортированный текст ниже существующей заметки';
+
+  @override
+  String get exportImportImportPolicyKeepIncomingTitle =>
+      'Оставить импортированную';
+
+  @override
+  String get exportImportImportPolicyKeepIncomingSubtitle =>
+      'Перезаписать существующие заметки импортированными';
+
+  @override
+  String get exportImportImportPolicyKeepExistingTitle =>
+      'Оставить существующую';
+
+  @override
+  String get exportImportImportPolicyKeepExistingSubtitle =>
+      'Пропустить импортированные заметки, которые уже есть локально';
+
+  @override
+  String exportImportPasswordTooShort(String count) {
+    return 'Пароль должен содержать не менее $count символов';
+  }
+
+  @override
+  String get exportImportNoPasswordWarning =>
+      'Без пароля заметки будут экспортированы в открытом виде и любой, кто получит файл, сможет их прочитать.';
+
+  @override
   String get notesListPendingSyncTitle => 'Ожидает синхронизации';
 
   @override

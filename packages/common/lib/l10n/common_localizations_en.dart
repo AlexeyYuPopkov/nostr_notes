@@ -60,6 +60,9 @@ class CommonLocalizationsEn extends CommonLocalizations {
   String get commonInfo => 'Information';
 
   @override
+  String get commonWarning => 'Warning';
+
+  @override
   String get authError => 'Authentication error';
 
   @override

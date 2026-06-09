@@ -69,7 +69,7 @@ final class DonateLightningBloc
         emit(
           DonateLightningState.error(
             data: data,
-            error: AppError.common(
+            error: const AppError.common(
               message: '',
               reason: 'Received empty invoice from the server',
             ),
@@ -80,7 +80,7 @@ final class DonateLightningBloc
       emit(
         DonateLightningState.idle(
           data: data.copyWith(
-            selectedTab: DonationScreenTab.pay(),
+            selectedTab: const DonationScreenTab.pay(),
             invoice: invoice,
           ),
         ),

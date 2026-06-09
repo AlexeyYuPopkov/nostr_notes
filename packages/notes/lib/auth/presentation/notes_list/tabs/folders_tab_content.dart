@@ -298,7 +298,7 @@ final class _FolderDetail extends StatelessWidget with LabelsPickerHelper {
     return Column(
       children: [
         CupertinoButton(
-          padding: EdgeInsets.symmetric(horizontal: Sizes.indent2x),
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
           onPressed: onBack,
           child: Row(
             children: [

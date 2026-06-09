@@ -122,6 +122,14 @@ final class DrawerRouter extends StatelessWidget {
                         screensAssembly.createDonateLightningScreen(),
                   ),
                 );
+              } else if (route is ExportImportRoute) {
+                return Navigator.of(context).push(
+                  MaterialPageRoute(
+                    settings: const RouteSettings(name: 'export_import_screen'),
+                    builder: (context) =>
+                        screensAssembly.createExportImportScreen(),
+                  ),
+                );
               }
 
               return RouteHandler.of(context)?.onRoute(route, context);

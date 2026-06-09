@@ -11,12 +11,16 @@ mixin DialogHelper {
   Future<dynamic> showError(
     BuildContext context, {
     required Object error,
+    String? Function(Object? error)? messageBuilder,
   }) async {
-    final message = error is AppError
-        ? error.message.isNotEmpty
-              ? error.message
-              : context.commonL10n.commonUndefinedError
-        : context.commonL10n.commonUndefinedError;
+    final message =
+        (messageBuilder != null ? messageBuilder(error) : null) ??
+        (error is AppError
+            ? error.message.isNotEmpty
+                  ? error.message
+                  : context.commonL10n.commonUndefinedError
+            : context.commonL10n.commonUndefinedError);
+
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(message)));

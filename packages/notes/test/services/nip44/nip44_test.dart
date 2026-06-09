@@ -7,7 +7,7 @@ void main() {
       'Lorem ipsum dolor sit amet consectetur adipiscing elit. '
       'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
   group('Nip44', () {
-    final Nip44 sut = const Nip44();
+    const Nip44 sut = Nip44();
 
     test('Nip44 decryption', () async {
       const privateKey =
@@ -60,7 +60,7 @@ void main() {
   });
 
   group('Nip44 encryption/decryption performance', () {
-    final Nip44 sut = const Nip44();
+    const Nip44 sut = Nip44();
     test('Nip44 encryption/decryption performance', () async {
       const privateKey =
           '49b3084ebe2d6a1c1c9f68be41c89593c7a1d0a80e23f259df341bfa8e5b5bd8';

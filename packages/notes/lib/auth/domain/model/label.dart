@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 
 abstract class BaseLabel extends Equatable {
@@ -7,6 +9,15 @@ abstract class BaseLabel extends Equatable {
 
   @override
   List<Object?> get props => [textValue];
+
+  static List<Label> fromJoinedText(String joinedText) {
+    final decoded = jsonDecode(joinedText) as List<dynamic>;
+    return decoded.map((e) => Label.from(e as String)).toList();
+  }
+
+  static String joinLabels(Iterable<Label> labels) {
+    return jsonEncode(labels.map((label) => label.textValue).toList());
+  }
 }
 
 final class EncryptedLabel extends BaseLabel {
@@ -14,6 +25,8 @@ final class EncryptedLabel extends BaseLabel {
 
   @override
   List<Object?> get props => [textValue];
+
+  String get joinedText => textValue;
 }
 
 final class Label extends BaseLabel {

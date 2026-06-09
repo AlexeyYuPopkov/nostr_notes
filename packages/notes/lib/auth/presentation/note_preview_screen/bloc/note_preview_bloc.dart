@@ -13,7 +13,7 @@ import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_prev
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
 import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
-import 'package:nostr_notes/core/tools/optional_box.dart';
+import 'package:common/presentation/tools/optional_box.dart';
 import 'package:nostr_notes/services/outbox_publisher.dart';
 import 'package:rxdart/rxdart.dart';
 

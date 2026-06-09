@@ -46,7 +46,7 @@ final class LabelChips extends StatelessWidget {
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: theme.colorScheme.secondaryContainer,
-                        borderRadius: BorderRadius.all(
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(Sizes.radius),
                         ),
                       ),

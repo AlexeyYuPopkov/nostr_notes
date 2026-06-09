@@ -17,6 +17,7 @@ import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:common/domain/error/app_error.dart';
 import 'package:nostr_notes/core/event_kind.dart';
+
 import 'package:nostr_notes/core/tools/date_time_helper.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:common/services/event_store/database/daos/outbox_dao_interface.dart';

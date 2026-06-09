@@ -638,6 +638,186 @@ abstract class AppLocalizations {
   /// **'Publish operation timed out'**
   String get errorPublishOperationTimedOut;
 
+  /// No description provided for @exportImportScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export & Import'**
+  String get exportImportScreenTitle;
+
+  /// No description provided for @exportImportSectionExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get exportImportSectionExportTitle;
+
+  /// No description provided for @exportImportSectionImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get exportImportSectionImportTitle;
+
+  /// No description provided for @exportImportItemExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export All Notes'**
+  String get exportImportItemExportTitle;
+
+  /// No description provided for @exportImportItemExportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export all your notes to a password-protected ZIP archive. Notes are encrypted using AES-256-CBC. If no password is provided, they will be archived without encryption.'**
+  String get exportImportItemExportSubtitle;
+
+  /// No description provided for @exportImportItemImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import All Notes'**
+  String get exportImportItemImportTitle;
+
+  /// No description provided for @exportImportItemImportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore notes from a previously exported archive.'**
+  String get exportImportItemImportSubtitle;
+
+  /// No description provided for @exportImportSectionDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Data'**
+  String get exportImportSectionDataTitle;
+
+  /// No description provided for @exportImportPasswordDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Export Password'**
+  String get exportImportPasswordDialogTitle;
+
+  /// No description provided for @exportImportPasswordDialogHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave empty to export without encryption'**
+  String get exportImportPasswordDialogHint;
+
+  /// No description provided for @exportImportPasswordDialogTextFieldHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Password (optional)'**
+  String get exportImportPasswordDialogTextFieldHint;
+
+  /// No description provided for @exportImportExportEmptyError.
+  ///
+  /// In en, this message translates to:
+  /// **'No notes to export'**
+  String get exportImportExportEmptyError;
+
+  /// No description provided for @exportImportExportEncryptionError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t encrypt the backup. Please try again.'**
+  String get exportImportExportEncryptionError;
+
+  /// No description provided for @exportImportExportFileError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t create the backup file. Please try again.'**
+  String get exportImportExportFileError;
+
+  /// No description provided for @exportImportImportInvalidFileError.
+  ///
+  /// In en, this message translates to:
+  /// **'This file isn\'t a valid notes backup.'**
+  String get exportImportImportInvalidFileError;
+
+  /// No description provided for @exportImportImportWrongPasswordError.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong password, or the backup is corrupted.'**
+  String get exportImportImportWrongPasswordError;
+
+  /// No description provided for @exportImportImportAuthError.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to be signed in to import notes.'**
+  String get exportImportImportAuthError;
+
+  /// No description provided for @exportImportImportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes imported successfully'**
+  String get exportImportImportSuccess;
+
+  /// No description provided for @exportImportImportDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Notes'**
+  String get exportImportImportDialogTitle;
+
+  /// No description provided for @exportImportImportDialogPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave empty if backup has no password'**
+  String get exportImportImportDialogPasswordHint;
+
+  /// No description provided for @exportImportImportDialogPasswordFieldHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Password (if encrypted)'**
+  String get exportImportImportDialogPasswordFieldHint;
+
+  /// No description provided for @exportImportImportDialogPolicyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'When a note already exists:'**
+  String get exportImportImportDialogPolicyLabel;
+
+  /// No description provided for @exportImportImportPolicyMergeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge content'**
+  String get exportImportImportPolicyMergeTitle;
+
+  /// No description provided for @exportImportImportPolicyMergeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Append imported text below the existing note'**
+  String get exportImportImportPolicyMergeSubtitle;
+
+  /// No description provided for @exportImportImportPolicyKeepIncomingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep imported'**
+  String get exportImportImportPolicyKeepIncomingTitle;
+
+  /// No description provided for @exportImportImportPolicyKeepIncomingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Overwrite existing notes with the imported ones'**
+  String get exportImportImportPolicyKeepIncomingSubtitle;
+
+  /// No description provided for @exportImportImportPolicyKeepExistingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep existing'**
+  String get exportImportImportPolicyKeepExistingTitle;
+
+  /// No description provided for @exportImportImportPolicyKeepExistingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip imported notes that already exist locally'**
+  String get exportImportImportPolicyKeepExistingSubtitle;
+
+  /// No description provided for @exportImportPasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least {count} characters'**
+  String exportImportPasswordTooShort(String count);
+
+  /// No description provided for @exportImportNoPasswordWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Without a password, notes will be exported as plain text and anyone with the file can read them.'**
+  String get exportImportNoPasswordWarning;
+
   /// No description provided for @notesListPendingSyncTitle.
   ///
   /// In en, this message translates to:
