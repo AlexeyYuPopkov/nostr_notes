@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:common/data/zap/fetch_lightning_donation_usecase.dart';
+import 'package:common/data/zap/fetch_lightning_payment_params.dart';
 import 'package:common/data/zap/get_lightning_donation_usecase.dart';
 import 'package:common/domain/model/zap_confirmation.dart';
 import 'package:flutter/foundation.dart';
@@ -9,11 +10,6 @@ import 'package:nostr_notes/app/app_config.dart';
 final class DonateViaLightningVm {
   final FetchLightningDonationUsecase _fetchLightningDonationUsecase;
   final GetLightningDonationUsecase _getLightningDonationUsecase;
-  final String _eventATag;
-  final String _eventPubkey;
-  final String _invoiceEventId;
-  final String _payerPubKey;
-  final String _clientTagValue;
 
   StreamSubscription? _getSubscription;
   StreamSubscription? _fetchSubscription;
@@ -23,35 +19,14 @@ final class DonateViaLightningVm {
   DonateViaLightningVm({
     required FetchLightningDonationUsecase fetchLightningDonationUsecase,
     required GetLightningDonationUsecase getLightningDonationUsecase,
-    String eventATag = '',
-    String eventPubkey = AppConfig.kDevNostrPubkey,
-    String invoiceEventId = '',
-    String payerPubKey = '',
     String clientTagValue = AppConfig.appId,
   }) : _fetchLightningDonationUsecase = fetchLightningDonationUsecase,
-       _getLightningDonationUsecase = getLightningDonationUsecase,
-       _eventATag = eventATag,
-       _eventPubkey = eventPubkey,
-       _invoiceEventId = invoiceEventId,
-       _payerPubKey = payerPubKey,
-       _clientTagValue = clientTagValue;
+       _getLightningDonationUsecase = getLightningDonationUsecase;
 
-  void subscribe() {
-    final params = FetchLightningDonationUsecaseParams(
-      eventATag: _eventATag,
-      eventPubkey: _eventPubkey,
-      invoiceEventId: _invoiceEventId,
-      payerPubKey: _payerPubKey,
-      clientTagValue: _clientTagValue,
-    );
-
+  void subscribe(FetchLightningPaymentParams params) {
     _getSubscription?.cancel();
     _getSubscription = _getLightningDonationUsecase
-        .execute(
-          eventATag: _eventATag,
-          eventPubkey: _eventPubkey,
-          clientTagValue: _clientTagValue,
-        )
+        .execute(params: params)
         .listen((zaps) {
           invoice.value = ZapConfirmationSum.fromEvents(zaps).satsAmount;
         });

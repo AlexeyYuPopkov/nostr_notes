@@ -12,5 +12,6 @@ abstract interface class ScreensAssembly {
   Widget createPrivacyPolicyScreen({bool showAppBar = true});
   Widget deleteAccUsecaseScreen();
   Widget createDonateLightningScreen();
+  Widget createExportImportScreen();
   Widget createApkDistributionScreen({bool showAppBar = true});
 }

@@ -79,7 +79,7 @@ final class _LabelsPickerVM {
   }
 
   bool get canUpdate =>
-      SetEquality().equals(selected.value, _initialSelected) == false;
+      const SetEquality().equals(selected.value, _initialSelected) == false;
 
   void setSelection(CategoryType type, bool? isSelected) {
     if (isSelected == true) {

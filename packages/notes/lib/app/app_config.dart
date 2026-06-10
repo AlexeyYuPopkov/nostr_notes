@@ -2,9 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:nostr/model/tag/tag_value.dart';
+import 'package:nostr_notes/app/app_env.dart';
 
 final class AppConfig {
-  static const kKofiUrl = 'https://ko-fi.com/alekseiipopkov';
+  static AppEnv _env = const DefaultAppEnv();
+
+  static void configure(AppEnv env) => _env = env;
+
+  static String get kKofiUrl => _env.kofiUrl;
   static const appStoreLink =
       'https://apps.apple.com/bg/app/private-notes-nostr/id6757975921';
 
@@ -14,12 +19,10 @@ final class AppConfig {
       'https://alexeyyupopkov.github.io/downloads/nostr_notes-release.apk.sha256';
 
   /// Developer's lightning address for in-app donations (LUD-16).
-  static const kDevLightningAddress = 'visualgemini28@walletofsatoshi.com';
-  // static const kDevLightningAddress = 'dioramaexperienced776464@getalby.com';
+  static String get kDevLightningAddress => _env.devLightningAddress;
 
   /// Developer's nostr hex pubkey — used to create NIP-57 zap events.
-  static const kDevNostrPubkey =
-      'cf2e0ca7070a28e7c24041160689f37bedd654a86a86bb172881b00621f250e3';
+  static String get kDevNostrPubkey => _env.devNostrPubkey;
 
   static const kUsesInMemoryStorage = bool.fromEnvironment(
     'IN_MEMORY_STORAGE',

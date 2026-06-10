@@ -20,6 +20,17 @@ extension NostrEventTags on NostrEvent {
     return null;
   }
 
+  List<String> getTagsList(String tag) {
+    final result = <String>[];
+    for (final tags in this.tags) {
+      if (tags.firstOrNull == tag && tags.length >= 2) {
+        result.addAll(tags.skip(1));
+      }
+    }
+
+    return result;
+  }
+
   Set<String> getATags() {
     final result = <String>{};
     for (final tags in this.tags) {

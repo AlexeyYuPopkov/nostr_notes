@@ -19,7 +19,7 @@ class OpenWalletHelper {
     if (uri == null) return false;
 
     try {
-      final mode = kIsWeb
+      const mode = kIsWeb
           ? LaunchMode.externalApplication
           : LaunchMode.platformDefault;
       return await launchUrl(uri, mode: mode);

@@ -38,49 +38,37 @@ relay_down:
 appbundle:
 	flutter build appbundle --release
 
-# ffi-macos-crypto:
-# 	cd cpp/ffi && cmake -B build-macos -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 && cmake --build build-macos
+ffi-macos: ffi-macos-xcframework
 
-# ffi-macos-copy-crypto:
-# 	rm -rf macos/ffi/crypto_module.framework
-# 	cp -a cpp/ffi/build-macos/crypto_module.framework macos/ffi/
-# 	cp cpp/ffi/macos/crypto_module.podspec  macos/ffi/crypto_module.podspec
-# 	cd macos && rm -rf Pods Podfile.lock || true && pod install --repo-update && cd ..
+ffi-macos-xcframework:
+	rm -rf packages/notes/macos/ffi/crypto_module.framework
+	rm -rf cpp/ffi/build-macos
+	cd cpp/ffi && \
+	cmake -B build-macos -G Xcode && \
+	cmake --build build-macos --config Release
+	rm -rf packages/notes/macos/ffi/crypto_module.xcframework
+	cp cpp/ffi/macos/Info.plist cpp/ffi/build-macos/Release/crypto_module.framework/Resources/Info.plist
+	mkdir -p packages/notes/macos/ffi
+	cp packages/notes/macos/ffi/Package.swift packages/notes/macos/ffi/Package.swift 2>/dev/null || cp cpp/ffi/ios/Package.swift packages/notes/macos/ffi/Package.swift
+	xcodebuild -create-xcframework -framework cpp/ffi/build-macos/Release/crypto_module.framework -output packages/notes/macos/ffi/crypto_module.xcframework
 
-ffi-macos-crypto:
-	cd cpp/ffi && cmake -B build-macos && cmake --build build-macos --config Release && cd ..
-
-ffi-macos-copy-crypto:
-	rm -rf macos/ffi/crypto_module.framework
-	cp -a cpp/ffi/build-macos/crypto_module.framework macos/ffi/
-	cp cpp/ffi/macos/crypto_module.podspec  macos/ffi/crypto_module.podspec
-	cp cpp/ffi/macos/Info.plist macos/ffi/crypto_module.framework/Resources/Info.plist
-	cd macos && rm -rf Pods Podfile.lock || true && pod install --repo-update && cd ..
-
-ffi-ios-crypto:
-	cd cpp/ffi && cmake -B build-ios -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_SYSROOT=iphoneos && \
-	cmake --build build-ios --config Release && cd ..
+ffi-ios: ffi-ios-xcframework
 
 ffi-ios-xcframework:
-	rm -rf ios/ffi/crypto_module.framework
+	rm -rf packages/notes/ios/ffi/crypto_module.framework
+	rm -rf cpp/ffi/build-ios-device cpp/ffi/build-ios-sim
 	cd cpp/ffi && \
 	cmake -B build-ios-device -G Xcode -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_SYSROOT=iphoneos && \
 	cmake --build build-ios-device --config Release
 	cd cpp/ffi && \
 	cmake -B build-ios-sim -G Xcode -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_SYSROOT=iphonesimulator && \
 	cmake --build build-ios-sim --config Release
-	rm -rf ios/ffi/crypto_module.xcframework
+	rm -rf packages/notes/ios/ffi/crypto_module.xcframework
 	cp cpp/ffi/ios/Info.plist cpp/ffi/build-ios-device/Release-iphoneos/crypto_module.framework/Info.plist
 	cp cpp/ffi/ios/Info.plist cpp/ffi/build-ios-sim/Release-iphonesimulator/crypto_module.framework/Info.plist
-	cp cpp/ffi/ios/Package.swift  ios/ffi/Package.swift
-	xcodebuild -create-xcframework -framework cpp/ffi/build-ios-device/Release-iphoneos/crypto_module.framework -framework cpp/ffi/build-ios-sim/Release-iphonesimulator/crypto_module.framework -output ios/ffi/crypto_module.xcframework
-# 	cd ios && rm -rf Pods Podfile.lock || true && pod install --repo-update && cd ..
-
-ffi-ios-copy-crypto:
-	rm -rf ios/ffi/crypto_module.framework
-	cp -a cpp/ffi/build-ios/crypto_module.framework ios/ffi/
-	cp cpp/ffi/ios/crypto_module.podspec  ios/ffi/crypto_module.podspec
-	cd ios && rm -rf Pods Podfile.lock || true && pod install --repo-update && cd ..
+	mkdir -p packages/notes/ios/ffi
+	cp cpp/ffi/ios/Package.swift  packages/notes/ios/ffi/Package.swift
+	xcodebuild -create-xcframework -framework cpp/ffi/build-ios-device/Release-iphoneos/crypto_module.framework -framework cpp/ffi/build-ios-sim/Release-iphonesimulator/crypto_module.framework -output packages/notes/ios/ffi/crypto_module.xcframework
 
 NDK := $(HOME)/Library/Android/sdk/ndk/28.2.13676358
 

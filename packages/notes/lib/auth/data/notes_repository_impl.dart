@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:common/tools/app_worker/app_worker.dart';
+import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/nostr_event_with_relay.dart';
 import 'package:nostr/model/nostr_filter.dart';
 import 'package:nostr/model/nostr_req.dart';
@@ -15,6 +17,7 @@ import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:common/domain/error/app_error.dart';
 import 'package:nostr_notes/core/event_kind.dart';
+
 import 'package:nostr_notes/core/tools/date_time_helper.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:common/services/event_store/database/daos/outbox_dao_interface.dart';
@@ -117,7 +120,7 @@ class NotesRepositoryImpl implements NotesRepository {
 
   @override
   Future<Iterable<Note>> getNotes({required String pubkey}) async {
-    final result = await _eventStore.queryEvents(
+    final rawResult = await _eventStore.queryEvents(
       RawEventQuery(
         authors: [pubkey],
         kinds: [EventKind.note.value],
@@ -131,25 +134,39 @@ class NotesRepositoryImpl implements NotesRepository {
       RawEventQuery(authors: [pubkey], kinds: const [NostrKind.deletion]),
     );
 
-    final deletedDTags = deleted
+    return _performNotesFiltering(rawNotes: rawResult, deleted: deleted);
+  }
+
+  static Future<Iterable<Note>> _performNotesFiltering({
+    required Iterable<NostrEvent> rawNotes,
+    required Iterable<NostrEvent> deleted,
+  }) async {
+    return AppWorker.instance.compute(
+      params: (rawNotes, deleted),
+      callback: _performNotesFilteringIsolateEntry,
+    );
+  }
+
+  static Iterable<Note> _performNotesFilteringIsolateEntry(
+    (Iterable<NostrEvent> rawNotes, Iterable<NostrEvent> deleted) params,
+  ) {
+    final deletedDTags = params.$2
         .where((e) => e.kind == NostrKind.deletion)
         .map(ATag.getAllFromEvent)
         .expand((aTags) => aTags)
         .map((aTag) => aTag.dTag)
         .toSet();
 
-    return result
-        .where((e) => e.content.isNotEmpty)
-        .where((e) {
-          final dTag = e.getDTag();
-          if (dTag == null || dTag.isEmpty) {
-            return false;
-          }
+    final result = params.$1.where((e) => e.content.isNotEmpty).where((e) {
+      final dTag = e.getDTag();
+      if (dTag == null || dTag.isEmpty) {
+        return false;
+      }
 
-          return !deletedDTags.contains(dTag);
-        })
-        .map((e) => NoteMapper.fromNostrEvent(e))
-        .nonNulls;
+      return !deletedDTags.contains(dTag);
+    }).nonNulls;
+
+    return NoteMapper.fromNostrEvents(result);
   }
 
   @override
@@ -169,25 +186,7 @@ class NotesRepositoryImpl implements NotesRepository {
             RawEventQuery(authors: [pubkey], kinds: const [NostrKind.deletion]),
           );
 
-          final deletedDTags = deleted
-              .where((e) => e.kind == NostrKind.deletion)
-              .map(ATag.getAllFromEvent)
-              .expand((aTags) => aTags)
-              .map((aTag) => aTag.dTag)
-              .toSet();
-
-          return items
-              .where((e) => e.content.isNotEmpty)
-              .where((e) {
-                final dTag = e.getDTag();
-                if (dTag == null || dTag.isEmpty) {
-                  return false;
-                }
-
-                return !deletedDTags.contains(dTag);
-              })
-              .map((e) => NoteMapper.fromNostrEvent(e))
-              .nonNulls;
+          return _performNotesFiltering(rawNotes: items, deleted: deleted);
         });
   }
 

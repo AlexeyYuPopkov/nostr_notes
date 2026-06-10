@@ -29,6 +29,7 @@ platform :ios do
   lane :beta do
     setup_ci if ENV['CI']
 
+
     # Decode API key from base64
     api_key_content = Base64.decode64(ENV['NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64'])
 

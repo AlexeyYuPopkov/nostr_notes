@@ -78,10 +78,10 @@ final class VerificationUsecase implements Disposable {
         yield status;
       } else {
         resetDenyTime();
-        yield Verification.allow();
+        yield const Verification.allow();
       }
     } else {
-      yield Verification.deny();
+      yield const Verification.deny();
     }
   }
 

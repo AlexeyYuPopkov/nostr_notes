@@ -1,27 +1,14 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io' as io;
-import 'dart:isolate';
 import 'dart:typed_data';
-import 'dart:ffi' as ffi;
-import 'package:ffi/ffi.dart' as ffi_ffi;
+
+import 'package:common/tools/app_worker/app_worker.dart';
 import 'package:nostr_notes/app/app_config.dart';
-import 'package:common/tools/disposable.dart';
-import 'package:nostr_notes/ffigen/ffigen_crypto_module.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
+import 'package:nostr_notes/services/crypto_service/spec256k1_isolate_part.dart';
 import 'package:nostr_notes/services/hex_to_bytes.dart';
 import 'package:nostr_notes/services/nip44/derive_keys.dart';
 import 'package:nostr_notes/services/nip44/nip44.dart';
-
-part 'spec256k1_isolate_part.dart';
-
-final _useFfi =
-    AppConfig.kIsTest ||
-    io.Platform.isMacOS ||
-    io.Platform.isIOS ||
-    io.Platform.isAndroid;
-
-// final _useFfi = false;
 
 final class IsWasmAvailable {
   const IsWasmAvailable();
@@ -30,26 +17,10 @@ final class IsWasmAvailable {
 
 final class CryptoServiceImplMobile implements CryptoService {
   final Spec256k1Isolate _spec256k1Isolate;
+  final AppWorker _appWorker = AppWorker.instance;
   final DeriveKeys _deriveKeys;
   final Uint8List? _randomBytes;
   final _mobileNip44 = const Nip44();
-
-  late final lib = ffi.DynamicLibrary.open(libName);
-
-  String get libName {
-    if (io.Platform.isAndroid) {
-      return 'crypto_module.so';
-    } else if (io.Platform.isMacOS) {
-      return 'crypto_module.framework/crypto_module';
-    } else if (io.Platform.isIOS) {
-      return 'crypto_module.framework/crypto_module';
-    } else {
-      assert(false, 'Unsupported platform');
-      return '';
-    }
-  }
-
-  late final _nativeLib = NativeLibrary(lib);
 
   CryptoServiceImplMobile._({
     required Spec256k1Isolate spec256k1Isolate,
@@ -73,7 +44,7 @@ final class CryptoServiceImplMobile implements CryptoService {
 
   @override
   FutureOr<void> init() {
-    // return _spec256k1Isolate.init();
+    return _spec256k1Isolate.init();
   }
 
   @override
@@ -120,85 +91,25 @@ final class CryptoServiceImplMobile implements CryptoService {
     required Uint8List senderPrivateKey,
     required Uint8List recipientPublicKey,
   }) async {
-    if (_useFfi) {
-      try {
-        final result = _spec256k1Ffi(
-          senderPrivateKey: senderPrivateKey,
-          recipientPublicKey: recipientPublicKey,
-        );
+    Stopwatch stopwatch = Stopwatch()..start();
 
-        return result;
-      } catch (e) {
-        log(
-          'spec256k1Async FFI failed, falling back to isolate',
-          name: 'CryptoService',
-          error: e,
-        );
-      }
-    }
+    final result = AppConfig.kIsTest
+        ? _deriveKeys.spec256k1FromBytes(
+            privateKeyBytes: senderPrivateKey,
+            publicKeyBytes: recipientPublicKey,
+          )
+        : await _spec256k1Isolate.compute(
+            senderPrivateKey: senderPrivateKey,
+            recipientPublicKey: recipientPublicKey,
+          );
 
-    if (AppConfig.kIsTest) {
-      return _deriveKeys.spec256k1FromBytes(
-        privateKeyBytes: senderPrivateKey,
-        publicKeyBytes: recipientPublicKey,
-      );
-    }
-
-    final result = await _spec256k1Isolate.compute(
-      senderPrivateKey: senderPrivateKey,
-      recipientPublicKey: recipientPublicKey,
+    stopwatch.stop();
+    log(
+      'spec256k1Async completed in ${stopwatch.elapsedMilliseconds} ms',
+      name: 'CryptoService',
     );
 
     return result;
-  }
-
-  Uint8List _spec256k1Ffi({
-    required Uint8List senderPrivateKey,
-    required Uint8List recipientPublicKey,
-  }) {
-    final privKeyPtr = ffi_ffi.calloc<ffi.UnsignedChar>(
-      senderPrivateKey.length,
-    );
-    final pubkeyToUse = Uint8List.fromList([2, ...recipientPublicKey]);
-    final pubKeyPtr = ffi_ffi.calloc<ffi.UnsignedChar>(pubkeyToUse.length);
-    final resultPtrPtr = ffi_ffi.calloc<ffi.Pointer<ffi.UnsignedChar>>(1);
-
-    resultPtrPtr.value = ffi.nullptr;
-
-    try {
-      for (var i = 0; i < senderPrivateKey.length; i++) {
-        privKeyPtr[i] = senderPrivateKey[i];
-      }
-      for (var i = 0; i < pubkeyToUse.length; i++) {
-        pubKeyPtr[i] = pubkeyToUse[i];
-      }
-
-      final resultLen = _nativeLib.deriveSharedKey(
-        privKeyPtr,
-        pubKeyPtr,
-        resultPtrPtr,
-      );
-
-      if (resultLen <= 0) {
-        throw Exception('deriveSharedKey failed with code: $resultLen');
-      }
-
-      final resultPtr = resultPtrPtr.value;
-      if (resultPtr == ffi.nullptr) {
-        throw Exception('Result pointer is null');
-      }
-
-      final result = Uint8List(resultLen);
-      for (var i = 0; i < resultLen; i++) {
-        result[i] = resultPtr[i];
-      }
-
-      return result.sublist(0, 32).asUnmodifiableView();
-    } finally {
-      ffi_ffi.calloc.free(privKeyPtr);
-      ffi_ffi.calloc.free(pubKeyPtr);
-      ffi_ffi.calloc.free(resultPtrPtr);
-    }
   }
 
   @override
@@ -206,10 +117,17 @@ final class CryptoServiceImplMobile implements CryptoService {
     required String payload,
     required Uint8List conversationKey,
   }) {
-    return _mobileNip44.decryptMessage(
-      payload: payload,
-      conversationKey: conversationKey,
-    );
+    if (AppConfig.kIsTest) {
+      return _mobileNip44.decryptMessage(
+        payload: payload,
+        conversationKey: conversationKey,
+      );
+    } else {
+      return _appWorker.compute(
+        params: (payload, conversationKey),
+        callback: _decryptNip44,
+      );
+    }
   }
 
   @override
@@ -217,16 +135,40 @@ final class CryptoServiceImplMobile implements CryptoService {
     required String plaintext,
     required Uint8List conversationKey,
   }) {
-    return _mobileNip44.encryptMessage(
-      plaintext: plaintext,
-      customNonce: _randomBytes,
-      conversationKey: conversationKey,
-    );
+    if (AppConfig.kIsTest) {
+      return _mobileNip44.encryptMessage(
+        plaintext: plaintext,
+        customNonce: _randomBytes,
+        conversationKey: conversationKey,
+      );
+    } else {
+      return _appWorker.compute(
+        params: (plaintext, _randomBytes, conversationKey),
+        callback: _encryptMessage,
+      );
+    }
   }
 
   @override
   Future<void> dispose() {
     return _spec256k1Isolate.dispose();
+  }
+
+  static Future<String> _decryptNip44((String, Uint8List) params) {
+    return const Nip44().decryptMessage(
+      payload: params.$1,
+      conversationKey: params.$2,
+    );
+  }
+
+  static Future<String> _encryptMessage(
+    (String, Uint8List?, Uint8List) params,
+  ) {
+    return const Nip44().encryptMessage(
+      plaintext: params.$1,
+      customNonce: params.$2,
+      conversationKey: params.$3,
+    );
   }
 }
 

@@ -148,7 +148,10 @@ final class _ButtonContent extends StatelessWidget {
     return subtitle.isEmpty
         ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [title, if (trailing != null) trailing!],
+            children: [
+              Flexible(child: title),
+              ?trailing,
+            ],
           )
         : _ButtonContentWithSubtitle(
             title: title,
@@ -177,7 +180,7 @@ final class _ButtonContentWithSubtitle extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [title, if (trailing != null) trailing!],
+          children: [title, ?trailing],
         ),
         const SizedBox(height: Sizes.halfIndent),
         Text(
