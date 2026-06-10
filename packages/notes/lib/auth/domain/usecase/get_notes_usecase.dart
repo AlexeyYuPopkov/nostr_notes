@@ -51,6 +51,7 @@ class GetNotesUsecase {
         decryptedNotes.add(decryptedNote);
       } catch (e, s) {
         log('Failed to decrypt note ${note.dTag}: $e', stackTrace: s);
+        decryptedNotes.add(note.copyWith(error: e));
       }
     }
 

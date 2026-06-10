@@ -311,6 +311,113 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorPublishOperationTimedOut => 'Publish operation timed out';
 
   @override
+  String get exportImportScreenTitle => 'Export & Import';
+
+  @override
+  String get exportImportSectionExportTitle => 'Export';
+
+  @override
+  String get exportImportSectionImportTitle => 'Import';
+
+  @override
+  String get exportImportItemExportTitle => 'Export All Notes';
+
+  @override
+  String get exportImportItemExportSubtitle =>
+      'Export all your notes to a password-protected ZIP archive. Notes are encrypted using AES-256-CBC. If no password is provided, they will be archived without encryption.';
+
+  @override
+  String get exportImportItemImportTitle => 'Import All Notes';
+
+  @override
+  String get exportImportItemImportSubtitle =>
+      'Restore notes from a previously exported archive.';
+
+  @override
+  String get exportImportSectionDataTitle => 'Data';
+
+  @override
+  String get exportImportPasswordDialogTitle => 'Set Export Password';
+
+  @override
+  String get exportImportPasswordDialogHint =>
+      'Leave empty to export without encryption';
+
+  @override
+  String get exportImportPasswordDialogTextFieldHint => 'Password (optional)';
+
+  @override
+  String get exportImportExportEmptyError => 'No notes to export';
+
+  @override
+  String get exportImportExportEncryptionError =>
+      'Couldn\'t encrypt the backup. Please try again.';
+
+  @override
+  String get exportImportExportFileError =>
+      'Couldn\'t create the backup file. Please try again.';
+
+  @override
+  String get exportImportImportInvalidFileError =>
+      'This file isn\'t a valid notes backup.';
+
+  @override
+  String get exportImportImportWrongPasswordError =>
+      'Wrong password, or the backup is corrupted.';
+
+  @override
+  String get exportImportImportAuthError =>
+      'You need to be signed in to import notes.';
+
+  @override
+  String get exportImportImportSuccess => 'Notes imported successfully';
+
+  @override
+  String get exportImportImportDialogTitle => 'Import Notes';
+
+  @override
+  String get exportImportImportDialogPasswordHint =>
+      'Leave empty if backup has no password';
+
+  @override
+  String get exportImportImportDialogPasswordFieldHint =>
+      'Password (if encrypted)';
+
+  @override
+  String get exportImportImportDialogPolicyLabel =>
+      'When a note already exists:';
+
+  @override
+  String get exportImportImportPolicyMergeTitle => 'Merge content';
+
+  @override
+  String get exportImportImportPolicyMergeSubtitle =>
+      'Append imported text below the existing note';
+
+  @override
+  String get exportImportImportPolicyKeepIncomingTitle => 'Keep imported';
+
+  @override
+  String get exportImportImportPolicyKeepIncomingSubtitle =>
+      'Overwrite existing notes with the imported ones';
+
+  @override
+  String get exportImportImportPolicyKeepExistingTitle => 'Keep existing';
+
+  @override
+  String get exportImportImportPolicyKeepExistingSubtitle =>
+      'Skip imported notes that already exist locally';
+
+  @override
+  String exportImportPasswordTooShort(String count) {
+    return 'Password must be at least $count characters';
+  }
+
+  @override
+  String get exportImportNoPasswordWarning =>
+      'Without a password, notes will be exported as plain text and anyone with the file can read them.';
+
+  @override
   String get notesListPendingSyncTitle => 'Sync pending';
 
   @override
@@ -334,6 +441,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notesListDecryptReasonInvalidParams =>
       'Cryptographic parameters are invalid for this note.';
+
+  @override
+  String get notesListSomeNotesDecryptFailed =>
+      'Some notes couldn\'t be decrypted. Check your PIN.';
 
   @override
   String get editNoteScreenSaveSuccess => 'Note saved successfully!';

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:common/app/theme/sizes.dart';
+import 'package:flutter/services.dart';
 
 final class OnboardingTextFormField extends FormField<String> {
   OnboardingTextFormField({
     super.key,
-    required super.initialValue,
+    super.initialValue,
     required super.validator,
     required TextEditingController controller,
     required String hint,
@@ -13,6 +14,7 @@ final class OnboardingTextFormField extends FormField<String> {
     bool obscureText = false,
     ValueChanged<String>? onSubmitted,
     TapRegionCallback? onTapOutside,
+    List<TextInputFormatter>? inputFormatters,
   }) : super(
          builder: (FormFieldState<String> state) => OnboardingTextField(
            controller: controller,
@@ -21,6 +23,7 @@ final class OnboardingTextFormField extends FormField<String> {
            errorText: state.errorText,
            keyboardType: keyboardType,
            validator: validator,
+           inputFormatters: inputFormatters,
            isEnabled: isEnabled,
            onSubmitted: onSubmitted,
            onChanged: (value) {
@@ -42,6 +45,7 @@ final class OnboardingTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool obscureText;
   final TapRegionCallback? onTapOutside;
+  final List<TextInputFormatter>? inputFormatters;
 
   const OnboardingTextField({
     super.key,
@@ -55,6 +59,7 @@ final class OnboardingTextField extends StatelessWidget {
     this.onChanged,
     this.onSubmitted,
     this.onTapOutside,
+    this.inputFormatters,
   });
 
   @override
@@ -73,6 +78,7 @@ final class OnboardingTextField extends StatelessWidget {
           keyboardType: keyboardType,
           textInputAction: TextInputAction.done,
           obscureText: obscureText,
+          inputFormatters: inputFormatters,
         ),
         Visibility(
           visible: errorText != null && errorText!.isNotEmpty,

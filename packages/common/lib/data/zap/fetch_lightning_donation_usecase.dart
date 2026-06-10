@@ -3,31 +3,13 @@ import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/nostr_filter.dart';
 import 'package:nostr/model/nostr_req.dart';
+import 'package:nostr/model/tag/tag_value.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'fetch_lightning_payment_params.dart';
 import 'zap_request_description.dart';
-
-final class FetchLightningDonationUsecaseParams {
-  final String eventATag;
-  final String eventPubkey;
-  final String invoiceEventId;
-  final String payerPubKey;
-  final String clientTagValue;
-
-  const FetchLightningDonationUsecaseParams({
-    required this.eventATag,
-    required this.eventPubkey,
-    required this.invoiceEventId,
-    required this.payerPubKey,
-    required this.clientTagValue,
-  });
-
-  bool get hasRequiredTags => eventPubkey.isNotEmpty;
-
-  bool get hasInvoiceScope => invoiceEventId.isNotEmpty;
-}
 
 final class FetchLightningDonationUsecase {
   const FetchLightningDonationUsecase({
@@ -39,7 +21,7 @@ final class FetchLightningDonationUsecase {
   final NostrClient _nostrClient;
   final RawEventStore _eventStore;
 
-  Stream<NostrEvent> execute(FetchLightningDonationUsecaseParams params) {
+  Stream<NostrEvent> execute(FetchLightningPaymentParams params) {
     assert(
       params.hasRequiredTags,
       'At least one of the parameters should be provided',
@@ -77,11 +59,11 @@ final class FetchLightningDonationUsecase {
               kinds: const [NostrKind.zapConfirmation],
               a: params.eventATag.isNotEmpty ? [params.eventATag] : null,
               p: params.eventPubkey.isNotEmpty ? [params.eventPubkey] : null,
-              additional: params.payerPubKey.isNotEmpty
-                  ? {
-                      '#P': [params.payerPubKey],
-                    }
-                  : null,
+              // additional: params.payerPubKey.isNotEmpty
+              //     ? {
+              //         '#P': [params.payerPubKey],
+              //       }
+              //     : null,
             ),
           ],
         );
@@ -94,7 +76,15 @@ final class FetchLightningDonationUsecase {
       },
     );
 
-    return controller.stream;
+    return controller.stream.where(
+      (event) => _isValidZap(
+        event,
+        eventPubkey: params.eventPubkey,
+        invoiceEventId: params.invoiceEventId,
+        payerPubKey: params.payerPubKey,
+        clientTagValue: params.clientTagValue,
+      ),
+    );
   }
 
   bool _isValidZap(
@@ -108,18 +98,21 @@ final class FetchLightningDonationUsecase {
       return false;
     }
 
-    final pTag = e.getFirstTagStr('p');
+    final pTag = e.getFirstTagStr(TagValue.p);
     if (eventPubkey.isNotEmpty && (pTag == null || pTag != eventPubkey)) {
       return false;
     }
 
-    final payerTag = e.getFirstTagStr('P');
-    if (payerPubKey.isNotEmpty &&
-        (payerTag == null || payerTag != payerPubKey)) {
+    final descriptionMap = ZapRequestDescription.parseFromReceipt(e);
+
+    if (descriptionMap == null) {
       return false;
     }
 
-    final descriptionMap = ZapRequestDescription.parseFromReceipt(e);
+    if (descriptionMap['pubkey'] != payerPubKey) {
+      return false;
+    }
+
     if (!ZapRequestDescription.hasClientTag(descriptionMap, clientTagValue)) {
       return false;
     }

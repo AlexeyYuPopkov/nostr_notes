@@ -139,7 +139,7 @@ final class AppRouter {
                       return noteRouter.possibleHandler(route, ctx);
                     } else if (route is NewNoteRoute) {
                       final router = GoRouter.of(ctx);
-                      final path =
+                      const path =
                           '${AppRouterPath.home}/${AppRouterPath.noteDetails}';
 
                       return router.go(path);

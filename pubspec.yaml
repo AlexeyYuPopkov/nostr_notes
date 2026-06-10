@@ -152,8 +152,8 @@ melos:
 
 # # The following section is specific to Flutter packages.
 # flutter:
-  uses-material-design: true
-#   generate: true 
+#   uses-material-design: true
+#   generate: true
 
 #   assets:
 #     - assets/images/

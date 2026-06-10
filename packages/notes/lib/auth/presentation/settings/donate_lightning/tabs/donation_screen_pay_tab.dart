@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:common/l10n/localization.dart';
+import 'package:nostr_notes/auth/presentation/settings/donation_btc/open_wallet_helper.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import '../../donation_btc/open_wallet_helper.dart';
 import '../bloc/donate_lightning_bloc.dart';
 import '../bloc/donate_lightning_event.dart';
 import '../bloc/donate_lightning_state.dart';
@@ -32,7 +32,7 @@ final class _ButtonBack extends StatelessWidget {
       sizeStyle: .small,
       child: Text(
         context.l10n.donateLightningScreenButtonEditAmount,
-        style: TextStyle(fontSize: TextSizes.normal),
+        style: const TextStyle(fontSize: TextSizes.normal),
       ),
       onPressed: () => _onAmountTab(context),
     );

@@ -1,4 +1,5 @@
 import 'package:common/l10n/localization.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/widgets/label_chips.dart';
@@ -7,7 +8,7 @@ import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/bloc/pending_vm.dart';
 import 'package:common/presentation/dialogs/common_tooltip.dart';
-import 'package:common/presentation/dialogs/dialog_helper.dart';
+
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
@@ -74,14 +75,15 @@ final class NotesListCard extends StatelessWidget
           endActionPane: ActionPane(
             motion: const DrawerMotion(),
             children: [
-              SlidableAction(
-                onPressed: (context) =>
-                    onAssignLabels(sectionItem.note, context),
-                backgroundColor: theme.colorScheme.primary,
-                foregroundColor: theme.colorScheme.onPrimary,
-                icon: Icons.label_outline,
-                label: context.l10n.notesListAssignFolder,
-              ),
+              if (!hasDecryptError)
+                SlidableAction(
+                  onPressed: (context) =>
+                      onAssignLabels(sectionItem.note, context),
+                  backgroundColor: theme.colorScheme.primary,
+                  foregroundColor: theme.colorScheme.onPrimary,
+                  icon: Icons.label_outline,
+                  label: context.l10n.notesListAssignFolder,
+                ),
               SlidableAction(
                 onPressed: (context) async {
                   if (await _confirmDismiss(context)) {
@@ -142,7 +144,7 @@ final class NotesListCard extends StatelessWidget
                           note: sectionItem.note,
                           updatedAt: sectionItem.note.updatedAt,
                         ),
-                        SizedBox(height: Sizes.halfIndent),
+                        const SizedBox(height: Sizes.halfIndent),
                       ],
                     ),
                   ),
@@ -171,12 +173,13 @@ final class NotesListCard extends StatelessWidget
                         child: CommonTooltip(
                           title: context.l10n.notesListPendingSyncTitle,
                           message: context.l10n.notesListPendingSyncDescription,
-                          child: Padding(
+                          child: const Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal: Sizes.indent,
                               vertical: Sizes.indent,
                             ),
-                            child: const Icon(
+
+                            child: Icon(
                               Icons.schedule,
                               size: Sizes.iconSmall,
                               color: Colors.amber,

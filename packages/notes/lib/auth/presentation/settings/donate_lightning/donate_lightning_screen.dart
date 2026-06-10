@@ -1,6 +1,7 @@
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/domain/error/app_error.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/donate_lightning/bloc/donate_lightning_bloc.dart';
@@ -79,7 +80,7 @@ final class _Tabbar extends StatefulWidget implements PreferredSizeWidget {
   State<_Tabbar> createState() => _TabbarState();
 
   @override
-  Size get preferredSize => Size.fromHeight(_Tabbar.thikness);
+  Size get preferredSize => const Size.fromHeight(_Tabbar.thikness);
 }
 
 class _TabbarState extends State<_Tabbar> with SingleTickerProviderStateMixin {
@@ -87,7 +88,7 @@ class _TabbarState extends State<_Tabbar> with SingleTickerProviderStateMixin {
 
   late final _controller = AnimationController(
     vsync: this,
-    duration: Duration(milliseconds: 300),
+    duration: const Duration(milliseconds: 300),
   );
 
   late final _animation = Tween<double>(

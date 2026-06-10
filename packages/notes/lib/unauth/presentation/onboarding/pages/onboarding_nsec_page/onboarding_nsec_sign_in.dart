@@ -15,9 +15,6 @@ import '../../bloc/onboarding_screen_bloc.dart';
 import '../../bloc/onboarding_screen_event.dart';
 
 final class OnboardingNsecSignIn extends StatefulWidget {
-  static final _formKey = GlobalKey<FormState>(
-    debugLabel: 'OnboardingNsecPage.FormKey',
-  );
   const OnboardingNsecSignIn({super.key});
 
   @override
@@ -25,8 +22,12 @@ final class OnboardingNsecSignIn extends StatefulWidget {
 }
 
 final class _OnboardingNsecSignInState extends State<OnboardingNsecSignIn>
-    with NsecValidator {
+    with NsecValidator, WidgetsBindingObserver {
+  final _formKey = GlobalKey<FormState>(
+    debugLabel: 'OnboardingNsecPage.FormKey',
+  );
   late final _controller = TextEditingController();
+  bool _keyboardVisible = false;
 
   late final AuthUsecase _authUsecase = context
       .read<OnboardingScreenBloc>()
@@ -34,6 +35,28 @@ final class _OnboardingNsecSignInState extends State<OnboardingNsecSignIn>
 
   @override
   AuthUsecase getAuthUsecase(BuildContext context) => _authUsecase;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    if (!mounted) return;
+    final visible = View.of(context).viewInsets.bottom > 0;
+    if (visible != _keyboardVisible) {
+      setState(() => _keyboardVisible = visible);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +95,7 @@ final class _OnboardingNsecSignInState extends State<OnboardingNsecSignIn>
           ),
           const SizedBox(height: Sizes.indentVariant4x),
           Form(
-            key: OnboardingNsecSignIn._formKey,
+            key: _formKey,
             child: OnboardingTextFormField(
               initialValue: _controller.text,
               controller: _controller,
@@ -80,15 +103,24 @@ final class _OnboardingNsecSignInState extends State<OnboardingNsecSignIn>
               validator: (str) => validateNsec(context, str),
             ),
           ),
-          const SizedBox(height: Sizes.indentVariant4x),
-          Center(
-            child: Text(
-              l10n.onboardingNsecPageLabelHint,
-              style: theme.textTheme.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
+          AnimatedSize(
+            duration: AppDurations.medium,
+            child: _keyboardVisible
+                ? const SizedBox()
+                : Column(
+                    children: [
+                      const SizedBox(height: Sizes.indentVariant4x),
+                      Center(
+                        child: Text(
+                          l10n.onboardingNsecPageLabelHint,
+                          style: theme.textTheme.bodyMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      const SizedBox(height: Sizes.indent4x),
+                    ],
+                  ),
           ),
-          const SizedBox(height: Sizes.indent4x),
           const SizedBox(height: Sizes.indent4x),
           Center(
             child: PrymaryLoadingButton(
@@ -125,10 +157,9 @@ final class _OnboardingNsecSignInState extends State<OnboardingNsecSignIn>
   }
 
   void _onNext(BuildContext context, LoadingButtonVM vm) {
-    final isValid =
-        OnboardingNsecSignIn._formKey.currentState?.validate() ?? false;
+    final isValid = _formKey.currentState?.validate() ?? false;
     if (isValid) {
-      OnboardingNsecSignIn._formKey.currentState?.save();
+      _formKey.currentState?.save();
       context.read<OnboardingScreenBloc>().add(
         OnboardingScreenEvent.onNsec(_controller.text, vm),
       );

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,7 +10,7 @@ import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_data_screen/bloc/credentials_data_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_data_screen/bloc/credentials_data_state.dart';
-import 'package:common/presentation/dialogs/dialog_helper.dart';
+
 import 'package:nostr_notes/common/presentation/widgets/info_text.dart';
 
 final class CredentialsDataScreen extends StatefulWidget with DialogHelper {
@@ -198,7 +199,7 @@ final class _ItemState extends State<_Item> {
           // ),
           SectionTitle(
             sectionTitle: widget.title,
-            padding: EdgeInsets.symmetric(vertical: Sizes.indent2x),
+            padding: const EdgeInsets.symmetric(vertical: Sizes.indent2x),
             onChangeDependencies: widget.onChangeDependencies,
           ),
           const SizedBox(height: Sizes.indent),

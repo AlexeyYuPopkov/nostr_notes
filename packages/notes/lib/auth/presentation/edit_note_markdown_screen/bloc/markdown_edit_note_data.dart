@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
-import 'package:nostr_notes/core/tools/optional_box.dart';
+import 'package:common/presentation/tools/optional_box.dart';
 
 final class MarkdownEditNoteData extends Equatable {
   final OptionalBox<Note> initialNote;

@@ -3,9 +3,10 @@ import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:common/app/theme/sizes.dart';
-import 'package:common/presentation/dialogs/dialog_helper.dart';
+
 import 'package:common/presentation/tools/list_item_position.dart';
 import 'package:common/presentation/raw_event/raw_event_screen_vm.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 
 import 'widgets/raw_event_screen_json.dart';
 import 'widgets/raw_event_screen_relay.dart';

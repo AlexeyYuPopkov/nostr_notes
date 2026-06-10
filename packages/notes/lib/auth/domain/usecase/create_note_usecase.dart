@@ -7,6 +7,8 @@ import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:uuid/uuid.dart';
 
+import 'crerate_summary_helper.dart';
+
 final class CreateNoteUsecase {
   static const summaryLength = 100;
   final SessionUsecase _sessionUsecase;
@@ -79,12 +81,8 @@ final class CreateNoteUsecase {
       labels: labels,
     );
 
-    final summary = note.content.length > summaryLength
-        ? note.content.substring(0, summaryLength)
-        : note.content;
-
     final encryptedNote = await _noteCryptoUseCase.encryptNote(
-      note.copyWith(summary: summary.byStripMarkDownSymbols()),
+      note.copyWith(summary: CrerateSummaryHelper.create(note)),
     );
 
     final result = await _notesRepository.publishNote(
@@ -100,11 +98,5 @@ final class CreateNoteUsecase {
     final decryptedNote = await _noteCryptoUseCase.decryptNote(result);
 
     return decryptedNote;
-  }
-}
-
-extension on String {
-  String byStripMarkDownSymbols() {
-    return replaceAll(RegExp(r'[#*`~]'), '');
   }
 }

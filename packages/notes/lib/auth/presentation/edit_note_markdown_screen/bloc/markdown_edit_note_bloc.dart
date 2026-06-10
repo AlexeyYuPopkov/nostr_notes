@@ -9,7 +9,7 @@ import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/presentation/edit_note_markdown_screen/markdown_highlight_controller.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:common/domain/error/app_error.dart';
-import 'package:nostr_notes/core/tools/optional_box.dart';
+import 'package:common/presentation/tools/optional_box.dart';
 
 import 'markdown_edit_note_data.dart';
 import 'markdown_edit_note_event.dart';

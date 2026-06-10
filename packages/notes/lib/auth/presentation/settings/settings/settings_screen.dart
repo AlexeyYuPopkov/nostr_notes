@@ -1,11 +1,12 @@
 import 'package:common/app/theme/sizes.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/bloc/settings_screen_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/bloc/settings_screen_state.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
-import 'package:common/presentation/dialogs/dialog_helper.dart';
+
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/presentation/widgets/banners/distribution_banners.dart';
 
@@ -68,7 +69,7 @@ final class _SettingsScreenState extends State<SettingsScreen>
             return AbsorbPointer(
               absorbing: state is LoadingState,
               child: ListView.builder(
-                physics: AlwaysScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 controller: _vm.scrollController,
                 itemCount: SettingsItem.items.length + 1,
                 itemBuilder: (context, index) {

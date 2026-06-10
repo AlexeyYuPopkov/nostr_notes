@@ -21,7 +21,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.41.6'
+          flutter-version: '3.44.0'
           channel: 'stable'
           cache: true
 
@@ -31,16 +31,15 @@ jobs:
       - name: Install dependencies
         run: melos bootstrap
 
-      - name: Install CocoaPods
-        run: sudo gem install cocoapods
+      - name: Build Flutter macOS
+        working-directory: packages/notes
+        run: flutter build macos --release --obfuscate --split-debug-info=build/debug-info
 
-      - name: Create Flutter ephemeral files and run pod install
-        working-directory: packages/notes/macos
-        run: |
-          mkdir -p Flutter/ephemeral
-          touch Flutter/ephemeral/FlutterInputs.xcfilelist
-          touch Flutter/ephemeral/FlutterOutputs.xcfilelist
-          pod install
+      - name: Upload debug symbols
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-debug-symbols
+          path: packages/notes/build/debug-info/
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1

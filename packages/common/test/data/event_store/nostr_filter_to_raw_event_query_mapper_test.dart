@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nostr_notes/core/tools/date_time_helper.dart';
 import 'package:common/services/event_store/nostr_filter_to_raw_event_query_mapper.dart';
 import 'package:nostr/model/nostr_filter.dart';
+import 'package:nostr_notes/core/tools/date_time_helper.dart';
 
 typedef _SUT = NostrFilterToRawEventQueryMapper;
 

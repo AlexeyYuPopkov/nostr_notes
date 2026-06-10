@@ -60,6 +60,9 @@ class CommonLocalizationsEn extends CommonLocalizations {
   String get commonInfo => 'Information';
 
   @override
+  String get commonWarning => 'Warning';
+
+  @override
   String get authError => 'Authentication error';
 
   @override
@@ -127,4 +130,16 @@ class CommonLocalizationsEn extends CommonLocalizations {
 
   @override
   String get rawEventScreenSectionTitleJson => 'JSON';
+
+  @override
+  String get commonLinkCopyLink => 'Copy link';
+
+  @override
+  String get commonLinkOpenInBrowser => 'Open in browser';
+
+  @override
+  String get commonLinkOpenInNewTab => 'Open in new tab';
+
+  @override
+  String get commonLinkOpenInExternalBrowser => 'Open in external browser';
 }

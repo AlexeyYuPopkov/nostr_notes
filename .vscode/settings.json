@@ -5,5 +5,5 @@
   "cmake.sourceDirectory": "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp",
   "specstory.cloudSync.enabled": "never",
   "dart.mcpServer": true,
-  "dart.flutterSdkPath": ".fvm/versions/3.41.0"
+  "dart.flutterSdkPath": ".fvm/versions/3.44.0"
 }

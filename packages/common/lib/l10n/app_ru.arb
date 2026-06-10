@@ -16,6 +16,7 @@
     "commonNoDataPlaceholderText": "Данных нет",
     "commonCopied": "Скопировано",
     "commonInfo": "Информация",
+    "commonWarning": "Предупреждение",
     "authError": "Ошибка аутентификации",
     "themeScreenTitle": "Тема",
     "themeScreenSectionTitleColorTheme": "Цветовая тема",
@@ -52,5 +53,9 @@
             }
         }
     },
-    "rawEventScreenSectionTitleJson": "JSON"
+    "rawEventScreenSectionTitleJson": "JSON",
+    "commonLinkCopyLink": "Копировать ссылку",
+    "commonLinkOpenInBrowser": "Открыть в браузере",
+    "commonLinkOpenInNewTab": "Открыть в новой вкладке",
+    "commonLinkOpenInExternalBrowser": "Открыть во внешнем браузере"
 }

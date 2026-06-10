@@ -42,8 +42,6 @@ final class HexEncoder extends Converter<List<int>, String> {
       return buffer.toString();
     }
   }
-
-  encode(List<int> eightBitWords) {}
 }
 
 /// A converter to decode hexadecimal strings into byte arrays.

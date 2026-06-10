@@ -1,4 +1,5 @@
 import 'package:common/l10n/localization.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +9,6 @@ import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/app/theme/gpt_markdown_theme_data.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
-import 'package:common/presentation/dialogs/dialog_helper.dart';
 
 import 'bloc/markdown_edit_note_bloc.dart';
 import 'bloc/markdown_edit_note_event.dart';

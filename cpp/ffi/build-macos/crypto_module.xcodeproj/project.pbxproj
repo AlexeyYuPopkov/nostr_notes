@@ -1,0 +1,2351 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		073144271C443BB73213364D /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = DC64971EF80642448C7A529F /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				0F921375CEA2B39786B88D82 /* Generate CMakeFiles/ALL_BUILD */,
+			);
+			dependencies = (
+				7F89F2087B464F25BC43C00C /* PBXTargetDependency */,
+				1F5CB3C921594EC189F33AE0 /* PBXTargetDependency */,
+				2B16AAC588ED47FF9749D781 /* PBXTargetDependency */,
+				D9DB0575B49D46E0BB1AB291 /* PBXTargetDependency */,
+				5E14F421EC9D4360AE0C136F /* PBXTargetDependency */,
+				6E31EE8029C24C26B4439914 /* PBXTargetDependency */,
+				4D21625B98FA486EBB6CEED0 /* PBXTargetDependency */,
+				E4AAFDECBF9C42C0B55A1928 /* PBXTargetDependency */,
+				41B0954E17E247138A9C6ADE /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+		731BFBA6D16E0EE19C54146F /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 04D319D4431C4C31AFB731A7 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				77E9622B3A87C824ADBB4591 /* Generate CMakeFiles/ZERO_CHECK */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		00514D7EEA224A71BEAFD74F /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = A29880EDA9C24FE8998ABCE3 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		1AC36863C2D14DCAB82DFCAD /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 7490FB164C664B0CBE08E798 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		4A7E01AC26634336B115300E /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests_exhaustive.c */ = {isa = PBXBuildFile; fileRef = EA697FCB622E4194B3A0C609 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests_exhaustive.c */; };
+		4B5C15808CA6459B93EDAB9A /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 7A04762031FA4F5EB21CE1A2 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		794F5F5561C1470484FDF5F5 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = CA1EE50265174F5AB1047CDF /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		7D68E4123C58433899524293 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */ = {isa = PBXBuildFile; fileRef = EE1ACC14BE344955828F0B54 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */; };
+		7EDD62A536EB45E19D8FA741 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_internal.c */ = {isa = PBXBuildFile; fileRef = 3B061E5D65954238A58F7207 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_internal.c */; };
+		87C841DF34284F74B0416680 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult.c */ = {isa = PBXBuildFile; fileRef = B6C560F3482F4D80B0DC411F /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult.c */; };
+		89D70E184442464F91F21DB9 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src/secp_wrapper.cpp */ = {isa = PBXBuildFile; fileRef = B4F283F778B244538558B41A /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src/secp_wrapper.cpp */; };
+		927FB43CB7A649D299E67C25 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult_gen.c */ = {isa = PBXBuildFile; fileRef = 3946B78613064DC486AF7565 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult_gen.c */; };
+		95EF848DC23E4F518AF0F610 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_ecmult.c */ = {isa = PBXBuildFile; fileRef = 23D1D2F1D2674E16A1197318 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_ecmult.c */; };
+		992C593E1ACC43DFB81A580A /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 132E1C86D4A042218B9A44EF /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/CMakeLists.txt */; };
+		9B18E376EFF94596A5489131 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 499D33AEBFB043D4B5F800CB /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		9D536DBDF4FA4D76AA627FDC /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = E53BFA8A0CA74180833C1477 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		9ECEF702431646BFBB30C4ED /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = F292861FDB6C4AAE86E4CFF9 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		9F7885CE65BB43199A1BC1E2 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/secp256k1.c */ = {isa = PBXBuildFile; fileRef = F7A83C243749458C8D21690F /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/secp256k1.c */; };
+		AA493467A23B4CF0B258CECA /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 8D125A0609814DDBA7BCB33B /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */; };
+		B23BBAC5F957475BB69717E0 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench.c */ = {isa = PBXBuildFile; fileRef = 902637BE41D643B292F3D963 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench.c */; };
+		FBF5670E3F6E4D709B6C4AE8 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */ = {isa = PBXBuildFile; fileRef = 3A47FB72F03B4EC7A7CAE041 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		80A6ED6D56AB4839AEB7D5FE /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+		BC92E87178384B17AD4790E8 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		D25F5F59BB1841BDBFFF506A /* MinSizeRel */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = MinSizeRel;
+		};
+		E7BC6DABC1144866B4AD2D61 /* RelWithDebInfo */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = RelWithDebInfo;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		124211BE530F4044BF0A7820 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A838E2909ECFAA2B50D7EABD;
+			remoteInfo = secp256k1_precomputed;
+		};
+		19CB37594F1348C89A08B89D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 48D9CEE0DC0BE12A9732A726;
+			remoteInfo = noverify_tests;
+		};
+		1A81707491624D32B6B852F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A838E2909ECFAA2B50D7EABD;
+			remoteInfo = secp256k1_precomputed;
+		};
+		21EE4B8172EB492D840733B5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 551E8E676CFB7F9415045E01;
+			remoteInfo = crypto_module;
+		};
+		2DC0DBAD541D408AA2D3D75F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 731BFBA6D16E0EE19C54146F;
+			remoteInfo = ZERO_CHECK;
+		};
+		5074E66232A343FFA93C2DB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A838E2909ECFAA2B50D7EABD;
+			remoteInfo = secp256k1_precomputed;
+		};
+		5F2EDC836D6D4628B3511137 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 731BFBA6D16E0EE19C54146F;
+			remoteInfo = ZERO_CHECK;
+		};
+		6645ED9F44514D9595FDE965 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 974EF1BA560A4992E6273BA6;
+			remoteInfo = secp256k1;
+		};
+		68E9552EF4C24879B7F6231B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 421F315ECFEE4A6E7A49DC15;
+			remoteInfo = exhaustive_tests;
+		};
+		83ED20DAB0CA43E586C6D3F3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93F4FCB93B534A3055B5058E;
+			remoteInfo = tests;
+		};
+		966074B6AAE140C8B0AFEFC2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A838E2909ECFAA2B50D7EABD;
+			remoteInfo = secp256k1_precomputed;
+		};
+		A4B36C8305D04910B98BC580 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2D72111EB736C4610BF2A7BB;
+			remoteInfo = bench;
+		};
+		B2A7A10983724E00B95149F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4CA8FDFD168CEA2A45F0CB53;
+			remoteInfo = bench_internal;
+		};
+		BEDF36583C064C54ABC246FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 974EF1BA560A4992E6273BA6;
+			remoteInfo = secp256k1;
+		};
+		C9D2EB1CA68D41D6BF034FE5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A838E2909ECFAA2B50D7EABD;
+			remoteInfo = secp256k1_precomputed;
+		};
+		D4CB27A0263D40CF9018D61D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 974EF1BA560A4992E6273BA6;
+			remoteInfo = secp256k1;
+		};
+		F57C486B05354498A8767598 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8998059F6D0942AAA269A341 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28AAC87F7E8B43876BA31A84;
+			remoteInfo = bench_ecmult;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		132E1C86D4A042218B9A44EF /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		23D1D2F1D2674E16A1197318 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_ecmult.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = bench_ecmult.c; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_ecmult.c; sourceTree = "<absolute>"; };
+		3946B78613064DC486AF7565 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult_gen.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = precomputed_ecmult_gen.c; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult_gen.c; sourceTree = "<absolute>"; };
+		3A47FB72F03B4EC7A7CAE041 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = tests.c; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c; sourceTree = "<absolute>"; };
+		3B061E5D65954238A58F7207 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_internal.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = bench_internal.c; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_internal.c; sourceTree = "<absolute>"; };
+		499D33AEBFB043D4B5F800CB /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt; sourceTree = "<absolute>"; };
+		6284E04EDB2D48FCBA3AD8F3 /* noverify_tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = noverify_tests; sourceTree = BUILT_PRODUCTS_DIR; };
+		7490FB164C664B0CBE08E798 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt; sourceTree = "<absolute>"; };
+		7A04762031FA4F5EB21CE1A2 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt; sourceTree = "<absolute>"; };
+		7D5527BF747546609291B302 /* bench_internal */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = bench_internal; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E51A14907194F0588BA1835 /* exhaustive_tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = exhaustive_tests; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F7A159AD1A74CDE9B91FCB0 /* secp256k1 */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libsecp256k1.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		808D4CD246554039BD75C5D1 /* bench */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = bench; sourceTree = BUILT_PRODUCTS_DIR; };
+		80C525C6EC8D456F9C2F205B /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		8D125A0609814DDBA7BCB33B /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt; sourceTree = "<absolute>"; };
+		902637BE41D643B292F3D963 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = bench.c; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench.c; sourceTree = "<absolute>"; };
+		A29880EDA9C24FE8998ABCE3 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt; sourceTree = "<absolute>"; };
+		AE46ECE84CE34221B0507EEF /* crypto_module */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = crypto_module.framework/crypto_module; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4F283F778B244538558B41A /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src/secp_wrapper.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = secp_wrapper.cpp; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src/secp_wrapper.cpp; sourceTree = "<absolute>"; };
+		B6A3A2B2DEEA4DE78783A4E4 /* secp256k1_precomputed */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libsecp256k1_precomputed.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6C560F3482F4D80B0DC411F /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = precomputed_ecmult.c; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult.c; sourceTree = "<absolute>"; };
+		CA1EE50265174F5AB1047CDF /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt; sourceTree = "<absolute>"; };
+		CB826B87917E4A4DAD80171E /* bench_ecmult */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = bench_ecmult; sourceTree = BUILT_PRODUCTS_DIR; };
+		E53BFA8A0CA74180833C1477 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt; sourceTree = "<absolute>"; };
+		EA697FCB622E4194B3A0C609 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests_exhaustive.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = tests_exhaustive.c; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests_exhaustive.c; sourceTree = "<absolute>"; };
+		EE1ACC14BE344955828F0B54 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = tests.c; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c; sourceTree = "<absolute>"; };
+		F292861FDB6C4AAE86E4CFF9 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt; sourceTree = "<absolute>"; };
+		F4A4FCA257484F31BD36B5AF /* tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = tests; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7A83C243749458C8D21690F /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/secp256k1.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = secp256k1.c; path = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/secp256k1.c; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		04F3B3AA0F024DA0AA03A9B5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07833B381ACA46BE85E38215 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		269489F63263494FB7A1EA1E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38E5AA242CC54BAC8CF2ABF4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4131076E4F2143A89D2CF4A8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4D5FF35EEACD43B4B5168073 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		75444A2CF51F4361B07EA6C9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		85FCDB41C75B47E8A1AE275D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95715EC9F84C4A7EAE8F5271 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0AEBD13F74DD41AEA6B9E3FA /* secp256k1 */ = {
+			isa = PBXGroup;
+			children = (
+				715FBC4D88A14A56B1721897 /* Source Files */,
+				F292861FDB6C4AAE86E4CFF9 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = secp256k1;
+			sourceTree = "<group>";
+		};
+		0E7998E4204045AFA20CDE83 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				D69B704DEF0848889B0297BF /* Source Files */,
+				499D33AEBFB043D4B5F800CB /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = tests;
+			sourceTree = "<group>";
+		};
+		13ACED168B3C49609B1210A0 /* secp256k1_precomputed */ = {
+			isa = PBXGroup;
+			children = (
+				77D76B874AF74D2AA1AF8252 /* Source Files */,
+				8D125A0609814DDBA7BCB33B /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = secp256k1_precomputed;
+			sourceTree = "<group>";
+		};
+		18EEFF3C185042498CA3A65A /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		1E6FC75AB3D647B8BC450B1C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		27B4D7CCF3204E7994B400DE /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				EA697FCB622E4194B3A0C609 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests_exhaustive.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		2B9CC1D0CDE14EEE9543DE1F /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				23D1D2F1D2674E16A1197318 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_ecmult.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		4DDC370371CB4B0087F35630 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		69ED3649937842C3ADC8221A /* crypto_module */ = {
+			isa = PBXGroup;
+			children = (
+				860108900B1844AC85B37820 /* Source Files */,
+				132E1C86D4A042218B9A44EF /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/CMakeLists.txt */,
+			);
+			name = crypto_module;
+			sourceTree = "<group>";
+		};
+		6BE1797B8B2F42F78EB8F91C /* exhaustive_tests */ = {
+			isa = PBXGroup;
+			children = (
+				27B4D7CCF3204E7994B400DE /* Source Files */,
+				A29880EDA9C24FE8998ABCE3 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = exhaustive_tests;
+			sourceTree = "<group>";
+		};
+		715FBC4D88A14A56B1721897 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				F7A83C243749458C8D21690F /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/secp256k1.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		77D76B874AF74D2AA1AF8252 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				B6C560F3482F4D80B0DC411F /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult.c */,
+				3946B78613064DC486AF7565 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult_gen.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		7FE5157F77884411AB5E4958 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				EE1ACC14BE344955828F0B54 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		860108900B1844AC85B37820 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				B4F283F778B244538558B41A /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src/secp_wrapper.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		8E03F39CC5BC4D52B9B708E4 /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				18EEFF3C185042498CA3A65A /* CMake Rules */,
+				80C525C6EC8D456F9C2F205B /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		996A130269B1430493AFA421 /* bench */ = {
+			isa = PBXGroup;
+			children = (
+				D122CFBC5B3D4CC28D45E1F7 /* Source Files */,
+				7490FB164C664B0CBE08E798 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = bench;
+			sourceTree = "<group>";
+		};
+		B2E5C68F34704A4996957EE1 /* noverify_tests */ = {
+			isa = PBXGroup;
+			children = (
+				7FE5157F77884411AB5E4958 /* Source Files */,
+				E53BFA8A0CA74180833C1477 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = noverify_tests;
+			sourceTree = "<group>";
+		};
+		B9CFBE31832D4C8E929A6881 = {
+			isa = PBXGroup;
+			children = (
+				69ED3649937842C3ADC8221A /* crypto_module */,
+				8E03F39CC5BC4D52B9B708E4 /* ALL_BUILD */,
+				0AEBD13F74DD41AEA6B9E3FA /* secp256k1 */,
+				13ACED168B3C49609B1210A0 /* secp256k1_precomputed */,
+				996A130269B1430493AFA421 /* bench */,
+				E86CDF98791D4CA680E0088C /* bench_internal */,
+				FB50FDC91F2A43B3A94324DC /* bench_ecmult */,
+				B2E5C68F34704A4996957EE1 /* noverify_tests */,
+				0E7998E4204045AFA20CDE83 /* tests */,
+				6BE1797B8B2F42F78EB8F91C /* exhaustive_tests */,
+				E735F79A08874CE9B978489A /* Products */,
+				1E6FC75AB3D647B8BC450B1C /* Frameworks */,
+				4DDC370371CB4B0087F35630 /* Resources */,
+			);
+			sourceTree = "<group>";
+		};
+		D122CFBC5B3D4CC28D45E1F7 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				902637BE41D643B292F3D963 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		D69B704DEF0848889B0297BF /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				3A47FB72F03B4EC7A7CAE041 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		E735F79A08874CE9B978489A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				808D4CD246554039BD75C5D1 /* bench */,
+				CB826B87917E4A4DAD80171E /* bench_ecmult */,
+				7D5527BF747546609291B302 /* bench_internal */,
+				AE46ECE84CE34221B0507EEF /* crypto_module */,
+				7E51A14907194F0588BA1835 /* exhaustive_tests */,
+				6284E04EDB2D48FCBA3AD8F3 /* noverify_tests */,
+				7F7A159AD1A74CDE9B91FCB0 /* secp256k1 */,
+				B6A3A2B2DEEA4DE78783A4E4 /* secp256k1_precomputed */,
+				F4A4FCA257484F31BD36B5AF /* tests */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E86CDF98791D4CA680E0088C /* bench_internal */ = {
+			isa = PBXGroup;
+			children = (
+				F2604D240B8A47788E43E259 /* Source Files */,
+				CA1EE50265174F5AB1047CDF /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = bench_internal;
+			sourceTree = "<group>";
+		};
+		F2604D240B8A47788E43E259 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				3B061E5D65954238A58F7207 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_internal.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		FB50FDC91F2A43B3A94324DC /* bench_ecmult */ = {
+			isa = PBXGroup;
+			children = (
+				2B9CC1D0CDE14EEE9543DE1F /* Source Files */,
+				7A04762031FA4F5EB21CE1A2 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/CMakeLists.txt */,
+			);
+			name = bench_ecmult;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		28AAC87F7E8B43876BA31A84 /* bench_ecmult */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6D8AC7FE12584D00BB04D4A3 /* Build configuration list for PBXNativeTarget "bench_ecmult" */;
+			buildPhases = (
+				856B339871794816BC3B22D1 /* Sources */,
+				269489F63263494FB7A1EA1E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0503397E7B8E495A8F1C4DA2 /* PBXTargetDependency */,
+			);
+			name = bench_ecmult;
+			productName = bench_ecmult;
+			productReference = CB826B87917E4A4DAD80171E /* bench_ecmult */;
+			productType = "com.apple.product-type.tool";
+		};
+		2D72111EB736C4610BF2A7BB /* bench */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E47F89ED33154EF182E01033 /* Build configuration list for PBXNativeTarget "bench" */;
+			buildPhases = (
+				CBF8157DF6AC42008EB5274E /* Sources */,
+				85FCDB41C75B47E8A1AE275D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8714AA54674D4926A986868A /* PBXTargetDependency */,
+			);
+			name = bench;
+			productName = bench;
+			productReference = 808D4CD246554039BD75C5D1 /* bench */;
+			productType = "com.apple.product-type.tool";
+		};
+		421F315ECFEE4A6E7A49DC15 /* exhaustive_tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1272DC67B01E404EAF93F6D1 /* Build configuration list for PBXNativeTarget "exhaustive_tests" */;
+			buildPhases = (
+				77A1BC19050B48189E70EC15 /* Sources */,
+				95715EC9F84C4A7EAE8F5271 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = exhaustive_tests;
+			productName = exhaustive_tests;
+			productReference = 7E51A14907194F0588BA1835 /* exhaustive_tests */;
+			productType = "com.apple.product-type.tool";
+		};
+		48D9CEE0DC0BE12A9732A726 /* noverify_tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 607910965F1A4A7CB89E4A1E /* Build configuration list for PBXNativeTarget "noverify_tests" */;
+			buildPhases = (
+				F13B49BBC7DF4E458138164F /* Sources */,
+				04F3B3AA0F024DA0AA03A9B5 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2DA40D5366B541D29CE9698F /* PBXTargetDependency */,
+			);
+			name = noverify_tests;
+			productName = noverify_tests;
+			productReference = 6284E04EDB2D48FCBA3AD8F3 /* noverify_tests */;
+			productType = "com.apple.product-type.tool";
+		};
+		4CA8FDFD168CEA2A45F0CB53 /* bench_internal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1D33F16F8E942978B4E0D3D /* Build configuration list for PBXNativeTarget "bench_internal" */;
+			buildPhases = (
+				6912187BAFFC4CEBA3F8E876 /* Sources */,
+				07833B381ACA46BE85E38215 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5969B1F192244F72BB61EB30 /* PBXTargetDependency */,
+			);
+			name = bench_internal;
+			productName = bench_internal;
+			productReference = 7D5527BF747546609291B302 /* bench_internal */;
+			productType = "com.apple.product-type.tool";
+		};
+		551E8E676CFB7F9415045E01 /* crypto_module */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1BD58460D185490789743B86 /* Build configuration list for PBXNativeTarget "crypto_module" */;
+			buildPhases = (
+				723BB81C8D224B5389DC3208 /* Sources */,
+				75444A2CF51F4361B07EA6C9 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				88FC8854495B4EFA9729A597 /* PBXTargetDependency */,
+				5F0B8BDE86B242AFA494ADB9 /* PBXTargetDependency */,
+			);
+			name = crypto_module;
+			productName = crypto_module;
+			productReference = AE46ECE84CE34221B0507EEF /* crypto_module */;
+			productType = "com.apple.product-type.framework";
+		};
+		93F4FCB93B534A3055B5058E /* tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C92489707490486AACA07C82 /* Build configuration list for PBXNativeTarget "tests" */;
+			buildPhases = (
+				36FBA40075BD4580BB426263 /* Sources */,
+				4131076E4F2143A89D2CF4A8 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4EC1B763B2EF40C6905FC4CA /* PBXTargetDependency */,
+			);
+			name = tests;
+			productName = tests;
+			productReference = F4A4FCA257484F31BD36B5AF /* tests */;
+			productType = "com.apple.product-type.tool";
+		};
+		974EF1BA560A4992E6273BA6 /* secp256k1 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6547E8BCECEB4B808A9B5642 /* Build configuration list for PBXNativeTarget "secp256k1" */;
+			buildPhases = (
+				BEFC4B9F3BE5447BBED38920 /* Sources */,
+				4D5FF35EEACD43B4B5168073 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0C64E1D69835489097EF39B8 /* PBXTargetDependency */,
+			);
+			name = secp256k1;
+			productName = secp256k1;
+			productReference = 7F7A159AD1A74CDE9B91FCB0 /* secp256k1 */;
+			productType = "com.apple.product-type.library.static";
+		};
+		A838E2909ECFAA2B50D7EABD /* secp256k1_precomputed */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 01B45CBA6D90433D9DA6EF79 /* Build configuration list for PBXNativeTarget "secp256k1_precomputed" */;
+			buildPhases = (
+				A757D698781843C7B9C06352 /* Sources */,
+				38E5AA242CC54BAC8CF2ABF4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = secp256k1_precomputed;
+			productName = secp256k1_precomputed;
+			productReference = B6A3A2B2DEEA4DE78783A4E4 /* secp256k1_precomputed */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8998059F6D0942AAA269A341 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2630;
+			};
+			buildConfigurationList = 9E83A06628FC48EDB370BEF0 /* Build configuration list for PBXProject "crypto_module" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				BC92E87178384B17AD4790E8 /* Debug */,
+				80A6ED6D56AB4839AEB7D5FE /* Release */,
+				D25F5F59BB1841BDBFFF506A /* MinSizeRel */,
+				E7BC6DABC1144866B4AD2D61 /* RelWithDebInfo */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = B9CFBE31832D4C8E929A6881;
+			projectDirPath = /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi;
+			projectRoot = "";
+			targets = (
+				073144271C443BB73213364D /* ALL_BUILD */,
+				2D72111EB736C4610BF2A7BB /* bench */,
+				28AAC87F7E8B43876BA31A84 /* bench_ecmult */,
+				4CA8FDFD168CEA2A45F0CB53 /* bench_internal */,
+				551E8E676CFB7F9415045E01 /* crypto_module */,
+				421F315ECFEE4A6E7A49DC15 /* exhaustive_tests */,
+				48D9CEE0DC0BE12A9732A726 /* noverify_tests */,
+				974EF1BA560A4992E6273BA6 /* secp256k1 */,
+				A838E2909ECFAA2B50D7EABD /* secp256k1_precomputed */,
+				93F4FCB93B534A3055B5058E /* tests */,
+				731BFBA6D16E0EE19C54146F /* ZERO_CHECK */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0F921375CEA2B39786B88D82 /* Generate CMakeFiles/ALL_BUILD */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ALL_BUILD";
+			outputPaths = (
+"/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/CMakeFiles/ALL_BUILD"			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos
+  echo Build\\ all\\ projects
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		3C0110FC8322DE7E50886E21 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		77E9622B3A87C824ADBB4591 /* Generate CMakeFiles/ZERO_CHECK */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ZERO_CHECK";
+			outputPaths = (
+"/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/CMakeFiles/ZERO_CHECK"			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos
+  make -f /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos
+  make -f /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos
+  make -f /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos
+  make -f /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/CMakeScripts/ReRunCMake.make
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		9B50530E35CC49C82C2FACCF = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		36FBA40075BD4580BB426263 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBF5670E3F6E4D709B6C4AE8 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6912187BAFFC4CEBA3F8E876 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EDD62A536EB45E19D8FA741 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_internal.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		723BB81C8D224B5389DC3208 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89D70E184442464F91F21DB9 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/src/secp_wrapper.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77A1BC19050B48189E70EC15 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A7E01AC26634336B115300E /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests_exhaustive.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		856B339871794816BC3B22D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				95EF848DC23E4F518AF0F610 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench_ecmult.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A757D698781843C7B9C06352 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87C841DF34284F74B0416680 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult.c */,
+				927FB43CB7A649D299E67C25 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/precomputed_ecmult_gen.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEFC4B9F3BE5447BBED38920 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F7885CE65BB43199A1BC1E2 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/secp256k1.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CBF8157DF6AC42008EB5274E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B23BBAC5F957475BB69717E0 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/bench.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F13B49BBC7DF4E458138164F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D68E4123C58433899524293 /* /Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/src/tests.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0503397E7B8E495A8F1C4DA2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A838E2909ECFAA2B50D7EABD /* secp256k1_precomputed */;
+			targetProxy = 5074E66232A343FFA93C2DB5 /* PBXContainerItemProxy */;
+		};
+		0C64E1D69835489097EF39B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A838E2909ECFAA2B50D7EABD /* secp256k1_precomputed */;
+			targetProxy = 966074B6AAE140C8B0AFEFC2 /* PBXContainerItemProxy */;
+		};
+		1F5CB3C921594EC189F33AE0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 974EF1BA560A4992E6273BA6 /* secp256k1 */;
+			targetProxy = BEDF36583C064C54ABC246FC /* PBXContainerItemProxy */;
+		};
+		2B16AAC588ED47FF9749D781 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2D72111EB736C4610BF2A7BB /* bench */;
+			targetProxy = A4B36C8305D04910B98BC580 /* PBXContainerItemProxy */;
+		};
+		2DA40D5366B541D29CE9698F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A838E2909ECFAA2B50D7EABD /* secp256k1_precomputed */;
+			targetProxy = C9D2EB1CA68D41D6BF034FE5 /* PBXContainerItemProxy */;
+		};
+		41B0954E17E247138A9C6ADE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 731BFBA6D16E0EE19C54146F /* ZERO_CHECK */;
+			targetProxy = 5F2EDC836D6D4628B3511137 /* PBXContainerItemProxy */;
+		};
+		4D21625B98FA486EBB6CEED0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93F4FCB93B534A3055B5058E /* tests */;
+			targetProxy = 83ED20DAB0CA43E586C6D3F3 /* PBXContainerItemProxy */;
+		};
+		4EC1B763B2EF40C6905FC4CA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A838E2909ECFAA2B50D7EABD /* secp256k1_precomputed */;
+			targetProxy = 1A81707491624D32B6B852F7 /* PBXContainerItemProxy */;
+		};
+		5969B1F192244F72BB61EB30 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A838E2909ECFAA2B50D7EABD /* secp256k1_precomputed */;
+			targetProxy = 124211BE530F4044BF0A7820 /* PBXContainerItemProxy */;
+		};
+		5E14F421EC9D4360AE0C136F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 28AAC87F7E8B43876BA31A84 /* bench_ecmult */;
+			targetProxy = F57C486B05354498A8767598 /* PBXContainerItemProxy */;
+		};
+		5F0B8BDE86B242AFA494ADB9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 731BFBA6D16E0EE19C54146F /* ZERO_CHECK */;
+			targetProxy = 2DC0DBAD541D408AA2D3D75F /* PBXContainerItemProxy */;
+		};
+		6E31EE8029C24C26B4439914 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 48D9CEE0DC0BE12A9732A726 /* noverify_tests */;
+			targetProxy = 19CB37594F1348C89A08B89D /* PBXContainerItemProxy */;
+		};
+		7F89F2087B464F25BC43C00C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 551E8E676CFB7F9415045E01 /* crypto_module */;
+			targetProxy = 21EE4B8172EB492D840733B5 /* PBXContainerItemProxy */;
+		};
+		8714AA54674D4926A986868A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 974EF1BA560A4992E6273BA6 /* secp256k1 */;
+			targetProxy = 6645ED9F44514D9595FDE965 /* PBXContainerItemProxy */;
+		};
+		88FC8854495B4EFA9729A597 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 974EF1BA560A4992E6273BA6 /* secp256k1 */;
+			targetProxy = D4CB27A0263D40CF9018D61D /* PBXContainerItemProxy */;
+		};
+		D9DB0575B49D46E0BB1AB291 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4CA8FDFD168CEA2A45F0CB53 /* bench_internal */;
+			targetProxy = B2A7A10983724E00B95149F6 /* PBXContainerItemProxy */;
+		};
+		E4AAFDECBF9C42C0B55A1928 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 421F315ECFEE4A6E7A49DC15 /* exhaustive_tests */;
+			targetProxy = 68E9552EF4C24879B7F6231B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		01F26F80E02A4F9CB3C3B8EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/Release";
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",crypto_module_EXPORTS,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/../src,/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/../secp256k1/include,/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/include,"$(inherited)");
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/CMakeFiles/crypto_module.dir/Info.plist";
+				INSTALL_PATH = "@rpath";
+				LIBRARY_STYLE = DYNAMIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC ";
+				OTHER_LDFLAGS = ("","-framework CoreFoundation","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/lib/Release/libsecp256k1.a","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = crypto_module;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/crypto_module.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		03E9516543B843E19EFA41B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/Debug";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = exhaustive_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/exhaustive_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		05C2F502C6BB4963B7508DD8 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/RelWithDebInfo";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_internal;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/bench_internal.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		094CBBA13C2F4C089AC3C968 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		0D36EBE6C9F348B3B800DF36 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = "";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build";
+			};
+			name = MinSizeRel;
+		};
+		10F7CF7F2C444DF28A089AE3 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/RelWithDebInfo";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		14CFCDE47A0F416F99E56611 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/Debug";
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",crypto_module_EXPORTS,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/../src,/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/../secp256k1/include,/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/include,"$(inherited)");
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/CMakeFiles/crypto_module.dir/Info.plist";
+				INSTALL_PATH = "@rpath";
+				LIBRARY_STYLE = DYNAMIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "   -fPIC ";
+				OTHER_LDFLAGS = ("","-framework CoreFoundation","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/lib/Debug/libsecp256k1.a","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = crypto_module;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/crypto_module.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		2CD417D981D3494881E56425 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = "";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build";
+			};
+			name = Release;
+		};
+		2F7FD8BED37B466DA33F8E69 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		34716C049EB34A28BE51D88C /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = "";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build";
+			};
+			name = RelWithDebInfo;
+		};
+		42D752F229CC4E4382F458FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/Debug";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_internal;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/bench_internal.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		43E37EE7B6004006BCD8F2D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/Debug";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/include,"$(inherited)");
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/lib/Debug/libsecp256k1.a","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/bench.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		461F9998BD14410F861A798D /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/RelWithDebInfo";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_ecmult;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/bench_ecmult.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		46FF2D7B725E4B75BD735842 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/MinSizeRel";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_internal;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/bench_internal.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		486D90A73C5D468BBFC5C898 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1_precomputed;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		4909EB34B81A49BF9CAF30B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/Debug";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_ecmult;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/bench_ecmult.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		4991AFAE27F34386A8877933 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/MinSizeRel";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = noverify_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/noverify_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		4CD5EF4A271E4F30A16AA1BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		5D4F1DB3CC7E443EAF38795E /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/lib/MinSizeRel";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		5D4F2C9A8D7B4D8793766D1B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/Release";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/include,"$(inherited)");
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/lib/Release/libsecp256k1.a","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/bench.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		68DF8B43ECEC42E1B073C77A /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/MinSizeRel";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_ecmult;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/bench_ecmult.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		6C9DEFE1E5F7478990CC5F84 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/Release";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = noverify_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/noverify_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		71E17CA052B6447EBFB8DD39 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/Release";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = exhaustive_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/exhaustive_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		74789C4C1B624FD0AEEC21D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/Release";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		7602E691E9E24ED9B1AD4857 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/Debug";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = noverify_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/noverify_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		7EB2950C3F664E54BAEA0F80 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/Release";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_internal;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/bench_internal.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		82AB7451673B49219AB596A2 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/RelWithDebInfo";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/include,"$(inherited)");
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/lib/RelWithDebInfo/libsecp256k1.a","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/bench.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		8830BDA9C44D4C63ACDF012E /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/MinSizeRel";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		947ED722F5E04A37B9A0DE09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/Debug";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		A53B356C326B4AABA4348071 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/MinSizeRel";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = exhaustive_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/exhaustive_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		A6E348EFC44D41D887EE0739 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1_precomputed;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		AEF619DDD94141F8B2630CB3 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		B5C228C0E57F4006859C03AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		B7D230DD8CAC4EA292A92003 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/MinSizeRel";
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",crypto_module_EXPORTS,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/../src,/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/../secp256k1/include,/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/include,"$(inherited)");
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/CMakeFiles/crypto_module.dir/Info.plist";
+				INSTALL_PATH = "@rpath";
+				LIBRARY_STYLE = DYNAMIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC ";
+				OTHER_LDFLAGS = ("","-framework CoreFoundation","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/lib/MinSizeRel/libsecp256k1.a","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = crypto_module;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/crypto_module.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		BB140101E1EA47BDA9A8B8AA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = "";
+				SYMROOT = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build";
+			};
+			name = Debug;
+		};
+		C10945C15EFE43E0A8062430 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/RelWithDebInfo";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = noverify_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/noverify_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		C6B34BA5987F457E9DDCEB3E /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1_precomputed;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		C868C9943EFB41AF92AAB1C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/Release";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench_ecmult;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/bench_ecmult.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		CA009089715B41B18D6882D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/lib/Debug";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		CB904B96BBE64495822B42A1 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/RelWithDebInfo";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",VERIFY,"'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = exhaustive_tests;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/exhaustive_tests.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		D0EAF50F19D7480B9D06596E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/lib/Release";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		D1CDFAF75EB84BC183271342 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("   '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1_precomputed;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		D22821AB0745406BB0BD7E51 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/lib/RelWithDebInfo";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("        '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult.o","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1_precomputed.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(OBJECT_FILE_DIR_normal:base)/arm64/precomputed_ecmult_gen.o");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = secp256k1;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/secp256k1.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		DAEA3723C5D04D149C877E8A /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/RelWithDebInfo";
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",crypto_module_EXPORTS,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/../src,/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/../secp256k1/include,/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/include,"$(inherited)");
+				INFOPLIST_FILE = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/CMakeFiles/crypto_module.dir/Info.plist";
+				INSTALL_PATH = "@rpath";
+				LIBRARY_STYLE = DYNAMIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG -fPIC ";
+				OTHER_LDFLAGS = ("","-framework CoreFoundation","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/lib/RelWithDebInfo/libsecp256k1.a","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = crypto_module;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/crypto_module.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		ECBC089E09C34041B5766DBB /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/bin/MinSizeRel";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'ECMULT_WINDOW_SIZE=15'","'COMB_BLOCKS=43'","'COMB_TEETH=6'","'ENABLE_MODULE_ELLSWIFT=1'","'ENABLE_MODULE_MUSIG=1'","'ENABLE_MODULE_SCHNORRSIG=1'","'ENABLE_MODULE_EXTRAKEYS=1'","'ENABLE_MODULE_ECDH=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/secp256k1/include,"$(inherited)");
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("     '-std=c90' -Wall -pedantic -Wcast-align -Wconditional-uninitialized -Wextra -Wnested-externs -Wno-long-long -Wno-overlength-strings -Wno-unused-function -Wreserved-identifier -Wshadow -Wstrict-prototypes -Wundef ","$(inherited)");
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/secp256k1_build/lib/MinSizeRel/libsecp256k1.a","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = bench;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/cpp/ffi/build-macos/build/bench.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		FA42FE675E064FE8B0361148 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		FBC3FA3881AE4598B3F22C7D /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		FD6118EFBC2244669D075DC8 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		01B45CBA6D90433D9DA6EF79 /* Build configuration list for PBXNativeTarget "secp256k1_precomputed" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1CDFAF75EB84BC183271342 /* Debug */,
+				A6E348EFC44D41D887EE0739 /* Release */,
+				C6B34BA5987F457E9DDCEB3E /* MinSizeRel */,
+				486D90A73C5D468BBFC5C898 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		04D319D4431C4C31AFB731A7 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				094CBBA13C2F4C089AC3C968 /* Debug */,
+				FA42FE675E064FE8B0361148 /* Release */,
+				FD6118EFBC2244669D075DC8 /* MinSizeRel */,
+				FBC3FA3881AE4598B3F22C7D /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		1272DC67B01E404EAF93F6D1 /* Build configuration list for PBXNativeTarget "exhaustive_tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03E9516543B843E19EFA41B0 /* Debug */,
+				71E17CA052B6447EBFB8DD39 /* Release */,
+				A53B356C326B4AABA4348071 /* MinSizeRel */,
+				CB904B96BBE64495822B42A1 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		1BD58460D185490789743B86 /* Build configuration list for PBXNativeTarget "crypto_module" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14CFCDE47A0F416F99E56611 /* Debug */,
+				01F26F80E02A4F9CB3C3B8EB /* Release */,
+				B7D230DD8CAC4EA292A92003 /* MinSizeRel */,
+				DAEA3723C5D04D149C877E8A /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		607910965F1A4A7CB89E4A1E /* Build configuration list for PBXNativeTarget "noverify_tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7602E691E9E24ED9B1AD4857 /* Debug */,
+				6C9DEFE1E5F7478990CC5F84 /* Release */,
+				4991AFAE27F34386A8877933 /* MinSizeRel */,
+				C10945C15EFE43E0A8062430 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6547E8BCECEB4B808A9B5642 /* Build configuration list for PBXNativeTarget "secp256k1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CA009089715B41B18D6882D2 /* Debug */,
+				D0EAF50F19D7480B9D06596E /* Release */,
+				5D4F1DB3CC7E443EAF38795E /* MinSizeRel */,
+				D22821AB0745406BB0BD7E51 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6D8AC7FE12584D00BB04D4A3 /* Build configuration list for PBXNativeTarget "bench_ecmult" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4909EB34B81A49BF9CAF30B8 /* Debug */,
+				C868C9943EFB41AF92AAB1C8 /* Release */,
+				68DF8B43ECEC42E1B073C77A /* MinSizeRel */,
+				461F9998BD14410F861A798D /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9E83A06628FC48EDB370BEF0 /* Build configuration list for PBXProject "crypto_module" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BB140101E1EA47BDA9A8B8AA /* Debug */,
+				2CD417D981D3494881E56425 /* Release */,
+				0D36EBE6C9F348B3B800DF36 /* MinSizeRel */,
+				34716C049EB34A28BE51D88C /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C92489707490486AACA07C82 /* Build configuration list for PBXNativeTarget "tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				947ED722F5E04A37B9A0DE09 /* Debug */,
+				74789C4C1B624FD0AEEC21D8 /* Release */,
+				8830BDA9C44D4C63ACDF012E /* MinSizeRel */,
+				10F7CF7F2C444DF28A089AE3 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DC64971EF80642448C7A529F /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5C228C0E57F4006859C03AC /* Debug */,
+				4CD5EF4A271E4F30A16AA1BC /* Release */,
+				AEF619DDD94141F8B2630CB3 /* MinSizeRel */,
+				2F7FD8BED37B466DA33F8E69 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E1D33F16F8E942978B4E0D3D /* Build configuration list for PBXNativeTarget "bench_internal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				42D752F229CC4E4382F458FF /* Debug */,
+				7EB2950C3F664E54BAEA0F80 /* Release */,
+				46FF2D7B725E4B75BD735842 /* MinSizeRel */,
+				05C2F502C6BB4963B7508DD8 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E47F89ED33154EF182E01033 /* Build configuration list for PBXNativeTarget "bench" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43E37EE7B6004006BCD8F2D6 /* Debug */,
+				5D4F2C9A8D7B4D8793766D1B /* Release */,
+				ECBC089E09C34041B5766DBB /* MinSizeRel */,
+				82AB7451673B49219AB596A2 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8998059F6D0942AAA269A341 /* Project object */;
+}

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_notes/core/tools/optional_box.dart';
+import 'package:common/presentation/tools/optional_box.dart';
 
 final class AppThemeData {
   final ThemeMode themeMode;

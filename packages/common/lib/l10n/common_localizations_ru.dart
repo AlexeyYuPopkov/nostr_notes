@@ -60,6 +60,9 @@ class CommonLocalizationsRu extends CommonLocalizations {
   String get commonInfo => 'Информация';
 
   @override
+  String get commonWarning => 'Предупреждение';
+
+  @override
   String get authError => 'Ошибка аутентификации';
 
   @override
@@ -128,4 +131,16 @@ class CommonLocalizationsRu extends CommonLocalizations {
 
   @override
   String get rawEventScreenSectionTitleJson => 'JSON';
+
+  @override
+  String get commonLinkCopyLink => 'Копировать ссылку';
+
+  @override
+  String get commonLinkOpenInBrowser => 'Открыть в браузере';
+
+  @override
+  String get commonLinkOpenInNewTab => 'Открыть в новой вкладке';
+
+  @override
+  String get commonLinkOpenInExternalBrowser => 'Открыть во внешнем браузере';
 }
