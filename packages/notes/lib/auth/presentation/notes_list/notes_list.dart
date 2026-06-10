@@ -67,7 +67,16 @@ class _NotesListState extends State<NotesList> with DialogHelper {
       case LoadingState():
         break;
       case ErrorState():
-        showError(context, error: state.e);
+        showError(
+          context,
+          error: state.e,
+          messageBuilder: (error) {
+            if (error is SomeNotesWasNotDecrypted) {
+              return context.l10n.notesListSomeNotesDecryptFailed;
+            }
+            return null;
+          },
+        );
         break;
     }
   }

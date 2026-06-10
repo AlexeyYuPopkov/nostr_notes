@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:common/domain/error/app_error.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -227,11 +228,40 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         l10n: l10n,
       );
 
-      emit(
-        NotesListState.common(
-          data: data.copyWith(notes: event.notes, sections: sections),
-        ),
-      );
+      final decryptionErrorCount = event.notes
+          .where((n) => n.error != null)
+          .length;
+
+      if (decryptionErrorCount > 0) {
+        log(
+          'Decryption errors: $decryptionErrorCount / ${event.notes.length} notes. '
+          '${decryptionErrorCount == event.notes.length ? 'All notes failed — likely wrong PIN.' : 'Some notes failed.'}',
+          name: runtimeType.toString(),
+        );
+      }
+
+      if (decryptionErrorCount > 0) {
+        emit(
+          NotesListState.error(
+            e: const SomeNotesWasNotDecrypted(),
+            data: data.copyWith(
+              notes: event.notes,
+              sections: sections,
+              decryptionErrorCount: decryptionErrorCount,
+            ),
+          ),
+        );
+      } else {
+        emit(
+          NotesListState.common(
+            data: data.copyWith(
+              notes: event.notes,
+              sections: sections,
+              decryptionErrorCount: decryptionErrorCount,
+            ),
+          ),
+        );
+      }
     } catch (e) {
       emit(NotesListState.error(e: e, data: data));
     } finally {
@@ -288,4 +318,8 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     _tabRepo.setTabIndex(event.tab.index);
     emit(NotesListState.common(data: data.copyWith(tab: event.tab)));
   }
+}
+
+final class SomeNotesWasNotDecrypted extends AppError {
+  const SomeNotesWasNotDecrypted({super.parentError, super.reason});
 }

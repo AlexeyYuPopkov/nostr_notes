@@ -142,6 +142,7 @@
     "notesListDecryptReasonWrongPin": "Неверный PIN/пароль или несоответствующий контекст шифрования для этой заметки.",
     "notesListDecryptReasonCorruptedPayload": "Полезная нагрузка заметки выглядит поврежденной, неполной или созданной в неподдерживаемом формате.",
     "notesListDecryptReasonInvalidParams": "Криптографические параметры для этой заметки недействительны.",
+    "notesListSomeNotesDecryptFailed": "Не удалось расшифровать часть заметок. Проверьте PIN.",
     "editNoteScreenSaveSuccess": "Заметка успешно сохранена!",
     "credentialsDataScreenTitle": "Данные учетной записи",
     "credentialsDataScreenLabelNsec": "Nsec",

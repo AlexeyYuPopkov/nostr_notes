@@ -142,6 +142,7 @@
     "notesListDecryptReasonWrongPin": "Wrong PIN/password or a mismatched encryption context for this note.",
     "notesListDecryptReasonCorruptedPayload": "The note payload appears corrupted, incomplete, or produced by an unsupported format.",
     "notesListDecryptReasonInvalidParams": "Cryptographic parameters are invalid for this note.",
+    "notesListSomeNotesDecryptFailed": "Some notes couldn't be decrypted. Check your PIN.",
     "editNoteScreenSaveSuccess": "Note saved successfully!",
     "credentialsDataScreenTitle": "Credentials Data",
     "credentialsDataScreenLabelNsec": "Nsec",

@@ -860,6 +860,12 @@ abstract class AppLocalizations {
   /// **'Cryptographic parameters are invalid for this note.'**
   String get notesListDecryptReasonInvalidParams;
 
+  /// No description provided for @notesListSomeNotesDecryptFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Some notes couldn\'t be decrypted. Check your PIN.'**
+  String get notesListSomeNotesDecryptFailed;
+
   /// No description provided for @editNoteScreenSaveSuccess.
   ///
   /// In en, this message translates to:

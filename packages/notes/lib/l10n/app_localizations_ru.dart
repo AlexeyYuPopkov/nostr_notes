@@ -450,6 +450,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Криптографические параметры для этой заметки недействительны.';
 
   @override
+  String get notesListSomeNotesDecryptFailed =>
+      'Не удалось расшифровать часть заметок. Проверьте PIN.';
+
+  @override
   String get editNoteScreenSaveSuccess => 'Заметка успешно сохранена!';
 
   @override

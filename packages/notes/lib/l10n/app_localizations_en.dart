@@ -443,6 +443,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Cryptographic parameters are invalid for this note.';
 
   @override
+  String get notesListSomeNotesDecryptFailed =>
+      'Some notes couldn\'t be decrypted. Check your PIN.';
+
+  @override
   String get editNoteScreenSaveSuccess => 'Note saved successfully!';
 
   @override
