@@ -228,37 +228,25 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         l10n: l10n,
       );
 
-      final decryptionErrorCount = event.notes
-          .where((n) => n.error != null)
-          .length;
+      final hasDecryptionErrors = event.notes.any((n) => n.error != null);
 
-      if (decryptionErrorCount > 0) {
+      if (hasDecryptionErrors) {
+        final errorCount = event.notes.where((n) => n.error != null).length;
         log(
-          'Decryption errors: $decryptionErrorCount / ${event.notes.length} notes. '
-          '${decryptionErrorCount == event.notes.length ? 'All notes failed — likely wrong PIN.' : 'Some notes failed.'}',
+          'Decryption errors: $errorCount / ${event.notes.length} notes. '
+          '${errorCount == event.notes.length ? 'All notes failed — likely wrong PIN.' : 'Some notes failed.'}',
           name: runtimeType.toString(),
         );
-      }
-
-      if (decryptionErrorCount > 0) {
         emit(
           NotesListState.error(
             e: const SomeNotesWasNotDecrypted(),
-            data: data.copyWith(
-              notes: event.notes,
-              sections: sections,
-              decryptionErrorCount: decryptionErrorCount,
-            ),
+            data: data.copyWith(notes: event.notes, sections: sections),
           ),
         );
       } else {
         emit(
           NotesListState.common(
-            data: data.copyWith(
-              notes: event.notes,
-              sections: sections,
-              decryptionErrorCount: decryptionErrorCount,
-            ),
+            data: data.copyWith(notes: event.notes, sections: sections),
           ),
         );
       }

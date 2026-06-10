@@ -55,6 +55,7 @@ final class Note extends Equatable {
     String? content,
     String? summary,
     Object? error,
+    bool clearError = false,
     DateTime? createdAt,
     DateTime? updatedAt,
     List<BaseLabel>? labels,
@@ -67,7 +68,7 @@ final class Note extends Equatable {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       labels: labels ?? this.labels,
-      error: error ?? this.error,
+      error: clearError ? null : (error ?? this.error),
     );
   }
 

@@ -1,9 +1,9 @@
 import 'package:common/app/theme/gpt_markdown_theme_data.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/l10n/localization.dart';
+import 'package:common/presentation/tools/link_tap_handler.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gpt_markdown/custom_widgets/markdown_config.dart';
 import 'package:gpt_markdown/gpt_markdown.dart';
 import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
@@ -155,21 +155,8 @@ class _GptMarkdownWidgetState extends State<GptMarkdownWidget> {
   }
 
   Future<void> _copyToClipboard(String url) async {
-    String text = url.trim();
-    if (text.startsWith('mailto:')) {
-      text = text.substring(7);
-    } else if (text.startsWith('tel:')) {
-      text = text.substring(4);
-    }
-    await Clipboard.setData(ClipboardData(text: text));
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Column(
-            children: [Text('${context.commonL10n.commonCopied}:'), Text(text)],
-          ),
-        ),
-      );
+      await copyUrlToClipboard(context, url);
     }
   }
 }

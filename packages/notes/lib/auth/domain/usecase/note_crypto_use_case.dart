@@ -130,6 +130,7 @@ final class NoteCryptoUseCase {
       content: decryptedContent,
       summary: decryptedSummary,
       labels: labels,
+      clearError: true,
     );
   }
 

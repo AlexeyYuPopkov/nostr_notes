@@ -75,14 +75,15 @@ final class NotesListCard extends StatelessWidget
           endActionPane: ActionPane(
             motion: const DrawerMotion(),
             children: [
-              SlidableAction(
-                onPressed: (context) =>
-                    onAssignLabels(sectionItem.note, context),
-                backgroundColor: theme.colorScheme.primary,
-                foregroundColor: theme.colorScheme.onPrimary,
-                icon: Icons.label_outline,
-                label: context.l10n.notesListAssignFolder,
-              ),
+              if (!hasDecryptError)
+                SlidableAction(
+                  onPressed: (context) =>
+                      onAssignLabels(sectionItem.note, context),
+                  backgroundColor: theme.colorScheme.primary,
+                  foregroundColor: theme.colorScheme.onPrimary,
+                  icon: Icons.label_outline,
+                  label: context.l10n.notesListAssignFolder,
+                ),
               SlidableAction(
                 onPressed: (context) async {
                   if (await _confirmDismiss(context)) {
