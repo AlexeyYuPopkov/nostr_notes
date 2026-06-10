@@ -31,16 +31,6 @@ jobs:
       - name: Install dependencies
         run: melos bootstrap
 
-      - name: Build Flutter macOS
-        working-directory: packages/notes
-        run: flutter build macos --release --obfuscate --split-debug-info=build/debug-info
-
-      - name: Upload debug symbols
-        uses: actions/upload-artifact@v4
-        with:
-          name: macos-debug-symbols
-          path: packages/notes/build/debug-info/
-
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -64,6 +54,26 @@ jobs:
           sudo security import /tmp/AppleWWDRCAG4.cer -k /Library/Keychains/System.keychain || true
           sudo security import /tmp/AppleWWDRCAG5.cer -k /Library/Keychains/System.keychain || true
           sudo security import /tmp/AppleWWDRCAG6.cer -k /Library/Keychains/System.keychain || true
+
+      - name: Install signing certificates
+        working-directory: packages/notes/macos
+        env:
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_ISSUER_ID }}
+          NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64 }}
+          MATCH_PASSWORD: ${{ secrets.NOSTR_NOTES_MATCH_PASSWORD }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.NOSTR_NOTES_MATCH_GIT_BASIC_AUTHORIZATION }}
+        run: bundle exec fastlane install_certs
+
+      - name: Build Flutter macOS
+        working-directory: packages/notes
+        run: flutter build macos --release --obfuscate --split-debug-info=build/debug-info
+
+      - name: Upload debug symbols
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-debug-symbols
+          path: packages/notes/build/debug-info/
 
       - name: Deploy to TestFlight
         working-directory: packages/notes/macos
