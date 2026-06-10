@@ -53,5 +53,9 @@
             }
         }
     },
-    "rawEventScreenSectionTitleJson": "JSON"
+    "rawEventScreenSectionTitleJson": "JSON",
+    "commonLinkCopyLink": "Копировать ссылку",
+    "commonLinkOpenInBrowser": "Открыть в браузере",
+    "commonLinkOpenInNewTab": "Открыть в новой вкладке",
+    "commonLinkOpenInExternalBrowser": "Открыть во внешнем браузере"
 }

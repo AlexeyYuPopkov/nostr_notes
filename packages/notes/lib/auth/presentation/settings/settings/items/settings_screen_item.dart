@@ -19,7 +19,7 @@ import '../bloc/settings_screen_event.dart';
 abstract class SettingsItem extends Equatable {
   static const items = [
     SettingsItemPreferences(),
-    SettingsItemImportExport(),
+    // SettingsItemImportExport(),
     SettingsItemHelp(),
     SettingsItemContacts(),
     SettingsItemDonateLightning(),
@@ -79,10 +79,8 @@ final class SettingsItemImportExport extends SettingsItem {
   @override
   String getSectionTitle(BuildContext context) => '';
   @override
-  Widget getTitle(BuildContext context) {
-    // TODO: localization
-    return const Text('Export/Import');
-  }
+  Widget getTitle(BuildContext context) =>
+      Text(context.l10n.exportImportScreenTitle);
 
   @override
   void onTap(BuildContext context) {

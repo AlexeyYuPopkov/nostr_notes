@@ -53,5 +53,9 @@
             }
         }
     },
-    "rawEventScreenSectionTitleJson": "JSON"
+    "rawEventScreenSectionTitleJson": "JSON",
+    "commonLinkCopyLink": "Copy link",
+    "commonLinkOpenInBrowser": "Open in browser",
+    "commonLinkOpenInNewTab": "Open in new tab",
+    "commonLinkOpenInExternalBrowser": "Open in external browser"
 }

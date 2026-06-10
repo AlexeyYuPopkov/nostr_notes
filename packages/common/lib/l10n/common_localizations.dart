@@ -331,6 +331,30 @@ abstract class CommonLocalizations {
   /// In en, this message translates to:
   /// **'JSON'**
   String get rawEventScreenSectionTitleJson;
+
+  /// No description provided for @commonLinkCopyLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get commonLinkCopyLink;
+
+  /// No description provided for @commonLinkOpenInBrowser.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in browser'**
+  String get commonLinkOpenInBrowser;
+
+  /// No description provided for @commonLinkOpenInNewTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in new tab'**
+  String get commonLinkOpenInNewTab;
+
+  /// No description provided for @commonLinkOpenInExternalBrowser.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in external browser'**
+  String get commonLinkOpenInExternalBrowser;
 }
 
 class _CommonLocalizationsDelegate
