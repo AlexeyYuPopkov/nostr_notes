@@ -2,12 +2,15 @@ import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/widgets/common_popup_menu_button.dart';
 import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
+import 'package:di_storage/di_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/widgets/labels_picker.dart';
+import 'package:nostr_notes/auth/presentation/settings/export_import/export_password_dialog.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/note_router.dart';
@@ -16,8 +19,10 @@ import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/tools/note_decrypt_error_message_mixin.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_bloc.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
-import 'package:common/presentation/widgets/markdown/note_code_field.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
+import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
+import 'package:nostr_notes/services/ads/ads_service.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
@@ -159,7 +164,7 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
     super.dispose();
   }
 
-  void _listener(BuildContext context, NotePreviewState state) {
+  void _listener(BuildContext context, NotePreviewState state) async {
     switch (state) {
       case CommonState():
       case LoadingState():
@@ -167,6 +172,12 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
         break;
       case ErrorState():
         showError(context, error: state.error);
+        break;
+      case ExportNoteSuccessState(:final filePath, :final bytes, :final fileName):
+        final xFile = kIsWeb
+            ? XFile.fromData(bytes, name: fileName, mimeType: 'application/zip')
+            : XFile(filePath);
+        await SharePlus.instance.share(ShareParams(files: [xFile]));
         break;
     }
   }
@@ -218,6 +229,9 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
                           : null,
                       onInfo: isEnabled
                           ? () => _onInfo(context, note.eventId)
+                          : null,
+                      onExportNote: isEnabled
+                          ? () => _onExportNote(context)
                           : null,
                     ),
 
@@ -287,27 +301,10 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
                                               ? CrossFadeState.showSecond
                                               : CrossFadeState.showFirst,
                                           firstChild: SelectionArea(
-                                            child: GptMarkdownWidget(
-                                              md: content,
-                                              codeBuilder:
-                                                  (
-                                                    context,
-                                                    name,
-                                                    code,
-                                                    closed,
-                                                  ) {
-                                                    return NoteCodeField(
-                                                      name: name,
-                                                      codes: code,
-                                                    );
-                                                  },
-                                              highlightBuilder:
-                                                  (context, code, closed) {
-                                                    return ShortNoteCodeField(
-                                                      codes: code,
-                                                    );
-                                                  },
-                                            ),
+                                            child:
+                                                GptMarkdownWidget.withCodeBuilders(
+                                                  md: content,
+                                                ),
                                           ),
                                           secondChild: _SearchableText(
                                             text: content,
@@ -371,6 +368,21 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(context.commonL10n.commonCopied)));
+  }
+
+  Future<void> _onExportNote(BuildContext context) async {
+    DiStorage.shared.resolve<VerificationUsecase>().skipNextVerification();
+    await DiStorage.shared.resolve<AdsService>().showInterstitial();
+    if (!context.mounted) return;
+    final password = await showDialog<String>(
+      context: context,
+      barrierDismissible: true,
+      builder: (_) => const ExportPasswordDialog(),
+    );
+    if (password == null || !context.mounted) return;
+    context.read<NotePreviewBloc>().add(
+      NotePreviewEvent.exportNote(password: password),
+    );
   }
 }
 
@@ -576,15 +588,23 @@ final class _MoreButton extends StatelessWidget {
   final VoidCallback? onAssignFolder;
   final VoidCallback? onCopyContent;
   final VoidCallback? onInfo;
+  final VoidCallback? onExportNote;
 
-  const _MoreButton({this.onAssignFolder, this.onCopyContent, this.onInfo});
+  const _MoreButton({
+    this.onAssignFolder,
+    this.onCopyContent,
+    this.onInfo,
+    this.onExportNote,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final isEnabled =
-        onAssignFolder != null || onCopyContent != null || onInfo != null;
+    final isEnabled = onAssignFolder != null ||
+        onCopyContent != null ||
+        onInfo != null ||
+        onExportNote != null;
     return CommonPopupMenuButton(
       size: const Size(40, 40),
       icon: Center(
@@ -619,6 +639,13 @@ final class _MoreButton extends StatelessWidget {
             icon: Icons.info_outline,
           ),
           payload: isEnabled ? onInfo : null,
+        ),
+        CommonPopupMenuItem(
+          title: _MenuItem(
+            title: l10n.notePreviewMoreMenuExportNote,
+            icon: Icons.upload_outlined,
+          ),
+          payload: isEnabled ? onExportNote : null,
         ),
       ],
     );

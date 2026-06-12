@@ -3,7 +3,7 @@ import 'package:common/l10n/localization.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
 import 'package:nostr_notes/services/ads/ads_service.dart';
-import 'package:common/presentation/dialogs/common_tooltip.dart';
+
 import 'package:common/presentation/dialogs/dialog_button.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 
@@ -25,6 +25,7 @@ import 'package:nostr_notes/l10n/localization.dart';
 import 'package:share_plus/share_plus.dart';
 
 import 'bloc/export_import_event.dart';
+import 'export_password_dialog.dart';
 
 final class ExportImportScreen extends StatelessWidget {
   const ExportImportScreen({super.key});
@@ -140,17 +141,16 @@ mixin _PassAlert {
     DiStorage.shared.resolve<VerificationUsecase>().skipNextVerification();
     await DiStorage.shared.resolve<AdsService>().showInterstitial();
     if (!context.mounted) return;
-    await showDialog<bool>(
+    final password = await showDialog<String>(
       context: context,
       barrierDismissible: true,
-      builder: (_) =>
-          _AlertContent(onContinue: (str) => _onContinueTap(context, str)),
+      builder: (_) => const ExportPasswordDialog(),
     );
+    if (password == null || !context.mounted) return;
+    context
+        .read<ExportImportBloc>()
+        .add(ExportImportEvent.export(password: password));
   }
-
-  void _onContinueTap(BuildContext context, String password) => context
-      .read<ExportImportBloc>()
-      .add(ExportImportEvent.export(password: password));
 
   Future<void> _onImportTap(BuildContext context) async {
     DiStorage.shared.resolve<VerificationUsecase>().skipNextVerification();
@@ -181,110 +181,6 @@ mixin _PassAlert {
         ),
       );
     }
-  }
-}
-
-final class _AlertContent extends StatefulWidget {
-  final ValueChanged<String>? onContinue;
-  const _AlertContent({required this.onContinue});
-
-  @override
-  State<_AlertContent> createState() => _AlertContentState();
-}
-
-final class _AlertContentState extends State<_AlertContent> {
-  final _formKey = GlobalKey<FormState>(debugLabel: '_PassAlertFormState');
-
-  late final controller = TextEditingController();
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final commonL10n = context.commonL10n;
-    final theme = Theme.of(context);
-    return AppAlertDialog(
-      title: Text(l10n.exportImportPasswordDialogTitle),
-      content: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            OnboardingTextFormField(
-              controller: controller,
-              obscureText: true,
-              hint: l10n.exportImportPasswordDialogTextFieldHint,
-              inputFormatters: [
-                FilteringTextInputFormatter.deny(RegExp(r'\s')),
-              ],
-              validator: _validate,
-            ),
-            CommonTooltip(
-              title: commonL10n.commonWarning,
-              message: l10n.exportImportNoPasswordWarning,
-              padding: const EdgeInsets.all(Sizes.indent2x),
-              child: Padding(
-                padding: const EdgeInsets.only(top: Sizes.indent),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.info_outline,
-                      size: Sizes.iconSmall,
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                    const SizedBox(width: Sizes.indent),
-                    Expanded(
-                      child: Text(
-                        l10n.exportImportPasswordDialogHint,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      actions: [
-        DialogTextButtonUnderlined(
-          text: commonL10n.commonButtonCancel,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        DialogTextButton(
-          text: commonL10n.commonButtonOk,
-          onPressed: _onContinueTap,
-        ),
-      ],
-    );
-  }
-
-  void _onContinueTap() {
-    if (_formKey.currentState?.validate() ?? false) {
-      widget.onContinue?.call(controller.text.trim());
-      Navigator.of(context).pop();
-    }
-  }
-
-  String? _validate(String? value) {
-    if (value == null || value.isEmpty) return null;
-
-    const minPasswordLength = 3;
-
-    if (value.length < minPasswordLength) {
-      return context.l10n.exportImportPasswordTooShort(
-        minPasswordLength.toString(),
-      );
-    }
-    return null;
   }
 }
 

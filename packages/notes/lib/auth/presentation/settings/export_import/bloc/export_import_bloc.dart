@@ -26,8 +26,7 @@ final class ExportImportBloc
     emit(ExportImportState.loading(data: data));
     try {
       final (filePath, bytes, fileName) = await _exportUsecase.exportNotes(
-        password: event.password,
-        fileUri: '',
+        params: ExportParamsAll(password: event.password, fileUri: ''),
       );
       if (bytes.isEmpty) {
         emit(

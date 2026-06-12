@@ -285,6 +285,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get preferencesScreenLanguageRussian => 'Русский';
 
   @override
+  String get preferencesScreenLanguageBulgarian => 'Български';
+
+  @override
   String get preferencesScreenItemMobilePinKeyboardType => 'PIN Keyboard Type';
 
   @override
@@ -557,6 +560,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notePreviewMoreMenuInfo => 'Info';
+
+  @override
+  String get notePreviewMoreMenuExportNote => 'Export note';
 
   @override
   String get donateLightningScreenTitle => 'Donate via Lightning ⚡';

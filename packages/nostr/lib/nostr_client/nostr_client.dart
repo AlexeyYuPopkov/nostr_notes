@@ -11,14 +11,19 @@ import 'channel_factory.dart';
 import 'nostr_relay.dart';
 
 final class NostrClient {
-  NostrClient({ChannelFactory? channelFactory, Uuid? uuid})
-    : _channelFactory = channelFactory ?? const ChannelFactory(),
-      _uuid = uuid ?? const Uuid() {
+  NostrClient({
+    ChannelFactory? channelFactory,
+    Uuid? uuid,
+    EventBatchParser? batchParser,
+  }) : _channelFactory = channelFactory ?? const ChannelFactory(),
+       _uuid = uuid ?? const Uuid(),
+       _batchParser = batchParser {
     log('NostrClientVariant - init', name: 'NostrClientVariant');
   }
 
   final ChannelFactory _channelFactory;
   final Uuid _uuid;
+  final EventBatchParser? _batchParser;
 
   final _relays = <String, NostrRelay>{};
   Iterable<String> get relays => _relays.values.map((e) => e.url);
@@ -58,7 +63,11 @@ final class NostrClient {
 
   NostrRelay? _addRelay(String url) {
     if (!_relays.containsKey(url)) {
-      final relay = NostrRelay(url: url, channelFactory: _channelFactory);
+      final relay = NostrRelay(
+        url: url,
+        channelFactory: _channelFactory,
+        batchParser: _batchParser,
+      );
       // await relay.ready;
       _relays[url] = relay;
       return relay;

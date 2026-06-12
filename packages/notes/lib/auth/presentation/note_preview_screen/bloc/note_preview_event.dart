@@ -14,6 +14,10 @@ sealed class NotePreviewEvent extends Equatable {
     required List<CategoryType> labels,
   }) = AssignLabelsEvent;
 
+  const factory NotePreviewEvent.exportNote({
+    required String password,
+  }) = ExportNoteEvent;
+
   @override
   @override
   List<Object?> get props => const [];
@@ -44,4 +48,12 @@ final class AssignLabelsEvent extends NotePreviewEvent {
 
   @override
   List<Object?> get props => [note, labels];
+}
+
+final class ExportNoteEvent extends NotePreviewEvent {
+  final String password;
+  const ExportNoteEvent({required this.password});
+
+  @override
+  List<Object?> get props => [password];
 }

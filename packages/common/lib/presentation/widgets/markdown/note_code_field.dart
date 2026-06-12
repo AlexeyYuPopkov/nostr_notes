@@ -1,4 +1,5 @@
 import 'package:common/l10n/localization.dart';
+import 'package:common/presentation/widgets/markdown/on_tap_link_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -92,7 +93,8 @@ final class ShortNoteCodeField extends StatefulWidget {
   State<ShortNoteCodeField> createState() => _ShortNoteCodeFieldState();
 }
 
-final class _ShortNoteCodeFieldState extends State<ShortNoteCodeField> {
+final class _ShortNoteCodeFieldState extends State<ShortNoteCodeField>
+    with OnTapLinkHelper {
   static const Duration _copyFeedbackDuration = Duration(seconds: 2);
   static const textStyle = TextStyle(
     fontFamily: 'JetBrainsMono',
@@ -101,57 +103,74 @@ final class _ShortNoteCodeFieldState extends State<ShortNoteCodeField> {
   );
 
   bool _copied = false;
+  Offset _tapPosition = Offset.zero;
+
+  bool get _isLink {
+    final s = widget.codes.trim();
+    return s.startsWith('http://') || s.startsWith('https://');
+  }
+
   @override
   Widget build(BuildContext context) {
     const copiedLabelExpectedWidth = 50.0;
     final theme = Theme.of(context);
     final mdTheme = theme.extension<AppGptMarkdownTheme>()!;
-    return CupertinoButton(
-      minimumSize: .zero,
-      padding: EdgeInsets.zero,
-      onPressed: _onCopy,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: mdTheme.codeBlocBackground,
-          borderRadius: BorderRadius.circular(Sizes.radiusSmall),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.indent),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(
-              minWidth: copiedLabelExpectedWidth,
-            ),
-            child: Stack(
-              children: [
-                Visibility.maintain(
-                  visible: !_copied,
-                  child: Text(
-                    widget.codes.trim(),
-                    style: textStyle.copyWith(color: mdTheme.codeBlocColor),
+    return Listener(
+      onPointerDown: (event) => _tapPosition = event.position,
+      child: CupertinoButton(
+        minimumSize: .zero,
+        padding: EdgeInsets.zero,
+        onPressed: _isLink
+            ? () => onLinkTap(
+                context,
+                url: widget.codes.trim(),
+                tapPosition: _tapPosition,
+                onCopy: (url) => _onCopy(url),
+              )
+            : () => _onCopy(widget.codes),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: mdTheme.codeBlocBackground,
+            borderRadius: BorderRadius.circular(Sizes.radiusSmall),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Sizes.indent),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                minWidth: copiedLabelExpectedWidth,
+              ),
+              child: Stack(
+                children: [
+                  Visibility.maintain(
+                    visible: !_copied,
+                    child: Text(
+                      widget.codes.trim(),
+                      style: textStyle.copyWith(color: mdTheme.codeBlocColor),
+                    ),
                   ),
-                ),
-                Positioned.fill(
-                  child: _copied
-                      ? Center(
-                          child: Text(
-                            context.commonL10n.commonCopied,
-                            style: textStyle.copyWith(
-                              color: mdTheme.codeBlocColor,
+                  Positioned.fill(
+                    child: _copied
+                        ? Center(
+                            child: Text(
+                              context.commonL10n.commonCopied,
+                              style: textStyle.copyWith(
+                                color: mdTheme.codeBlocColor,
+                              ),
                             ),
-                          ),
-                        )
-                      : const SizedBox(),
-                ),
-              ],
+                          )
+                        : const SizedBox(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      ), // CupertinoButton
+    ); // Listener
   }
 
-  Future<void> _onCopy() async {
-    await Clipboard.setData(ClipboardData(text: widget.codes)).then((value) {
+  Future<void> _onCopy(String str) async {
+    await Clipboard.setData(ClipboardData(text: str)).then((value) {
       if (mounted) {
         setState(() => _copied = true);
       }
