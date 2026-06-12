@@ -63,12 +63,14 @@ final class _LocaleSettingsScreenState extends State<LocaleSettingsScreen> {
 enum _LocaleOption {
   system,
   english,
-  russian;
+  russian,
+  bulgarian;
 
   Locale? get locale => switch (this) {
     _LocaleOption.system => null,
     _LocaleOption.english => const Locale('en'),
     _LocaleOption.russian => const Locale('ru'),
+    _LocaleOption.bulgarian => const Locale('bg'),
   };
 
   static _LocaleOption fromLocale(Locale? locale) {
@@ -76,6 +78,7 @@ enum _LocaleOption {
     return switch (code) {
       'en' => _LocaleOption.english,
       'ru' => _LocaleOption.russian,
+      'bg' => _LocaleOption.bulgarian,
       _ => _LocaleOption.system,
     };
   }
@@ -87,6 +90,7 @@ extension on _LocaleOption {
       _LocaleOption.system => l10n.preferencesScreenLanguageSystem,
       _LocaleOption.english => l10n.preferencesScreenLanguageEnglish,
       _LocaleOption.russian => l10n.preferencesScreenLanguageRussian,
+      _LocaleOption.bulgarian => l10n.preferencesScreenLanguageBulgarian,
     };
   }
 
@@ -94,7 +98,8 @@ extension on _LocaleOption {
     return switch (this) {
       _LocaleOption.system => .first,
       _LocaleOption.english => .middle,
-      _LocaleOption.russian => .last,
+      _LocaleOption.russian => .middle,
+      _LocaleOption.bulgarian => .last,
     };
   }
 }

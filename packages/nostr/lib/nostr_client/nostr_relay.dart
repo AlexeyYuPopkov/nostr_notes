@@ -13,9 +13,16 @@ import '../model/nostr_req.dart';
 import 'channel_factory.dart';
 import 'ws_channel.dart';
 
+typedef EventBatchParser =
+    Future<List<BaseNostrEvent>> Function(List<dynamic> batch, String relayUrl);
+
 class NostrRelay with NostrRelayEventMapper {
-  NostrRelay._({required String url, required ChannelFactory channelFactory})
-    : _channelFactory = channelFactory {
+  NostrRelay._({
+    required String url,
+    required ChannelFactory channelFactory,
+    EventBatchParser? batchParser,
+  }) : _channelFactory = channelFactory,
+       _batchParser = batchParser {
     _channel = _channelFactory.create(url);
     _createSubscription();
   }
@@ -23,11 +30,18 @@ class NostrRelay with NostrRelayEventMapper {
   factory NostrRelay({
     required String url,
     required ChannelFactory channelFactory,
+    EventBatchParser? batchParser,
   }) {
-    return NostrRelay._(url: url, channelFactory: channelFactory);
+    return NostrRelay._(
+      url: url,
+      channelFactory: channelFactory,
+      batchParser: batchParser,
+    );
   }
+
   late WsChannel _channel;
   final ChannelFactory _channelFactory;
+  final EventBatchParser? _batchParser;
 
   late final _controller = StreamController<BaseNostrEvent>.broadcast();
   late StreamSubscription _channelSubscription;
@@ -42,47 +56,32 @@ class NostrRelay with NostrRelayEventMapper {
     );
 
     try {
-      _channelSubscription = _channel.stream
-          .doOnCancel(() async {
-            log('Channel stream cancelled for relay: $url', name: 'Nostr');
-            _isCancelled = true;
-            // await _recover();
-          })
-          .listen(
-            (data) {
-              try {
-                final event = toNostrEvent(data);
-                if (event != null && !_controller.isClosed) {
-                  _controller.add(event);
-                }
-              } catch (e, stack) {
-                log(
-                  'Error processing event from relay: $url',
-                  name: 'Nostr',
-                  error: e,
-                  stackTrace: stack,
-                );
-              }
-            },
-            onError: (e, stack) {
-              log(
-                'Stream error from relay: $url',
-                name: 'Nostr',
-                error: e,
-                stackTrace: stack,
-              );
+      final rawStream = _channel.stream.doOnCancel(() async {
+        log('Channel stream cancelled for relay: $url', name: 'Nostr');
+        _isCancelled = true;
+      });
 
-              if (!_controller.isClosed) {
-                _controller.addError(e, stack);
-              }
-            },
-            onDone: () {
-              log('Stream closed for relay: $url', name: 'Nostr');
-              // if (!_controller.isClosed) {
-              //   _controller.close();
-              // }
-            },
+      _channelSubscription = _mapEvents(rawStream).listen(
+        (event) {
+          if (!_controller.isClosed) {
+            _controller.add(event);
+          }
+        },
+        onError: (e, stack) {
+          log(
+            'Stream error from relay: $url',
+            name: 'Nostr',
+            error: e,
+            stackTrace: stack,
           );
+          if (!_controller.isClosed) {
+            _controller.addError(e, stack);
+          }
+        },
+        onDone: () {
+          log('Stream closed for relay: $url', name: 'Nostr');
+        },
+      );
     } catch (e) {
       log(
         'Exception during subscription setup for relay: $url',
@@ -90,6 +89,44 @@ class NostrRelay with NostrRelayEventMapper {
         error: e,
       );
       _recover();
+    }
+  }
+
+  Stream<BaseNostrEvent> _mapEvents(Stream rawStream) {
+    final batchParser = _batchParser;
+
+    if (batchParser != null) {
+      return rawStream
+          .bufferTime(const Duration(milliseconds: 50))
+          .where((batch) => batch.isNotEmpty)
+          .asyncMap((batch) async {
+            try {
+              return await batchParser(batch, url);
+            } catch (e, stack) {
+              log(
+                'Error parsing batch from relay: $url',
+                name: 'Nostr',
+                error: e,
+                stackTrace: stack,
+              );
+              return const <BaseNostrEvent>[];
+            }
+          })
+          .expand((events) => events);
+    } else {
+      return rawStream.map((data) {
+        try {
+          return toNostrEvent(data);
+        } catch (e, stack) {
+          log(
+            'Error processing event from relay: $url',
+            name: 'Nostr',
+            error: e,
+            stackTrace: stack,
+          );
+          return null;
+        }
+      }).whereType<BaseNostrEvent>();
     }
   }
 
@@ -230,6 +267,14 @@ mixin NostrRelayEventMapper {
   // ignore: strict_top_level_inference
   BaseNostrEvent? toNostrEvent(data) {
     return toEvent(data, url);
+  }
+
+  static List<BaseNostrEvent> parseBatch((List<dynamic>, String) params) {
+    final (batch, relayUrl) = params;
+    return batch
+        .map((data) => toEvent(data, relayUrl))
+        .whereType<BaseNostrEvent>()
+        .toList();
   }
 
   static BaseNostrEvent? toEvent(dynamic data, String relayUrl) {

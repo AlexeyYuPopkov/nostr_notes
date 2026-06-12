@@ -16,7 +16,6 @@ import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/tools/note_decrypt_error_message_mixin.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_bloc.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
-import 'package:common/presentation/widgets/markdown/note_code_field.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 
 import 'package:nostr_notes/auth/domain/model/note.dart';
@@ -287,27 +286,10 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
                                               ? CrossFadeState.showSecond
                                               : CrossFadeState.showFirst,
                                           firstChild: SelectionArea(
-                                            child: GptMarkdownWidget(
-                                              md: content,
-                                              codeBuilder:
-                                                  (
-                                                    context,
-                                                    name,
-                                                    code,
-                                                    closed,
-                                                  ) {
-                                                    return NoteCodeField(
-                                                      name: name,
-                                                      codes: code,
-                                                    );
-                                                  },
-                                              highlightBuilder:
-                                                  (context, code, closed) {
-                                                    return ShortNoteCodeField(
-                                                      codes: code,
-                                                    );
-                                                  },
-                                            ),
+                                            child:
+                                                GptMarkdownWidget.withCodeBuilders(
+                                                  md: content,
+                                                ),
                                           ),
                                           secondChild: _SearchableText(
                                             text: content,

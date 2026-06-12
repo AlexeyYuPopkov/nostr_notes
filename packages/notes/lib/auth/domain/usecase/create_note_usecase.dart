@@ -8,6 +8,7 @@ import 'package:nostr_notes/core/tools/now.dart';
 import 'package:uuid/uuid.dart';
 
 import 'crerate_summary_helper.dart';
+import 'markdown_link_helper.dart';
 
 final class CreateNoteUsecase {
   static const summaryLength = 100;
@@ -33,7 +34,7 @@ final class CreateNoteUsecase {
     DateTime nowToUse() => now?.now() ?? DateTime.now();
 
     return _execute(
-      content: content,
+      content: MarkdownLinkHelper.formatBareLinks(content),
       dTag: noteToEdit?.dTag,
       updatedAt: nowToUse(),
       labels: noteToEdit?.labels.whereType<Label>().toList() ?? [],
