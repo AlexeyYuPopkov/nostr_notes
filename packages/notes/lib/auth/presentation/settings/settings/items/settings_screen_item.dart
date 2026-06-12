@@ -19,7 +19,7 @@ import '../bloc/settings_screen_event.dart';
 abstract class SettingsItem extends Equatable {
   static const items = [
     SettingsItemPreferences(),
-    // SettingsItemImportExport(),
+    SettingsItemImportExport(),
     SettingsItemHelp(),
     SettingsItemContacts(),
     SettingsItemDonateLightning(),

@@ -60,12 +60,14 @@ void main() {
   void buildSut({
     Duration maxInactiveDuration =
         VerificationUsecase.defaultMaxInactiveDuration,
+    Duration debounceGuard = Duration.zero,
   }) {
     sut = VerificationUsecase(
       biometricRepository: biometry,
       appLifecycleListenerRepository: lifecycle,
       authUsecase: authUsecase,
       maxInactiveDuration: maxInactiveDuration,
+      debounceGuard: debounceGuard,
     );
   }
 
@@ -131,6 +133,7 @@ void main() {
         final sub = stream.listen(emitted.add);
 
         lifecycle.isActiveStream.add(false);
+        await pumpEventQueue(); // let background event process first
         lifecycle.isActiveStream.add(true);
         await pumpEventQueue();
 
@@ -153,6 +156,45 @@ void main() {
       expect(emitted, [isA<Deny>()]);
       await sub.cancel();
     }, timeout: maxTimeout);
+
+    test(
+      'skipNextVerification prevents blur when going to background',
+      () async {
+        sut.skipNextVerification();
+
+        final stream = sut.createStream(biometryRequest: biometryRequest);
+        final emitted = <Verification>[];
+        final sub = stream.listen(emitted.add);
+
+        lifecycle.isActiveStream.add(false);
+        await pumpEventQueue();
+
+        expect(emitted, [allow]);
+        await sub.cancel();
+      },
+      timeout: maxTimeout,
+    );
+
+    test(
+      'skipNextVerification bypasses biometry on return, no blur shown',
+      () async {
+        sut.skipNextVerification();
+
+        final stream = sut.createStream(biometryRequest: biometryRequest);
+        final emitted = <Verification>[];
+        final sub = stream.listen(emitted.add);
+
+        lifecycle.isActiveStream.add(false);
+        await pumpEventQueue();
+        lifecycle.isActiveStream.add(true);
+        await pumpEventQueue();
+
+        expect(emitted, [allow]); // second allow deduplicated by distinct
+        verifyNever(() => biometry.execute(biometryRequest));
+        await sub.cancel();
+      },
+      timeout: maxTimeout,
+    );
   });
 
   group('when session is Unlocked and maxInactiveDuration is zero', () {
@@ -204,8 +246,6 @@ void main() {
         expect(emitted, [deny]);
 
         await Future.delayed(const Duration(milliseconds: 1));
-
-        // await Future.delayed(VerificationUsecase.defaultMaxInactiveDuration);
 
         lifecycle.isActiveStream.add(true);
         await pumpEventQueue();

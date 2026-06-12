@@ -19,16 +19,16 @@ final class VerificationWidget extends StatefulWidget {
 final class _VerificationWidgetState extends State<VerificationWidget> {
   OverlayEntry? overlayEntry;
   final _overlayKey = GlobalKey<OverlayState>();
-  late final _bloc = VerificationBloc(
-    biometricRequest: BiometricRepositoryRequest(
-      localizedReason: context.biometricRequestReason,
-    ),
-  );
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: _bloc,
+    return BlocProvider(
+      create: (_) => VerificationBloc(
+        biometricRequest: BiometricRepositoryRequest(
+          localizedReason: context.biometricRequestReason,
+        ),
+      ),
+
       child: BlocConsumer<VerificationBloc, VerificationBlocState>(
         listener: _listener,
         buildWhen: (previous, current) => false,

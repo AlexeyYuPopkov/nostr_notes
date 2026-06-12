@@ -1,5 +1,8 @@
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/l10n/localization.dart';
+import 'package:di_storage/di_storage.dart';
+import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
+import 'package:nostr_notes/services/ads/ads_service.dart';
 import 'package:common/presentation/dialogs/common_tooltip.dart';
 import 'package:common/presentation/dialogs/dialog_button.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
@@ -134,6 +137,9 @@ final class _ExportImportView extends StatelessWidget
 
 mixin _PassAlert {
   Future<void> _onExportTap(BuildContext context) async {
+    DiStorage.shared.resolve<VerificationUsecase>().skipNextVerification();
+    await DiStorage.shared.resolve<AdsService>().showInterstitial();
+    if (!context.mounted) return;
     await showDialog<bool>(
       context: context,
       barrierDismissible: true,
@@ -147,6 +153,9 @@ mixin _PassAlert {
       .add(ExportImportEvent.export(password: password));
 
   Future<void> _onImportTap(BuildContext context) async {
+    DiStorage.shared.resolve<VerificationUsecase>().skipNextVerification();
+    await DiStorage.shared.resolve<AdsService>().showInterstitial();
+    if (!context.mounted) return;
     final result = await showDialog<({String password, ImportPolicy policy})>(
       context: context,
       barrierDismissible: true,

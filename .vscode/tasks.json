@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "iOS: resolve SPM packages",
+            "type": "shell",
+            "command": "cd ${workspaceFolder}/packages/notes && fvm flutter pub get && xcodebuild -resolvePackageDependencies -workspace ${workspaceFolder}/packages/notes/ios/Runner.xcworkspace -scheme Runner -clonedSourcePackagesDirPath ${workspaceFolder}/packages/notes/build/ios/SourcePackages -quiet",
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}
