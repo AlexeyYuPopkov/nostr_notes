@@ -285,6 +285,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get preferencesScreenLanguageRussian => 'Русский';
 
   @override
+  String get preferencesScreenLanguageBulgarian => 'Български';
+
+  @override
   String get preferencesScreenItemMobilePinKeyboardType => 'PIN Keyboard Type';
 
   @override
