@@ -24,6 +24,9 @@ final class AppConfig {
   /// Developer's nostr hex pubkey — used to create NIP-57 zap events.
   static String get kDevNostrPubkey => _env.devNostrPubkey;
 
+  static String get admobAppIdIos => _env.admobAppIdIos;
+  static String get admobInterstitialIdIos => _env.admobInterstitialIdIos;
+
   static const kUsesInMemoryStorage = bool.fromEnvironment(
     'IN_MEMORY_STORAGE',
     defaultValue: false,

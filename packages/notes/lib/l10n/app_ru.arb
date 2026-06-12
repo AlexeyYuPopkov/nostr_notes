@@ -179,6 +179,7 @@
     "notePreviewMoreMenuAssignFolder": "Назначить папку",
     "notePreviewMoreMenuCopyContent": "Скопировать содержимое",
     "notePreviewMoreMenuInfo": "Информация",
+    "notePreviewMoreMenuExportNote": "Экспортировать заметку",
     "donateLightningScreenTitle": "Поддержать через Lightning ⚡",
     "donateLightningScreenSubtitle": "Поддержите разработку Lightning-платежом",
     "donateLightningScreenErrorInvoice": "Не удалось создать инвойс",

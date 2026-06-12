@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_data.dart';
 
@@ -23,6 +25,13 @@ sealed class NotePreviewState extends Equatable {
     required NotePreviewData data,
     required Object error,
   }) = ErrorState;
+
+  const factory NotePreviewState.exportSuccess({
+    required NotePreviewData data,
+    required String filePath,
+    required Uint8List bytes,
+    required String fileName,
+  }) = ExportNoteSuccessState;
 }
 
 final class CommonState extends NotePreviewState {
@@ -40,4 +49,20 @@ final class CannotDecryptState extends NotePreviewState {
 final class ErrorState extends NotePreviewState {
   final Object error;
   const ErrorState({required super.data, required this.error});
+}
+
+final class ExportNoteSuccessState extends NotePreviewState {
+  final String filePath;
+  final Uint8List bytes;
+  final String fileName;
+
+  const ExportNoteSuccessState({
+    required super.data,
+    required this.filePath,
+    required this.bytes,
+    required this.fileName,
+  });
+
+  @override
+  List<Object?> get props => [data, filePath, bytes, fileName];
 }

@@ -4,14 +4,17 @@
         {
             "name": "Notes (debug)",
             "request": "launch",
-            "program": "packages/notes/lib/main.dart",
-            "type": "dart"
+            "type": "dart",
+            "cwd": "${workspaceFolder}/packages/notes",
+            "program": "lib/main.dart",
+            "preLaunchTask": "iOS: resolve SPM packages"
         },
         {
             "name": "локальный реле",
             "request": "launch",
             "type": "dart",
-            "program": "packages/notes/lib/main.dart",
+            "cwd": "${workspaceFolder}/packages/notes",
+            "program": "lib/main.dart",
             "args": [
                 "--dart-define=RELAY_URL=ws://localhost:8008"
             ],
@@ -20,14 +23,16 @@
         {
             "name": "Notes (profile)",
             "request": "launch",
-            "program": "packages/notes/lib/main.dart",
             "type": "dart",
+            "cwd": "${workspaceFolder}/packages/notes",
+            "program": "lib/main.dart",
             "flutterMode": "profile"
         },
         {
             "name": "Release",
             "request": "launch",
             "type": "dart",
+            "cwd": "${workspaceFolder}/packages/notes",
             "flutterMode": "release",
             "program": "lib/main.dart"
         },

@@ -1,77 +1,86 @@
-import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
-import 'package:nostr_notes/core/tools/now.dart';
-import 'package:rxdart/subjects.dart';
-import 'dart:async';
-import 'package:flutter/foundation.dart' show debugPrint;
+// import 'dart:async';
 
-final class BlurScreenUsecase {
-  static const validDuration = Duration(seconds: 180);
-  final AuthUsecase _authUsecase;
-  late final BehaviorSubject<BlurScreenState> _stateSubject =
-      BehaviorSubject.seeded(BlurScreenState.unlocked);
-  final Now _now;
-  DateTime? _backgroundEnterTime;
+// import 'package:flutter/foundation.dart' show debugPrint;
+// import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
+// import 'package:nostr_notes/core/tools/now.dart';
+// import 'package:rxdart/rxdart.dart';
 
-  bool _isInBackground = false;
+// final class BlurScreenUsecase {
+//   static const _noblurDuration = Duration(seconds: 10);
+//   static const validDuration = Duration(seconds: 180);
 
-  bool _isDisposed = false;
+//   final AuthUsecase _authUsecase;
+//   late final BehaviorSubject<BlurScreenState> _stateSubject =
+//       BehaviorSubject.seeded(BlurScreenState.unlocked);
+//   final Now _now;
+//   DateTime? _backgroundEnterTime;
 
-  BlurScreenUsecase({required AuthUsecase authUsecase, Now now = const Now()})
-    : _authUsecase = authUsecase,
-      _now = now;
+//   bool _suppressNextBlur = false;
+//   bool _isDisposed = false;
 
-  Stream<BlurScreenState> get stateStream =>
-      _stateSubject.stream.distinct().asyncMap((e) {
-        switch (e) {
-          case BlurScreenState.blured:
-            return Future.delayed(const Duration(seconds: 1), () => e);
-          case BlurScreenState.locked:
-            return e;
-          case BlurScreenState.unlocked:
-            return e;
-        }
-      });
+//   BlurScreenUsecase({required AuthUsecase authUsecase, Now now = const Now()})
+//     : _authUsecase = authUsecase,
+//       _now = now;
 
-  BlurScreenState get currentState => _stateSubject.value;
+//   /// Call before triggering an action that causes the app to briefly go to
+//   /// background (e.g. showing a fullscreen ad). The next blur is skipped and
+//   /// the screen stays unlocked.
+//   void suppressNextBackground() {
+//     _suppressNextBlur = true;
+//   }
 
-  Future<void> onForeground() async {
-    final isValid =
-        _backgroundEnterTime != null &&
-        _now.now().difference(_backgroundEnterTime!) < validDuration;
+//   Stream<BlurScreenState> get stateStream =>
+//       _stateSubject.stream.distinct().switchMap(_mapState);
 
-    if (!isValid) {
-      _stateSubject.add(BlurScreenState.locked);
-      await _authUsecase.restore();
-    } else {
-      _stateSubject.add(BlurScreenState.unlocked);
-    }
-  }
+//   Stream<BlurScreenState> _mapState(BlurScreenState e) {
+//     if (e == BlurScreenState.blured) {
+//       if (_suppressNextBlur) {
+//         _suppressNextBlur = false;
+//         return Stream.value(BlurScreenState.unlocked);
+//       }
+//       // switchMap cancels this future when onForeground() emits unlocked —
+//       // so if the user returns in <_noblurDuration, blur is never shown.
+//       return Stream.fromFuture(
+//         Future.delayed(_noblurDuration, () => e),
+//       );
+//     }
+//     return Stream.value(e);
+//   }
 
-  void onBackground() {
-    debugPrint('onBackground called at ${_now.now()}');
-    debugPrint('Current state: ${_stateSubject.value}');
+//   BlurScreenState get currentState => _stateSubject.value;
 
-    if (_stateSubject.value != BlurScreenState.unlocked) {
-      debugPrint('State is not unlocked, skipping');
-      return;
-    }
+//   Future<void> onForeground() async {
+//     final isValid =
+//         _backgroundEnterTime != null &&
+//         _now.now().difference(_backgroundEnterTime!) < validDuration;
 
-    _isInBackground = true;
-    _backgroundEnterTime = _now.now();
-    if (_isInBackground && _stateSubject.value == BlurScreenState.unlocked) {
-      debugPrint('Setting state to blured');
-      _stateSubject.add(BlurScreenState.blured);
-    }
-  }
+//     if (!isValid) {
+//       _stateSubject.add(BlurScreenState.locked);
+//       await _authUsecase.restore();
+//     } else {
+//       _stateSubject.add(BlurScreenState.unlocked);
+//     }
+//   }
 
-  Future<void> dispose() async {
-    if (_isDisposed) {
-      return;
-    }
-    _isDisposed = true;
+//   void onBackground() {
+//     debugPrint('onBackground called at ${_now.now()}');
+//     debugPrint('Current state: ${_stateSubject.value}');
 
-    await _stateSubject.close();
-  }
-}
+//     if (_stateSubject.value != BlurScreenState.unlocked) {
+//       debugPrint('State is not unlocked, skipping');
+//       return;
+//     }
 
-enum BlurScreenState { blured, locked, unlocked }
+//     _backgroundEnterTime = _now.now();
+//     debugPrint('Setting state to blured');
+//     _stateSubject.add(BlurScreenState.blured);
+//   }
+
+//   Future<void> dispose() async {
+//     if (_isDisposed) return;
+//     _isDisposed = true;
+//     await _stateSubject.close();
+//   }
+// }
+
+// enum BlurScreenState { blured, locked, unlocked }

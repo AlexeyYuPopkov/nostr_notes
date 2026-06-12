@@ -18,6 +18,7 @@ import 'package:nostr/model/user_keys.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr_notes/auth/data/export_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/import_usecase_impl.dart';
+import 'package:nostr_notes/auth/domain/usecase/export_usecase.dart';
 import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
 import 'package:nostr_notes/auth/data/models/backup_payload.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
@@ -136,8 +137,7 @@ void main() {
       );
 
       final (exportPath, _, _) = await exportSut.exportNotes(
-        password: password,
-        fileUri: '',
+        params: const ExportParamsAll(password: password, fileUri: ''),
       );
 
       await _clearNotes(eventStore);
@@ -155,8 +155,7 @@ void main() {
 
     test('returns empty bytes when no notes in the store', () async {
       final (_, resultBytes, _) = await exportSut.exportNotes(
-        password: password,
-        fileUri: '',
+        params: const ExportParamsAll(password: password, fileUri: ''),
       );
       expect(resultBytes, isEmpty);
     });
@@ -173,8 +172,7 @@ void main() {
       );
 
       final (filePath, _, _) = await exportSut.exportNotes(
-        password: '',
-        fileUri: '',
+        params: const ExportParamsAll(password: '', fileUri: ''),
       );
       addTearDown(() => File(filePath).deleteSync());
 
@@ -212,8 +210,7 @@ void main() {
         );
 
         final (filePath, _, _) = await exportSut.exportNotes(
-          password: password,
-          fileUri: '',
+          params: const ExportParamsAll(password: password, fileUri: ''),
         );
         addTearDown(() => File(filePath).deleteSync());
 
@@ -238,8 +235,7 @@ void main() {
       );
 
       final (filePath, _, _) = await exportSut.exportNotes(
-        password: password,
-        fileUri: '',
+        params: const ExportParamsAll(password: password, fileUri: ''),
       );
       addTearDown(() => File(filePath).deleteSync());
 
@@ -266,8 +262,7 @@ void main() {
       );
 
       final (filePath, _, _) = await exportSut.exportNotes(
-        password: password,
-        fileUri: '',
+        params: const ExportParamsAll(password: password, fileUri: ''),
       );
       addTearDown(() => File(filePath).deleteSync());
 
@@ -307,8 +302,7 @@ void main() {
         );
 
         final (filePath, _, _) = await exportSut.exportNotes(
-          password: password,
-          fileUri: '',
+          params: const ExportParamsAll(password: password, fileUri: ''),
         );
         addTearDown(() => File(filePath).deleteSync());
 
@@ -358,8 +352,7 @@ void main() {
       );
 
       final (filePath, _, _) = await exportSut.exportNotes(
-        password: password,
-        fileUri: '',
+        params: const ExportParamsAll(password: password, fileUri: ''),
       );
       addTearDown(() => File(filePath).deleteSync());
 
@@ -441,8 +434,7 @@ void main() {
         );
 
         final (exportPath, _, _) = await exportSut.exportNotes(
-          password: password,
-          fileUri: '',
+          params: const ExportParamsAll(password: password, fileUri: ''),
         );
         addTearDown(() => File(exportPath).deleteSync());
 
@@ -492,8 +484,7 @@ void main() {
         );
 
         final (exportPath, _, _) = await exportSut.exportNotes(
-          password: password,
-          fileUri: '',
+          params: const ExportParamsAll(password: password, fileUri: ''),
         );
         addTearDown(() => File(exportPath).deleteSync());
 
@@ -523,8 +514,7 @@ void main() {
           );
 
           final (exportPath, _, _) = await exportSut.exportNotes(
-            password: password,
-            fileUri: '',
+            params: const ExportParamsAll(password: password, fileUri: ''),
           );
           addTearDown(() => File(exportPath).deleteSync());
 
@@ -564,8 +554,7 @@ void main() {
           );
 
           final (exportPath, _, _) = await exportSut.exportNotes(
-            password: '',
-            fileUri: '',
+            params: const ExportParamsAll(password: '', fileUri: ''),
           );
           addTearDown(() => File(exportPath).deleteSync());
 
@@ -603,8 +592,7 @@ void main() {
         );
 
         final (exportPath, _, _) = await exportSut.exportNotes(
-          password: password,
-          fileUri: '',
+          params: const ExportParamsAll(password: password, fileUri: ''),
         );
         addTearDown(() => File(exportPath).deleteSync());
 
@@ -638,8 +626,7 @@ void main() {
         );
 
         final (exportPath, _, _) = await exportSut.exportNotes(
-          password: password,
-          fileUri: '',
+          params: const ExportParamsAll(password: password, fileUri: ''),
         );
         addTearDown(() => File(exportPath).deleteSync());
 
@@ -756,8 +743,7 @@ void main() {
           );
 
           final (exportPath, _, _) = await exportSut.exportNotes(
-            password: password,
-            fileUri: '',
+            params: const ExportParamsAll(password: password, fileUri: ''),
           );
           addTearDown(() => File(exportPath).deleteSync());
 

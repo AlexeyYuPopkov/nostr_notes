@@ -1084,6 +1084,12 @@ abstract class AppLocalizations {
   /// **'Info'**
   String get notePreviewMoreMenuInfo;
 
+  /// No description provided for @notePreviewMoreMenuExportNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Export note'**
+  String get notePreviewMoreMenuExportNote;
+
   /// No description provided for @donateLightningScreenTitle.
   ///
   /// In en, this message translates to:

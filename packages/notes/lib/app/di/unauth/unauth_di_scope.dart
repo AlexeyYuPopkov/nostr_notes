@@ -28,7 +28,6 @@ import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
-import 'package:nostr_notes/unauth/domain/blur_screen_usecase.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -123,16 +122,16 @@ final class UnauthDiScope extends DiScope {
       lifeTime: const LifeTime.prototype(),
     );
 
-    di.bind<BlurScreenUsecase>(
-      () => BlurScreenUsecase(authUsecase: di.resolve()),
-      module: this,
-      lifeTime: const LifeTime.single(),
-      onRemove: (e) {
-        if (e is BlurScreenUsecase) {
-          e.dispose();
-        }
-      },
-    );
+    // di.bind<BlurScreenUsecase>(
+    //   () => BlurScreenUsecase(authUsecase: di.resolve()),
+    //   module: this,
+    //   lifeTime: const LifeTime.single(),
+    //   onRemove: (e) {
+    //     if (e is BlurScreenUsecase) {
+    //       e.dispose();
+    //     }
+    //   },
+    // );
 
     di.bind<AppLifecycleListenerRepository>(
       () => AppLifecycleListenerDatasource(),

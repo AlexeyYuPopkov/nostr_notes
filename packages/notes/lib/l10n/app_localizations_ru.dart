@@ -570,6 +570,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notePreviewMoreMenuInfo => 'Информация';
 
   @override
+  String get notePreviewMoreMenuExportNote => 'Экспортировать заметку';
+
+  @override
   String get donateLightningScreenTitle => 'Поддержать через Lightning ⚡';
 
   @override

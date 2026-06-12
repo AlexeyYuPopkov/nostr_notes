@@ -4,14 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/common/domain/repository/biometric_repository.dart';
 import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
 
-import 'package:rxdart/rxdart.dart';
-
 import 'verification_bloc_event.dart';
 import 'verification_bloc_state.dart';
 
 final class VerificationBloc
     extends Bloc<VerificationBlocEvent, VerificationBlocState> {
-  static const debounceGuard = Duration(milliseconds: 200);
   final BiometricRepositoryRequest biometricRequest;
   late final VerificationUsecase verificationUsecase = DiStorage.shared
       .resolve();
@@ -36,19 +33,19 @@ final class VerificationBloc
   void _setupHandlers() {
     on<ShowOverlayEvent>(
       _onShowOverlayEvent,
-      transformer: (events, mapper) =>
-          events.debounceTime(debounceGuard).switchMap(mapper),
+      // transformer: (events, mapper) =>
+      //     events.debounceTime(debounceGuard).switchMap(mapper),
     );
     on<HideOverlayEvent>(
       _onHideOverlayEvent,
-      transformer: (events, mapper) =>
-          events.debounceTime(debounceGuard).switchMap(mapper),
+      // transformer: (events, mapper) =>
+      //     events.debounceTime(debounceGuard).switchMap(mapper),
     );
   }
 
   void _setupSubscriptions() {
     stateStreamSubscription = verificationUsecaseStream
-        .debounceTime(debounceGuard)
+        // .debounceTime(debounceGuard)
         .listen((e) {
           _onStateChanged(e);
         });

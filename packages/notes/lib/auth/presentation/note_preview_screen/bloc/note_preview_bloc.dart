@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/nip44_exception.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/export_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
@@ -25,6 +26,7 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   late final FetchNotesUsecase _fetchNotesUsecase = _di.resolve();
   late final GetNoteUsecase _getNoteUsecase = _di.resolve();
   late final CreateNoteUsecase _createNoteUsecase = _di.resolve();
+  late final ExportUsecase _exportUsecase = _di.resolve();
   late final OutboxPublisher _outbox = _di.resolve();
   late final AppLifecycleListenerRepository _appLifecycleListener = _di
       .resolve();
@@ -74,6 +76,7 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
     );
 
     on<AssignLabelsEvent>(_onAssignLabelsEvent);
+    on<ExportNoteEvent>(_onExportNoteEvent);
   }
 
   void _setupSubscriptions() {
@@ -167,6 +170,40 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
       );
     } catch (e) {
       emit(NotePreviewState.error(error: e, data: data));
+    }
+  }
+
+  Future<void> _onExportNoteEvent(
+    ExportNoteEvent event,
+    Emitter<NotePreviewState> emit,
+  ) async {
+    try {
+      final (filePath, bytes, fileName) = await _exportUsecase.exportNotes(
+        params: ExportParamsIds(
+          password: event.password,
+          fileUri: '',
+          noteIds: [pathParams.id],
+        ),
+      );
+      if (bytes.isEmpty) {
+        emit(
+          NotePreviewState.error(
+            data: data,
+            error: const ExportError(payload: ExportErrorType.noNotes),
+          ),
+        );
+        return;
+      }
+      emit(
+        NotePreviewState.exportSuccess(
+          data: data,
+          filePath: filePath,
+          bytes: bytes,
+          fileName: fileName,
+        ),
+      );
+    } catch (e) {
+      emit(NotePreviewState.error(data: data, error: e));
     }
   }
 }

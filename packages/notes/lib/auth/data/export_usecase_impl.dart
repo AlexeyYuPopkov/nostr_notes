@@ -19,6 +19,8 @@ import 'package:path_provider/path_provider.dart';
 
 const _kPbkdf2Iterations = 600000;
 
+
+
 final class ExportUsecaseImpl implements ExportUsecase {
   static const archivedFileName = 'notes_export.json';
   final RawEventStore _eventStore;
@@ -32,12 +34,18 @@ final class ExportUsecaseImpl implements ExportUsecase {
 
   @override
   Future<(String, Uint8List, String)> exportNotes({
-    required String password,
-    required String fileUri,
+    required ExportParams params,
   }) async {
     try {
+      final noteIds = switch (params) {
+        ExportParamsIds(:final noteIds) => noteIds,
+        ExportParamsAll() => null,
+      };
       final events = await _eventStore.queryEvents(
-        RawEventQuery(kinds: [EventKind.note.value]),
+        RawEventQuery(
+          kinds: [EventKind.note.value],
+          tagFilters: noteIds != null ? [TagFilter('d', noteIds)] : null,
+        ),
       );
 
       // Nothing stored — surfaced as empty bytes so the caller can show the
@@ -64,7 +72,7 @@ final class ExportUsecaseImpl implements ExportUsecase {
 
       final BackupPayload payload;
       try {
-        payload = await _createPayload(decryptedNotes, password: password);
+        payload = await _createPayload(decryptedNotes, password: params.password);
       } catch (e) {
         throw ExportError(
           payload: ExportErrorType.encryptionFailed,

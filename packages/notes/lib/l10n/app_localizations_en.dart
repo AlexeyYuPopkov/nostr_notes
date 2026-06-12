@@ -562,6 +562,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notePreviewMoreMenuInfo => 'Info';
 
   @override
+  String get notePreviewMoreMenuExportNote => 'Export note';
+
+  @override
   String get donateLightningScreenTitle => 'Donate via Lightning ⚡';
 
   @override

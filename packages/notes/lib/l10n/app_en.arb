@@ -179,6 +179,7 @@
     "notePreviewMoreMenuAssignFolder": "Assign folder",
     "notePreviewMoreMenuCopyContent": "Copy content",
     "notePreviewMoreMenuInfo": "Info",
+    "notePreviewMoreMenuExportNote": "Export note",
     "donateLightningScreenTitle": "Donate via Lightning ⚡",
     "donateLightningScreenSubtitle": "Support development with a lightning payment",
     "donateLightningScreenErrorInvoice": "Failed to generate invoice",

@@ -568,6 +568,9 @@ class AppLocalizationsBg extends AppLocalizations {
   String get notePreviewMoreMenuInfo => 'Информация';
 
   @override
+  String get notePreviewMoreMenuExportNote => 'Export note';
+
+  @override
   String get donateLightningScreenTitle => 'Поддръжка чрез Lightning ⚡';
 
   @override
