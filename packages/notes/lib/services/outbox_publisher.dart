@@ -13,11 +13,16 @@ import 'package:common/services/event_store/database/daos/outbox_dao_interface.d
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:rxdart/rxdart.dart';
 
-/// Watches the outbox table and publishes pending events to Nostr relays.
+/// Watches the outbox table and publishes its events to Nostr relays.
 ///
-/// This is the "Nostr Adapter" layer that handles outbound sync from SQL to relays.
-/// The app core writes to SQL + outbox, and this service handles the async
-/// publishing in the background.
+/// This is the "Nostr Adapter" layer that handles outbound sync from SQL to
+/// relays. The app core writes to SQL + outbox, and this service publishes in
+/// the background.
+///
+/// The outbox is a plain queue: **a row exists iff the event still needs to
+/// reach relays.** On success the row is deleted; on failure it is left in
+/// place and retried later. Concurrency within a session is serialized by
+/// [_isProcessing], so no per-row "in flight" state is needed.
 class OutboxPublisher implements Disposable {
   OutboxPublisher({
     required OutboxDaoInterface outboxDao,
@@ -46,14 +51,6 @@ class OutboxPublisher implements Disposable {
   bool _isPaused = false;
   bool _isDisposing = false;
   bool _refreshRequested = false;
-  // bool _isOffline = false;
-
-  // static const _retryDelays = [
-  //   Duration(seconds: 3),
-  //   Duration(seconds: 6),
-  //   Duration(seconds: 12),
-  //   Duration(seconds: 20),
-  // ];
 
   static const _retryDelay = Duration(seconds: 20);
 
@@ -62,34 +59,17 @@ class OutboxPublisher implements Disposable {
     await _subscription?.cancel();
     await _connectivitySubscription?.cancel();
     _isDisposing = false;
-
-    // Check initial connectivity
-    // final connectivityResult = await _connectivity.checkConnectivity();
-    // _isOffline = connectivityResult.every((r) => r == ConnectivityResult.none);
+    _isProcessing = false;
 
     _connectivitySubscription = _connectivity.onConnectivityChanged
         .debounceTime(connectivityDebounce)
         .listen(_onConnectivityChanged);
 
     _subscription = _outboxDao.watchUndelivered().listen(_onPendingEvents);
-    // dev.log(
-    //   'OutboxPublisher initialized (offline: $_isOffline)',
-    //   name: 'OutboxPublisher',
-    // );
   }
 
   void _onConnectivityChanged(List<ConnectivityResult> results) {
     refresh();
-    // final nowOffline = results.every((r) => r == ConnectivityResult.none);
-
-    // if (nowOffline && !_isOffline) {
-    //   _isOffline = true;
-    //   dev.log('Network lost, pausing outbox', name: 'OutboxPublisher');
-    // } else if (!nowOffline && _isOffline) {
-    //   _isOffline = false;
-    //   dev.log('Network restored, processing outbox', name: 'OutboxPublisher');
-    //   _processQueue();
-    // }
   }
 
   @override
@@ -134,7 +114,7 @@ class OutboxPublisher implements Disposable {
   void resume() {
     _isPaused = false;
     _subscription?.resume();
-    // Process any pending events that accumulated while paused
+    // Process any events that accumulated while paused
     _refreshRequested = true;
     _processQueue();
     dev.log('OutboxPublisher resumed', name: 'OutboxPublisher');
@@ -185,16 +165,15 @@ class OutboxPublisher implements Disposable {
 
   Future<void> _publishEvent(OutboxEventData item) async {
     try {
-      await _outboxDao.markBroadcasting(item.eventId);
-
       final events = await _rawEventStore.queryEvents(
         RawEventQuery(ids: [item.eventId]),
       );
 
       if (events.isEmpty) {
-        await _outboxDao.markFailed(item.eventId, 'Event not found in store');
+        // The referenced event no longer exists; drop the orphaned entry.
+        await _outboxDao.remove(item.eventId);
         dev.log(
-          'Event ${item.eventId} not found in store',
+          'Event ${item.eventId} not found in store, dropped from outbox',
           name: 'OutboxPublisher',
         );
         return;
@@ -204,11 +183,8 @@ class OutboxPublisher implements Disposable {
       final relays = _relaysListRepo.getRelaysList();
 
       if (relays.isEmpty) {
-        await _outboxDao.markFailed(item.eventId, 'No relays configured');
-        dev.log(
-          'No relays configured for ${item.eventId}',
-          name: 'OutboxPublisher',
-        );
+        // Transient: no relays configured yet. Keep the entry and retry later.
+        _scheduleRetry(item, 'No relays configured');
         return;
       }
 
@@ -220,19 +196,14 @@ class OutboxPublisher implements Disposable {
         final report = await publisher.execute();
 
         if (!report.isAnySuccess) {
-          await _handleFailure(item, report.error.toString());
+          _scheduleRetry(item, report.error.toString());
         } else {
-          final confirmedRelays = report.okEvents
-              .where((e) => e.isOk)
-              .map((e) => e.relay)
-              .toList();
-          await _outboxDao.markSent(
-            item.eventId,
-            confirmedRelays: confirmedRelays,
-          );
-          final kindName = _getKindName(event.kind);
+          // Delivered — remove from the outbox.
+          await _outboxDao.remove(item.eventId);
+          final confirmed = report.okEvents.where((e) => e.isOk).length;
           dev.log(
-            'Published ${item.eventId} ($kindName) to ${confirmedRelays.length} relays',
+            'Published ${item.eventId} (${_getKindName(event.kind)}) '
+            'to $confirmed relays',
             name: 'OutboxPublisher',
           );
         }
@@ -240,42 +211,28 @@ class OutboxPublisher implements Disposable {
         await client.disconnectAndDispose();
       }
     } catch (e) {
-      await _handleFailure(item, e.toString());
+      _scheduleRetry(item, e.toString());
       rethrow;
     }
   }
 
-  Future<void> _handleFailure(OutboxEventData item, String reason) async {
-    final attempts = item.attemptCount + 1;
+  /// Schedule a retry after a publish failure. The outbox row is left in place
+  /// (a present row means "still needs delivery"), so no DB write happens here
+  /// — that avoids re-triggering the watch stream and looping tightly. Fresh
+  /// events retry sooner than old ones.
+  void _scheduleRetry(OutboxEventData item, String reason) {
     dev.log(
-      'Failed to publish ${item.eventId} (attempt $attempts): $reason',
+      'Failed to publish ${item.eventId}: $reason',
       name: 'OutboxPublisher',
     );
 
-    await _outboxDao.retryFailed(item.eventId);
-
     _retryTimer?.cancel();
-    _retryTimer = Timer(_retryDelay, _processQueue);
-
-    // if (attempts >= _maxRetries) {
-    //   await _outboxDao.markFailed(item.eventId, reason);
-    // } else {
-    //   await _outboxDao.retryFailed(item.eventId);
-
-    //   final delay = _retryDelays[attempts - 1];
-    //   Future.delayed(delay, _processQueue);
-    // }
-  }
-
-  /// Manually retry all failed events
-  Future<void> retryAllFailed() async {
-    await _outboxDao.retryAllFailed();
-    _processQueue();
-  }
-
-  /// Clean up old sent events
-  Future<int> cleanup({Duration olderThan = const Duration(days: 7)}) async {
-    return _outboxDao.cleanupOldSent(olderThan: olderThan);
+    final ageMs = DateTime.now().millisecondsSinceEpoch - item.createdAt;
+    final delay = ageMs < 5000 ? const Duration(seconds: 3) : _retryDelay;
+    _retryTimer = Timer(delay, () {
+      dev.log('Retrying outbox after $delay', name: 'OutboxPublisher');
+      _processQueue();
+    });
   }
 
   String _getKindName(int kind) {
@@ -301,14 +258,6 @@ class NoopOutboxPublisher implements OutboxPublisher, Disposable {
 
   @override
   void resume() {}
-
-  @override
-  Future<void> retryAllFailed() async {}
-
-  @override
-  Future<int> cleanup({Duration olderThan = const Duration(days: 7)}) async {
-    return 0;
-  }
 
   @override
   StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
@@ -340,7 +289,7 @@ class NoopOutboxPublisher implements OutboxPublisher, Disposable {
   }
 
   @override
-  Future<void> _handleFailure(OutboxEventData item, String reason) async {}
+  void _scheduleRetry(OutboxEventData item, String reason) {}
 
   @override
   void _onConnectivityChanged(List<ConnectivityResult> results) {}

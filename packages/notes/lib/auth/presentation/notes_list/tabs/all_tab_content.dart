@@ -53,7 +53,7 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
       onRefresh: () => _onRefresh(context),
       child: CustomScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        cacheExtent: 600.0,
+        // scrollCacheExtent: const .pixels(600.0),
         slivers: [
           SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {

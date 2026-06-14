@@ -33,5 +33,8 @@
     "onboardingNsecPageTextFieldHint": "nsec1...",
     "onboardingNsecPageLabelHint": "You can import from another app or paste it manually",
     "onboardingNsecPageDontHaveAccount": "Don't have an account?",
-    "onboardingNsecPageButtonSignUp": "Sign Up"
+    "onboardingNsecPageButtonSignUp": "Sign Up",
+    "onboardingNsecPageValidationEmpty": "NSEC key cannot be empty",
+    "onboardingNsecPageValidationNpub": "This is a public key (npub). Please enter your private key (nsec)",
+    "onboardingNsecPageValidationInvalid": "Invalid NSEC key"
 }

@@ -79,6 +79,8 @@ final class OnboardingTextField extends StatelessWidget {
           textInputAction: TextInputAction.done,
           obscureText: obscureText,
           inputFormatters: inputFormatters,
+          autocorrect: false,
+          enableSuggestions: false,
         ),
         Visibility(
           visible: errorText != null && errorText!.isNotEmpty,

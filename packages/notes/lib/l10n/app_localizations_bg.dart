@@ -153,6 +153,17 @@ class AppLocalizationsBg extends AppLocalizations {
   String get onboardingNsecPageButtonSignUp => 'Регистрирай се';
 
   @override
+  String get onboardingNsecPageValidationEmpty =>
+      'Ключът NSEC не може да е празен';
+
+  @override
+  String get onboardingNsecPageValidationNpub =>
+      'Това е публичен ключ (npub). Въведете вашия частен ключ (nsec)';
+
+  @override
+  String get onboardingNsecPageValidationInvalid => 'Невалиден ключ NSEC';
+
+  @override
   String get onboardingPinPageTitle => 'Задайте ПИН или парола';
 
   @override
@@ -568,7 +579,7 @@ class AppLocalizationsBg extends AppLocalizations {
   String get notePreviewMoreMenuInfo => 'Информация';
 
   @override
-  String get notePreviewMoreMenuExportNote => 'Export note';
+  String get notePreviewMoreMenuExportNote => 'Експортирай бележка';
 
   @override
   String get donateLightningScreenTitle => 'Поддръжка чрез Lightning ⚡';

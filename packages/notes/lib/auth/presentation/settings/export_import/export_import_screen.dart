@@ -147,9 +147,9 @@ mixin _PassAlert {
       builder: (_) => const ExportPasswordDialog(),
     );
     if (password == null || !context.mounted) return;
-    context
-        .read<ExportImportBloc>()
-        .add(ExportImportEvent.export(password: password));
+    context.read<ExportImportBloc>().add(
+      ExportImportEvent.export(password: password),
+    );
   }
 
   Future<void> _onImportTap(BuildContext context) async {
@@ -211,80 +211,86 @@ final class _ImportAlertContentState extends State<_ImportAlertContent> {
     final l10n = context.l10n;
     final commonL10n = context.commonL10n;
     final theme = Theme.of(context);
+    final bottom = MediaQuery.viewInsetsOf(context).bottom;
 
     return AppAlertDialog(
       title: Text(l10n.exportImportImportDialogTitle),
       content: Form(
         key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: Sizes.indent),
-              child: Text(
-                l10n.exportImportImportDialogPolicyLabel,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ),
-            RadioGroup<ImportPolicy>(
-              groupValue: _policy,
-              onChanged: (v) => setState(() => _policy = v!),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _PolicyRadio(
-                    value: const ImportPolicy.mergeContent(),
-                    title: l10n.exportImportImportPolicyMergeTitle,
-                    subtitle: l10n.exportImportImportPolicyMergeSubtitle,
-                  ),
-                  _PolicyRadio(
-                    value: const ImportPolicy.keepIncoming(),
-                    title: l10n.exportImportImportPolicyKeepIncomingTitle,
-                    subtitle: l10n.exportImportImportPolicyKeepIncomingSubtitle,
-                  ),
-                  _PolicyRadio(
-                    value: const ImportPolicy.keepExisting(),
-                    title: l10n.exportImportImportPolicyKeepExistingTitle,
-                    subtitle: l10n.exportImportImportPolicyKeepExistingSubtitle,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: Sizes.indent2x),
-            OnboardingTextFormField(
-              controller: _passwordController,
-              obscureText: true,
-              hint: l10n.exportImportImportDialogPasswordFieldHint,
-              inputFormatters: [
-                FilteringTextInputFormatter.deny(RegExp(r'\s')),
-              ],
-              validator: null,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: Sizes.indent),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.info_outline,
-                    size: Sizes.iconSmall,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: bottom),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: Sizes.indent),
+                child: Text(
+                  l10n.exportImportImportDialogPolicyLabel,
+                  style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
-                  const SizedBox(width: Sizes.indent),
-                  Expanded(
-                    child: Text(
-                      l10n.exportImportImportDialogPasswordHint,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+              RadioGroup<ImportPolicy>(
+                groupValue: _policy,
+                onChanged: (v) => setState(() => _policy = v!),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _PolicyRadio(
+                      value: const ImportPolicy.mergeContent(),
+                      title: l10n.exportImportImportPolicyMergeTitle,
+                      subtitle: l10n.exportImportImportPolicyMergeSubtitle,
+                    ),
+                    _PolicyRadio(
+                      value: const ImportPolicy.keepIncoming(),
+                      title: l10n.exportImportImportPolicyKeepIncomingTitle,
+                      subtitle:
+                          l10n.exportImportImportPolicyKeepIncomingSubtitle,
+                    ),
+                    _PolicyRadio(
+                      value: const ImportPolicy.keepExisting(),
+                      title: l10n.exportImportImportPolicyKeepExistingTitle,
+                      subtitle:
+                          l10n.exportImportImportPolicyKeepExistingSubtitle,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: Sizes.indent2x),
+              OnboardingTextFormField(
+                controller: _passwordController,
+                obscureText: true,
+                hint: l10n.exportImportImportDialogPasswordFieldHint,
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                ],
+                validator: null,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: Sizes.indent),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.info_outline,
+                      size: Sizes.iconSmall,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                    const SizedBox(width: Sizes.indent),
+                    Expanded(
+                      child: Text(
+                        l10n.exportImportImportDialogPasswordHint,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       actions: [

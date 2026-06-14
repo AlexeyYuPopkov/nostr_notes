@@ -303,6 +303,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign Up'**
   String get onboardingNsecPageButtonSignUp;
+
+  /// No description provided for @onboardingNsecPageValidationEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'NSEC key cannot be empty'**
+  String get onboardingNsecPageValidationEmpty;
+
+  /// No description provided for @onboardingNsecPageValidationNpub.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a public key (npub). Please enter your private key (nsec)'**
+  String get onboardingNsecPageValidationNpub;
+
+  /// No description provided for @onboardingNsecPageValidationInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid NSEC key'**
+  String get onboardingNsecPageValidationInvalid;
 }
 
 class _AppLocalizationsDelegate
