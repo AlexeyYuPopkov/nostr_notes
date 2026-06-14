@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostr/model/user_keys.dart';
@@ -224,6 +226,43 @@ void main() {
         lifecycle.isActiveStream.add(true);
         await pumpEventQueue();
 
+        expect(emitted, [deny, processing, allow]);
+        await sub.cancel();
+      },
+      timeout: maxTimeout,
+    );
+
+    test(
+      'lifecycle blips from the biometric prompt do not re-show the blur',
+      () async {
+        // Biometry stays pending so we can inject the inactive/active blips the
+        // system prompt itself causes while it is on screen.
+        final completer = Completer<bool>();
+        when(
+          () => biometry.execute(biometryRequest),
+        ).thenAnswer((_) => completer.future);
+
+        final stream = sut.createStream(biometryRequest: biometryRequest);
+        final emitted = <Verification>[];
+        final sub = stream.listen(emitted.add);
+
+        lifecycle.isActiveStream.add(false);
+        await pumpEventQueue();
+        await Future.delayed(const Duration(milliseconds: 1));
+
+        lifecycle.isActiveStream.add(true);
+        await pumpEventQueue();
+        expect(emitted, [deny, processing]);
+
+        // The prompt toggles the app's active state — these must be ignored.
+        lifecycle.isActiveStream.add(false);
+        lifecycle.isActiveStream.add(true);
+        await pumpEventQueue();
+
+        completer.complete(true);
+        await pumpEventQueue();
+
+        // No stale Deny sneaks in after the successful unlock.
         expect(emitted, [deny, processing, allow]);
         await sub.cancel();
       },
