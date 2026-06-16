@@ -14,8 +14,10 @@ sealed class NotePreviewState extends Equatable {
   const factory NotePreviewState.common({required NotePreviewData data}) =
       CommonState;
 
-  const factory NotePreviewState.loading({required NotePreviewData data}) =
-      LoadingState;
+  const factory NotePreviewState.loading({
+    required NotePreviewData data,
+    double? progress,
+  }) = LoadingState;
 
   const factory NotePreviewState.cannotDecrypt({
     required NotePreviewData data,
@@ -25,6 +27,10 @@ sealed class NotePreviewState extends Equatable {
     required NotePreviewData data,
     required Object error,
   }) = ErrorState;
+
+  const factory NotePreviewState.willExportNote({
+    required NotePreviewData data,
+  }) = WillExportNoteState;
 
   const factory NotePreviewState.exportSuccess({
     required NotePreviewData data,
@@ -39,7 +45,11 @@ final class CommonState extends NotePreviewState {
 }
 
 final class LoadingState extends NotePreviewState {
-  const LoadingState({required super.data});
+  final double? progress;
+  const LoadingState({required super.data, this.progress});
+
+  @override
+  List<Object?> get props => [data, progress];
 }
 
 final class CannotDecryptState extends NotePreviewState {
@@ -49,6 +59,16 @@ final class CannotDecryptState extends NotePreviewState {
 final class ErrorState extends NotePreviewState {
   final Object error;
   const ErrorState({required super.data, required this.error});
+}
+
+final class WillExportNoteState extends NotePreviewState {
+  const WillExportNoteState({required super.data});
+
+  @override
+  bool operator ==(Object other) => identical(this, other);
+
+  @override
+  int get hashCode => identityHashCode(this);
 }
 
 final class ExportNoteSuccessState extends NotePreviewState {
@@ -64,5 +84,8 @@ final class ExportNoteSuccessState extends NotePreviewState {
   });
 
   @override
-  List<Object?> get props => [data, filePath, bytes, fileName];
+  bool operator ==(Object other) => identical(this, other);
+
+  @override
+  int get hashCode => identityHashCode(this);
 }

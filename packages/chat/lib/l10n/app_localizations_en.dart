@@ -129,4 +129,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingNsecPageButtonSignUp => 'Sign Up';
+
+  @override
+  String get onboardingNsecPageValidationEmpty => 'NSEC key cannot be empty';
+
+  @override
+  String get onboardingNsecPageValidationNpub =>
+      'This is a public key (npub). Please enter your private key (nsec)';
+
+  @override
+  String get onboardingNsecPageValidationInvalid => 'Invalid NSEC key';
 }

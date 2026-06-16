@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:di_storage/di_storage.dart';
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:common/services/event_store/database/app_database.dart';
 import 'package:common/services/event_store/database/daos/outbox_dao_interface.dart';
@@ -58,7 +59,7 @@ void main() {
     });
 
     group('init', () {
-      test('subscribes to pending events stream', () async {
+      test('subscribes to the undelivered events stream', () async {
         await sut.init();
 
         expect(mockOutboxDao.watchUndeliveredCalled, isTrue);
@@ -80,7 +81,8 @@ void main() {
         mockOutboxDao.addPendingEvent(_createOutboxEvent('event1'));
         await Future.delayed(const Duration(milliseconds: 50));
 
-        expect(mockOutboxDao.markBroadcastingCalledWith, isEmpty);
+        // Nothing was published while paused.
+        expect(mockChannelFactory.channels, isEmpty);
       });
 
       test('resume triggers processing of pending events', () async {
@@ -96,12 +98,12 @@ void main() {
         sut.resume();
         await Future.delayed(const Duration(milliseconds: 100));
 
-        expect(mockOutboxDao.markBroadcastingCalledWith, contains('event1'));
+        expect(mockOutboxDao.removeCalledWith, contains('event1'));
       });
     });
 
     group('publishing', () {
-      test('marks event as broadcasting before publishing', () async {
+      test('removes event from outbox on successful publish', () async {
         mockChannelFactory.respondWithOk = true;
         mockRawEventStore.upsert([_createTestEvent('event1')]);
 
@@ -110,31 +112,20 @@ void main() {
 
         await Future.delayed(const Duration(milliseconds: 100));
 
-        expect(mockOutboxDao.markBroadcastingCalledWith, contains('event1'));
+        expect(mockOutboxDao.removeCalledWith, contains('event1'));
       });
 
-      test('marks event as sent on successful publish', () async {
-        mockChannelFactory.respondWithOk = true;
-        mockRawEventStore.upsert([_createTestEvent('event1')]);
-
-        await sut.init();
-        mockOutboxDao.addPendingEvent(_createOutboxEvent('event1'));
-
-        await Future.delayed(const Duration(milliseconds: 100));
-
-        expect(mockOutboxDao.markSentCalledWith, contains('event1'));
-      });
-
-      test('marks event as failed when event not found in store', () async {
+      test('drops orphaned entry when event not found in store', () async {
         await sut.init();
         mockOutboxDao.addPendingEvent(_createOutboxEvent('missing'));
 
         await Future.delayed(const Duration(milliseconds: 100));
 
-        expect(mockOutboxDao.markFailedCalledWith, contains('missing'));
+        expect(mockOutboxDao.removeCalledWith, contains('missing'));
+        expect(mockChannelFactory.channels, isEmpty);
       });
 
-      test('marks event as failed when no relays configured', () async {
+      test('keeps event (no delivery) when no relays configured', () async {
         await mockRelaysListRepo.clear();
         mockRawEventStore.upsert([_createTestEvent('event1')]);
 
@@ -143,10 +134,13 @@ void main() {
 
         await Future.delayed(const Duration(milliseconds: 100));
 
-        expect(mockOutboxDao.markFailedCalledWith, contains('event1'));
+        // Not delivered and not removed — it stays queued for a later retry.
+        expect(mockOutboxDao.removeCalledWith, isEmpty);
+        expect(mockChannelFactory.channels, isEmpty);
       });
 
-      test('retries on publish failure (all relays reject)', () async {
+      test('keeps event and retries on publish failure (all relays reject)',
+          () async {
         mockChannelFactory.respondWithOk = false;
         mockChannelFactory.respondWithFail = true;
         mockRawEventStore.upsert([_createTestEvent('event1')]);
@@ -155,25 +149,17 @@ void main() {
         mockOutboxDao.addPendingEvent(_createOutboxEvent('event1'));
 
         await Future.delayed(const Duration(milliseconds: 100));
+        // First attempt failed: event left in place, nothing removed.
+        expect(mockOutboxDao.removeCalledWith, isEmpty);
+        expect(mockChannelFactory.channels, isNotEmpty);
+        final attemptsAfterFirst = mockChannelFactory.channels.length;
 
-        expect(mockOutboxDao.retryFailedCalledWith, contains('event1'));
-      });
-
-      test('retries indefinitely regardless of attempt count', () async {
-        mockChannelFactory.respondWithOk = false;
-        mockChannelFactory.respondWithFail = true;
-        mockRawEventStore.upsert([_createTestEvent('event1')]);
-
-        await sut.init();
-        // Even with high attemptCount, event should still be retried (not permanently failed)
-        mockOutboxDao.addPendingEvent(
-          _createOutboxEvent('event1', attemptCount: 99),
+        // Fresh event → retry after 3s; a second publish attempt is made.
+        await Future.delayed(const Duration(seconds: 3, milliseconds: 300));
+        expect(
+          mockChannelFactory.channels.length,
+          greaterThan(attemptsAfterFirst),
         );
-
-        await Future.delayed(const Duration(milliseconds: 100));
-
-        expect(mockOutboxDao.retryFailedCalledWith, contains('event1'));
-        expect(mockOutboxDao.markFailedCalledWith, isNot(contains('event1')));
       });
     });
 
@@ -187,32 +173,13 @@ void main() {
 
         mockOutboxDao.addPendingEvent(_createOutboxEvent('event1'));
         await Future.delayed(const Duration(milliseconds: 50));
-        expect(mockOutboxDao.markBroadcastingCalledWith, isEmpty);
+        expect(mockChannelFactory.channels, isEmpty);
 
-        // Simulate network change — triggers pause()+resume() in _onConnectivityChanged
+        // Network change triggers refresh() in _onConnectivityChanged.
         mockConnectivity.setConnectivity([ConnectivityResult.wifi]);
-        // debounceTime(2s) is bypassed in mock (no debounce), so just wait for processing
         await Future.delayed(const Duration(milliseconds: 100));
 
-        expect(mockOutboxDao.markBroadcastingCalledWith, contains('event1'));
-      });
-    });
-
-    group('retryAllFailed', () {
-      test('calls dao retryAllFailed', () async {
-        await sut.init();
-        await sut.retryAllFailed();
-
-        expect(mockOutboxDao.retryAllFailedCalled, isTrue);
-      });
-    });
-
-    group('cleanup', () {
-      test('delegates to dao cleanupOldSent', () async {
-        final result = await sut.cleanup();
-
-        expect(result, 0);
-        expect(mockOutboxDao.cleanupOldSentCalled, isTrue);
+        expect(mockOutboxDao.removeCalledWith, contains('event1'));
       });
     });
   });
@@ -228,11 +195,6 @@ void main() {
       final noop = NoopOutboxPublisher();
       noop.pause();
       noop.resume();
-    });
-
-    test('cleanup returns 0', () async {
-      final noop = NoopOutboxPublisher();
-      expect(await noop.cleanup(), 0);
     });
   });
 
@@ -259,51 +221,43 @@ void main() {
       final pending = await dao.getPending();
       expect(pending.length, 1);
       expect(pending.first.eventId, 'event1');
-      expect(pending.first.status, OutboxStatus.pending);
     });
 
-    test('markBroadcasting → markSent full lifecycle', () async {
+    test('remove deletes the event from the outbox', () async {
       await dao.insert(eventId: 'event2');
-      await dao.markBroadcasting('event2');
+      await dao.remove('event2');
 
-      final pending = await dao.getPending();
-      expect(pending, isEmpty);
-
-      await dao.markSent('event2', confirmedRelays: ['wss://relay.test']);
-
-      final failed = await dao.getFailed();
-      expect(failed, isEmpty);
-
-      // sent events are not returned by getPending or getFailed
-      final stillPending = await dao.getPending();
-      expect(stillPending, isEmpty);
+      expect(await dao.getPending(), isEmpty);
     });
 
-    test('markFailed then retryFailed increments attemptCount', () async {
-      await dao.insert(eventId: 'event3');
-      await dao.markFailed('event3', 'no relays');
-
-      final failed = await dao.getFailed();
-      expect(failed.length, 1);
-      expect(failed.first.status, OutboxStatus.failed);
-
-      await dao.retryFailed('event3');
+    test('getPending and watchUndelivered exclude legacy sent rows', () async {
+      // A row left in `sent` by an older app version must not resurface.
+      await db
+          .into(db.outboxEvents)
+          .insert(
+            OutboxEventsCompanion.insert(
+              eventId: 'legacy_sent',
+              createdAt: DateTime.now().millisecondsSinceEpoch,
+              status: const Value(OutboxStatus.sent),
+            ),
+          );
+      await dao.insert(eventId: 'fresh');
 
       final pending = await dao.getPending();
-      expect(pending.length, 1);
-      expect(pending.first.eventId, 'event3');
-      expect(pending.first.attemptCount, 1);
-      expect(pending.first.status, OutboxStatus.pending);
+      expect(pending.map((e) => e.eventId), ['fresh']);
+
+      final undelivered = await dao.watchUndelivered().first;
+      expect(undelivered.map((e) => e.eventId), ['fresh']);
     });
 
-    test('cleanupOldSent removes sent events older than threshold', () async {
-      await dao.insert(eventId: 'old_event');
-      await dao.markBroadcasting('old_event');
-      await dao.markSent('old_event');
+    test('removeUndeliveredByEventIds drops queued entries', () async {
+      await dao.insert(eventId: 'a');
+      await dao.insert(eventId: 'b');
 
-      // cleanup with 0 duration — removes all sent events
-      final removed = await dao.cleanupOldSent(olderThan: Duration.zero);
-      expect(removed, 1);
+      await dao.removeUndeliveredByEventIds({'a'});
+
+      final pending = await dao.getPending();
+      expect(pending.map((e) => e.eventId), ['b']);
     });
   });
 }
@@ -312,11 +266,11 @@ void main() {
 // Helpers
 // ---------------------------------------------------------------------------
 
-OutboxEventData _createOutboxEvent(String eventId, {int attemptCount = 0}) {
+OutboxEventData _createOutboxEvent(String eventId) {
   return OutboxEventData(
     eventId: eventId,
     status: OutboxStatus.pending,
-    attemptCount: attemptCount,
+    attemptCount: 0,
     createdAt: DateTime.now().millisecondsSinceEpoch,
     lastAttemptAt: null,
     confirmedRelays: null,
@@ -380,24 +334,13 @@ class _MockChannelFactory implements ChannelFactory {
 
 class _MockOutboxDao implements OutboxDaoInterface {
   bool watchUndeliveredCalled = false;
-  List<String> markBroadcastingCalledWith = [];
-  List<String> markSentCalledWith = [];
-  List<String> markFailedCalledWith = [];
-  List<String> retryFailedCalledWith = [];
-  bool retryAllFailedCalled = false;
-  bool cleanupOldSentCalled = false;
+  List<String> removeCalledWith = [];
 
   final _pendingController = BehaviorSubject<List<OutboxEventData>>.seeded([]);
-  List<OutboxEventData> pendingAfterRetry = [];
 
   @override
   Future<void> insert({required String eventId}) async {
     addPendingEvent(_createOutboxEvent(eventId));
-  }
-
-  @override
-  Stream<List<OutboxEventData>> watchPending() {
-    return _pendingController.stream;
   }
 
   void addPendingEvent(OutboxEventData event) {
@@ -410,55 +353,11 @@ class _MockOutboxDao implements OutboxDaoInterface {
   Future<List<OutboxEventData>> getPending() async => _pendingController.value;
 
   @override
-  Future<void> markBroadcasting(String eventId) async {
-    markBroadcastingCalledWith.add(eventId);
-  }
-
-  @override
-  Future<void> markSent(String eventId, {List<String>? confirmedRelays}) async {
-    markSentCalledWith.add(eventId);
+  Future<void> remove(String eventId) async {
+    removeCalledWith.add(eventId);
     final current = List<OutboxEventData>.from(_pendingController.value);
     current.removeWhere((e) => e.eventId == eventId);
     _pendingController.add(current);
-  }
-
-  @override
-  Future<void> markFailed(String eventId, String reason) async {
-    markFailedCalledWith.add(eventId);
-    final current = List<OutboxEventData>.from(_pendingController.value);
-    current.removeWhere((e) => e.eventId == eventId);
-    _pendingController.add(current);
-  }
-
-  @override
-  Future<void> retryFailed(String eventId) async {
-    retryFailedCalledWith.add(eventId);
-  }
-
-  @override
-  Future<List<OutboxEventData>> getFailed() async => [];
-
-  @override
-  Future<void> retryAllFailed() async {
-    retryAllFailedCalled = true;
-    if (pendingAfterRetry.isNotEmpty) {
-      _pendingController.add(pendingAfterRetry);
-    }
-  }
-
-  @override
-  Future<void> deleteSent(String eventId) async {}
-
-  @override
-  Future<int> cleanupOldSent({
-    Duration olderThan = const Duration(days: 7),
-  }) async {
-    cleanupOldSentCalled = true;
-    return 0;
-  }
-
-  void dispose() {
-    _pendingController.close();
   }
 
   @override
@@ -472,6 +371,10 @@ class _MockOutboxDao implements OutboxDaoInterface {
   Stream<List<OutboxEventData>> watchUndelivered() {
     watchUndeliveredCalled = true;
     return _pendingController.stream;
+  }
+
+  void dispose() {
+    _pendingController.close();
   }
 }
 

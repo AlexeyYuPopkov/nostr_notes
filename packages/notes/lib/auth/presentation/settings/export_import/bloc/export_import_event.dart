@@ -1,17 +1,20 @@
-import 'dart:typed_data';
-
 import 'package:equatable/equatable.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:nostr_notes/auth/domain/usecase/import_usecase.dart';
 
 sealed class ExportImportEvent extends Equatable {
   const ExportImportEvent();
 
-  const factory ExportImportEvent.export({required String password}) =
-      ExportEvent;
+  const factory ExportImportEvent.export({
+    required String password,
+    String? fileName,
+  }) = ExportEvent;
+
+  const factory ExportImportEvent.willImport() = WillImportEvent;
+  const factory ExportImportEvent.willExport() = WillExportEvent;
 
   const factory ExportImportEvent.import({
-    String filePath,
-    Uint8List? fileBytes,
+    required PlatformFile? file,
     required String password,
     required ImportPolicy policy,
   }) = ImportEvent;
@@ -20,28 +23,36 @@ sealed class ExportImportEvent extends Equatable {
   List<Object?> get props => const [];
 }
 
+final class WillExportEvent extends ExportImportEvent {
+  const WillExportEvent();
+}
+
 final class ExportEvent extends ExportImportEvent {
   final String password;
+  final String? fileName;
 
-  const ExportEvent({required this.password});
+  const ExportEvent({required this.password, this.fileName});
 
   @override
-  List<Object?> get props => [password];
+  List<Object?> get props => [password, fileName];
+}
+
+final class WillImportEvent extends ExportImportEvent {
+  const WillImportEvent();
 }
 
 final class ImportEvent extends ExportImportEvent {
-  final String filePath;
-  final Uint8List? fileBytes;
+  final PlatformFile? file;
+
   final String password;
   final ImportPolicy policy;
 
   const ImportEvent({
-    this.filePath = '',
-    this.fileBytes,
+    required this.file,
     required this.password,
     required this.policy,
   });
 
   @override
-  List<Object?> get props => [filePath, password, policy.runtimeType];
+  List<Object?> get props => [file, password, policy.runtimeType];
 }

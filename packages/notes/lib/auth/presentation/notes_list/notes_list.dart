@@ -147,7 +147,7 @@ class _NotesListState extends State<NotesList> with DialogHelper {
                   const SliverToBoxAdapter(
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: HelphubScreenToolbar(),
+                      child: NotesListScreenToolbar(),
                     ),
                   ),
                 ],
@@ -180,8 +180,8 @@ class _NotesListState extends State<NotesList> with DialogHelper {
   }
 }
 
-final class HelphubScreenToolbar extends StatelessWidget {
-  const HelphubScreenToolbar({super.key});
+final class NotesListScreenToolbar extends StatelessWidget {
+  const NotesListScreenToolbar({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -200,7 +200,6 @@ final class SettingsItemLogout extends SettingsItem {
 
   @override
   void onTap(BuildContext context) {
-    ScaffoldMessenger.of(context).clearSnackBars(); // .clearSnackBars()
     context.read<SettingsScreenBloc>().add(const SettingsScreenEvent.exit());
   }
 

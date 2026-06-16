@@ -8,8 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 
-/// Password dialog for export. Pops with the entered password string,
-/// or `null` if the user cancelled. An empty string means no password.
+final class ExportPasswordDialogResult {
+  final String password;
+  final String? fileName;
+
+  const ExportPasswordDialogResult({required this.password, this.fileName});
+}
+
 final class ExportPasswordDialog extends StatefulWidget {
   const ExportPasswordDialog({super.key});
 
@@ -18,12 +23,18 @@ final class ExportPasswordDialog extends StatefulWidget {
 }
 
 final class _ExportPasswordDialogState extends State<ExportPasswordDialog> {
-  final _formKey = GlobalKey<FormState>(debugLabel: '_ExportPasswordDialogState');
+  final _formKey = GlobalKey<FormState>(
+    debugLabel: '_ExportPasswordDialogState',
+  );
   late final _controller = TextEditingController();
+  late final _fileNameController = TextEditingController();
+
+  static const _maxFileNameLength = 64;
 
   @override
   void dispose() {
     _controller.dispose();
+    _fileNameController.dispose();
     super.dispose();
   }
 
@@ -40,6 +51,17 @@ final class _ExportPasswordDialogState extends State<ExportPasswordDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            OnboardingTextFormField(
+              controller: _fileNameController,
+              hint: l10n.exportImportExportFileNameHint,
+              inputFormatters: [
+                // Block path separators and characters illegal in file names.
+                FilteringTextInputFormatter.deny(RegExp(r'[\\/:*?"<>|]')),
+                LengthLimitingTextInputFormatter(_maxFileNameLength),
+              ],
+              validator: _validateFileName,
+            ),
+            const SizedBox(height: Sizes.indent2x),
             OnboardingTextFormField(
               controller: _controller,
               obscureText: true,
@@ -93,7 +115,13 @@ final class _ExportPasswordDialogState extends State<ExportPasswordDialog> {
 
   void _onConfirm() {
     if (_formKey.currentState?.validate() ?? false) {
-      Navigator.of(context).pop(_controller.text.trim());
+      final fileName = _fileNameController.text.trim();
+      Navigator.of(context).pop(
+        ExportPasswordDialogResult(
+          password: _controller.text.trim(),
+          fileName: fileName.isEmpty ? null : fileName,
+        ),
+      );
     }
   }
 
@@ -104,6 +132,18 @@ final class _ExportPasswordDialogState extends State<ExportPasswordDialog> {
       return context.l10n.exportImportPasswordTooShort(
         minPasswordLength.toString(),
       );
+    }
+    return null;
+  }
+
+  /// Optional. When provided, the name must contain at least one usable
+  /// character (not only dots/spaces) — the rest is sanitized downstream.
+  String? _validateFileName(String? value) {
+    final trimmed = value?.trim() ?? '';
+    if (trimmed.isEmpty) return null;
+    final hasUsableChar = trimmed.replaceAll(RegExp(r'[.\s]'), '').isNotEmpty;
+    if (!hasUsableChar) {
+      return context.l10n.exportImportExportFileNameInvalid;
     }
     return null;
   }

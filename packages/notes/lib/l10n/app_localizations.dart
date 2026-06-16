@@ -352,6 +352,24 @@ abstract class AppLocalizations {
   /// **'Sign Up'**
   String get onboardingNsecPageButtonSignUp;
 
+  /// No description provided for @onboardingNsecPageValidationEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'NSEC key cannot be empty'**
+  String get onboardingNsecPageValidationEmpty;
+
+  /// No description provided for @onboardingNsecPageValidationNpub.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a public key (npub). Please enter your private key (nsec)'**
+  String get onboardingNsecPageValidationNpub;
+
+  /// No description provided for @onboardingNsecPageValidationInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid NSEC key'**
+  String get onboardingNsecPageValidationInvalid;
+
   /// No description provided for @onboardingPinPageTitle.
   ///
   /// In en, this message translates to:
@@ -712,6 +730,18 @@ abstract class AppLocalizations {
   /// **'Password (optional)'**
   String get exportImportPasswordDialogTextFieldHint;
 
+  /// No description provided for @exportImportExportFileNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'File name (optional)'**
+  String get exportImportExportFileNameHint;
+
+  /// No description provided for @exportImportExportFileNameInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid file name'**
+  String get exportImportExportFileNameInvalid;
+
   /// No description provided for @exportImportExportEmptyError.
   ///
   /// In en, this message translates to:
@@ -748,11 +778,35 @@ abstract class AppLocalizations {
   /// **'You need to be signed in to import notes.'**
   String get exportImportImportAuthError;
 
+  /// No description provided for @exportImportImportFileNotFoundError.
+  ///
+  /// In en, this message translates to:
+  /// **'File not found.'**
+  String get exportImportImportFileNotFoundError;
+
   /// No description provided for @exportImportImportSuccess.
   ///
   /// In en, this message translates to:
   /// **'Notes imported successfully'**
   String get exportImportImportSuccess;
+
+  /// No description provided for @exportImportExportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes exported successfully'**
+  String get exportImportExportSuccess;
+
+  /// No description provided for @exportImportShareUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharing is not available on this device'**
+  String get exportImportShareUnavailable;
+
+  /// No description provided for @exportImportWebDownloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'The file has been saved to your Downloads folder.'**
+  String get exportImportWebDownloaded;
 
   /// No description provided for @exportImportImportDialogTitle.
   ///

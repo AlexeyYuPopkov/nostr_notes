@@ -4,7 +4,6 @@ import 'package:common/domain/error/app_error.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 
 abstract interface class ImportUsecase {
-  /// Provide either [filePath] (mobile/desktop) or [fileBytes] (web).
   Future<void> importNotes({
     required String password,
     String filePath,
@@ -75,6 +74,8 @@ final class ImportError extends CustomError<ImportErrorType> {
 enum ImportErrorType {
   /// The file is missing, not a valid archive, or has an unsupported version.
   invalidFile,
+
+  fileNotFound,
 
   /// Decryption failed — wrong password or the backup is corrupted.
   wrongPassword,

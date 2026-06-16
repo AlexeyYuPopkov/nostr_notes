@@ -4,7 +4,10 @@ import 'package:common/domain/error/app_error.dart';
 
 sealed class ExportParams {
   String get password;
-  String get fileUri;
+
+  /// Optional user-provided base file name (without extension). When null or
+  /// blank, a timestamped default is used.
+  String? get fileName;
 
   const ExportParams();
 }
@@ -13,9 +16,9 @@ final class ExportParamsAll extends ExportParams {
   @override
   final String password;
   @override
-  final String fileUri;
+  final String? fileName;
 
-  const ExportParamsAll({required this.password, required this.fileUri});
+  const ExportParamsAll({required this.password, this.fileName});
 }
 
 final class ExportParamsIds extends ExportParams {
@@ -23,12 +26,12 @@ final class ExportParamsIds extends ExportParams {
   @override
   final String password;
   @override
-  final String fileUri;
+  final String? fileName;
 
   const ExportParamsIds({
     required this.noteIds,
     required this.password,
-    required this.fileUri,
+    this.fileName,
   });
 }
 

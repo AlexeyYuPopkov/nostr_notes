@@ -154,6 +154,17 @@ class AppLocalizationsRu extends AppLocalizations {
   String get onboardingNsecPageButtonSignUp => 'Зарегистрироваться';
 
   @override
+  String get onboardingNsecPageValidationEmpty =>
+      'Ключ NSEC не может быть пустым';
+
+  @override
+  String get onboardingNsecPageValidationNpub =>
+      'Это публичный ключ (npub). Введите приватный ключ (nsec)';
+
+  @override
+  String get onboardingNsecPageValidationInvalid => 'Неверный ключ NSEC';
+
+  @override
   String get onboardingPinPageTitle => 'Задайте PIN или пароль';
 
   @override
@@ -355,6 +366,13 @@ class AppLocalizationsRu extends AppLocalizations {
       'Пароль (необязательно)';
 
   @override
+  String get exportImportExportFileNameHint => 'Имя файла (необязательно)';
+
+  @override
+  String get exportImportExportFileNameInvalid =>
+      'Введите корректное имя файла';
+
+  @override
   String get exportImportExportEmptyError => 'Нет заметок для экспорта';
 
   @override
@@ -378,7 +396,21 @@ class AppLocalizationsRu extends AppLocalizations {
       'Чтобы импортировать заметки, нужно войти в аккаунт.';
 
   @override
+  String get exportImportImportFileNotFoundError => 'Файл не найден.';
+
+  @override
   String get exportImportImportSuccess => 'Заметки успешно импортированы';
+
+  @override
+  String get exportImportExportSuccess => 'Заметки успешно экспортированы';
+
+  @override
+  String get exportImportShareUnavailable =>
+      'Функция «Поделиться» недоступна на этом устройстве';
+
+  @override
+  String get exportImportWebDownloaded =>
+      'Файл будет сохранён в папку «Загрузки».';
 
   @override
   String get exportImportImportDialogTitle => 'Импорт заметок';

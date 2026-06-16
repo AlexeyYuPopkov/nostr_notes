@@ -153,6 +153,17 @@ class AppLocalizationsBg extends AppLocalizations {
   String get onboardingNsecPageButtonSignUp => 'Регистрирай се';
 
   @override
+  String get onboardingNsecPageValidationEmpty =>
+      'Ключът NSEC не може да е празен';
+
+  @override
+  String get onboardingNsecPageValidationNpub =>
+      'Това е публичен ключ (npub). Въведете вашия частен ключ (nsec)';
+
+  @override
+  String get onboardingNsecPageValidationInvalid => 'Невалиден ключ NSEC';
+
+  @override
   String get onboardingPinPageTitle => 'Задайте ПИН или парола';
 
   @override
@@ -354,6 +365,13 @@ class AppLocalizationsBg extends AppLocalizations {
       'Парола (незадължително)';
 
   @override
+  String get exportImportExportFileNameHint => 'Име на файл (незадължително)';
+
+  @override
+  String get exportImportExportFileNameInvalid =>
+      'Въведете валидно име на файл';
+
+  @override
   String get exportImportExportEmptyError => 'Няма бележки за износ';
 
   @override
@@ -377,7 +395,21 @@ class AppLocalizationsBg extends AppLocalizations {
       'За да внесете бележки, трябва да влезете в акаунта.';
 
   @override
+  String get exportImportImportFileNotFoundError => 'Файлът не е намерен.';
+
+  @override
   String get exportImportImportSuccess => 'Бележките са успешно внесени';
+
+  @override
+  String get exportImportExportSuccess => 'Бележките са успешно изнесени';
+
+  @override
+  String get exportImportShareUnavailable =>
+      'Функцията за споделяне не е налична на това устройство';
+
+  @override
+  String get exportImportWebDownloaded =>
+      'Файлът ще бъде записан в папката «Изтегляния».';
 
   @override
   String get exportImportImportDialogTitle => 'Внос на бележки';
@@ -568,7 +600,7 @@ class AppLocalizationsBg extends AppLocalizations {
   String get notePreviewMoreMenuInfo => 'Информация';
 
   @override
-  String get notePreviewMoreMenuExportNote => 'Export note';
+  String get notePreviewMoreMenuExportNote => 'Експортирай бележка';
 
   @override
   String get donateLightningScreenTitle => 'Поддръжка чрез Lightning ⚡';

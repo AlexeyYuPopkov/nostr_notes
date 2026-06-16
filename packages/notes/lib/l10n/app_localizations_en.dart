@@ -152,6 +152,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingNsecPageButtonSignUp => 'Sign Up';
 
   @override
+  String get onboardingNsecPageValidationEmpty => 'NSEC key cannot be empty';
+
+  @override
+  String get onboardingNsecPageValidationNpub =>
+      'This is a public key (npub). Please enter your private key (nsec)';
+
+  @override
+  String get onboardingNsecPageValidationInvalid => 'Invalid NSEC key';
+
+  @override
   String get onboardingPinPageTitle => 'Set a PIN or password';
 
   @override
@@ -350,6 +360,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportImportPasswordDialogTextFieldHint => 'Password (optional)';
 
   @override
+  String get exportImportExportFileNameHint => 'File name (optional)';
+
+  @override
+  String get exportImportExportFileNameInvalid => 'Enter a valid file name';
+
+  @override
   String get exportImportExportEmptyError => 'No notes to export';
 
   @override
@@ -373,7 +389,21 @@ class AppLocalizationsEn extends AppLocalizations {
       'You need to be signed in to import notes.';
 
   @override
+  String get exportImportImportFileNotFoundError => 'File not found.';
+
+  @override
   String get exportImportImportSuccess => 'Notes imported successfully';
+
+  @override
+  String get exportImportExportSuccess => 'Notes exported successfully';
+
+  @override
+  String get exportImportShareUnavailable =>
+      'Sharing is not available on this device';
+
+  @override
+  String get exportImportWebDownloaded =>
+      'The file has been saved to your Downloads folder.';
 
   @override
   String get exportImportImportDialogTitle => 'Import Notes';

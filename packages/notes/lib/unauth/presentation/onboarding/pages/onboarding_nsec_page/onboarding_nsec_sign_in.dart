@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
-import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:common/presentation/buttons/prymary_loading_button.dart';
 import 'package:common/presentation/buttons/vm/loading_button_vm.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/validators/nsec_validator.dart';
@@ -26,15 +25,9 @@ final class _OnboardingNsecSignInState extends State<OnboardingNsecSignIn>
   final _formKey = GlobalKey<FormState>(
     debugLabel: 'OnboardingNsecPage.FormKey',
   );
+
   late final _controller = TextEditingController();
   bool _keyboardVisible = false;
-
-  late final AuthUsecase _authUsecase = context
-      .read<OnboardingScreenBloc>()
-      .authUsecase;
-
-  @override
-  AuthUsecase getAuthUsecase(BuildContext context) => _authUsecase;
 
   @override
   void initState() {
@@ -65,6 +58,7 @@ final class _OnboardingNsecSignInState extends State<OnboardingNsecSignIn>
     final commonL10n = context.commonL10n;
 
     return SingleChildScrollView(
+      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
