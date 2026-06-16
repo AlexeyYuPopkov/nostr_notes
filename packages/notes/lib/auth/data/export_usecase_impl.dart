@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:archive/archive.dart';
+import 'package:nostr_notes/auth/data/backup_templates.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
@@ -162,28 +162,15 @@ final class ExportUsecaseImpl implements ExportUsecase {
     final archive = Archive()
       ..addFile(ArchiveFile(archivedFileName, jsonBytes.length, jsonBytes));
 
-    await _tryAddAsset(
-      archive,
-      'assets/decrypt_backup.py',
-      'decrypt_backup.py',
-    );
-    await _tryAddAsset(archive, 'assets/BACKUP_README.md', 'BACKUP_README.md');
+    _addTextFile(archive, 'decrypt_backup.py', kDecryptBackupPy);
+    _addTextFile(archive, 'BACKUP_README.md', kBackupReadmeMd);
 
     return Uint8List.fromList(ZipEncoder().encode(archive));
   }
 
-  Future<void> _tryAddAsset(
-    Archive archive,
-    String assetKey,
-    String entryName,
-  ) async {
-    try {
-      final content = await rootBundle.loadString(assetKey);
-      final bytes = utf8.encode(content);
-      archive.addFile(ArchiveFile(entryName, bytes.length, bytes));
-    } catch (_) {
-      // Asset missing in this build — skip silently.
-    }
+  void _addTextFile(Archive archive, String name, String content) {
+    final bytes = utf8.encode(content);
+    archive.addFile(ArchiveFile(name, bytes.length, bytes));
   }
 
   Future<String> _writeToTempFile(Uint8List bytes, String fileName) async {

@@ -138,8 +138,6 @@ flutter:
   assets:
     - assets/images/
     - assets/wasm/crypto_module.wasm
-    - assets/decrypt_backup.py
-    - assets/BACKUP_README.md
 
 simple_splash_view:
   background_color: "#FDFCF9"
