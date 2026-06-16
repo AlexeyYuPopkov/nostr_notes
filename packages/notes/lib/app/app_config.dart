@@ -18,21 +18,26 @@ final class AppConfig {
   static const apkGHPagesSha256Url =
       'https://alexeyyupopkov.github.io/downloads/nostr_notes-release.apk.sha256';
 
+  static final kIsTest = kIsWeb
+      ? false
+      : Platform.environment.containsKey('FLUTTER_TEST') &&
+            !const bool.fromEnvironment('INTEGRATION_TEST');
+
+  static final showAds = !kDebugMode && !kIsTest;
+
   /// Developer's lightning address for in-app donations (LUD-16).
   static String get kDevLightningAddress => _env.devLightningAddress;
 
   /// Developer's nostr hex pubkey — used to create NIP-57 zap events.
   static String get kDevNostrPubkey => _env.devNostrPubkey;
 
+  static String get admobAppIdIos => _env.admobAppIdIos;
+  static String get admobInterstitialIdIos => _env.admobInterstitialIdIos;
+
   static const kUsesInMemoryStorage = bool.fromEnvironment(
     'IN_MEMORY_STORAGE',
     defaultValue: false,
   );
-
-  static final kIsTest = kIsWeb
-      ? false
-      : Platform.environment.containsKey('FLUTTER_TEST') &&
-            !const bool.fromEnvironment('INTEGRATION_TEST');
 
   /// Адрес реле из переменной среды (если задана)
   static String? get relayUrl {

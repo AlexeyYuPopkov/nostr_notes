@@ -1,0 +1,61 @@
+{
+    "commonButtonBack": "Назад",
+    "commonButtonOk": "OK",
+    "commonButtonCancel": "Отказ",
+    "commonButtonContinue": "Продължи",
+    "commonButtonNext": "Напред",
+    "commonButtonSave": "Запази",
+    "commonButtonDone": "Готово",
+    "commonButtonEdit": "Редактирай",
+    "commonHintSearch": "Търсене...",
+    "commonClose": "Затвори",
+    "commonDelete": "Изтрий",
+    "commonError": "Грешка",
+    "commonAttention": "Внимание",
+    "commonUndefinedError": "Нещо се обърка",
+    "commonNoDataPlaceholderText": "Не са намерени данни",
+    "commonCopied": "Копирано",
+    "commonInfo": "Информация",
+    "commonWarning": "Предупреждение",
+    "authError": "Грешка при удостоверяване",
+    "themeScreenTitle": "Тема",
+    "themeScreenSectionTitleColorTheme": "Цветова тема",
+    "themeScreenLabelSystem": "Системна",
+    "themeScreenLabelLight": "Светла",
+    "themeScreenLabelDark": "Тъмна",
+    "themeScreenLabelBackground": "Фон",
+    "themeScreenLabelCards": "Карти",
+    "relaysPageTitle": "Избери релета",
+    "relaysPageDescription": "Релетата са сървъри, които съхраняват и доставят вашите криптирани бележки. Изберете поне едно реле, за да продължите",
+    "relaysPageAddCustomHint": "wss://...",
+    "relaysPageAddButton": "Добави",
+    "relaysPageCheckButton": "Провери",
+    "relaysPageErrorSelectAtLeastOne": "Изберете поне едно реле",
+    "relaysPageErrorInvalidRelayUrlEmpty": "URL не може да бъде празен",
+    "relaysPageErrorInvalidUrl": "URL трябва да започва с wss:// или ws://",
+    "relaysPageErrorInvalidRelayAddressFormat": "Невалиден формат на адреса на реле",
+    "relaysPageErrorFailedToConnectToRelay": "Неуспешно свързване с реле {url}",
+    "@relaysPageErrorFailedToConnectToRelay": {
+        "placeholders": {
+            "url": {
+                "format": "String",
+                "type": "String"
+            }
+        }
+    },
+    "rawEventScreenTitle": "Суров event",
+    "rawEventScreenSectionTitleRelaysCount": "Релета ({count})",
+    "@rawEventScreenSectionTitleRelaysCount": {
+        "placeholders": {
+            "count": {
+                "format": "String",
+                "type": "String"
+            }
+        }
+    },
+    "rawEventScreenSectionTitleJson": "JSON",
+    "commonLinkCopyLink": "Копирай линк",
+    "commonLinkOpenInBrowser": "Отвори в браузъра",
+    "commonLinkOpenInNewTab": "Отвори в нов раздел",
+    "commonLinkOpenInExternalBrowser": "Отвори във външен браузър"
+}

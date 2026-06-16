@@ -29,7 +29,7 @@ class GetNotesUsecase {
       throw const AppError.notAuthenticated();
     }
 
-    return _notesRepository.watchNotes(pubkey: publicKey).switchMap((items) {
+    return _notesRepository.watchNotes(pubkey: publicKey).exhaustMap((items) {
       if (items.isEmpty) {
         return Stream.value(<Note>[]);
       }

@@ -52,11 +52,18 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
       displacement: refreshDisplacement,
       onRefresh: () => _onRefresh(context),
       child: CustomScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        cacheExtent: 600.0,
+        physics: const _ClampTopScrollPhysics(),
+        // scrollCacheExtent: const .pixels(600.0),
+        // controller: _scrollSectionsVm.scrollController,
         slivers: [
+          // SliverOverlapInjector(
+          //   handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          // ),
           SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
+            delegate: SliverChildBuilderDelegate(childCount: sections.length, (
+              context,
+              index,
+            ) {
               final section = sections[index];
               if (section is NotesListHeader) {
                 return NotesListSectionHeader(
@@ -91,7 +98,7 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
               } else {
                 return const SizedBox.shrink();
               }
-            }, childCount: sections.length),
+            }),
           ),
           const SliverToBoxAdapter(child: SizedBox(height: Sizes.indent4x)),
           SliverToBoxAdapter(child: SizedBox(height: mediaPadding.bottom)),
@@ -112,6 +119,35 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
   ) {
     final bloc = context.read<NotesListBloc>();
     bloc.add(NotesListEvent.assignLabels(note: note, labels: labels));
+  }
+}
+
+// Clamps the scroll at the top boundary (prevents iOS spring-bounce past
+// offset=0), while still dispatching OverscrollNotification so that
+// RefreshIndicator works. shouldAcceptUserOffset=true keeps pull-to-refresh
+// functional even when the list is shorter than the viewport.
+class _ClampTopScrollPhysics extends ScrollPhysics {
+  const _ClampTopScrollPhysics({super.parent});
+
+  @override
+  _ClampTopScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return _ClampTopScrollPhysics(parent: buildParent(ancestor));
+  }
+
+  @override
+  bool shouldAcceptUserOffset(ScrollMetrics position) => true;
+
+  @override
+  double applyBoundaryConditions(ScrollMetrics position, double value) {
+    if (value < position.minScrollExtent &&
+        position.minScrollExtent < position.pixels) {
+      return value - position.minScrollExtent;
+    }
+    if (value < position.pixels &&
+        position.pixels <= position.minScrollExtent) {
+      return value - position.pixels;
+    }
+    return super.applyBoundaryConditions(position, value);
   }
 }
 

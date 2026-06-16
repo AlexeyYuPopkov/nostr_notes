@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:di_storage/di_storage.dart';
 import 'package:nostr_notes/app/di/auth/auth_di_scope.dart';
+import 'package:nostr_notes/app/di/unauth/ads_di_module.dart';
 import 'package:nostr_notes/app/di/unauth/db_module.dart';
 import 'package:nostr_notes/services/outbox_publisher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,6 +30,7 @@ final class AppDi implements Di {
     di.removeScope<UnauthDiScope>();
     di.removeScope<DbModule>();
     di.removeScope<CryptoDiModule>();
+    di.removeScope<AdsDiModule>();
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -36,6 +38,7 @@ final class AppDi implements Di {
     const DbModule().bind(di);
 
     await const CryptoDiModule().bind(di);
+    await const AdsDiModule().bind(di);
   }
 
   @override
@@ -66,5 +69,6 @@ final class AppDi implements Di {
     di.removeScope<UnauthDiScope>();
     di.removeScope<DbModule>();
     di.removeScope<CryptoDiModule>();
+    di.removeScope<AdsDiModule>();
   }
 }

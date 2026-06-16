@@ -3,31 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 import 'package:flutter/services.dart';
 
-String sanitizeUrl(String url) {
-  String result = url.trim();
-  if (result.startsWith('mailto:')) {
-    result = result.substring(7);
-  } else if (result.startsWith('tel:')) {
-    result = result.substring(4);
-  }
-  return result;
-}
-
-Future<void> copyUrlToClipboard(BuildContext context, String url) async {
-  final text = sanitizeUrl(url);
-  await Clipboard.setData(ClipboardData(text: text));
-  if (context.mounted) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Column(
-          children: [Text('${context.commonL10n.commonCopied}:'), Text(text)],
-        ),
-      ),
-    );
-  }
-}
-
 mixin LinkTapHandler on StatelessWidget {
+  static String sanitizeUrl(String url) {
+    String result = url.trim();
+    if (result.startsWith('mailto:')) {
+      result = result.substring(7);
+    } else if (result.startsWith('tel:')) {
+      result = result.substring(4);
+    }
+    return result;
+  }
+
+  static Future<void> copyUrlToClipboard(
+    BuildContext context,
+    String url,
+  ) async {
+    final text = sanitizeUrl(url);
+    await Clipboard.setData(ClipboardData(text: text));
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Column(
+            children: [Text('${context.commonL10n.commonCopied}:'), Text(text)],
+          ),
+        ),
+      );
+    }
+  }
+
   Future<void> launchUrl(BuildContext context, {required String? url}) async {
     if (url == null || url.isEmpty) {
       return;

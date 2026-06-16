@@ -71,16 +71,6 @@ final class AuthUsecase {
     _relaysListRepo.clear();
   }
 
-  KeysError? validateNsec(String? nsec) {
-    try {
-      _keyToolRepository.getUserKeysWithNsec(nsec: nsec);
-    } on KeysError catch (e) {
-      return e;
-    }
-
-    return null;
-  }
-
   KeysError? validatePrivateKey(String? privateKey) {
     try {
       _keyToolRepository.getUserKeysWithPrivateKey(privateKey: privateKey);

@@ -16,6 +16,7 @@ import 'package:common/presentation/tools/root_context_provider/root_context_pro
 import 'package:nostr_notes/services/outbox_publisher.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:flutter/scheduler.dart';
 
 final _appRouter = AppRouter();
 

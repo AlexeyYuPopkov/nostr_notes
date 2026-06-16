@@ -14,8 +14,10 @@ sealed class ExportImportState extends Equatable {
   const factory ExportImportState.idle({required ExportImportData data}) =
       IdleState;
 
-  const factory ExportImportState.loading({required ExportImportData data}) =
-      LoadingState;
+  const factory ExportImportState.loading({
+    required ExportImportData data,
+    double? progress,
+  }) = LoadingState;
 
   const factory ExportImportState.success({
     required ExportImportData data,
@@ -29,9 +31,35 @@ sealed class ExportImportState extends Equatable {
     required Object error,
   }) = ErrorState;
 
+  const factory ExportImportState.willImport({required ExportImportData data}) =
+      WillImport;
+
+  const factory ExportImportState.willExport({required ExportImportData data}) =
+      WillExport;
+
   const factory ExportImportState.importSuccess({
     required ExportImportData data,
   }) = ImportSuccessState;
+}
+
+final class WillExport extends ExportImportState {
+  const WillExport({required super.data});
+
+  @override
+  bool operator ==(Object other) => identical(this, other);
+
+  @override
+  int get hashCode => identityHashCode(this);
+}
+
+final class WillImport extends ExportImportState {
+  const WillImport({required super.data});
+
+  @override
+  bool operator ==(Object other) => identical(this, other);
+
+  @override
+  int get hashCode => identityHashCode(this);
 }
 
 final class IdleState extends ExportImportState {
@@ -39,7 +67,11 @@ final class IdleState extends ExportImportState {
 }
 
 final class LoadingState extends ExportImportState {
-  const LoadingState({required super.data});
+  final double? progress;
+  const LoadingState({required super.data, this.progress});
+
+  @override
+  List<Object?> get props => [data, progress];
 }
 
 final class SuccessState extends ExportImportState {
@@ -55,11 +87,20 @@ final class SuccessState extends ExportImportState {
   });
 
   @override
-  List<Object?> get props => [data, filePath, fileName];
+  bool operator ==(Object other) => identical(this, other);
+
+  @override
+  int get hashCode => identityHashCode(this);
 }
 
 final class ImportSuccessState extends ExportImportState {
   const ImportSuccessState({required super.data});
+
+  @override
+  bool operator ==(Object other) => identical(this, other);
+
+  @override
+  int get hashCode => identityHashCode(this);
 }
 
 final class ErrorState extends ExportImportState {

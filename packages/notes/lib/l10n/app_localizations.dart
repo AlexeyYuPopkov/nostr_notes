@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_bg.dart';
 import 'app_localizations_en.dart';
 import 'app_localizations_ru.dart';
 
@@ -94,6 +95,7 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('bg'),
     Locale('en'),
     Locale('ru'),
   ];
@@ -350,6 +352,24 @@ abstract class AppLocalizations {
   /// **'Sign Up'**
   String get onboardingNsecPageButtonSignUp;
 
+  /// No description provided for @onboardingNsecPageValidationEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'NSEC key cannot be empty'**
+  String get onboardingNsecPageValidationEmpty;
+
+  /// No description provided for @onboardingNsecPageValidationNpub.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a public key (npub). Please enter your private key (nsec)'**
+  String get onboardingNsecPageValidationNpub;
+
+  /// No description provided for @onboardingNsecPageValidationInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid NSEC key'**
+  String get onboardingNsecPageValidationInvalid;
+
   /// No description provided for @onboardingPinPageTitle.
   ///
   /// In en, this message translates to:
@@ -590,6 +610,12 @@ abstract class AppLocalizations {
   /// **'Русский'**
   String get preferencesScreenLanguageRussian;
 
+  /// No description provided for @preferencesScreenLanguageBulgarian.
+  ///
+  /// In en, this message translates to:
+  /// **'Български'**
+  String get preferencesScreenLanguageBulgarian;
+
   /// No description provided for @preferencesScreenItemMobilePinKeyboardType.
   ///
   /// In en, this message translates to:
@@ -704,6 +730,18 @@ abstract class AppLocalizations {
   /// **'Password (optional)'**
   String get exportImportPasswordDialogTextFieldHint;
 
+  /// No description provided for @exportImportExportFileNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'File name (optional)'**
+  String get exportImportExportFileNameHint;
+
+  /// No description provided for @exportImportExportFileNameInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid file name'**
+  String get exportImportExportFileNameInvalid;
+
   /// No description provided for @exportImportExportEmptyError.
   ///
   /// In en, this message translates to:
@@ -740,11 +778,35 @@ abstract class AppLocalizations {
   /// **'You need to be signed in to import notes.'**
   String get exportImportImportAuthError;
 
+  /// No description provided for @exportImportImportFileNotFoundError.
+  ///
+  /// In en, this message translates to:
+  /// **'File not found.'**
+  String get exportImportImportFileNotFoundError;
+
   /// No description provided for @exportImportImportSuccess.
   ///
   /// In en, this message translates to:
   /// **'Notes imported successfully'**
   String get exportImportImportSuccess;
+
+  /// No description provided for @exportImportExportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes exported successfully'**
+  String get exportImportExportSuccess;
+
+  /// No description provided for @exportImportShareUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharing is not available on this device'**
+  String get exportImportShareUnavailable;
+
+  /// No description provided for @exportImportWebDownloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'The file has been saved to your Downloads folder.'**
+  String get exportImportWebDownloaded;
 
   /// No description provided for @exportImportImportDialogTitle.
   ///
@@ -1076,6 +1138,12 @@ abstract class AppLocalizations {
   /// **'Info'**
   String get notePreviewMoreMenuInfo;
 
+  /// No description provided for @notePreviewMoreMenuExportNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Export note'**
+  String get notePreviewMoreMenuExportNote;
+
   /// No description provided for @donateLightningScreenTitle.
   ///
   /// In en, this message translates to:
@@ -1160,7 +1228,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'ru'].contains(locale.languageCode);
+      <String>['bg', 'en', 'ru'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -1169,6 +1237,8 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'bg':
+      return AppLocalizationsBg();
     case 'en':
       return AppLocalizationsEn();
     case 'ru':

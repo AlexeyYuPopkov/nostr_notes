@@ -10,6 +10,7 @@ final class BackupPayload {
     required this.version,
     required this.encrypted,
     required this.events,
+    this.exportedAt,
     this.salt,
     this.iterations,
   });
@@ -19,6 +20,10 @@ final class BackupPayload {
 
   final int version;
   final bool encrypted;
+
+  /// ISO-8601 UTC timestamp of when the backup was created.
+  @JsonKey(name: 'exported_at')
+  final String? exportedAt;
 
   /// Hex-encoded random salt; present only when [encrypted] is true.
   final String? salt;

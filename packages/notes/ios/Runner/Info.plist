@@ -81,5 +81,16 @@
 	</array>
     <key>NSFaceIDUsageDescription</key>
     <string>Unlock the app to access your private notes</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-4169189565509203~4920555691</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>This identifier will be used to deliver personalized ads to you.</string>
+	<key>SKAdNetworkItems</key>
+	<array>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>cstr6suwn9.skadnetwork</string>
+		</dict>
+	</array>
 </dict>
 </plist>

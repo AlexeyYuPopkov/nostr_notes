@@ -119,7 +119,7 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     _getNotesSubscription?.cancel();
     _getNotesSubscription = _getNotesUsecase
         .execute()
-        .debounceTime(Durations.medium2)
+        .throttleTime(Durations.medium2, trailing: true)
         .listen(
           (items) {
             // final _debug =

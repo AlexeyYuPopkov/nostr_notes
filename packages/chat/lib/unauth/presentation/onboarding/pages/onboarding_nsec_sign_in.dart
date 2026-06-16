@@ -40,6 +40,7 @@ final class _OnboardingNsecSignInState
     final commonL10n = context.commonL10n;
 
     return SingleChildScrollView(
+      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,7 +76,7 @@ final class _OnboardingNsecSignInState
               initialValue: _controller.text,
               controller: _controller,
               hint: l10n.onboardingNsecPageTextFieldHint,
-              validator: (str) => _validateNsec(str),
+              validator: (str) => _validateNsec(str, l10n),
             ),
           ),
           const SizedBox(height: Sizes.indentVariant4x),
@@ -114,13 +115,17 @@ final class _OnboardingNsecSignInState
     );
   }
 
-  String? _validateNsec(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your nsec key';
+  String? _validateNsec(String? value, Localization l10n) {
+    if (value == null || value.trim().isEmpty) {
+      return l10n.onboardingNsecPageValidationEmpty;
     }
-    final privateKey = KeyTool.tryDecodeNsecKeyToPrivateKey(value.trim());
+    final trimmed = value.trim();
+    if (trimmed.startsWith('npub')) {
+      return l10n.onboardingNsecPageValidationNpub;
+    }
+    final privateKey = KeyTool.tryDecodeNsecKeyToPrivateKey(trimmed);
     if (privateKey == null) {
-      return 'Invalid nsec key format';
+      return l10n.onboardingNsecPageValidationInvalid;
     }
     return null;
   }

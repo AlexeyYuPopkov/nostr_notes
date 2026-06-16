@@ -4,6 +4,8 @@ abstract interface class AppEnv {
   String get devLightningAddress;
   String get devNostrPubkey;
   String get kofiUrl;
+  String get admobAppIdIos;
+  String get admobInterstitialIdIos;
 }
 
 final class DefaultAppEnv implements AppEnv {
@@ -17,4 +19,10 @@ final class DefaultAppEnv implements AppEnv {
 
   @override
   String get kofiUrl => Env.kofiUrl;
+
+  @override
+  String get admobAppIdIos => Env.admobAppIdIos;
+
+  @override
+  String get admobInterstitialIdIos => Env.admobInterstitialIdIos;
 }

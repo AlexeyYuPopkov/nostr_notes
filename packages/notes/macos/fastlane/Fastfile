@@ -1,72 +1,76 @@
 default_platform(:mac)
 
 platform :mac do
-  desc "Push a new build to TestFlight"
-  lane :beta do
-    setup_ci if ENV['CI']
-
+  private_lane :_make_api_key do
     api_key_content = Base64.decode64(ENV['NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64'])
-
-    api_key = app_store_connect_api_key(
+    app_store_connect_api_key(
       key_id: ENV['APP_STORE_CONNECT_API_KEY_ID'],
       issuer_id: ENV['APP_STORE_CONNECT_ISSUER_ID'],
-      key_content: api_key_content
+      key_content: api_key_content,
     )
+  end
 
-    puts "api_key_content: #{ENV['NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64']}"
-    puts "key_id: #{ENV['APP_STORE_CONNECT_API_KEY_ID']}"
-    puts "issuer_id: #{ENV['APP_STORE_CONNECT_ISSUER_ID']}"
-    puts "MATCH_GIT_BASIC_AUTHORIZATION: #{ENV['MATCH_GIT_BASIC_AUTHORIZATION']}"
-
-    # TODO: Remove this workaround
-    current_build_number = 24
-
-    latest_build = latest_testflight_build_number(
-      version: "1.0.1",
-      api_key: api_key,
-      app_identifier: "com.alekseii.yu.popkov.nostrNotes",
-      platform: "osx",
-      initial_build_number: 2current_build_number3
-    )
-
-    if latest_build <= current_build_number
-      latest_build = current_build_number
-      puts "Latest build number is #{latest_build}, which is less than or equal to 10. Setting it to 10 to avoid issues with TestFlight."
-    end
-
-
-    increment_build_number(
-      build_number: latest_build + 1,
-      xcodeproj: "Runner.xcodeproj"
-    )
-
+  private_lane :_install_signing_certs do |options|
     match(
       type: "appstore",
       platform: "macos",
       readonly: true,
       git_basic_authorization: ENV['MATCH_GIT_BASIC_AUTHORIZATION'],
-      api_key: api_key,
-      additional_cert_types: ["mac_installer_distribution"]
+      api_key: options[:api_key],
+      additional_cert_types: ["mac_installer_distribution"],
     )
-
     update_code_signing_settings(
       use_automatic_signing: false,
       path: "Runner.xcodeproj",
       team_id: "HCYSG3HDXK",
       bundle_identifier: "com.alekseii.yu.popkov.nostrNotes",
       profile_name: "match AppStore com.alekseii.yu.popkov.nostrNotes macos",
-      code_sign_identity: "Apple Distribution"
+      code_sign_identity: "Apple Distribution",
     )
+  end
+
+  desc "Install signing certificates — run before flutter build in CI"
+  lane :install_certs do
+    setup_ci if ENV['CI']
+    _install_signing_certs(api_key: _make_api_key)
+  end
+
+  desc "Push a new build to TestFlight"
+  lane :beta do
+    setup_ci if ENV['CI']
+
+    api_key = _make_api_key
+
+    current_build_number = 25
+
+    latest_build = latest_testflight_build_number(
+      version: "1.0.1",
+      api_key: api_key,
+      app_identifier: "com.alekseii.yu.popkov.nostrNotes",
+      platform: "osx",
+      initial_build_number: current_build_number,
+    )
+
+    if latest_build <= current_build_number
+      latest_build = current_build_number
+    end
+
+    increment_build_number(
+      build_number: latest_build + 1,
+      xcodeproj: "Runner.xcodeproj",
+    )
+
+    _install_signing_certs(api_key: api_key)
 
     build_mac_app(
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
-      export_method: "app-store"
+      export_method: "app-store",
     )
 
     upload_to_testflight(
       api_key: api_key,
-      skip_waiting_for_build_processing: true
+      skip_waiting_for_build_processing: true,
     )
   end
 end

@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:common/app/theme/sizes.dart';
+import 'package:common/app/theme/success_colors.dart';
 import 'package:flutter/material.dart';
 
+part 'hud_policy_part.dart';
 final class ProgressHud extends InheritedWidget {
   const ProgressHud({super.key, required this.vm, required super.child});
   final ProgressHudVm vm;
@@ -175,76 +177,3 @@ final class _OverlayContentState extends State<_OverlayContent> {
   }
 }
 
-sealed class HudPolicy {
-  const factory HudPolicy.defaultValue() = Indicator;
-  factory HudPolicy.indicator({String? hint}) => Indicator(hint: hint ?? '');
-  factory HudPolicy.blocking() = Blocking;
-  const HudPolicy();
-  Widget build(BuildContext context, ProgressHudVm vm);
-}
-
-final class Indicator extends HudPolicy {
-  const Indicator({this.hint = ''});
-  final String hint;
-
-  @override
-  Widget build(BuildContext context, ProgressHudVm vm) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(Sizes.indent2x),
-        child: RepaintBoundary(
-          child: Container(
-            height: 110.0,
-            width: 110.0,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.7),
-              borderRadius: BorderRadius.circular(Sizes.padding2x),
-            ),
-            clipBehavior: Clip.hardEdge,
-            child: Material(
-              child: Stack(
-                children: [
-                  Center(
-                    child: SizedBox(
-                      width: Sizes.defaultRowHeight,
-                      height: Sizes.defaultRowHeight,
-                      child: CircularProgressIndicator(value: vm.progress),
-                    ),
-                  ),
-                  if (hint.isNotEmpty)
-                    Positioned(
-                      bottom: Sizes.indent,
-                      left: Sizes.indent,
-                      right: Sizes.indent,
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          hint,
-                          style: const TextStyle(
-                            color: Colors.black54,
-                            fontSize: TextSizes.error,
-                          ),
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-final class Blocking extends HudPolicy {
-  const Blocking();
-
-  @override
-  Widget build(BuildContext context, ProgressHudVm vm) {
-    return const SizedBox.expand();
-  }
-}
