@@ -398,6 +398,13 @@ class AppLocalizationsBg extends AppLocalizations {
   String get exportImportImportSuccess => 'Бележките са успешно внесени';
 
   @override
+  String get exportImportExportSuccess => 'Бележките са успешно изнесени';
+
+  @override
+  String get exportImportShareUnavailable =>
+      'Функцията за споделяне не е налична на това устройство';
+
+  @override
   String get exportImportImportDialogTitle => 'Внос на бележки';
 
   @override

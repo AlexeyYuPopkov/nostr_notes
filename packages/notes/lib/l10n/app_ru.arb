@@ -121,6 +121,8 @@
     "exportImportImportWrongPasswordError": "Неверный пароль или резервная копия повреждена.",
     "exportImportImportAuthError": "Чтобы импортировать заметки, нужно войти в аккаунт.",
     "exportImportImportSuccess": "Заметки успешно импортированы",
+    "exportImportExportSuccess": "Заметки успешно экспортированы",
+    "exportImportShareUnavailable": "Функция «Поделиться» недоступна на этом устройстве",
     "exportImportImportDialogTitle": "Импорт заметок",
     "exportImportImportDialogPasswordHint": "Оставьте пустым, если резервная копия без пароля",
     "exportImportImportDialogPasswordFieldHint": "Пароль (если зашифровано)",

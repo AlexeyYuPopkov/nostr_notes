@@ -784,6 +784,18 @@ abstract class AppLocalizations {
   /// **'Notes imported successfully'**
   String get exportImportImportSuccess;
 
+  /// No description provided for @exportImportExportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes exported successfully'**
+  String get exportImportExportSuccess;
+
+  /// No description provided for @exportImportShareUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharing is not available on this device'**
+  String get exportImportShareUnavailable;
+
   /// No description provided for @exportImportImportDialogTitle.
   ///
   /// In en, this message translates to:

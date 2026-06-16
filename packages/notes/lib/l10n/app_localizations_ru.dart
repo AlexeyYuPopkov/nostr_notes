@@ -399,6 +399,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get exportImportImportSuccess => 'Заметки успешно импортированы';
 
   @override
+  String get exportImportExportSuccess => 'Заметки успешно экспортированы';
+
+  @override
+  String get exportImportShareUnavailable =>
+      'Функция «Поделиться» недоступна на этом устройстве';
+
+  @override
   String get exportImportImportDialogTitle => 'Импорт заметок';
 
   @override

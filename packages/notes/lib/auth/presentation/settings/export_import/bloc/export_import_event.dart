@@ -11,6 +11,7 @@ sealed class ExportImportEvent extends Equatable {
   }) = ExportEvent;
 
   const factory ExportImportEvent.willImport() = WillImportEvent;
+  const factory ExportImportEvent.willExport() = WillExportEvent;
 
   const factory ExportImportEvent.import({
     required PlatformFile? file,
@@ -20,6 +21,10 @@ sealed class ExportImportEvent extends Equatable {
 
   @override
   List<Object?> get props => const [];
+}
+
+final class WillExportEvent extends ExportImportEvent {
+  const WillExportEvent();
 }
 
 final class ExportEvent extends ExportImportEvent {

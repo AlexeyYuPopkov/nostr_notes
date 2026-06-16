@@ -34,9 +34,16 @@ sealed class ExportImportState extends Equatable {
   const factory ExportImportState.willImport({required ExportImportData data}) =
       WillImport;
 
+  const factory ExportImportState.willExport({required ExportImportData data}) =
+      WillExport;
+
   const factory ExportImportState.importSuccess({
     required ExportImportData data,
   }) = ImportSuccessState;
+}
+
+final class WillExport extends ExportImportState {
+  const WillExport({required super.data});
 }
 
 final class WillImport extends ExportImportState {

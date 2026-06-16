@@ -121,6 +121,8 @@
     "exportImportImportWrongPasswordError": "Wrong password, or the backup is corrupted.",
     "exportImportImportAuthError": "You need to be signed in to import notes.",
     "exportImportImportSuccess": "Notes imported successfully",
+    "exportImportExportSuccess": "Notes exported successfully",
+    "exportImportShareUnavailable": "Sharing is not available on this device",
     "exportImportImportDialogTitle": "Import Notes",
     "exportImportImportDialogPasswordHint": "Leave empty if backup has no password",
     "exportImportImportDialogPasswordFieldHint": "Password (if encrypted)",

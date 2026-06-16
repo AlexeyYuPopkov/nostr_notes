@@ -4,13 +4,13 @@ import 'package:common/presentation/widgets/common_popup_menu_button.dart';
 import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
 import 'package:common/presentation/widgets/progress_hud/progress_hud.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/widgets/labels_picker.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import/export_password_dialog.dart';
+import 'package:nostr_notes/auth/presentation/tools/share_file_helper.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/note_router.dart';
@@ -20,7 +20,6 @@ import 'package:nostr_notes/auth/presentation/tools/note_decrypt_error_message_m
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_bloc.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
-import 'package:share_plus/share_plus.dart';
 
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
@@ -40,7 +39,7 @@ final class NotePreviewScreen extends StatefulWidget {
 }
 
 final class _NotePreviewScreenState extends State<NotePreviewScreen>
-    with DialogHelper, LabelsPickerHelper, _ExportNoteHelper {
+    with DialogHelper, LabelsPickerHelper, _ExportNoteHelper, ShareFileHelper {
   final vm = SearchVM();
 
   @override
@@ -50,11 +49,14 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
   }
 
   void _listener(BuildContext context, NotePreviewState state) async {
-    ProgressHud.of(context)?.setLoading(isLoading: state is LoadingState);
+    final hud = ProgressHud.of(context);
+    hud?.setLoading(isLoading: state is LoadingState);
     switch (state) {
       case CommonState():
-      case LoadingState():
       case CannotDecryptState():
+        break;
+      case LoadingState():
+        hud?.vm.progress = state.progress;
         break;
       case ErrorState():
         showError(context, error: state.error);
@@ -64,10 +66,7 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
         :final bytes,
         :final fileName,
       ):
-        final xFile = kIsWeb
-            ? XFile.fromData(bytes, name: fileName, mimeType: 'application/zip')
-            : XFile(filePath);
-        await SharePlus.instance.share(ShareParams(files: [xFile]));
+        shareFile(filePath, bytes, fileName, context);
         break;
       case WillExportNoteState():
         onExportNote(context);

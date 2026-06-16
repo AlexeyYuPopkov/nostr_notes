@@ -31,6 +31,11 @@ final class ExportImportBloc
       transformer: (events, mapper) =>
           events.throttleTime(debounceGuard).switchMap(mapper),
     );
+    on<WillExportEvent>(
+      _onWillExportEvent,
+      transformer: (events, mapper) =>
+          events.throttleTime(debounceGuard).switchMap(mapper),
+    );
   }
 
   Future<void> _onExport(
@@ -69,6 +74,17 @@ final class ExportImportBloc
     } catch (e) {
       emit(ExportImportState.error(data: data, error: e));
     }
+  }
+
+  Future<void> _onWillExportEvent(
+    WillExportEvent event,
+    Emitter<ExportImportState> emit,
+  ) async {
+    if (AppConfig.showAds) {
+      _verificationUsecase.skipNextVerification();
+      await _adsService.showInterstitial();
+    }
+    emit(ExportImportState.willExport(data: data));
   }
 
   Future<void> _onWillImportEvent(

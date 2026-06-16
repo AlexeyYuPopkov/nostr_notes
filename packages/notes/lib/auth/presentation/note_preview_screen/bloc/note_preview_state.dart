@@ -14,8 +14,10 @@ sealed class NotePreviewState extends Equatable {
   const factory NotePreviewState.common({required NotePreviewData data}) =
       CommonState;
 
-  const factory NotePreviewState.loading({required NotePreviewData data}) =
-      LoadingState;
+  const factory NotePreviewState.loading({
+    required NotePreviewData data,
+    double? progress,
+  }) = LoadingState;
 
   const factory NotePreviewState.cannotDecrypt({
     required NotePreviewData data,
@@ -43,7 +45,11 @@ final class CommonState extends NotePreviewState {
 }
 
 final class LoadingState extends NotePreviewState {
-  const LoadingState({required super.data});
+  final double? progress;
+  const LoadingState({required super.data, this.progress});
+
+  @override
+  List<Object?> get props => [data, progress];
 }
 
 final class CannotDecryptState extends NotePreviewState {

@@ -392,6 +392,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportImportImportSuccess => 'Notes imported successfully';
 
   @override
+  String get exportImportExportSuccess => 'Notes exported successfully';
+
+  @override
+  String get exportImportShareUnavailable =>
+      'Sharing is not available on this device';
+
+  @override
   String get exportImportImportDialogTitle => 'Import Notes';
 
   @override

@@ -121,6 +121,8 @@
     "exportImportImportWrongPasswordError": "Грешна парола или резервното копие е повредено.",
     "exportImportImportAuthError": "За да внесете бележки, трябва да влезете в акаунта.",
     "exportImportImportSuccess": "Бележките са успешно внесени",
+    "exportImportExportSuccess": "Бележките са успешно изнесени",
+    "exportImportShareUnavailable": "Функцията за споделяне не е налична на това устройство",
     "exportImportImportDialogTitle": "Внос на бележки",
     "exportImportImportDialogPasswordHint": "Оставете празно, ако резервното копие е без парола",
     "exportImportImportDialogPasswordFieldHint": "Парола (ако е криптирано)",

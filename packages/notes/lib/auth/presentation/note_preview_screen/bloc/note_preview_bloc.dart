@@ -216,6 +216,10 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
         );
         return;
       }
+
+      emit(NotePreviewState.loading(data: data, progress: 0.9));
+      await Future.delayed(const Duration(milliseconds: 700));
+
       emit(
         NotePreviewState.exportSuccess(
           data: data,
