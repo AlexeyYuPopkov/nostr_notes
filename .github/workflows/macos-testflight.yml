@@ -65,8 +65,14 @@ jobs:
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.NOSTR_NOTES_MATCH_GIT_BASIC_AUTHORIZATION }}
         run: bundle exec fastlane install_certs
 
-      - name: Clear SPM artifact cache
-        run: rm -rf ~/Library/Caches/org.swift.swiftpm/artifacts
+      - name: Flutter pub get (notes)
+        working-directory: packages/notes
+        run: flutter pub get
+
+      - name: Clear SPM cache
+        run: |
+          rm -rf "$HOME/Library/Caches/org.swift.swiftpm"
+          rm -rf "$HOME/Library/Developer/Xcode/DerivedData"
 
       - name: Build Flutter macOS
         working-directory: packages/notes

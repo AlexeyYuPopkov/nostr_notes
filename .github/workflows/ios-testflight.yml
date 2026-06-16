@@ -30,8 +30,10 @@ jobs:
           dart pub global activate melos
           melos bootstrap
 
-      - name: Clear SPM artifact cache
-        run: rm -rf ~/Library/Caches/org.swift.swiftpm/artifacts
+      - name: Clear SPM cache
+        run: |
+          rm -rf "$HOME/Library/Caches/org.swift.swiftpm"
+          rm -rf "$HOME/Library/Developer/Xcode/DerivedData"
 
       - name: Build Flutter iOS
         working-directory: packages/notes
