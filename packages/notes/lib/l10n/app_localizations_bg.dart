@@ -405,6 +405,10 @@ class AppLocalizationsBg extends AppLocalizations {
       'Функцията за споделяне не е налична на това устройство';
 
   @override
+  String get exportImportWebDownloaded =>
+      'Файлът ще бъде записан в папката «Изтегляния».';
+
+  @override
   String get exportImportImportDialogTitle => 'Внос на бележки';
 
   @override

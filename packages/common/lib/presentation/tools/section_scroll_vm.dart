@@ -8,6 +8,7 @@ final class SectionScrollVm<T> {
 
   final _contentOffsets = <T, double>{};
   ScrollController? _innerController;
+  ScrollController? get innerController => _innerController;
 
   SectionScrollVm({
     required this.scrollController,

@@ -26,9 +26,15 @@ mixin ShareFileHelper {
       case ShareResultStatus.dismissed:
         break;
       case ShareResultStatus.unavailable:
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.l10n.exportImportShareUnavailable)),
-        );
+        if (kIsWeb) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(context.l10n.exportImportWebDownloaded)),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(context.l10n.exportImportShareUnavailable)),
+          );
+        }
         break;
     }
   }

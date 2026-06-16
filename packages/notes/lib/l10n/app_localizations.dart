@@ -796,6 +796,12 @@ abstract class AppLocalizations {
   /// **'Sharing is not available on this device'**
   String get exportImportShareUnavailable;
 
+  /// No description provided for @exportImportWebDownloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'The file has been saved to your Downloads folder.'**
+  String get exportImportWebDownloaded;
+
   /// No description provided for @exportImportImportDialogTitle.
   ///
   /// In en, this message translates to:

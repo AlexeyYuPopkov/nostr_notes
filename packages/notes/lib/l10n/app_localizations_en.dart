@@ -399,6 +399,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Sharing is not available on this device';
 
   @override
+  String get exportImportWebDownloaded =>
+      'The file has been saved to your Downloads folder.';
+
+  @override
   String get exportImportImportDialogTitle => 'Import Notes';
 
   @override

@@ -406,6 +406,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Функция «Поделиться» недоступна на этом устройстве';
 
   @override
+  String get exportImportWebDownloaded =>
+      'Файл будет сохранён в папку «Загрузки».';
+
+  @override
   String get exportImportImportDialogTitle => 'Импорт заметок';
 
   @override

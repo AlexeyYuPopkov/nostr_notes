@@ -123,6 +123,7 @@
     "exportImportImportSuccess": "Notes imported successfully",
     "exportImportExportSuccess": "Notes exported successfully",
     "exportImportShareUnavailable": "Sharing is not available on this device",
+    "exportImportWebDownloaded": "The file has been saved to your Downloads folder.",
     "exportImportImportDialogTitle": "Import Notes",
     "exportImportImportDialogPasswordHint": "Leave empty if backup has no password",
     "exportImportImportDialogPasswordFieldHint": "Password (if encrypted)",

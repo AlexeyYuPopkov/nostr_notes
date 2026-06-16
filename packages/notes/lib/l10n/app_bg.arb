@@ -123,6 +123,7 @@
     "exportImportImportSuccess": "Бележките са успешно внесени",
     "exportImportExportSuccess": "Бележките са успешно изнесени",
     "exportImportShareUnavailable": "Функцията за споделяне не е налична на това устройство",
+    "exportImportWebDownloaded": "Файлът ще бъде записан в папката «Изтегляния».",
     "exportImportImportDialogTitle": "Внос на бележки",
     "exportImportImportDialogPasswordHint": "Оставете празно, ако резервното копие е без парола",
     "exportImportImportDialogPasswordFieldHint": "Парола (ако е криптирано)",

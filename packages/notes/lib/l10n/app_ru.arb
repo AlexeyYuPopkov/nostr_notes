@@ -123,6 +123,7 @@
     "exportImportImportSuccess": "Заметки успешно импортированы",
     "exportImportExportSuccess": "Заметки успешно экспортированы",
     "exportImportShareUnavailable": "Функция «Поделиться» недоступна на этом устройстве",
+    "exportImportWebDownloaded": "Файл будет сохранён в папку «Загрузки».",
     "exportImportImportDialogTitle": "Импорт заметок",
     "exportImportImportDialogPasswordHint": "Оставьте пустым, если резервная копия без пароля",
     "exportImportImportDialogPasswordFieldHint": "Пароль (если зашифровано)",

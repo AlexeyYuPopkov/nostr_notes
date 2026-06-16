@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:archive/archive.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
@@ -18,8 +19,6 @@ import 'package:nostr_notes/services/hex_to_bytes.dart';
 import 'package:path_provider/path_provider.dart';
 
 const _kPbkdf2Iterations = 600000;
-
-
 
 final class ExportUsecaseImpl implements ExportUsecase {
   static const archivedFileName = 'notes_export.json';
@@ -72,7 +71,10 @@ final class ExportUsecaseImpl implements ExportUsecase {
 
       final BackupPayload payload;
       try {
-        payload = await _createPayload(decryptedNotes, password: params.password);
+        payload = await _createPayload(
+          decryptedNotes,
+          password: params.password,
+        );
       } catch (e) {
         throw ExportError(
           payload: ExportErrorType.encryptionFailed,
@@ -84,7 +86,7 @@ final class ExportUsecaseImpl implements ExportUsecase {
       final Uint8List zipBytes;
       final String filePath;
       try {
-        zipBytes = _buildZipBytes(payload);
+        zipBytes = await _buildZipBytes(payload);
         filePath = kIsWeb ? '' : await _writeToTempFile(zipBytes, fileName);
       } catch (e) {
         throw ExportError(
@@ -114,7 +116,12 @@ final class ExportUsecaseImpl implements ExportUsecase {
       for (final note in notes) {
         exportEvents.add(NoteMapper.toNostrEvent(note).toJson());
       }
-      return BackupPayload(version: 1, encrypted: false, events: exportEvents);
+      return BackupPayload(
+        version: 1,
+        encrypted: false,
+        exportedAt: DateTime.now().toUtc().toIso8601String(),
+        events: exportEvents,
+      );
     } else {
       final salt = _generateRandomBytes(16);
       final secretKey = await ExportHelper.deriveKey(
@@ -140,6 +147,7 @@ final class ExportUsecaseImpl implements ExportUsecase {
       return BackupPayload(
         version: 1,
         encrypted: true,
+        exportedAt: DateTime.now().toUtc().toIso8601String(),
         salt: HexToBytes.bytesToHex(salt),
         iterations: _kPbkdf2Iterations,
         events: exportEvents,
@@ -147,13 +155,35 @@ final class ExportUsecaseImpl implements ExportUsecase {
     }
   }
 
-  Uint8List _buildZipBytes(BackupPayload payload) {
+  Future<Uint8List> _buildZipBytes(BackupPayload payload) async {
     final jsonBytes = utf8.encode(
       const JsonEncoder.withIndent('  ').convert(payload.toJson()),
     );
     final archive = Archive()
       ..addFile(ArchiveFile(archivedFileName, jsonBytes.length, jsonBytes));
+
+    await _tryAddAsset(
+      archive,
+      'assets/decrypt_backup.py',
+      'decrypt_backup.py',
+    );
+    await _tryAddAsset(archive, 'assets/BACKUP_README.md', 'BACKUP_README.md');
+
     return Uint8List.fromList(ZipEncoder().encode(archive));
+  }
+
+  Future<void> _tryAddAsset(
+    Archive archive,
+    String assetKey,
+    String entryName,
+  ) async {
+    try {
+      final content = await rootBundle.loadString(assetKey);
+      final bytes = utf8.encode(content);
+      archive.addFile(ArchiveFile(entryName, bytes.length, bytes));
+    } catch (_) {
+      // Asset missing in this build — skip silently.
+    }
   }
 
   Future<String> _writeToTempFile(Uint8List bytes, String fileName) async {
