@@ -110,7 +110,7 @@ final class ExportImportBloc
         emit(
           ExportImportState.error(
             data: data,
-            error: const ImportError(payload: ImportErrorType.invalidFile),
+            error: const ImportError(payload: ImportErrorType.fileNotFound),
           ),
         );
         return;
@@ -119,6 +119,7 @@ final class ExportImportBloc
       await _importUsecase.importNotes(
         password: event.password,
         filePath: file.path ?? '',
+        fileBytes: await file.readAsBytes(),
         policy: event.policy,
       );
 

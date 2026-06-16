@@ -13,19 +13,23 @@ mixin _ImportHelper {
     );
     if (result == null) return;
 
-    final file = await FilePicker.pickFile(
-      type: FileType.custom,
-      allowedExtensions: ['zip'],
-    );
-
-    if (context.mounted) {
-      context.read<ExportImportBloc>().add(
-        ExportImportEvent.import(
-          file: file,
-          password: result.password,
-          policy: result.policy,
-        ),
+    try {
+      final file = await FilePicker.pickFile(
+        type: FileType.custom,
+        allowedExtensions: ['zip'],
       );
+
+      if (context.mounted) {
+        context.read<ExportImportBloc>().add(
+          ExportImportEvent.import(
+            file: file,
+            password: result.password,
+            policy: result.policy,
+          ),
+        );
+      }
+    } catch (e) {
+      log('FilePicker.pickFile: ${e.toString()}', name: 'ExportImportScreen');
     }
   }
 }

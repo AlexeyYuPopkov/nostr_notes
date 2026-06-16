@@ -120,6 +120,7 @@
     "exportImportImportInvalidFileError": "Этот файл не является корректной резервной копией заметок.",
     "exportImportImportWrongPasswordError": "Неверный пароль или резервная копия повреждена.",
     "exportImportImportAuthError": "Чтобы импортировать заметки, нужно войти в аккаунт.",
+    "exportImportImportFileNotFoundError": "Файл не найден.",
     "exportImportImportSuccess": "Заметки успешно импортированы",
     "exportImportExportSuccess": "Заметки успешно экспортированы",
     "exportImportShareUnavailable": "Функция «Поделиться» недоступна на этом устройстве",

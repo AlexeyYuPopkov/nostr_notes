@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/dialogs/dialog_button.dart';
@@ -95,6 +97,8 @@ final class _ExportImportView extends StatelessWidget
           l10n.exportImportImportWrongPasswordError,
         ImportErrorType.notAuthenticated => l10n.exportImportImportAuthError,
         ImportErrorType.unknown => null,
+        ImportErrorType.fileNotFound =>
+          l10n.exportImportImportFileNotFoundError,
       },
       _ => null,
     };

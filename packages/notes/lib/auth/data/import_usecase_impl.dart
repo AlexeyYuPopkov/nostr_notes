@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
 import 'package:common/services/event_store/database/daos/outbox_dao_interface.dart';
@@ -50,9 +51,10 @@ final class ImportUsecaseImpl implements ImportUsecase {
   Future<void> importNotes({
     required String password,
     String filePath = '',
+    Uint8List? fileBytes,
     ImportPolicy policy = const ImportPolicy.mergeContent(),
   }) async {
-    final payload = await _readFileAndZip(filePath);
+    final payload = await _readFileAndZip(filePath, fileBytes);
 
     final session = _sessionUsecase.currentSession;
     final pubkey = session.pubkey;
@@ -122,9 +124,12 @@ final class ImportUsecaseImpl implements ImportUsecase {
     }
   }
 
-  Future<BackupPayload> _readFileAndZip(String filePath) async {
+  Future<BackupPayload> _readFileAndZip(
+    String filePath,
+    Uint8List? fileBytes,
+  ) async {
     try {
-      final bytes = await _readFile(filePath);
+      final bytes = fileBytes ?? await _readFile(filePath);
       final archive = ZipDecoder().decodeBytes(bytes);
       final jsonFile = archive.findFile(ExportUsecaseImpl.archivedFileName);
       if (jsonFile == null) {

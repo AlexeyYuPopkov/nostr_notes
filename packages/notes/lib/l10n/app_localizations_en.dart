@@ -389,6 +389,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'You need to be signed in to import notes.';
 
   @override
+  String get exportImportImportFileNotFoundError => 'File not found.';
+
+  @override
   String get exportImportImportSuccess => 'Notes imported successfully';
 
   @override

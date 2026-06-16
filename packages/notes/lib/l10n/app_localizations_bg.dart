@@ -395,6 +395,9 @@ class AppLocalizationsBg extends AppLocalizations {
       'За да внесете бележки, трябва да влезете в акаунта.';
 
   @override
+  String get exportImportImportFileNotFoundError => 'Файлът не е намерен.';
+
+  @override
   String get exportImportImportSuccess => 'Бележките са успешно внесени';
 
   @override

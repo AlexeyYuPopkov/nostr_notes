@@ -396,6 +396,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'Чтобы импортировать заметки, нужно войти в аккаунт.';
 
   @override
+  String get exportImportImportFileNotFoundError => 'Файл не найден.';
+
+  @override
   String get exportImportImportSuccess => 'Заметки успешно импортированы';
 
   @override

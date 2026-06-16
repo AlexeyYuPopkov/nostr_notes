@@ -778,6 +778,12 @@ abstract class AppLocalizations {
   /// **'You need to be signed in to import notes.'**
   String get exportImportImportAuthError;
 
+  /// No description provided for @exportImportImportFileNotFoundError.
+  ///
+  /// In en, this message translates to:
+  /// **'File not found.'**
+  String get exportImportImportFileNotFoundError;
+
   /// No description provided for @exportImportImportSuccess.
   ///
   /// In en, this message translates to:

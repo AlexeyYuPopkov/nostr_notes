@@ -63,6 +63,12 @@ final class ErrorState extends NotePreviewState {
 
 final class WillExportNoteState extends NotePreviewState {
   const WillExportNoteState({required super.data});
+
+  @override
+  bool operator ==(Object other) => identical(this, other);
+
+  @override
+  int get hashCode => identityHashCode(this);
 }
 
 final class ExportNoteSuccessState extends NotePreviewState {
@@ -78,5 +84,8 @@ final class ExportNoteSuccessState extends NotePreviewState {
   });
 
   @override
-  List<Object?> get props => [data, filePath, bytes, fileName];
+  bool operator ==(Object other) => identical(this, other);
+
+  @override
+  int get hashCode => identityHashCode(this);
 }

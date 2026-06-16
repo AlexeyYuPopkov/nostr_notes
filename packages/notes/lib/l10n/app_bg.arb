@@ -120,6 +120,7 @@
     "exportImportImportInvalidFileError": "Този файл не е валидно резервно копие на бележки.",
     "exportImportImportWrongPasswordError": "Грешна парола или резервното копие е повредено.",
     "exportImportImportAuthError": "За да внесете бележки, трябва да влезете в акаунта.",
+    "exportImportImportFileNotFoundError": "Файлът не е намерен.",
     "exportImportImportSuccess": "Бележките са успешно внесени",
     "exportImportExportSuccess": "Бележките са успешно изнесени",
     "exportImportShareUnavailable": "Функцията за споделяне не е налична на това устройство",

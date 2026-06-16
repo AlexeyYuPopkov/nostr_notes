@@ -120,6 +120,7 @@
     "exportImportImportInvalidFileError": "This file isn't a valid notes backup.",
     "exportImportImportWrongPasswordError": "Wrong password, or the backup is corrupted.",
     "exportImportImportAuthError": "You need to be signed in to import notes.",
+    "exportImportImportFileNotFoundError": "File not found.",
     "exportImportImportSuccess": "Notes imported successfully",
     "exportImportExportSuccess": "Notes exported successfully",
     "exportImportShareUnavailable": "Sharing is not available on this device",

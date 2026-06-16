@@ -44,10 +44,22 @@ sealed class ExportImportState extends Equatable {
 
 final class WillExport extends ExportImportState {
   const WillExport({required super.data});
+
+  @override
+  bool operator ==(Object other) => identical(this, other);
+
+  @override
+  int get hashCode => identityHashCode(this);
 }
 
 final class WillImport extends ExportImportState {
   const WillImport({required super.data});
+
+  @override
+  bool operator ==(Object other) => identical(this, other);
+
+  @override
+  int get hashCode => identityHashCode(this);
 }
 
 final class IdleState extends ExportImportState {
@@ -75,11 +87,20 @@ final class SuccessState extends ExportImportState {
   });
 
   @override
-  List<Object?> get props => [data, filePath, fileName];
+  bool operator ==(Object other) => identical(this, other);
+
+  @override
+  int get hashCode => identityHashCode(this);
 }
 
 final class ImportSuccessState extends ExportImportState {
   const ImportSuccessState({required super.data});
+
+  @override
+  bool operator ==(Object other) => identical(this, other);
+
+  @override
+  int get hashCode => identityHashCode(this);
 }
 
 final class ErrorState extends ExportImportState {
