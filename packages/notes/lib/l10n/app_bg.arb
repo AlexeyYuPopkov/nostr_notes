@@ -112,6 +112,8 @@
     "exportImportPasswordDialogTitle": "Задай парола за износ",
     "exportImportPasswordDialogHint": "Оставете празно за износ без криптиране",
     "exportImportPasswordDialogTextFieldHint": "Парола (незадължително)",
+    "exportImportExportFileNameHint": "Име на файл (незадължително)",
+    "exportImportExportFileNameInvalid": "Въведете валидно име на файл",
     "exportImportExportEmptyError": "Няма бележки за износ",
     "exportImportExportEncryptionError": "Неуспешно криптиране на резервното копие. Опитайте отново.",
     "exportImportExportFileError": "Неуспешно създаване на файла с резервно копие. Опитайте отново.",

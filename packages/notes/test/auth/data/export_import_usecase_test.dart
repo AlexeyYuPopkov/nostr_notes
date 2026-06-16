@@ -137,7 +137,7 @@ void main() {
       );
 
       final (exportPath, _, _) = await exportSut.exportNotes(
-        params: const ExportParamsAll(password: password, fileUri: ''),
+        params: const ExportParamsAll(password: password),
       );
 
       await _clearNotes(eventStore);
@@ -155,7 +155,7 @@ void main() {
 
     test('returns empty bytes when no notes in the store', () async {
       final (_, resultBytes, _) = await exportSut.exportNotes(
-        params: const ExportParamsAll(password: password, fileUri: ''),
+        params: const ExportParamsAll(password: password),
       );
       expect(resultBytes, isEmpty);
     });
@@ -172,7 +172,7 @@ void main() {
       );
 
       final (filePath, _, _) = await exportSut.exportNotes(
-        params: const ExportParamsAll(password: '', fileUri: ''),
+        params: const ExportParamsAll(password: ''),
       );
       addTearDown(() => File(filePath).deleteSync());
 
@@ -196,6 +196,49 @@ void main() {
       );
     });
 
+    group('file name', () {
+      Future<String> exportFileNameFor(String? fileName) async {
+        final note = await noteCryptoUseCase.decryptNote(
+          NoteMapper.fromJsonStr(NotesFixtures.eventJson1)!,
+        );
+        await _seedEncryptedNote(
+          eventStore: eventStore,
+          noteCryptoUseCase: noteCryptoUseCase,
+          note: note,
+        );
+        final (filePath, _, name) = await exportSut.exportNotes(
+          params: ExportParamsAll(password: password, fileName: fileName),
+        );
+        addTearDown(() => File(filePath).deleteSync());
+        return name;
+      }
+
+      test('uses timestamped default when no custom name is given', () async {
+        expect(await exportFileNameFor(null), startsWith('notes_backup_'));
+      });
+
+      test('falls back to default for a blank custom name', () async {
+        expect(await exportFileNameFor('   '), startsWith('notes_backup_'));
+      });
+
+      test('uses the custom name and appends .zip', () async {
+        expect(await exportFileNameFor('my notes'), 'my notes.zip');
+      });
+
+      test('does not double the .zip extension', () async {
+        expect(await exportFileNameFor('backup.zip'), 'backup.zip');
+      });
+
+      test('strips path separators and illegal characters', () async {
+        expect(await exportFileNameFor('../../etc/pa:ss'), 'etcpass.zip');
+      });
+
+      test('falls back to default when only illegal/dot chars remain',
+          () async {
+        expect(await exportFileNameFor('...'), startsWith('notes_backup_'));
+      });
+    });
+
     test(
       'encrypted export JSON has encrypted flag, salt, and iterations',
       () async {
@@ -210,7 +253,7 @@ void main() {
         );
 
         final (filePath, _, _) = await exportSut.exportNotes(
-          params: const ExportParamsAll(password: password, fileUri: ''),
+          params: const ExportParamsAll(password: password),
         );
         addTearDown(() => File(filePath).deleteSync());
 
@@ -235,7 +278,7 @@ void main() {
       );
 
       final (filePath, _, _) = await exportSut.exportNotes(
-        params: const ExportParamsAll(password: password, fileUri: ''),
+        params: const ExportParamsAll(password: password),
       );
       addTearDown(() => File(filePath).deleteSync());
 
@@ -262,7 +305,7 @@ void main() {
       );
 
       final (filePath, _, _) = await exportSut.exportNotes(
-        params: const ExportParamsAll(password: password, fileUri: ''),
+        params: const ExportParamsAll(password: password),
       );
       addTearDown(() => File(filePath).deleteSync());
 
@@ -302,7 +345,7 @@ void main() {
         );
 
         final (filePath, _, _) = await exportSut.exportNotes(
-          params: const ExportParamsAll(password: password, fileUri: ''),
+          params: const ExportParamsAll(password: password),
         );
         addTearDown(() => File(filePath).deleteSync());
 
@@ -352,7 +395,7 @@ void main() {
       );
 
       final (filePath, _, _) = await exportSut.exportNotes(
-        params: const ExportParamsAll(password: password, fileUri: ''),
+        params: const ExportParamsAll(password: password),
       );
       addTearDown(() => File(filePath).deleteSync());
 
@@ -434,7 +477,7 @@ void main() {
         );
 
         final (exportPath, _, _) = await exportSut.exportNotes(
-          params: const ExportParamsAll(password: password, fileUri: ''),
+          params: const ExportParamsAll(password: password),
         );
         addTearDown(() => File(exportPath).deleteSync());
 
@@ -484,7 +527,7 @@ void main() {
         );
 
         final (exportPath, _, _) = await exportSut.exportNotes(
-          params: const ExportParamsAll(password: password, fileUri: ''),
+          params: const ExportParamsAll(password: password),
         );
         addTearDown(() => File(exportPath).deleteSync());
 
@@ -514,7 +557,7 @@ void main() {
           );
 
           final (exportPath, _, _) = await exportSut.exportNotes(
-            params: const ExportParamsAll(password: password, fileUri: ''),
+            params: const ExportParamsAll(password: password),
           );
           addTearDown(() => File(exportPath).deleteSync());
 
@@ -554,7 +597,7 @@ void main() {
           );
 
           final (exportPath, _, _) = await exportSut.exportNotes(
-            params: const ExportParamsAll(password: '', fileUri: ''),
+            params: const ExportParamsAll(password: ''),
           );
           addTearDown(() => File(exportPath).deleteSync());
 
@@ -592,7 +635,7 @@ void main() {
         );
 
         final (exportPath, _, _) = await exportSut.exportNotes(
-          params: const ExportParamsAll(password: password, fileUri: ''),
+          params: const ExportParamsAll(password: password),
         );
         addTearDown(() => File(exportPath).deleteSync());
 
@@ -626,7 +669,7 @@ void main() {
         );
 
         final (exportPath, _, _) = await exportSut.exportNotes(
-          params: const ExportParamsAll(password: password, fileUri: ''),
+          params: const ExportParamsAll(password: password),
         );
         addTearDown(() => File(exportPath).deleteSync());
 
@@ -743,7 +786,7 @@ void main() {
           );
 
           final (exportPath, _, _) = await exportSut.exportNotes(
-            params: const ExportParamsAll(password: password, fileUri: ''),
+            params: const ExportParamsAll(password: password),
           );
           addTearDown(() => File(exportPath).deleteSync());
 

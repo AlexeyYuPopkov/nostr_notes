@@ -80,7 +80,7 @@ final class ExportUsecaseImpl implements ExportUsecase {
         );
       }
 
-      final fileName = _fileName();
+      final fileName = _fileName(params.fileName);
       final Uint8List zipBytes;
       final String filePath;
       try {
@@ -162,10 +162,37 @@ final class ExportUsecaseImpl implements ExportUsecase {
     return file.path;
   }
 
-  String _fileName() {
+  String _fileName(String? customName) {
+    final sanitized = _sanitizeFileName(customName);
+    if (sanitized != null) return '$sanitized.zip';
+
     const filePrefix = 'notes_backup_';
     final timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
     return '$filePrefix$timestamp.zip';
+  }
+
+  /// Returns a safe base file name (no extension) from user input, or null to
+  /// fall back to the default. Strips path separators, characters illegal in
+  /// file names and leading dots so the name can never escape the temp dir.
+  String? _sanitizeFileName(String? raw) {
+    if (raw == null) return null;
+    var name = raw.trim();
+    if (name.isEmpty) return null;
+
+    // Drop a trailing ".zip" the user may have typed; it is re-appended later.
+    if (name.toLowerCase().endsWith('.zip')) {
+      name = name.substring(0, name.length - 4);
+    }
+
+    name = name
+        .replaceAll(RegExp(r'[\\/:*?"<>|\x00-\x1f]'), '')
+        .replaceAll(RegExp(r'^\.+'), '')
+        .trim();
+    if (name.isEmpty) return null;
+
+    const maxLength = 64;
+    if (name.length > maxLength) name = name.substring(0, maxLength);
+    return name;
   }
 
   Future<String> _encryptField(

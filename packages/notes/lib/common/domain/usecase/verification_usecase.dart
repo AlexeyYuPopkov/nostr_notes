@@ -20,17 +20,7 @@ final class VerificationUsecase implements Disposable {
   DateTime? _deniedAt;
   bool _isActive = true;
   bool _skipNextVerification = false;
-
-  /// True while the biometric system prompt is on screen. The prompt itself
-  /// toggles the app's active state (inactive → active); those lifecycle blips
-  /// must be ignored, otherwise a stale `inactive` re-shows the blur right after
-  /// a successful unlock.
   bool _isVerifying = false;
-
-  /// Latched once biometry becomes required (app was inactive longer than
-  /// [maxInactiveDuration]). Cleared only when biometry actually succeeds (or
-  /// the session is re-locked). While latched, a quick background/return cannot
-  /// slip past the check via the grace window.
   bool _reauthRequired = false;
 
   void setDeniedAtIfNeeded() {
@@ -39,9 +29,6 @@ final class VerificationUsecase implements Disposable {
 
   void resetDenyTime() => _deniedAt = null;
 
-  /// Call before triggering a controlled background (e.g. fullscreen ad).
-  /// The next biometry check will be skipped and the user will be allowed back
-  /// without being sent to the PIN screen.
   void skipNextVerification() {
     _skipNextVerification = true;
   }
@@ -67,10 +54,8 @@ final class VerificationUsecase implements Disposable {
               : TimerStream(isActive, debounceGuard),
         )
         .asyncExpand(
-          (isActive) => _evaluate(
-            isActive: isActive,
-            biometryRequest: biometryRequest,
-          ),
+          (isActive) =>
+              _evaluate(isActive: isActive, biometryRequest: biometryRequest),
         )
         .doOnData((e) {
           log(
@@ -112,7 +97,8 @@ final class VerificationUsecase implements Disposable {
 
     final denyTime = _deniedAt;
     final needsReauth =
-        _reauthRequired || (denyTime != null && _isOutdated(denyTime: denyTime));
+        _reauthRequired ||
+        (denyTime != null && _isOutdated(denyTime: denyTime));
 
     if (skip || !needsReauth) {
       // Returned within the grace window (or controlled background) — allow.

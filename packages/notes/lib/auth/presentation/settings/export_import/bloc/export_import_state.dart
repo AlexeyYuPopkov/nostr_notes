@@ -14,8 +14,10 @@ sealed class ExportImportState extends Equatable {
   const factory ExportImportState.idle({required ExportImportData data}) =
       IdleState;
 
-  const factory ExportImportState.loading({required ExportImportData data}) =
-      LoadingState;
+  const factory ExportImportState.loading({
+    required ExportImportData data,
+    double? progress,
+  }) = LoadingState;
 
   const factory ExportImportState.success({
     required ExportImportData data,
@@ -29,9 +31,16 @@ sealed class ExportImportState extends Equatable {
     required Object error,
   }) = ErrorState;
 
+  const factory ExportImportState.willImport({required ExportImportData data}) =
+      WillImport;
+
   const factory ExportImportState.importSuccess({
     required ExportImportData data,
   }) = ImportSuccessState;
+}
+
+final class WillImport extends ExportImportState {
+  const WillImport({required super.data});
 }
 
 final class IdleState extends ExportImportState {
@@ -39,7 +48,11 @@ final class IdleState extends ExportImportState {
 }
 
 final class LoadingState extends ExportImportState {
-  const LoadingState({required super.data});
+  final double? progress;
+  const LoadingState({required super.data, this.progress});
+
+  @override
+  List<Object?> get props => [data, progress];
 }
 
 final class SuccessState extends ExportImportState {

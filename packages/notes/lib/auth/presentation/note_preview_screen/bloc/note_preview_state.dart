@@ -26,6 +26,10 @@ sealed class NotePreviewState extends Equatable {
     required Object error,
   }) = ErrorState;
 
+  const factory NotePreviewState.willExportNote({
+    required NotePreviewData data,
+  }) = WillExportNoteState;
+
   const factory NotePreviewState.exportSuccess({
     required NotePreviewData data,
     required String filePath,
@@ -49,6 +53,10 @@ final class CannotDecryptState extends NotePreviewState {
 final class ErrorState extends NotePreviewState {
   final Object error;
   const ErrorState({required super.data, required this.error});
+}
+
+final class WillExportNoteState extends NotePreviewState {
+  const WillExportNoteState({required super.data});
 }
 
 final class ExportNoteSuccessState extends NotePreviewState {

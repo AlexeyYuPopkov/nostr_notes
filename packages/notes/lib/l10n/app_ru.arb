@@ -112,6 +112,8 @@
     "exportImportPasswordDialogTitle": "Задать пароль для экспорта",
     "exportImportPasswordDialogHint": "Оставьте пустым для экспорта без шифрования",
     "exportImportPasswordDialogTextFieldHint": "Пароль (необязательно)",
+    "exportImportExportFileNameHint": "Имя файла (необязательно)",
+    "exportImportExportFileNameInvalid": "Введите корректное имя файла",
     "exportImportExportEmptyError": "Нет заметок для экспорта",
     "exportImportExportEncryptionError": "Не удалось зашифровать резервную копию. Попробуйте ещё раз.",
     "exportImportExportFileError": "Не удалось создать файл резервной копии. Попробуйте ещё раз.",

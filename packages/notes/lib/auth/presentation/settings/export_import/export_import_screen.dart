@@ -1,6 +1,7 @@
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:di_storage/di_storage.dart';
+import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
 import 'package:nostr_notes/services/ads/ads_service.dart';
 
@@ -27,6 +28,8 @@ import 'package:share_plus/share_plus.dart';
 import 'bloc/export_import_event.dart';
 import 'export_password_dialog.dart';
 
+part 'export_inport_part.dart';
+
 final class ExportImportScreen extends StatelessWidget {
   const ExportImportScreen({super.key});
 
@@ -42,11 +45,12 @@ final class ExportImportScreen extends StatelessWidget {
 }
 
 final class _ExportImportView extends StatelessWidget
-    with DialogHelper, _PassAlert {
+    with DialogHelper, _PassAlert, _ImportHelper {
   const _ExportImportView();
 
   void _listener(BuildContext context, ExportImportState state) async {
-    ProgressHud.of(context)?.setLoading(isLoading: state is LoadingState);
+    final hud = ProgressHud.of(context);
+    hud?.setLoading(isLoading: state is LoadingState);
 
     final l10n = context.l10n;
 
@@ -74,6 +78,10 @@ final class _ExportImportView extends StatelessWidget
       case IdleState():
         break;
       case LoadingState():
+        hud?.vm.progress = state.progress;
+        break;
+      case WillImport():
+        _onImport(context);
         break;
     }
   }
@@ -125,7 +133,7 @@ final class _ExportImportView extends StatelessWidget
                   subtitle: l10n.exportImportItemImportSubtitle,
                   position: .last,
                   trailing: const Icon(Icons.download, size: Sizes.iconMedium),
-                  onTap: isLoading ? null : () => _onImportTap(context),
+                  onTap: isLoading ? null : () => _onWillImportTap(context),
                 ),
               ],
             ),
@@ -138,49 +146,25 @@ final class _ExportImportView extends StatelessWidget
 
 mixin _PassAlert {
   Future<void> _onExportTap(BuildContext context) async {
-    DiStorage.shared.resolve<VerificationUsecase>().skipNextVerification();
-    await DiStorage.shared.resolve<AdsService>().showInterstitial();
-    if (!context.mounted) return;
-    final password = await showDialog<String>(
+    if (AppConfig.showAds) {
+      DiStorage.shared.resolve<VerificationUsecase>().skipNextVerification();
+      await DiStorage.shared.resolve<AdsService>().showInterstitial();
+    }
+    if (!context.mounted) {
+      return;
+    }
+    final result = await showDialog<ExportPasswordDialogResult>(
       context: context,
       barrierDismissible: true,
       builder: (_) => const ExportPasswordDialog(),
     );
-    if (password == null || !context.mounted) return;
+    if (result == null || !context.mounted) return;
     context.read<ExportImportBloc>().add(
-      ExportImportEvent.export(password: password),
+      ExportImportEvent.export(
+        password: result.password,
+        fileName: result.fileName,
+      ),
     );
-  }
-
-  Future<void> _onImportTap(BuildContext context) async {
-    DiStorage.shared.resolve<VerificationUsecase>().skipNextVerification();
-    await DiStorage.shared.resolve<AdsService>().showInterstitial();
-    if (!context.mounted) return;
-    final result = await showDialog<({String password, ImportPolicy policy})>(
-      context: context,
-      barrierDismissible: true,
-      builder: (_) => const _ImportAlertContent(),
-    );
-    if (result == null) return;
-
-    final file = await FilePicker.pickFile(
-      type: FileType.custom,
-      allowedExtensions: ['zip'],
-    );
-    if (file == null) return;
-
-    final bytes = await file.readAsBytes();
-
-    if (context.mounted) {
-      context.read<ExportImportBloc>().add(
-        ExportImportEvent.import(
-          filePath: file.path ?? '',
-          fileBytes: bytes,
-          password: result.password,
-          policy: result.policy,
-        ),
-      );
-    }
   }
 }
 

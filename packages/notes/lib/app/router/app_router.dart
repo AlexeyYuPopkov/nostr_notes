@@ -25,6 +25,7 @@ final class AppRouter {
   late final StreamSubscription sessionSubscription;
   final ScreensAssembly _screensAssembly;
   late final noteRouter = NoteRouter(screensAssembly: _screensAssembly);
+  final _navigatorKey = GlobalKey<NavigatorState>();
 
   AppRouter({ScreensAssembly screensAssembly = const AppScreensAssembly()})
     : _screensAssembly = screensAssembly {
@@ -40,8 +41,19 @@ final class AppRouter {
           }
         })
         .listen((session) async {
+          if (!session.isAuth || !session.isUnlocked) {
+            _dismissOverlays();
+          }
           _router.refresh();
         });
+  }
+
+  void _dismissOverlays() {
+    final navigatorState = _navigatorKey.currentState;
+    if (navigatorState != null) {
+      ScaffoldMessenger.maybeOf(navigatorState.context)?.clearSnackBars();
+      navigatorState.popUntil((route) => route is! PopupRoute);
+    }
   }
 
   final _homeScaffoldKey = GlobalKey<ScaffoldState>(
@@ -49,6 +61,7 @@ final class AppRouter {
   );
 
   late final _router = GoRouter(
+    navigatorKey: _navigatorKey,
     debugLogDiagnostics: true,
     redirect: (context, state) {
       if (state.matchedLocation.contains(AppRouterPath.contacts) ||

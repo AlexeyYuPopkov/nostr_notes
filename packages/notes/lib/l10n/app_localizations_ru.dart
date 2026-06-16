@@ -366,6 +366,13 @@ class AppLocalizationsRu extends AppLocalizations {
       'Пароль (необязательно)';
 
   @override
+  String get exportImportExportFileNameHint => 'Имя файла (необязательно)';
+
+  @override
+  String get exportImportExportFileNameInvalid =>
+      'Введите корректное имя файла';
+
+  @override
   String get exportImportExportEmptyError => 'Нет заметок для экспорта';
 
   @override

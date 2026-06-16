@@ -360,6 +360,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportImportPasswordDialogTextFieldHint => 'Password (optional)';
 
   @override
+  String get exportImportExportFileNameHint => 'File name (optional)';
+
+  @override
+  String get exportImportExportFileNameInvalid => 'Enter a valid file name';
+
+  @override
   String get exportImportExportEmptyError => 'No notes to export';
 
   @override

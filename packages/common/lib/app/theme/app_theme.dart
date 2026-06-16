@@ -5,6 +5,7 @@ import 'app_color_scheme.dart';
 import 'app_text_theme.dart';
 import 'gpt_markdown_theme_data.dart';
 import 'shimmer_colors.dart';
+import 'success_colors.dart';
 
 final class AppTheme {
   const AppTheme();
@@ -91,6 +92,7 @@ final class AppTheme {
       extensions: [
         ShimmerColors.fromBrightness(Brightness.light),
         AppGptMarkdownTheme.light(),
+        SuccessColors.light,
       ],
     );
   }
@@ -182,6 +184,7 @@ final class AppTheme {
       extensions: [
         ShimmerColors.fromBrightness(Brightness.light),
         AppGptMarkdownTheme.dark(),
+        SuccessColors.dark,
       ],
     );
   }

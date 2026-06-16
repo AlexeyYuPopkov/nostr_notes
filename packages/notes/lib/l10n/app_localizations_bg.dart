@@ -365,6 +365,13 @@ class AppLocalizationsBg extends AppLocalizations {
       'Парола (незадължително)';
 
   @override
+  String get exportImportExportFileNameHint => 'Име на файл (незадължително)';
+
+  @override
+  String get exportImportExportFileNameInvalid =>
+      'Въведете валидно име на файл';
+
+  @override
   String get exportImportExportEmptyError => 'Няма бележки за износ';
 
   @override

@@ -730,6 +730,18 @@ abstract class AppLocalizations {
   /// **'Password (optional)'**
   String get exportImportPasswordDialogTextFieldHint;
 
+  /// No description provided for @exportImportExportFileNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'File name (optional)'**
+  String get exportImportExportFileNameHint;
+
+  /// No description provided for @exportImportExportFileNameInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid file name'**
+  String get exportImportExportFileNameInvalid;
+
   /// No description provided for @exportImportExportEmptyError.
   ///
   /// In en, this message translates to:

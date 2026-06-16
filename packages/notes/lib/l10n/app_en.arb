@@ -112,6 +112,8 @@
     "exportImportPasswordDialogTitle": "Set Export Password",
     "exportImportPasswordDialogHint": "Leave empty to export without encryption",
     "exportImportPasswordDialogTextFieldHint": "Password (optional)",
+    "exportImportExportFileNameHint": "File name (optional)",
+    "exportImportExportFileNameInvalid": "Enter a valid file name",
     "exportImportExportEmptyError": "No notes to export",
     "exportImportExportEncryptionError": "Couldn't encrypt the backup. Please try again.",
     "exportImportExportFileError": "Couldn't create the backup file. Please try again.",

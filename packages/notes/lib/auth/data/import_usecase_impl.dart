@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
 import 'package:common/services/event_store/database/daos/outbox_dao_interface.dart';
@@ -51,10 +50,9 @@ final class ImportUsecaseImpl implements ImportUsecase {
   Future<void> importNotes({
     required String password,
     String filePath = '',
-    Uint8List? fileBytes,
     ImportPolicy policy = const ImportPolicy.mergeContent(),
   }) async {
-    final payload = await _readFile(filePath, fileBytes);
+    final payload = await _readFileAndZip(filePath);
 
     final session = _sessionUsecase.currentSession;
     final pubkey = session.pubkey;
@@ -124,19 +122,9 @@ final class ImportUsecaseImpl implements ImportUsecase {
     }
   }
 
-  Future<BackupPayload> _readFile(String filePath, Uint8List? fileBytes) async {
-    late final Uint8List bytes;
-    if (fileBytes != null) {
-      bytes = fileBytes;
-    } else {
-      final file = File(filePath);
-      if (!await file.exists()) {
-        throw const ImportError(payload: ImportErrorType.invalidFile);
-      }
-      bytes = await file.readAsBytes();
-    }
-
+  Future<BackupPayload> _readFileAndZip(String filePath) async {
     try {
+      final bytes = await _readFile(filePath);
       final archive = ZipDecoder().decodeBytes(bytes);
       final jsonFile = archive.findFile(ExportUsecaseImpl.archivedFileName);
       if (jsonFile == null) {
@@ -157,6 +145,14 @@ final class ImportUsecaseImpl implements ImportUsecase {
     } catch (e) {
       throw ImportError(payload: ImportErrorType.invalidFile, parentError: e);
     }
+  }
+
+  Future<List<int>> _readFile(String filePath) async {
+    final file = File(filePath);
+    if (!await file.exists()) {
+      throw const ImportError(payload: ImportErrorType.invalidFile);
+    }
+    return file.readAsBytes();
   }
 
   /// Loads and decrypts the stored notes whose d-tag matches any incoming one,

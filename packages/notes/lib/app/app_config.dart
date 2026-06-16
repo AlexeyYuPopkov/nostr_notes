@@ -18,6 +18,13 @@ final class AppConfig {
   static const apkGHPagesSha256Url =
       'https://alexeyyupopkov.github.io/downloads/nostr_notes-release.apk.sha256';
 
+  static final kIsTest = kIsWeb
+      ? false
+      : Platform.environment.containsKey('FLUTTER_TEST') &&
+            !const bool.fromEnvironment('INTEGRATION_TEST');
+
+  static final showAds = !kDebugMode && !kIsTest;
+
   /// Developer's lightning address for in-app donations (LUD-16).
   static String get kDevLightningAddress => _env.devLightningAddress;
 
@@ -31,11 +38,6 @@ final class AppConfig {
     'IN_MEMORY_STORAGE',
     defaultValue: false,
   );
-
-  static final kIsTest = kIsWeb
-      ? false
-      : Platform.environment.containsKey('FLUTTER_TEST') &&
-            !const bool.fromEnvironment('INTEGRATION_TEST');
 
   /// Адрес реле из переменной среды (если задана)
   static String? get relayUrl {
