@@ -1,0 +1,4 @@
+"CFBundleDisplayName" = "Private Notes (Nostr)";
+"NSPhotoLibraryUsageDescription" = "This app needs access to the photo library to save images from notes.";
+"NSFaceIDUsageDescription" = "Unlock the app to access your private notes";
+"NSUserTrackingUsageDescription" = "This identifier will be used to deliver personalized ads to you.";

@@ -41,5 +41,11 @@
     </array>
     <key>NSFaceIDUsageDescription</key>
     <string>Unlock the app to access your private notes</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>ru</string>
+		<string>bg</string>
+	</array>
 </dict>
 </plist>
