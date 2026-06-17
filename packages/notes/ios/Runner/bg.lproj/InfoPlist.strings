@@ -1,0 +1,4 @@
+"CFBundleDisplayName" = "Private Notes (Nostr)";
+"NSPhotoLibraryUsageDescription" = "Приложението се нуждае от достъп до снимките, за да запазва изображения от бележките.";
+"NSFaceIDUsageDescription" = "Отключете приложението за достъп до вашите лични бележки";
+"NSUserTrackingUsageDescription" = "Този идентификатор ще се използва за показване на персонализирани реклами.";

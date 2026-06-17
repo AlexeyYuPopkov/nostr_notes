@@ -20,6 +20,7 @@
 		B22E2B7C2F71D99B00418B22 /* crypto_module in Frameworks */ = {isa = PBXBuildFile; productRef = B22E2B7B2F71D99B00418B22 /* crypto_module */; };
 		B22E2B7F2F71DA5600418B22 /* crypto_module in Frameworks */ = {isa = PBXBuildFile; productRef = B22E2B7E2F71DA5600418B22 /* crypto_module */; };
 		B22E2B832F7318FF00418B22 /* crypto_module in Frameworks */ = {isa = PBXBuildFile; productRef = B22E2B822F7318FF00418B22 /* crypto_module */; };
+		6EE53B351DAA432D848DD721 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2D49135FAC1D4A68BF5324A7 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,9 @@
 		9A1B22606FF8D44655CBD887 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		9F4DD8CDD052DA32081780A6 /* Pods_RunnerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RunnerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB26CBC4F9FBCB8FEE5E6DBB /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		01096D128EBD49A2AF15B7B4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0DE6FEF785C04EE99EEB3635 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		39A7050141224B9EBA6A7668 /* bg */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bg; path = bg.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +157,7 @@
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
 				97C147021CF9000F007C117D /* Info.plist */,
+				2D49135FAC1D4A68BF5324A7 /* InfoPlist.strings */,
 				1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */,
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
@@ -246,6 +251,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ru,
+				bg,
 				Base,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
@@ -279,6 +286,7 @@
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
+				6EE53B351DAA432D848DD721 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +413,16 @@
 				97C147001CF9000F007C117D /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2D49135FAC1D4A68BF5324A7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				01096D128EBD49A2AF15B7B4 /* en */,
+				0DE6FEF785C04EE99EEB3635 /* ru */,
+				39A7050141224B9EBA6A7668 /* bg */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

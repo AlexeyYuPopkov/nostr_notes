@@ -174,7 +174,9 @@ final class ExportUsecaseImpl implements ExportUsecase {
   }
 
   Future<String> _writeToTempFile(Uint8List bytes, String fileName) async {
-    final file = File('${(await getTemporaryDirectory()).path}/$fileName');
+    final dir = await getTemporaryDirectory();
+    await dir.create(recursive: true);
+    final file = File('${dir.path}/$fileName');
     await file.writeAsBytes(bytes);
     return file.path;
   }

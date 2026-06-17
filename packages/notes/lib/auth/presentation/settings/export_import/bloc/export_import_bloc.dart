@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/app_config.dart';
@@ -119,7 +122,12 @@ final class ExportImportBloc
       await _importUsecase.importNotes(
         password: event.password,
         filePath: file.path ?? '',
-        fileBytes: await file.readAsBytes(),
+        fileBytes: file.path != null
+            ? await File(file.path!).readAsBytes()
+            : await file.readAsByteStream().fold<List<int>>(
+                [],
+                (buf, chunk) => buf..addAll(chunk),
+              ).then(Uint8List.fromList),
         policy: event.policy,
       );
 
