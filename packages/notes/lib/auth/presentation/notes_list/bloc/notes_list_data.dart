@@ -5,34 +5,56 @@ import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import '../tabs/notes_list_tab.dart';
 
 final class NotesListData extends Equatable {
-  final List<Note> notes;
+  /// Full, decrypted set of the user's notes.
+  final List<Note> allNotes;
+
+  /// Subset of [allNotes] matching [searchString]. Only meaningful while
+  /// [searchString] is non-empty.
+  final List<Note> filtered;
+
+  /// Current notes-list search query (empty = no active search).
+  final String searchString;
+
   final List<NotesListSection> sections;
   final NotesListTab tab;
 
   const NotesListData._({
-    required this.notes,
+    required this.allNotes,
+    required this.filtered,
+    required this.searchString,
     required this.sections,
     required this.tab,
   });
 
+  /// Notes to display: the filtered subset while searching, otherwise all.
+  List<Note> get notes => searchString.trim().isEmpty ? allNotes : filtered;
+
+  bool get isSearching => searchString.trim().isNotEmpty;
+
   factory NotesListData.initial() {
     return const NotesListData._(
-      notes: [],
+      allNotes: [],
+      filtered: [],
+      searchString: '',
       sections: [],
       tab: NotesListTab.all(),
     );
   }
 
   @override
-  List<Object?> get props => [notes, sections, tab];
+  List<Object?> get props => [allNotes, filtered, searchString, sections, tab];
 
   NotesListData copyWith({
-    List<Note>? notes,
+    List<Note>? allNotes,
+    List<Note>? filtered,
+    String? searchString,
     List<NotesListSection>? sections,
     NotesListTab? tab,
   }) {
     return NotesListData._(
-      notes: notes ?? this.notes,
+      allNotes: allNotes ?? this.allNotes,
+      filtered: filtered ?? this.filtered,
+      searchString: searchString ?? this.searchString,
       sections: sections ?? this.sections,
       tab: tab ?? this.tab,
     );

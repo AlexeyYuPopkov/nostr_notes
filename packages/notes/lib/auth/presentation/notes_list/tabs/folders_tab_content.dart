@@ -32,7 +32,7 @@ final class FoldersTabContentVM extends ChangeNotifier {
   ) {
     final folders = createFolders(notes);
     return FoldersTabContentVM._(
-      sections: createSections(notes, folder, l10n),
+      sections: createSectionsSync(notes, folder, l10n),
       folders: folders,
       folder: folder,
     );
@@ -42,24 +42,32 @@ final class FoldersTabContentVM extends ChangeNotifier {
   List<CategoryType> getFolders() => _folders.keys.toList();
   CategoryType? get folder => _folder;
 
-  void setNotes(List<Note> notes, AppLocalizations l10n) {
+  Future<void> setNotes(List<Note> notes, AppLocalizations l10n) async {
     _folders = createFolders(notes);
-    _sections = createSections(notes, _folder, l10n);
+    _sections = await createSections(notes, _folder, l10n);
     notifyListeners();
   }
 
-  void setFolder(CategoryType? folder, AppLocalizations l10n) {
+  Future<void> setFolder(CategoryType? folder, AppLocalizations l10n) async {
     _folder = folder;
     if (folder == null) {
       _sections = [];
     } else {
-      _sections = createSections(_folders[folder] ?? [], folder, l10n);
+      _sections = await createSections(_folders[folder] ?? [], folder, l10n);
     }
 
     notifyListeners();
   }
 
-  static List<NotesListSection> createSections(
+  static Future<List<NotesListSection>> createSections(
+    List<Note> notes,
+    CategoryType? folder,
+    AppLocalizations l10n,
+  ) async {
+    return createSectionsSync(notes, folder, l10n);
+  }
+
+  static List<NotesListSection> createSectionsSync(
     List<Note> notes,
     CategoryType? folder,
     AppLocalizations l10n,
@@ -69,7 +77,7 @@ final class FoldersTabContentVM extends ChangeNotifier {
     }
     final filtered = filterNotes(notes, folder);
 
-    final sections = NotesListSection.groupNotesByDate(
+    final sections = NotesListSection.groupNotesByDateSync(
       notes: filtered,
       l10n: l10n,
     );
@@ -321,6 +329,8 @@ final class _FolderDetail extends StatelessWidget with LabelsPickerHelper {
             sections: sections,
             onTap: onTap,
             scrollSectionsVm: _scrollSectionsVm,
+            showSearch: false,
+            hasAnyNotes: sections.isNotEmpty,
           ),
         ),
       ],

@@ -21,6 +21,8 @@ sealed class NotesListEvent extends Equatable {
   const factory NotesListEvent.selectFolder(NotesListTab tab) =
       SelectFolderEvent;
 
+  const factory NotesListEvent.search(String query) = SearchNotesEvent;
+
   @override
   List<Object?> get props => const [];
 }
@@ -69,4 +71,11 @@ final class SelectFolderEvent extends NotesListEvent {
   const SelectFolderEvent(this.tab);
   @override
   List<Object?> get props => [tab];
+}
+
+final class SearchNotesEvent extends NotesListEvent {
+  final String query;
+  const SearchNotesEvent(this.query);
+  @override
+  List<Object?> get props => [query];
 }

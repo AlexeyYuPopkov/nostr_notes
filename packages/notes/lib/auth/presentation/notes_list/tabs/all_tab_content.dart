@@ -14,11 +14,15 @@ import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholde
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/common/presentation/layout/breakpoints.dart';
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
+import 'package:nostr_notes/l10n/localization.dart';
 
 final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
   final String? selectedNoteDTag;
   final bool isLoading;
   final List<NotesListSection> sections;
+  final String searchQuery;
+  final bool hasAnyNotes;
+  final bool showSearch;
   final ValueChanged<Note> onTap;
   final SectionScrollVm _scrollSectionsVm;
 
@@ -29,6 +33,9 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
     required this.sections,
     required this.onTap,
     required SectionScrollVm scrollSectionsVm,
+    this.searchQuery = '',
+    this.hasAnyNotes = false,
+    this.showSearch = true,
   }) : _scrollSectionsVm = scrollSectionsVm;
 
   @override
@@ -38,7 +45,11 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
       return const _ShimmersList();
     }
 
-    if (sections.isEmpty) {
+    final hasQuery = showSearch && searchQuery.trim().isNotEmpty;
+
+    // No notes at all and not searching → keep the existing "create first
+    // note" placeholder (small screens), without showing a search field.
+    if (!hasAnyNotes && !hasQuery) {
       final breakpoint = Breakpoint.activeBreakpointOf(context);
       if (breakpoint.isSmall) {
         return const NewNotePromptPlaceholder();
@@ -48,17 +59,18 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
     final mediaPadding = MediaQuery.paddingOf(context);
     final bloc = context.read<NotesListBloc>();
 
+    // Active search with no matches — search field stays pinned above the
+    // message (showSearch is always true when hasQuery is true).
+    if (sections.isEmpty && hasQuery) {
+      return const _NoSearchResults();
+    }
+
     return RefreshIndicator.adaptive(
       displacement: refreshDisplacement,
       onRefresh: () => _onRefresh(context),
       child: CustomScrollView(
         physics: const _ClampTopScrollPhysics(),
-        // scrollCacheExtent: const .pixels(600.0),
-        // controller: _scrollSectionsVm.scrollController,
         slivers: [
-          // SliverOverlapInjector(
-          //   handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-          // ),
           SliverList(
             delegate: SliverChildBuilderDelegate(childCount: sections.length, (
               context,
@@ -188,6 +200,26 @@ final class _ShimmersListState extends State<_ShimmersList> {
           position: ListItemPosition.fromIndex(
             index,
             length: _ShimmersList._placeholdersCount,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+final class _NoSearchResults extends StatelessWidget {
+  const _NoSearchResults();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(Sizes.indent4x),
+      child: Center(
+        child: Text(
+          context.l10n.notesListSearchNothingFound,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ),
       ),

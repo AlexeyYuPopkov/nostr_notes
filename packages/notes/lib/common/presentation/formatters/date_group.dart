@@ -8,7 +8,14 @@ import 'package:common/presentation/tools/list_item_position.dart';
 sealed class NotesListSection extends Equatable {
   const NotesListSection();
 
-  static List<NotesListSection> groupNotesByDate({
+  static Future<List<NotesListSection>> groupNotesByDate({
+    required List<Note> notes,
+    required AppLocalizations l10n,
+  }) async {
+    return groupNotesByDateSync(notes: notes, l10n: l10n);
+  }
+
+  static List<NotesListSection> groupNotesByDateSync({
     required List<Note> notes,
     required AppLocalizations l10n,
   }) {

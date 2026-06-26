@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/tabs/notes_list_tab.dart';
+import 'package:nostr_notes/auth/presentation/notes_list/widgets/notes_search_field.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
@@ -144,12 +145,17 @@ class _NotesListState extends State<NotesList> with DialogHelper {
                       const _SettingsButton(),
                     ],
                   ),
+
                   const SliverToBoxAdapter(
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: NotesListScreenToolbar(),
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: Sizes.indent),
+                        child: NotesListScreenToolbar(),
+                      ),
                     ),
                   ),
+                  const SliverToBoxAdapter(child: _SearchBar()),
                 ],
                 body: BlocListener<NotesListBloc, NotesListState>(
                   listenWhen: (a, b) => a.data.tab != b.data.tab,
@@ -213,21 +219,48 @@ final class _SettingsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return CupertinoButton(
-      child: SvgPicture.asset(
-        CommonIcons.profileIcon,
-        width: Sizes.icon,
-        height: Sizes.icon,
-        colorFilter: ColorFilter.mode(
-          theme.colorScheme.onSurfaceVariant,
-          BlendMode.srcIn,
+    return Tooltip(
+      message: context.l10n.settingsScreenTitle,
+      child: CupertinoButton(
+        child: SvgPicture.asset(
+          CommonIcons.profileIcon,
+          width: Sizes.icon,
+          height: Sizes.icon,
+          colorFilter: ColorFilter.mode(
+            theme.colorScheme.onSurfaceVariant,
+            BlendMode.srcIn,
+          ),
         ),
+        onPressed: () => _onNewNote(context),
       ),
-      onPressed: () => _onNewNote(context),
     );
   }
 
   void _onNewNote(BuildContext context) {
     RouteHandler.of(context)?.onRoute(const OnEndDrawer(), context);
+  }
+}
+
+final class _SearchBar extends StatelessWidget {
+  const _SearchBar();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<NotesListBloc, NotesListState, (NotesListTab, String)>(
+      selector: (state) {
+        return (state.data.tab, state.data.searchString);
+      },
+      builder: (context, data) {
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          child: data.$1 is FoldersTab
+              ? const SizedBox.shrink()
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Sizes.indent),
+                  child: NotesSearchField(initialQuery: data.$2),
+                ),
+        );
+      },
+    );
   }
 }
