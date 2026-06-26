@@ -545,6 +545,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notesListSearchNothingFound => 'Ничего не найдено';
 
   @override
+  String get notesListNewNoteTooltip => 'Новая заметка';
+
+  @override
   String get notesFoldersEmptyStatePlaceholder =>
       'Назначайте метки заметкам, чтобы группировать их по папкам';
 

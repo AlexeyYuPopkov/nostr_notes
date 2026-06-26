@@ -536,6 +536,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notesListSearchNothingFound => 'Nothing found';
 
   @override
+  String get notesListNewNoteTooltip => 'New note';
+
+  @override
   String get notesFoldersEmptyStatePlaceholder =>
       'Assign labels to notes to organize them into folders';
 

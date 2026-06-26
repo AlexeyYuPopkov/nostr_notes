@@ -170,6 +170,7 @@
     "notesListTabFolders": "Папки",
     "notesListSearchHint": "Търсене в бележките",
     "notesListSearchNothingFound": "Нищо не е намерено",
+    "notesListNewNoteTooltip": "Нова бележка",
     "notesFoldersEmptyStatePlaceholder": "Присвоявайте етикети на бележките, за да ги групирате в папки",
     "homeScreenEmptyStatePlaceholder": "Натиснете +, за да създадете бележка",
     "notesListSectionToday": "Днес",

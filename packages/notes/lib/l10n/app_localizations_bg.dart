@@ -543,6 +543,9 @@ class AppLocalizationsBg extends AppLocalizations {
   String get notesListSearchNothingFound => 'Нищо не е намерено';
 
   @override
+  String get notesListNewNoteTooltip => 'Нова бележка';
+
+  @override
   String get notesFoldersEmptyStatePlaceholder =>
       'Присвоявайте етикети на бележките, за да ги групирате в папки';
 

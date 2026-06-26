@@ -219,17 +219,20 @@ final class _SettingsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return CupertinoButton(
-      child: SvgPicture.asset(
-        CommonIcons.profileIcon,
-        width: Sizes.icon,
-        height: Sizes.icon,
-        colorFilter: ColorFilter.mode(
-          theme.colorScheme.onSurfaceVariant,
-          BlendMode.srcIn,
+    return Tooltip(
+      message: context.l10n.settingsScreenTitle,
+      child: CupertinoButton(
+        child: SvgPicture.asset(
+          CommonIcons.profileIcon,
+          width: Sizes.icon,
+          height: Sizes.icon,
+          colorFilter: ColorFilter.mode(
+            theme.colorScheme.onSurfaceVariant,
+            BlendMode.srcIn,
+          ),
         ),
+        onPressed: () => _onNewNote(context),
       ),
-      onPressed: () => _onNewNote(context),
     );
   }
 

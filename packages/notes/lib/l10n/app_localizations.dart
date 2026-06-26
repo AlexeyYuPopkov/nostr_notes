@@ -1030,6 +1030,12 @@ abstract class AppLocalizations {
   /// **'Nothing found'**
   String get notesListSearchNothingFound;
 
+  /// No description provided for @notesListNewNoteTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'New note'**
+  String get notesListNewNoteTooltip;
+
   /// No description provided for @notesFoldersEmptyStatePlaceholder.
   ///
   /// In en, this message translates to:

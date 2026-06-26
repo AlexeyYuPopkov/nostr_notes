@@ -326,6 +326,13 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
 
     _tabRepo.setTabIndex(event.tab.index);
     emit(NotesListState.common(data: data.copyWith(tab: event.tab)));
+
+    // Leaving with an active search → reset it so returning to "All" starts
+    // clean. Reuses the (restartable, async-safe) search handler to rebuild
+    // sections from the full set.
+    if (data.searchString.trim().isNotEmpty) {
+      add(const NotesListEvent.search(''));
+    }
   }
 
   Future<void> _onSearchNotes(
