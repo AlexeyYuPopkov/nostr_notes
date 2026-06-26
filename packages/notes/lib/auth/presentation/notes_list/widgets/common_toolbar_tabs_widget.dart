@@ -15,7 +15,7 @@ final class CommonToolbarTabsWidget extends StatelessWidget {
     required this.currentTab,
     required this.tabs,
     required this.onChangeTab,
-    this.padding = const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
+    this.padding = const EdgeInsets.symmetric(horizontal: Sizes.indent),
   });
   static const height = Sizes.indent4x;
 

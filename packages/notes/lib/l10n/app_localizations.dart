@@ -1018,6 +1018,18 @@ abstract class AppLocalizations {
   /// **'Folders'**
   String get notesListTabFolders;
 
+  /// No description provided for @notesListSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search notes'**
+  String get notesListSearchHint;
+
+  /// No description provided for @notesListSearchNothingFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing found'**
+  String get notesListSearchNothingFound;
+
   /// No description provided for @notesFoldersEmptyStatePlaceholder.
   ///
   /// In en, this message translates to:

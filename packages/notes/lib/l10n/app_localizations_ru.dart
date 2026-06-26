@@ -539,6 +539,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notesListTabFolders => 'Папки';
 
   @override
+  String get notesListSearchHint => 'Поиск по заметкам';
+
+  @override
+  String get notesListSearchNothingFound => 'Ничего не найдено';
+
+  @override
   String get notesFoldersEmptyStatePlaceholder =>
       'Назначайте метки заметкам, чтобы группировать их по папкам';
 

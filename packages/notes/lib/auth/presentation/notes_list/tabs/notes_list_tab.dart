@@ -56,6 +56,8 @@ final class AllNotesTab extends NotesListTab {
           selectedNoteDTag: params.selectedNoteDTag,
           isLoading: state is LoadingState,
           sections: state.data.sections,
+          searchQuery: state.data.searchString,
+          hasAnyNotes: state.data.allNotes.isNotEmpty,
           onTap: params.onTap,
           scrollSectionsVm: params._scrollSectionsVm,
         );

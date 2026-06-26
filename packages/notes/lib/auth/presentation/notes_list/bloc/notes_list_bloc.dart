@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:common/domain/error/app_error.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:nostr_notes/auth/presentation/notes_list/tabs/folders_tab_conten
 import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
 import 'package:nostr_notes/l10n/app_localizations.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
+import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/delete_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
@@ -96,6 +98,13 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
       _onSelectFolderEvent,
       transformer: (events, mapper) =>
           events.debounceTime(debounceGuard).switchMap(mapper),
+    );
+    on<SearchNotesEvent>(
+      _onSearchNotes,
+      transformer: (events, mapper) => restartable<SearchNotesEvent>()(
+        events.debounceTime(const Duration(milliseconds: 300)),
+        mapper,
+      ),
     );
   }
 
@@ -223,8 +232,12 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
 
       foldersVm.setNotes(event.notes, l10n);
 
-      final sections = NotesListSection.groupNotesByDate(
-        notes: event.notes,
+      final filtered = await _filterNotes(event.notes, data.searchString);
+      final visibleNotes = data.searchString.trim().isEmpty
+          ? event.notes
+          : filtered;
+      final sections = await NotesListSection.groupNotesByDate(
+        notes: visibleNotes,
         l10n: l10n,
       );
 
@@ -240,13 +253,21 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         emit(
           NotesListState.error(
             e: const SomeNotesWasNotDecrypted(),
-            data: data.copyWith(notes: event.notes, sections: sections),
+            data: data.copyWith(
+              allNotes: event.notes,
+              filtered: filtered,
+              sections: sections,
+            ),
           ),
         );
       } else {
         emit(
           NotesListState.common(
-            data: data.copyWith(notes: event.notes, sections: sections),
+            data: data.copyWith(
+              allNotes: event.notes,
+              filtered: filtered,
+              sections: sections,
+            ),
           ),
         );
       }
@@ -305,6 +326,51 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
 
     _tabRepo.setTabIndex(event.tab.index);
     emit(NotesListState.common(data: data.copyWith(tab: event.tab)));
+  }
+
+  Future<void> _onSearchNotes(
+    SearchNotesEvent event,
+    Emitter<NotesListState> emit,
+  ) async {
+    if (isClosed) {
+      return;
+    }
+
+    final query = event.query;
+    final filtered = await _filterNotes(data.allNotes, query);
+    final visibleNotes = query.trim().isEmpty ? data.allNotes : filtered;
+    final sections = await NotesListSection.groupNotesByDate(
+      notes: visibleNotes,
+      l10n: l10n,
+    );
+
+    emit(
+      NotesListState.common(
+        data: data.copyWith(
+          searchString: query,
+          filtered: filtered,
+          sections: sections,
+        ),
+      ),
+    );
+  }
+
+  /// Case-insensitive substring match over each note's content, summary and
+  /// label values. Notes are already decrypted in [NotesListData.allNotes], so
+  /// this is a pure in-memory filter — no DB access, no plaintext index.
+  Future<List<Note>> _filterNotes(List<Note> notes, String query) async {
+    final q = query.trim().toLowerCase();
+    if (q.isEmpty) {
+      return notes;
+    }
+    return notes.where((note) {
+      if (note.summary.toLowerCase().contains(q)) return true;
+      if (note.content.toLowerCase().contains(q)) return true;
+      for (final label in note.labels) {
+        if (label.textValue.toLowerCase().contains(q)) return true;
+      }
+      return false;
+    }).toList();
   }
 }
 

@@ -168,6 +168,8 @@
     "notesListScreenTitle": "Заметки",
     "notesListTabAll": "Все",
     "notesListTabFolders": "Папки",
+    "notesListSearchHint": "Поиск по заметкам",
+    "notesListSearchNothingFound": "Ничего не найдено",
     "notesFoldersEmptyStatePlaceholder": "Назначайте метки заметкам, чтобы группировать их по папкам",
     "homeScreenEmptyStatePlaceholder": "Нажмите +, чтобы создать заметку",
     "notesListSectionToday": "Сегодня",
