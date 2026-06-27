@@ -17,8 +17,11 @@ class _NotesSearchFieldState extends State<NotesSearchField> {
     text: widget.initialQuery,
   );
 
+  late final FocusNode _focusNode = FocusNode();
+
   @override
   void dispose() {
+    _focusNode.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -33,21 +36,24 @@ class _NotesSearchFieldState extends State<NotesSearchField> {
     final l10n = context.l10n;
     return TextField(
       controller: _controller,
+      focusNode: _focusNode,
       textInputAction: TextInputAction.search,
       onChanged: (value) => _onChanged(context, value),
+      onTapOutside: (event) => _focusNode.unfocus(),
       decoration: InputDecoration(
         isDense: true,
         hintText: l10n.notesListSearchHint,
         prefixIcon: const Icon(Icons.search),
-        suffixIcon: _controller.text.isEmpty
-            ? null
-            : IconButton(
+        suffixIcon: _controller.text.isNotEmpty
+            ? IconButton(
                 icon: const Icon(Icons.clear),
                 onPressed: () {
+                  _focusNode.unfocus();
                   _controller.clear();
                   _onChanged(context, '');
                 },
-              ),
+              )
+            : null,
         border: const OutlineInputBorder(),
       ),
     );
