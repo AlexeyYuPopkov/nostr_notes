@@ -12,7 +12,7 @@ final class NotesSearchField extends StatefulWidget {
   State<NotesSearchField> createState() => _NotesSearchFieldState();
 }
 
-class _NotesSearchFieldState extends State<NotesSearchField> {
+final class _NotesSearchFieldState extends State<NotesSearchField> {
   late final TextEditingController _controller = TextEditingController(
     text: widget.initialQuery,
   );

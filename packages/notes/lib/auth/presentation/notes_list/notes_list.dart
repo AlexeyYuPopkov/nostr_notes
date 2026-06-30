@@ -3,7 +3,9 @@ import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/tabs/notes_list_tab.dart';
@@ -43,6 +45,11 @@ class _NotesListState extends State<NotesList> with DialogHelper {
     scrollController: scrollController,
   );
 
+  /// Drives the overlaid `_Header` show/hide. Updated from scroll
+  /// notifications (not from the controller) so we never read a coordinating
+  /// controller that may have multiple attached positions.
+  final _headerVisible = ValueNotifier<bool>(true);
+
   @override
   void initState() {
     super.initState();
@@ -59,7 +66,37 @@ class _NotesListState extends State<NotesList> with DialogHelper {
   void dispose() {
     _vm.dispose();
     scrollController.dispose();
+    _headerVisible.dispose();
     super.dispose();
+  }
+
+  bool _onScrollNotification(ScrollNotification notification) {
+    // Reveal whenever the list is at (or above) the top. This branch only ever
+    // *shows* the header, so it never fights the "show on tab change" reset.
+    if (notification is ScrollUpdateNotification) {
+      final metrics = notification.metrics;
+      if (metrics.pixels <= metrics.minScrollExtent) {
+        _headerVisible.value = true;
+        return false;
+      }
+    }
+
+    // Hide/show only on user-driven scrolling. Programmatic scrolls (tab
+    // switch, relayout), momentum and the iOS bounce are NOT user scrolls, so
+    // they won't flip the header — and won't override `_headerVisible = true`
+    // set on tab change.
+    if (notification is UserScrollNotification &&
+        !notification.metrics.outOfRange) {
+      switch (notification.direction) {
+        case ScrollDirection.reverse:
+          _headerVisible.value = false; // dragging down → hide
+        case ScrollDirection.forward:
+          _headerVisible.value = true; // dragging up → reveal
+        case ScrollDirection.idle:
+          break;
+      }
+    }
+    return false;
   }
 
   void _listener(BuildContext context, NotesListState state) {
@@ -96,91 +133,142 @@ class _NotesListState extends State<NotesList> with DialogHelper {
           return DefaultTabController(
             length: NotesListTab.tabs.length,
             child: Scaffold(
-              floatingActionButton: breakpoint.isSmall ? const Fab() : null,
-              body: NestedScrollView(
-                key: _nestedScrollKey,
-                controller: scrollController,
-                headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                  SliverAppBar(
-                    pinned: true,
-                    title: ListenableBuilder(
-                      listenable: foldersVm,
-                      builder: (context, _) {
-                        return ValueListenableBuilder(
-                          valueListenable: _vm.currentItemNotifier,
-                          builder: (context, value, child) {
-                            final needsTitle =
-                                state.data.tab is FoldersTab &&
-                                foldersVm.folder == null;
-                            return AnimatedCrossFade(
-                              duration: const Duration(milliseconds: 200),
-                              firstChild: Text(
-                                context.l10n.notesListScreenTitle,
+              appBar: AppBar(
+                title: ListenableBuilder(
+                  listenable: foldersVm,
+                  builder: (context, _) {
+                    return ValueListenableBuilder(
+                      valueListenable: _vm.currentItemNotifier,
+                      builder: (context, value, child) {
+                        final needsTitle =
+                            state.data.tab is FoldersTab &&
+                            foldersVm.folder == null;
+                        return AnimatedCrossFade(
+                          duration: const Duration(milliseconds: 200),
+                          firstChild: Text(context.l10n.notesListScreenTitle),
+                          secondChild: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              value?.title ?? '',
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                                fontWeight: FontWeight.w600,
                               ),
-                              secondChild: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Text(
-                                  value?.title ?? '',
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    color: theme.colorScheme.onSurfaceVariant,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              crossFadeState: value == null || needsTitle
-                                  ? CrossFadeState.showFirst
-                                  : CrossFadeState.showSecond,
-                            );
-                          },
+                            ),
+                          ),
+                          crossFadeState: value == null || needsTitle
+                              ? CrossFadeState.showFirst
+                              : CrossFadeState.showSecond,
                         );
                       },
+                    );
+                  },
+                ),
+                actions: [
+                  if (const AppPlatform().isDesktopLayout)
+                    RefreshButton(
+                      vm: context.read<NotesListBloc>().refreshButtonVm,
+                      padding: const EdgeInsets.only(left: Sizes.indent2x),
+                      alignment: Alignment.centerRight,
                     ),
-                    actions: [
-                      if (const AppPlatform().isDesktopLayout)
-                        RefreshButton(
-                          vm: context.read<NotesListBloc>().refreshButtonVm,
-                          padding: const EdgeInsets.only(left: Sizes.indent2x),
-                          alignment: Alignment.centerRight,
+                  const _SettingsButton(),
+                ],
+              ),
+              floatingActionButton: breakpoint.isSmall ? const Fab() : null,
+              body: Stack(
+                children: [
+                  NotificationListener<ScrollNotification>(
+                    onNotification: _onScrollNotification,
+                    child: NestedScrollView(
+                      key: _nestedScrollKey,
+                      controller: scrollController,
+                      headerSliverBuilder: (context, _) => const <Widget>[],
+                      body: BlocListener<NotesListBloc, NotesListState>(
+                        listenWhen: (a, b) => a.data.tab != b.data.tab,
+                        listener: (context, state) {
+                          _headerVisible.value = true;
+                          DefaultTabController.of(context).animateTo(
+                            NotesListTab.tabs.indexOf(state.data.tab),
+                          );
+                        },
+                        child: TabBarView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            for (final tab in NotesListTab.tabs)
+                              tab.build(
+                                context,
+                                params: TabParams(
+                                  selectedNoteDTag: widget.selectedNoteDTag,
+                                  onTap: widget.onTap,
+                                  scrollSectionsVm: _vm,
+                                ),
+                              ),
+                          ],
                         ),
-                      const _SettingsButton(),
-                    ],
-                  ),
-
-                  const SliverToBoxAdapter(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: Sizes.indent),
-                        child: NotesListScreenToolbar(),
                       ),
                     ),
                   ),
-                  const SliverToBoxAdapter(child: _SearchBar()),
+                  _Header(visible: _headerVisible),
                 ],
-                body: BlocListener<NotesListBloc, NotesListState>(
-                  listenWhen: (a, b) => a.data.tab != b.data.tab,
-                  listener: (context, state) => DefaultTabController.of(
-                    context,
-                  ).animateTo(NotesListTab.tabs.indexOf(state.data.tab)),
-                  child: TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      for (final tab in NotesListTab.tabs)
-                        tab.build(
-                          context,
-                          params: TabParams(
-                            selectedNoteDTag: widget.selectedNoteDTag,
-                            onTap: widget.onTap,
-                            scrollSectionsVm: _vm,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
               ),
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+final class _Header extends StatelessWidget {
+  final ValueListenable<bool> visible;
+  const _Header({required this.visible});
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: visible,
+      builder: (context, isVisible, child) {
+        return AnimatedSlide(
+          duration: const Duration(milliseconds: 200),
+          offset: isVisible ? Offset.zero : const Offset(0.0, -1.0),
+          curve: Curves.easeInOut,
+          child: child,
+        );
+      },
+      child: ColoredBox(
+        color: Theme.of(context).colorScheme.surface,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: Sizes.indent),
+                child: NotesListScreenToolbar(),
+              ),
+            ),
+            BlocSelector<NotesListBloc, NotesListState, (NotesListTab, String)>(
+              selector: (state) {
+                return (state.data.tab, state.data.searchString);
+              },
+              builder: (context, data) {
+                return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: data.$1 is FoldersTab
+                      ? const SizedBox.shrink()
+                      : Padding(
+                          padding: const EdgeInsets.only(
+                            left: Sizes.indent,
+                            right: Sizes.indent,
+                            bottom: Sizes.indent,
+                          ),
+                          child: NotesSearchField(initialQuery: data.$2),
+                        ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -238,29 +326,5 @@ final class _SettingsButton extends StatelessWidget {
 
   void _onNewNote(BuildContext context) {
     RouteHandler.of(context)?.onRoute(const OnEndDrawer(), context);
-  }
-}
-
-final class _SearchBar extends StatelessWidget {
-  const _SearchBar();
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocSelector<NotesListBloc, NotesListState, (NotesListTab, String)>(
-      selector: (state) {
-        return (state.data.tab, state.data.searchString);
-      },
-      builder: (context, data) {
-        return AnimatedSwitcher(
-          duration: const Duration(milliseconds: 200),
-          child: data.$1 is FoldersTab
-              ? const SizedBox.shrink()
-              : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Sizes.indent),
-                  child: NotesSearchField(initialQuery: data.$2),
-                ),
-        );
-      },
-    );
   }
 }

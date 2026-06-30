@@ -1,6 +1,7 @@
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
@@ -15,6 +16,24 @@ import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/common/presentation/layout/breakpoints.dart';
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 import 'package:nostr_notes/l10n/localization.dart';
+import 'package:nostr_notes/auth/presentation/model/category_localization.dart';
+
+/// The toolbar + optional search field are drawn as an overlay above the list
+/// (see `_Header` in `notes_list.dart`), so each tab's scroll content needs a
+/// top spacer equal to that overlay's height.
+///
+/// Without the search field (Folders tab): toolbar ([Sizes.indent4x] = 32) +
+/// toolbar bottom padding ([Sizes.indent]) + header bottom spacer
+/// ([Sizes.indent]).
+const double kNotesListHeaderWithoutSearch = Sizes.indent4x + Sizes.indent;
+
+/// Approximate rendered height of [NotesSearchField] (dense outlined field with
+/// a leading/trailing icon button).
+const double _kSearchFieldHeight = 52.0;
+
+/// With the search field (All tab).
+const double kNotesListHeaderWithSearch =
+    kNotesListHeaderWithoutSearch + _kSearchFieldHeight;
 
 final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
   final String? selectedNoteDTag;
@@ -24,6 +43,8 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
   final bool hasAnyNotes;
   final bool showSearch;
   final ValueChanged<Note> onTap;
+  final VoidCallback? onBack;
+  final CategoryType? folder;
   final SectionScrollVm _scrollSectionsVm;
 
   const AllTabContent({
@@ -36,6 +57,8 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
     this.searchQuery = '',
     this.hasAnyNotes = false,
     this.showSearch = true,
+    this.onBack,
+    this.folder,
   }) : _scrollSectionsVm = scrollSectionsVm;
 
   @override
@@ -65,12 +88,42 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
       return const _NoSearchResults();
     }
 
+    final theme = Theme.of(context);
+    final folder = this.folder;
+
     return RefreshIndicator.adaptive(
       displacement: refreshDisplacement,
       onRefresh: () => _onRefresh(context),
       child: CustomScrollView(
         physics: const _ClampTopScrollPhysics(),
         slivers: [
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: showSearch
+                  ? kNotesListHeaderWithSearch
+                  : kNotesListHeaderWithoutSearch,
+            ),
+          ),
+          if (folder != null)
+            SliverToBoxAdapter(
+              child: CupertinoButton(
+                padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
+                onPressed: onBack,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.arrow_back_ios,
+                      size: Sizes.iconSmall,
+                      color: theme.colorScheme.onSurface,
+                    ),
+                    Text(
+                      folder.getLocalizedName(context),
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           SliverList(
             delegate: SliverChildBuilderDelegate(childCount: sections.length, (
               context,

@@ -202,7 +202,8 @@ final class _FolderGrid extends StatelessWidget {
     return ListView.separated(
       padding: EdgeInsets.fromLTRB(
         Sizes.indent2x,
-        Sizes.indent2x,
+        // Clear the overlaid header (toolbar only, no search field here).
+        kNotesListHeaderWithoutSearch,
         Sizes.indent2x,
         Sizes.indent2x + mediaPadding.bottom,
       ),
@@ -302,38 +303,16 @@ final class _FolderDetail extends StatelessWidget with LabelsPickerHelper {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Column(
-      children: [
-        CupertinoButton(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
-          onPressed: onBack,
-          child: Row(
-            children: [
-              Icon(
-                Icons.arrow_back_ios,
-                size: Sizes.iconSmall,
-                color: theme.colorScheme.onSurface,
-              ),
-              Text(
-                folder.getLocalizedName(context),
-                style: theme.textTheme.bodyLarge,
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: AllTabContent(
-            selectedNoteDTag: selectedNoteDTag,
-            isLoading: isLoading,
-            sections: sections,
-            onTap: onTap,
-            scrollSectionsVm: _scrollSectionsVm,
-            showSearch: false,
-            hasAnyNotes: sections.isNotEmpty,
-          ),
-        ),
-      ],
+    return AllTabContent(
+      selectedNoteDTag: selectedNoteDTag,
+      isLoading: isLoading,
+      sections: sections,
+      onTap: onTap,
+      scrollSectionsVm: _scrollSectionsVm,
+      showSearch: false,
+      hasAnyNotes: sections.isNotEmpty,
+      onBack: onBack,
+      folder: folder,
     );
   }
 }
