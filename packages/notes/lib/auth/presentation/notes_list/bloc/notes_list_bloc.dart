@@ -249,8 +249,6 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         return;
       }
 
-      foldersVm.setNotes(event.notes, l10n);
-
       final filtered = await _filterNotes(event.notes, data.searchString);
       final visibleNotes = data.searchString.trim().isEmpty
           ? event.notes
@@ -263,6 +261,8 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
       if (isClosed) {
         return;
       }
+
+      foldersVm.setNotes(event.notes, l10n);
 
       final hasDecryptionErrors = event.notes.any((n) => n.error != null);
 

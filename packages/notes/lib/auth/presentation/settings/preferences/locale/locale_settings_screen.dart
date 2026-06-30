@@ -71,5 +71,3 @@ extension on LanguageCode {
     };
   }
 }
-
-
