@@ -1,7 +1,6 @@
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
@@ -15,25 +14,16 @@ import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholde
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/common/presentation/layout/breakpoints.dart';
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
+import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
 import 'package:nostr_notes/l10n/localization.dart';
-import 'package:nostr_notes/auth/presentation/model/category_localization.dart';
 
-/// The toolbar + optional search field are drawn as an overlay above the list
-/// (see `_Header` in `notes_list.dart`), so each tab's scroll content needs a
-/// top spacer equal to that overlay's height.
-///
-/// Without the search field (Folders tab): toolbar ([Sizes.indent4x] = 32) +
-/// toolbar bottom padding ([Sizes.indent]) + header bottom spacer
-/// ([Sizes.indent]).
-const double kNotesListHeaderWithoutSearch = Sizes.indent4x + Sizes.indent;
-
-/// Approximate rendered height of [NotesSearchField] (dense outlined field with
-/// a leading/trailing icon button).
+const double kNotesListHeaderWithoutSearch = Sizes.indent4x + Sizes.indent2x;
 const double _kSearchFieldHeight = 52.0;
-
-/// With the search field (All tab).
 const double kNotesListHeaderWithSearch =
     kNotesListHeaderWithoutSearch + _kSearchFieldHeight;
+const double _kBackButtonHeight = 38.0;
+const double kNotesListHeaderWithFolderDetail =
+    kNotesListHeaderWithoutSearch + _kBackButtonHeight;
 
 final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
   final String? selectedNoteDTag;
@@ -42,9 +32,8 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
   final String searchQuery;
   final bool hasAnyNotes;
   final bool showSearch;
+  final bool showFolderBack;
   final ValueChanged<Note> onTap;
-  final VoidCallback? onBack;
-  final CategoryType? folder;
   final SectionScrollVm _scrollSectionsVm;
 
   const AllTabContent({
@@ -57,15 +46,19 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
     this.searchQuery = '',
     this.hasAnyNotes = false,
     this.showSearch = true,
-    this.onBack,
-    this.folder,
+    this.showFolderBack = false,
   }) : _scrollSectionsVm = scrollSectionsVm;
 
   @override
   Widget build(BuildContext context) {
     const refreshDisplacement = 80.0;
     if (isLoading) {
-      return const _ShimmersList();
+      final headerHeight = showSearch
+          ? kNotesListHeaderWithSearch
+          : showFolderBack
+          ? kNotesListHeaderWithFolderDetail
+          : kNotesListHeaderWithoutSearch;
+      return _ShimmersList(headerHeight: headerHeight);
     }
 
     final hasQuery = showSearch && searchQuery.trim().isNotEmpty;
@@ -88,9 +81,6 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
       return const _NoSearchResults();
     }
 
-    final theme = Theme.of(context);
-    final folder = this.folder;
-
     return RefreshIndicator.adaptive(
       displacement: refreshDisplacement,
       onRefresh: () => _onRefresh(context),
@@ -101,29 +91,11 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
             child: SizedBox(
               height: showSearch
                   ? kNotesListHeaderWithSearch
+                  : showFolderBack
+                  ? kNotesListHeaderWithFolderDetail
                   : kNotesListHeaderWithoutSearch,
             ),
           ),
-          if (folder != null)
-            SliverToBoxAdapter(
-              child: CupertinoButton(
-                padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
-                onPressed: onBack,
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_back_ios,
-                      size: Sizes.iconSmall,
-                      color: theme.colorScheme.onSurface,
-                    ),
-                    Text(
-                      folder.getLocalizedName(context),
-                      style: theme.textTheme.bodyLarge,
-                    ),
-                  ],
-                ),
-              ),
-            ),
           SliverList(
             delegate: SliverChildBuilderDelegate(childCount: sections.length, (
               context,
@@ -187,11 +159,7 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
   }
 }
 
-// Clamps the scroll at the top boundary (prevents iOS spring-bounce past
-// offset=0), while still dispatching OverscrollNotification so that
-// RefreshIndicator works. shouldAcceptUserOffset=true keeps pull-to-refresh
-// functional even when the list is shorter than the viewport.
-class _ClampTopScrollPhysics extends ScrollPhysics {
+final class _ClampTopScrollPhysics extends ScrollPhysics {
   const _ClampTopScrollPhysics({super.parent});
 
   @override
@@ -218,7 +186,8 @@ class _ClampTopScrollPhysics extends ScrollPhysics {
 
 final class _ShimmersList extends StatefulWidget {
   static const _placeholdersCount = 15;
-  const _ShimmersList();
+  final double headerHeight;
+  const _ShimmersList({required this.headerHeight});
 
   @override
   State<_ShimmersList> createState() => _ShimmersListState();
@@ -230,31 +199,61 @@ final class _ShimmersListState extends State<_ShimmersList> {
     _ShimmersList._placeholdersCount,
     (_) {
       final breakpoint = Breakpoint.activeBreakpointOf(context);
-
       final randomWidth =
           _expectedWidth * (0.3 + (0.4 * (UniqueKey().hashCode % 1000) / 1000));
-
-      if (breakpoint.isSmall) {
-        return randomWidth;
-      } else {
-        return LayoutConfig.maxBodyRatio * randomWidth;
-      }
+      return breakpoint.isSmall
+          ? randomWidth
+          : LayoutConfig.maxBodyRatio * randomWidth;
     },
   );
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: Sizes.indent4x),
-      child: ListView.builder(
-        itemCount: _ShimmersList._placeholdersCount,
-        itemBuilder: (context, index) => NotesListCardShimmer(
-          randomWidth: _randomWidths[index],
+    return ListView.builder(
+      padding: EdgeInsets.only(top: widget.headerHeight),
+      itemCount: _ShimmersList._placeholdersCount + 1,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return const _SectionHeaderShimmer();
+        }
+
+        final cardIndex = index - 1;
+
+        return NotesListCardShimmer(
+          randomWidth: _randomWidths[cardIndex],
           position: ListItemPosition.fromIndex(
-            index,
+            cardIndex,
             length: _ShimmersList._placeholdersCount,
           ),
-        ),
+        );
+      },
+    );
+  }
+}
+
+final class _SectionHeaderShimmer extends StatelessWidget {
+  const _SectionHeaderShimmer();
+
+  @override
+  Widget build(BuildContext context) {
+    const shimmerWidth = 120.0;
+    return const Padding(
+      padding: EdgeInsets.only(
+        left: Sizes.indent,
+        right: Sizes.indent,
+        top: Sizes.indent2x,
+        bottom: Sizes.indent,
+      ),
+      child: Row(
+        children: [
+          CommonShimmer(
+            child: SizedBox(
+              height: Sizes.paddingVariant2x,
+              width: shimmerWidth,
+            ),
+          ),
+          Spacer(),
+        ],
       ),
     );
   }
