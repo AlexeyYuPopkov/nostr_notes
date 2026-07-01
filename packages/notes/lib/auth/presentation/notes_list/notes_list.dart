@@ -237,7 +237,7 @@ final class _Header extends StatelessWidget {
         );
       },
       child: ColoredBox(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
