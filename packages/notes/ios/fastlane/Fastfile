@@ -68,6 +68,7 @@ platform :ios do
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
       export_method: "app-store",
+      skip_package_dependencies_resolution: true,
       export_options: {
         provisioningProfiles: {
           "com.alekseii.yu.popkov.nostrNotes" => "match AppStore com.alekseii.yu.popkov.nostrNotes"
