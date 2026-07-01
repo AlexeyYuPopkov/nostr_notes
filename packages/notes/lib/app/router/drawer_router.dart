@@ -155,7 +155,3 @@ final class DrawerRouter extends StatelessWidget {
     );
   }
 }
-
-// final class OnEndDrawer implements AppRoute {
-//   const OnEndDrawer();
-// }

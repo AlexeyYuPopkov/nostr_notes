@@ -18,6 +18,8 @@ import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/onboarding_screen.dart';
 import 'package:rxdart/transformers.dart';
 
+part 'app_router_part.dart';
+
 final class AppRouter {
   late final SessionUsecase session = DiStorage.shared.resolve();
   late final authUsecase = DiStorage.shared.resolve<AuthUsecase>();

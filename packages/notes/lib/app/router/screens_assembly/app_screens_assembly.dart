@@ -19,8 +19,11 @@ final class AppScreensAssembly implements ScreensAssembly {
   const AppScreensAssembly();
 
   @override
-  Widget createNotePreview(PathParams pathParams) {
-    return NotePreviewScreen(pathParams: pathParams);
+  Widget createNotePreview(
+    PathParams pathParams, {
+    required NotePreviewScreenCoordinator coordinator,
+  }) {
+    return NotePreviewScreen(pathParams: pathParams, coordinator: coordinator);
   }
 
   @override
