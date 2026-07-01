@@ -14,8 +14,6 @@ import 'package:nostr_notes/auth/presentation/notes_list/tabs/notes_list_tab.dar
 import 'package:nostr_notes/auth/presentation/notes_list/widgets/notes_search_field.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/l10n/localization.dart';
-import 'package:nostr_notes/app/router/app_route/route_handler.dart';
-import 'package:nostr_notes/app/router/drawer_router.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
@@ -30,10 +28,14 @@ import 'widgets/common_toolbar_tabs_widget.dart';
 final class NotesList extends StatefulWidget {
   final String? selectedNoteDTag;
   final ValueChanged<Note> onTap;
+  final VoidCallback onNewNote;
+  final VoidCallback onEndDrawer;
   const NotesList({
     super.key,
     required this.selectedNoteDTag,
     required this.onTap,
+    required this.onNewNote,
+    required this.onEndDrawer,
   });
 
   @override
@@ -166,10 +168,12 @@ final class _NotesListState extends State<NotesList> with DialogHelper {
                         padding: const EdgeInsets.only(left: Sizes.indent2x),
                         alignment: Alignment.centerRight,
                       ),
-                    const _SettingsButton(),
+                    _SettingsButton(onEndDrawer: widget.onEndDrawer),
                   ],
                 ),
-                floatingActionButton: breakpoint.isSmall ? const Fab() : null,
+                floatingActionButton: breakpoint.isSmall
+                    ? Fab(onNewNote: widget.onNewNote)
+                    : null,
                 body: Stack(
                   children: [
                     NotificationListener<ScrollNotification>(
@@ -349,7 +353,8 @@ final class NotesListScreenToolbar extends StatelessWidget {
 }
 
 final class _SettingsButton extends StatelessWidget {
-  const _SettingsButton();
+  final VoidCallback? onEndDrawer;
+  const _SettingsButton({required this.onEndDrawer});
 
   @override
   Widget build(BuildContext context) {
@@ -357,6 +362,7 @@ final class _SettingsButton extends StatelessWidget {
     return Tooltip(
       message: context.l10n.settingsScreenTitle,
       child: CupertinoButton(
+        onPressed: onEndDrawer,
         child: SvgPicture.asset(
           CommonIcons.profileIcon,
           width: Sizes.icon,
@@ -366,12 +372,11 @@ final class _SettingsButton extends StatelessWidget {
             BlendMode.srcIn,
           ),
         ),
-        onPressed: () => _onNewNote(context),
       ),
     );
   }
 
-  void _onNewNote(BuildContext context) {
-    RouteHandler.of(context)?.onRoute(const OnEndDrawer(), context);
-  }
+  // void _onNewNote(BuildContext context) {
+  //   RouteHandler.of(context)?.onRoute(const OnEndDrawer(), context);
+  // }
 }

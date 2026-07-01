@@ -1,11 +1,11 @@
+import 'dart:async';
+
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/l10n/localization.dart';
-import 'package:nostr_notes/app/router/app_route/route_handler.dart';
-import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/app/theme/gpt_markdown_theme_data.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
@@ -14,10 +14,22 @@ import 'bloc/markdown_edit_note_bloc.dart';
 import 'bloc/markdown_edit_note_event.dart';
 import 'bloc/markdown_edit_note_state.dart';
 
+abstract interface class EditMarkdownNoteScreenCoordinator {
+  FutureOr<dynamic> onNotePreviewRoute(
+    BuildContext context, {
+    required String noteId,
+  });
+}
+
 final class EditMarkdownNoteScreen extends StatelessWidget with DialogHelper {
+  final EditMarkdownNoteScreenCoordinator coordinator;
   final PathParams? pathParams;
 
-  EditMarkdownNoteScreen({super.key, this.pathParams});
+  EditMarkdownNoteScreen({
+    super.key,
+    this.pathParams,
+    required this.coordinator,
+  });
 
   void _listener(BuildContext context, MarkdownEditNoteState state) {
     switch (state) {
@@ -37,9 +49,11 @@ final class EditMarkdownNoteScreen extends StatelessWidget with DialogHelper {
         final isNew = noteId.isEmpty;
 
         if (isNew) {
-          RouteHandler.of(
-            context,
-          )?.onRoute(NotePreviewRoute(noteId: state.note.dTag), context);
+          // RouteHandler.of(
+          //   context,
+          // )?.onRoute(NotePreviewRoute(noteId: state.note.dTag), context);
+
+          coordinator.onNotePreviewRoute(context, noteId: state.note.dTag);
         } else {
           Navigator.of(context).pop();
         }

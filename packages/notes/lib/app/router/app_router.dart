@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
-import 'package:nostr_notes/app/router/drawer_router.dart' show OnEndDrawer;
 import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/app_screens_assembly.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
@@ -133,38 +132,19 @@ final class AppRouter {
               ? PathParams.fromJson(extra).id
               : null;
           return Scaffold(
-            body: Builder(
-              builder: (context) {
-                return RouteHandlerWidget(
-                  child: HomeScreen(
-                    scaffoldKey: _homeScaffoldKey,
-                    screensAssembly: _screensAssembly,
-                    hasNote:
-                        state.fullPath?.contains(AppRouterPath.notePreview) ==
-                            true ||
-                        state.fullPath?.contains(AppRouterPath.noteDetails) ==
-                            true,
-                    selectedNoteDTag: selectedNoteDTag,
-                    child: child,
-                  ),
-                  onRoute: (route, ctx) async {
-                    if (route is NotePreviewRoute) {
-                      return noteRouter.possibleHandler(route, ctx);
-                    } else if (route is NewNoteRoute) {
-                      final router = GoRouter.of(ctx);
-                      const path =
-                          '${AppRouterPath.home}/${AppRouterPath.noteDetails}';
-
-                      return router.go(path);
-                    } else if (route is OnEndDrawer) {
-                      _homeScaffoldKey.currentState?.openEndDrawer();
-                      return;
-                    }
-
-                    return RouteHandler.of(context)?.onRoute(route, ctx);
-                  },
-                );
-              },
+            body: HomeScreen(
+              scaffoldKey: _homeScaffoldKey,
+              screensAssembly: _screensAssembly,
+              coordinator: HomeScreenCoordinatorImpl(
+                homeScaffoldKey: _homeScaffoldKey,
+              ),
+              hasNote:
+                  state.fullPath?.contains(AppRouterPath.notePreview) ==
+                      true ||
+                  state.fullPath?.contains(AppRouterPath.noteDetails) ==
+                      true,
+              selectedNoteDTag: selectedNoteDTag,
+              child: child,
             ),
           );
         },
