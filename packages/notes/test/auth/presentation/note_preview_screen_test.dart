@@ -30,6 +30,16 @@ class MockNow implements Now {
   DateTime now() => DateTime(2026, 21, 3);
 }
 
+final class _FakeNotePreviewCoordinator implements NotePreviewScreenCoordinator {
+  const _FakeNotePreviewCoordinator();
+
+  @override
+  void onNoteDetailsRoute(BuildContext context, {required String noteId}) {}
+
+  @override
+  void onRawEventRoute(BuildContext context, {required String eventId}) {}
+}
+
 void main() {
   late MockUuid mockUuid;
   late MockWSChannel relayChannel;
@@ -102,6 +112,7 @@ void main() {
           tester: tester,
           child: const NotePreviewScreen(
             pathParams: PathParams(id: _TestEvents.noteDTag),
+            coordinator: _FakeNotePreviewCoordinator(),
           ),
         ),
       );
@@ -147,6 +158,7 @@ void main() {
           tester: tester,
           child: const NotePreviewScreen(
             pathParams: PathParams(id: _TestEvents.noteDTag),
+            coordinator: _FakeNotePreviewCoordinator(),
           ),
         ),
       );
@@ -196,6 +208,7 @@ void main() {
           tester: tester,
           child: const NotePreviewScreen(
             pathParams: PathParams(id: _TestEvents.noteDTag),
+            coordinator: _FakeNotePreviewCoordinator(),
           ),
         ),
       );

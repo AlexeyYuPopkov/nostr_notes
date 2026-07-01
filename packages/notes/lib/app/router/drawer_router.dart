@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_notes/app/router/app_route/app_route.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_data_screen/credentials_data_screen.dart';
@@ -155,8 +154,4 @@ final class DrawerRouter extends StatelessWidget {
       },
     );
   }
-}
-
-final class OnEndDrawer implements AppRoute {
-  const OnEndDrawer();
 }

@@ -2,6 +2,7 @@ import 'package:common/domain/error/app_error.dart';
 import 'package:common/domain/repo/app_theme_data_repo_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:common/presentation/tools/optional_box.dart';
+import 'package:nostr_notes/l10n/localization.dart';
 
 final class GlobalSettingsError extends AppError {
   const GlobalSettingsError({super.parentError, super.reason});
@@ -127,5 +128,39 @@ final class GlobalSettingsVm {
       return Locale(parts.first);
     }
     return Locale(parts.first, parts[1]);
+  }
+}
+
+enum LanguageCode {
+  system,
+  en,
+  ru,
+  bg;
+
+  String getLocalizedName(Localization l10n) {
+    return switch (this) {
+      LanguageCode.system => l10n.preferencesScreenLanguageSystem,
+      LanguageCode.ru => l10n.preferencesScreenLanguageRussian,
+      LanguageCode.en => l10n.preferencesScreenLanguageEnglish,
+      LanguageCode.bg => l10n.preferencesScreenLanguageBulgarian,
+    };
+  }
+
+  Locale? get locale => switch (this) {
+    LanguageCode.system => null,
+    LanguageCode.en => const Locale('en'),
+    LanguageCode.ru => const Locale('ru'),
+    LanguageCode.bg => const Locale('bg'),
+  };
+}
+
+extension GetLanguageCode on Locale? {
+  LanguageCode get code {
+    return switch (this?.languageCode) {
+      'en' => LanguageCode.en,
+      'ru' => LanguageCode.ru,
+      'bg' => LanguageCode.bg,
+      _ => LanguageCode.system,
+    };
   }
 }

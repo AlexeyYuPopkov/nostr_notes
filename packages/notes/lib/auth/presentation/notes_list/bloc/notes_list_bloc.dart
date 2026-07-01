@@ -84,16 +84,32 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
 
   void _setupHandlers() {
     on<InitialEvent>(_onInitialEvent);
-    on<GetNotesEvent>(_onGetNotesEvent);
-    on<ErrorEvent>(_onErrorEvent);
-    on<DeleteNoteEvent>(_onDeleteNoteEvent);
-    on<RefreshEvent>(
-      _onRefreshEvent,
+    on<GetNotesEvent>(
+      _onGetNotesEvent,
       transformer: (events, mapper) =>
           events.debounceTime(debounceGuard).switchMap(mapper),
     );
+    on<ErrorEvent>(
+      _onErrorEvent,
+      transformer: (events, mapper) =>
+          events.debounceTime(debounceGuard).switchMap(mapper),
+    );
+    on<DeleteNoteEvent>(
+      _onDeleteNoteEvent,
+      transformer: (events, mapper) =>
+          events.debounceTime(debounceGuard).switchMap(mapper),
+    );
+    on<RefreshEvent>(
+      _onRefreshEvent,
+      transformer: (events, mapper) =>
+          events.throttleTime(debounceGuard).switchMap(mapper),
+    );
 
-    on<AssignLabelsEvent>(_onAssignLabelsEvent);
+    on<AssignLabelsEvent>(
+      _onAssignLabelsEvent,
+      transformer: (events, mapper) =>
+          events.debounceTime(debounceGuard).switchMap(mapper),
+    );
     on<SelectFolderEvent>(
       _onSelectFolderEvent,
       transformer: (events, mapper) =>
@@ -202,7 +218,10 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     final nextData = data.copyWith(tab: savedTab);
 
     if (event.showShimmers) {
-      emit(NotesListState.loading(data: nextData));
+      if (state is! LoadingState) {
+        emit(NotesListState.loading(data: nextData));
+      }
+      await Future.delayed(const Duration(milliseconds: 500));
     } else if (state is! CommonState) {
       emit(NotesListState.common(data: nextData));
     }
@@ -230,8 +249,6 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         return;
       }
 
-      foldersVm.setNotes(event.notes, l10n);
-
       final filtered = await _filterNotes(event.notes, data.searchString);
       final visibleNotes = data.searchString.trim().isEmpty
           ? event.notes
@@ -240,6 +257,12 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         notes: visibleNotes,
         l10n: l10n,
       );
+
+      if (isClosed) {
+        return;
+      }
+
+      foldersVm.setNotes(event.notes, l10n);
 
       final hasDecryptionErrors = event.notes.any((n) => n.error != null);
 
@@ -272,6 +295,9 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         );
       }
     } catch (e) {
+      if (isClosed) {
+        return;
+      }
       emit(NotesListState.error(e: e, data: data));
     } finally {
       refreshButtonVm.isRefreshing = false;

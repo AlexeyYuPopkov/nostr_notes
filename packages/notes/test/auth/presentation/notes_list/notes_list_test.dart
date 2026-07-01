@@ -133,7 +133,12 @@ void main() {
       await tester.pumpWidget(
         AppLauncher.launchApp(
           tester: tester,
-          child: NotesList(selectedNoteDTag: '', onTap: (note) {}),
+          child: NotesList(
+            selectedNoteDTag: '',
+            onTap: (note) {},
+            onNewNote: () {},
+            onEndDrawer: () {},
+          ),
         ),
       );
 
@@ -218,7 +223,12 @@ void main() {
       await tester.pumpWidget(
         AppLauncher.launchApp(
           tester: tester,
-          child: NotesList(selectedNoteDTag: '', onTap: (note) {}),
+          child: NotesList(
+            selectedNoteDTag: '',
+            onTap: (note) {},
+            onNewNote: () {},
+            onEndDrawer: () {},
+          ),
         ),
       );
 

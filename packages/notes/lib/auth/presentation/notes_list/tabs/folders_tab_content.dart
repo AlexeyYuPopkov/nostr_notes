@@ -6,7 +6,6 @@ import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/presentation/model/category_localization.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/tabs/all_tab_content.dart';
-import 'package:nostr_notes/auth/presentation/notes_list/widgets/labels_picker.dart';
 import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholder.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/l10n/app_localizations.dart';
@@ -126,11 +125,6 @@ final class FoldersTabContent extends StatelessWidget {
     vm.setFolder(folder, context.l10n);
   }
 
-  void _closeFolder(BuildContext context) {
-    _scrollSectionsVm.clearSections();
-    vm.setFolder(null, context.l10n);
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
@@ -161,7 +155,6 @@ final class FoldersTabContent extends StatelessWidget {
                     isLoading: isLoading,
                     sections: vm.sections,
                     onTap: onTap,
-                    onBack: () => _closeFolder(context),
                     scrollSectionsVm: _scrollSectionsVm,
                   ),
                 )
@@ -202,7 +195,8 @@ final class _FolderGrid extends StatelessWidget {
     return ListView.separated(
       padding: EdgeInsets.fromLTRB(
         Sizes.indent2x,
-        Sizes.indent2x,
+        // Clear the overlaid header (toolbar only, no search field here).
+        kNotesListHeaderWithoutSearch,
         Sizes.indent2x,
         Sizes.indent2x + mediaPadding.bottom,
       ),
@@ -281,13 +275,12 @@ final class _FolderCard extends StatelessWidget {
   }
 }
 
-final class _FolderDetail extends StatelessWidget with LabelsPickerHelper {
+final class _FolderDetail extends StatelessWidget {
   final CategoryType folder;
   final String? selectedNoteDTag;
   final bool isLoading;
   final List<NotesListSection> sections;
   final ValueChanged<Note> onTap;
-  final VoidCallback onBack;
   final SectionScrollVm _scrollSectionsVm;
 
   const _FolderDetail({
@@ -296,44 +289,20 @@ final class _FolderDetail extends StatelessWidget with LabelsPickerHelper {
     required this.isLoading,
     required this.sections,
     required this.onTap,
-    required this.onBack,
     required SectionScrollVm scrollSectionsVm,
   }) : _scrollSectionsVm = scrollSectionsVm;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Column(
-      children: [
-        CupertinoButton(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
-          onPressed: onBack,
-          child: Row(
-            children: [
-              Icon(
-                Icons.arrow_back_ios,
-                size: Sizes.iconSmall,
-                color: theme.colorScheme.onSurface,
-              ),
-              Text(
-                folder.getLocalizedName(context),
-                style: theme.textTheme.bodyLarge,
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: AllTabContent(
-            selectedNoteDTag: selectedNoteDTag,
-            isLoading: isLoading,
-            sections: sections,
-            onTap: onTap,
-            scrollSectionsVm: _scrollSectionsVm,
-            showSearch: false,
-            hasAnyNotes: sections.isNotEmpty,
-          ),
-        ),
-      ],
+    return AllTabContent(
+      selectedNoteDTag: selectedNoteDTag,
+      isLoading: isLoading,
+      sections: sections,
+      onTap: onTap,
+      scrollSectionsVm: _scrollSectionsVm,
+      showSearch: false,
+      showFolderBack: true,
+      hasAnyNotes: sections.isNotEmpty,
     );
   }
 }

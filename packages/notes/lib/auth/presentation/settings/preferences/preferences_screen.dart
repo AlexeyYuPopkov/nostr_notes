@@ -31,7 +31,6 @@ final class PreferencesScreen extends StatelessWidget with DialogHelper {
           );
         },
       ),
-      // ),
     );
   }
 }
