@@ -2,10 +2,13 @@ part of 'app_router.dart';
 
 final class HomeScreenCoordinatorImpl implements HomeScreenCoordinator {
   final GlobalKey<ScaffoldState> _homeScaffoldKey;
+  final GlobalKey<LeftDrawerState> _leftDrawerKey;
 
   const HomeScreenCoordinatorImpl({
     required GlobalKey<ScaffoldState> homeScaffoldKey,
-  }) : _homeScaffoldKey = homeScaffoldKey;
+    required GlobalKey<LeftDrawerState> leftDrawerKey,
+  }) : _homeScaffoldKey = homeScaffoldKey,
+       _leftDrawerKey = leftDrawerKey;
 
   @override
   FutureOr<dynamic> onNotePreviewRoute(
@@ -29,4 +32,7 @@ final class HomeScreenCoordinatorImpl implements HomeScreenCoordinator {
 
   @override
   void onEndDrawer() => _homeScaffoldKey.currentState?.openEndDrawer();
+
+  @override
+  void onAccountSwitcher() => _leftDrawerKey.currentState?.open();
 }

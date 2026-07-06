@@ -203,6 +203,12 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get accountSwitcherTitle => 'Аккаунты';
+
+  @override
+  String get accountSwitcherAddAccount => 'Добавить аккаунт';
+
+  @override
   String get settingsScreenTitle => 'Настройки';
 
   @override

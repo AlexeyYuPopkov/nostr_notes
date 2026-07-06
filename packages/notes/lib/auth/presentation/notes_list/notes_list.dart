@@ -1,21 +1,23 @@
-import 'package:common/app/icons/app_icons.dart';
+import 'dart:async';
+
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
+import 'package:di_storage/di_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
+import 'package:nostr_notes/auth/presentation/account_switcher/account_switcher_panel.dart';
 import 'package:nostr_notes/auth/presentation/model/category_localization.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/tabs/notes_list_tab.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/widgets/notes_search_field.dart';
+import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
-import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
 import 'package:nostr_notes/common/presentation/layout/breakpoints.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
@@ -25,18 +27,36 @@ import 'bloc/notes_list_event.dart';
 import 'bloc/notes_list_state.dart';
 import 'widgets/common_toolbar_tabs_widget.dart';
 
+abstract interface class NotesListCoordinator {
+  const NotesListCoordinator();
+
+  FutureOr<dynamic> onNotePreviewRoute(
+    BuildContext context, {
+    required String noteId,
+  });
+
+  void onNewNoteRoute(BuildContext context);
+
+  void onEndDrawer();
+
+  void onAccountSwitcher();
+}
+
 final class NotesList extends StatefulWidget {
   final String? selectedNoteDTag;
-  final ValueChanged<Note> onTap;
-  final VoidCallback onNewNote;
-  final VoidCallback onEndDrawer;
+
+  final NotesListCoordinator coordinator;
   const NotesList({
     super.key,
     required this.selectedNoteDTag,
-    required this.onTap,
-    required this.onNewNote,
-    required this.onEndDrawer,
+    required this.coordinator,
   });
+
+  //   onTap: (note) =>
+  //     coordinator.onNotePreviewRoute(context, noteId: note.dTag),
+  // onNewNote: () => coordinator.onNewNoteRoute(context),
+  // onEndDrawer: () => coordinator.onEndDrawer(),
+  // onAccountSwitcher: () => coordinator.onAccountSwitcher(),
 
   @override
   State<NotesList> createState() => _NotesListState();
@@ -131,6 +151,9 @@ final class _NotesListState extends State<NotesList> with DialogHelper {
               length: NotesListTab.tabs.length,
               child: Scaffold(
                 appBar: AppBar(
+                  leading: _AccountSwitcherButton(
+                    onOpenSwitcher: widget.coordinator.onAccountSwitcher,
+                  ),
                   title: ListenableBuilder(
                     listenable: foldersVm,
                     builder: (context, _) {
@@ -168,11 +191,16 @@ final class _NotesListState extends State<NotesList> with DialogHelper {
                         padding: const EdgeInsets.only(left: Sizes.indent2x),
                         alignment: Alignment.centerRight,
                       ),
-                    _SettingsButton(onEndDrawer: widget.onEndDrawer),
+                    _SettingsButton(
+                      onEndDrawer: widget.coordinator.onEndDrawer,
+                    ),
                   ],
                 ),
                 floatingActionButton: breakpoint.isSmall
-                    ? Fab(onNewNote: widget.onNewNote)
+                    ? Fab(
+                        onNewNote: () =>
+                            widget.coordinator.onNewNoteRoute(context),
+                      )
                     : null,
                 body: Stack(
                   children: [
@@ -198,7 +226,11 @@ final class _NotesListState extends State<NotesList> with DialogHelper {
                                   context,
                                   params: TabParams(
                                     selectedNoteDTag: widget.selectedNoteDTag,
-                                    onTap: widget.onTap,
+                                    onTap: (note) =>
+                                        widget.coordinator.onNotePreviewRoute(
+                                          noteId: note.dTag,
+                                          context,
+                                        ),
                                     scrollSectionsVm: _vm,
                                   ),
                                 ),
@@ -363,20 +395,42 @@ final class _SettingsButton extends StatelessWidget {
       message: context.l10n.settingsScreenTitle,
       child: CupertinoButton(
         onPressed: onEndDrawer,
-        child: SvgPicture.asset(
-          CommonIcons.profileIcon,
-          width: Sizes.icon,
-          height: Sizes.icon,
-          colorFilter: ColorFilter.mode(
-            theme.colorScheme.onSurfaceVariant,
-            BlendMode.srcIn,
-          ),
+        child: Icon(
+          Icons.settings_outlined,
+          size: Sizes.icon,
+          color: theme.colorScheme.onSurfaceVariant,
         ),
       ),
     );
   }
+}
 
-  // void _onNewNote(BuildContext context) {
-  //   RouteHandler.of(context)?.onRoute(const OnEndDrawer(), context);
-  // }
+final class _AccountSwitcherButton extends StatelessWidget {
+  final VoidCallback onOpenSwitcher;
+  const _AccountSwitcherButton({required this.onOpenSwitcher});
+
+  @override
+  Widget build(BuildContext context) {
+    final sessionUsecase = DiStorage.shared.resolve<SessionUsecase>();
+    final pubkey = sessionUsecase.currentSession.pubkey;
+    final breakpoint = Breakpoint.activeBreakpointOf(context);
+
+    return Tooltip(
+      message: context.l10n.accountSwitcherTitle,
+      child: CupertinoButton(
+        onPressed: () {
+          if (breakpoint.isSmall) {
+            showModalBottomSheet(
+              context: context,
+              showDragHandle: true,
+              builder: (_) => const AccountSwitcherPanel(),
+            );
+          } else {
+            onOpenSwitcher();
+          }
+        },
+        child: AccountAvatar(pubkey: pubkey, size: Sizes.icon),
+      ),
+    );
+  }
 }

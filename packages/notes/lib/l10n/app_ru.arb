@@ -63,6 +63,8 @@
             }
         }
     },
+    "accountSwitcherTitle": "Аккаунты",
+    "accountSwitcherAddAccount": "Добавить аккаунт",
     "settingsScreenTitle": "Настройки",
     "settingsScreenSectionSettingsTitle": "Настройки",
     "settingsScreenSectionSessionTitle": "Сеанс",

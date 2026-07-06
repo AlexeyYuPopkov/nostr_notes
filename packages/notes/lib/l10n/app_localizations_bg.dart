@@ -202,6 +202,12 @@ class AppLocalizationsBg extends AppLocalizations {
   }
 
   @override
+  String get accountSwitcherTitle => 'Акаунти';
+
+  @override
+  String get accountSwitcherAddAccount => 'Добави акаунт';
+
+  @override
   String get settingsScreenTitle => 'Настройки';
 
   @override

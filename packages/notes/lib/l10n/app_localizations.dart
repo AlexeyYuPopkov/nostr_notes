@@ -436,6 +436,18 @@ abstract class AppLocalizations {
   /// **'PIN or password must be at least {minCount} characters long'**
   String errorInvalidPinFormatMinCount(String minCount);
 
+  /// No description provided for @accountSwitcherTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accountSwitcherTitle;
+
+  /// No description provided for @accountSwitcherAddAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Account'**
+  String get accountSwitcherAddAccount;
+
   /// No description provided for @settingsScreenTitle.
   ///
   /// In en, this message translates to:

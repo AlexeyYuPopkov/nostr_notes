@@ -10,6 +10,7 @@ import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/app_screens_assembly.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/home_screen.dart';
+import 'package:nostr_notes/auth/presentation/home_screen/left_drawer.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
 import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholder.dart';
@@ -59,6 +60,10 @@ final class AppRouter {
 
   final _homeScaffoldKey = GlobalKey<ScaffoldState>(
     debugLabel: 'GlobalKey.home_scaffold',
+  );
+
+  final _leftDrawerKey = GlobalKey<LeftDrawerState>(
+    debugLabel: 'GlobalKey.left_drawer',
   );
 
   late final _router = GoRouter(
@@ -133,18 +138,20 @@ final class AppRouter {
           final selectedNoteDTag = extra is Map<String, dynamic>
               ? PathParams.fromJson(extra).id
               : null;
+          final hasNote =
+              state.fullPath?.contains(AppRouterPath.notePreview) == true ||
+              state.fullPath?.contains(AppRouterPath.noteDetails) == true;
+              
           return Scaffold(
             body: HomeScreen(
               scaffoldKey: _homeScaffoldKey,
+              leftDrawerKey: _leftDrawerKey,
               screensAssembly: _screensAssembly,
               coordinator: HomeScreenCoordinatorImpl(
                 homeScaffoldKey: _homeScaffoldKey,
+                leftDrawerKey: _leftDrawerKey,
               ),
-              hasNote:
-                  state.fullPath?.contains(AppRouterPath.notePreview) ==
-                      true ||
-                  state.fullPath?.contains(AppRouterPath.noteDetails) ==
-                      true,
+              hasNote: hasNote,
               selectedNoteDTag: selectedNoteDTag,
               child: child,
             ),

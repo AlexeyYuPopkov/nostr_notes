@@ -63,6 +63,8 @@
             }
         }
     },
+    "accountSwitcherTitle": "Accounts",
+    "accountSwitcherAddAccount": "Add Account",
     "settingsScreenTitle": "Settings",
     "settingsScreenSectionSettingsTitle": "Settings",
     "settingsScreenSectionSessionTitle": "Session",

@@ -199,6 +199,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get accountSwitcherTitle => 'Accounts';
+
+  @override
+  String get accountSwitcherAddAccount => 'Add Account';
+
+  @override
   String get settingsScreenTitle => 'Settings';
 
   @override

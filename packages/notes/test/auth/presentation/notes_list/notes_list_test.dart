@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -26,6 +28,25 @@ import '../../../tools/app_launcher/app_launcher.dart';
 import '../../../tools/mock_wschannel.dart';
 
 class MockUuid extends Mock implements Uuid {}
+
+final class _TestNotesListCoordinator implements NotesListCoordinator {
+  const _TestNotesListCoordinator();
+
+  @override
+  FutureOr<dynamic> onNotePreviewRoute(
+    BuildContext context, {
+    required String noteId,
+  }) {}
+
+  @override
+  void onNewNoteRoute(BuildContext context) {}
+
+  @override
+  void onEndDrawer() {}
+
+  @override
+  void onAccountSwitcher() {}
+}
 
 class MockChannelFactory extends Mock implements ChannelFactory {}
 
@@ -133,11 +154,9 @@ void main() {
       await tester.pumpWidget(
         AppLauncher.launchApp(
           tester: tester,
-          child: NotesList(
+          child: const NotesList(
             selectedNoteDTag: '',
-            onTap: (note) {},
-            onNewNote: () {},
-            onEndDrawer: () {},
+            coordinator: _TestNotesListCoordinator(),
           ),
         ),
       );
@@ -223,11 +242,9 @@ void main() {
       await tester.pumpWidget(
         AppLauncher.launchApp(
           tester: tester,
-          child: NotesList(
+          child: const NotesList(
             selectedNoteDTag: '',
-            onTap: (note) {},
-            onNewNote: () {},
-            onEndDrawer: () {},
+            coordinator: _TestNotesListCoordinator(),
           ),
         ),
       );

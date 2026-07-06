@@ -1,0 +1,19 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "notes-web",
+      "runtimeExecutable": "fvm",
+      "runtimeArgs": [
+        "flutter",
+        "run",
+        "-d",
+        "chrome",
+        "--web-port",
+        "5959"
+      ],
+      "port": 5959,
+      "cwd": "packages/notes"
+    }
+  ]
+}

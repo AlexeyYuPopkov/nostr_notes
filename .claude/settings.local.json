@@ -22,7 +22,16 @@
       "Bash(grep -v \"^\\\\s*$\")",
       "Bash(git -C /Users/alekseypopkov/Doc/nostr_notes/nostr_notes status --short)",
       "Bash(git -C /Users/alekseypopkov/Doc/nostr_notes/nostr_notes add .)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(grep -E \"\\\\.dart$\")",
+      "Bash(flutter devices *)",
+      "Bash(echo \"started pid $!\")",
+      "Bash(ps -p 92596 -o pid,etime,command)",
+      "Bash(osascript -e 'tell application \"Private Notes \\(Nostr\\)\" to activate')",
+      "Bash(screencapture -x /private/tmp/claude-501/-Users-alekseypopkov-Doc-nostr-notes-nostr-notes/2f11530e-9b92-4753-bd1c-0a8415b1e071/scratchpad/macos_shot.png)",
+      "Bash(osascript -e 'tell application \"System Events\" to tell process \"Private Notes \\(Nostr\\)\" to get properties of every window')",
+      "Bash(kill 92596)",
+      "Bash(pkill -f \"Private Notes\")"
     ]
   }
 }
