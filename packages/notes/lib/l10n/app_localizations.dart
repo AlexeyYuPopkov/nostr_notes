@@ -217,8 +217,20 @@ abstract class AppLocalizations {
   /// No description provided for @apkDistributionTitle.
   ///
   /// In en, this message translates to:
-  /// **'Download APK'**
+  /// **'Install on Android'**
   String get apkDistributionTitle;
+
+  /// No description provided for @apkDistributionInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Go to the [Google Group]({groupUrl}) and click **Join group** (or **Ask to join group**)\n\n2. Once joined, open the [test link]({testingUrl})\n\n3. Tap **Become a tester**\n\n4. Install the app from **Google Play**'**
+  String apkDistributionInstructions(String groupUrl, String testingUrl);
+
+  /// No description provided for @apkDistributionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The app is currently in beta. To install it on Android, join the testers group — no APK download required.'**
+  String get apkDistributionSubtitle;
 
   /// No description provided for @apkDistributionDescription.
   ///
@@ -259,7 +271,7 @@ abstract class AppLocalizations {
   /// No description provided for @apkBannerButton.
   ///
   /// In en, this message translates to:
-  /// **'Download APK'**
+  /// **'Android (Google Play)'**
   String get apkBannerButton;
 
   /// No description provided for @onboardingSignUpAlreadyHaveAccount.
