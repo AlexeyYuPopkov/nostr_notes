@@ -13,10 +13,10 @@ final class AppConfig {
   static const appStoreLink =
       'https://apps.apple.com/bg/app/private-notes-nostr/id6757975921';
 
-  static const apkGHPagesUrl =
-      'https://alexeyyupopkov.github.io/downloads/nostr_notes-release.apk';
-  static const apkGHPagesSha256Url =
-      'https://alexeyyupopkov.github.io/downloads/nostr_notes-release.apk.sha256';
+  static const googleGroupsTestersUrl =
+      'https://groups.google.com/g/private_notes_testers';
+  static const googlePlayTestingUrl =
+      'https://play.google.com/apps/testing/com.alekseii.yu.popkov.nostrNotes';
 
   static final kIsTest = kIsWeb
       ? false

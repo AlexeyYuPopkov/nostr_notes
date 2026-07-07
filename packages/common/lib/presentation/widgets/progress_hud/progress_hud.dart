@@ -5,6 +5,7 @@ import 'package:common/app/theme/success_colors.dart';
 import 'package:flutter/material.dart';
 
 part 'hud_policy_part.dart';
+
 final class ProgressHud extends InheritedWidget {
   const ProgressHud({super.key, required this.vm, required super.child});
   final ProgressHudVm vm;
@@ -176,4 +177,3 @@ final class _OverlayContentState extends State<_OverlayContent> {
     );
   }
 }
-

@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
 import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
-import 'package:nostr_notes/l10n/app_localizations.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 
 final class ApkDistributionScreen extends StatelessWidget {
-  static const apkUrl = AppConfig.apkGHPagesUrl;
-  static const sha256Url = AppConfig.apkGHPagesSha256Url;
+  static const _groupUrl = AppConfig.googleGroupsTestersUrl;
+  static const _testingUrl = AppConfig.googlePlayTestingUrl;
+
   final bool showAppBar;
   const ApkDistributionScreen({super.key, this.showAppBar = true});
 
@@ -31,20 +31,28 @@ final class ApkDistributionScreen extends StatelessWidget {
               RawSettingsItemTile(
                 title: Padding(
                   padding: const EdgeInsets.all(Sizes.indent2x),
-                  child: GptMarkdownWidget(md: _getContent(context.l10n)),
-                ),
-                sectionTitle: 'Android APK',
-                position: .single,
-                onTap: null,
-              ),
-              RawSettingsItemTile(
-                title: Padding(
-                  padding: const EdgeInsets.all(Sizes.indent2x),
-                  child: GptMarkdownWidget(
-                    md: '[${l10n.apkDistributionViewChecksum}]($sha256Url)',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.apkDistributionSubtitle,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                      const SizedBox(height: Sizes.indent2x),
+                      GptMarkdownWidget.withCodeBuilders(
+                        md: l10n.apkDistributionInstructions(
+                          _groupUrl,
+                          _testingUrl,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                sectionTitle: 'SHA-256 Checksum',
+                sectionTitle: 'Google Play',
                 position: .single,
                 onTap: null,
               ),
@@ -53,11 +61,5 @@ final class ApkDistributionScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _getContent(AppLocalizations l10n) {
-    return '''
-      ${l10n.apkDistributionDescription}\n[${l10n.apkDistributionDownloadButton}]($apkUrl)
-    ''';
   }
 }
