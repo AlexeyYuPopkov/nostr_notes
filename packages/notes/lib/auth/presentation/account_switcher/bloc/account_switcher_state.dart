@@ -34,8 +34,5 @@ final class LoadingState extends AccountSwitcherState {
 
 final class ErrorState extends AccountSwitcherState {
   final Object e;
-  const ErrorState({
-    required super.data,
-    required this.e,
-  });
+  const ErrorState({required super.data, required this.e});
 }

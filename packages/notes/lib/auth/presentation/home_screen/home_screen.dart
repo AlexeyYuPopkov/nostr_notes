@@ -107,7 +107,12 @@ final class _HomeScreenState extends State<HomeScreen> {
     return LeftDrawer(
       key: widget.leftDrawerKey,
       drawerWidth: isDesktop ? switcherWidth : screenWidth,
-      drawer: const AccountSwitcherPanel(),
+      drawer: AccountSwitcherPanel(
+        onAddAccount: () {
+          widget.leftDrawerKey.currentState?.close();
+          widget.coordinator.onAddAccountRoute(context);
+        },
+      ),
       content: Scaffold(
         key: widget.scaffoldKey,
         endDrawer: SizedBox(

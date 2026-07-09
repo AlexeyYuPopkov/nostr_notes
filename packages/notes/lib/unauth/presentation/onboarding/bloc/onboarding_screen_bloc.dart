@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/repo/pin_enabled_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/pin_keyboard_type_repo.dart';
 import 'package:common/domain/repo/relays_list_repo.dart';
+import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_nsec_page/onboarding_nsec_page.dart';
@@ -20,6 +21,11 @@ final class OnboardingScreenBloc
   OnboardingScreenData get data => state.data;
   DiStorage get _di => DiStorage.shared;
 
+  /// When true, the flow adds one more account on top of an unlocked
+  /// session: it starts at the nsec step and registers the key with
+  /// [AuthUsecase.addAccount] instead of [AuthUsecase.execute].
+  final bool addAccount;
+
   late final AuthUsecase authUsecase = _di.resolve();
   late final PinUsecase pinUsecase = _di.resolve();
   late final RelaysListRepo relaysListRepo = _di.resolve();
@@ -30,7 +36,7 @@ final class OnboardingScreenBloc
   StreamSubscription? sessionSubscription;
   StreamSubscription? relaysSubscription;
 
-  OnboardingScreenBloc()
+  OnboardingScreenBloc({this.addAccount = false})
     : super(
         OnboardingScreenState.initial(data: OnboardingScreenData.initial()),
       ) {
@@ -45,27 +51,31 @@ final class OnboardingScreenBloc
     sessionSubscription = authUsecase.session
         .distinct((a, b) => a.isAuth == b.isAuth)
         .listen((session) {
-          if (session.isAuth) {
-            final hasRelays = relaysListRepo.getRelaysList().isNotEmpty;
-            final step = hasRelays
-                ? const OnboardingPin()
-                : const OnboardingRelays();
-            add(OnboardingScreenEvent.onStep(step));
-            final publicKey = session.keys?.publicKey;
-            if (publicKey != null && publicKey.isNotEmpty) {
-              final isUsePin = _pinEnabledRepo.getForUser(publicKey);
-              final pinKeyboardType = _pinKeyboardTypeRepo.getType();
-              add(
-                OnboardingScreenEvent.settingsEvent(
-                  isUsePin: isUsePin,
-                  pinKeyboardType: pinKeyboardType,
-                ),
-              );
-            }
+          if (addAccount && session.isUnlocked) {
+            add(const OnboardingScreenEvent.onStep(OnboardingNsec()));
+          } else if (session.isAuth) {
+            _onAuthenticated(session);
           } else {
             add(const OnboardingScreenEvent.onStep(OnboardingWelcome()));
           }
         });
+  }
+
+  void _onAuthenticated(Session session) {
+    final hasRelays = relaysListRepo.getRelaysList().isNotEmpty;
+    final step = hasRelays ? const OnboardingPin() : const OnboardingRelays();
+    add(OnboardingScreenEvent.onStep(step));
+    final publicKey = session.keys?.publicKey;
+    if (publicKey != null && publicKey.isNotEmpty) {
+      final isUsePin = _pinEnabledRepo.getForUser(publicKey);
+      final pinKeyboardType = _pinKeyboardTypeRepo.getType();
+      add(
+        OnboardingScreenEvent.settingsEvent(
+          isUsePin: isUsePin,
+          pinKeyboardType: pinKeyboardType,
+        ),
+      );
+    }
   }
 
   void _setupHandlers() {
@@ -126,7 +136,12 @@ final class OnboardingScreenBloc
       emit(OnboardingScreenState.loading(data: data));
       event.vm.setLoading();
 
-      await authUsecase.execute(nsec: event.nsec);
+      if (addAccount) {
+        await authUsecase.addAccount(nsec: event.nsec);
+        _onAuthenticated(authUsecase.currentSession);
+      } else {
+        await authUsecase.execute(nsec: event.nsec);
+      }
 
       emit(OnboardingScreenState.common(data: data));
     } catch (e) {
@@ -176,7 +191,12 @@ final class OnboardingScreenBloc
     try {
       emit(OnboardingScreenState.loading(data: data));
 
-      await authUsecase.execute(nsec: event.nsec);
+      if (addAccount) {
+        await authUsecase.addAccount(nsec: event.nsec);
+        _onAuthenticated(authUsecase.currentSession);
+      } else {
+        await authUsecase.execute(nsec: event.nsec);
+      }
 
       emit(OnboardingScreenState.common(data: data));
     } catch (e) {

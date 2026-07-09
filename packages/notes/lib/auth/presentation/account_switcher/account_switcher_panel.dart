@@ -1,4 +1,5 @@
 import 'package:common/app/theme/sizes.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:flutter/material.dart';
@@ -6,12 +7,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 
 import 'bloc/account_switcher_bloc.dart';
+import 'bloc/account_switcher_event.dart';
 import 'bloc/account_switcher_state.dart';
 
-final class AccountSwitcherPanel extends StatelessWidget {
+final class AccountSwitcherPanel extends StatelessWidget with DialogHelper {
   final VoidCallback? onAddAccount;
 
   const AccountSwitcherPanel({super.key, this.onAddAccount});
+
+  void _listener(BuildContext context, AccountSwitcherState state) {
+    switch (state) {
+      case CommonState():
+      case LoadingState():
+        break;
+      case ErrorState():
+        showError(context, error: state.e);
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +40,10 @@ final class AccountSwitcherPanel extends StatelessWidget {
       body: BlocProvider(
         create: (context) => AccountSwitcherBloc(),
         child: BlocConsumer<AccountSwitcherBloc, AccountSwitcherState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
+          listener: _listener,
           builder: (context, state) {
+            final accounts = state.data.accounts;
+
             return SafeArea(
               child: Padding(
                 padding: const EdgeInsets.only(top: Sizes.indent2x),
@@ -38,30 +51,18 @@ final class AccountSwitcherPanel extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SettingsItemTile(
-                      title: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          AccountAvatar(
-                            pubkey: state.data.currentUserPubkey,
-                            size: Sizes.iconMedium,
-                          ),
-                          const SizedBox(width: Sizes.indent),
-                          Flexible(
-                            child: Text(
-                              _truncatePubkey(state.data.currentUserPubkey),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
+                    for (final (index, pubkey) in accounts.indexed)
+                      _AccountTile(
+                        pubkey: pubkey,
+                        isCurrent: pubkey == state.data.currentUserPubkey,
+                        position: ListItemPosition.fromIndex(
+                          index,
+                          length: accounts.length,
+                        ),
+                        onTap: () => context.read<AccountSwitcherBloc>().add(
+                          AccountSwitcherEvent.switchAccount(pubkey),
+                        ),
                       ),
-                      trailing: Icon(
-                        Icons.check_circle,
-                        color: theme.colorScheme.primary,
-                      ),
-                      position: ListItemPosition.single,
-                      onTap: null,
-                    ),
                     const SizedBox(height: Sizes.indent2x),
                     SettingsItemTile(
                       title: Text(
@@ -83,6 +84,46 @@ final class AccountSwitcherPanel extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+}
+
+final class _AccountTile extends StatelessWidget {
+  final String pubkey;
+  final bool isCurrent;
+  final ListItemPosition position;
+  final VoidCallback onTap;
+
+  const _AccountTile({
+    required this.pubkey,
+    required this.isCurrent,
+    required this.position,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return SettingsItemTile(
+      title: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AccountAvatar(pubkey: pubkey, size: Sizes.iconMedium),
+          const SizedBox(width: Sizes.indent),
+          Flexible(
+            child: Text(
+              _truncatePubkey(pubkey),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+      trailing: isCurrent
+          ? Icon(Icons.check_circle, color: theme.colorScheme.primary)
+          : null,
+      position: position,
+      onTap: isCurrent ? null : onTap,
     );
   }
 }

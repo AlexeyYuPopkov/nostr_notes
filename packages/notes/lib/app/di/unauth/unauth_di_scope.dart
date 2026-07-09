@@ -6,9 +6,11 @@ import 'package:nostr_notes/app/domain/theme_mode_repo.dart';
 import 'package:nostr_notes/auth/data/desktop_ratio_repo_impl.dart';
 import 'package:nostr_notes/auth/data/is_first_launch_repo_impl.dart';
 import 'package:nostr_notes/auth/data/notes_list_tab_repo_impl.dart';
+import 'package:nostr_notes/auth/data/accounts_repo_impl.dart';
 import 'package:nostr_notes/auth/data/pin_enabled_repo_impl.dart';
 import 'package:nostr_notes/auth/data/pin_keyboard_type_repo_impl.dart';
 import 'package:common/domain/usecases/relays_list_repo_impl.dart';
+import 'package:nostr_notes/auth/domain/repo/accounts_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/desktop_ratio_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/is_first_launch_repo.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_list_tab_repo.dart';
@@ -68,6 +70,12 @@ final class UnauthDiScope extends DiScope {
       lifeTime: const LifeTime.prototype(),
     );
 
+    di.bind<AccountsRepo>(
+      () => AccountsRepoImpl(prefs),
+      module: this,
+      lifeTime: const LifeTime.prototype(),
+    );
+
     di.bind<DesktopRatioRepo>(
       () => DesktopRatioRepoImpl(prefs),
       module: this,
@@ -111,6 +119,7 @@ final class UnauthDiScope extends DiScope {
         sessionUsecase: di.resolve(),
         keyToolRepository: di.resolve(),
         relaysListRepo: di.resolve(),
+        accountsRepo: di.resolve(),
       ),
       module: this,
       lifeTime: const LifeTime.single(),

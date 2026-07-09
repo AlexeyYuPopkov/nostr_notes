@@ -40,6 +40,8 @@ abstract interface class NotesListCoordinator {
   void onEndDrawer();
 
   void onAccountSwitcher();
+
+  void onAddAccountRoute(BuildContext context);
 }
 
 final class NotesList extends StatefulWidget {
@@ -153,6 +155,8 @@ final class _NotesListState extends State<NotesList> with DialogHelper {
                 appBar: AppBar(
                   leading: _AccountSwitcherButton(
                     onOpenSwitcher: widget.coordinator.onAccountSwitcher,
+                    onAddAccount: () =>
+                        widget.coordinator.onAddAccountRoute(context),
                   ),
                   title: ListenableBuilder(
                     listenable: foldersVm,
@@ -397,7 +401,7 @@ final class _SettingsButton extends StatelessWidget {
         onPressed: onEndDrawer,
         child: Icon(
           Icons.settings_outlined,
-          size: Sizes.icon,
+          size: Sizes.iconMedium,
           color: theme.colorScheme.onSurfaceVariant,
         ),
       ),
@@ -407,7 +411,11 @@ final class _SettingsButton extends StatelessWidget {
 
 final class _AccountSwitcherButton extends StatelessWidget {
   final VoidCallback onOpenSwitcher;
-  const _AccountSwitcherButton({required this.onOpenSwitcher});
+  final VoidCallback onAddAccount;
+  const _AccountSwitcherButton({
+    required this.onOpenSwitcher,
+    required this.onAddAccount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -423,7 +431,12 @@ final class _AccountSwitcherButton extends StatelessWidget {
             showModalBottomSheet(
               context: context,
               showDragHandle: true,
-              builder: (_) => const AccountSwitcherPanel(),
+              builder: (sheetContext) => AccountSwitcherPanel(
+                onAddAccount: () {
+                  Navigator.of(sheetContext).pop();
+                  onAddAccount();
+                },
+              ),
             );
           } else {
             onOpenSwitcher();

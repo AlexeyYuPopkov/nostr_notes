@@ -46,6 +46,9 @@ final class _TestNotesListCoordinator implements NotesListCoordinator {
 
   @override
   void onAccountSwitcher() {}
+
+  @override
+  void onAddAccountRoute(BuildContext context) {}
 }
 
 class MockChannelFactory extends Mock implements ChannelFactory {}

@@ -31,7 +31,11 @@
       "Bash(screencapture -x /private/tmp/claude-501/-Users-alekseypopkov-Doc-nostr-notes-nostr-notes/2f11530e-9b92-4753-bd1c-0a8415b1e071/scratchpad/macos_shot.png)",
       "Bash(osascript -e 'tell application \"System Events\" to tell process \"Private Notes \\(Nostr\\)\" to get properties of every window')",
       "Bash(kill 92596)",
-      "Bash(pkill -f \"Private Notes\")"
+      "Bash(pkill -f \"Private Notes\")",
+      "Bash(fvm dart *)",
+      "Bash(python3 -)",
+      "Bash(grep -rn \"getUserKeysWithNsec\\\\|generateNsecKey\" packages/../../common/lib/data/repo/key_tool_repository_impl.dart 2>/dev/null; sed -n 1,50p ../common/lib/data/repo/key_tool_repository_impl.dart)",
+      "Read(//Users/alekseypopkov/Doc/nostr_notes/nostr_notes/packages/common/lib/data/repo/**)"
     ]
   }
 }

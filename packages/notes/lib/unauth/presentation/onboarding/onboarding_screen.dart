@@ -11,9 +11,15 @@ import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step
 
 import 'bloc/onboarding_screen_bloc.dart';
 import 'bloc/onboarding_screen_state.dart';
+import 'params/onboarding_screen_params.dart';
 
 final class OnboardingScreen extends StatelessWidget with DialogHelper {
-  const OnboardingScreen({super.key});
+  final OnboardingScreenParams params;
+
+  const OnboardingScreen({
+    super.key,
+    required this.params ,
+  });
 
   void _listener(BuildContext context, OnboardingScreenState state) {
     switch (state) {
@@ -34,8 +40,32 @@ final class OnboardingScreen extends StatelessWidget with DialogHelper {
   Widget build(BuildContext context) {
     final auth = DiStorage.shared.resolve<AuthUsecase>();
     return Scaffold(
+      appBar: params.addAccount
+          ? AppBar(
+              // The cross is only shown while the current session is still
+              // unlocked: at that point nothing has changed yet and the
+              // screen can simply be popped. Once the new account's nsec is
+              // submitted the session locks and the flow must go forward.
+              leading: StreamBuilder(
+                stream: auth.session,
+                initialData: auth.currentSession,
+                builder: (context, snapshot) {
+                  if (snapshot.data?.isUnlocked != true) {
+                    return const SizedBox.shrink();
+                  }
+                  return CloseButton(
+                    onPressed: () => GoRouter.of(context).pop(),
+                  );
+                },
+              ),
+            )
+          : null,
       body: FutureBuilder(
-        future: auth.restore(),
+        // In add-account mode the current session must stay untouched:
+        // restore() would re-lock it from the stored active key.
+        future: params.addAccount
+            ? Future.value(auth.currentSession)
+            : auth.restore(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Container(
@@ -46,9 +76,12 @@ final class OnboardingScreen extends StatelessWidget with DialogHelper {
           return SafeArea(
             child: DefaultTabController(
               length: OnboardingStep.pages.length,
-              initialIndex: 0,
+              initialIndex: params.addAccount
+                  ? OnboardingStep.pages.indexOf(const OnboardingNsec())
+                  : 0,
               child: BlocProvider(
-                create: (context) => OnboardingScreenBloc(),
+                create: (context) =>
+                    OnboardingScreenBloc(addAccount: params.addAccount),
                 child:
                     BlocListener<OnboardingScreenBloc, OnboardingScreenState>(
                       listenWhen: (a, b) => a.data.step != b.data.step,

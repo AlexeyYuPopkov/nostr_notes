@@ -35,4 +35,12 @@ final class HomeScreenCoordinatorImpl implements HomeScreenCoordinator {
 
   @override
   void onAccountSwitcher() => _leftDrawerKey.currentState?.open();
+
+  @override
+  void onAddAccountRoute(BuildContext context) {
+    GoRouter.of(context).push(
+      AppRouterPath.onboarding,
+      extra: const OnboardingScreenParams(addAccount: true).toJson(),
+    );
+  }
 }

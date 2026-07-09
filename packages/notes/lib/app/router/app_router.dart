@@ -17,6 +17,7 @@ import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholde
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/onboarding_screen.dart';
+import 'package:nostr_notes/unauth/presentation/onboarding/params/onboarding_screen_params.dart';
 import 'package:rxdart/transformers.dart';
 
 part 'app_router_part.dart';
@@ -90,8 +91,13 @@ final class AppRouter {
         name: AppRouterName.onboarding,
         path: AppRouterPath.onboarding,
         builder: (BuildContext context, GoRouterState state) {
+          final extra = state.extra;
+          final OnboardingScreenParams params = extra is Map<String, dynamic>
+              ? OnboardingScreenParams.fromJson(extra)
+              : const OnboardingScreenParams(addAccount: false);
+
           return RouteHandlerWidget(
-            child: const OnboardingScreen(),
+            child: OnboardingScreen(params: params),
             onRoute: (route, context) {
               if (route is ApkDistributionRoute) {
                 return GoRouter.of(
@@ -141,7 +147,7 @@ final class AppRouter {
           final hasNote =
               state.fullPath?.contains(AppRouterPath.notePreview) == true ||
               state.fullPath?.contains(AppRouterPath.noteDetails) == true;
-              
+
           return Scaffold(
             body: HomeScreen(
               scaffoldKey: _homeScaffoldKey,
