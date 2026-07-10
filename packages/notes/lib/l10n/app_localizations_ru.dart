@@ -183,6 +183,12 @@ class AppLocalizationsRu extends AppLocalizations {
       'PIN - это дополнительный уровень защиты на случай компрометации nsec. Он хранится только в памяти и никогда не сохраняется на диск. Если PIN утерян, существующие заметки расшифровать нельзя. Если создать или изменить заметку с неверным PIN, она будет зашифрована с этим неверным PIN.';
 
   @override
+  String get onboardingPinPageAutoUnlockTitle => 'Разблокировка аккаунта';
+
+  @override
+  String get onboardingPinPageAutoUnlockButton => 'Разблокировать';
+
+  @override
   String get errorEmptyNsec => 'Ключ NSEC не может быть пустым';
 
   @override

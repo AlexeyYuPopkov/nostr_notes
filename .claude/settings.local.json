@@ -35,7 +35,13 @@
       "Bash(fvm dart *)",
       "Bash(python3 -)",
       "Bash(grep -rn \"getUserKeysWithNsec\\\\|generateNsecKey\" packages/../../common/lib/data/repo/key_tool_repository_impl.dart 2>/dev/null; sed -n 1,50p ../common/lib/data/repo/key_tool_repository_impl.dart)",
-      "Read(//Users/alekseypopkov/Doc/nostr_notes/nostr_notes/packages/common/lib/data/repo/**)"
+      "Read(//Users/alekseypopkov/Doc/nostr_notes/nostr_notes/packages/common/lib/data/repo/**)",
+      "Bash(pkill -f \"flutter_tools.snapshot test\")",
+      "Bash(pkill -f \"onboarding_pin_page_auto_unlock\")",
+      "Bash(echo \"EXIT=$?\")",
+      "Bash(grep -E \"All tests passed|Some tests failed|Exception|Failing|EXIT=\" /tmp/pt2d.out | tail; echo \"---last line---\"; tail -3 /tmp/pt2d.out)",
+      "Read(//private/tmp/**)",
+      "Read(//tmp/**)"
     ]
   }
 }

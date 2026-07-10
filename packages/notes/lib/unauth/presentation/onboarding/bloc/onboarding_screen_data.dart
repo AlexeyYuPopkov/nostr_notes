@@ -8,11 +8,16 @@ final class OnboardingScreenData extends Equatable {
   final String? generatedNsec;
   final bool isUsePin;
 
+  /// True when the PIN step should auto-unlock instead of asking for input:
+  /// an existing account that opted out of PIN is being switched in.
+  final bool autoUnlock;
+
   const OnboardingScreenData._({
     required this.step,
     required this.pinKeyboardType,
     required this.generatedNsec,
     required this.isUsePin,
+    required this.autoUnlock,
   });
 
   factory OnboardingScreenData.initial() {
@@ -21,23 +26,32 @@ final class OnboardingScreenData extends Equatable {
       pinKeyboardType: PinKeyboardType.text,
       generatedNsec: null,
       isUsePin: true,
+      autoUnlock: false,
     );
   }
 
   @override
-  List<Object?> get props => [step, generatedNsec, pinKeyboardType, isUsePin];
+  List<Object?> get props => [
+    step,
+    generatedNsec,
+    pinKeyboardType,
+    isUsePin,
+    autoUnlock,
+  ];
 
   OnboardingScreenData copyWith({
     OnboardingStep? step,
     PinKeyboardType? pinKeyboardType,
     String? generatedNsec,
     bool? isUsePin,
+    bool? autoUnlock,
   }) {
     return OnboardingScreenData._(
       step: step ?? this.step,
       pinKeyboardType: pinKeyboardType ?? this.pinKeyboardType,
       generatedNsec: generatedNsec ?? this.generatedNsec,
       isUsePin: isUsePin ?? this.isUsePin,
+      autoUnlock: autoUnlock ?? this.autoUnlock,
     );
   }
 }

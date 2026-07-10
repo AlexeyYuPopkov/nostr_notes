@@ -49,6 +49,8 @@
     "onboardingPinPageTextFieldHint": "PIN or password",
     "onboardingPinPageLabelCheckboxUsePin": "Use pin to unlock app",
     "onboardingPinPageInfoPin": "The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.",
+    "onboardingPinPageAutoUnlockTitle": "Unlocking account",
+    "onboardingPinPageAutoUnlockButton": "Unlock",
     "errorEmptyNsec": "NSEC key cannot be empty",
     "errorInvalidNsecFormat": "Invalid NSEC key format",
     "errorInvalidPrivateKey": "Invalid private key",

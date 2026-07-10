@@ -182,6 +182,12 @@ class AppLocalizationsBg extends AppLocalizations {
       'ПИН-ът е допълнителен слой защита при компрометиране на nsec. Той се съхранява само в паметта и никога не се записва на диск. Ако ПИН-ът бъде изгубен, съществуващите бележки не могат да бъдат декриптирани. Ако създадете или промените бележка с грешен ПИН, тя ще бъде криптирана с грешния ПИН.';
 
   @override
+  String get onboardingPinPageAutoUnlockTitle => 'Отключване на акаунт';
+
+  @override
+  String get onboardingPinPageAutoUnlockButton => 'Отключване';
+
+  @override
   String get errorEmptyNsec => 'NSEC ключът не може да бъде празен';
 
   @override

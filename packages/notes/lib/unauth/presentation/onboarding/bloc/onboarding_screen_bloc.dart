@@ -49,7 +49,10 @@ final class OnboardingScreenBloc
     sessionSubscription?.cancel();
     sessionSubscription = null;
     sessionSubscription = authUsecase.session
-        .distinct((a, b) => a.isAuth == b.isAuth)
+        // Compare the account (pubkey) too, not just isAuth — otherwise a
+        // locked → locked switch between two accounts (same isAuth) is
+        // swallowed and _onAuthenticated never re-runs for the new account.
+        .distinct((a, b) => a.isAuth == b.isAuth && a.pubkey == b.pubkey)
         .listen((session) {
           if (addAccount && session.isUnlocked) {
             add(const OnboardingScreenEvent.onStep(OnboardingNsec()));
@@ -63,11 +66,20 @@ final class OnboardingScreenBloc
 
   void _onAuthenticated(Session session) {
     final hasRelays = relaysListRepo.getRelaysList().isNotEmpty;
+    final publicKey = session.keys?.publicKey;
+    final isUsePin = publicKey != null && publicKey.isNotEmpty
+        ? _pinEnabledRepo.getForUser(publicKey)
+        : true;
+
+    // An existing account that explicitly opted out of PIN (flag == false, not
+    // the null/true default of a fresh account) can skip PIN entry. It still
+    // needs relays first if none are configured yet.
+    final autoUnlock = hasRelays && !isUsePin;
+
     final step = hasRelays ? const OnboardingPin() : const OnboardingRelays();
     add(OnboardingScreenEvent.onStep(step));
-    final publicKey = session.keys?.publicKey;
+    add(OnboardingScreenEvent.autoUnlockMode(autoUnlock));
     if (publicKey != null && publicKey.isNotEmpty) {
-      final isUsePin = _pinEnabledRepo.getForUser(publicKey);
       final pinKeyboardType = _pinKeyboardTypeRepo.getType();
       add(
         OnboardingScreenEvent.settingsEvent(
@@ -92,6 +104,18 @@ final class OnboardingScreenBloc
           events.debounceTime(_debounceDuration).switchMap(mapper),
     );
     on<DidChangeSettingsEvent>(_onDidChangeUsePinFlagEvent);
+    on<AutoUnlockModeEvent>(_onAutoUnlockModeEvent);
+  }
+
+  void _onAutoUnlockModeEvent(
+    AutoUnlockModeEvent event,
+    Emitter<OnboardingScreenState> emit,
+  ) {
+    emit(
+      OnboardingScreenState.common(
+        data: data.copyWith(autoUnlock: event.enabled),
+      ),
+    );
   }
 
   @override
@@ -137,8 +161,9 @@ final class OnboardingScreenBloc
       event.vm.setLoading();
 
       if (addAccount) {
+        // The session subscription now reacts to the Unlocked → Auth(new)
+        // transition (pubkey changed), so it drives _onAuthenticated itself.
         await authUsecase.addAccount(nsec: event.nsec);
-        _onAuthenticated(authUsecase.currentSession);
       } else {
         await authUsecase.execute(nsec: event.nsec);
       }
@@ -193,7 +218,6 @@ final class OnboardingScreenBloc
 
       if (addAccount) {
         await authUsecase.addAccount(nsec: event.nsec);
-        _onAuthenticated(authUsecase.currentSession);
       } else {
         await authUsecase.execute(nsec: event.nsec);
       }

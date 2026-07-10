@@ -400,6 +400,18 @@ abstract class AppLocalizations {
   /// **'The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.'**
   String get onboardingPinPageInfoPin;
 
+  /// No description provided for @onboardingPinPageAutoUnlockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocking account'**
+  String get onboardingPinPageAutoUnlockTitle;
+
+  /// No description provided for @onboardingPinPageAutoUnlockButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get onboardingPinPageAutoUnlockButton;
+
   /// No description provided for @errorEmptyNsec.
   ///
   /// In en, this message translates to:

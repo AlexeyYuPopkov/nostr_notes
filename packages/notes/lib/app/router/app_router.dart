@@ -37,7 +37,9 @@ final class AppRouter {
 
   void _createSessionSubscription() {
     sessionSubscription = session.sessionStream
-        .distinct((a, b) => a.isUnlocked == b.isUnlocked)
+        .distinct(
+          (a, b) => a.isUnlocked == b.isUnlocked && a.pubkey == b.pubkey,
+        )
         .doOnData((session) {
           if (session.isAuth && session.isUnlocked) {
             Di.instance.bindAuthModules();

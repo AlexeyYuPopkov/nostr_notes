@@ -34,6 +34,9 @@ sealed class OnboardingScreenEvent extends Equatable {
   const factory OnboardingScreenEvent.didChangeSettings(bool isUsePin) =
       DidChangeSettingsEvent;
 
+  const factory OnboardingScreenEvent.autoUnlockMode(bool enabled) =
+      AutoUnlockModeEvent;
+
   @override
   List<Object?> get props => const [];
 }
@@ -84,4 +87,12 @@ final class SettingsEvent extends OnboardingScreenEvent {
 final class DidChangeSettingsEvent extends OnboardingScreenEvent {
   final bool isUsePin;
   const DidChangeSettingsEvent(this.isUsePin);
+}
+
+final class AutoUnlockModeEvent extends OnboardingScreenEvent {
+  final bool enabled;
+  const AutoUnlockModeEvent(this.enabled);
+
+  @override
+  List<Object?> get props => [enabled];
 }
