@@ -78,7 +78,12 @@ final class OnboardingScreenBloc
 
     final step = hasRelays ? const OnboardingPin() : const OnboardingRelays();
     add(OnboardingScreenEvent.onStep(step));
-    add(OnboardingScreenEvent.autoUnlockMode(autoUnlock));
+    add(
+      OnboardingScreenEvent.pendingAccount(
+        pubkey: publicKey ?? '',
+        autoUnlock: autoUnlock,
+      ),
+    );
     if (publicKey != null && publicKey.isNotEmpty) {
       final pinKeyboardType = _pinKeyboardTypeRepo.getType();
       add(
@@ -104,16 +109,19 @@ final class OnboardingScreenBloc
           events.debounceTime(_debounceDuration).switchMap(mapper),
     );
     on<DidChangeSettingsEvent>(_onDidChangeUsePinFlagEvent);
-    on<AutoUnlockModeEvent>(_onAutoUnlockModeEvent);
+    on<PendingAccountEvent>(_onPendingAccountEvent);
   }
 
-  void _onAutoUnlockModeEvent(
-    AutoUnlockModeEvent event,
+  void _onPendingAccountEvent(
+    PendingAccountEvent event,
     Emitter<OnboardingScreenState> emit,
   ) {
     emit(
       OnboardingScreenState.common(
-        data: data.copyWith(autoUnlock: event.enabled),
+        data: data.copyWith(
+          autoUnlock: event.autoUnlock,
+          pendingPubkey: event.pubkey,
+        ),
       ),
     );
   }

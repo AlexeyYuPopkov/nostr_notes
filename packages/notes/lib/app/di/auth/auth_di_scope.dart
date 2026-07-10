@@ -5,6 +5,7 @@ import 'package:common/services/event_store/database/daos/daos.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:common/tools/app_worker/app_worker.dart';
+import 'package:nostr/nostr_client/async_fetcher.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr/nostr_client/nostr_relay.dart';
@@ -40,6 +41,12 @@ final class AuthDiScope extends DiScope {
       ),
       module: this,
       lifeTime: const LifeTime.single(),
+    );
+
+    di.bind<AsyncFetcher>(
+      () => AsyncFetcher(client: di.resolve()),
+      module: this,
+      lifeTime: const LifeTime.prototype(),
     );
 
     di.bind<Connectivity>(

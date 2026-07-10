@@ -2,16 +2,19 @@ import 'dart:async';
 
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/widgets/onboarding_text_field.dart';
+import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
+import 'package:nostr_notes/auth/domain/repo/accounts_repo.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 import 'package:common/presentation/buttons/prymary_loading_button.dart';
 import 'package:common/presentation/buttons/vm/loading_button_vm.dart';
 import 'package:common/presentation/dialogs/common_tooltip.dart';
+import 'package:nostr_notes/unauth/presentation/acc_switcher/acc_popup_menu_button.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/bloc/onboarding_screen_state.dart';
 
 import '../../bloc/onboarding_screen_bloc.dart';
@@ -61,9 +64,11 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
   @override
   Widget build(BuildContext context) {
     return BlocListener<OnboardingScreenBloc, OnboardingScreenState>(
-      listenWhen: (prev, curr) => prev.data.autoUnlock != curr.data.autoUnlock,
+      listenWhen: (a, b) =>
+          a.data.autoUnlock != b.data.autoUnlock ||
+          a.data.pendingPubkey != b.data.pendingPubkey,
       listener: (context, state) {
-        _vm.resetAutoUnlock();
+        _vm.onPendingAccountChanged();
         if (state.data.autoUnlock) {
           _vm.maybeStartAutoUnlock(context.read<OnboardingScreenBloc>());
         }
@@ -85,11 +90,6 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
   }
 }
 
-String _truncatePubkey(String pubkey) {
-  if (pubkey.length <= 16) return pubkey;
-  return '${pubkey.substring(0, 8)}…${pubkey.substring(pubkey.length - 6)}';
-}
-
 final class _AutoUnlock extends StatelessWidget {
   final _VM vm;
   const _AutoUnlock({required this.vm});
@@ -99,11 +99,6 @@ final class _AutoUnlock extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final commonL10n = context.commonL10n;
-    final pubkey = context
-        .read<OnboardingScreenBloc>()
-        .authUsecase
-        .currentSession
-        .pubkey;
 
     return SingleChildScrollView(
       child: Column(
@@ -127,15 +122,7 @@ final class _AutoUnlock extends StatelessWidget {
             ),
           ),
           const SizedBox(height: Sizes.indent2x),
-          Center(
-            child: Text(
-              _truncatePubkey(pubkey),
-              style: theme.textTheme.titleSmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
+          Center(child: _AccountHeader(vm: vm)),
           const SizedBox(height: Sizes.indent4x),
           Column(
             mainAxisSize: MainAxisSize.min,
@@ -150,35 +137,6 @@ final class _AutoUnlock extends StatelessWidget {
               ),
             ],
           ),
-          // ValueListenableBuilder<bool>(
-          //   valueListenable: vm._autoUnlockCancelled,
-          //   builder: (context, cancelled, _) {
-          //     if (!cancelled) {
-          //       return Column(
-          //         mainAxisSize: MainAxisSize.min,
-          //         children: [
-          //           const Center(child: CircularProgressIndicator.adaptive()),
-          //           const SizedBox(height: Sizes.indent2x),
-          //           Center(
-          //             child: TextButton(
-          //               onPressed: vm.cancelAutoUnlock,
-          //               child: Text(commonL10n.commonButtonCancel),
-          //             ),
-          //           ),
-          //         ],
-          //       );
-          //     }
-          //     return Center(
-          //       child: PrymaryLoadingButton(
-          //         title: l10n.onboardingPinPageAutoUnlockButton,
-          //         onTap: (buttonVm) => vm.unlockWithoutPin(
-          //           context.read<OnboardingScreenBloc>(),
-          //           buttonVm,
-          //         ),
-          //       ),
-          //     );
-          //   },
-          // ),
         ],
       ),
     );
@@ -225,6 +183,8 @@ final class _PinForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: Sizes.indentVariant4x),
+          Center(child: _AccountHeader(vm: vm)),
+          const SizedBox(height: Sizes.indent2x),
           Form(
             key: vm._formKey,
             child: Column(
@@ -362,6 +322,25 @@ final class _PinForm extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _AccountHeader extends StatelessWidget {
+  final _VM vm;
+  const _AccountHeader({required this.vm});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<OnboardingScreenBloc, OnboardingScreenState, String>(
+      selector: (state) => state.data.pendingPubkey,
+      builder: (context, currentPubkey) {
+        return AccountHeader(
+          currentPubkey: currentPubkey,
+          pubkeys: vm.accounts(),
+          onSelected: (pubkey) => vm.switchAccount(context, pubkey),
+        );
+      },
     );
   }
 }

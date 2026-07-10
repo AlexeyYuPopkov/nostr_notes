@@ -18,6 +18,13 @@ const _keys = UserKeys(
       'efb23a073532e28f8f3cf1b3ba4bc92f1bb6ab4dd365c853cabf9b70044e3240',
 );
 
+const _keysB = UserKeys(
+  publicKey:
+      '1111111111111111111111111111111111111111111111111111111111111111',
+  privateKey:
+      '2222222222222222222222222222222222222222222222222222222222222222',
+);
+
 String _pinFlagKey(String pubkey) => 'pin_enabled_flag_$pubkey';
 
 void main() {
@@ -76,5 +83,40 @@ void main() {
     addTearDown(bloc.close);
 
     await expectLater(bloc.stream, pinStepWith(autoUnlock: false));
+  });
+
+  test('switching the session account updates pendingPubkey and autoUnlock', () async {
+    await bindWith({
+      _pinFlagKey(_keys.publicKey): false, // account A: opted out of PIN
+      _pinFlagKey(_keysB.publicKey): true, // account B: PIN enabled
+    });
+    final session = DiStorage.shared.resolve<SessionUsecase>();
+    session.setSession(const Auth(_keys));
+
+    final bloc = OnboardingScreenBloc();
+    addTearDown(bloc.close);
+
+    await expectLater(
+      bloc.stream,
+      emitsThrough(
+        predicate<OnboardingScreenState>(
+          (s) => s.data.pendingPubkey == _keys.publicKey && s.data.autoUnlock,
+          'pending A, auto-unlock',
+        ),
+      ),
+    );
+
+    // Switching to B re-runs _onAuthenticated (distinct compares pubkey).
+    session.setSession(const Auth(_keysB));
+
+    await expectLater(
+      bloc.stream,
+      emitsThrough(
+        predicate<OnboardingScreenState>(
+          (s) => s.data.pendingPubkey == _keysB.publicKey && !s.data.autoUnlock,
+          'pending B, PIN required',
+        ),
+      ),
+    );
   });
 }

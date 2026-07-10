@@ -6,6 +6,7 @@ import 'package:nostr/model/user_keys.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/bloc/onboarding_screen_bloc.dart';
+import 'package:nostr_notes/common/presentation/account_avatar.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_pin_page/onboarding_pin_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,6 +20,9 @@ const _keys = UserKeys(
       'efb23a073532e28f8f3cf1b3ba4bc92f1bb6ab4dd365c853cabf9b70044e3240',
 );
 
+const _pubkeyB =
+    '1111111111111111111111111111111111111111111111111111111111111111';
+
 String _pinFlagKey(String pubkey) => 'pin_enabled_flag_$pubkey';
 
 void main() {
@@ -26,6 +30,7 @@ void main() {
     SharedPreferences.setMockInitialValues({
       'relay_urls': <String>['wss://test.relay'],
       _pinFlagKey(_keys.publicKey): false,
+      'accounts_pubkeys': <String>[_keys.publicKey, _pubkeyB],
     });
     final di = DiStorage.shared;
     const InMemoryDbModule().bind(di);
@@ -98,6 +103,36 @@ void main() {
       DiStorage.shared.resolve<SessionUsecase>().currentSession.isUnlocked,
       isTrue,
     );
+  });
+
+  testWidgets('account header dropdown lists all stored accounts', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      AppLauncher.launchApp(tester: tester, child: const _Host()),
+    );
+    await tester.pump();
+    await tester.pump();
+
+    // Cancel first so we're on the PIN form (no infinite progress spinner,
+    // and the auto-unlock timer is stopped).
+    await tester.tap(find.text('Cancel'));
+    await tester.pump();
+
+    // The header is a dropdown because there is more than one account, and it
+    // shows the pending account.
+    expect(find.byType(PopupMenuButton<String>), findsOneWidget);
+    expect(find.text(truncatePubkey(_keys.publicKey)), findsOneWidget);
+
+    // Open it and verify both accounts are listed (fixed pumps — the popup
+    // route animates, so pumpAndSettle is unnecessary and fragile).
+    await tester.tap(find.byType(PopupMenuButton<String>));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    expect(find.text(truncatePubkey(_pubkeyB)), findsOneWidget);
+    // The current account also appears as a menu item.
+    expect(find.text(truncatePubkey(_keys.publicKey)), findsNWidgets(2));
   });
 }
 

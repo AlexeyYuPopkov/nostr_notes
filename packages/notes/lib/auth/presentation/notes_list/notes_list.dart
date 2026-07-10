@@ -11,6 +11,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/presentation/account_switcher/account_switcher_panel.dart';
+import 'package:nostr_notes/common/presentation/account_avatar.dart';
 import 'package:nostr_notes/auth/presentation/model/category_localization.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/tabs/notes_list_tab.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/widgets/notes_search_field.dart';

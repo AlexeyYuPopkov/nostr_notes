@@ -42,6 +42,9 @@
       "Bash(grep -E \"All tests passed|Some tests failed|Exception|Failing|EXIT=\" /tmp/pt2d.out | tail; echo \"---last line---\"; tail -3 /tmp/pt2d.out)",
       "Read(//private/tmp/**)",
       "Read(//tmp/**)"
+    ],
+    "additionalDirectories": [
+      "/tmp"
     ]
   }
 }

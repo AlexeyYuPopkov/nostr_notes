@@ -12,12 +12,17 @@ final class OnboardingScreenData extends Equatable {
   /// an existing account that opted out of PIN is being switched in.
   final bool autoUnlock;
 
+  /// The pubkey of the account currently being authenticated on the PIN step.
+  /// Drives the account header/switcher; empty until authenticated.
+  final String pendingPubkey;
+
   const OnboardingScreenData._({
     required this.step,
     required this.pinKeyboardType,
     required this.generatedNsec,
     required this.isUsePin,
     required this.autoUnlock,
+    required this.pendingPubkey,
   });
 
   factory OnboardingScreenData.initial() {
@@ -27,6 +32,7 @@ final class OnboardingScreenData extends Equatable {
       generatedNsec: null,
       isUsePin: true,
       autoUnlock: false,
+      pendingPubkey: '',
     );
   }
 
@@ -37,6 +43,7 @@ final class OnboardingScreenData extends Equatable {
     pinKeyboardType,
     isUsePin,
     autoUnlock,
+    pendingPubkey,
   ];
 
   OnboardingScreenData copyWith({
@@ -45,6 +52,7 @@ final class OnboardingScreenData extends Equatable {
     String? generatedNsec,
     bool? isUsePin,
     bool? autoUnlock,
+    String? pendingPubkey,
   }) {
     return OnboardingScreenData._(
       step: step ?? this.step,
@@ -52,6 +60,7 @@ final class OnboardingScreenData extends Equatable {
       generatedNsec: generatedNsec ?? this.generatedNsec,
       isUsePin: isUsePin ?? this.isUsePin,
       autoUnlock: autoUnlock ?? this.autoUnlock,
+      pendingPubkey: pendingPubkey ?? this.pendingPubkey,
     );
   }
 }

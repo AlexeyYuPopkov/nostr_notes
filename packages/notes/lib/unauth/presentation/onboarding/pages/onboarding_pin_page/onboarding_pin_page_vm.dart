@@ -49,6 +49,28 @@ final class _VM extends ChangeNotifier with PinValidator {
     _autoUnlockCancelled.value = false;
   }
 
+  /// Called when the account being authenticated changes (via the switcher):
+  /// drop any typed PIN and reset the auto-unlock state for the new account.
+  void onPendingAccountChanged() {
+    resetAutoUnlock();
+    _controller.clear();
+    _formKey.currentState?.reset();
+  }
+
+  List<String> accounts() =>
+      DiStorage.shared.resolve<AccountsRepo>().getAccounts();
+
+  Future<void> switchAccount(BuildContext context, String pubkey) async {
+    final authUsecase = context.read<OnboardingScreenBloc>().authUsecase;
+    if (pubkey == authUsecase.currentSession.pubkey) return;
+    try {
+      await authUsecase.switchAccount(pubkey: pubkey);
+    } catch (_) {
+      // A stale account with no stored key is dropped by switchAccount; the
+      // header rebuilds from the refreshed accounts list.
+    }
+  }
+
   @override
   void dispose() {
     _disposed = true;

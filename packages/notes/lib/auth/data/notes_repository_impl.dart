@@ -363,7 +363,45 @@ class NotesRepositoryImpl implements NotesRepository {
     await _eventStore.upsert([event]);
     await _outboxDao.insert(eventId: event.id);
 
+    unawaited(
+      _maybeDelete(
+        createdAt: createdAt,
+        event: event,
+        dTag: note.dTag,
+        privateKey: privateKey,
+      ),
+    );
+
     return note;
+  }
+
+  Future<void> _maybeDelete({
+    required DateTime createdAt,
+    required NostrEvent event,
+    required String dTag,
+    required String privateKey,
+  }) async {
+    final deletion = _eventCreator.createEvent(
+      kind: EventKind.delete.value,
+      content: '',
+      createdAt: createdAt,
+      tags: [
+        [TagValue.e, event.id],
+        [
+          TagValue.a,
+          ATag(
+            kind: EventKind.note.value,
+            pubkey: event.pubkey,
+            dTag: dTag,
+          ).toTagString(),
+        ],
+      ],
+      pubkey: event.pubkey,
+      privateKey: privateKey,
+    );
+
+    await _eventStore.upsert([deletion]);
+    await _outboxDao.insert(eventId: deletion.id);
   }
 
   @override
