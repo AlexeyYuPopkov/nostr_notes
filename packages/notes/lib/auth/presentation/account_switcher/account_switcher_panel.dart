@@ -2,10 +2,13 @@ import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
+import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/common/presentation/account_avatar.dart';
 import 'package:nostr_notes/l10n/localization.dart';
+import 'package:nostr_notes/common/domain/usecase/get_user_usecase.dart';
+import 'package:nostr_notes/unauth/presentation/acc_switcher/account_chip_vm.dart';
 
 import 'bloc/account_switcher_bloc.dart';
 import 'bloc/account_switcher_event.dart';
@@ -89,7 +92,7 @@ final class AccountSwitcherPanel extends StatelessWidget with DialogHelper {
   }
 }
 
-final class _AccountTile extends StatelessWidget {
+final class _AccountTile extends StatefulWidget {
   final String pubkey;
   final bool isCurrent;
   final ListItemPosition position;
@@ -103,29 +106,67 @@ final class _AccountTile extends StatelessWidget {
   });
 
   @override
+  State<_AccountTile> createState() => _AccountTileState();
+}
+
+final class _AccountTileState extends State<_AccountTile> {
+  late final GetUserUsecase getUserUsecase = DiStorage.shared.resolve();
+  late var vm = AccountChipVM(
+    pubkey: widget.pubkey,
+    getUserUsecase: getUserUsecase,
+  );
+
+  @override
+  void dispose() {
+    vm.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant _AccountTile oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.pubkey != widget.pubkey) {
+      vm.dispose();
+      vm = AccountChipVM(pubkey: widget.pubkey, getUserUsecase: getUserUsecase);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return SettingsItemTile(
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AccountAvatar(pubkey: pubkey, size: Sizes.iconMedium),
-          const SizedBox(width: Sizes.indent),
-          Flexible(
-            child: Text(
-              truncatePubkey(pubkey),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
+      title: ListenableBuilder(
+        listenable: vm,
+        builder: (context, _) {
+          final user = vm.user;
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AccountAvatar(
+                pubkey: widget.pubkey,
+                size: Sizes.iconMedium,
+                pictureUrl: user?.picture,
+              ),
+              const SizedBox(width: Sizes.indent),
+              Flexible(
+                child: Text(
+                  user?.displayName ??
+                      user?.name ??
+                      truncatePubkey(widget.pubkey),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          );
+        },
       ),
-      trailing: isCurrent
+      trailing: widget.isCurrent
           ? Icon(Icons.check_circle, color: theme.colorScheme.primary)
           : null,
-      position: position,
-      onTap: isCurrent ? null : onTap,
+      position: widget.position,
+      onTap: widget.isCurrent ? null : widget.onTap,
     );
   }
 }
-

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:nostr/model/base_nostr_event.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/nostr_event_eose.dart';
+import 'package:nostr/model/nostr_event_with_relay.dart';
 import 'package:nostr/model/nostr_req.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 
@@ -41,7 +42,8 @@ final class AsyncFetcher {
     subscription = _client.stream().listen((event) {
       if (completer.isCompleted) return;
 
-      if (event is NostrEvent) {
+      if (event is NostrEventWithRelay &&
+          event.subscriptionId == subscriptionId) {
         events[event.id] = event;
       } else if (event is NostrEventEose &&
           event.subscriptionId == subscriptionId) {

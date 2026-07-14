@@ -1,21 +1,27 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 final class AccountAvatar extends StatelessWidget {
   final String pubkey;
   final double size;
+  final String? pictureUrl;
 
-  const AccountAvatar({super.key, required this.pubkey, required this.size});
+  const AccountAvatar({
+    super.key,
+    required this.pubkey,
+    required this.size,
+    this.pictureUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: colorForPubkey(pubkey),
-        shape: BoxShape.circle,
-      ),
+    final url = pictureUrl ?? '';
+
+    return CircleAvatar(
+      radius: size / 2,
+      backgroundColor: colorForPubkey(pubkey),
+      foregroundImage: url.isEmpty ? null : CachedNetworkImageProvider(url),
+      onForegroundImageError: url.isEmpty ? null : (_, _) {},
       child: Text(
         _initialsForPubkey(pubkey),
         style: TextStyle(

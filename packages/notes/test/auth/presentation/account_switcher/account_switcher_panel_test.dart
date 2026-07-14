@@ -1,14 +1,21 @@
 import 'package:common/data/repo/key_tool_repository_impl.dart';
+import 'package:common/services/event_store/database/app_database.dart';
+import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nostr/nostr_client/async_fetcher.dart';
+import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/auth/domain/repo/accounts_repo.dart';
 import 'package:nostr_notes/auth/presentation/account_switcher/account_switcher_panel.dart';
 import 'package:nostr_notes/common/presentation/account_avatar.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
+import 'package:nostr_notes/common/data/usecases/get_user_usecase_impl.dart';
+import 'package:nostr_notes/common/domain/usecase/get_user_usecase.dart';
 
+import '../../../../integration_test/di/in_memory_db_module.dart';
 import '../../../tools/app_launcher/app_launcher.dart';
 import '../../../tools/mocks/mock_accounts_repo.dart';
 import '../../../tools/mocks/mock_relays_list_repo.dart';
@@ -51,9 +58,23 @@ void main() {
       module: null,
       lifeTime: const LifeTime.single(),
     );
+
+    const InMemoryDbModule().bind(di);
+    di.bind<GetUserUsecase>(
+      () => GetUserUsecaseImpl(
+        // No relays are added, so AsyncFetcher.fetchEvents short-circuits
+        // with an empty result without touching the network.
+        asyncFetcher: AsyncFetcher(client: NostrClient()),
+        rawEventStore: di.resolve<RawEventStore>(),
+      ),
+      module: null,
+      lifeTime: const LifeTime.prototype(),
+    );
   });
 
-  tearDown(() {
+  tearDown(() async {
+    final AppDatabase db = DiStorage.shared.resolve();
+    await db.close();
     DiStorage.shared.removeAll();
   });
 

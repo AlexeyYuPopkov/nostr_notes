@@ -9,6 +9,7 @@ import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/nostr_client/async_fetcher.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
+import 'package:nostr_notes/common/data/usecases/get_user_usecase_impl.dart';
 import 'package:nostr_notes/common/domain/usecase/get_user_usecase.dart';
 import 'package:uuid/uuid.dart';
 
@@ -62,7 +63,7 @@ void main() {
       uuid = _MockUuid();
       client = NostrClient(channelFactory: channelFactory, uuid: uuid);
 
-      sut = GetUserUsecase(
+      sut = GetUserUsecaseImpl(
         asyncFetcher: AsyncFetcher(client: client),
         rawEventStore: eventStore,
       );
@@ -80,7 +81,7 @@ void main() {
     test(
       'returns null when there is no local data and no relay configured',
       () async {
-        final result = await sut.execute(pubkey: _pubkey);
+        final result = await sut.execute(pubkey: _pubkey).first;
 
         expect(result, isNull);
       },
@@ -110,7 +111,8 @@ void main() {
 
         final result = await sut
             .execute(pubkey: _pubkey)
-            .timeout(const Duration(seconds: 5));
+            .where((user) => user != null)
+            .first;
 
         expect(result, isNotNull);
         expect(result!.pubkey, _pubkey);
@@ -149,21 +151,28 @@ void main() {
 
         final first = await sut
             .execute(pubkey: _pubkey)
-            .timeout(const Duration(seconds: 5));
+            .where((user) => user != null)
+            .first;
+
         expect(first!.name, 'alice');
 
         final requestsBeforeSecondCall = channel.calls
-            .where((c) => c.key == 'add' && (c.value as String).contains('"REQ"'))
+            .where(
+              (c) => c.key == 'add' && (c.value as String).contains('"REQ"'),
+            )
             .length;
 
         final second = await sut
             .execute(pubkey: _pubkey)
-            .timeout(const Duration(seconds: 5));
+            .where((user) => user != null)
+            .first;
 
         expect(second, equals(first));
 
         final requestsAfterSecondCall = channel.calls
-            .where((c) => c.key == 'add' && (c.value as String).contains('"REQ"'))
+            .where(
+              (c) => c.key == 'add' && (c.value as String).contains('"REQ"'),
+            )
             .length;
         expect(requestsAfterSecondCall, requestsBeforeSecondCall);
       },
@@ -198,9 +207,7 @@ void main() {
           }
         };
 
-        final result = await sut
-            .execute(pubkey: _pubkey)
-            .timeout(const Duration(seconds: 5));
+        final result = await sut.execute(pubkey: _pubkey).first;
 
         expect(result!.name, 'newer-local');
 
@@ -241,11 +248,20 @@ void main() {
           }
         };
 
-        final result = await sut
+        final result = sut
             .execute(pubkey: _pubkey)
-            .timeout(const Duration(seconds: 5));
+            .map((user) {
+              if (user != null) {
+                return user.name;
+              }
+              return null;
+            })
+            .where((user) => user != null);
 
-        expect(result!.name, 'newer-remote');
+        await expectLater(
+          result,
+          emitsInOrder(['older-local', 'newer-remote']),
+        );
 
         final stored = await eventStore.queryEvents(
           const RawEventQuery(authors: [_pubkey], kinds: [0]),

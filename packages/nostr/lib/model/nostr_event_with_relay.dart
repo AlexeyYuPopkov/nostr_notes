@@ -17,6 +17,8 @@ final class NostrEventWithRelay extends NostrEvent {
   EventType get eventType => EventType.event;
   @JsonKey(name: 'relay', defaultValue: '')
   final String relay;
+  @JsonKey(name: 'subscriptionId', defaultValue: '')
+  final String subscriptionId;
 
   const NostrEventWithRelay({
     required super.kind,
@@ -27,6 +29,7 @@ final class NostrEventWithRelay extends NostrEvent {
     required super.content,
     required super.sig,
     required this.relay,
+    required this.subscriptionId,
   });
 
   // factory NostrEventWithRelay.fromJson(Map<String, dynamic> json) =>
@@ -35,7 +38,12 @@ final class NostrEventWithRelay extends NostrEvent {
   factory NostrEventWithRelay.fromJsonWithRelay(
     Map<String, dynamic> json,
     String relay,
-  ) => _$NostrEventWithRelayFromJson({...json, 'relay': relay});
+    String subscriptionId,
+  ) => _$NostrEventWithRelayFromJson({
+    ...json,
+    'relay': relay,
+    'subscriptionId': subscriptionId,
+  });
 
   @override
   Map<String, dynamic> toJson() => _$NostrEventWithRelayToJson(this);

@@ -94,6 +94,10 @@ class CommonLocalizationsRu extends CommonLocalizations {
       'Реле - это серверы, которые хранят и доставляют ваши зашифрованные заметки. Выберите хотя бы одно реле, чтобы продолжить';
 
   @override
+  String get relaysPageAddCustomLabel =>
+      'Опционально добавьте своё реле, указав его адрес';
+
+  @override
   String get relaysPageAddCustomHint => 'wss://...';
 
   @override

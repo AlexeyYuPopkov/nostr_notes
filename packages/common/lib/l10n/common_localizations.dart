@@ -268,6 +268,12 @@ abstract class CommonLocalizations {
   /// **'Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue'**
   String get relaysPageDescription;
 
+  /// No description provided for @relaysPageAddCustomLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Optionally, add your own relay by its address'**
+  String get relaysPageAddCustomLabel;
+
   /// No description provided for @relaysPageAddCustomHint.
   ///
   /// In en, this message translates to:

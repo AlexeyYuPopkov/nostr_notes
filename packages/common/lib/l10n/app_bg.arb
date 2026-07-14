@@ -27,6 +27,7 @@
     "themeScreenLabelCards": "Карти",
     "relaysPageTitle": "Избери релета",
     "relaysPageDescription": "Релетата са сървъри, които съхраняват и доставят вашите криптирани бележки. Изберете поне едно реле, за да продължите",
+    "relaysPageAddCustomLabel": "По желание добавете свое реле, като въведете неговия адрес",
     "relaysPageAddCustomHint": "wss://...",
     "relaysPageAddButton": "Добави",
     "relaysPageCheckButton": "Провери",

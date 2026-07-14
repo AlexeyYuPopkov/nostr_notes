@@ -89,9 +89,41 @@ final class OnboardingRelaysPage extends StatelessWidget with DialogHelper {
                 hasScrollBody: false,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Text(
+                    //   commonL10n.relaysPageAddCustomLabel,
+                    //   style: theme.textTheme.bodySmall?.copyWith(
+                    //     color: theme.colorScheme.onSurfaceVariant,
+                    //   ),
+                    // ),
+                    // const SizedBox(height: Sizes.halfIndent),
                     RelayInputTextField(
                       onAdd: (str) => _onAddCustom(context, urlStr: str),
+                    ),
+                    const SizedBox(height: Sizes.halfIndent),
+                    Tooltip(
+                      message: commonL10n.relaysPageAddCustomLabel,
+                      child: Row(
+                        spacing: Sizes.indent,
+                        children: [
+                          Icon(
+                            Icons.info_outline,
+                            size: Sizes.indent2x,
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                          Expanded(
+                            child: Text(
+                              commonL10n.relaysPageAddCustomLabel,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: Sizes.indent4x),
                     Center(

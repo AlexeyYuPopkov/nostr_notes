@@ -13,7 +13,8 @@ final class NotePreviewSearchBar extends StatelessWidget {
   final VoidCallback onNext;
   final VoidCallback onPrev;
 
-  const NotePreviewSearchBar({super.key, 
+  const NotePreviewSearchBar({
+    super.key,
     required this.controller,
     required this.matchCount,
     required this.currentIndex,
@@ -32,7 +33,7 @@ final class NotePreviewSearchBar extends StatelessWidget {
         vertical: Sizes.indent,
       ),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
+        color: theme.scaffoldBackgroundColor,
         border: Border(
           bottom: BorderSide(color: theme.colorScheme.outlineVariant),
         ),
@@ -104,7 +105,8 @@ final class NotePreviewSearchableText extends StatelessWidget {
   final List<SearchVMMatch> matches;
   final int currentMatchIndex;
 
-  const NotePreviewSearchableText({super.key, 
+  const NotePreviewSearchableText({
+    super.key,
     required this.text,
     required this.matches,
     required this.currentMatchIndex,

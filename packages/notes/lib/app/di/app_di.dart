@@ -27,10 +27,7 @@ final class AppDi implements Di {
   Future<void> bindUnauthModules() async {
     final di = DiStorage.shared;
 
-    di.removeScope<UnauthDiScope>();
-    di.removeScope<DbModule>();
-    di.removeScope<CryptoDiModule>();
-    di.removeScope<AdsDiModule>();
+    removeUnauthModules();
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -39,6 +36,7 @@ final class AppDi implements Di {
 
     await const CryptoDiModule().bind(di);
     await const AdsDiModule().bind(di);
+    const NostrModule().bind(di);
   }
 
   @override
@@ -70,5 +68,6 @@ final class AppDi implements Di {
     di.removeScope<DbModule>();
     di.removeScope<CryptoDiModule>();
     di.removeScope<AdsDiModule>();
+    di.removeScope<NostrModule>();
   }
 }

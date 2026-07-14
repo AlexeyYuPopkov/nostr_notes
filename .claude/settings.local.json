@@ -41,7 +41,12 @@
       "Bash(echo \"EXIT=$?\")",
       "Bash(grep -E \"All tests passed|Some tests failed|Exception|Failing|EXIT=\" /tmp/pt2d.out | tail; echo \"---last line---\"; tail -3 /tmp/pt2d.out)",
       "Read(//private/tmp/**)",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Bash(grep -n \"clipBehavior\" /Users/alekseypopkov/fvm/versions/3.44.0/packages/flutter/lib/src/material/popup_menu.dart | head -30)",
+      "Read(//Users/alekseypopkov/fvm/versions/3.44.0/packages/flutter/lib/src/material/**)",
+      "Bash(pod install *)",
+      "Bash(git check-ignore *)",
+      "Bash(git commit -m ' *)"
     ],
     "additionalDirectories": [
       "/tmp"

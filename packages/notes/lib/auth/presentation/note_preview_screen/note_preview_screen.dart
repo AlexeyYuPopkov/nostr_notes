@@ -164,16 +164,22 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
                               duration: const Duration(milliseconds: 200),
                               curve: Curves.easeOut,
                               child: vm.isVisible
-                                  ? NotePreviewSearchBar(
-                                      controller: vm.searchController,
-                                      matchCount: matchCount,
-                                      currentIndex: vm.currentMatchIndex.value,
-                                      queryNotEmpty: vm.isSearchNotEmpty,
-                                      onChanged: vm.onSearchChanged,
-                                      onNext: () =>
-                                          vm.nextMatch(content, matchCount),
-                                      onPrev: () =>
-                                          vm.prevMatch(content, matchCount),
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(
+                                        bottom: Sizes.indent,
+                                      ),
+                                      child: NotePreviewSearchBar(
+                                        controller: vm.searchController,
+                                        matchCount: matchCount,
+                                        currentIndex:
+                                            vm.currentMatchIndex.value,
+                                        queryNotEmpty: vm.isSearchNotEmpty,
+                                        onChanged: vm.onSearchChanged,
+                                        onNext: () =>
+                                            vm.nextMatch(content, matchCount),
+                                        onPrev: () =>
+                                            vm.prevMatch(content, matchCount),
+                                      ),
                                     )
                                   : const SizedBox.shrink(),
                             );

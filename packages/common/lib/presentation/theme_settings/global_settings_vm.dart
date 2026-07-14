@@ -124,10 +124,7 @@ final class GlobalSettingsVm {
     if (value == null || value.isEmpty) return null;
 
     final parts = value.split(RegExp(r'[-_]'));
-    if (parts.length == 1) {
-      return Locale(parts.first);
-    }
-    return Locale(parts.first, parts[1]);
+    return Locale(parts.first, parts.elementAtOrNull(1));
   }
 }
 

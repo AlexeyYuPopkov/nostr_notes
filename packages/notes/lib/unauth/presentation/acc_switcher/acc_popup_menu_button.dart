@@ -1,11 +1,13 @@
 import 'package:common/app/theme/sizes.dart';
+import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_notes/common/presentation/account_avatar.dart';
 import 'package:nostr_notes/l10n/localization.dart';
+import 'package:nostr_notes/common/domain/usecase/get_user_usecase.dart';
+import 'package:nostr_notes/unauth/presentation/acc_switcher/account_chip_vm.dart';
 
-/// Shows which account the PIN step is for. When more than one account is
-/// stored, it becomes a dropdown to switch the pending account.
-final class AccountHeader extends StatelessWidget {
+import 'acc_popup_menu_chip.dart';
+
+final class AccountHeader extends StatefulWidget {
   final String currentPubkey;
   final List<String> pubkeys;
   final ValueChanged<String> onSelected;
@@ -18,78 +20,74 @@ final class AccountHeader extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  State<AccountHeader> createState() => _AccountHeaderState();
+}
 
-    final canSwitch = pubkeys.length > 1;
-    final chip = _AccountChip(pubkey: currentPubkey, showChevron: canSwitch);
+final class _AccountHeaderState extends State<AccountHeader> {
+  late final GetUserUsecase getUserUsecase = DiStorage.shared.resolve();
+  late var vm = AccountChipVM(
+    pubkey: widget.currentPubkey,
+    getUserUsecase: getUserUsecase,
+  );
+
+  ValueNotifier<bool> isOpened = ValueNotifier(false);
+
+  @override
+  void didUpdateWidget(covariant AccountHeader oldWidget) {
+    if (oldWidget.currentPubkey != widget.currentPubkey) {
+      vm.dispose();
+      vm = AccountChipVM(
+        pubkey: widget.currentPubkey,
+        getUserUsecase: getUserUsecase,
+      );
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final canSwitch = widget.pubkeys.length > 1;
+    final chip = AccountChip(
+      showChevron: canSwitch,
+      vm: vm,
+      isOpened: isOpened,
+    );
 
     if (!canSwitch) return chip;
 
     return PopupMenuButton<String>(
       tooltip: context.l10n.accountSwitcherTitle,
-      onSelected: onSelected,
+
       offset: const Offset(0, Sizes.padding4x),
+
+      constraints: const BoxConstraints(
+        maxWidth: AccountChip.menuWidth,
+        minWidth: AccountChip.menuWidth,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Sizes.indent2x),
+      ),
+      clipBehavior: Clip.antiAlias,
+      menuPadding: EdgeInsets.zero,
+      onOpened: () => isOpened.value = true,
+      onSelected: (pubkey) {
+        widget.onSelected(pubkey);
+        isOpened.value = false;
+      },
+      onCanceled: () => isOpened.value = false,
       itemBuilder: (context) => [
-        for (final pubkey in pubkeys)
+        for (final pubkey in widget.pubkeys)
           PopupMenuItem<String>(
             value: pubkey,
-            child: Row(
-              children: [
-                AccountAvatar(pubkey: pubkey, size: Sizes.iconMedium),
-                const SizedBox(width: Sizes.indent),
-                Expanded(
-                  child: Text(
-                    truncatePubkey(pubkey),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                if (pubkey == currentPubkey)
-                  Icon(
-                    Icons.check,
-                    size: Sizes.iconSmall,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-              ],
+            padding: EdgeInsets.zero,
+            child: AccountItemChip(
+              getUserUsecase: vm.getUserUsecase,
+              pubkey: pubkey,
+              isSelected: widget.currentPubkey == pubkey,
             ),
           ),
       ],
       child: chip,
-    );
-  }
-}
-
-final class _AccountChip extends StatelessWidget {
-  final String pubkey;
-  final bool showChevron;
-  const _AccountChip({required this.pubkey, required this.showChevron});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: Sizes.indent,
-        vertical: Sizes.halfIndent,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(Sizes.indent4x),
-        border: Border.all(color: theme.colorScheme.outlineVariant),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AccountAvatar(pubkey: pubkey, size: Sizes.iconMedium),
-          const SizedBox(width: Sizes.indent),
-          Flexible(
-            child: Text(
-              truncatePubkey(pubkey),
-              overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.titleSmall,
-            ),
-          ),
-          if (showChevron) const Icon(Icons.arrow_drop_down),
-        ],
-      ),
     );
   }
 }

@@ -4,11 +4,8 @@ import 'package:common/data/zap/perform_lighting_invoice_service.dart';
 import 'package:common/services/event_store/database/daos/daos.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:common/tools/app_worker/app_worker.dart';
-import 'package:nostr/nostr_client/async_fetcher.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
-import 'package:nostr/nostr_client/nostr_relay.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
 import 'package:nostr_notes/auth/data/export_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/get_pending_usecase_impl.dart';
@@ -32,23 +29,6 @@ final class AuthDiScope extends DiScope {
 
   @override
   void bind(DiStorage di) {
-    di.bind<NostrClient>(
-      () => NostrClient(
-        batchParser: (batch, relayUrl) => AppWorker.instance.compute(
-          params: (batch, relayUrl),
-          callback: NostrRelayEventMapper.parseBatch,
-        ),
-      ),
-      module: this,
-      lifeTime: const LifeTime.single(),
-    );
-
-    di.bind<AsyncFetcher>(
-      () => AsyncFetcher(client: di.resolve()),
-      module: this,
-      lifeTime: const LifeTime.prototype(),
-    );
-
     di.bind<Connectivity>(
       () => Connectivity(),
       module: this,

@@ -94,6 +94,10 @@ class CommonLocalizationsEn extends CommonLocalizations {
       'Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue';
 
   @override
+  String get relaysPageAddCustomLabel =>
+      'Optionally, add your own relay by its address';
+
+  @override
   String get relaysPageAddCustomHint => 'wss://...';
 
   @override

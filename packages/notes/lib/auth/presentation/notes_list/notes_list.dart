@@ -15,7 +15,9 @@ import 'package:nostr_notes/common/presentation/account_avatar.dart';
 import 'package:nostr_notes/auth/presentation/model/category_localization.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/tabs/notes_list_tab.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/widgets/notes_search_field.dart';
+import 'package:nostr_notes/common/domain/usecase/get_user_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
+import 'package:nostr_notes/unauth/presentation/acc_switcher/account_chip_vm.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
@@ -263,6 +265,7 @@ final class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ValueListenableBuilder<bool>(
       valueListenable: visible,
       builder: (context, isVisible, child) {
@@ -274,7 +277,7 @@ final class _Header extends StatelessWidget {
         );
       },
       child: ColoredBox(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: theme.scaffoldBackgroundColor,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -401,7 +404,7 @@ final class _SettingsButton extends StatelessWidget {
       child: CupertinoButton(
         onPressed: onEndDrawer,
         child: Icon(
-          Icons.settings_outlined,
+          Icons.menu_outlined,
           size: Sizes.iconMedium,
           color: theme.colorScheme.onSurfaceVariant,
         ),
@@ -410,7 +413,7 @@ final class _SettingsButton extends StatelessWidget {
   }
 }
 
-final class _AccountSwitcherButton extends StatelessWidget {
+final class _AccountSwitcherButton extends StatefulWidget {
   final VoidCallback onOpenSwitcher;
   final VoidCallback onAddAccount;
   const _AccountSwitcherButton({
@@ -419,31 +422,61 @@ final class _AccountSwitcherButton extends StatelessWidget {
   });
 
   @override
+  State<_AccountSwitcherButton> createState() => _AccountSwitcherButtonState();
+}
+
+final class _AccountSwitcherButtonState extends State<_AccountSwitcherButton> {
+  late final _pubkey = DiStorage.shared
+      .resolve<SessionUsecase>()
+      .currentSession
+      .pubkey;
+  late final _vm = AccountChipVM(
+    pubkey: _pubkey,
+    getUserUsecase: DiStorage.shared.resolve<GetUserUsecase>(),
+  );
+
+  @override
+  void dispose() {
+    _vm.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final sessionUsecase = DiStorage.shared.resolve<SessionUsecase>();
-    final pubkey = sessionUsecase.currentSession.pubkey;
     final breakpoint = Breakpoint.activeBreakpointOf(context);
 
     return Tooltip(
       message: context.l10n.accountSwitcherTitle,
       child: CupertinoButton(
+        minimumSize: Size.zero,
+        padding: EdgeInsets.zero,
         onPressed: () {
           if (breakpoint.isSmall) {
             showModalBottomSheet(
               context: context,
               showDragHandle: true,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               builder: (sheetContext) => AccountSwitcherPanel(
                 onAddAccount: () {
                   Navigator.of(sheetContext).pop();
-                  onAddAccount();
+                  widget.onAddAccount();
                 },
               ),
             );
           } else {
-            onOpenSwitcher();
+            widget.onOpenSwitcher();
           }
         },
-        child: AccountAvatar(pubkey: pubkey, size: Sizes.icon),
+        child: ListenableBuilder(
+          listenable: _vm,
+          builder: (context, _) {
+            return AccountAvatar(
+              pubkey: _pubkey,
+              size: Sizes.icon,
+              pictureUrl: _vm.user?.picture,
+            );
+          },
+        ),
       ),
     );
   }
