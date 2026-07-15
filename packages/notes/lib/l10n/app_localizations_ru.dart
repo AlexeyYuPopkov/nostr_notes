@@ -77,7 +77,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get onboardingSignUpButtonGenerateKey => 'Создать ключ Nostr';
 
   @override
-  String get apkDistributionTitle => 'Скачать APK';
+  String get apkDistributionTitle => 'Установка на Android';
+
+  @override
+  String apkDistributionInstructions(String groupUrl, String testingUrl) {
+    return '1. Перейдите в [Google Group]($groupUrl) и нажмите **Join group** (или **Ask to join group**)\n\n2. После вступления откройте [тестовую ссылку]($testingUrl)\n\n3. Нажмите **Become a tester**\n\n4. Установите приложение из **Google Play**';
+  }
+
+  @override
+  String get apkDistributionSubtitle =>
+      'Приложение находится в стадии бета-тестирования. Чтобы установить его на Android, вступите в группу тестировщиков — загружать APK не нужно.';
 
   @override
   String get apkDistributionDescription =>
@@ -100,7 +109,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get apkBannerTitle => 'Android APK';
 
   @override
-  String get apkBannerButton => 'Скачать APK';
+  String get apkBannerButton => 'Android (Google Play)';
 
   @override
   String get onboardingSignUpAlreadyHaveAccount => 'Уже есть аккаунт?';

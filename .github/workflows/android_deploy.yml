@@ -68,35 +68,35 @@ jobs:
         env:
           SUPPLY_JSON_KEY_FILE: fastlane/play_store_credentials.json
 
-      - name: Prepare APK for GH Pages
-        run: |
-          mkdir -p deploy_out
-          cp packages/notes/build/app/outputs/flutter-apk/app-release.apk deploy_out/nostr_notes-release.apk
-          cd deploy_out && sha256sum nostr_notes-release.apk > nostr_notes-release.apk.sha256
+      # - name: Prepare APK for GH Pages
+      #   run: |
+      #     mkdir -p deploy_out
+      #     cp packages/notes/build/app/outputs/flutter-apk/app-release.apk deploy_out/nostr_notes-release.apk
+      #     cd deploy_out && sha256sum nostr_notes-release.apk > nostr_notes-release.apk.sha256
 
-      - name: Deploy APK to GH Pages repo
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          deploy_key: ${{ secrets.DEPLOY_GH_PAGES }}
-          publish_dir: ./deploy_out
-          external_repository: AlexeyYuPopkov/AlexeyYuPopkov.github.io
-          publish_branch: master
-          destination_dir: downloads
-          keep_files: true
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
+      # - name: Deploy APK to GH Pages repo
+      #   uses: peaceiris/actions-gh-pages@v4
+      #   with:
+      #     deploy_key: ${{ secrets.DEPLOY_GH_PAGES }}
+      #     publish_dir: ./deploy_out
+      #     external_repository: AlexeyYuPopkov/AlexeyYuPopkov.github.io
+      #     publish_branch: master
+      #     destination_dir: downloads
+      #     keep_files: true
+      #     user_name: 'github-actions[bot]'
+      #     user_email: 'github-actions[bot]@users.noreply.github.com'
 
-      - name: Upload debug symbols
-        uses: actions/upload-artifact@v4
-        with:
-          name: android-debug-symbols
-          path: packages/notes/build/debug-info/
+      # - name: Upload debug symbols
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: android-debug-symbols
+      #     path: packages/notes/build/debug-info/
 
-      - name: Commit version update
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add packages/notes/pubspec.yaml
-          VERSION=$(grep 'version: ' packages/notes/pubspec.yaml | cut -d' ' -f2)
-          git commit -m "chore: bump version to $VERSION [skip ci]"
-          git push
+      # - name: Commit version update
+      #   run: |
+      #     git config --global user.name 'github-actions[bot]'
+      #     git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      #     git add packages/notes/pubspec.yaml
+      #     VERSION=$(grep 'version: ' packages/notes/pubspec.yaml | cut -d' ' -f2)
+      #     git commit -m "chore: bump version to $VERSION [skip ci]"
+      #     git push
