@@ -188,6 +188,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.';
 
   @override
+  String get onboardingPinPageAutoUnlockTitle => 'Unlocking account';
+
+  @override
+  String get onboardingPinPageAutoUnlockButton => 'Unlock';
+
+  @override
   String get errorEmptyNsec => 'NSEC key cannot be empty';
 
   @override
@@ -206,6 +212,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String errorInvalidPinFormatMinCount(String minCount) {
     return 'PIN or password must be at least $minCount characters long';
   }
+
+  @override
+  String get accountSwitcherTitle => 'Accounts';
+
+  @override
+  String get accountSwitcherAddAccount => 'Add Account';
 
   @override
   String get settingsScreenTitle => 'Settings';
@@ -485,8 +497,25 @@ class AppLocalizationsEn extends AppLocalizations {
       'Cryptographic parameters are invalid for this note.';
 
   @override
-  String get notesListSomeNotesDecryptFailed =>
-      'Some notes couldn\'t be decrypted. Check your PIN.';
+  String get notesListDecryptFailedDialogTitle => 'Couldn\'t decrypt notes';
+
+  @override
+  String notesListDecryptFailedDialogMessage(int failed, int total) {
+    return '$failed of $total notes couldn\'t be decrypted. The PIN may be wrong — you can retry with another PIN. Your notes stay safely encrypted.';
+  }
+
+  @override
+  String get notesListDecryptFailedDialogMessageAll =>
+      'None of your notes could be decrypted. The PIN may be wrong — you can retry with another PIN. Your notes stay safely encrypted.';
+
+  @override
+  String get notesListDecryptFailedDialogRetry => 'Retry with new PIN';
+
+  @override
+  String get notesListLockedNoteTitle => 'Note is locked';
+
+  @override
+  String get notesListLockedNoteSubtitle => 'PIN is required to decrypt';
 
   @override
   String get editNoteScreenSaveSuccess => 'Note saved successfully!';

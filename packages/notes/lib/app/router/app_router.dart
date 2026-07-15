@@ -10,12 +10,14 @@ import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/app_screens_assembly.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/home_screen.dart';
+import 'package:nostr_notes/auth/presentation/home_screen/left_drawer.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
 import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholder.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/onboarding_screen.dart';
+import 'package:nostr_notes/unauth/presentation/onboarding/params/onboarding_screen_params.dart';
 import 'package:rxdart/transformers.dart';
 
 part 'app_router_part.dart';
@@ -35,7 +37,9 @@ final class AppRouter {
 
   void _createSessionSubscription() {
     sessionSubscription = session.sessionStream
-        .distinct((a, b) => a.isUnlocked == b.isUnlocked)
+        .distinct(
+          (a, b) => a.isUnlocked == b.isUnlocked && a.pubkey == b.pubkey,
+        )
         .doOnData((session) {
           if (session.isAuth && session.isUnlocked) {
             Di.instance.bindAuthModules();
@@ -59,6 +63,10 @@ final class AppRouter {
 
   final _homeScaffoldKey = GlobalKey<ScaffoldState>(
     debugLabel: 'GlobalKey.home_scaffold',
+  );
+
+  final _leftDrawerKey = GlobalKey<LeftDrawerState>(
+    debugLabel: 'GlobalKey.left_drawer',
   );
 
   late final _router = GoRouter(
@@ -85,8 +93,13 @@ final class AppRouter {
         name: AppRouterName.onboarding,
         path: AppRouterPath.onboarding,
         builder: (BuildContext context, GoRouterState state) {
+          final extra = state.extra;
+          final OnboardingScreenParams params = extra is Map<String, dynamic>
+              ? OnboardingScreenParams.fromJson(extra)
+              : const OnboardingScreenParams(addAccount: false);
+
           return RouteHandlerWidget(
-            child: const OnboardingScreen(),
+            child: OnboardingScreen(params: params),
             onRoute: (route, context) {
               if (route is ApkDistributionRoute) {
                 return GoRouter.of(
@@ -133,18 +146,20 @@ final class AppRouter {
           final selectedNoteDTag = extra is Map<String, dynamic>
               ? PathParams.fromJson(extra).id
               : null;
+          final hasNote =
+              state.fullPath?.contains(AppRouterPath.notePreview) == true ||
+              state.fullPath?.contains(AppRouterPath.noteDetails) == true;
+
           return Scaffold(
             body: HomeScreen(
               scaffoldKey: _homeScaffoldKey,
+              leftDrawerKey: _leftDrawerKey,
               screensAssembly: _screensAssembly,
               coordinator: HomeScreenCoordinatorImpl(
                 homeScaffoldKey: _homeScaffoldKey,
+                leftDrawerKey: _leftDrawerKey,
               ),
-              hasNote:
-                  state.fullPath?.contains(AppRouterPath.notePreview) ==
-                      true ||
-                  state.fullPath?.contains(AppRouterPath.noteDetails) ==
-                      true,
+              hasNote: hasNote,
               selectedNoteDTag: selectedNoteDTag,
               child: child,
             ),

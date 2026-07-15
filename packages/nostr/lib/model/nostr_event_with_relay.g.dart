@@ -22,6 +22,7 @@ NostrEventWithRelay _$NostrEventWithRelayFromJson(Map<String, dynamic> json) =>
       content: json['content'] as String? ?? '',
       sig: json['sig'] as String? ?? '',
       relay: json['relay'] as String? ?? '',
+      subscriptionId: json['subscriptionId'] as String? ?? '',
     );
 
 Map<String, dynamic> _$NostrEventWithRelayToJson(
@@ -35,4 +36,5 @@ Map<String, dynamic> _$NostrEventWithRelayToJson(
   'content': instance.content,
   'sig': instance.sig,
   'relay': instance.relay,
+  'subscriptionId': instance.subscriptionId,
 };

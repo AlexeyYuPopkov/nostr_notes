@@ -191,6 +191,12 @@ class AppLocalizationsBg extends AppLocalizations {
       'ПИН-ът е допълнителен слой защита при компрометиране на nsec. Той се съхранява само в паметта и никога не се записва на диск. Ако ПИН-ът бъде изгубен, съществуващите бележки не могат да бъдат декриптирани. Ако създадете или промените бележка с грешен ПИН, тя ще бъде криптирана с грешния ПИН.';
 
   @override
+  String get onboardingPinPageAutoUnlockTitle => 'Отключване на акаунт';
+
+  @override
+  String get onboardingPinPageAutoUnlockButton => 'Отключване';
+
+  @override
   String get errorEmptyNsec => 'NSEC ключът не може да бъде празен';
 
   @override
@@ -209,6 +215,12 @@ class AppLocalizationsBg extends AppLocalizations {
   String errorInvalidPinFormatMinCount(String minCount) {
     return 'ПИН или паролата трябва да съдържа поне $minCount символа';
   }
+
+  @override
+  String get accountSwitcherTitle => 'Акаунти';
+
+  @override
+  String get accountSwitcherAddAccount => 'Добави акаунт';
 
   @override
   String get settingsScreenTitle => 'Настройки';
@@ -492,8 +504,26 @@ class AppLocalizationsBg extends AppLocalizations {
       'Криптографските параметри за тази бележка са невалидни.';
 
   @override
-  String get notesListSomeNotesDecryptFailed =>
-      'Неуспешно декриптиране на някои бележки. Проверете ПИН-а.';
+  String get notesListDecryptFailedDialogTitle =>
+      'Неуспешно декриптиране на бележки';
+
+  @override
+  String notesListDecryptFailedDialogMessage(int failed, int total) {
+    return '$failed от $total бележки не можаха да бъдат декриптирани. Възможно е ПИН-ът да е грешен — опитайте с друг ПИН. Бележките остават надеждно криптирани.';
+  }
+
+  @override
+  String get notesListDecryptFailedDialogMessageAll =>
+      'Нито една бележка не можа да бъде декриптирана. Възможно е ПИН-ът да е грешен — опитайте с друг ПИН. Бележките остават надеждно криптирани.';
+
+  @override
+  String get notesListDecryptFailedDialogRetry => 'Опитай с нов ПИН';
+
+  @override
+  String get notesListLockedNoteTitle => 'Бележката е заключена';
+
+  @override
+  String get notesListLockedNoteSubtitle => 'Необходим е ПИН за декриптиране';
 
   @override
   String get editNoteScreenSaveSuccess => 'Бележката е успешно запазена!';

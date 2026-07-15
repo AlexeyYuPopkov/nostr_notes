@@ -13,6 +13,7 @@ import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
 import 'package:nostr_notes/common/presentation/blur_widget/verification_widget.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../tools/mocks/mock_accounts_repo.dart';
 import '../../tools/mocks/mock_relays_list_repo.dart';
 import '../../tools/mocks/mock_secure_storage.dart';
 import '../../tools/some_moked_data.dart';
@@ -54,6 +55,7 @@ void main() {
     sessionUsecase: sessionUsecase,
     keyToolRepository: const KeyToolRepositoryImpl(),
     relaysListRepo: MockRelaysListRepo(),
+    accountsRepo: MockAccountsRepo(),
   );
 
   void bindVerificationUsecase() {

@@ -94,6 +94,10 @@ class CommonLocalizationsBg extends CommonLocalizations {
       'Релетата са сървъри, които съхраняват и доставят вашите криптирани бележки. Изберете поне едно реле, за да продължите';
 
   @override
+  String get relaysPageAddCustomLabel =>
+      'По желание добавете свое реле, като въведете неговия адрес';
+
+  @override
   String get relaysPageAddCustomHint => 'wss://...';
 
   @override

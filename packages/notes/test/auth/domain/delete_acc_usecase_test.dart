@@ -25,6 +25,7 @@ import 'package:uuid/uuid.dart';
 import '../../../integration_test/di/in_memory_db_module.dart';
 import '../../tools/mock_error_messages_provider.dart';
 import '../../tools/mock_wschannel.dart';
+import '../../tools/mocks/mock_accounts_repo.dart';
 import '../../tools/mocks/mock_relays_list_repo.dart';
 import '../../tools/mocks/mock_secure_storage.dart';
 import '../../tools/some_moked_data.dart';
@@ -109,6 +110,7 @@ void main() {
           sessionUsecase: sessionUsecase,
           keyToolRepository: const KeyToolRepositoryImpl(),
           relaysListRepo: relaysListRepo,
+          accountsRepo: MockAccountsRepo(),
         ),
       );
     });

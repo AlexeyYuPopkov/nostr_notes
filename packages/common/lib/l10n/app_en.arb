@@ -27,6 +27,7 @@
     "themeScreenLabelCards": "Cards",
     "relaysPageTitle": "Select Relays",
     "relaysPageDescription": "Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue",
+    "relaysPageAddCustomLabel": "Optionally, add your own relay by its address",
     "relaysPageAddCustomHint": "wss://...",
     "relaysPageAddButton": "Add",
     "relaysPageCheckButton": "Check",

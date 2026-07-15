@@ -210,34 +210,13 @@ void main() {
         () => channelFactory.create(MockRelaysListRepo.relayUrl1),
       ).thenReturn(channel);
 
-      // Auto-respond OK for any EVENT
+      // Auto-respond OK for any EVENT the client publishes.
       channel.onAdd = (data, ch) {
-        const publishReq =
-            r'["EVENT",{"kind":30023,'
-            '"id":"156cf254f975ca9ca35de4a93fda13e9608a84c0b3f8e6b88029662d0aeda3f6",'
-            '"pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",'
-            '"created_at":1750157400,'
-            '"tags":[["client","996e10ba"],["t","996e10ba"],'
-            '["d","test-dtag"],["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"],'
-            '["summary","encrypted-message"],["updated_at","1750157400"]],'
-            '"content":"encrypted-message",'
-            '"sig":"a2cdab3ad4e5e55414719936df57c1df8818c5e1eb676e51a2799c1797501ba1fea73f6e7e69b18df607829b3fffe43d701be8c625f79d746df4d94fe9e6a421"}]';
+        final parsed = jsonDecode(data as String) as List;
+        if (parsed[0] != 'EVENT') return;
 
-        const delReq =
-            r'["EVENT",{"kind":30023,'
-            '"id":"7a291dae91c307d3b5bb3de60ec04fe66cf63d9c5e6ec23035c469b69b253817",'
-            '"pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",'
-            '"created_at":1750157401,'
-            '"tags":[["client","996e10ba"],["t","996e10ba"],'
-            '["d","test-dtag"],["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"]],'
-            '"content":"",'
-            '"sig":"720519ae0c4ba91a5a2127aa9a1cc03f90142a539bf8f91183c8d92316460bd93f1b952df50eea85a0da0f0d8ecb4a2759a43c0a419dd2fc71c5d6eea1be9b3f"}]';
-
-        if (data == publishReq || data == delReq) {
-          final parsed = jsonDecode(data as String);
-          final eventId = parsed[1]['id'] as String;
-          ch.mockStream.add('["OK","$eventId",true,""]');
-        }
+        final eventId = (parsed[1] as Map<String, dynamic>)['id'] as String;
+        ch.mockStream.add('["OK","$eventId",true,""]');
       };
 
       // 1. Init OutboxPublisher
@@ -285,21 +264,36 @@ void main() {
           .toSet();
 
       expect(sentKinds, contains(EventKind.note.value));
+      expect(sentKinds, contains(EventKind.delete.value));
 
       // 6. Verify outbox is empty (all delivered)
       final pending = await outboxDao.getPending();
       expect(pending, isEmpty);
 
-      // Verify note exists in store
+      // The kind=5 deletion event handling (NIP-09) hard-deletes the
+      // referenced (tombstone) note event locally, so no note row remains.
       final notesAfter = await eventStore.queryEvents(
         RawEventQuery(
           kinds: [EventKind.note.value],
           authors: const [SomeMokedData.publicKey],
         ),
       );
-      expect(notesAfter, hasLength(1));
-      expect(notesAfter[0].content.isEmpty, isTrue);
-      expect(notesAfter[0].getFirstTag(const SummaryTag()), isNull);
+      expect(notesAfter, isEmpty);
+
+      // Verify a NIP-09 kind=5 deletion event was also stored, referencing
+      // the deleted note's event id and its a-tag (kind:pubkey:dTag).
+      final deletions = await eventStore.queryEvents(
+        RawEventQuery(
+          kinds: [EventKind.delete.value],
+          authors: const [SomeMokedData.publicKey],
+        ),
+      );
+      expect(deletions, hasLength(1));
+      expect(deletions[0].getFirstTag(Tag.e), isNotEmpty);
+      expect(
+        deletions[0].getFirstTag(Tag.a),
+        '${EventKind.note.value}:${SomeMokedData.publicKey}:test-dtag',
+      );
     });
   });
 }

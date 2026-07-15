@@ -11,26 +11,22 @@ import 'package:nostr_notes/app/router/drawer_router.dart' show DrawerRouter;
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/domain/usecase/desktop_ratio_usecase.dart';
+import 'package:nostr_notes/auth/presentation/account_switcher/account_switcher_panel.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
+import 'package:nostr_notes/auth/presentation/home_screen/left_drawer.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/widgets/resize_divider.dart';
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../notes_list/notes_list.dart';
 
-abstract interface class HomeScreenCoordinator {
-  FutureOr<dynamic> onNotePreviewRoute(
-    BuildContext context, {
-    required String noteId,
-  });
-
-  void onNewNoteRoute(BuildContext context);
-
-  void onEndDrawer();
+abstract interface class HomeScreenCoordinator implements NotesListCoordinator {
+  const HomeScreenCoordinator();
 }
 
 final class HomeScreen extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
+  final GlobalKey<LeftDrawerState> leftDrawerKey;
   final ScreensAssembly screensAssembly;
   final HomeScreenCoordinator coordinator;
   final Widget child;
@@ -40,6 +36,7 @@ final class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
     required this.scaffoldKey,
+    required this.leftDrawerKey,
     required this.screensAssembly,
     required this.coordinator,
     required this.child,
@@ -103,18 +100,30 @@ final class _HomeScreenState extends State<HomeScreen> {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final isDesktop = screenWidth >= LayoutConfig.desktopScreenWidth;
     final drawerWidth = screenWidth * LayoutConfig.drawerRatio;
+    final switcherWidth = screenWidth * LayoutConfig.switcherDrawerRatio;
 
     // log(drawerWidth.toString(), name: 'HomeScreen.build');
 
-    return Scaffold(
-      key: widget.scaffoldKey,
-      endDrawer: SizedBox(
-        width: isDesktop ? drawerWidth : double.infinity,
-        child: DrawerRouter(screensAssembly: widget.screensAssembly),
+    return LeftDrawer(
+      key: widget.leftDrawerKey,
+      drawerWidth: isDesktop ? switcherWidth : screenWidth,
+      drawer: AccountSwitcherPanel(
+        onAddAccount: () {
+          widget.leftDrawerKey.currentState?.close();
+          widget.coordinator.onAddAccountRoute(context);
+        },
       ),
-      body: RouteHandlerWidget(
-        onRoute: (route, ctx) => RouteHandler.of(context)?.onRoute(route, ctx),
-        child: _buildAdaptiveLayout(context, screenWidth),
+      content: Scaffold(
+        key: widget.scaffoldKey,
+        endDrawer: SizedBox(
+          width: isDesktop ? drawerWidth : double.infinity,
+          child: DrawerRouter(screensAssembly: widget.screensAssembly),
+        ),
+        body: RouteHandlerWidget(
+          onRoute: (route, ctx) =>
+              RouteHandler.of(context)?.onRoute(route, ctx),
+          child: _buildAdaptiveLayout(context, screenWidth),
+        ),
       ),
     );
   }
@@ -237,10 +246,7 @@ final class _NoteList extends StatelessWidget {
   Widget build(BuildContext context) {
     return NotesList(
       selectedNoteDTag: selectedNoteDTag,
-      onTap: (note) =>
-          coordinator.onNotePreviewRoute(context, noteId: note.dTag),
-      onNewNote: () => coordinator.onNewNoteRoute(context),
-      onEndDrawer: () => coordinator.onEndDrawer(),
+      coordinator: coordinator,
     );
   }
 }

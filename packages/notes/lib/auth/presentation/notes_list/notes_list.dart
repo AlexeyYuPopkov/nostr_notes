@@ -1,21 +1,26 @@
-import 'package:common/app/icons/app_icons.dart';
+import 'dart:async';
+
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
+import 'package:di_storage/di_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
+import 'package:nostr_notes/auth/presentation/account_switcher/account_switcher_panel.dart';
+import 'package:nostr_notes/common/presentation/account_avatar.dart';
 import 'package:nostr_notes/auth/presentation/model/category_localization.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/tabs/notes_list_tab.dart';
 import 'package:nostr_notes/auth/presentation/notes_list/widgets/notes_search_field.dart';
+import 'package:nostr_notes/common/domain/usecase/get_user_usecase.dart';
+import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
+import 'package:nostr_notes/unauth/presentation/acc_switcher/account_chip_vm.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
-import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
 import 'package:nostr_notes/common/presentation/layout/breakpoints.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
@@ -23,26 +28,42 @@ import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
 import 'bloc/notes_list_bloc.dart';
 import 'bloc/notes_list_event.dart';
 import 'bloc/notes_list_state.dart';
+import 'decrypt_failed_dialog_mixin.dart';
 import 'widgets/common_toolbar_tabs_widget.dart';
+
+abstract interface class NotesListCoordinator {
+  const NotesListCoordinator();
+
+  FutureOr<dynamic> onNotePreviewRoute(
+    BuildContext context, {
+    required String noteId,
+  });
+
+  void onNewNoteRoute(BuildContext context);
+
+  void onEndDrawer();
+
+  void onAccountSwitcher();
+
+  void onAddAccountRoute(BuildContext context);
+}
 
 final class NotesList extends StatefulWidget {
   final String? selectedNoteDTag;
-  final ValueChanged<Note> onTap;
-  final VoidCallback onNewNote;
-  final VoidCallback onEndDrawer;
+
+  final NotesListCoordinator coordinator;
   const NotesList({
     super.key,
     required this.selectedNoteDTag,
-    required this.onTap,
-    required this.onNewNote,
-    required this.onEndDrawer,
+    required this.coordinator,
   });
 
   @override
   State<NotesList> createState() => _NotesListState();
 }
 
-final class _NotesListState extends State<NotesList> with DialogHelper {
+final class _NotesListState extends State<NotesList>
+    with DialogHelper, DecryptFailedDialogMixin {
   final _nestedScrollKey = GlobalKey<NestedScrollViewState>();
   final scrollController = ScrollController();
   late final _vm = SectionScrollVm<NotesListHeader>(
@@ -50,6 +71,8 @@ final class _NotesListState extends State<NotesList> with DialogHelper {
   );
 
   final _headerVisible = ValueNotifier<bool>(true);
+
+  bool _wrongPinDialogShown = false;
 
   @override
   void initState() {
@@ -100,16 +123,21 @@ final class _NotesListState extends State<NotesList> with DialogHelper {
       case LoadingState():
         break;
       case ErrorState():
-        showError(
-          context,
-          error: state.e,
-          messageBuilder: (error) {
-            if (error is SomeNotesWasNotDecrypted) {
-              return context.l10n.notesListSomeNotesDecryptFailed;
-            }
-            return null;
-          },
-        );
+        final e = state.e;
+        if (e is SomeNotesWasNotDecrypted) {
+          // At most once per screen instance; later emissions of the same
+          // error are expected (every refresh re-detects it) and stay silent.
+          if (!_wrongPinDialogShown) {
+            _wrongPinDialogShown = true;
+            showDecryptFailedDialog(
+              context,
+              failedCount: e.failedCount,
+              totalCount: e.totalCount,
+            );
+          }
+          break;
+        }
+        showError(context, error: e);
         break;
     }
   }
@@ -131,6 +159,11 @@ final class _NotesListState extends State<NotesList> with DialogHelper {
               length: NotesListTab.tabs.length,
               child: Scaffold(
                 appBar: AppBar(
+                  leading: _AccountSwitcherButton(
+                    onOpenSwitcher: widget.coordinator.onAccountSwitcher,
+                    onAddAccount: () =>
+                        widget.coordinator.onAddAccountRoute(context),
+                  ),
                   title: ListenableBuilder(
                     listenable: foldersVm,
                     builder: (context, _) {
@@ -168,11 +201,16 @@ final class _NotesListState extends State<NotesList> with DialogHelper {
                         padding: const EdgeInsets.only(left: Sizes.indent2x),
                         alignment: Alignment.centerRight,
                       ),
-                    _SettingsButton(onEndDrawer: widget.onEndDrawer),
+                    _SettingsButton(
+                      onEndDrawer: widget.coordinator.onEndDrawer,
+                    ),
                   ],
                 ),
                 floatingActionButton: breakpoint.isSmall
-                    ? Fab(onNewNote: widget.onNewNote)
+                    ? Fab(
+                        onNewNote: () =>
+                            widget.coordinator.onNewNoteRoute(context),
+                      )
                     : null,
                 body: Stack(
                   children: [
@@ -198,7 +236,11 @@ final class _NotesListState extends State<NotesList> with DialogHelper {
                                   context,
                                   params: TabParams(
                                     selectedNoteDTag: widget.selectedNoteDTag,
-                                    onTap: widget.onTap,
+                                    onTap: (note) =>
+                                        widget.coordinator.onNotePreviewRoute(
+                                          noteId: note.dTag,
+                                          context,
+                                        ),
                                     scrollSectionsVm: _vm,
                                   ),
                                 ),
@@ -226,6 +268,7 @@ final class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ValueListenableBuilder<bool>(
       valueListenable: visible,
       builder: (context, isVisible, child) {
@@ -237,7 +280,7 @@ final class _Header extends StatelessWidget {
         );
       },
       child: ColoredBox(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: theme.scaffoldBackgroundColor,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -363,20 +406,81 @@ final class _SettingsButton extends StatelessWidget {
       message: context.l10n.settingsScreenTitle,
       child: CupertinoButton(
         onPressed: onEndDrawer,
-        child: SvgPicture.asset(
-          CommonIcons.profileIcon,
-          width: Sizes.icon,
-          height: Sizes.icon,
-          colorFilter: ColorFilter.mode(
-            theme.colorScheme.onSurfaceVariant,
-            BlendMode.srcIn,
-          ),
+        child: Icon(
+          Icons.menu_outlined,
+          size: Sizes.iconMedium,
+          color: theme.colorScheme.onSurfaceVariant,
         ),
       ),
     );
   }
+}
 
-  // void _onNewNote(BuildContext context) {
-  //   RouteHandler.of(context)?.onRoute(const OnEndDrawer(), context);
-  // }
+final class _AccountSwitcherButton extends StatefulWidget {
+  final VoidCallback onOpenSwitcher;
+  final VoidCallback onAddAccount;
+  const _AccountSwitcherButton({
+    required this.onOpenSwitcher,
+    required this.onAddAccount,
+  });
+
+  @override
+  State<_AccountSwitcherButton> createState() => _AccountSwitcherButtonState();
+}
+
+final class _AccountSwitcherButtonState extends State<_AccountSwitcherButton> {
+  late final _pubkey = DiStorage.shared
+      .resolve<SessionUsecase>()
+      .currentSession
+      .pubkey;
+  late final _vm = AccountChipVM(
+    pubkey: _pubkey,
+    getUserUsecase: DiStorage.shared.resolve<GetUserUsecase>(),
+  );
+
+  @override
+  void dispose() {
+    _vm.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final breakpoint = Breakpoint.activeBreakpointOf(context);
+
+    return Tooltip(
+      message: context.l10n.accountSwitcherTitle,
+      child: CupertinoButton(
+        minimumSize: Size.zero,
+        padding: EdgeInsets.zero,
+        onPressed: () {
+          if (breakpoint.isSmall) {
+            showModalBottomSheet(
+              context: context,
+              showDragHandle: true,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              builder: (sheetContext) => AccountSwitcherPanel(
+                onAddAccount: () {
+                  Navigator.of(sheetContext).pop();
+                  widget.onAddAccount();
+                },
+              ),
+            );
+          } else {
+            widget.onOpenSwitcher();
+          }
+        },
+        child: ListenableBuilder(
+          listenable: _vm,
+          builder: (context, _) {
+            return AccountAvatar(
+              pubkey: _pubkey,
+              size: Sizes.icon,
+              pictureUrl: _vm.user?.picture,
+            );
+          },
+        ),
+      ),
+    );
+  }
 }

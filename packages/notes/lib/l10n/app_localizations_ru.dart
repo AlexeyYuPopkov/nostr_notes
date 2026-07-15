@@ -192,6 +192,12 @@ class AppLocalizationsRu extends AppLocalizations {
       'PIN - это дополнительный уровень защиты на случай компрометации nsec. Он хранится только в памяти и никогда не сохраняется на диск. Если PIN утерян, существующие заметки расшифровать нельзя. Если создать или изменить заметку с неверным PIN, она будет зашифрована с этим неверным PIN.';
 
   @override
+  String get onboardingPinPageAutoUnlockTitle => 'Разблокировка аккаунта';
+
+  @override
+  String get onboardingPinPageAutoUnlockButton => 'Разблокировать';
+
+  @override
   String get errorEmptyNsec => 'Ключ NSEC не может быть пустым';
 
   @override
@@ -210,6 +216,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String errorInvalidPinFormatMinCount(String minCount) {
     return 'PIN или пароль должен содержать минимум $minCount символов';
   }
+
+  @override
+  String get accountSwitcherTitle => 'Аккаунты';
+
+  @override
+  String get accountSwitcherAddAccount => 'Добавить аккаунт';
 
   @override
   String get settingsScreenTitle => 'Настройки';
@@ -494,8 +506,26 @@ class AppLocalizationsRu extends AppLocalizations {
       'Криптографические параметры для этой заметки недействительны.';
 
   @override
-  String get notesListSomeNotesDecryptFailed =>
-      'Не удалось расшифровать часть заметок. Проверьте PIN.';
+  String get notesListDecryptFailedDialogTitle =>
+      'Не удалось расшифровать заметки';
+
+  @override
+  String notesListDecryptFailedDialogMessage(int failed, int total) {
+    return 'Не удалось расшифровать $failed из $total заметок. Возможно, введён неверный PIN — попробуйте другой PIN. Заметки остаются надёжно зашифрованными.';
+  }
+
+  @override
+  String get notesListDecryptFailedDialogMessageAll =>
+      'Не удалось расшифровать ни одной заметки. Возможно, введён неверный PIN — попробуйте другой PIN. Заметки остаются надёжно зашифрованными.';
+
+  @override
+  String get notesListDecryptFailedDialogRetry => 'Ввести другой PIN';
+
+  @override
+  String get notesListLockedNoteTitle => 'Заметка заблокирована';
+
+  @override
+  String get notesListLockedNoteSubtitle => 'Нужен PIN для расшифровки';
 
   @override
   String get editNoteScreenSaveSuccess => 'Заметка успешно сохранена!';

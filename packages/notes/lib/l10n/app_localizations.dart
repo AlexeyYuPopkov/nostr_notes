@@ -412,6 +412,18 @@ abstract class AppLocalizations {
   /// **'The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.'**
   String get onboardingPinPageInfoPin;
 
+  /// No description provided for @onboardingPinPageAutoUnlockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocking account'**
+  String get onboardingPinPageAutoUnlockTitle;
+
+  /// No description provided for @onboardingPinPageAutoUnlockButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get onboardingPinPageAutoUnlockButton;
+
   /// No description provided for @errorEmptyNsec.
   ///
   /// In en, this message translates to:
@@ -447,6 +459,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PIN or password must be at least {minCount} characters long'**
   String errorInvalidPinFormatMinCount(String minCount);
+
+  /// No description provided for @accountSwitcherTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accountSwitcherTitle;
+
+  /// No description provided for @accountSwitcherAddAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Account'**
+  String get accountSwitcherAddAccount;
 
   /// No description provided for @settingsScreenTitle.
   ///
@@ -934,11 +958,41 @@ abstract class AppLocalizations {
   /// **'Cryptographic parameters are invalid for this note.'**
   String get notesListDecryptReasonInvalidParams;
 
-  /// No description provided for @notesListSomeNotesDecryptFailed.
+  /// No description provided for @notesListDecryptFailedDialogTitle.
   ///
   /// In en, this message translates to:
-  /// **'Some notes couldn\'t be decrypted. Check your PIN.'**
-  String get notesListSomeNotesDecryptFailed;
+  /// **'Couldn\'t decrypt notes'**
+  String get notesListDecryptFailedDialogTitle;
+
+  /// No description provided for @notesListDecryptFailedDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{failed} of {total} notes couldn\'t be decrypted. The PIN may be wrong — you can retry with another PIN. Your notes stay safely encrypted.'**
+  String notesListDecryptFailedDialogMessage(int failed, int total);
+
+  /// No description provided for @notesListDecryptFailedDialogMessageAll.
+  ///
+  /// In en, this message translates to:
+  /// **'None of your notes could be decrypted. The PIN may be wrong — you can retry with another PIN. Your notes stay safely encrypted.'**
+  String get notesListDecryptFailedDialogMessageAll;
+
+  /// No description provided for @notesListDecryptFailedDialogRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry with new PIN'**
+  String get notesListDecryptFailedDialogRetry;
+
+  /// No description provided for @notesListLockedNoteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Note is locked'**
+  String get notesListLockedNoteTitle;
+
+  /// No description provided for @notesListLockedNoteSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN is required to decrypt'**
+  String get notesListLockedNoteSubtitle;
 
   /// No description provided for @editNoteScreenSaveSuccess.
   ///

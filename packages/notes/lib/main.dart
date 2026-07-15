@@ -109,6 +109,16 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
               ...Localization.localizationsDelegates,
             ],
             supportedLocales: Localization.supportedLocales,
+            localeListResolutionCallback: (locales, supportedLocales) {
+              for (final locale in locales ?? const <Locale>[]) {
+                for (final supported in supportedLocales) {
+                  if (supported.languageCode == locale.languageCode) {
+                    return supported;
+                  }
+                }
+              }
+              return const Locale('en');
+            },
             routerConfig: _appRouter.router,
             debugShowCheckedModeBanner: false,
             builder: (context, child) {

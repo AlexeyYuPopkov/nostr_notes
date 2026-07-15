@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,6 +15,7 @@ import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
+import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/services/event_store/database/app_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,10 +25,33 @@ import 'package:mocktail/mocktail.dart';
 import '../../../../integration_test/di/in_memory_db_module.dart';
 import '../../../../integration_test/di/test_app_di_overrides_proxy.dart';
 import '../../../tools/app_launcher/app_launcher.dart';
+import '../../../tools/app_launcher/pump_helpers.dart';
 
 import '../../../tools/mock_wschannel.dart';
 
 class MockUuid extends Mock implements Uuid {}
+
+final class _TestNotesListCoordinator implements NotesListCoordinator {
+  const _TestNotesListCoordinator();
+
+  @override
+  FutureOr<dynamic> onNotePreviewRoute(
+    BuildContext context, {
+    required String noteId,
+  }) {}
+
+  @override
+  void onNewNoteRoute(BuildContext context) {}
+
+  @override
+  void onEndDrawer() {}
+
+  @override
+  void onAccountSwitcher() {}
+
+  @override
+  void onAddAccountRoute(BuildContext context) {}
+}
 
 class MockChannelFactory extends Mock implements ChannelFactory {}
 
@@ -133,11 +159,9 @@ void main() {
       await tester.pumpWidget(
         AppLauncher.launchApp(
           tester: tester,
-          child: NotesList(
+          child: const NotesList(
             selectedNoteDTag: '',
-            onTap: (note) {},
-            onNewNote: () {},
-            onEndDrawer: () {},
+            coordinator: _TestNotesListCoordinator(),
           ),
         ),
       );
@@ -223,11 +247,9 @@ void main() {
       await tester.pumpWidget(
         AppLauncher.launchApp(
           tester: tester,
-          child: NotesList(
+          child: const NotesList(
             selectedNoteDTag: '',
-            onTap: (note) {},
-            onNewNote: () {},
-            onEndDrawer: () {},
+            coordinator: _TestNotesListCoordinator(),
           ),
         ),
       );
@@ -248,6 +270,93 @@ void main() {
       await db.close();
       await tester.pump();
     }, skip: false);
+
+    testWidgets(
+      'NotesList - wrong PIN: decrypt-failed dialog offers retry and '
+      'locks the session',
+      (tester) async {
+        final di = DiStorage.shared;
+        tester.view.physicalSize = _Helper.iPhoneSize;
+        tester.view.devicePixelRatio = _Helper.devicePixelRatio;
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        final SessionUsecase session = DiStorage.shared.resolve();
+        session.setSession(
+          const Unlocked(keys: _Helper.keys, pin: _Helper.wrongPin),
+        );
+
+        when(
+          () => mockUuid.v4(),
+        ).thenReturn('f5996f40-6622-11f0-b6aa-77622cb064581');
+        when(
+          () => channelFactory.create('wss://test.relay'),
+        ).thenReturn(relayChannel);
+
+        relayChannel.onAdd = (data, channel) {
+          if (data is String && data.contains('"REQ"')) {
+            Future.microtask(() {
+              channel.mockStream.add(_TestEvents.note1);
+              channel.mockStream.add(_TestEvents.note2);
+              channel.mockStream.add(
+                '["EOSE","f5996f40-6622-11f0-b6aa-77622cb064581"]',
+              );
+            });
+          }
+        };
+
+        await tester.pumpWidget(
+          AppLauncher.launchApp(
+            tester: tester,
+            child: const NotesList(
+              selectedNoteDTag: '',
+              coordinator: _TestNotesListCoordinator(),
+            ),
+          ),
+        );
+
+        await PumpHelpers.waitFor(
+          tester,
+          find.byType(AppAlertDialog),
+          reason: 'decrypt-failed dialog should appear on wrong PIN',
+        );
+
+        // All (2 of 2) notes failed, so the "none decrypted" wording is used.
+        expect(
+          find.textContaining('None of your notes could be decrypted'),
+          findsOneWidget,
+        );
+        expect(find.byIcon(Icons.close), findsOneWidget);
+        expect(find.byIcon(Icons.lock_open), findsOneWidget);
+
+        // Behind the dialog, the undecryptable notes render as locked cards.
+        expect(find.byIcon(Icons.lock_outline), findsNWidgets(2));
+        expect(
+          find.textContaining('Note is locked', findRichText: true),
+          findsNWidgets(2),
+        );
+
+        await tester.tap(find.text('Retry with new PIN'));
+        await PumpHelpers.waitForGone(
+          tester,
+          find.byType(AppAlertDialog),
+          reason: 'dialog should close after tapping retry',
+        );
+
+        expect(session.currentSession, isA<Auth>());
+
+        // Let the bloc's delayed refresh timer fire so no timers stay pending.
+        await tester.pump(const Duration(seconds: 3));
+
+        // Close database
+        await tester.pump();
+        final db = di.resolve<AppDatabase>();
+        await db.close();
+        await tester.pump();
+      },
+    );
   });
 }
 
@@ -431,6 +540,7 @@ final class _Helper {
         'efb23a073532e28f8f3cf1b3ba4bc92f1bb6ab4dd365c853cabf9b70044e3240',
   );
   static const pin = '1234';
+  static const wrongPin = '9999';
   // late final screen = find.byType(ChatRoomsList);
 
   // ChatRoomsBloc bloc(WidgetTester tester) =>

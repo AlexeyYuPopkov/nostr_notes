@@ -37,8 +37,6 @@ final class NotesListCard extends StatelessWidget
     required this.onTap,
     required this.onDelete,
     required this.onAssignLabels,
-
-    // required this.getSymbol,
   });
 
   @override
@@ -116,6 +114,35 @@ final class NotesListCard extends StatelessWidget
               ),
               child: Row(
                 children: [
+                  if (hasDecryptError)
+                    CommonTooltip(
+                      title: l10n.notePreviewCannotDecryptTitle,
+                      message: buildDecryptErrorMessage(
+                        l10n: l10n,
+                        commonL10n: commonL10n,
+                        error: sectionItem.note.error,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          right: Sizes.indent,
+                          bottom: Sizes.indent,
+                        ),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.primaryContainer,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(Sizes.indent),
+                            child: Icon(
+                              Icons.lock_outline,
+                              size: Sizes.iconMedium,
+                              color: theme.colorScheme.onPrimaryContainer,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   Expanded(
                     child: Column(
                       spacing: Sizes.indentVariant,
@@ -148,23 +175,6 @@ final class NotesListCard extends StatelessWidget
                       ],
                     ),
                   ),
-                  if (hasDecryptError)
-                    CommonTooltip(
-                      title: l10n.notePreviewCannotDecryptTitle,
-                      message: buildDecryptErrorMessage(
-                        l10n: l10n,
-                        commonL10n: commonL10n,
-                        error: sectionItem.note.error,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: Sizes.indent),
-                        child: Icon(
-                          Icons.error_outline,
-                          size: Sizes.iconMedium,
-                          color: theme.colorScheme.error,
-                        ),
-                      ),
-                    ),
                   ValueListenableBuilder(
                     valueListenable: pendingVm,
                     builder: (context, value, child) {
@@ -235,7 +245,8 @@ final class _Title extends StatelessWidget {
       builder: (context) {
         // final Category? category = snapshot.data;
         final summary = hasDecryptError
-            ? l10n.notePreviewCannotDecryptTitle
+            ? '${l10n.notesListLockedNoteTitle}\n'
+                  '${l10n.notesListLockedNoteSubtitle}'
             : sectionItem.note.summary;
         final titleComponents = summary.split('\n');
 

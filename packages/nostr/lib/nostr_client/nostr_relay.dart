@@ -309,13 +309,18 @@ mixin NostrRelayEventMapper {
     if (type == EventType.event) {
       try {
         if (length >= 3) {
+          final subscriptionId = content[1] as String? ?? '';
           final payload = content[2] as Map<String, dynamic>?;
 
           if (payload == null || payload.isEmpty) {
             return null;
           }
 
-          return NostrEventWithRelay.fromJsonWithRelay(payload, relayUrl);
+          return NostrEventWithRelay.fromJsonWithRelay(
+            payload,
+            relayUrl,
+            subscriptionId,
+          );
         } else if (length >= 2) {
           final payload = content[1] as Map<String, dynamic>?;
 
@@ -323,7 +328,7 @@ mixin NostrRelayEventMapper {
             return null;
           }
 
-          return NostrEventWithRelay.fromJsonWithRelay(payload, relayUrl);
+          return NostrEventWithRelay.fromJsonWithRelay(payload, relayUrl, '');
         }
       } catch (e) {
         return null;
