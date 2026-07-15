@@ -28,6 +28,7 @@ import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
 import 'bloc/notes_list_bloc.dart';
 import 'bloc/notes_list_event.dart';
 import 'bloc/notes_list_state.dart';
+import 'decrypt_failed_dialog_mixin.dart';
 import 'widgets/common_toolbar_tabs_widget.dart';
 
 abstract interface class NotesListCoordinator {
@@ -57,17 +58,12 @@ final class NotesList extends StatefulWidget {
     required this.coordinator,
   });
 
-  //   onTap: (note) =>
-  //     coordinator.onNotePreviewRoute(context, noteId: note.dTag),
-  // onNewNote: () => coordinator.onNewNoteRoute(context),
-  // onEndDrawer: () => coordinator.onEndDrawer(),
-  // onAccountSwitcher: () => coordinator.onAccountSwitcher(),
-
   @override
   State<NotesList> createState() => _NotesListState();
 }
 
-final class _NotesListState extends State<NotesList> with DialogHelper {
+final class _NotesListState extends State<NotesList>
+    with DialogHelper, DecryptFailedDialogMixin {
   final _nestedScrollKey = GlobalKey<NestedScrollViewState>();
   final scrollController = ScrollController();
   late final _vm = SectionScrollVm<NotesListHeader>(
@@ -75,6 +71,8 @@ final class _NotesListState extends State<NotesList> with DialogHelper {
   );
 
   final _headerVisible = ValueNotifier<bool>(true);
+
+  bool _wrongPinDialogShown = false;
 
   @override
   void initState() {
@@ -125,16 +123,21 @@ final class _NotesListState extends State<NotesList> with DialogHelper {
       case LoadingState():
         break;
       case ErrorState():
-        showError(
-          context,
-          error: state.e,
-          messageBuilder: (error) {
-            if (error is SomeNotesWasNotDecrypted) {
-              return context.l10n.notesListSomeNotesDecryptFailed;
-            }
-            return null;
-          },
-        );
+        final e = state.e;
+        if (e is SomeNotesWasNotDecrypted) {
+          // At most once per screen instance; later emissions of the same
+          // error are expected (every refresh re-detects it) and stay silent.
+          if (!_wrongPinDialogShown) {
+            _wrongPinDialogShown = true;
+            showDecryptFailedDialog(
+              context,
+              failedCount: e.failedCount,
+              totalCount: e.totalCount,
+            );
+          }
+          break;
+        }
+        showError(context, error: e);
         break;
     }
   }

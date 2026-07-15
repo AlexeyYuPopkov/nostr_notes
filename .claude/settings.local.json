@@ -46,7 +46,11 @@
       "Read(//Users/alekseypopkov/fvm/versions/3.44.0/packages/flutter/lib/src/material/**)",
       "Bash(pod install *)",
       "Bash(git check-ignore *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "mcp__3c2cc8f7-a244-4c98-b1f7-622941133062__high_level_overview",
+      "mcp__3c2cc8f7-a244-4c98-b1f7-622941133062__execute_code",
+      "mcp__3c2cc8f7-a244-4c98-b1f7-622941133062__penpot_api_info",
+      "mcp__3c2cc8f7-a244-4c98-b1f7-622941133062__export_shape"
     ],
     "additionalDirectories": [
       "/tmp"

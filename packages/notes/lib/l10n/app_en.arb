@@ -156,7 +156,22 @@
     "notesListDecryptReasonWrongPin": "Wrong PIN/password or a mismatched encryption context for this note.",
     "notesListDecryptReasonCorruptedPayload": "The note payload appears corrupted, incomplete, or produced by an unsupported format.",
     "notesListDecryptReasonInvalidParams": "Cryptographic parameters are invalid for this note.",
-    "notesListSomeNotesDecryptFailed": "Some notes couldn't be decrypted. Check your PIN.",
+    "notesListDecryptFailedDialogTitle": "Couldn't decrypt notes",
+    "notesListDecryptFailedDialogMessage": "{failed} of {total} notes couldn't be decrypted. The PIN may be wrong — you can retry with another PIN. Your notes stay safely encrypted.",
+    "@notesListDecryptFailedDialogMessage": {
+        "placeholders": {
+            "failed": {
+                "type": "int"
+            },
+            "total": {
+                "type": "int"
+            }
+        }
+    },
+    "notesListDecryptFailedDialogMessageAll": "None of your notes could be decrypted. The PIN may be wrong — you can retry with another PIN. Your notes stay safely encrypted.",
+    "notesListDecryptFailedDialogRetry": "Retry with new PIN",
+    "notesListLockedNoteTitle": "Note is locked",
+    "notesListLockedNoteSubtitle": "PIN is required to decrypt",
     "editNoteScreenSaveSuccess": "Note saved successfully!",
     "credentialsDataScreenTitle": "Credentials Data",
     "credentialsDataScreenLabelNsec": "Nsec",

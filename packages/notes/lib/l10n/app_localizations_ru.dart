@@ -497,8 +497,26 @@ class AppLocalizationsRu extends AppLocalizations {
       'Криптографические параметры для этой заметки недействительны.';
 
   @override
-  String get notesListSomeNotesDecryptFailed =>
-      'Не удалось расшифровать часть заметок. Проверьте PIN.';
+  String get notesListDecryptFailedDialogTitle =>
+      'Не удалось расшифровать заметки';
+
+  @override
+  String notesListDecryptFailedDialogMessage(int failed, int total) {
+    return 'Не удалось расшифровать $failed из $total заметок. Возможно, введён неверный PIN — попробуйте другой PIN. Заметки остаются надёжно зашифрованными.';
+  }
+
+  @override
+  String get notesListDecryptFailedDialogMessageAll =>
+      'Не удалось расшифровать ни одной заметки. Возможно, введён неверный PIN — попробуйте другой PIN. Заметки остаются надёжно зашифрованными.';
+
+  @override
+  String get notesListDecryptFailedDialogRetry => 'Ввести другой PIN';
+
+  @override
+  String get notesListLockedNoteTitle => 'Заметка заблокирована';
+
+  @override
+  String get notesListLockedNoteSubtitle => 'Нужен PIN для расшифровки';
 
   @override
   String get editNoteScreenSaveSuccess => 'Заметка успешно сохранена!';

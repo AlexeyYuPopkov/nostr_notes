@@ -946,11 +946,41 @@ abstract class AppLocalizations {
   /// **'Cryptographic parameters are invalid for this note.'**
   String get notesListDecryptReasonInvalidParams;
 
-  /// No description provided for @notesListSomeNotesDecryptFailed.
+  /// No description provided for @notesListDecryptFailedDialogTitle.
   ///
   /// In en, this message translates to:
-  /// **'Some notes couldn\'t be decrypted. Check your PIN.'**
-  String get notesListSomeNotesDecryptFailed;
+  /// **'Couldn\'t decrypt notes'**
+  String get notesListDecryptFailedDialogTitle;
+
+  /// No description provided for @notesListDecryptFailedDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{failed} of {total} notes couldn\'t be decrypted. The PIN may be wrong — you can retry with another PIN. Your notes stay safely encrypted.'**
+  String notesListDecryptFailedDialogMessage(int failed, int total);
+
+  /// No description provided for @notesListDecryptFailedDialogMessageAll.
+  ///
+  /// In en, this message translates to:
+  /// **'None of your notes could be decrypted. The PIN may be wrong — you can retry with another PIN. Your notes stay safely encrypted.'**
+  String get notesListDecryptFailedDialogMessageAll;
+
+  /// No description provided for @notesListDecryptFailedDialogRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry with new PIN'**
+  String get notesListDecryptFailedDialogRetry;
+
+  /// No description provided for @notesListLockedNoteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Note is locked'**
+  String get notesListLockedNoteTitle;
+
+  /// No description provided for @notesListLockedNoteSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN is required to decrypt'**
+  String get notesListLockedNoteSubtitle;
 
   /// No description provided for @editNoteScreenSaveSuccess.
   ///

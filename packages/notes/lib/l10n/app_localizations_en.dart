@@ -488,8 +488,25 @@ class AppLocalizationsEn extends AppLocalizations {
       'Cryptographic parameters are invalid for this note.';
 
   @override
-  String get notesListSomeNotesDecryptFailed =>
-      'Some notes couldn\'t be decrypted. Check your PIN.';
+  String get notesListDecryptFailedDialogTitle => 'Couldn\'t decrypt notes';
+
+  @override
+  String notesListDecryptFailedDialogMessage(int failed, int total) {
+    return '$failed of $total notes couldn\'t be decrypted. The PIN may be wrong — you can retry with another PIN. Your notes stay safely encrypted.';
+  }
+
+  @override
+  String get notesListDecryptFailedDialogMessageAll =>
+      'None of your notes could be decrypted. The PIN may be wrong — you can retry with another PIN. Your notes stay safely encrypted.';
+
+  @override
+  String get notesListDecryptFailedDialogRetry => 'Retry with new PIN';
+
+  @override
+  String get notesListLockedNoteTitle => 'Note is locked';
+
+  @override
+  String get notesListLockedNoteSubtitle => 'PIN is required to decrypt';
 
   @override
   String get editNoteScreenSaveSuccess => 'Note saved successfully!';

@@ -495,8 +495,26 @@ class AppLocalizationsBg extends AppLocalizations {
       'Криптографските параметри за тази бележка са невалидни.';
 
   @override
-  String get notesListSomeNotesDecryptFailed =>
-      'Неуспешно декриптиране на някои бележки. Проверете ПИН-а.';
+  String get notesListDecryptFailedDialogTitle =>
+      'Неуспешно декриптиране на бележки';
+
+  @override
+  String notesListDecryptFailedDialogMessage(int failed, int total) {
+    return '$failed от $total бележки не можаха да бъдат декриптирани. Възможно е ПИН-ът да е грешен — опитайте с друг ПИН. Бележките остават надеждно криптирани.';
+  }
+
+  @override
+  String get notesListDecryptFailedDialogMessageAll =>
+      'Нито една бележка не можа да бъде декриптирана. Възможно е ПИН-ът да е грешен — опитайте с друг ПИН. Бележките остават надеждно криптирани.';
+
+  @override
+  String get notesListDecryptFailedDialogRetry => 'Опитай с нов ПИН';
+
+  @override
+  String get notesListLockedNoteTitle => 'Бележката е заключена';
+
+  @override
+  String get notesListLockedNoteSubtitle => 'Необходим е ПИН за декриптиране';
 
   @override
   String get editNoteScreenSaveSuccess => 'Бележката е успешно запазена!';
