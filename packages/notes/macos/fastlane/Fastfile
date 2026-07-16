@@ -41,7 +41,7 @@ platform :mac do
 
     api_key = _make_api_key
 
-    current_build_number = 29
+    current_build_number = 30
 
     latest_build = latest_testflight_build_number(
       version: "1.0.1",
