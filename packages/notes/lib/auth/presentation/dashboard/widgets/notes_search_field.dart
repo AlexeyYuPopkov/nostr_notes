@@ -4,10 +4,15 @@ import 'package:nostr_notes/l10n/localization.dart';
 final class NotesSearchField extends StatefulWidget {
   final String initialQuery;
   final ValueChanged<String> onChanged;
+
+  /// Placeholder text; defaults to the notes search hint when null.
+  final String? hintText;
+
   const NotesSearchField({
     super.key,
     required this.initialQuery,
     required this.onChanged,
+    this.hintText,
   });
 
   @override
@@ -45,7 +50,7 @@ final class _NotesSearchFieldState extends State<NotesSearchField> {
       onTapOutside: (event) => _focusNode.unfocus(),
       decoration: InputDecoration(
         isDense: true,
-        hintText: l10n.notesListSearchHint,
+        hintText: widget.hintText ?? l10n.notesListSearchHint,
         prefixIcon: const Icon(Icons.search),
         suffixIcon: _controller.text.isNotEmpty
             ? IconButton(

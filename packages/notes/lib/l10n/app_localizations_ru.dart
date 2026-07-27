@@ -584,6 +584,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notesListSearchNothingFound => 'Ничего не найдено';
 
   @override
+  String get accsTabTitle => 'Аккаунты';
+
+  @override
+  String get accsSectionAll => 'Все аккаунты';
+
+  @override
+  String get accsSearchHint => 'Поиск аккаунтов';
+
+  @override
+  String get accsEmptyTitle => 'Пока нет аккаунтов';
+
+  @override
   String get notesListNewNoteTooltip => 'Новая заметка';
 
   @override

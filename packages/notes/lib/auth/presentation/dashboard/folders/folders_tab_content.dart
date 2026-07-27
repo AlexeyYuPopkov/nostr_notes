@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/notes_list_tab.dart';
 import 'package:nostr_notes/auth/presentation/model/category_localization.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes/all_tab_content.dart';
 import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholder.dart';

@@ -50,7 +50,8 @@
       "mcp__3c2cc8f7-a244-4c98-b1f7-622941133062__high_level_overview",
       "mcp__3c2cc8f7-a244-4c98-b1f7-622941133062__execute_code",
       "mcp__3c2cc8f7-a244-4c98-b1f7-622941133062__penpot_api_info",
-      "mcp__3c2cc8f7-a244-4c98-b1f7-622941133062__export_shape"
+      "mcp__3c2cc8f7-a244-4c98-b1f7-622941133062__export_shape",
+      "Bash(grep -vE \"CocoaPods|pod deintegrate|Podfile|xcconfig|Removing CocoaPods|available\\\\\\)|Got dependencies|newer versions|flutter pub outdated|^  \\\\* |^\\\\s*$|plugins found\")"
     ],
     "additionalDirectories": [
       "/tmp"

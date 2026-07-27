@@ -18,6 +18,11 @@ import 'accs/accs_tab_header.dart';
 import 'notes/bloc/notes_list_event.dart';
 import 'folders/folders_tab_content.dart';
 
+const double kNotesListHeaderWithoutSearch = Sizes.indent4x + Sizes.indent2x;
+const double _kSearchFieldHeight = 52.0;
+const double kNotesListHeaderWithSearch =
+    kNotesListHeaderWithoutSearch + _kSearchFieldHeight;
+
 sealed class NotesListTab extends Equatable
     implements CommonToolbarTabsWidgetTab {
   static const List<NotesListTab> tabs = [
@@ -143,7 +148,7 @@ final class AccsTab extends NotesListTab {
   List<Object?> get props => [];
 
   @override
-  String getLocalizedTitle(BuildContext context) => 'Accounts'; // TODO: localize
+  String getLocalizedTitle(BuildContext context) => context.l10n.accsTabTitle;
 
   @override
   Widget buildHeader(BuildContext context, {required HeaderParams params}) {

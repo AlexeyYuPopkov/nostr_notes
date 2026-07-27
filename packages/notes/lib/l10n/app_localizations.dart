@@ -1096,6 +1096,30 @@ abstract class AppLocalizations {
   /// **'Nothing found'**
   String get notesListSearchNothingFound;
 
+  /// No description provided for @accsTabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accsTabTitle;
+
+  /// No description provided for @accsSectionAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All accounts'**
+  String get accsSectionAll;
+
+  /// No description provided for @accsSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search accounts'**
+  String get accsSearchHint;
+
+  /// No description provided for @accsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No accounts yet'**
+  String get accsEmptyTitle;
+
   /// No description provided for @notesListNewNoteTooltip.
   ///
   /// In en, this message translates to:

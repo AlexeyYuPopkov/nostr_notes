@@ -574,6 +574,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notesListSearchNothingFound => 'Nothing found';
 
   @override
+  String get accsTabTitle => 'Accounts';
+
+  @override
+  String get accsSectionAll => 'All accounts';
+
+  @override
+  String get accsSearchHint => 'Search accounts';
+
+  @override
+  String get accsEmptyTitle => 'No accounts yet';
+
+  @override
   String get notesListNewNoteTooltip => 'New note';
 
   @override

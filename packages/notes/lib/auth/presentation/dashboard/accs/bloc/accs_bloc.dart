@@ -1,38 +1,74 @@
 import 'dart:async';
+import 'dart:developer';
+
 import 'package:common/presentation/tools/section_scroll_vm.dart';
+import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/domain/model/login_item.dart';
+import 'package:nostr_notes/auth/domain/usecase/login_items/sync_login_items_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/login_items/watch_login_items_usecase.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 
 import '../../bloc/dashboard_bloc.dart';
 import '../../bloc/dashboard_command.dart';
+import '../../notes_list_tab.dart';
+import 'accs_data.dart';
 import 'accs_event.dart';
 import 'accs_state.dart';
-import 'accs_data.dart';
 
 final class AccsBloc extends Bloc<AccsEvent, AccsState> {
+  DiStorage get _di => DiStorage.shared;
   AccsData get data => state.data;
+
+  late final WatchLoginItemsUsecase _watchLoginItems = _di.resolve();
+  late final SyncLoginItemsUsecase _syncLoginItems = _di.resolve();
 
   final SectionScrollVm<NotesListHeader> sectionScrollVm;
 
+  /// Whether the Accounts tab is the one currently shown. Relay syncs are
+  /// scoped to when the user is actually looking at accounts, so unrelated
+  /// dashboard usage (and widget tests that never open this tab) never touch
+  /// the network.
+  bool _isActive = false;
+
+  StreamSubscription<List<LoginItem>>? _itemsSubscription;
+  StreamSubscription<bool>? _dashboardTabSubscription;
   StreamSubscription<DashboardCommand>? _dashboardCommandSubscription;
 
   AccsBloc({required DashboardBloc dashboardBloc})
     : sectionScrollVm = SectionScrollVm<NotesListHeader>(
         scrollController: dashboardBloc.scrollController,
       ),
-      super(AccsState.common(data: AccsData.initial())) {
+      super(AccsState.loading(data: AccsData.initial())) {
     _setupHandlers();
 
-    // Re-sync on refresh / app-resume, same as every other tab.
-    _dashboardCommandSubscription = dashboardBloc.commands.listen(
-      (_) => add(const AccsEvent.initial()),
-    );
+    _isActive = dashboardBloc.state.data.tab is AccsTab;
+
+    // Fetch from relays only while this tab is (or becomes) active.
+    _dashboardTabSubscription = dashboardBloc.stream
+        .map((state) => state.data.tab is AccsTab)
+        .distinct()
+        .listen((isActive) {
+          _isActive = isActive;
+          if (isActive) {
+            add(const AccsEvent.sync());
+          }
+        });
+
+    // Re-fetch on refresh / app-resume, but only when actually viewing accounts.
+    _dashboardCommandSubscription = dashboardBloc.commands.listen((_) {
+      if (_isActive) {
+        add(const AccsEvent.sync());
+      }
+    });
 
     add(const AccsEvent.initial());
   }
 
   @override
   Future<void> close() {
+    _itemsSubscription?.cancel();
+    _dashboardTabSubscription?.cancel();
     _dashboardCommandSubscription?.cancel();
     sectionScrollVm.dispose();
     return super.close();
@@ -40,23 +76,82 @@ final class AccsBloc extends Bloc<AccsEvent, AccsState> {
 
   void _setupHandlers() {
     on<InitialEvent>(_onInitialEvent);
+    on<ItemsUpdatedEvent>(_onItemsUpdatedEvent);
+    on<SyncEvent>(_onSyncEvent);
+    on<SearchEvent>(_onSearchEvent);
+    on<ErrorEvent>(_onErrorEvent);
   }
 
-  void _onInitialEvent(InitialEvent event, Emitter<AccsState> emit) async {
-    try {
-      emit(AccsState.loading(data: data));
+  void _onInitialEvent(InitialEvent event, Emitter<AccsState> emit) {
+    // Local store drives display immediately; no network here (see _isActive).
+    _itemsSubscription?.cancel();
+    _itemsSubscription = _watchLoginItems.execute().listen(
+      (items) => add(AccsEvent.itemsUpdated(items)),
+      onError: (Object error) => add(AccsEvent.error(error)),
+    );
 
-      await Future.delayed(const Duration(seconds: 2));
-
-      if (isClosed) {
-        return;
-      }
-      emit(AccsState.common(data: data));
-    } catch (e) {
-      if (isClosed) {
-        return;
-      }
-      emit(AccsState.error(e: e, data: data));
+    if (_isActive) {
+      _triggerSync();
     }
+  }
+
+  void _onItemsUpdatedEvent(ItemsUpdatedEvent event, Emitter<AccsState> emit) {
+    emit(
+      AccsState.common(
+        data: data.copyWith(
+          items: event.items,
+          filtered: _filter(event.items, data.searchString),
+        ),
+      ),
+    );
+  }
+
+  void _onSyncEvent(SyncEvent event, Emitter<AccsState> emit) {
+    _triggerSync();
+  }
+
+  void _onSearchEvent(SearchEvent event, Emitter<AccsState> emit) {
+    emit(
+      AccsState.common(
+        data: data.copyWith(
+          searchString: event.query,
+          filtered: _filter(data.items, event.query),
+        ),
+      ),
+    );
+  }
+
+  void _onErrorEvent(ErrorEvent event, Emitter<AccsState> emit) {
+    // The local store is the source of truth for display; only surface a
+    // failure when there is nothing to show, otherwise keep the list.
+    if (data.items.isEmpty) {
+      emit(AccsState.error(data: data, e: event.error));
+    } else {
+      log('Accounts sync/watch error (ignored, list non-empty): ${event.error}',
+          name: runtimeType.toString());
+    }
+  }
+
+  /// Fire-and-forget relay fetch; the local watch stream delivers the result.
+  void _triggerSync() {
+    unawaited(
+      _syncLoginItems.execute().catchError((Object error) {
+        add(AccsEvent.error(error));
+        return 0;
+      }),
+    );
+  }
+
+  /// Case-insensitive substring match over title, username and website.
+  List<LoginItem> _filter(List<LoginItem> items, String query) {
+    final q = query.trim().toLowerCase();
+    if (q.isEmpty) {
+      return items;
+    }
+    return items.where((item) {
+      return item.title.toLowerCase().contains(q) ||
+          item.username.toLowerCase().contains(q) ||
+          item.websiteUrl.toLowerCase().contains(q);
+    }).toList();
   }
 }

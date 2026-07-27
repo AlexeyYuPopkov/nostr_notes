@@ -7,6 +7,7 @@ import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes/bloc/notes_list_bloc.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes/bloc/notes_list_event.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/notes_list_tab.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/labels_picker.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/notes_list_card.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/notes_list_section_header.dart';
@@ -17,10 +18,7 @@ import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 
-const double kNotesListHeaderWithoutSearch = Sizes.indent4x + Sizes.indent2x;
-const double _kSearchFieldHeight = 52.0;
-const double kNotesListHeaderWithSearch =
-    kNotesListHeaderWithoutSearch + _kSearchFieldHeight;
+
 const double _kBackButtonHeight = 38.0;
 const double kNotesListHeaderWithFolderDetail =
     kNotesListHeaderWithoutSearch + _kBackButtonHeight;

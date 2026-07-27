@@ -582,6 +582,18 @@ class AppLocalizationsBg extends AppLocalizations {
   String get notesListSearchNothingFound => 'Нищо не е намерено';
 
   @override
+  String get accsTabTitle => 'Акаунти';
+
+  @override
+  String get accsSectionAll => 'Всички акаунти';
+
+  @override
+  String get accsSearchHint => 'Търсене на акаунти';
+
+  @override
+  String get accsEmptyTitle => 'Все още няма акаунти';
+
+  @override
   String get notesListNewNoteTooltip => 'Нова бележка';
 
   @override
