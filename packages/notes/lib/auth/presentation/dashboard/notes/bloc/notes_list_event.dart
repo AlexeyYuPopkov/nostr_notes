@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
-import 'package:nostr_notes/auth/presentation/notes_list/tabs/notes_list_tab.dart';
 
 sealed class NotesListEvent extends Equatable {
   const NotesListEvent();
@@ -18,8 +17,8 @@ sealed class NotesListEvent extends Equatable {
     required List<CategoryType> labels,
   }) = AssignLabelsEvent;
 
-  const factory NotesListEvent.selectFolder(NotesListTab tab) =
-      SelectFolderEvent;
+  // const factory NotesListEvent.selectFolder(NotesListTab tab) =
+  //     SelectFolderEvent;
 
   const factory NotesListEvent.search(String query) = SearchNotesEvent;
 
@@ -34,6 +33,7 @@ final class InitialEvent extends NotesListEvent {
 
 final class GetNotesEvent extends NotesListEvent {
   final List<Note> notes;
+
   const GetNotesEvent({required this.notes});
 
   @override
@@ -66,12 +66,12 @@ final class AssignLabelsEvent extends NotesListEvent {
   List<Object?> get props => [note, labels];
 }
 
-final class SelectFolderEvent extends NotesListEvent {
-  final NotesListTab tab;
-  const SelectFolderEvent(this.tab);
-  @override
-  List<Object?> get props => [tab];
-}
+// final class SelectFolderEvent extends NotesListEvent {
+//   final NotesListTab tab;
+//   const SelectFolderEvent(this.tab);
+//   @override
+//   List<Object?> get props => [tab];
+// }
 
 final class SearchNotesEvent extends NotesListEvent {
   final String query;

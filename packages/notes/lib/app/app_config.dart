@@ -4,6 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:nostr/model/tag/tag_value.dart';
 import 'package:nostr_notes/app/app_env.dart';
 
+final class FeatureFlags {
+  static const bool kEnableAccsTab = true;
+}
+
 final class AppConfig {
   static AppEnv _env = const DefaultAppEnv();
 

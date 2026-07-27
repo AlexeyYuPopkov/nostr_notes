@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 
-import '../tabs/notes_list_tab.dart';
 
 final class NotesListData extends Equatable {
   /// Full, decrypted set of the user's notes.
@@ -16,14 +15,14 @@ final class NotesListData extends Equatable {
   final String searchString;
 
   final List<NotesListSection> sections;
-  final NotesListTab tab;
+  // final NotesListTab tab;
 
   const NotesListData._({
     required this.allNotes,
     required this.filtered,
     required this.searchString,
     required this.sections,
-    required this.tab,
+    // required this.tab,
   });
 
   /// Notes to display: the filtered subset while searching, otherwise all.
@@ -37,26 +36,26 @@ final class NotesListData extends Equatable {
       filtered: [],
       searchString: '',
       sections: [],
-      tab: NotesListTab.all(),
+      // tab: NotesListTab.all(),
     );
   }
 
   @override
-  List<Object?> get props => [allNotes, filtered, searchString, sections, tab];
+  List<Object?> get props => [allNotes, filtered, searchString, sections, ];
 
   NotesListData copyWith({
     List<Note>? allNotes,
     List<Note>? filtered,
     String? searchString,
     List<NotesListSection>? sections,
-    NotesListTab? tab,
+    // NotesListTab? tab,
   }) {
     return NotesListData._(
       allNotes: allNotes ?? this.allNotes,
       filtered: filtered ?? this.filtered,
       searchString: searchString ?? this.searchString,
       sections: sections ?? this.sections,
-      tab: tab ?? this.tab,
+      // tab: tab ?? this.tab,
     );
   }
 }

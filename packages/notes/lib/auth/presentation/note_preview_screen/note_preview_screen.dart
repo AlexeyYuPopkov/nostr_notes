@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
-import 'package:nostr_notes/auth/presentation/notes_list/widgets/labels_picker.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/widgets/labels_picker.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import/export_password_dialog.dart';
 import 'package:nostr_notes/auth/presentation/tools/share_file_helper.dart';
 import 'package:nostr_notes/l10n/localization.dart';

@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:common/domain/error/app_error.dart';
+import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_list_tab_repo.dart';
-import 'package:nostr_notes/auth/presentation/notes_list/tabs/folders_tab_content.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/folders/folders_tab_content.dart';
 import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
 import 'package:nostr_notes/l10n/app_localizations.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
@@ -16,7 +17,7 @@ import 'package:nostr_notes/auth/domain/usecase/delete_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_pending_usecase.dart';
-import 'package:nostr_notes/auth/presentation/notes_list/bloc/pending_vm.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/notes/bloc/pending_vm.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/services/outbox_publisher.dart';
@@ -25,7 +26,6 @@ import 'package:rxdart/transformers.dart';
 import 'notes_list_data.dart';
 import 'notes_list_event.dart';
 import 'notes_list_state.dart';
-import '../tabs/notes_list_tab.dart';
 
 final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   static const errorStreamDebounce = Duration(milliseconds: 500);
@@ -51,10 +51,17 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   late final CreateNoteUsecase _createNoteUsecase = _di.resolve();
 
   late final foldersVm = FoldersTabContentVM.fromNotes([], null, l10n);
+  // ignore: unused_field
   late final NotesListTabRepo _tabRepo = _di.resolve();
 
   late final AppLifecycleListenerRepository appLifecycleListener = _di
       .resolve();
+
+  late final scrollController = ScrollController();
+  late final sectionScrollVm = SectionScrollVm<NotesListHeader>(
+    scrollController: scrollController,
+  );
+  late final wrongPinDialogShown = ValueNotifier<bool>(false);
 
   StreamSubscription? _fetchNotesSubscription;
   StreamSubscription? _getNotesSubscription;
@@ -70,6 +77,9 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
 
   @override
   Future<void> close() {
+    scrollController.dispose();
+    sectionScrollVm.dispose();
+
     _fetchNotesSubscription?.cancel();
     _fetchNotesSubscription = null;
     _getNotesSubscription?.cancel();
@@ -110,11 +120,11 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
       transformer: (events, mapper) =>
           events.debounceTime(debounceGuard).switchMap(mapper),
     );
-    on<SelectFolderEvent>(
-      _onSelectFolderEvent,
-      transformer: (events, mapper) =>
-          events.debounceTime(debounceGuard).switchMap(mapper),
-    );
+    // on<SelectFolderEvent>(
+    //   _onSelectFolderEvent,
+    //   transformer: (events, mapper) =>
+    //       events.debounceTime(debounceGuard).switchMap(mapper),
+    // );
     on<SearchNotesEvent>(
       _onSearchNotes,
       transformer: (events, mapper) => restartable<SearchNotesEvent>()(
@@ -210,20 +220,20 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   }
 
   void _onInitialEvent(InitialEvent event, Emitter<NotesListState> emit) async {
-    final savedTabIndex = _tabRepo.getTabIndex();
-    final savedTab =
-        NotesListTab.tabs.elementAtOrNull(savedTabIndex) ??
-        NotesListTab.tabs.first;
+    // final savedTabIndex = _tabRepo.getTabIndex();
+    // final savedTab =
+    //     NotesListTab.tabs.elementAtOrNull(savedTabIndex) ??
+    //     NotesListTab.tabs.first;
 
-    final nextData = data.copyWith(tab: savedTab);
+    // final nextData = data.copyWith(tab: savedTab);
 
     if (event.showShimmers) {
       if (state is! LoadingState) {
-        emit(NotesListState.loading(data: nextData));
+        emit(NotesListState.loading(data: data));
       }
       await Future.delayed(const Duration(milliseconds: 500));
     } else if (state is! CommonState) {
-      emit(NotesListState.common(data: nextData));
+      emit(NotesListState.common(data: data));
     }
 
     _setupSubscription();
@@ -346,24 +356,24 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     add(const NotesListEvent.initial());
   }
 
-  void _onSelectFolderEvent(
-    SelectFolderEvent event,
-    Emitter<NotesListState> emit,
-  ) {
-    if (isClosed) {
-      return;
-    }
+  // void _onSelectFolderEvent(
+  //   SelectFolderEvent event,
+  //   Emitter<NotesListState> emit,
+  // ) {
+  //   if (isClosed) {
+  //     return;
+  //   }
 
-    _tabRepo.setTabIndex(event.tab.index);
-    emit(NotesListState.common(data: data.copyWith(tab: event.tab)));
+  //   _tabRepo.setTabIndex(event.tab.index);
+  //   emit(NotesListState.common(data: data.copyWith(tab: event.tab)));
 
-    // Leaving with an active search → reset it so returning to "All" starts
-    // clean. Reuses the (restartable, async-safe) search handler to rebuild
-    // sections from the full set.
-    if (data.searchString.trim().isNotEmpty) {
-      add(const NotesListEvent.search(''));
-    }
-  }
+  //   // Leaving with an active search → reset it so returning to "All" starts
+  //   // clean. Reuses the (restartable, async-safe) search handler to rebuild
+  //   // sections from the full set.
+  //   if (data.searchString.trim().isNotEmpty) {
+  //     add(const NotesListEvent.search(''));
+  //   }
+  // }
 
   Future<void> _onSearchNotes(
     SearchNotesEvent event,

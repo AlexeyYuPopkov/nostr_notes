@@ -2,11 +2,11 @@ import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:nostr_notes/auth/presentation/notes_list/widgets/label_chips.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/widgets/label_chips.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
-import 'package:nostr_notes/auth/presentation/notes_list/bloc/pending_vm.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/notes/bloc/pending_vm.dart';
 import 'package:common/presentation/dialogs/common_tooltip.dart';
 
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
