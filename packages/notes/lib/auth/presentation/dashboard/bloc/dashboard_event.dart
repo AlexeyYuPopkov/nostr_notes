@@ -6,6 +6,7 @@ sealed class DashboardEvent extends Equatable {
 
   const factory DashboardEvent.initial() = InitialEvent;
   const factory DashboardEvent.selectTab(NotesListTab tab) = SelectTabEvent;
+  const factory DashboardEvent.refresh() = RefreshEvent;
 
   @override
   List<Object?> get props => const [];
@@ -20,4 +21,8 @@ final class SelectTabEvent extends DashboardEvent {
   const SelectTabEvent(this.tab);
   @override
   List<Object?> get props => [tab];
+}
+
+final class RefreshEvent extends DashboardEvent {
+  const RefreshEvent();
 }

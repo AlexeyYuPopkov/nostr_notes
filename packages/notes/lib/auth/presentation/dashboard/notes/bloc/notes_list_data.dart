@@ -15,14 +15,12 @@ final class NotesListData extends Equatable {
   final String searchString;
 
   final List<NotesListSection> sections;
-  // final NotesListTab tab;
 
   const NotesListData._({
     required this.allNotes,
     required this.filtered,
     required this.searchString,
     required this.sections,
-    // required this.tab,
   });
 
   /// Notes to display: the filtered subset while searching, otherwise all.
@@ -36,26 +34,23 @@ final class NotesListData extends Equatable {
       filtered: [],
       searchString: '',
       sections: [],
-      // tab: NotesListTab.all(),
     );
   }
 
   @override
-  List<Object?> get props => [allNotes, filtered, searchString, sections, ];
+  List<Object?> get props => [allNotes, filtered, searchString, sections];
 
   NotesListData copyWith({
     List<Note>? allNotes,
     List<Note>? filtered,
     String? searchString,
     List<NotesListSection>? sections,
-    // NotesListTab? tab,
   }) {
     return NotesListData._(
       allNotes: allNotes ?? this.allNotes,
       filtered: filtered ?? this.filtered,
       searchString: searchString ?? this.searchString,
       sections: sections ?? this.sections,
-      // tab: tab ?? this.tab,
     );
   }
 }

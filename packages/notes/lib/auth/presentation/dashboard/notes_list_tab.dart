@@ -15,8 +15,6 @@ import 'package:nostr_notes/auth/presentation/dashboard/widgets/notes_search_fie
 import 'package:nostr_notes/l10n/localization.dart';
 
 import 'accs/accs_tab_header.dart';
-import 'bloc/dashboard_bloc.dart';
-import 'bloc/dashboard_state.dart';
 import 'notes/bloc/notes_list_event.dart';
 import 'folders/folders_tab_content.dart';
 
@@ -79,24 +77,18 @@ final class AllNotesTab extends NotesListTab {
         right: Sizes.indent,
         bottom: Sizes.indent,
       ),
-      child: BlocListener<DashboardBloc, DashboardState>(
-        listenWhen: (a, b) => a.data.tab != b.data.tab,
-        listener: (context, state) {
-          if (state.data.tab is FoldersTab) {
-            context.read<NotesListBloc>().add(const NotesListEvent.search(''));
-          }
+      // Search is cleared on any tab change from inside NotesListBloc itself
+      // (subscribed to DashboardBloc.stream), not from this widget — that
+      // way the reset survives regardless of which header is mounted.
+      child: BlocSelector<NotesListBloc, NotesListState, String>(
+        selector: (state) => state.data.searchString,
+        builder: (context, str) {
+          return NotesSearchField(
+            initialQuery: str,
+            onChanged: (value) =>
+                context.read<NotesListBloc>().add(NotesListEvent.search(value)),
+          );
         },
-        child: BlocSelector<NotesListBloc, NotesListState, String>(
-          selector: (state) => state.data.searchString,
-          builder: (context, str) {
-            return NotesSearchField(
-              initialQuery: str,
-              onChanged: (value) => context.read<NotesListBloc>().add(
-                NotesListEvent.search(value),
-              ),
-            );
-          },
-        ),
       ),
     );
   }

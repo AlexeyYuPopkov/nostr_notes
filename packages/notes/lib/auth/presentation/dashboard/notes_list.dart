@@ -63,8 +63,20 @@ final class NotesList extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => DashboardBloc()),
-        BlocProvider(create: (context) => AccsBloc()),
-        BlocProvider(create: (context) => NotesListBloc(l10n: l10n)),
+        // AccsBloc and NotesListBloc are nested inside DashboardBloc's
+        // provider above, so `context.read<DashboardBloc>()` here resolves
+        // it; each subscribes to DashboardBloc's tab stream / commands in
+        // its own constructor and BlocProvider disposes it automatically.
+        BlocProvider(
+          create: (context) =>
+              AccsBloc(dashboardBloc: context.read<DashboardBloc>()),
+        ),
+        BlocProvider(
+          create: (context) => NotesListBloc(
+            l10n: l10n,
+            dashboardBloc: context.read<DashboardBloc>(),
+          ),
+        ),
       ],
       child: Builder(
         builder: (context) {
@@ -92,7 +104,7 @@ final class _DashboardState extends State<_Dashboard>
     with DialogHelper, DecryptFailedDialogMixin {
   final _nestedScrollKey = GlobalKey<NestedScrollViewState>();
 
-  final _headerVisible = ValueNotifier<bool>(true);
+  StreamSubscription? _decryptFailureSubscription;
 
   @override
   void initState() {
@@ -101,23 +113,43 @@ final class _DashboardState extends State<_Dashboard>
       final innerScrollController =
           _nestedScrollKey.currentState?.innerController;
       if (innerScrollController != null) {
-        final bloc = context.read<NotesListBloc>();
-        bloc.sectionScrollVm.setInnerScrollController(innerScrollController);
+        context.read<NotesListBloc>().sectionScrollVm.setInnerScrollController(
+          innerScrollController,
+        );
+        context.read<AccsBloc>().sectionScrollVm.setInnerScrollController(
+          innerScrollController,
+        );
       }
     });
+
+    // Shared across tabs: whichever tab detects a wrong-PIN decrypt failure
+    // first, DashboardBloc gates the dialog to once per screen instance.
+    _decryptFailureSubscription = context
+        .read<DashboardBloc>()
+        .decryptFailures
+        .listen((report) {
+          if (!mounted) return;
+          showDecryptFailedDialog(
+            context,
+            failedCount: report.failedCount,
+            totalCount: report.totalCount,
+          );
+        });
   }
 
   @override
   void dispose() {
-    _headerVisible.dispose();
+    _decryptFailureSubscription?.cancel();
     super.dispose();
   }
 
   bool _onScrollNotification(ScrollNotification notification) {
+    final headerVisible = context.read<DashboardBloc>().headerVisible;
+
     if (notification is ScrollUpdateNotification) {
       final metrics = notification.metrics;
       if (metrics.pixels <= metrics.minScrollExtent) {
-        _headerVisible.value = true;
+        headerVisible.value = true;
         return false;
       }
     }
@@ -126,9 +158,9 @@ final class _DashboardState extends State<_Dashboard>
         !notification.metrics.outOfRange) {
       switch (notification.direction) {
         case ScrollDirection.reverse:
-          _headerVisible.value = false;
+          headerVisible.value = false;
         case ScrollDirection.forward:
-          _headerVisible.value = true;
+          headerVisible.value = true;
         case ScrollDirection.idle:
           break;
       }
@@ -144,18 +176,9 @@ final class _DashboardState extends State<_Dashboard>
       case ErrorState():
         final e = state.e;
         if (e is SomeNotesWasNotDecrypted) {
-          final bloc = context.read<NotesListBloc>();
-
-          // At most once per screen instance; later emissions of the same
-          // error are expected (every refresh re-detects it) and stay silent.
-          if (!bloc.wrongPinDialogShown.value) {
-            bloc.wrongPinDialogShown.value = true;
-            showDecryptFailedDialog(
-              context,
-              failedCount: e.failedCount,
-              totalCount: e.totalCount,
-            );
-          }
+          // NotesListBloc already reported this to DashboardBloc, which
+          // gates and shows the shared dialog; nothing to do here beyond
+          // skipping the generic error toast below.
           break;
         }
         showError(context, error: e);
@@ -228,7 +251,7 @@ final class _DashboardState extends State<_Dashboard>
                 actions: [
                   if (const AppPlatform().isDesktopLayout)
                     RefreshButton(
-                      vm: context.read<NotesListBloc>().refreshButtonVm,
+                      vm: context.read<DashboardBloc>().refreshButtonVm,
                       padding: const EdgeInsets.only(left: Sizes.indent2x),
                       alignment: Alignment.centerRight,
                     ),
@@ -247,7 +270,9 @@ final class _DashboardState extends State<_Dashboard>
                     onNotification: _onScrollNotification,
                     child: NestedScrollView(
                       key: _nestedScrollKey,
-                      controller: bloc.scrollController,
+                      controller: context
+                          .read<DashboardBloc>()
+                          .scrollController,
                       headerSliverBuilder: (context, _) => const <Widget>[],
                       body:
                           BlocListener<
@@ -256,7 +281,11 @@ final class _DashboardState extends State<_Dashboard>
                           >(
                             listenWhen: (a, b) => a.data.tab != b.data.tab,
                             listener: (context, state) {
-                              _headerVisible.value = true;
+                              context
+                                      .read<DashboardBloc>()
+                                      .headerVisible
+                                      .value =
+                                  true;
                               DefaultTabController.of(context).animateTo(
                                 NotesListTab.tabs.indexOf(state.data.tab),
                               );
@@ -282,7 +311,10 @@ final class _DashboardState extends State<_Dashboard>
                           ),
                     ),
                   ),
-                  _Header(visible: _headerVisible, scrollVm: vm),
+                  _Header(
+                    visible: context.read<DashboardBloc>().headerVisible,
+                    scrollVm: vm,
+                  ),
                 ],
               ),
             ),
