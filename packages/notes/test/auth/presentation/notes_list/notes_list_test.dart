@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr/model/user_keys.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
+import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes_list.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/notes_list_card.dart';
@@ -51,6 +52,16 @@ final class _TestNotesListCoordinator implements NotesListCoordinator {
 
   @override
   void onAddAccountRoute(BuildContext context) {}
+
+  @override
+  void onAddLoginItemRoute(BuildContext context) {}
+
+  @override
+  void onLoginItemDetails(
+    BuildContext context, {
+    required LoginItem item,
+    required bool readonly,
+  }) {}
 }
 
 class MockChannelFactory extends Mock implements ChannelFactory {}

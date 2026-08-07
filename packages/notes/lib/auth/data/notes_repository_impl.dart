@@ -67,14 +67,14 @@ class NotesRepositoryImpl implements NotesRepository {
       });
 
   @override
-  void sendNotesRequest({
+  String sendNotesRequest({
     required String pubkey,
     required Set<String> relays,
     DateTime? until,
   }) {
     _client.addRelays(relays);
 
-    _client.sendRequestToAll(
+    return _client.sendRequestToAll(
       NostrReq(
         filters: [
           NostrFilter(
@@ -98,14 +98,14 @@ class NotesRepositoryImpl implements NotesRepository {
   }
 
   @override
-  void sendNoteRequest({
+  String sendNoteRequest({
     required String id,
     required Set<String> relays,
     DateTime? until,
   }) {
     _client.addRelays(relays);
 
-    _client.sendRequestToAll(
+    return _client.sendRequestToAll(
       NostrReq(
         filters: [
           NostrFilter(
@@ -116,6 +116,11 @@ class NotesRepositoryImpl implements NotesRepository {
         ],
       ),
     );
+  }
+
+  @override
+  void closeRequest(String subscriptionId) {
+    _client.sendCloseForAll(subscriptionId);
   }
 
   @override

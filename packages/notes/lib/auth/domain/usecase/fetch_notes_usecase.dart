@@ -39,32 +39,42 @@ class FetchNotesUsecase {
 
     return _relaysListRepo.relaysListStream.switchMap((relays) {
       _notesRepository.syncRelays(relays);
-      _notesRepository.sendNotesRequest(
+      final subscriptionId = _notesRepository.sendNotesRequest(
         pubkey: publicKey,
         relays: relays,
         until: _now.now(),
       );
 
-      return _notesRepository.eventsStream.doOnError((error, stackTrace) {
-        log(
-          'Error in FetchNotesUsecase: $error',
-          name: runtimeType.toString(),
-          error: error,
-          stackTrace: stackTrace,
-        );
+      return _notesRepository.eventsStream
+          .doOnError((error, stackTrace) {
+            log(
+              'Error in FetchNotesUsecase: $error',
+              name: runtimeType.toString(),
+              error: error,
+              stackTrace: stackTrace,
+            );
 
-        if (error is SocketException || error is WebSocketException) {
-          throw FetchNotesUsecaseNetworkError(parentError: error);
-        }
-      });
+            if (error is SocketException || error is WebSocketException) {
+              throw FetchNotesUsecaseNetworkError(parentError: error);
+            }
+          })
+          // Fires both when the relay list changes (switchMap moves to a
+          // new REQ) and when the outer subscriber cancels — either way,
+          // this particular REQ is done and should stop being served.
+          .doOnCancel(() => _notesRepository.closeRequest(subscriptionId));
     });
   }
 
   Stream<List<dynamic>> _noteWithId(NoteWithId params) {
     final relays = _relaysListRepo.getRelaysList();
 
+    // Captured once the deferred request actually goes out (see the
+    // microtask below); doOnCancel reads whatever is here when the caller
+    // stops listening, which by then is always set in practice.
+    String? subscriptionId;
+
     Future.microtask(() {
-      _notesRepository.sendNoteRequest(
+      subscriptionId = _notesRepository.sendNoteRequest(
         id: params.id,
         relays: relays.toSet(),
         until: _now.now(),
@@ -97,6 +107,12 @@ class FetchNotesUsecase {
 
           if (error is SocketException || error is WebSocketException) {
             throw FetchNotesUsecaseNetworkError(parentError: error);
+          }
+        })
+        .doOnCancel(() {
+          final id = subscriptionId;
+          if (id != null) {
+            _notesRepository.closeRequest(id);
           }
         });
   }

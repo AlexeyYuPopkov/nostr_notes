@@ -2,6 +2,7 @@ import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/bloc/accs_bloc.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/bloc/accs_state.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/widgets/account_list_card.dart';
@@ -10,7 +11,8 @@ import 'package:nostr_notes/auth/presentation/dashboard/widgets/notes_list_secti
 import 'package:nostr_notes/l10n/localization.dart';
 
 final class AccsTabContent extends StatelessWidget {
-  const AccsTabContent({super.key});
+  final ValueChanged<LoginItem>? onDetails;
+  const AccsTabContent({super.key, required this.onDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +53,7 @@ final class AccsTabContent extends StatelessWidget {
                       itemIndex,
                       length: itemsLength,
                     ),
-                    // Detail routing is intentionally deferred; tap is a no-op
-                    // for now. See dashboard/accs TODO.
-                    onTap: null,
+                    onTap: onDetails,
                   );
                 },
               ),
@@ -173,4 +173,10 @@ final class _ShimmerBox extends StatelessWidget {
       ),
     );
   }
+}
+
+abstract interface class AccsTabCoordinator {
+  const AccsTabCoordinator();
+
+  void onTapLoginItem(BuildContext context, LoginItem item);
 }

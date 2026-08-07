@@ -9,6 +9,7 @@ import 'package:nostr_notes/app/router/app_router_path.dart';
 import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/app_screens_assembly.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
+import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/home_screen.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/left_drawer.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
@@ -19,6 +20,8 @@ import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/onboarding_screen.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/params/onboarding_screen_params.dart';
 import 'package:rxdart/transformers.dart';
+
+import '../../auth/presentation/login_item_form/bloc/login_item_details_params.dart';
 
 part 'app_router_part.dart';
 
@@ -175,6 +178,17 @@ final class AppRouter {
             routes: [...noteRouter.getRoutes()],
           ),
         ],
+      ),
+
+      GoRoute(
+        path: AppRouterPath.loginItemForm,
+        builder: (BuildContext context, GoRouterState state) {
+          final extra = state.extra;
+          final params = LoginItemDetailsParams.fromJson(
+            extra as Map<String, dynamic>,
+          );
+          return _screensAssembly.createLoginItemFormScreen(params: params);
+        },
       ),
     ],
   );

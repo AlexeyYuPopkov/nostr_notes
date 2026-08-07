@@ -43,4 +43,24 @@ final class HomeScreenCoordinatorImpl implements HomeScreenCoordinator {
       extra: const OnboardingScreenParams(addAccount: true).toJson(),
     );
   }
+
+  @override
+  void onAddLoginItemRoute(BuildContext context) {
+    GoRouter.of(context).push(
+      AppRouterPath.loginItemForm,
+      extra: LoginItemDetailsParams(id: '', readonly: false).toJson(),
+    );
+  }
+
+  @override
+  void onLoginItemDetails(
+    BuildContext context, {
+    required LoginItem item,
+    required bool readonly,
+  }) {
+    GoRouter.of(context).push(
+      AppRouterPath.loginItemForm,
+      extra: LoginItemDetailsParams(id: item.dTag, readonly: readonly).toJson(),
+    );
+  }
 }

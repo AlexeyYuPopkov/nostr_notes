@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/presentation/account_switcher/account_switcher_panel.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/bloc/dashboard_event.dart';
 import 'package:nostr_notes/common/presentation/account_avatar.dart';
@@ -45,6 +46,14 @@ abstract interface class NotesListCoordinator {
   void onAccountSwitcher();
 
   void onAddAccountRoute(BuildContext context);
+
+  void onAddLoginItemRoute(BuildContext context);
+
+  void onLoginItemDetails(
+    BuildContext context, {
+    required LoginItem item,
+    required bool readonly,
+  });
 }
 
 final class NotesList extends StatelessWidget {
@@ -63,10 +72,6 @@ final class NotesList extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => DashboardBloc()),
-        // AccsBloc and NotesListBloc are nested inside DashboardBloc's
-        // provider above, so `context.read<DashboardBloc>()` here resolves
-        // it; each subscribes to DashboardBloc's tab stream / commands in
-        // its own constructor and BlocProvider disposes it automatically.
         BlocProvider(
           create: (context) =>
               AccsBloc(dashboardBloc: context.read<DashboardBloc>()),
@@ -259,10 +264,7 @@ final class _DashboardState extends State<_Dashboard>
                 ],
               ),
               floatingActionButton: breakpoint.isSmall
-                  ? Fab(
-                      onNewNote: () =>
-                          widget.coordinator.onNewNoteRoute(context),
-                    )
+                  ? Fab(onNewNote: () => _onFab(context))
                   : null,
               body: Stack(
                 children: [
@@ -298,11 +300,12 @@ final class _DashboardState extends State<_Dashboard>
                                     context,
                                     params: TabParams(
                                       selectedNoteDTag: widget.selectedNoteDTag,
-                                      onTap: (note) =>
-                                          widget.coordinator.onNotePreviewRoute(
-                                            noteId: note.dTag,
-                                            context,
-                                          ),
+                                      coordinator: widget.coordinator,
+                                      // onTap: (note) =>
+                                      //     widget.coordinator.onNotePreviewRoute(
+                                      //       noteId: note.dTag,
+                                      //       context,
+                                      //     ),
                                       scrollSectionsVm: vm,
                                     ),
                                   ),
@@ -322,6 +325,18 @@ final class _DashboardState extends State<_Dashboard>
         );
       },
     );
+  }
+
+  void _onFab(BuildContext context) {
+    final currentTab = context.read<DashboardBloc>().state.data.tab;
+
+    switch (currentTab) {
+      case AllNotesTab():
+      case FoldersTab():
+        widget.coordinator.onNewNoteRoute(context);
+      case AccsTab():
+        widget.coordinator.onAddLoginItemRoute(context);
+    }
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/auth/presentation/edit_note_markdown_screen/edit_note_markdown_screen.dart';
+import 'package:nostr_notes/auth/presentation/login_item_form/bloc/login_item_details_params.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/note_preview_screen.dart';
 
@@ -23,4 +24,5 @@ abstract interface class ScreensAssembly {
   Widget createDonateLightningScreen();
   Widget createExportImportScreen();
   Widget createApkDistributionScreen({bool showAppBar = true});
+  Widget createLoginItemFormScreen({required LoginItemDetailsParams params});
 }

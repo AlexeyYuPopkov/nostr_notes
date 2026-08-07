@@ -4,12 +4,12 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/app_config.dart';
-import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/accs_tab_content.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes/bloc/notes_list_bloc.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes/bloc/notes_list_state.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/folders/widgets/folder_back_button.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes/all_tab_content.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/notes_list.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/common_toolbar_tabs_widget.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/notes_search_field.dart';
 import 'package:nostr_notes/l10n/localization.dart';
@@ -59,7 +59,9 @@ final class AllNotesTab extends NotesListTab {
           sections: state.data.sections,
           searchQuery: state.data.searchString,
           hasAnyNotes: state.data.allNotes.isNotEmpty,
-          onTap: params.onTap,
+          // onTap: params.onTap,
+          onTap: (note) =>
+              params.coordinator.onNotePreviewRoute(noteId: note.dTag, context),
           scrollSectionsVm: params._scrollSectionsVm,
         );
       },
@@ -113,7 +115,8 @@ final class FoldersTab extends NotesListTab {
           vm: context.read<NotesListBloc>().foldersVm,
           selectedNoteDTag: params.selectedNoteDTag,
           isLoading: state is LoadingState,
-          onTap: params.onTap,
+          onTap: (note) =>
+              params.coordinator.onNotePreviewRoute(noteId: note.dTag, context),
           scrollSectionsVm: params._scrollSectionsVm,
         );
       },
@@ -141,7 +144,13 @@ final class AccsTab extends NotesListTab {
 
   @override
   Widget build(BuildContext context, {required TabParams params}) {
-    return const AccsTabContent();
+    return AccsTabContent(
+      onDetails: (item) => params.coordinator.onLoginItemDetails(
+        context,
+        item: item,
+        readonly: true,
+      ),
+    );
   }
 
   @override
@@ -159,13 +168,12 @@ final class AccsTab extends NotesListTab {
 final class TabParams extends Equatable {
   final String? selectedNoteDTag;
 
-  final ValueChanged<Note> onTap;
+  final NotesListCoordinator coordinator;
   final SectionScrollVm _scrollSectionsVm;
 
   const TabParams({
     required this.selectedNoteDTag,
-
-    required this.onTap,
+    required this.coordinator,
     required SectionScrollVm scrollSectionsVm,
   }) : _scrollSectionsVm = scrollSectionsVm;
 

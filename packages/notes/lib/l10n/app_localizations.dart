@@ -1120,6 +1120,96 @@ abstract class AppLocalizations {
   /// **'No accounts yet'**
   String get accsEmptyTitle;
 
+  /// No description provided for @accsAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New account'**
+  String get accsAddTitle;
+
+  /// No description provided for @accsEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit account'**
+  String get accsEditTitle;
+
+  /// No description provided for @accsFormTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Account name'**
+  String get accsFormTitleHint;
+
+  /// No description provided for @accsFormTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get accsFormTitleLabel;
+
+  /// No description provided for @accsFormWebsiteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get accsFormWebsiteLabel;
+
+  /// No description provided for @accsFormWebsiteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add website'**
+  String get accsFormWebsiteHint;
+
+  /// No description provided for @accsFormUsernameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get accsFormUsernameLabel;
+
+  /// No description provided for @accsFormUsernameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add username'**
+  String get accsFormUsernameHint;
+
+  /// No description provided for @accsFormPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get accsFormPasswordLabel;
+
+  /// No description provided for @accsFormPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add password'**
+  String get accsFormPasswordHint;
+
+  /// No description provided for @accsFormNotesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get accsFormNotesLabel;
+
+  /// No description provided for @accsFormNotesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a note'**
+  String get accsFormNotesHint;
+
+  /// No description provided for @accsFormSaveSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Account saved successfully!'**
+  String get accsFormSaveSuccess;
+
+  /// No description provided for @accsFormEditButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get accsFormEditButton;
+
+  /// No description provided for @accsFormDoneButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get accsFormDoneButton;
+
   /// No description provided for @notesListNewNoteTooltip.
   ///
   /// In en, this message translates to:

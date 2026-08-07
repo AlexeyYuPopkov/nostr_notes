@@ -25,15 +25,12 @@ final class AccsBloc extends Bloc<AccsEvent, AccsState> {
 
   final SectionScrollVm<NotesListHeader> sectionScrollVm;
 
-  /// Whether the Accounts tab is the one currently shown. Relay syncs are
-  /// scoped to when the user is actually looking at accounts, so unrelated
-  /// dashboard usage (and widget tests that never open this tab) never touch
-  /// the network.
   bool _isActive = false;
 
   StreamSubscription<List<LoginItem>>? _itemsSubscription;
   StreamSubscription<bool>? _dashboardTabSubscription;
   StreamSubscription<DashboardCommand>? _dashboardCommandSubscription;
+  StreamSubscription<List<dynamic>>? _syncSubscription;
 
   AccsBloc({required DashboardBloc dashboardBloc})
     : sectionScrollVm = SectionScrollVm<NotesListHeader>(
@@ -44,7 +41,6 @@ final class AccsBloc extends Bloc<AccsEvent, AccsState> {
 
     _isActive = dashboardBloc.state.data.tab is AccsTab;
 
-    // Fetch from relays only while this tab is (or becomes) active.
     _dashboardTabSubscription = dashboardBloc.stream
         .map((state) => state.data.tab is AccsTab)
         .distinct()
@@ -55,7 +51,6 @@ final class AccsBloc extends Bloc<AccsEvent, AccsState> {
           }
         });
 
-    // Re-fetch on refresh / app-resume, but only when actually viewing accounts.
     _dashboardCommandSubscription = dashboardBloc.commands.listen((_) {
       if (_isActive) {
         add(const AccsEvent.sync());
@@ -70,6 +65,7 @@ final class AccsBloc extends Bloc<AccsEvent, AccsState> {
     _itemsSubscription?.cancel();
     _dashboardTabSubscription?.cancel();
     _dashboardCommandSubscription?.cancel();
+    _syncSubscription?.cancel();
     sectionScrollVm.dispose();
     return super.close();
   }
@@ -83,7 +79,6 @@ final class AccsBloc extends Bloc<AccsEvent, AccsState> {
   }
 
   void _onInitialEvent(InitialEvent event, Emitter<AccsState> emit) {
-    // Local store drives display immediately; no network here (see _isActive).
     _itemsSubscription?.cancel();
     _itemsSubscription = _watchLoginItems.execute().listen(
       (items) => add(AccsEvent.itemsUpdated(items)),
@@ -122,27 +117,27 @@ final class AccsBloc extends Bloc<AccsEvent, AccsState> {
   }
 
   void _onErrorEvent(ErrorEvent event, Emitter<AccsState> emit) {
-    // The local store is the source of truth for display; only surface a
-    // failure when there is nothing to show, otherwise keep the list.
     if (data.items.isEmpty) {
       emit(AccsState.error(data: data, e: event.error));
     } else {
-      log('Accounts sync/watch error (ignored, list non-empty): ${event.error}',
-          name: runtimeType.toString());
+      log(
+        'Accounts sync/watch error (ignored, list non-empty): ${event.error}',
+        name: runtimeType.toString(),
+      );
     }
   }
 
-  /// Fire-and-forget relay fetch; the local watch stream delivers the result.
   void _triggerSync() {
-    unawaited(
-      _syncLoginItems.execute().catchError((Object error) {
-        add(AccsEvent.error(error));
-        return 0;
-      }),
-    );
+    _syncSubscription?.cancel();
+    _syncSubscription = _syncLoginItems.execute().listen((items) {
+      log(
+        'Accounts sync completed: ${items.length}',
+        name: runtimeType.toString(),
+      );
+      // debugger();
+    }, onError: (Object error) => add(AccsEvent.error(error)));
   }
 
-  /// Case-insensitive substring match over title, username and website.
   List<LoginItem> _filter(List<LoginItem> items, String query) {
     final q = query.trim().toLowerCase();
     if (q.isEmpty) {

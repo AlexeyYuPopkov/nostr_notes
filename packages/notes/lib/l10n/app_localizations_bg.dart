@@ -594,6 +594,51 @@ class AppLocalizationsBg extends AppLocalizations {
   String get accsEmptyTitle => 'Все още няма акаунти';
 
   @override
+  String get accsAddTitle => 'Нов акаунт';
+
+  @override
+  String get accsEditTitle => 'Редактиране на акаунт';
+
+  @override
+  String get accsFormTitleHint => 'Име на акаунта';
+
+  @override
+  String get accsFormTitleLabel => 'Име';
+
+  @override
+  String get accsFormWebsiteLabel => 'Уебсайт';
+
+  @override
+  String get accsFormWebsiteHint => 'Добавяне на уебсайт';
+
+  @override
+  String get accsFormUsernameLabel => 'Потребителско име';
+
+  @override
+  String get accsFormUsernameHint => 'Добавяне на потребителско име';
+
+  @override
+  String get accsFormPasswordLabel => 'Парола';
+
+  @override
+  String get accsFormPasswordHint => 'Добавяне на парола';
+
+  @override
+  String get accsFormNotesLabel => 'Бележки';
+
+  @override
+  String get accsFormNotesHint => 'Добавяне на бележка';
+
+  @override
+  String get accsFormSaveSuccess => 'Акаунтът е запазен успешно!';
+
+  @override
+  String get accsFormEditButton => 'Редактиране';
+
+  @override
+  String get accsFormDoneButton => 'Готово';
+
+  @override
   String get notesListNewNoteTooltip => 'Нова бележка';
 
   @override

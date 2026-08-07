@@ -596,6 +596,51 @@ class AppLocalizationsRu extends AppLocalizations {
   String get accsEmptyTitle => 'Пока нет аккаунтов';
 
   @override
+  String get accsAddTitle => 'Новый аккаунт';
+
+  @override
+  String get accsEditTitle => 'Редактировать аккаунт';
+
+  @override
+  String get accsFormTitleHint => 'Название аккаунта';
+
+  @override
+  String get accsFormTitleLabel => 'Название';
+
+  @override
+  String get accsFormWebsiteLabel => 'Сайт';
+
+  @override
+  String get accsFormWebsiteHint => 'Добавить сайт';
+
+  @override
+  String get accsFormUsernameLabel => 'Имя пользователя';
+
+  @override
+  String get accsFormUsernameHint => 'Добавить имя пользователя';
+
+  @override
+  String get accsFormPasswordLabel => 'Пароль';
+
+  @override
+  String get accsFormPasswordHint => 'Добавить пароль';
+
+  @override
+  String get accsFormNotesLabel => 'Заметки';
+
+  @override
+  String get accsFormNotesHint => 'Добавить заметку';
+
+  @override
+  String get accsFormSaveSuccess => 'Аккаунт успешно сохранён!';
+
+  @override
+  String get accsFormEditButton => 'Изменить';
+
+  @override
+  String get accsFormDoneButton => 'Готово';
+
+  @override
   String get notesListNewNoteTooltip => 'Новая заметка';
 
   @override

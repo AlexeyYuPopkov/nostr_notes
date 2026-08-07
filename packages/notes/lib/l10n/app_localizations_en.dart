@@ -586,6 +586,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accsEmptyTitle => 'No accounts yet';
 
   @override
+  String get accsAddTitle => 'New account';
+
+  @override
+  String get accsEditTitle => 'Edit account';
+
+  @override
+  String get accsFormTitleHint => 'Account name';
+
+  @override
+  String get accsFormTitleLabel => 'Name';
+
+  @override
+  String get accsFormWebsiteLabel => 'Website';
+
+  @override
+  String get accsFormWebsiteHint => 'Add website';
+
+  @override
+  String get accsFormUsernameLabel => 'Username';
+
+  @override
+  String get accsFormUsernameHint => 'Add username';
+
+  @override
+  String get accsFormPasswordLabel => 'Password';
+
+  @override
+  String get accsFormPasswordHint => 'Add password';
+
+  @override
+  String get accsFormNotesLabel => 'Notes';
+
+  @override
+  String get accsFormNotesHint => 'Add a note';
+
+  @override
+  String get accsFormSaveSuccess => 'Account saved successfully!';
+
+  @override
+  String get accsFormEditButton => 'Edit';
+
+  @override
+  String get accsFormDoneButton => 'Done';
+
+  @override
   String get notesListNewNoteTooltip => 'New note';
 
   @override
