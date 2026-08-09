@@ -639,6 +639,9 @@ class AppLocalizationsBg extends AppLocalizations {
   String get accsFormDoneButton => 'Готово';
 
   @override
+  String get accsFormGoButtonCopiedMessage => 'Паролата\nе копирана';
+
+  @override
   String get notesListNewNoteTooltip => 'Нова бележка';
 
   @override

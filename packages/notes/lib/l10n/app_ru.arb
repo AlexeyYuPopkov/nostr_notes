@@ -200,6 +200,7 @@
     "accsFormSaveSuccess": "Аккаунт успешно сохранён!",
     "accsFormEditButton": "Изменить",
     "accsFormDoneButton": "Готово",
+    "accsFormGoButtonCopiedMessage": "Пароль\nскопирован",
     "notesListNewNoteTooltip": "Новая заметка",
     "notesFoldersEmptyStatePlaceholder": "Назначайте метки заметкам, чтобы группировать их по папкам",
     "homeScreenEmptyStatePlaceholder": "Нажмите +, чтобы создать заметку",

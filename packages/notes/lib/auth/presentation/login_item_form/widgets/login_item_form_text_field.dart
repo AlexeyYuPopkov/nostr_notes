@@ -6,9 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-/// One row of the account form's grouped card: a small primary-colored label
-/// above the value, an inset hairline divider towards the next row, and
-/// trailing reveal/copy icons — styled after the reference design.
 final class LoginItemFormTextField extends StatefulWidget {
   static const double _iconSize = 20.0;
 
@@ -23,6 +20,7 @@ final class LoginItemFormTextField extends StatefulWidget {
   final int? maxLines;
   final bool enabled;
   final ListItemPosition position;
+  final Widget? trailing;
 
   const LoginItemFormTextField({
     super.key,
@@ -37,6 +35,7 @@ final class LoginItemFormTextField extends StatefulWidget {
     this.minLines,
     this.maxLines = 1,
     this.enabled = true,
+    this.trailing,
   });
 
   @override
@@ -92,6 +91,12 @@ final class _FormFieldState extends State<LoginItemFormTextField> {
                     autocorrect: !widget.obscurable,
                     style: theme.textTheme.bodyLarge,
                     decoration: InputDecoration(
+                      // The app-wide InputDecorationTheme defaults to
+                      // `filled: true` with the *page* background color —
+                      // without this override that paints under the text,
+                      // visibly different from this row's own
+                      // tertiaryContainer fill.
+                      filled: false,
                       border: InputBorder.none,
                       focusedBorder: InputBorder.none,
                       enabledBorder: InputBorder.none,
@@ -119,6 +124,7 @@ final class _FormFieldState extends State<LoginItemFormTextField> {
                     mainAxisSize: MainAxisSize.min,
                     spacing: Sizes.indentVariant2x,
                     children: [
+                      if (widget.trailing != null) widget.trailing!,
                       if (widget.obscurable)
                         CupertinoButton(
                           minimumSize: Size.zero,

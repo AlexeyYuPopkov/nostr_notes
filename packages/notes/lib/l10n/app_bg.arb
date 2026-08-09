@@ -200,6 +200,7 @@
     "accsFormSaveSuccess": "Акаунтът е запазен успешно!",
     "accsFormEditButton": "Редактиране",
     "accsFormDoneButton": "Готово",
+    "accsFormGoButtonCopiedMessage": "Паролата\nе копирана",
     "notesListNewNoteTooltip": "Нова бележка",
     "notesFoldersEmptyStatePlaceholder": "Присвоявайте етикети на бележките, за да ги групирате в папки",
     "homeScreenEmptyStatePlaceholder": "Натиснете +, за да създадете бележка",

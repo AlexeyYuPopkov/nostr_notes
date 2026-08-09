@@ -1210,6 +1210,12 @@ abstract class AppLocalizations {
   /// **'Done'**
   String get accsFormDoneButton;
 
+  /// No description provided for @accsFormGoButtonCopiedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Password\ncopied'**
+  String get accsFormGoButtonCopiedMessage;
+
   /// No description provided for @notesListNewNoteTooltip.
   ///
   /// In en, this message translates to:

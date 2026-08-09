@@ -4,6 +4,7 @@ import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/presentation/login_item_form/widgets/login_item_go_icon.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 
 import 'bloc/login_item_details_params.dart';
@@ -100,6 +101,10 @@ final class LoginItemFormScreen extends StatelessWidget with DialogHelper {
                             textInputAction: TextInputAction.next,
                             enabled: !readonly,
                             position: .middle,
+                            trailing: LoginItemGoIcon(
+                              url: bloc.websiteController.text.trim(),
+                              password: bloc.passwordController.text.trim(),
+                            ),
                           ),
 
                           LoginItemFormTextField(
