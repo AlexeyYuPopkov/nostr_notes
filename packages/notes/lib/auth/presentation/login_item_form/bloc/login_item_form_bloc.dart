@@ -8,13 +8,15 @@ import 'package:nostr_notes/auth/domain/usecase/login_items/get_login_item_useca
 import 'package:nostr_notes/auth/domain/usecase/login_items/save_login_item_usecase.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../tools/login_item_form_normalization.dart';
 import 'login_item_details_params.dart';
 import 'login_item_form_data.dart';
 import 'login_item_form_event.dart';
 import 'login_item_form_state.dart';
 
 final class LoginItemFormBloc
-    extends Bloc<LoginItemFormEvent, LoginItemFormState> {
+    extends Bloc<LoginItemFormEvent, LoginItemFormState>
+    with LoginItemFormNormalization {
   static const debounceGuard = AppDurations.short;
   final LoginItemDetailsParams pathParams;
 
@@ -150,16 +152,28 @@ final class LoginItemFormBloc
       // copyWith; a new item starts from a blank draft. Same shape either
       // way, so SaveLoginItemUsecase's isNew check (dTag.isEmpty) decides.
       final base = data.initialItem.value ?? LoginItem.draft();
+      final websiteUrl = normalizedWebsiteUrl(websiteController.text);
       final saved = await _saveLoginItemUsecase.execute(
         item: base.copyWith(
-          title: titleController.text.trim(),
-          websiteUrl: websiteController.text.trim(),
+          title: deriveTitle(
+            title: titleController.text,
+            websiteUrl: websiteUrl,
+            username: usernameController.text,
+          ),
+          websiteUrl: websiteUrl,
           username: usernameController.text.trim(),
           // Not trimmed: leading/trailing whitespace may be intentional.
           password: passwordController.text,
           notes: notesController.text.trim(),
         ),
       );
+
+      // Normalization may have produced values differing from what was
+      // typed (derived title, https:// prefix); sync the controllers so
+      // `_hasChanges` doesn't immediately report pending edits against the
+      // just-saved item.
+      titleController.text = saved.title;
+      websiteController.text = saved.websiteUrl;
 
       emit(
         LoginItemFormState.didSave(

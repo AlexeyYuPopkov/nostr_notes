@@ -11,6 +11,7 @@ import 'bloc/login_item_details_params.dart';
 import 'bloc/login_item_form_bloc.dart';
 import 'bloc/login_item_form_event.dart';
 import 'bloc/login_item_form_state.dart';
+import 'tools/login_item_form_formatters.dart';
 import 'widgets/login_item_form_header.dart';
 import 'widgets/login_item_form_text_field.dart';
 
@@ -91,6 +92,7 @@ final class LoginItemFormScreen extends StatelessWidget with DialogHelper {
                             textInputAction: TextInputAction.next,
                             enabled: !readonly,
                             position: .first,
+                            inputFormatters: LoginItemFormFormatters.title,
                           ),
 
                           LoginItemFormTextField(
@@ -101,6 +103,8 @@ final class LoginItemFormScreen extends StatelessWidget with DialogHelper {
                             textInputAction: TextInputAction.next,
                             enabled: !readonly,
                             position: .middle,
+                            inputFormatters: LoginItemFormFormatters.website,
+                            autofillHints: const [AutofillHints.url],
                             trailing: LoginItemGoIcon(
                               url: bloc.websiteController.text.trim(),
                               password: bloc.passwordController.text.trim(),
@@ -115,6 +119,8 @@ final class LoginItemFormScreen extends StatelessWidget with DialogHelper {
                             textInputAction: TextInputAction.next,
                             enabled: !readonly,
                             position: .middle,
+                            inputFormatters: LoginItemFormFormatters.username,
+                            autofillHints: const [AutofillHints.username],
                           ),
 
                           LoginItemFormTextField(
@@ -125,6 +131,8 @@ final class LoginItemFormScreen extends StatelessWidget with DialogHelper {
                             textInputAction: TextInputAction.next,
                             enabled: !readonly,
                             position: .last,
+                            inputFormatters: LoginItemFormFormatters.password,
+                            autofillHints: const [AutofillHints.password],
                           ),
                           const SizedBox(height: Sizes.indent2x),
                           LoginItemFormTextField(
@@ -136,6 +144,7 @@ final class LoginItemFormScreen extends StatelessWidget with DialogHelper {
                             textInputAction: TextInputAction.newline,
                             enabled: !readonly,
                             position: .single,
+                            inputFormatters: LoginItemFormFormatters.notes,
                           ),
                         ],
                       ),

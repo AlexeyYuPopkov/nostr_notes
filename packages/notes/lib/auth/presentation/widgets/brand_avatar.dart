@@ -47,7 +47,7 @@ final class BrandAvatar extends StatelessWidget with BrandAvatarHelper {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: seed.isEmpty
-            ? theme.colorScheme.surfaceContainerHighest
+            ? theme.colorScheme.primaryContainer
             : avatarColor(seed),
         borderRadius: BorderRadius.circular(side / 3.0),
       ),

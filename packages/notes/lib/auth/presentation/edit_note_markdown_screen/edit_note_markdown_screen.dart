@@ -13,6 +13,7 @@ import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'bloc/markdown_edit_note_bloc.dart';
 import 'bloc/markdown_edit_note_event.dart';
 import 'bloc/markdown_edit_note_state.dart';
+import 'tools/edit_note_formatters.dart';
 
 abstract interface class EditMarkdownNoteScreenCoordinator {
   FutureOr<dynamic> onNotePreviewRoute(
@@ -92,6 +93,7 @@ final class EditMarkdownNoteScreen extends StatelessWidget with DialogHelper {
                   textAlignVertical: TextAlignVertical.top,
                   style: markdownTheme.rawCodeTextStyle,
                   autocorrect: false,
+                  inputFormatters: EditNoteFormatters.content,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,

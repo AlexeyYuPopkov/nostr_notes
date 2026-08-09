@@ -21,6 +21,8 @@ final class LoginItemFormTextField extends StatefulWidget {
   final bool enabled;
   final ListItemPosition position;
   final Widget? trailing;
+  final List<TextInputFormatter>? inputFormatters;
+  final Iterable<String>? autofillHints;
 
   const LoginItemFormTextField({
     super.key,
@@ -36,6 +38,8 @@ final class LoginItemFormTextField extends StatefulWidget {
     this.maxLines = 1,
     this.enabled = true,
     this.trailing,
+    this.inputFormatters,
+    this.autofillHints,
   });
 
   @override
@@ -89,6 +93,12 @@ final class _FormFieldState extends State<LoginItemFormTextField> {
                     maxLines: widget.obscurable ? 1 : widget.maxLines,
                     obscureText: widget.obscurable && _obscured,
                     autocorrect: !widget.obscurable,
+                    // `autocorrect: false` alone is not enough on Android:
+                    // keyboard suggestions (and learning the typed secret)
+                    // are governed by this separate flag.
+                    enableSuggestions: !widget.obscurable,
+                    inputFormatters: widget.inputFormatters,
+                    autofillHints: widget.autofillHints,
                     style: theme.textTheme.bodyLarge,
                     decoration: InputDecoration(
                       // The app-wide InputDecorationTheme defaults to
