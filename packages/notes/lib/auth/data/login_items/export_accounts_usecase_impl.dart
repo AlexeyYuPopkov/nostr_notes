@@ -45,6 +45,7 @@ final class ExportAccountsUsecaseImpl implements ExportAccountsUsecase {
   Future<(String, Uint8List, String)> exportAccounts({
     required String password,
     String? fileName,
+    List<String>? dTags,
   }) async {
     if (password.trim().isEmpty) {
       throw const ExportAccountsError(
@@ -58,6 +59,7 @@ final class ExportAccountsUsecaseImpl implements ExportAccountsUsecase {
         RawEventQuery(
           kinds: const [NostrKind.loginItem],
           authors: [vaultPubkey],
+          tagFilters: dTags != null ? [TagFilter('d', dTags)] : null,
         ),
       );
 

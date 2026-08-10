@@ -216,6 +216,8 @@
     "accsFormDoneButton": "Готово",
     "accsFormGoButtonCopiedMessage": "Паролата\nе копирана",
     "accsConfirmationDialogDeletion": "Сигурни ли сте, че искате да изтриете този акаунт? Действието не може да бъде отменено.",
+    "accsFormMoreMenuCopy": "Копиране на данните",
+    "accsFormMoreMenuShare": "Споделяне/резервно копие",
     "notesListNewNoteTooltip": "Нова бележка",
     "notesFoldersEmptyStatePlaceholder": "Присвоявайте етикети на бележките, за да ги групирате в папки",
     "homeScreenEmptyStatePlaceholder": "Натиснете +, за да създадете бележка",

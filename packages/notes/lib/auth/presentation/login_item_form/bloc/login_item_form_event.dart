@@ -14,6 +14,13 @@ sealed class LoginItemFormEvent extends Equatable {
 
   const factory LoginItemFormEvent.delete() = DeleteEvent;
 
+  const factory LoginItemFormEvent.willExport() = WillExportEvent;
+
+  const factory LoginItemFormEvent.export({
+    required String password,
+    String? fileName,
+  }) = ExportEvent;
+
   @override
   List<Object?> get props => [runtimeType];
 }
@@ -36,4 +43,18 @@ final class ToggleModeEvent extends LoginItemFormEvent {
 
 final class DeleteEvent extends LoginItemFormEvent {
   const DeleteEvent();
+}
+
+final class WillExportEvent extends LoginItemFormEvent {
+  const WillExportEvent();
+}
+
+final class ExportEvent extends LoginItemFormEvent {
+  final String password;
+  final String? fileName;
+
+  const ExportEvent({required this.password, this.fileName});
+
+  @override
+  List<Object?> get props => [password, fileName];
 }

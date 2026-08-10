@@ -1306,6 +1306,18 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete this account? This action cannot be undone.'**
   String get accsConfirmationDialogDeletion;
 
+  /// No description provided for @accsFormMoreMenuCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy details'**
+  String get accsFormMoreMenuCopy;
+
+  /// No description provided for @accsFormMoreMenuShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share/Backup'**
+  String get accsFormMoreMenuShare;
+
   /// No description provided for @notesListNewNoteTooltip.
   ///
   /// In en, this message translates to:

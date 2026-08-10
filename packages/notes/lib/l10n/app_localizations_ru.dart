@@ -695,6 +695,12 @@ class AppLocalizationsRu extends AppLocalizations {
       'Вы уверены, что хотите удалить этот аккаунт? Действие нельзя отменить.';
 
   @override
+  String get accsFormMoreMenuCopy => 'Скопировать данные';
+
+  @override
+  String get accsFormMoreMenuShare => 'Поделиться/бэкап';
+
+  @override
   String get notesListNewNoteTooltip => 'Новая заметка';
 
   @override

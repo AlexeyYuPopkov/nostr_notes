@@ -684,6 +684,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to delete this account? This action cannot be undone.';
 
   @override
+  String get accsFormMoreMenuCopy => 'Copy details';
+
+  @override
+  String get accsFormMoreMenuShare => 'Share/Backup';
+
+  @override
   String get notesListNewNoteTooltip => 'New note';
 
   @override

@@ -693,6 +693,12 @@ class AppLocalizationsBg extends AppLocalizations {
       'Сигурни ли сте, че искате да изтриете този акаунт? Действието не може да бъде отменено.';
 
   @override
+  String get accsFormMoreMenuCopy => 'Копиране на данните';
+
+  @override
+  String get accsFormMoreMenuShare => 'Споделяне/резервно копие';
+
+  @override
   String get notesListNewNoteTooltip => 'Нова бележка';
 
   @override

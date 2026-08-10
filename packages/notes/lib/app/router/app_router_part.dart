@@ -64,3 +64,21 @@ final class HomeScreenCoordinatorImpl implements HomeScreenCoordinator {
     );
   }
 }
+
+final class LoginItemFormScreenCoordinatorImpl
+    implements LoginItemFormScreenCoordinator {
+  const LoginItemFormScreenCoordinatorImpl();
+
+  @override
+  FutureOr<dynamic> onRawEventRoute(
+    BuildContext context, {
+    required String eventId,
+  }) {
+    final router = GoRouter.of(context);
+
+    return router.push(
+      '${AppRouterPath.loginItemForm}/${AppRouterPath.rawEventDetails}',
+      extra: PathParamsEventId(eventId: eventId).toJson(),
+    );
+  }
+}

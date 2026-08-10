@@ -11,9 +11,14 @@ abstract interface class ExportAccountsUsecase {
   /// empty: an unencrypted backup would store account passwords as plain
   /// text in the zip, which — unlike an unencrypted note — is a directly
   /// usable credential.
+  ///
+  /// [dTags], when provided, restricts the export to those items — used for
+  /// a single account's "Share/Backup" action; omitted (or null) exports
+  /// every account in the vault.
   Future<(String, Uint8List, String)> exportAccounts({
     required String password,
     String? fileName,
+    List<String>? dTags,
   });
 }
 

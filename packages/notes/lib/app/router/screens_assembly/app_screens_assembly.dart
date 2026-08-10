@@ -75,6 +75,8 @@ final class AppScreensAssembly implements ScreensAssembly {
       ApkDistributionScreen(showAppBar: showAppBar);
 
   @override
-  Widget createLoginItemFormScreen({required LoginItemDetailsParams params}) =>
-      LoginItemFormScreen(params: params);
+  Widget createLoginItemFormScreen({
+    required LoginItemDetailsParams params,
+    required LoginItemFormScreenCoordinator coordinator,
+  }) => LoginItemFormScreen(params: params, coordinator: coordinator);
 }

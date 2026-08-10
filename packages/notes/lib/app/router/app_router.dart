@@ -12,6 +12,7 @@ import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/home_screen.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/left_drawer.dart';
+import 'package:nostr_notes/auth/presentation/login_item_form/login_item_form_screen.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
 import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholder.dart';
@@ -187,8 +188,21 @@ final class AppRouter {
           final params = LoginItemDetailsParams.fromJson(
             extra as Map<String, dynamic>,
           );
-          return _screensAssembly.createLoginItemFormScreen(params: params);
+          return _screensAssembly.createLoginItemFormScreen(
+            params: params,
+            coordinator: const LoginItemFormScreenCoordinatorImpl(),
+          );
         },
+        routes: [
+          GoRoute(
+            path: AppRouterPath.rawEventDetails,
+            builder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>;
+              final params = PathParamsEventId.fromJson(extra);
+              return _screensAssembly.createRawEventScreen(params);
+            },
+          ),
+        ],
       ),
     ],
   );

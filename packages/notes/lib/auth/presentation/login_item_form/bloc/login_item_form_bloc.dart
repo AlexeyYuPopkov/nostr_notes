@@ -3,10 +3,14 @@ import 'package:common/presentation/tools/optional_box.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/delete_login_item_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/login_items/export_accounts_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/get_login_item_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/save_login_item_usecase.dart';
+import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
+import 'package:nostr_notes/services/ads/ads_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../tools/login_item_form_normalization.dart';
@@ -27,6 +31,11 @@ final class LoginItemFormBloc
       .resolve();
   late final DeleteLoginItemUsecase _deleteLoginItemUsecase = DiStorage.shared
       .resolve();
+  late final ExportAccountsUsecase _exportAccountsUsecase = DiStorage.shared
+      .resolve();
+  late final VerificationUsecase _verificationUsecase = DiStorage.shared
+      .resolve();
+  late final AdsService _adsService = DiStorage.shared.resolve();
 
   final titleController = TextEditingController();
   final websiteController = TextEditingController();
@@ -76,6 +85,16 @@ final class LoginItemFormBloc
     );
     on<ToggleModeEvent>(
       _onToggleModeEvent,
+      transformer: (events, mapper) =>
+          events.throttleTime(debounceGuard).switchMap(mapper),
+    );
+    on<WillExportEvent>(
+      _onWillExportEvent,
+      transformer: (events, mapper) =>
+          events.throttleTime(debounceGuard).switchMap(mapper),
+    );
+    on<ExportEvent>(
+      _onExportEvent,
       transformer: (events, mapper) =>
           events.throttleTime(debounceGuard).switchMap(mapper),
     );
@@ -207,6 +226,61 @@ final class LoginItemFormBloc
       emit(LoginItemFormState.loading(data: data));
       await _deleteLoginItemUsecase.execute(item: item);
       emit(LoginItemFormState.didDelete(data: data));
+    } catch (e) {
+      emit(LoginItemFormState.error(e: e, data: data));
+    }
+  }
+
+  void _onWillExportEvent(
+    WillExportEvent event,
+    Emitter<LoginItemFormState> emit,
+  ) async {
+    if (AppConfig.showAds) {
+      _verificationUsecase.skipNextVerification();
+      await _adsService.showInterstitial();
+    }
+    emit(LoginItemFormState.willExport(data: data));
+  }
+
+  void _onExportEvent(
+    ExportEvent event,
+    Emitter<LoginItemFormState> emit,
+  ) async {
+    final item = data.initialItem.value;
+    if (item == null) {
+      return;
+    }
+
+    try {
+      emit(LoginItemFormState.loading(data: data));
+
+      final (filePath, bytes, fileName) = await _exportAccountsUsecase
+          .exportAccounts(
+            password: event.password,
+            fileName: event.fileName,
+            dTags: [item.dTag],
+          );
+
+      if (bytes.isEmpty) {
+        emit(
+          LoginItemFormState.error(
+            data: data,
+            e: const ExportAccountsError(
+              payload: ExportAccountsErrorType.noAccounts,
+            ),
+          ),
+        );
+        return;
+      }
+
+      emit(
+        LoginItemFormState.exportSuccess(
+          data: data,
+          filePath: filePath,
+          bytes: bytes,
+          fileName: fileName,
+        ),
+      );
     } catch (e) {
       emit(LoginItemFormState.error(e: e, data: data));
     }

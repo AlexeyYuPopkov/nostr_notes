@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/presentation/login_item_form/bloc/login_item_form_data.dart';
@@ -28,6 +30,17 @@ sealed class LoginItemFormState extends Equatable {
 
   const factory LoginItemFormState.didDelete({required LoginItemFormData data}) =
       DidDeleteState;
+
+  const factory LoginItemFormState.willExport({
+    required LoginItemFormData data,
+  }) = WillExportState;
+
+  const factory LoginItemFormState.exportSuccess({
+    required LoginItemFormData data,
+    required String filePath,
+    required Uint8List bytes,
+    required String fileName,
+  }) = ExportSuccessState;
 }
 
 final class CommonState extends LoginItemFormState {
@@ -50,4 +63,21 @@ final class DidSaveState extends LoginItemFormState {
 
 final class DidDeleteState extends LoginItemFormState {
   const DidDeleteState({required super.data});
+}
+
+final class WillExportState extends LoginItemFormState {
+  const WillExportState({required super.data});
+}
+
+final class ExportSuccessState extends LoginItemFormState {
+  final String filePath;
+  final Uint8List bytes;
+  final String fileName;
+
+  const ExportSuccessState({
+    required super.data,
+    required this.filePath,
+    required this.bytes,
+    required this.fileName,
+  });
 }
