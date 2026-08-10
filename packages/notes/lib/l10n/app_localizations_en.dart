@@ -472,6 +472,52 @@ class AppLocalizationsEn extends AppLocalizations {
       'Without a password, notes will be exported as plain text and anyone with the file can read them.';
 
   @override
+  String get accsBackupSectionTitle => 'Accounts';
+
+  @override
+  String get accsBackupItemExportTitle => 'Export All Accounts';
+
+  @override
+  String get accsBackupItemExportSubtitle =>
+      'Export all your saved accounts to a password-protected ZIP archive. A password is required — this file can contain your real account passwords.';
+
+  @override
+  String get accsBackupItemImportTitle => 'Import All Accounts';
+
+  @override
+  String get accsBackupItemImportSubtitle =>
+      'Restore accounts from a previously exported archive.';
+
+  @override
+  String get accsBackupExportPasswordDialogTitle => 'Set Backup Password';
+
+  @override
+  String get accsBackupExportPasswordRequiredHint =>
+      'A password is required — without one, this backup would store your account passwords as plain text.';
+
+  @override
+  String get accsBackupExportPasswordRequired => 'Enter a password';
+
+  @override
+  String get accsBackupExportEmptyError => 'No accounts to export';
+
+  @override
+  String get accsBackupExportSuccess => 'Accounts exported successfully';
+
+  @override
+  String get accsBackupImportDialogTitle => 'Import Accounts';
+
+  @override
+  String get accsBackupImportPolicyKeepNewestTitle => 'Keep newest';
+
+  @override
+  String get accsBackupImportPolicyKeepNewestSubtitle =>
+      'Use whichever version — backup or local — was edited more recently';
+
+  @override
+  String get accsBackupImportSuccess => 'Accounts imported successfully';
+
+  @override
   String get notesListPendingSyncTitle => 'Sync pending';
 
   @override

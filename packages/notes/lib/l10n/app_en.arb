@@ -153,6 +153,20 @@
     "exportImportImportPolicyKeepExistingSubtitle": "Skip imported notes that already exist locally",
     "exportImportPasswordTooShort": "Password must be at least {count} characters",
     "exportImportNoPasswordWarning": "Without a password, notes will be exported as plain text and anyone with the file can read them.",
+    "accsBackupSectionTitle": "Accounts",
+    "accsBackupItemExportTitle": "Export All Accounts",
+    "accsBackupItemExportSubtitle": "Export all your saved accounts to a password-protected ZIP archive. A password is required — this file can contain your real account passwords.",
+    "accsBackupItemImportTitle": "Import All Accounts",
+    "accsBackupItemImportSubtitle": "Restore accounts from a previously exported archive.",
+    "accsBackupExportPasswordDialogTitle": "Set Backup Password",
+    "accsBackupExportPasswordRequiredHint": "A password is required — without one, this backup would store your account passwords as plain text.",
+    "accsBackupExportPasswordRequired": "Enter a password",
+    "accsBackupExportEmptyError": "No accounts to export",
+    "accsBackupExportSuccess": "Accounts exported successfully",
+    "accsBackupImportDialogTitle": "Import Accounts",
+    "accsBackupImportPolicyKeepNewestTitle": "Keep newest",
+    "accsBackupImportPolicyKeepNewestSubtitle": "Use whichever version — backup or local — was edited more recently",
+    "accsBackupImportSuccess": "Accounts imported successfully",
     "@exportImportPasswordTooShort": {
         "placeholders": {
             "count": {

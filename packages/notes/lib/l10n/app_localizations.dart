@@ -916,6 +916,90 @@ abstract class AppLocalizations {
   /// **'Without a password, notes will be exported as plain text and anyone with the file can read them.'**
   String get exportImportNoPasswordWarning;
 
+  /// No description provided for @accsBackupSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accsBackupSectionTitle;
+
+  /// No description provided for @accsBackupItemExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export All Accounts'**
+  String get accsBackupItemExportTitle;
+
+  /// No description provided for @accsBackupItemExportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export all your saved accounts to a password-protected ZIP archive. A password is required — this file can contain your real account passwords.'**
+  String get accsBackupItemExportSubtitle;
+
+  /// No description provided for @accsBackupItemImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import All Accounts'**
+  String get accsBackupItemImportTitle;
+
+  /// No description provided for @accsBackupItemImportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore accounts from a previously exported archive.'**
+  String get accsBackupItemImportSubtitle;
+
+  /// No description provided for @accsBackupExportPasswordDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Backup Password'**
+  String get accsBackupExportPasswordDialogTitle;
+
+  /// No description provided for @accsBackupExportPasswordRequiredHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A password is required — without one, this backup would store your account passwords as plain text.'**
+  String get accsBackupExportPasswordRequiredHint;
+
+  /// No description provided for @accsBackupExportPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a password'**
+  String get accsBackupExportPasswordRequired;
+
+  /// No description provided for @accsBackupExportEmptyError.
+  ///
+  /// In en, this message translates to:
+  /// **'No accounts to export'**
+  String get accsBackupExportEmptyError;
+
+  /// No description provided for @accsBackupExportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts exported successfully'**
+  String get accsBackupExportSuccess;
+
+  /// No description provided for @accsBackupImportDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Accounts'**
+  String get accsBackupImportDialogTitle;
+
+  /// No description provided for @accsBackupImportPolicyKeepNewestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep newest'**
+  String get accsBackupImportPolicyKeepNewestTitle;
+
+  /// No description provided for @accsBackupImportPolicyKeepNewestSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use whichever version — backup or local — was edited more recently'**
+  String get accsBackupImportPolicyKeepNewestSubtitle;
+
+  /// No description provided for @accsBackupImportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts imported successfully'**
+  String get accsBackupImportSuccess;
+
   /// No description provided for @notesListPendingSyncTitle.
   ///
   /// In en, this message translates to:

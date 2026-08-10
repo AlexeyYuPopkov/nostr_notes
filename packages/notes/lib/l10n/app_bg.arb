@@ -143,6 +143,20 @@
     "exportImportImportPolicyKeepExistingSubtitle": "Пропусни внесените бележки, които вече съществуват локално",
     "exportImportPasswordTooShort": "Паролата трябва да съдържа поне {count} символа",
     "exportImportNoPasswordWarning": "Без парола бележките ще бъдат изнесени в отворен вид и всеки, получил файла, ще може да ги прочете.",
+    "accsBackupSectionTitle": "Акаунти",
+    "accsBackupItemExportTitle": "Експортиране на всички акаунти",
+    "accsBackupItemExportSubtitle": "Експортирайте всички запазени акаунти в защитен с парола ZIP архив. Паролата е задължителна — този файл може да съдържа реалните ви пароли за акаунти.",
+    "accsBackupItemImportTitle": "Импортиране на всички акаунти",
+    "accsBackupItemImportSubtitle": "Възстановете акаунти от предварително експортиран архив.",
+    "accsBackupExportPasswordDialogTitle": "Задаване на парола за резервно копие",
+    "accsBackupExportPasswordRequiredHint": "Паролата е задължителна — без нея това резервно копие би съхранявало паролите на акаунтите ви в отворен текст.",
+    "accsBackupExportPasswordRequired": "Въведете парола",
+    "accsBackupExportEmptyError": "Няма акаунти за експортиране",
+    "accsBackupExportSuccess": "Акаунтите са експортирани успешно",
+    "accsBackupImportDialogTitle": "Импортиране на акаунти",
+    "accsBackupImportPolicyKeepNewestTitle": "Запазване на най-новото",
+    "accsBackupImportPolicyKeepNewestSubtitle": "Използване на версията — от резервното копие или локалната — която е редактирана по-скоро",
+    "accsBackupImportSuccess": "Акаунтите са импортирани успешно",
     "@exportImportPasswordTooShort": {
         "placeholders": {
             "count": {

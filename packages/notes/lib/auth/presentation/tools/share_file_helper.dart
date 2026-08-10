@@ -9,10 +9,14 @@ mixin ShareFileHelper {
     String filePath,
     Uint8List bytes,
     String fileName,
-    BuildContext context,
-  ) async {
+    BuildContext context, {
+    String Function(Localization l10n)? successMessage,
+  }) async {
+    final resolveSuccessMessage =
+        successMessage ?? (l10n) => l10n.exportImportExportSuccess;
+
     if (!kIsWeb && _isDesktop) {
-      await _saveFileDesktop(bytes, fileName, context);
+      await _saveFileDesktop(bytes, fileName, context, resolveSuccessMessage);
       return;
     }
 
@@ -26,7 +30,7 @@ mixin ShareFileHelper {
     switch (result.status) {
       case ShareResultStatus.success:
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.l10n.exportImportExportSuccess)),
+          SnackBar(content: Text(resolveSuccessMessage(context.l10n))),
         );
         break;
       case ShareResultStatus.dismissed:
@@ -54,6 +58,7 @@ mixin ShareFileHelper {
     Uint8List bytes,
     String fileName,
     BuildContext context,
+    String Function(Localization l10n) resolveSuccessMessage,
   ) async {
     final savedPath = await FilePicker.saveFile(
       fileName: fileName,
@@ -66,7 +71,7 @@ mixin ShareFileHelper {
     if (savedPath == null) return; // user cancelled
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(context.l10n.exportImportExportSuccess)),
+      SnackBar(content: Text(resolveSuccessMessage(context.l10n))),
     );
   }
 }

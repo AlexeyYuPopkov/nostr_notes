@@ -143,6 +143,20 @@
     "exportImportImportPolicyKeepExistingSubtitle": "Пропустить импортированные заметки, которые уже есть локально",
     "exportImportPasswordTooShort": "Пароль должен содержать не менее {count} символов",
     "exportImportNoPasswordWarning": "Без пароля заметки будут экспортированы в открытом виде и любой, кто получит файл, сможет их прочитать.",
+    "accsBackupSectionTitle": "Аккаунты",
+    "accsBackupItemExportTitle": "Экспорт всех аккаунтов",
+    "accsBackupItemExportSubtitle": "Экспортируйте все сохранённые аккаунты в защищённый паролем ZIP-архив. Пароль обязателен — этот файл может содержать ваши реальные пароли от аккаунтов.",
+    "accsBackupItemImportTitle": "Импорт всех аккаунтов",
+    "accsBackupItemImportSubtitle": "Восстановите аккаунты из ранее экспортированного архива.",
+    "accsBackupExportPasswordDialogTitle": "Задайте пароль для резервной копии",
+    "accsBackupExportPasswordRequiredHint": "Пароль обязателен — без него в этой резервной копии пароли аккаунтов хранились бы в открытом виде.",
+    "accsBackupExportPasswordRequired": "Введите пароль",
+    "accsBackupExportEmptyError": "Нет аккаунтов для экспорта",
+    "accsBackupExportSuccess": "Аккаунты успешно экспортированы",
+    "accsBackupImportDialogTitle": "Импорт аккаунтов",
+    "accsBackupImportPolicyKeepNewestTitle": "Оставить новейший",
+    "accsBackupImportPolicyKeepNewestSubtitle": "Использовать ту версию — из резервной копии или локальную — которая была изменена позже",
+    "accsBackupImportSuccess": "Аккаунты успешно импортированы",
     "@exportImportPasswordTooShort": {
         "placeholders": {
             "count": {

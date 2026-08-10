@@ -481,6 +481,53 @@ class AppLocalizationsRu extends AppLocalizations {
       'Без пароля заметки будут экспортированы в открытом виде и любой, кто получит файл, сможет их прочитать.';
 
   @override
+  String get accsBackupSectionTitle => 'Аккаунты';
+
+  @override
+  String get accsBackupItemExportTitle => 'Экспорт всех аккаунтов';
+
+  @override
+  String get accsBackupItemExportSubtitle =>
+      'Экспортируйте все сохранённые аккаунты в защищённый паролем ZIP-архив. Пароль обязателен — этот файл может содержать ваши реальные пароли от аккаунтов.';
+
+  @override
+  String get accsBackupItemImportTitle => 'Импорт всех аккаунтов';
+
+  @override
+  String get accsBackupItemImportSubtitle =>
+      'Восстановите аккаунты из ранее экспортированного архива.';
+
+  @override
+  String get accsBackupExportPasswordDialogTitle =>
+      'Задайте пароль для резервной копии';
+
+  @override
+  String get accsBackupExportPasswordRequiredHint =>
+      'Пароль обязателен — без него в этой резервной копии пароли аккаунтов хранились бы в открытом виде.';
+
+  @override
+  String get accsBackupExportPasswordRequired => 'Введите пароль';
+
+  @override
+  String get accsBackupExportEmptyError => 'Нет аккаунтов для экспорта';
+
+  @override
+  String get accsBackupExportSuccess => 'Аккаунты успешно экспортированы';
+
+  @override
+  String get accsBackupImportDialogTitle => 'Импорт аккаунтов';
+
+  @override
+  String get accsBackupImportPolicyKeepNewestTitle => 'Оставить новейший';
+
+  @override
+  String get accsBackupImportPolicyKeepNewestSubtitle =>
+      'Использовать ту версию — из резервной копии или локальную — которая была изменена позже';
+
+  @override
+  String get accsBackupImportSuccess => 'Аккаунты успешно импортированы';
+
+  @override
   String get notesListPendingSyncTitle => 'Ожидает синхронизации';
 
   @override

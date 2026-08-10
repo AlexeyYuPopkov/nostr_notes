@@ -1,13 +1,17 @@
 import 'package:di_storage/di_storage.dart';
 import 'package:nostr_notes/auth/data/login_items/delete_login_item_usecase_impl.dart';
+import 'package:nostr_notes/auth/data/login_items/export_accounts_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/login_items/get_login_item_usecase_impl.dart';
+import 'package:nostr_notes/auth/data/login_items/import_accounts_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/login_items/login_item_crypto_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/login_items/save_login_item_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/login_items/sync_login_items_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/login_items/vault_identity_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/login_items/watch_login_items_usecase_impl.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/delete_login_item_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/login_items/export_accounts_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/get_login_item_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/login_items/import_accounts_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/login_item_crypto_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/save_login_item_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/sync_login_items_usecase.dart';
@@ -84,6 +88,26 @@ final class LoginItemsDiScope extends DiScope {
         eventStore: di.resolve(),
         relaysListRepo: di.resolve(),
         vaultIdentityUsecase: di.resolve(),
+      ),
+      module: this,
+      lifeTime: const LifeTime.prototype(),
+    );
+
+    di.bind<ExportAccountsUsecase>(
+      () => ExportAccountsUsecaseImpl(
+        eventStore: di.resolve(),
+        vaultIdentityUsecase: di.resolve(),
+        loginItemCryptoUsecase: di.resolve(),
+      ),
+      module: this,
+      lifeTime: const LifeTime.prototype(),
+    );
+
+    di.bind<ImportAccountsUsecase>(
+      () => ImportAccountsUsecaseImpl(
+        vaultIdentityUsecase: di.resolve(),
+        getLoginItemUsecase: di.resolve(),
+        saveLoginItemUsecase: di.resolve(),
       ),
       module: this,
       lifeTime: const LifeTime.prototype(),

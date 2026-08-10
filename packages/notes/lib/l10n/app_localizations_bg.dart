@@ -479,6 +479,53 @@ class AppLocalizationsBg extends AppLocalizations {
       'Без парола бележките ще бъдат изнесени в отворен вид и всеки, получил файла, ще може да ги прочете.';
 
   @override
+  String get accsBackupSectionTitle => 'Акаунти';
+
+  @override
+  String get accsBackupItemExportTitle => 'Експортиране на всички акаунти';
+
+  @override
+  String get accsBackupItemExportSubtitle =>
+      'Експортирайте всички запазени акаунти в защитен с парола ZIP архив. Паролата е задължителна — този файл може да съдържа реалните ви пароли за акаунти.';
+
+  @override
+  String get accsBackupItemImportTitle => 'Импортиране на всички акаунти';
+
+  @override
+  String get accsBackupItemImportSubtitle =>
+      'Възстановете акаунти от предварително експортиран архив.';
+
+  @override
+  String get accsBackupExportPasswordDialogTitle =>
+      'Задаване на парола за резервно копие';
+
+  @override
+  String get accsBackupExportPasswordRequiredHint =>
+      'Паролата е задължителна — без нея това резервно копие би съхранявало паролите на акаунтите ви в отворен текст.';
+
+  @override
+  String get accsBackupExportPasswordRequired => 'Въведете парола';
+
+  @override
+  String get accsBackupExportEmptyError => 'Няма акаунти за експортиране';
+
+  @override
+  String get accsBackupExportSuccess => 'Акаунтите са експортирани успешно';
+
+  @override
+  String get accsBackupImportDialogTitle => 'Импортиране на акаунти';
+
+  @override
+  String get accsBackupImportPolicyKeepNewestTitle => 'Запазване на най-новото';
+
+  @override
+  String get accsBackupImportPolicyKeepNewestSubtitle =>
+      'Използване на версията — от резервното копие или локалната — която е редактирана по-скоро';
+
+  @override
+  String get accsBackupImportSuccess => 'Акаунтите са импортирани успешно';
+
+  @override
   String get notesListPendingSyncTitle => 'Очаква синхронизация';
 
   @override
