@@ -46,6 +46,12 @@ class FetchNotesUsecase {
       );
 
       return _notesRepository.eventsStream
+          // .doOnData((e) {
+          //   log(
+          //     'Received events in FetchNotesUsecase: ${e.length} events',
+          //     name: runtimeType.toString(),
+          //   );
+          // })
           .doOnError((error, stackTrace) {
             log(
               'Error in FetchNotesUsecase: $error',
