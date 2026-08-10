@@ -221,6 +221,7 @@
     "accsFormEditButton": "Edit",
     "accsFormDoneButton": "Done",
     "accsFormGoButtonCopiedMessage": "Password\ncopied",
+    "accsConfirmationDialogDeletion": "Are you sure you want to delete this account? This action cannot be undone.",
     "notesListNewNoteTooltip": "New note",
     "notesFoldersEmptyStatePlaceholder": "Assign labels to notes to organize them into folders",
     "homeScreenEmptyStatePlaceholder": "Tap + to start writing",

@@ -201,6 +201,7 @@
     "accsFormEditButton": "Изменить",
     "accsFormDoneButton": "Готово",
     "accsFormGoButtonCopiedMessage": "Пароль\nскопирован",
+    "accsConfirmationDialogDeletion": "Вы уверены, что хотите удалить этот аккаунт? Действие нельзя отменить.",
     "notesListNewNoteTooltip": "Новая заметка",
     "notesFoldersEmptyStatePlaceholder": "Назначайте метки заметкам, чтобы группировать их по папкам",
     "homeScreenEmptyStatePlaceholder": "Нажмите +, чтобы создать заметку",

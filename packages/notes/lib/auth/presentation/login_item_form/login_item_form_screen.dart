@@ -34,6 +34,9 @@ final class LoginItemFormScreen extends StatelessWidget with DialogHelper {
         );
         Navigator.of(context).pop();
         break;
+      case DidDeleteState():
+        Navigator.of(context).pop();
+        break;
     }
   }
 
@@ -68,9 +71,10 @@ final class LoginItemFormScreen extends StatelessWidget with DialogHelper {
                           ? context.l10n.accsTabTitle
                           : context.l10n.accsAddTitle,
                     ),
-                    actions: const [
-                      _TrailingAppbarButton(),
-                      SizedBox(width: Sizes.indent2x),
+                    actions: [
+                      if (state.data.isEditing) const _DeleteButton(),
+                      const _TrailingAppbarButton(),
+                      const SizedBox(width: Sizes.indent2x),
                     ],
                   ),
                   SliverSafeArea(
@@ -157,6 +161,36 @@ final class LoginItemFormScreen extends StatelessWidget with DialogHelper {
         },
       ),
     );
+  }
+}
+
+final class _DeleteButton extends StatelessWidget with DialogHelper {
+  const _DeleteButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoButton(
+      minimumSize: Size.zero,
+      padding: const EdgeInsets.only(left: Sizes.indent, right: Sizes.indent),
+      onPressed: () => _onTap(context),
+      child: Icon(
+        Icons.delete_outline,
+        color: Theme.of(context).colorScheme.error,
+      ),
+    );
+  }
+
+  Future<void> _onTap(BuildContext context) async {
+    final commonL10n = context.commonL10n;
+    final confirmed = await showConfirmation(
+      context,
+      isDestructive: true,
+      title: commonL10n.commonAttention,
+      message: context.l10n.accsConfirmationDialogDeletion,
+    );
+    if (confirmed != true || !context.mounted) return;
+
+    context.read<LoginItemFormBloc>().add(const LoginItemFormEvent.delete());
   }
 }
 

@@ -12,6 +12,8 @@ sealed class LoginItemFormEvent extends Equatable {
 
   const factory LoginItemFormEvent.toggleMode() = ToggleModeEvent;
 
+  const factory LoginItemFormEvent.delete() = DeleteEvent;
+
   @override
   List<Object?> get props => [runtimeType];
 }
@@ -30,4 +32,8 @@ final class SaveEvent extends LoginItemFormEvent {
 
 final class ToggleModeEvent extends LoginItemFormEvent {
   const ToggleModeEvent();
+}
+
+final class DeleteEvent extends LoginItemFormEvent {
+  const DeleteEvent();
 }

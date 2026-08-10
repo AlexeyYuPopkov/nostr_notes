@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/bloc/accs_bloc.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/accs/bloc/accs_event.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/bloc/accs_state.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/widgets/account_list_card.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes_list_tab.dart';
@@ -54,6 +55,8 @@ final class AccsTabContent extends StatelessWidget {
                       length: itemsLength,
                     ),
                     onTap: onDetails,
+                    onDelete: (item) =>
+                        context.read<AccsBloc>().add(AccsEvent.deleteItem(item)),
                   );
                 },
               ),

@@ -642,6 +642,10 @@ class AppLocalizationsBg extends AppLocalizations {
   String get accsFormGoButtonCopiedMessage => 'Паролата\nе копирана';
 
   @override
+  String get accsConfirmationDialogDeletion =>
+      'Сигурни ли сте, че искате да изтриете този акаунт? Действието не може да бъде отменено.';
+
+  @override
   String get notesListNewNoteTooltip => 'Нова бележка';
 
   @override

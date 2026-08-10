@@ -1216,6 +1216,12 @@ abstract class AppLocalizations {
   /// **'Password\ncopied'**
   String get accsFormGoButtonCopiedMessage;
 
+  /// No description provided for @accsConfirmationDialogDeletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this account? This action cannot be undone.'**
+  String get accsConfirmationDialogDeletion;
+
   /// No description provided for @notesListNewNoteTooltip.
   ///
   /// In en, this message translates to:

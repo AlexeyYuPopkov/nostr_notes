@@ -644,6 +644,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get accsFormGoButtonCopiedMessage => 'Пароль\nскопирован';
 
   @override
+  String get accsConfirmationDialogDeletion =>
+      'Вы уверены, что хотите удалить этот аккаунт? Действие нельзя отменить.';
+
+  @override
   String get notesListNewNoteTooltip => 'Новая заметка';
 
   @override

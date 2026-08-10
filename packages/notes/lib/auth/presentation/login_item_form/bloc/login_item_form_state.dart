@@ -25,6 +25,9 @@ sealed class LoginItemFormState extends Equatable {
     required LoginItemFormData data,
     required LoginItem item,
   }) = DidSaveState;
+
+  const factory LoginItemFormState.didDelete({required LoginItemFormData data}) =
+      DidDeleteState;
 }
 
 final class CommonState extends LoginItemFormState {
@@ -43,4 +46,8 @@ final class ErrorState extends LoginItemFormState {
 final class DidSaveState extends LoginItemFormState {
   final LoginItem item;
   const DidSaveState({required super.data, required this.item});
+}
+
+final class DidDeleteState extends LoginItemFormState {
+  const DidDeleteState({required super.data});
 }

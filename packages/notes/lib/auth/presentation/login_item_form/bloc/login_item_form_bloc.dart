@@ -4,6 +4,7 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
+import 'package:nostr_notes/auth/domain/usecase/login_items/delete_login_item_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/get_login_item_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/save_login_item_usecase.dart';
 import 'package:rxdart/rxdart.dart';
@@ -23,6 +24,8 @@ final class LoginItemFormBloc
   late final GetLoginItemUsecase _getLoginItemUsecase = DiStorage.shared
       .resolve();
   late final SaveLoginItemUsecase _saveLoginItemUsecase = DiStorage.shared
+      .resolve();
+  late final DeleteLoginItemUsecase _deleteLoginItemUsecase = DiStorage.shared
       .resolve();
 
   final titleController = TextEditingController();
@@ -63,6 +66,11 @@ final class LoginItemFormBloc
     on<FieldsChangedEvent>(_onFieldsChangedEvent);
     on<SaveEvent>(
       _onSaveEvent,
+      transformer: (events, mapper) =>
+          events.throttleTime(debounceGuard).switchMap(mapper),
+    );
+    on<DeleteEvent>(
+      _onDeleteEvent,
       transformer: (events, mapper) =>
           events.throttleTime(debounceGuard).switchMap(mapper),
     );
@@ -181,6 +189,24 @@ final class LoginItemFormBloc
           data: data.copyWith(initialItem: OptionalBox(saved), canSave: false),
         ),
       );
+    } catch (e) {
+      emit(LoginItemFormState.error(e: e, data: data));
+    }
+  }
+
+  void _onDeleteEvent(
+    DeleteEvent event,
+    Emitter<LoginItemFormState> emit,
+  ) async {
+    final item = data.initialItem.value;
+    if (item == null) {
+      return;
+    }
+
+    try {
+      emit(LoginItemFormState.loading(data: data));
+      await _deleteLoginItemUsecase.execute(item: item);
+      emit(LoginItemFormState.didDelete(data: data));
     } catch (e) {
       emit(LoginItemFormState.error(e: e, data: data));
     }

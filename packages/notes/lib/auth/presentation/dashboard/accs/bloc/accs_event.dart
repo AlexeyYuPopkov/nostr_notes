@@ -17,6 +17,8 @@ sealed class AccsEvent extends Equatable {
 
   const factory AccsEvent.search(String query) = SearchEvent;
 
+  const factory AccsEvent.deleteItem(LoginItem item) = DeleteItemEvent;
+
   const factory AccsEvent.error(Object error) = ErrorEvent;
 
   @override
@@ -43,6 +45,13 @@ final class SearchEvent extends AccsEvent {
   const SearchEvent(this.query);
   @override
   List<Object?> get props => [query];
+}
+
+final class DeleteItemEvent extends AccsEvent {
+  final LoginItem item;
+  const DeleteItemEvent(this.item);
+  @override
+  List<Object?> get props => [item];
 }
 
 final class ErrorEvent extends AccsEvent {

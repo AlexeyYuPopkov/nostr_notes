@@ -634,6 +634,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accsFormGoButtonCopiedMessage => 'Password\ncopied';
 
   @override
+  String get accsConfirmationDialogDeletion =>
+      'Are you sure you want to delete this account? This action cannot be undone.';
+
+  @override
   String get notesListNewNoteTooltip => 'New note';
 
   @override

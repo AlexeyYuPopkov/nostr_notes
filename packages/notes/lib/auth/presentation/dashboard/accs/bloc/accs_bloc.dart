@@ -5,6 +5,7 @@ import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
+import 'package:nostr_notes/auth/domain/usecase/login_items/delete_login_item_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/sync_login_items_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/watch_login_items_usecase.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
@@ -22,6 +23,7 @@ final class AccsBloc extends Bloc<AccsEvent, AccsState> {
 
   late final WatchLoginItemsUsecase _watchLoginItems = _di.resolve();
   late final SyncLoginItemsUsecase _syncLoginItems = _di.resolve();
+  late final DeleteLoginItemUsecase _deleteLoginItem = _di.resolve();
 
   final SectionScrollVm<NotesListHeader> sectionScrollVm;
 
@@ -75,6 +77,7 @@ final class AccsBloc extends Bloc<AccsEvent, AccsState> {
     on<ItemsUpdatedEvent>(_onItemsUpdatedEvent);
     on<SyncEvent>(_onSyncEvent);
     on<SearchEvent>(_onSearchEvent);
+    on<DeleteItemEvent>(_onDeleteItemEvent);
     on<ErrorEvent>(_onErrorEvent);
   }
 
@@ -114,6 +117,17 @@ final class AccsBloc extends Bloc<AccsEvent, AccsState> {
         ),
       ),
     );
+  }
+
+  void _onDeleteItemEvent(
+    DeleteItemEvent event,
+    Emitter<AccsState> emit,
+  ) async {
+    try {
+      await _deleteLoginItem.execute(item: event.item);
+    } catch (e) {
+      add(AccsEvent.error(e));
+    }
   }
 
   void _onErrorEvent(ErrorEvent event, Emitter<AccsState> emit) {
