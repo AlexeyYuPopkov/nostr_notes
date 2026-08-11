@@ -15,11 +15,10 @@ final class NoteListHeaderVm extends ChangeNotifier {
   late final scrollController = ScrollController();
 
   /// 1.0 = header fully shown, 0.0 = fully hidden. Below one header-height
-  /// of [scrollOffset], `_Header` tracks [scrollOffset] directly instead of
-  /// reading this — this notifier only matters (and is only written to)
-  /// once you've scrolled past that point, where it drives the same
-  /// direction-based show/hide snap as before, just expressed as 1.0/0.0
-  /// instead of a bool.
+  /// of [scrollOffset], `NoteListHeader` tracks [scrollOffset] directly
+  /// instead of reading this — this notifier only matters (and is only
+  /// written to) once you've scrolled past that point, where it drives the
+  /// direction-based show/hide snap, expressed as 1.0/0.0 instead of a bool.
   late final headerVisibility = ValueNotifier<double>(1.0);
 
   /// Live scroll offset of whichever inner tab is currently scrolling, fed
@@ -40,32 +39,25 @@ final class NoteListHeaderVm extends ChangeNotifier {
   }
 
   bool onScrollNotification(ScrollNotification notification) {
-    // final dashboardBloc = context.read<DashboardBloc>();
     final metrics = notification.metrics;
 
-    // if (metrics.pixels <= metrics.minScrollExtent) {
-    //   scrollOffset.value = 0.0;
-    //   headerVisibility.value = 1.0;
-    //   return false;
-    // }
+    // Defensive: force-show once we're actually back at the top, even if a
+    // scroll change reaches minScrollExtent without a preceding
+    // UserScrollNotification(forward) first — e.g. a jump/programmatic
+    // reset rather than a normal user drag.
+    if (metrics.pixels <= metrics.minScrollExtent) {
+      scrollOffset.value = 0.0;
+      headerVisibility.value = 1.0;
+      return false;
+    }
 
+    // Raw live offset. NoteListHeader decides how to interpret it
+    // (proportional vs. snap) against its own approxHeaderHeight, which
+    // varies per tab/filter state and isn't known here.
     if (notification is ScrollUpdateNotification) {
       scrollOffset.value = metrics.pixels;
     }
 
-    // if (metrics.pixels < NoteListHeader.approxHeaderHeight) {
-    //   // Proportional zone: track every live update 1:1 — direction doesn't
-    //   // matter here, only how far from the top we are. headerVisibility is
-    //   // left untouched; _Header ignores it in this zone anyway.
-    //   if (notification is ScrollUpdateNotification) {
-    //     scrollOffset.value = metrics.pixels;
-    //   }
-    //   // return false;
-    // }
-
-    // scrollOffset.value = metrics.pixels;
-
-    // Past one header-height: existing direction-based show/hide snap.
     if (notification is UserScrollNotification && !metrics.outOfRange) {
       switch (notification.direction) {
         case ScrollDirection.reverse:
@@ -82,9 +74,6 @@ final class NoteListHeaderVm extends ChangeNotifier {
 }
 
 final class NoteListHeader extends StatelessWidget {
-  static const double _approxHeaderHeightFilters = 156.0;
-  static const double _approxHeaderHeight = 56.0 + 48.0; // toolbar + tab bar
-
   final SectionScrollVm scrollVm;
   final NoteListHeaderVm _vm;
   final NotesListTab tab;
@@ -102,13 +91,16 @@ final class NoteListHeader extends StatelessWidget {
     required this.onRemoveFilter,
   }) : _vm = vm;
 
+  // Reuses the same constants NotesTabContent/AccsTabContent size their own
+  // content spacer with — a single source of truth, so the reserved space
+  // in the list and this widget's own animated height can't drift apart.
   double get approxHeaderHeight {
     if (tab is NotesNotesTab) {
       return filters.isNotEmpty
-          ? _approxHeaderHeightFilters
-          : _approxHeaderHeight;
+          ? kNotesListHeaderWithSearchAndFilter
+          : kNotesListHeaderWithSearch;
     }
-    return _approxHeaderHeight;
+    return kNotesListHeaderWithSearch;
   }
 
   @override
@@ -121,23 +113,21 @@ final class NoteListHeader extends StatelessWidget {
         builder: (context, child) {
           final offset = _vm.scrollOffset.value;
 
+          // Proportional tracking only applies while headerVisibility is
+          // still 0 (i.e. the last direction change was "hiding") AND
+          // we're within the first header-height of scroll. Scrolling back
+          // up sets headerVisibility to 1.0 almost immediately — at the
+          // very start of the upward drag, well before offset has caught
+          // up — so revealing always takes the animated-snap branch below
+          // instead, regardless of how far from the top you actually are.
+          // This is intentional: hide gradually, reveal instantly.
           if (offset < approxHeaderHeight && _vm.headerVisibility.value < 1.0) {
             final ratio = (offset / approxHeaderHeight).clamp(0.0, 1.0);
-            // log('ratio: ${ratio.toString()}', name: 'Header');
-            // log(
-            //   'headerVisibility: ${_vm.headerVisibility.value.toString()}',
-            //   name: 'Header',
-            // );
             return FractionalTranslation(
               translation: Offset(0.0, -ratio),
               child: child,
             );
           }
-
-          // log(
-          //   'headerVisibility: ${_vm.headerVisibility.value.toString()}',
-          //   name: 'Header',
-          // );
 
           return AnimatedSlide(
             duration: const Duration(milliseconds: 200),
