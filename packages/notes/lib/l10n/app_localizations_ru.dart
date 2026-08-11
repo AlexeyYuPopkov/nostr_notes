@@ -714,6 +714,18 @@ class AppLocalizationsRu extends AppLocalizations {
       '«По словам» — несколько случайных слов, легко запомнить. «Случайный» — набор символов, надёжнее для сайтов без ограничений на спецсимволы.';
 
   @override
+  String get accsFormGenPassStrengthDanger => 'Очень слабый';
+
+  @override
+  String get accsFormGenPassStrengthWeak => 'Слабый';
+
+  @override
+  String get accsFormGenPassStrengthGood => 'Хороший';
+
+  @override
+  String get accsFormGenPassStrengthStrong => 'Надёжный';
+
+  @override
   String get notesListNewNoteTooltip => 'Новая заметка';
 
   @override

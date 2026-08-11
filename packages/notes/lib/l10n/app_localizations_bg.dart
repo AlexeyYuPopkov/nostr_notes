@@ -712,6 +712,18 @@ class AppLocalizationsBg extends AppLocalizations {
       '„По думи“ — няколко случайни думи, лесно се запомня. „Случайна“ — набор от символи, по-надеждна за сайтове без ограничения за специални символи.';
 
   @override
+  String get accsFormGenPassStrengthDanger => 'Много слаба';
+
+  @override
+  String get accsFormGenPassStrengthWeak => 'Слаба';
+
+  @override
+  String get accsFormGenPassStrengthGood => 'Добра';
+
+  @override
+  String get accsFormGenPassStrengthStrong => 'Силна';
+
+  @override
   String get notesListNewNoteTooltip => 'Нова бележка';
 
   @override

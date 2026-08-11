@@ -1342,6 +1342,30 @@ abstract class AppLocalizations {
   /// **'\"By words\" — a few random words, easy to remember. \"Random\" — a character set, more robust for sites without special-character restrictions.'**
   String get accsFormGenPassHint;
 
+  /// No description provided for @accsFormGenPassStrengthDanger.
+  ///
+  /// In en, this message translates to:
+  /// **'Very weak'**
+  String get accsFormGenPassStrengthDanger;
+
+  /// No description provided for @accsFormGenPassStrengthWeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Weak'**
+  String get accsFormGenPassStrengthWeak;
+
+  /// No description provided for @accsFormGenPassStrengthGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get accsFormGenPassStrengthGood;
+
+  /// No description provided for @accsFormGenPassStrengthStrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong'**
+  String get accsFormGenPassStrengthStrong;
+
   /// No description provided for @notesListNewNoteTooltip.
   ///
   /// In en, this message translates to:

@@ -23,6 +23,7 @@ final class LoginItemFormTextField extends StatefulWidget {
   final Widget? trailing;
   final List<TextInputFormatter>? inputFormatters;
   final Iterable<String>? autofillHints;
+  final Widget? bottom;
 
   const LoginItemFormTextField({
     super.key,
@@ -40,6 +41,7 @@ final class LoginItemFormTextField extends StatefulWidget {
     this.trailing,
     this.inputFormatters,
     this.autofillHints,
+    this.bottom,
   });
 
   @override
@@ -57,106 +59,144 @@ final class _FormFieldState extends State<LoginItemFormTextField> {
 
     return Visibility(
       visible: widget.enabled || widget.controller.text.trim().isNotEmpty,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
-        decoration: BoxDecoration(
-          color: theme.colorScheme.tertiaryContainer,
-          borderRadius: widget.position.getRadius(),
-          border: widget.position.getBorder(
-            theme.colorScheme.outline,
-            thickness: Sizes.thicknessHalf,
-          ),
-        ),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            border: widget.position.needsSeparator()
-                ? Border(
-                    bottom: BorderSide(
-                      color: theme.colorScheme.outline,
-                      width: Sizes.thicknessHalf,
-                    ),
-                  )
-                : null,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: Sizes.thicknessHalf),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: widget.controller,
-                    enabled: widget.enabled,
-                    keyboardType: widget.keyboardType,
-                    textInputAction: widget.textInputAction,
-                    textCapitalization: widget.textCapitalization,
-                    minLines: widget.obscurable ? 1 : widget.minLines,
-                    maxLines: widget.obscurable ? 1 : widget.maxLines,
-                    obscureText: widget.obscurable && _obscured,
-                    autocorrect: !widget.obscurable,
-                    // `autocorrect: false` alone is not enough on Android:
-                    // keyboard suggestions (and learning the typed secret)
-                    // are governed by this separate flag.
-                    enableSuggestions: !widget.obscurable,
-                    inputFormatters: widget.inputFormatters,
-                    autofillHints: widget.autofillHints,
-                    style: theme.textTheme.bodyLarge,
-                    decoration: InputDecoration(
-                      // The app-wide InputDecorationTheme defaults to
-                      // `filled: true` with the *page* background color —
-                      // without this override that paints under the text,
-                      // visibly different from this row's own
-                      // tertiaryContainer fill.
-                      filled: false,
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      isDense: true,
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: Sizes.indentVariant2x,
-                      ),
-                      labelText: widget.label,
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelStyle: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.primary,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      hintText: widget.hint,
-                      hintStyle: theme.textTheme.bodyLarge?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: widget.obscurable || showCopy,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    spacing: Sizes.indentVariant2x,
-                    children: [
-                      if (widget.trailing != null) widget.trailing!,
-                      if (widget.obscurable)
-                        CupertinoButton(
-                          minimumSize: Size.zero,
-                          padding: EdgeInsets.zero,
-                          onPressed: () =>
-                              setState(() => _obscured = !_obscured),
-                          child: Icon(
-                            _obscured
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
-                            color: theme.colorScheme.onSurfaceVariant,
-                            size: LoginItemFormTextField._iconSize,
-                          ),
-                        ),
-                      if (showCopy)
-                        _CopyIconButton(controller: widget.controller),
-                    ],
-                  ),
-                ),
-              ],
+      child: _Decoration(
+        position: widget.position,
+        bottom: widget.bottom,
+        child: Row(
+          spacing: Sizes.indent,
+          children: [
+            Expanded(
+              child: TextField(
+                controller: widget.controller,
+                enabled: widget.enabled,
+                keyboardType: widget.keyboardType,
+                textInputAction: widget.textInputAction,
+                textCapitalization: widget.textCapitalization,
+                minLines: widget.obscurable ? 1 : widget.minLines,
+                maxLines: widget.obscurable ? 1 : widget.maxLines,
+                obscureText: widget.obscurable && _obscured,
+                autocorrect: !widget.obscurable,
+                // `autocorrect: false` alone is not enough on Android:
+                // keyboard suggestions (and learning the typed secret)
+                // are governed by this separate flag.
+                enableSuggestions: !widget.obscurable,
+                inputFormatters: widget.inputFormatters,
+                autofillHints: widget.autofillHints,
+                style: theme.textTheme.bodyLarge,
+                decoration: _decoration(theme),
+              ),
             ),
-          ),
+            Visibility(
+              visible: widget.obscurable || showCopy,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                spacing: Sizes.indentVariant2x,
+                children: [
+                  if (widget.trailing != null) widget.trailing!,
+                  if (widget.obscurable)
+                    CupertinoButton(
+                      minimumSize: Size.zero,
+                      padding: EdgeInsets.zero,
+                      onPressed: () => setState(() => _obscured = !_obscured),
+                      child: Icon(
+                        _obscured
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                        color: theme.colorScheme.onSurfaceVariant,
+                        size: LoginItemFormTextField._iconSize,
+                      ),
+                    ),
+                  if (showCopy) _CopyIconButton(controller: widget.controller),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  InputDecoration _decoration(ThemeData theme) {
+    return InputDecoration(
+      // The app-wide InputDecorationTheme defaults to
+      // `filled: true` with the *page* background color —
+      // without this override that paints under the text,
+      // visibly different from this row's own
+      // tertiaryContainer fill.
+      filled: false,
+      border: InputBorder.none,
+      focusedBorder: InputBorder.none,
+      enabledBorder: InputBorder.none,
+      disabledBorder: InputBorder.none,
+      isDense: true,
+      contentPadding: const EdgeInsets.symmetric(
+        vertical: Sizes.indentVariant2x,
+      ),
+      labelText: widget.label,
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      labelStyle: theme.textTheme.bodySmall?.copyWith(
+        color: theme.colorScheme.primary,
+        fontWeight: FontWeight.w600,
+      ),
+      hintText: widget.hint,
+      hintStyle: theme.textTheme.bodyLarge?.copyWith(
+        color: theme.colorScheme.onSurfaceVariant,
+      ),
+    );
+  }
+}
+
+final class _Decoration extends StatelessWidget {
+  final ListItemPosition position;
+  final Widget child;
+  final Widget? bottom;
+  const _Decoration({required this.position, required this.child, this.bottom});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: Sizes.indent2x),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.tertiaryContainer,
+        borderRadius: position.getRadius(),
+        border: position.getBorder(
+          theme.colorScheme.outline,
+          thickness: Sizes.thicknessHalf,
+        ),
+      ),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: position.needsSeparator()
+              ? Border(
+                  bottom: BorderSide(
+                    color: theme.colorScheme.outline,
+                    width: Sizes.thicknessHalf,
+                  ),
+                )
+              : null,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: Sizes.thicknessHalf),
+          child: bottom == null
+              ? child
+              : Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: Sizes.indentVariant2x,
+                      ),
+                      child: child,
+                    ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: Sizes.indentVariant,
+                      child: bottom!,
+                    ),
+                  ],
+                ),
         ),
       ),
     );

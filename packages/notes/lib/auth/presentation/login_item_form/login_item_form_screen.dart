@@ -23,6 +23,7 @@ import 'bloc/login_item_form_state.dart';
 import 'tools/login_item_form_formatters.dart';
 import 'widgets/login_item_form_gen_pass.dart';
 import 'widgets/login_item_form_header.dart';
+import 'widgets/login_item_form_password_strength.dart';
 import 'widgets/login_item_form_text_field.dart';
 
 abstract interface class LoginItemFormScreenCoordinator {
@@ -200,6 +201,30 @@ final class LoginItemFormScreen extends StatelessWidget
                               autofillHints: const [AutofillHints.username],
                             ),
 
+                            // LoginItemFormPasswordStrength(
+                            //   passwordController: bloc.passwordController,
+                            //   child: LoginItemFormTextField(
+                            //     controller: bloc.passwordController,
+                            //     label: context.l10n.accsFormPasswordLabel,
+                            //     hint: context.l10n.accsFormPasswordHint,
+                            //     obscurable: true,
+                            //     textInputAction: TextInputAction.next,
+                            //     enabled: !readonly,
+                            //     position: .last,
+                            //     inputFormatters:
+                            //         LoginItemFormFormatters.password,
+                            //     autofillHints: const [
+                            //       AutofillHints.password,
+                            //     ],
+                            //     trailing: readonly
+                            //         ? null
+                            //         : LoginItemFormGenPassIcon(
+                            //             onTap: () => bloc.add(
+                            //               const LoginItemFormEvent.willGenPassAppear(),
+                            //             ),
+                            //           ),
+                            //   ),
+                            // ),
                             LoginItemFormTextField(
                               controller: bloc.passwordController,
                               label: context.l10n.accsFormPasswordLabel,
@@ -217,6 +242,14 @@ final class LoginItemFormScreen extends StatelessWidget
                                         const LoginItemFormEvent.willGenPassAppear(),
                                       ),
                                     ),
+                              bottom: ValueListenableBuilder(
+                                valueListenable: bloc.passwordController,
+                                builder: (context, value, child) {
+                                  return PasswordStrengthIndicator(
+                                    password: value.text,
+                                  );
+                                },
+                              ),
                             ),
 
                             BlocSelector<

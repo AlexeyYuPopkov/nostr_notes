@@ -703,6 +703,18 @@ class AppLocalizationsEn extends AppLocalizations {
       '\"By words\" — a few random words, easy to remember. \"Random\" — a character set, more robust for sites without special-character restrictions.';
 
   @override
+  String get accsFormGenPassStrengthDanger => 'Very weak';
+
+  @override
+  String get accsFormGenPassStrengthWeak => 'Weak';
+
+  @override
+  String get accsFormGenPassStrengthGood => 'Good';
+
+  @override
+  String get accsFormGenPassStrengthStrong => 'Strong';
+
+  @override
   String get notesListNewNoteTooltip => 'New note';
 
   @override
