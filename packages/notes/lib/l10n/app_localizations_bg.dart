@@ -699,6 +699,19 @@ class AppLocalizationsBg extends AppLocalizations {
   String get accsFormMoreMenuShare => 'Споделяне/резервно копие';
 
   @override
+  String get accsFormGenPassButton => 'Създаване';
+
+  @override
+  String get accsFormGenPassStyleWords => 'По думи';
+
+  @override
+  String get accsFormGenPassStyleRandom => 'Случайна';
+
+  @override
+  String get accsFormGenPassHint =>
+      '„По думи“ — няколко случайни думи, лесно се запомня. „Случайна“ — набор от символи, по-надеждна за сайтове без ограничения за специални символи.';
+
+  @override
   String get notesListNewNoteTooltip => 'Нова бележка';
 
   @override

@@ -28,8 +28,9 @@ sealed class LoginItemFormState extends Equatable {
     required LoginItem item,
   }) = DidSaveState;
 
-  const factory LoginItemFormState.didDelete({required LoginItemFormData data}) =
-      DidDeleteState;
+  const factory LoginItemFormState.didDelete({
+    required LoginItemFormData data,
+  }) = DidDeleteState;
 
   const factory LoginItemFormState.willExport({
     required LoginItemFormData data,
@@ -41,6 +42,10 @@ sealed class LoginItemFormState extends Equatable {
     required Uint8List bytes,
     required String fileName,
   }) = ExportSuccessState;
+
+  const factory LoginItemFormState.didGenPassAppear({
+    required LoginItemFormData data,
+  }) = DidGenPassAppearState;
 }
 
 final class CommonState extends LoginItemFormState {
@@ -80,4 +85,8 @@ final class ExportSuccessState extends LoginItemFormState {
     required this.bytes,
     required this.fileName,
   });
+}
+
+final class DidGenPassAppearState extends LoginItemFormState {
+  const DidGenPassAppearState({required super.data});
 }

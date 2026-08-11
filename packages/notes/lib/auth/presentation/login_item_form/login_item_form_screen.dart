@@ -21,6 +21,7 @@ import 'bloc/login_item_form_bloc.dart';
 import 'bloc/login_item_form_event.dart';
 import 'bloc/login_item_form_state.dart';
 import 'tools/login_item_form_formatters.dart';
+import 'widgets/login_item_form_gen_pass.dart';
 import 'widgets/login_item_form_header.dart';
 import 'widgets/login_item_form_text_field.dart';
 
@@ -49,6 +50,7 @@ final class LoginItemFormScreen extends StatelessWidget
     switch (state) {
       case CommonState():
       case LoadingState():
+      case DidGenPassAppearState():
         break;
       case ErrorState():
         showError(
@@ -144,10 +146,6 @@ final class LoginItemFormScreen extends StatelessWidget
                             : context.l10n.accsAddTitle,
                       ),
                       actions: [
-                        // Only meaningful for an already-saved item being
-                        // viewed, not a draft being composed — a new,
-                        // unsaved item has no eventId to look up and
-                        // nothing to delete/back up yet.
                         if (readonly && item != null)
                           _MoreButton(coordinator: coordinator, item: item),
                         const _TrailingAppbarButton(),
@@ -157,11 +155,9 @@ final class LoginItemFormScreen extends StatelessWidget
                     SliverSafeArea(
                       top: false,
                       sliver: SliverPadding(
-                        padding: const EdgeInsets.fromLTRB(
-                          Sizes.indent,
-                          Sizes.indent4x,
-                          Sizes.indent,
-                          Sizes.indent2x,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: Sizes.indent,
+                          vertical: Sizes.indent2x,
                         ),
                         sliver: SliverList.list(
                           children: [
@@ -200,8 +196,7 @@ final class LoginItemFormScreen extends StatelessWidget
                               textInputAction: TextInputAction.next,
                               enabled: !readonly,
                               position: .middle,
-                              inputFormatters:
-                                  LoginItemFormFormatters.username,
+                              inputFormatters: LoginItemFormFormatters.username,
                               autofillHints: const [AutofillHints.username],
                             ),
 
@@ -213,9 +208,45 @@ final class LoginItemFormScreen extends StatelessWidget
                               textInputAction: TextInputAction.next,
                               enabled: !readonly,
                               position: .last,
-                              inputFormatters:
-                                  LoginItemFormFormatters.password,
+                              inputFormatters: LoginItemFormFormatters.password,
                               autofillHints: const [AutofillHints.password],
+                              trailing: readonly
+                                  ? null
+                                  : LoginItemFormGenPassIcon(
+                                      onTap: () => bloc.add(
+                                        const LoginItemFormEvent.willGenPassAppear(),
+                                      ),
+                                    ),
+                            ),
+
+                            BlocSelector<
+                              LoginItemFormBloc,
+                              LoginItemFormState,
+                              bool
+                            >(
+                              selector: (state) =>
+                                  state is DidGenPassAppearState,
+                              builder: (context, isOpen) {
+                                return AnimatedSwitcher(
+                                  duration: AppDurations.medium,
+                                  child: isOpen
+                                      ? Padding(
+                                          key: const ValueKey('genPassPanel'),
+                                          padding: const EdgeInsets.only(
+                                            left: Sizes.indent,
+                                            right: Sizes.indent,
+                                            top: Sizes.indent2x,
+                                          ),
+                                          child: LoginItemFormGenPassPanel(
+                                            passwordController:
+                                                bloc.passwordController,
+                                          ),
+                                        )
+                                      : const SizedBox.shrink(
+                                          key: ValueKey('genPassPanelHidden'),
+                                        ),
+                                );
+                              },
                             ),
                             const SizedBox(height: Sizes.indent2x),
                             LoginItemFormTextField(

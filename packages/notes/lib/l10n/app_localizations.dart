@@ -1318,6 +1318,30 @@ abstract class AppLocalizations {
   /// **'Share/Backup'**
   String get accsFormMoreMenuShare;
 
+  /// No description provided for @accsFormGenPassButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate'**
+  String get accsFormGenPassButton;
+
+  /// No description provided for @accsFormGenPassStyleWords.
+  ///
+  /// In en, this message translates to:
+  /// **'By words'**
+  String get accsFormGenPassStyleWords;
+
+  /// No description provided for @accsFormGenPassStyleRandom.
+  ///
+  /// In en, this message translates to:
+  /// **'Random'**
+  String get accsFormGenPassStyleRandom;
+
+  /// No description provided for @accsFormGenPassHint.
+  ///
+  /// In en, this message translates to:
+  /// **'\"By words\" — a few random words, easy to remember. \"Random\" — a character set, more robust for sites without special-character restrictions.'**
+  String get accsFormGenPassHint;
+
   /// No description provided for @notesListNewNoteTooltip.
   ///
   /// In en, this message translates to:

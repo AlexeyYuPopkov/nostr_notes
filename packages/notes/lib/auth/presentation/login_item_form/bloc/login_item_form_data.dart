@@ -8,6 +8,7 @@ final class LoginItemFormData extends Equatable {
   final bool readonly;
   final bool canSave;
 
+
   const LoginItemFormData._({
     required this.initialItem,
     required this.readonly,

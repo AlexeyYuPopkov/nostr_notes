@@ -21,6 +21,11 @@ sealed class LoginItemFormEvent extends Equatable {
     String? fileName,
   }) = ExportEvent;
 
+  /// Toggles the password generator panel open/closed. The panel owns its
+  /// own style selection and generation locally — see
+  /// `LoginItemFormGenPassPanel` — so this carries no payload.
+  const factory LoginItemFormEvent.willGenPassAppear() = WillGenPassAppearEvent;
+
   @override
   List<Object?> get props => [runtimeType];
 }
@@ -57,4 +62,8 @@ final class ExportEvent extends LoginItemFormEvent {
 
   @override
   List<Object?> get props => [password, fileName];
+}
+
+final class WillGenPassAppearEvent extends LoginItemFormEvent {
+  const WillGenPassAppearEvent();
 }

@@ -690,6 +690,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accsFormMoreMenuShare => 'Share/Backup';
 
   @override
+  String get accsFormGenPassButton => 'Generate';
+
+  @override
+  String get accsFormGenPassStyleWords => 'By words';
+
+  @override
+  String get accsFormGenPassStyleRandom => 'Random';
+
+  @override
+  String get accsFormGenPassHint =>
+      '\"By words\" — a few random words, easy to remember. \"Random\" — a character set, more robust for sites without special-character restrictions.';
+
+  @override
   String get notesListNewNoteTooltip => 'New note';
 
   @override

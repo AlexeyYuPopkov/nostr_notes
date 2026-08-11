@@ -701,6 +701,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get accsFormMoreMenuShare => 'Поделиться/бэкап';
 
   @override
+  String get accsFormGenPassButton => 'Создать';
+
+  @override
+  String get accsFormGenPassStyleWords => 'По словам';
+
+  @override
+  String get accsFormGenPassStyleRandom => 'Случайный';
+
+  @override
+  String get accsFormGenPassHint =>
+      '«По словам» — несколько случайных слов, легко запомнить. «Случайный» — набор символов, надёжнее для сайтов без ограничений на спецсимволы.';
+
+  @override
   String get notesListNewNoteTooltip => 'Новая заметка';
 
   @override

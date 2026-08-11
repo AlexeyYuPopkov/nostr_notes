@@ -27,7 +27,11 @@ final class LoginItemFormHeader extends StatelessWidget {
       title: title,
       actions: actions,
       expandedHeight:
-          kToolbarHeight + Sizes.indent + _avatarSize + Sizes.indent,
+          kToolbarHeight +
+          Sizes.indent +
+          Sizes.indent +
+          _avatarSize +
+          Sizes.indent,
       flexibleSpace: LayoutBuilder(
         builder: (context, constraints) {
           final side =
@@ -43,7 +47,7 @@ final class LoginItemFormHeader extends StatelessWidget {
           return Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: Sizes.indent),
+              padding: const EdgeInsets.symmetric(vertical: Sizes.indent),
               child: _Avatar(
                 side: side,
                 titleController: titleController,

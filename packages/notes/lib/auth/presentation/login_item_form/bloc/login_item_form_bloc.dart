@@ -98,6 +98,12 @@ final class LoginItemFormBloc
       transformer: (events, mapper) =>
           events.throttleTime(debounceGuard).switchMap(mapper),
     );
+
+    on<WillGenPassAppearEvent>(
+      _onDidGenPassAppearEvent,
+      transformer: (events, mapper) =>
+          events.throttleTime(debounceGuard).switchMap(mapper),
+    );
   }
 
   void _attachControllerListeners() {
@@ -162,8 +168,18 @@ final class LoginItemFormBloc
     Emitter<LoginItemFormState> emit,
   ) {
     final canSave = _computeCanSave();
-    if (canSave != data.canSave) {
-      emit(LoginItemFormState.common(data: data.copyWith(canSave: canSave)));
+    if (canSave == data.canSave) {
+      return;
+    }
+
+    final newData = data.copyWith(canSave: canSave);
+    // The generator panel writes straight into passwordController, which
+    // fires this same listener; re-emitting a plain CommonState here would
+    // close the still-open panel out from under the user.
+    if (state is DidGenPassAppearState) {
+      emit(LoginItemFormState.didGenPassAppear(data: newData));
+    } else {
+      emit(LoginItemFormState.common(data: newData));
     }
   }
 
@@ -293,6 +309,24 @@ final class LoginItemFormBloc
     emit(
       LoginItemFormState.common(data: data.copyWith(readonly: !data.readonly)),
     );
+  }
+
+  void _onDidGenPassAppearEvent(
+    WillGenPassAppearEvent event,
+    Emitter<LoginItemFormState> emit,
+  ) {
+    if (data.readonly) {
+      return;
+    }
+
+    // Pure open/close toggle — the panel generates its own suggestions
+    // and owns the style choice locally (see LoginItemFormGenPassPanel);
+    // this bloc only needs to track whether it's visible.
+    if (state is DidGenPassAppearState) {
+      emit(LoginItemFormState.common(data: data));
+    } else {
+      emit(LoginItemFormState.didGenPassAppear(data: data));
+    }
   }
 
   /// At least one field has text — required in addition to [_hasChanges]
