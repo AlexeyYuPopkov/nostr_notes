@@ -19,6 +19,12 @@ sealed class NotesListEvent extends Equatable {
 
   const factory NotesListEvent.search(String query) = SearchNotesEvent;
 
+  /// Replaces the active folder filter wholesale — the picker always hands
+  /// back the complete selection, so there's no add/remove pair to keep in
+  /// sync.
+  const factory NotesListEvent.setFolderFilter(Set<CategoryType> folders) =
+      SetFolderFilterEvent;
+
   @override
   List<Object?> get props => const [];
 }
@@ -68,4 +74,11 @@ final class SearchNotesEvent extends NotesListEvent {
   const SearchNotesEvent(this.query);
   @override
   List<Object?> get props => [query];
+}
+
+final class SetFolderFilterEvent extends NotesListEvent {
+  final Set<CategoryType> folders;
+  const SetFolderFilterEvent(this.folders);
+  @override
+  List<Object?> get props => [folders];
 }

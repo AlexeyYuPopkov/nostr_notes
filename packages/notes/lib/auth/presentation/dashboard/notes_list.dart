@@ -5,13 +5,11 @@ import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/presentation/account_switcher/account_switcher_panel.dart';
-import 'package:nostr_notes/auth/presentation/dashboard/bloc/dashboard_event.dart';
 import 'package:nostr_notes/common/presentation/account_avatar.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes_list_tab.dart';
 import 'package:nostr_notes/common/domain/usecase/get_user_usecase.dart';
@@ -27,9 +25,10 @@ import 'accs/bloc/accs_bloc.dart';
 import 'bloc/dashboard_bloc.dart';
 import 'bloc/dashboard_state.dart' as dashboard_state;
 import 'notes/bloc/notes_list_bloc.dart';
+import 'notes/bloc/notes_list_event.dart';
 import 'notes/bloc/notes_list_state.dart';
 import 'decrypt_failed_dialog_mixin.dart';
-import 'widgets/common_toolbar_tabs_widget.dart';
+import 'header/note_list_header.dart';
 
 abstract interface class NotesListCoordinator {
   const NotesListCoordinator();
@@ -148,30 +147,8 @@ final class _DashboardState extends State<_Dashboard>
     super.dispose();
   }
 
-  bool _onScrollNotification(ScrollNotification notification) {
-    final headerVisible = context.read<DashboardBloc>().headerVisible;
-
-    if (notification is ScrollUpdateNotification) {
-      final metrics = notification.metrics;
-      if (metrics.pixels <= metrics.minScrollExtent) {
-        headerVisible.value = true;
-        return false;
-      }
-    }
-
-    if (notification is UserScrollNotification &&
-        !notification.metrics.outOfRange) {
-      switch (notification.direction) {
-        case ScrollDirection.reverse:
-          headerVisible.value = false;
-        case ScrollDirection.forward:
-          headerVisible.value = true;
-        case ScrollDirection.idle:
-          break;
-      }
-    }
-    return false;
-  }
+  bool _onScrollNotification(ScrollNotification notification) =>
+      context.read<DashboardBloc>().headerVm.onScrollNotification(notification);
 
   void _listener(BuildContext context, NotesListState state) {
     switch (state) {
@@ -200,8 +177,8 @@ final class _DashboardState extends State<_Dashboard>
       listener: _listener,
       builder: (context, state) {
         final bloc = context.read<NotesListBloc>();
-        final foldersVm = bloc.foldersVm;
         final vm = bloc.sectionScrollVm;
+        final dashboardBloc = context.read<DashboardBloc>();
 
         return AbsorbPointer(
           absorbing: state is LoadingState,
@@ -214,49 +191,32 @@ final class _DashboardState extends State<_Dashboard>
                   onAddAccount: () =>
                       widget.coordinator.onAddAccountRoute(context),
                 ),
-                title: ListenableBuilder(
-                  listenable: foldersVm,
-                  builder: (context, _) {
-                    return BlocBuilder<
-                      DashboardBloc,
-                      dashboard_state.DashboardState
-                    >(
-                      builder: (context, state) {
-                        return ValueListenableBuilder(
-                          valueListenable: vm.currentItemNotifier,
-                          builder: (context, value, child) {
-                            final needsTitle =
-                                state.data.tab is FoldersTab &&
-                                foldersVm.folder == null;
-                            return AnimatedCrossFade(
-                              duration: const Duration(milliseconds: 200),
-                              firstChild: Text(
-                                context.l10n.notesListScreenTitle,
-                              ),
-                              secondChild: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Text(
-                                  value?.title ?? '',
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    color: theme.colorScheme.onSurfaceVariant,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              crossFadeState: value == null || needsTitle
-                                  ? CrossFadeState.showFirst
-                                  : CrossFadeState.showSecond,
-                            );
-                          },
-                        );
-                      },
+                title: ValueListenableBuilder(
+                  valueListenable: vm.currentItemNotifier,
+                  builder: (context, value, child) {
+                    return AnimatedCrossFade(
+                      duration: const Duration(milliseconds: 200),
+                      firstChild: Text(context.l10n.notesListScreenTitle),
+                      secondChild: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(
+                          value?.title ?? '',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      crossFadeState: value == null
+                          ? CrossFadeState.showFirst
+                          : CrossFadeState.showSecond,
                     );
                   },
                 ),
                 actions: [
                   if (const AppPlatform().isDesktopLayout)
                     RefreshButton(
-                      vm: context.read<DashboardBloc>().refreshButtonVm,
+                      vm: dashboardBloc.refreshButtonVm,
                       padding: const EdgeInsets.only(left: Sizes.indent2x),
                       alignment: Alignment.centerRight,
                     ),
@@ -272,9 +232,7 @@ final class _DashboardState extends State<_Dashboard>
                     onNotification: _onScrollNotification,
                     child: NestedScrollView(
                       key: _nestedScrollKey,
-                      controller: context
-                          .read<DashboardBloc>()
-                          .scrollController,
+                      controller: dashboardBloc.headerVm.scrollController,
                       headerSliverBuilder: (context, _) => const <Widget>[],
                       body:
                           BlocListener<
@@ -283,11 +241,8 @@ final class _DashboardState extends State<_Dashboard>
                           >(
                             listenWhen: (a, b) => a.data.tab != b.data.tab,
                             listener: (context, state) {
-                              context
-                                      .read<DashboardBloc>()
-                                      .headerVisible
-                                      .value =
-                                  true;
+                              dashboardBloc.headerVm.headerVisibility.value =
+                                  1.0;
                               DefaultTabController.of(context).animateTo(
                                 NotesListTab.tabs.indexOf(state.data.tab),
                               );
@@ -301,11 +256,6 @@ final class _DashboardState extends State<_Dashboard>
                                     params: TabParams(
                                       selectedNoteDTag: widget.selectedNoteDTag,
                                       coordinator: widget.coordinator,
-                                      // onTap: (note) =>
-                                      //     widget.coordinator.onNotePreviewRoute(
-                                      //       noteId: note.dTag,
-                                      //       context,
-                                      //     ),
                                       scrollSectionsVm: vm,
                                     ),
                                   ),
@@ -314,10 +264,7 @@ final class _DashboardState extends State<_Dashboard>
                           ),
                     ),
                   ),
-                  _Header(
-                    visible: context.read<DashboardBloc>().headerVisible,
-                    scrollVm: vm,
-                  ),
+                  _Header(headerVm: dashboardBloc.headerVm, scrollVm: vm),
                 ],
               ),
             ),
@@ -331,8 +278,7 @@ final class _DashboardState extends State<_Dashboard>
     final currentTab = context.read<DashboardBloc>().state.data.tab;
 
     switch (currentTab) {
-      case AllNotesTab():
-      case FoldersTab():
+      case NotesNotesTab():
         widget.coordinator.onNewNoteRoute(context);
       case AccsTab():
         widget.coordinator.onAddLoginItemRoute(context);
@@ -341,70 +287,9 @@ final class _DashboardState extends State<_Dashboard>
 }
 
 final class _Header extends StatelessWidget {
-  final ValueListenable<bool> visible;
   final SectionScrollVm scrollVm;
-  const _Header({required this.visible, required this.scrollVm});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return ValueListenableBuilder<bool>(
-      valueListenable: visible,
-      builder: (context, isVisible, child) {
-        return AnimatedSlide(
-          duration: const Duration(milliseconds: 200),
-          offset: isVisible ? Offset.zero : const Offset(0.0, -1.0),
-          curve: Curves.easeInOut,
-          child: child,
-        );
-      },
-      child: ColoredBox(
-        color: theme.scaffoldBackgroundColor,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.only(bottom: Sizes.indent),
-                child: NotesListScreenToolbar(),
-              ),
-            ),
-            BlocSelector<
-              DashboardBloc,
-              dashboard_state.DashboardState,
-              NotesListTab
-            >(
-              selector: (state) => state.data.tab,
-              builder: (context, tab) {
-                final searchQuery = switch (tab) {
-                  AllNotesTab() =>
-                    context.read<NotesListBloc>().state.data.searchString,
-                  FoldersTab() => '',
-                  AccsTab() => context.read<AccsBloc>().state.data.searchString,
-                };
-
-                return AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
-                  child: tab.buildHeader(
-                    context,
-                    params: HeaderParams(
-                      searchQuery: searchQuery,
-                      scrollSectionsVm: scrollVm,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-final class NotesListScreenToolbar extends StatelessWidget {
-  const NotesListScreenToolbar({super.key});
+  final NoteListHeaderVm headerVm;
+  const _Header({required this.scrollVm, required this.headerVm});
 
   @override
   Widget build(BuildContext context) {
@@ -415,21 +300,34 @@ final class NotesListScreenToolbar extends StatelessWidget {
     >(
       selector: (state) => state.data.tab,
       builder: (context, tab) {
-        return CommonToolbarTabsWidget(
-          currentTab: tab,
-          tabs: NotesListTab.tabs,
-          onChangeTab: (context, _, tab) => _onChangeTab(context, tab: tab),
+        final searchString = switch (tab) {
+          NotesNotesTab() =>
+            context.read<NotesListBloc>().state.data.searchString,
+          AccsTab() => context.read<AccsBloc>().state.data.searchString,
+        };
+        return BlocSelector<NotesListBloc, NotesListState, Set<CategoryType>>(
+          selector: (state) => state.data.folderFilter,
+          builder: (context, filters) {
+            return NoteListHeader(
+              vm: headerVm,
+              scrollVm: scrollVm,
+              tab: tab,
+              searchString: searchString,
+              filters: filters,
+              onRemoveFilter: (e) => _onRemoveFilter(context, e),
+            );
+          },
         );
       },
     );
   }
 
-  void _onChangeTab(
-    BuildContext context, {
-    required CommonToolbarTabsWidgetTab tab,
-  }) {
-    context.read<DashboardBloc>().add(
-      DashboardEvent.selectTab(tab as NotesListTab),
+  void _onRemoveFilter(BuildContext context, CategoryType folder) {
+    context.read<NotesListBloc>().add(
+      NotesListEvent.setFolderFilter(
+        {...context.read<NotesListBloc>().state.data.folderFilter}
+          ..remove(folder),
+      ),
     );
   }
 }

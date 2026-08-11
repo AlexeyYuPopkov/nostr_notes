@@ -18,23 +18,18 @@ import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 
-
-const double _kBackButtonHeight = 38.0;
-const double kNotesListHeaderWithFolderDetail =
-    kNotesListHeaderWithoutSearch + _kBackButtonHeight;
-
-final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
+final class NotesTabContent extends StatelessWidget with LabelsPickerHelper {
   final String? selectedNoteDTag;
   final bool isLoading;
   final List<NotesListSection> sections;
   final String searchQuery;
   final bool hasAnyNotes;
   final bool showSearch;
-  final bool showFolderBack;
+  final bool showFolderFilterChips;
   final ValueChanged<Note> onTap;
   final SectionScrollVm _scrollSectionsVm;
 
-  const AllTabContent({
+  const NotesTabContent({
     super.key,
     required this.selectedNoteDTag,
     required this.isLoading,
@@ -44,19 +39,26 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
     this.searchQuery = '',
     this.hasAnyNotes = false,
     this.showSearch = true,
-    this.showFolderBack = false,
+    this.showFolderFilterChips = false,
   }) : _scrollSectionsVm = scrollSectionsVm;
+
+  double get _headerHeight {
+    if (!showSearch) {
+      return kNotesListHeaderWithoutSearch;
+    }
+    return showFolderFilterChips
+        ? kNotesListHeaderWithSearchAndFilter
+        : kNotesListHeaderWithSearch;
+  }
 
   @override
   Widget build(BuildContext context) {
-    const refreshDisplacement = 80.0;
+    // Not const — depends on showFolderFilterChips, so the indicator settles
+    // right below the header regardless of which of its two heights (with
+    // or without the filter-chip row) is currently showing.
+    final refreshDisplacement = _headerHeight;
     if (isLoading) {
-      final headerHeight = showSearch
-          ? kNotesListHeaderWithSearch
-          : showFolderBack
-          ? kNotesListHeaderWithFolderDetail
-          : kNotesListHeaderWithoutSearch;
-      return _ShimmersList(headerHeight: headerHeight);
+      return _ShimmersList(headerHeight: _headerHeight);
     }
 
     final hasQuery = showSearch && searchQuery.trim().isNotEmpty;
@@ -85,15 +87,7 @@ final class AllTabContent extends StatelessWidget with LabelsPickerHelper {
       child: CustomScrollView(
         physics: const _ClampTopScrollPhysics(),
         slivers: [
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: showSearch
-                  ? kNotesListHeaderWithSearch
-                  : showFolderBack
-                  ? kNotesListHeaderWithFolderDetail
-                  : kNotesListHeaderWithoutSearch,
-            ),
-          ),
+          SliverToBoxAdapter(child: SizedBox(height: _headerHeight)),
           SliverList(
             delegate: SliverChildBuilderDelegate(childCount: sections.length, (
               context,

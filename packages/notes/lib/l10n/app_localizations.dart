@@ -1156,23 +1156,29 @@ abstract class AppLocalizations {
   /// **'Notes'**
   String get notesListScreenTitle;
 
-  /// No description provided for @notesListTabAll.
+  /// No description provided for @notesListTabNotes.
   ///
   /// In en, this message translates to:
-  /// **'All'**
-  String get notesListTabAll;
-
-  /// No description provided for @notesListTabFolders.
-  ///
-  /// In en, this message translates to:
-  /// **'Folders'**
-  String get notesListTabFolders;
+  /// **'Notes'**
+  String get notesListTabNotes;
 
   /// No description provided for @notesListSearchHint.
   ///
   /// In en, this message translates to:
   /// **'Search notes'**
   String get notesListSearchHint;
+
+  /// No description provided for @notesListFilterButtonTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by folder'**
+  String get notesListFilterButtonTooltip;
+
+  /// No description provided for @notesListFilterSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by folder'**
+  String get notesListFilterSheetTitle;
 
   /// No description provided for @notesListSearchNothingFound.
   ///

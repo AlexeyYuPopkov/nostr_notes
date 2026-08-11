@@ -608,13 +608,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notesListScreenTitle => 'Notes';
 
   @override
-  String get notesListTabAll => 'All';
-
-  @override
-  String get notesListTabFolders => 'Folders';
+  String get notesListTabNotes => 'Notes';
 
   @override
   String get notesListSearchHint => 'Search notes';
+
+  @override
+  String get notesListFilterButtonTooltip => 'Filter by folder';
+
+  @override
+  String get notesListFilterSheetTitle => 'Filter by folder';
 
   @override
   String get notesListSearchNothingFound => 'Nothing found';

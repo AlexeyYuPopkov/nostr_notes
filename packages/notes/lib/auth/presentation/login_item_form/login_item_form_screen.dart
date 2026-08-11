@@ -201,30 +201,6 @@ final class LoginItemFormScreen extends StatelessWidget
                               autofillHints: const [AutofillHints.username],
                             ),
 
-                            // LoginItemFormPasswordStrength(
-                            //   passwordController: bloc.passwordController,
-                            //   child: LoginItemFormTextField(
-                            //     controller: bloc.passwordController,
-                            //     label: context.l10n.accsFormPasswordLabel,
-                            //     hint: context.l10n.accsFormPasswordHint,
-                            //     obscurable: true,
-                            //     textInputAction: TextInputAction.next,
-                            //     enabled: !readonly,
-                            //     position: .last,
-                            //     inputFormatters:
-                            //         LoginItemFormFormatters.password,
-                            //     autofillHints: const [
-                            //       AutofillHints.password,
-                            //     ],
-                            //     trailing: readonly
-                            //         ? null
-                            //         : LoginItemFormGenPassIcon(
-                            //             onTap: () => bloc.add(
-                            //               const LoginItemFormEvent.willGenPassAppear(),
-                            //             ),
-                            //           ),
-                            //   ),
-                            // ),
                             LoginItemFormTextField(
                               controller: bloc.passwordController,
                               label: context.l10n.accsFormPasswordLabel,

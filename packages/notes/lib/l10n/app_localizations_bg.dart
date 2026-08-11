@@ -617,13 +617,16 @@ class AppLocalizationsBg extends AppLocalizations {
   String get notesListScreenTitle => 'Бележки';
 
   @override
-  String get notesListTabAll => 'Всички';
-
-  @override
-  String get notesListTabFolders => 'Папки';
+  String get notesListTabNotes => 'Бележки';
 
   @override
   String get notesListSearchHint => 'Търсене в бележките';
+
+  @override
+  String get notesListFilterButtonTooltip => 'Филтър по папка';
+
+  @override
+  String get notesListFilterSheetTitle => 'Филтър по папка';
 
   @override
   String get notesListSearchNothingFound => 'Нищо не е намерено';

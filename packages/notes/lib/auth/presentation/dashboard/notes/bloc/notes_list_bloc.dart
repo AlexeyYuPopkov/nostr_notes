@@ -6,7 +6,6 @@ import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nostr_notes/auth/presentation/dashboard/folders/folders_tab_content.dart';
 import 'package:nostr_notes/l10n/app_localizations.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
@@ -44,8 +43,6 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   late final OutboxPublisher _outbox = _di.resolve();
   late final CreateNoteUsecase _createNoteUsecase = _di.resolve();
 
-  late final foldersVm = FoldersTabContentVM.fromNotes([], null, l10n);
-
   final SectionScrollVm<NotesListHeader> sectionScrollVm;
 
   StreamSubscription? _fetchNotesSubscription;
@@ -54,15 +51,12 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
   StreamSubscription? _dashboardTabSubscription;
   StreamSubscription<DashboardCommand>? _dashboardCommandSubscription;
 
-  NotesListBloc({
-    required this.l10n,
-    required DashboardBloc dashboardBloc,
-  
-  }) : _dashboardBloc = dashboardBloc,
-       sectionScrollVm = SectionScrollVm<NotesListHeader>(
-         scrollController: dashboardBloc.scrollController,
-       ),
-       super(NotesListState.loading(data: NotesListData.initial())) {
+  NotesListBloc({required this.l10n, required DashboardBloc dashboardBloc})
+    : _dashboardBloc = dashboardBloc,
+      sectionScrollVm = SectionScrollVm<NotesListHeader>(
+        scrollController: dashboardBloc.headerVm.scrollController,
+      ),
+      super(NotesListState.loading(data: NotesListData.initial())) {
     _setupHandlers();
     _subscribeToDashboard();
 
@@ -122,6 +116,25 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         mapper,
       ),
     );
+    on<SetFolderFilterEvent>(
+      _onSetFolderFilterEvent,
+      transformer: (events, mapper) =>
+          events.debounceTime(debounceGuard).switchMap(mapper),
+    );
+  }
+
+  /// Folder → note-count, for populating the filter picker. Excludes
+  /// [CategoryType.other] — the fallback label isn't a real, pickable
+  /// folder (matches the per-note labels picker's category list).
+  Map<CategoryType, int> get folderCounts {
+    final counts = <CategoryType, int>{};
+    for (final note in data.allNotes) {
+      for (final label in note.labels.whereType<Label>()) {
+        if (label.type == CategoryType.other) continue;
+        counts[label.type] = (counts[label.type] ?? 0) + 1;
+      }
+    }
+    return counts;
   }
 
   /// Reacts to dashboard-wide signals: clears an active search whenever the
@@ -221,20 +234,15 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         return;
       }
 
-      final filtered = await _filterNotes(event.notes, data.searchString);
-      final visibleNotes = data.searchString.trim().isEmpty
-          ? event.notes
-          : filtered;
-      final sections = await NotesListSection.groupNotesByDate(
-        notes: visibleNotes,
-        l10n: l10n,
+      final (filtered, sections) = await _recompute(
+        event.notes,
+        query: data.searchString,
+        folders: data.folderFilter,
       );
 
       if (isClosed) {
         return;
       }
-
-      foldersVm.setNotes(event.notes, l10n);
 
       final hasDecryptionErrors = event.notes.any((n) => n.error != null);
 
@@ -325,11 +333,10 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     }
 
     final query = event.query;
-    final filtered = await _filterNotes(data.allNotes, query);
-    final visibleNotes = query.trim().isEmpty ? data.allNotes : filtered;
-    final sections = await NotesListSection.groupNotesByDate(
-      notes: visibleNotes,
-      l10n: l10n,
+    final (filtered, sections) = await _recompute(
+      data.allNotes,
+      query: query,
+      folders: data.folderFilter,
     );
 
     emit(
@@ -341,6 +348,68 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
         ),
       ),
     );
+  }
+
+  Future<void> _onSetFolderFilterEvent(
+    SetFolderFilterEvent event,
+    Emitter<NotesListState> emit,
+  ) async {
+    if (isClosed) {
+      return;
+    }
+
+    final folders = event.folders;
+    final (filtered, sections) = await _recompute(
+      data.allNotes,
+      query: data.searchString,
+      folders: folders,
+    );
+
+    emit(
+      NotesListState.common(
+        data: data.copyWith(
+          folderFilter: folders,
+          filtered: filtered,
+          sections: sections,
+        ),
+      ),
+    );
+  }
+
+  /// Applies the folder filter and text search (in that order) to [notes],
+  /// then groups whichever set ends up visible into date sections. Shared by
+  /// every handler that can change what's visible — new notes arriving,
+  /// typing a search query, or changing the folder filter — so they can't
+  /// drift out of sync with each other.
+  Future<(List<Note>, List<NotesListSection>)> _recompute(
+    List<Note> notes, {
+    required String query,
+    required Set<CategoryType> folders,
+  }) async {
+    final byFolder = _filterByFolders(notes, folders);
+    final filtered = await _filterNotes(byFolder, query);
+    final isFiltering = query.trim().isNotEmpty || folders.isNotEmpty;
+    final visibleNotes = isFiltering ? filtered : notes;
+    final sections = await NotesListSection.groupNotesByDate(
+      notes: visibleNotes,
+      l10n: l10n,
+    );
+    return (filtered, sections);
+  }
+
+  /// Notes carrying a label for any folder in [folders] (OR semantics).
+  /// Empty [folders] means no filter — every note passes through.
+  List<Note> _filterByFolders(List<Note> notes, Set<CategoryType> folders) {
+    if (folders.isEmpty) {
+      return notes;
+    }
+    return notes
+        .where(
+          (note) => note.labels.whereType<Label>().any(
+            (label) => folders.contains(label.type),
+          ),
+        )
+        .toList();
   }
 
   /// Case-insensitive substring match over each note's content, summary and

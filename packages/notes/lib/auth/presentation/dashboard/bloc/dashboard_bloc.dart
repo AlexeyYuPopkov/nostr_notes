@@ -10,6 +10,7 @@ import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repo
 
 import 'package:rxdart/rxdart.dart';
 
+import '../header/note_list_header.dart';
 import 'dashboard_command.dart';
 import 'dashboard_data.dart';
 import 'dashboard_event.dart';
@@ -24,11 +25,7 @@ final class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   late final AppLifecycleListenerRepository _appLifecycleListener = _di
       .resolve();
 
-  /// Scroll chrome shared by every tab's [NestedScrollView] instance — each
-  /// tab keeps its own `SectionScrollVm` (typed to that tab's section
-  /// headers) but they all listen to this one controller.
-  late final scrollController = ScrollController();
-  late final headerVisible = ValueNotifier<bool>(true);
+  late final headerVm = NoteListHeaderVm();
 
   late final refreshButtonVm = RefreshButtonVm(
     onRefresh: () => add(const DashboardEvent.refresh()),
@@ -87,8 +84,8 @@ final class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     await _lifecycleSubscription?.cancel();
     await _commands.close();
     await _decryptFailures.close();
-    scrollController.dispose();
-    headerVisible.dispose();
+    headerVm.dispose();
+
     wrongPinDialogShown.dispose();
     await super.close();
   }
@@ -120,10 +117,7 @@ final class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     }
   }
 
-  void _onSelectTabEvent(
-    SelectTabEvent event,
-    Emitter<DashboardState> emit,
-  ) {
+  void _onSelectTabEvent(SelectTabEvent event, Emitter<DashboardState> emit) {
     if (isClosed) {
       return;
     }

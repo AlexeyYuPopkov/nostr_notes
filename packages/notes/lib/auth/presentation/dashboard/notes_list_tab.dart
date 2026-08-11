@@ -7,8 +7,7 @@ import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/accs_tab_content.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes/bloc/notes_list_bloc.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes/bloc/notes_list_state.dart';
-import 'package:nostr_notes/auth/presentation/dashboard/folders/widgets/folder_back_button.dart';
-import 'package:nostr_notes/auth/presentation/dashboard/notes/all_tab_content.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/notes/notes_tab_content.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes_list.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/common_toolbar_tabs_widget.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/notes_search_field.dart';
@@ -16,26 +15,28 @@ import 'package:nostr_notes/l10n/localization.dart';
 
 import 'accs/accs_tab_header.dart';
 import 'notes/bloc/notes_list_event.dart';
-import 'folders/folders_tab_content.dart';
 
 const double kNotesListHeaderWithoutSearch = Sizes.indent4x + Sizes.indent2x;
 const double _kSearchFieldHeight = 52.0;
 const double kNotesListHeaderWithSearch =
     kNotesListHeaderWithoutSearch + _kSearchFieldHeight;
+// The folder-filter chip row (see FolderFilterChipsRow) sits between the
+// toolbar and the search field whenever a filter is active.
+const double _kFilterChipRowHeight = 44.0;
+const double kNotesListHeaderWithSearchAndFilter =
+    kNotesListHeaderWithSearch + _kFilterChipRowHeight;
 
 sealed class NotesListTab extends Equatable
     implements CommonToolbarTabsWidgetTab {
   static const List<NotesListTab> tabs = [
-    NotesListTab.all(),
-    NotesListTab.folders(),
+    NotesListTab.notes(),
     if (FeatureFlags.kEnableAccsTab) NotesListTab.accs(),
   ];
 
   int get index;
   const NotesListTab();
 
-  const factory NotesListTab.all() = AllNotesTab;
-  const factory NotesListTab.folders() = FoldersTab;
+  const factory NotesListTab.notes() = NotesNotesTab;
   const factory NotesListTab.accs() = AccsTab;
 
   Widget build(BuildContext context, {required TabParams params});
@@ -43,8 +44,8 @@ sealed class NotesListTab extends Equatable
   Widget buildHeader(BuildContext context, {required HeaderParams params});
 }
 
-final class AllNotesTab extends NotesListTab {
-  const AllNotesTab();
+final class NotesNotesTab extends NotesListTab {
+  const NotesNotesTab();
 
   @override
   int get index => 0;
@@ -53,13 +54,13 @@ final class AllNotesTab extends NotesListTab {
   Widget build(BuildContext context, {required TabParams params}) {
     return BlocBuilder<NotesListBloc, NotesListState>(
       builder: (context, state) {
-        return AllTabContent(
+        return NotesTabContent(
           selectedNoteDTag: params.selectedNoteDTag,
           isLoading: state is LoadingState,
           sections: state.data.sections,
           searchQuery: state.data.searchString,
           hasAnyNotes: state.data.allNotes.isNotEmpty,
-          // onTap: params.onTap,
+          showFolderFilterChips: state.data.folderFilter.isNotEmpty,
           onTap: (note) =>
               params.coordinator.onNotePreviewRoute(noteId: note.dTag, context),
           scrollSectionsVm: params._scrollSectionsVm,
@@ -73,7 +74,7 @@ final class AllNotesTab extends NotesListTab {
 
   @override
   String getLocalizedTitle(BuildContext context) =>
-      context.l10n.notesListTabAll;
+      context.l10n.notesListTabNotes;
 
   @override
   Widget buildHeader(BuildContext context, {required HeaderParams params}) {
@@ -101,46 +102,11 @@ final class AllNotesTab extends NotesListTab {
   }
 }
 
-final class FoldersTab extends NotesListTab {
-  const FoldersTab();
-
-  @override
-  int get index => 1;
-
-  @override
-  Widget build(BuildContext context, {required TabParams params}) {
-    return BlocBuilder<NotesListBloc, NotesListState>(
-      builder: (context, state) {
-        return FoldersTabContent(
-          vm: context.read<NotesListBloc>().foldersVm,
-          selectedNoteDTag: params.selectedNoteDTag,
-          isLoading: state is LoadingState,
-          onTap: (note) =>
-              params.coordinator.onNotePreviewRoute(noteId: note.dTag, context),
-          scrollSectionsVm: params._scrollSectionsVm,
-        );
-      },
-    );
-  }
-
-  @override
-  List<Object?> get props => [];
-
-  @override
-  String getLocalizedTitle(BuildContext context) =>
-      context.l10n.notesListTabFolders;
-
-  @override
-  Widget buildHeader(BuildContext context, {required HeaderParams params}) {
-    return FolderBackButton(scrollVm: params.scrollSectionsVm);
-  }
-}
-
 final class AccsTab extends NotesListTab {
   const AccsTab();
 
   @override
-  int get index => 2;
+  int get index => 1;
 
   @override
   Widget build(BuildContext context, {required TabParams params}) {

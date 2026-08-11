@@ -32,44 +32,54 @@ final class AccsTabContent extends StatelessWidget {
 
         final itemsLength = items.length;
 
-        return CustomScrollView(
-          slivers: [
-            const SliverToBoxAdapter(
-              child: SizedBox(height: kNotesListHeaderWithSearch),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                childCount: itemsLength + 1,
-                (context, index) {
-                  if (index == 0) {
-                    return NotesListSectionHeader(
-                      title: context.l10n.accsSectionAll,
-                      isFirst: true,
+        return RefreshIndicator.adaptive(
+          displacement: kNotesListHeaderWithSearch,
+          onRefresh: () => _onRefresh(context),
+          child: CustomScrollView(
+            slivers: [
+              const SliverToBoxAdapter(
+                child: SizedBox(height: kNotesListHeaderWithSearch),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  childCount: itemsLength + 1,
+                  (context, index) {
+                    if (index == 0) {
+                      return NotesListSectionHeader(
+                        title: context.l10n.accsSectionAll,
+                        isFirst: true,
+                      );
+                    }
+                    final itemIndex = index - 1;
+                    return AccountListCard(
+                      item: items[itemIndex],
+                      position: ListItemPosition.fromIndex(
+                        itemIndex,
+                        length: itemsLength,
+                      ),
+                      onTap: onDetails,
+                      onDelete: (item) => context.read<AccsBloc>().add(
+                        AccsEvent.deleteItem(item),
+                      ),
                     );
-                  }
-                  final itemIndex = index - 1;
-                  return AccountListCard(
-                    item: items[itemIndex],
-                    position: ListItemPosition.fromIndex(
-                      itemIndex,
-                      length: itemsLength,
-                    ),
-                    onTap: onDetails,
-                    onDelete: (item) =>
-                        context.read<AccsBloc>().add(AccsEvent.deleteItem(item)),
-                  );
-                },
+                  },
+                ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: Sizes.indent4x + MediaQuery.paddingOf(context).bottom,
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: Sizes.indent4x + MediaQuery.paddingOf(context).bottom,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
+  }
+
+  Future<void> _onRefresh(BuildContext context) {
+    context.read<AccsBloc>().add(const AccsEvent.sync());
+    return Future.delayed(Durations.extralong1);
   }
 }
 

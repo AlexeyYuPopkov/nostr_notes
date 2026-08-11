@@ -619,13 +619,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notesListScreenTitle => 'Заметки';
 
   @override
-  String get notesListTabAll => 'Все';
-
-  @override
-  String get notesListTabFolders => 'Папки';
+  String get notesListTabNotes => 'Заметки';
 
   @override
   String get notesListSearchHint => 'Поиск по заметкам';
+
+  @override
+  String get notesListFilterButtonTooltip => 'Фильтр по папке';
+
+  @override
+  String get notesListFilterSheetTitle => 'Фильтр по папке';
 
   @override
   String get notesListSearchNothingFound => 'Ничего не найдено';

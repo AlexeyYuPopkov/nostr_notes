@@ -36,7 +36,7 @@ final class AccsBloc extends Bloc<AccsEvent, AccsState> {
 
   AccsBloc({required DashboardBloc dashboardBloc})
     : sectionScrollVm = SectionScrollVm<NotesListHeader>(
-        scrollController: dashboardBloc.scrollController,
+        scrollController: dashboardBloc.headerVm.scrollController,
       ),
       super(AccsState.loading(data: AccsData.initial())) {
     _setupHandlers();

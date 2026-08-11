@@ -6,7 +6,7 @@ final class DashboardData extends Equatable {
   const DashboardData._({required this.tab});
 
   factory DashboardData.initial() {
-    return const DashboardData._(tab: NotesListTab.all());
+    return const DashboardData._(tab: NotesListTab.notes());
   }
 
   @override
