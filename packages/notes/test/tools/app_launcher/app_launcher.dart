@@ -1,4 +1,3 @@
-import 'package:common/app/theme/app_background_colors.dart';
 import 'package:common/app/vm/global_settings_scope.dart';
 import 'package:common/data/repo/app_theme_data_repo_impl.dart';
 import 'package:common/presentation/theme_settings/global_settings_vm.dart';
@@ -23,25 +22,13 @@ final class AppLauncher {
       child: ListenableBuilder(
         listenable: Listenable.merge([
           globalSettingsVm.themeModeNotifier,
-          globalSettingsVm.lightBgIndexNotifier,
-          globalSettingsVm.darkBgIndexNotifier,
-          globalSettingsVm.lightCardIndexNotifier,
-          globalSettingsVm.darkCardIndexNotifier,
+          globalSettingsVm.lightThemeStyleNotifier,
+          globalSettingsVm.darkThemeStyleNotifier,
         ]),
         builder: (context, _) => MaterialApp(
           onGenerateTitle: (context) => context.l10n.appDisplayName,
-          theme: AppTheme.light(
-            backgroundColor:
-                AppBackgroundColors.light[globalSettingsVm.lightBgIndex],
-            cardColor:
-                AppBackgroundColors.lightCard[globalSettingsVm.lightCardIndex],
-          ),
-          darkTheme: AppTheme.dark(
-            backgroundColor:
-                AppBackgroundColors.dark[globalSettingsVm.darkBgIndex],
-            cardColor:
-                AppBackgroundColors.darkCard[globalSettingsVm.darkCardIndex],
-          ),
+          theme: AppTheme.light(style: globalSettingsVm.lightThemeStyle),
+          darkTheme: AppTheme.dark(style: globalSettingsVm.darkThemeStyle),
           themeMode: globalSettingsVm.themeMode,
           localizationsDelegates: const [
             ...Localization.localizationsDelegates,

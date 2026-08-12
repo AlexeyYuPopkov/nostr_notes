@@ -87,6 +87,18 @@ class CommonLocalizationsRu extends CommonLocalizations {
   String get themeScreenLabelCards => 'Карточки';
 
   @override
+  String get themeScreenLabelStyle => 'Стиль';
+
+  @override
+  String get themeScreenStyleDefault => 'Стандартная';
+
+  @override
+  String get themeScreenStyleAppleNotes => 'Apple Notes';
+
+  @override
+  String get themeScreenStyleClaude => 'Claude';
+
+  @override
   String get relaysPageTitle => 'Выбор реле';
 
   @override

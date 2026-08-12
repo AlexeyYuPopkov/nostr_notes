@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:common/l10n/localization.dart';
+import 'package:common/presentation/widgets/onboarding_icon.dart';
 import 'package:common/presentation/widgets/onboarding_text_field.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/auth/domain/repo/accounts_repo.dart';
 import 'package:nostr_notes/l10n/localization.dart';
@@ -105,14 +105,7 @@ final class _AutoUnlock extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Center(
-            child: SvgPicture.asset(
-              AppIcons.pinIcon,
-              width: Sizes.iconTitle,
-              height: Sizes.iconTitle,
-              semanticsLabel: 'Pin icon',
-            ),
-          ),
+          const Center(child: OnboardingIcon.asset(AppIcons.pinIcon)),
           const SizedBox(height: Sizes.indentVariant4x),
           Center(
             child: Text(
@@ -158,14 +151,7 @@ final class _PinForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Center(
-            child: SvgPicture.asset(
-              AppIcons.pinIcon,
-              width: Sizes.iconTitle,
-              height: Sizes.iconTitle,
-              semanticsLabel: 'Pin icon',
-            ),
-          ),
+          const Center(child: OnboardingIcon.asset(AppIcons.pinIcon)),
           const SizedBox(height: Sizes.indentVariant4x),
           Center(
             child: Text(
@@ -325,6 +311,54 @@ final class _PinForm extends StatelessWidget {
     );
   }
 }
+
+/// The pin/lock glyph on its own rounded-square badge, colored from the
+/// active theme's primary/onPrimary rather than baked into the SVG — so it
+/// follows whichever [AppThemeStyle] is selected instead of staying a fixed
+/// purple.
+// final class _PinIconBadge extends StatelessWidget {
+//   const _PinIconBadge();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final colorScheme = Theme.of(context).colorScheme;
+
+//     return Container(
+//       width: Sizes.iconTitle,
+//       height: Sizes.iconTitle,
+//       decoration: BoxDecoration(
+//         color: colorScheme.primary,
+//         // Matches the badge's original baked-in rx="103" on a 512 canvas.
+//         borderRadius: BorderRadius.circular(Sizes.iconTitle * 103 / 512),
+//       ),
+//       child: SvgPicture.asset(
+//         AppIcons.pinIcon,
+//         width: Sizes.iconTitle,
+//         height: Sizes.iconTitle,
+//         // colorFilter: ColorFilter.mode(colorScheme.primary, BlendMode.srcIn),
+//         colorMapper: _IcColorMapper(
+//           colors: {Colors.black: colorScheme.primary},
+//         ),
+//         semanticsLabel: 'Pin icon',
+//       ),
+//     );
+//   }
+// }
+
+// final class _IcColorMapper extends ColorMapper {
+//   final Map<Color, Color> colors;
+
+//   const _IcColorMapper({required this.colors});
+//   @override
+//   Color substitute(
+//     String? id,
+//     String elementName,
+//     String attributeName,
+//     Color color,
+//   ) {
+//     return colors[color] ?? color;
+//   }
+// }
 
 class _AccountHeader extends StatelessWidget {
   final _VM vm;

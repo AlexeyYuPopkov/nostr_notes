@@ -4,10 +4,10 @@ import 'package:common/app/theme/sizes.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/buttons/prymary_loading_button.dart';
 import 'package:common/presentation/buttons/vm/loading_button_vm.dart';
+import 'package:common/presentation/widgets/onboarding_icon.dart';
 import 'package:common/presentation/widgets/onboarding_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr/key_tool/key_tool.dart';
 import '../provider/onboarding_provider.dart';
 
@@ -45,11 +45,9 @@ final class _OnboardingNsecSignInState
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Center(
-            child: SvgPicture.asset(
+          const Center(
+            child: OnboardingIcon.asset(
               CommonIcons.nsecIcon,
-              width: Sizes.iconTitle,
-              height: Sizes.iconTitle,
               semanticsLabel: 'Nsec icon',
             ),
           ),

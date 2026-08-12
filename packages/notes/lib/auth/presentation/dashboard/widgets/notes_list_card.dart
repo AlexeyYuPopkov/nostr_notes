@@ -49,14 +49,14 @@ final class NotesListCard extends StatelessWidget
 
     final needsSeparator =
         sectionItem.position.needsSeparator() && !isSelected && !isNextSelected;
-
+    // Color.fromARGB
     return Container(
       clipBehavior: .hardEdge,
       margin: const EdgeInsets.symmetric(horizontal: Sizes.indent),
       decoration: BoxDecoration(
         color: isSelected
             ? theme.colorScheme.secondaryContainer
-            : theme.colorScheme.tertiaryContainer,
+            :  theme.colorScheme.tertiaryContainer,
         borderRadius: sectionItem.position.getRadius(),
         border: sectionItem.position.getBorder(
           theme.colorScheme.outline,

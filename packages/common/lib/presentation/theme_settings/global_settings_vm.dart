@@ -1,3 +1,4 @@
+import 'package:common/app/theme/app_theme_style.dart';
 import 'package:common/domain/error/app_error.dart';
 import 'package:common/domain/repo/app_theme_data_repo_impl.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +24,8 @@ final class GlobalSettingsVm {
   final AppThemeDataRepo _appThemeDataRepo;
   late final ValueNotifier<ThemeMode> themeModeNotifier;
   late final ValueNotifier<Locale?> localeNotifier;
-  late final ValueNotifier<int> lightBgIndexNotifier;
-  late final ValueNotifier<int> darkBgIndexNotifier;
-  late final ValueNotifier<int> lightCardIndexNotifier;
-  late final ValueNotifier<int> darkCardIndexNotifier;
+  late final ValueNotifier<AppThemeStyle> lightThemeStyleNotifier;
+  late final ValueNotifier<AppThemeStyle> darkThemeStyleNotifier;
   late final ValueNotifier<AppError?> errorNotifier;
 
   GlobalSettingsVm({required AppThemeDataRepo appThemeDataRepo})
@@ -34,10 +33,8 @@ final class GlobalSettingsVm {
     final appThemeData = _appThemeDataRepo.load();
     themeModeNotifier = ValueNotifier(appThemeData.themeMode);
     localeNotifier = ValueNotifier(_parseLocale(appThemeData.localeCode.value));
-    lightBgIndexNotifier = ValueNotifier(appThemeData.lightBgIndex);
-    darkBgIndexNotifier = ValueNotifier(appThemeData.darkBgIndex);
-    lightCardIndexNotifier = ValueNotifier(appThemeData.lightCardIndex);
-    darkCardIndexNotifier = ValueNotifier(appThemeData.darkCardIndex);
+    lightThemeStyleNotifier = ValueNotifier(appThemeData.lightThemeStyle);
+    darkThemeStyleNotifier = ValueNotifier(appThemeData.darkThemeStyle);
     errorNotifier = ValueNotifier(null);
   }
 
@@ -53,39 +50,21 @@ final class GlobalSettingsVm {
     }
   }
 
-  Future<void> setLightBgIndex(int value) async {
+  Future<void> setLightThemeStyle(AppThemeStyle value) async {
     final result = await _setAppThemeData(
-      _appThemeDataRepo.load().copyWith(lightBgIndex: value),
+      _appThemeDataRepo.load().copyWith(lightThemeStyle: value),
     );
     if (result != null) {
-      lightBgIndexNotifier.value = value;
+      lightThemeStyleNotifier.value = value;
     }
   }
 
-  Future<void> setDarkBgIndex(int value) async {
+  Future<void> setDarkThemeStyle(AppThemeStyle value) async {
     final result = await _setAppThemeData(
-      _appThemeDataRepo.load().copyWith(darkBgIndex: value),
+      _appThemeDataRepo.load().copyWith(darkThemeStyle: value),
     );
     if (result != null) {
-      darkBgIndexNotifier.value = value;
-    }
-  }
-
-  Future<void> setLightCardIndex(int value) async {
-    final result = await _setAppThemeData(
-      _appThemeDataRepo.load().copyWith(lightCardIndex: value),
-    );
-    if (result != null) {
-      lightCardIndexNotifier.value = value;
-    }
-  }
-
-  Future<void> setDarkCardIndex(int value) async {
-    final result = await _setAppThemeData(
-      _appThemeDataRepo.load().copyWith(darkCardIndex: value),
-    );
-    if (result != null) {
-      darkCardIndexNotifier.value = value;
+      darkThemeStyleNotifier.value = value;
     }
   }
 
@@ -115,10 +94,8 @@ final class GlobalSettingsVm {
     }
   }
 
-  int get lightBgIndex => lightBgIndexNotifier.value;
-  int get darkBgIndex => darkBgIndexNotifier.value;
-  int get lightCardIndex => lightCardIndexNotifier.value;
-  int get darkCardIndex => darkCardIndexNotifier.value;
+  AppThemeStyle get lightThemeStyle => lightThemeStyleNotifier.value;
+  AppThemeStyle get darkThemeStyle => darkThemeStyleNotifier.value;
 
   Locale? _parseLocale(String? value) {
     if (value == null || value.isEmpty) return null;

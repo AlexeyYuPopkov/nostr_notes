@@ -256,6 +256,30 @@ abstract class CommonLocalizations {
   /// **'Cards'**
   String get themeScreenLabelCards;
 
+  /// No description provided for @themeScreenLabelStyle.
+  ///
+  /// In en, this message translates to:
+  /// **'Style'**
+  String get themeScreenLabelStyle;
+
+  /// No description provided for @themeScreenStyleDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get themeScreenStyleDefault;
+
+  /// No description provided for @themeScreenStyleAppleNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Notes'**
+  String get themeScreenStyleAppleNotes;
+
+  /// No description provided for @themeScreenStyleClaude.
+  ///
+  /// In en, this message translates to:
+  /// **'Claude'**
+  String get themeScreenStyleClaude;
+
   /// No description provided for @relaysPageTitle.
   ///
   /// In en, this message translates to:

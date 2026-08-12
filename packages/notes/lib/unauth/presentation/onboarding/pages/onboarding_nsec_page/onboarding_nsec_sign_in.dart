@@ -1,9 +1,9 @@
+import 'package:common/app/icons/app_icons.dart';
 import 'package:common/l10n/localization.dart';
+import 'package:common/presentation/widgets/onboarding_icon.dart';
 import 'package:common/presentation/widgets/onboarding_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/buttons/prymary_loading_button.dart';
@@ -63,11 +63,9 @@ final class _OnboardingNsecSignInState extends State<OnboardingNsecSignIn>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Center(
-            child: SvgPicture.asset(
-              AppIcons.nsecIcon,
-              width: Sizes.iconTitle,
-              height: Sizes.iconTitle,
+          const Center(
+            child: OnboardingIcon.asset(
+              CommonIcons.nsecIcon,
               semanticsLabel: 'Nsec icon',
             ),
           ),
