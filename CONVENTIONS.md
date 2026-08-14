@@ -4,6 +4,8 @@
 - **Strict Const**: Always use `const` for widget constructors, literals, and declarations where possible. This is enforced by `prefer_const_constructors`, `prefer_const_literals_to_create_immutables`, and `prefer_const_declarations` in `analysis_options.yaml`.
 - **Trailing Commas**: Mandatory for all function arguments, constructor parameters, and collection literals to maintain clean diffs and consistent formatting (`require_trailing_commas: true`).
 - **Typing**: Avoid `dynamic` and raw `Map<String, dynamic>` where possible. Prefer creating models or using extensions for parsing (e.g., `ZapRequestDescription`, `ZapConfirmationSum`).
+- **Self-documenting code**: The default is no comment. Carry meaning in intention-revealing names, named constants instead of magic numbers, a named local for a complex condition, an extracted function instead of a header comment, and types that make invalid states unrepresentable. Needing a comment to make a block readable is a signal to extract and name it. See [.agents/skills/self-documenting-code/SKILL.md](.agents/skills/self-documenting-code/SKILL.md).
+- **Comments**: Reserve them for what the code cannot hold — *why* rather than what, an external quirk or upstream bug (with a concrete reference), or non-obvious lifecycle/async semantics. Keep them to one line where possible. Never commit commented-out code, comments that paraphrase the line below, or changelog/attribution notes.
 
 ## 2. Nostr Architecture
 - **Event Kinds**: Use `NostrKind` constants instead of magic numbers for event types.
@@ -33,11 +35,14 @@
 
 ## 6. AI Agent Guidelines
 - **Context**: When asking an agent to work on Zaps, mention NIP-57.
-- **Docs**: When creating new public methods, always add `///` docstrings to help agents understand the intent.
+- **Docs**: Prefer a name that needs no explanation over a docstring. Add `///` only where the public contract isn't already in the signature — units, side effects, ordering, what `null`/empty means, what the caller must dispose. Do not document every public member reflexively.
+- **Comment budget**: Agents tend to over-comment. Before leaving a comment, apply the checklist in [.agents/skills/self-documenting-code/SKILL.md](.agents/skills/self-documenting-code/SKILL.md); a rename, constant, or extracted function usually removes the need for it.
 - **Validation**: After any code change involving UI or logic, check for `const` warnings and run relevant tests using `runTests`.
 
 ## 7. Flutter AI Agent Skills
-This project integrates [official Flutter AI Agent Skills](https://docs.flutter.dev/ai/agent-skills). When working as an AI agent, apply the following principles:
+Skills live in `.agents/skills/`. The `flutter-*` ones are generated from [official Flutter AI Agent Skills](https://docs.flutter.dev/ai/agent-skills) — identifiable by the `metadata.model` / `last_modified` frontmatter — so don't hand-edit them; a re-sync overwrites the changes. Project-owned skills (`nostr`, `self-documenting-code`) have no such frontmatter and are the place for local rules. Where the two disagree, this file and the project-owned skills win.
+
+When working as an AI agent, apply the following principles:
 - **Widget Testing**: Adhere to the `flutter_test` guidelines. Prefer `findsOneWidget` and semantic-based finders. Use `const` for test widgets where possible.
 - **Performance**: Minimize unnecessary rebuilds. Use `const` constructors and prefer `ValueListenableBuilder` or specific BLoC/State updates over `setState` at the root.
 - **Accessibility**: Ensure widgets include proper `Semantics`.

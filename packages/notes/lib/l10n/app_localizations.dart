@@ -952,6 +952,12 @@ abstract class AppLocalizations {
   /// **'Set Backup Password'**
   String get accsBackupExportPasswordDialogTitle;
 
+  /// No description provided for @accsBackupExportPasswordDialogTextFieldHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Password (required)'**
+  String get accsBackupExportPasswordDialogTextFieldHint;
+
   /// No description provided for @accsBackupExportPasswordRequiredHint.
   ///
   /// In en, this message translates to:

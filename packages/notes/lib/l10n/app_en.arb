@@ -159,6 +159,7 @@
     "accsBackupItemImportTitle": "Import All Accounts",
     "accsBackupItemImportSubtitle": "Restore accounts from a previously exported archive.",
     "accsBackupExportPasswordDialogTitle": "Set Backup Password",
+    "accsBackupExportPasswordDialogTextFieldHint": "Password (required)",
     "accsBackupExportPasswordRequiredHint": "A password is required — without one, this backup would store your account passwords as plain text.",
     "accsBackupExportPasswordRequired": "Enter a password",
     "accsBackupExportEmptyError": "No accounts to export",

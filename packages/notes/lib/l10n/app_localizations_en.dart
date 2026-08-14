@@ -492,6 +492,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accsBackupExportPasswordDialogTitle => 'Set Backup Password';
 
   @override
+  String get accsBackupExportPasswordDialogTextFieldHint =>
+      'Password (required)';
+
+  @override
   String get accsBackupExportPasswordRequiredHint =>
       'A password is required — without one, this backup would store your account passwords as plain text.';
 

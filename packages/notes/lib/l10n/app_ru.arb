@@ -149,6 +149,7 @@
     "accsBackupItemImportTitle": "Импорт всех аккаунтов",
     "accsBackupItemImportSubtitle": "Восстановите аккаунты из ранее экспортированного архива.",
     "accsBackupExportPasswordDialogTitle": "Задайте пароль для резервной копии",
+    "accsBackupExportPasswordDialogTextFieldHint": "Пароль (обязательно)",
     "accsBackupExportPasswordRequiredHint": "Пароль обязателен — без него в этой резервной копии пароли аккаунтов хранились бы в открытом виде.",
     "accsBackupExportPasswordRequired": "Введите пароль",
     "accsBackupExportEmptyError": "Нет аккаунтов для экспорта",

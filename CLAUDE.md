@@ -100,6 +100,22 @@ unauth/       ← Pre-login screens (onboarding, etc.)
 - **No `dynamic`** — create typed models or extensions instead of raw `Map<String, dynamic>`.
 - Always declare return types (`always_declare_return_types`).
 
+### Comments and naming
+
+Default to **no comment**. Say it in the code instead: intention-revealing names, named constants over magic numbers, a well-named local or getter for a complex condition, small functions whose name states what they do, types that make invalid states unrepresentable. If a block needs a comment to be readable, that is usually a signal to extract and name it.
+
+Add a comment only for what the code cannot carry:
+- **Why**, never what — a non-obvious tradeoff, ordering requirement, or constraint.
+- An external quirk or upstream bug, with a concrete reference (package + version, file:line, or issue link).
+- `///` on public API only where the contract isn't already in the signature: units, side effects, ordering, what `null`/empty means. Don't restate the name.
+
+Never:
+- A comment that paraphrases the line under it.
+- Commented-out code — delete it, git has the history.
+- Changelog or attribution notes (`// added ...`, `// fixed ...`) — that's what commits are for.
+
+Keep a needed comment to the shortest form that carries the point, usually one line. Full guidance and before/after examples: [.agents/skills/self-documenting-code/SKILL.md](.agents/skills/self-documenting-code/SKILL.md).
+
 ## Testing
 
 **Widget tests** — wrap in `AppLauncher.launchApp(child: ..., tester: ...)` (see `test/tools/app_launcher/app_launcher.dart`) to get theme, localization, and `RootContextProvider`.

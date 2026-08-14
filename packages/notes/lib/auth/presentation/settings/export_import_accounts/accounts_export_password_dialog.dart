@@ -73,7 +73,7 @@ final class _AccountsExportPasswordDialogState
             OnboardingTextFormField(
               controller: _controller,
               obscureText: true,
-              hint: l10n.exportImportPasswordDialogTextFieldHint,
+              hint: l10n.accsBackupExportPasswordDialogTextFieldHint,
               inputFormatters: [
                 FilteringTextInputFormatter.deny(RegExp(r'\s')),
               ],
@@ -86,13 +86,14 @@ final class _AccountsExportPasswordDialogState
               child: Padding(
                 padding: const EdgeInsets.only(top: Sizes.indent),
                 child: Row(
+                  spacing: Sizes.indent,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(
                       Icons.info_outline,
                       size: Sizes.iconSmall,
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
-                    const SizedBox(width: Sizes.indent),
                     Expanded(
                       child: Text(
                         l10n.accsBackupExportPasswordRequiredHint,

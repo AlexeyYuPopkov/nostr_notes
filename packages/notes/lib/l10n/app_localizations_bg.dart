@@ -500,6 +500,10 @@ class AppLocalizationsBg extends AppLocalizations {
       'Задаване на парола за резервно копие';
 
   @override
+  String get accsBackupExportPasswordDialogTextFieldHint =>
+      'Парола (задължително)';
+
+  @override
   String get accsBackupExportPasswordRequiredHint =>
       'Паролата е задължителна — без нея това резервно копие би съхранявало паролите на акаунтите ви в отворен текст.';
 

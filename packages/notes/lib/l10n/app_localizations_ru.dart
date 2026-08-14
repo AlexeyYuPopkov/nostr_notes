@@ -502,6 +502,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Задайте пароль для резервной копии';
 
   @override
+  String get accsBackupExportPasswordDialogTextFieldHint =>
+      'Пароль (обязательно)';
+
+  @override
   String get accsBackupExportPasswordRequiredHint =>
       'Пароль обязателен — без него в этой резервной копии пароли аккаунтов хранились бы в открытом виде.';
 
