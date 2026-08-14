@@ -41,7 +41,9 @@ final class Auth extends Session {
   @override
   final UserKeys keys;
 
-  const Auth(this.keys);
+  final bool authologinIfPossible;
+
+  const Auth(this.keys, {this.authologinIfPossible = true});
 
   @override
   bool get isAuth => true;
@@ -49,8 +51,12 @@ final class Auth extends Session {
   @override
   bool get isUnlocked => false;
 
+  // authologinIfPossible belongs here: SessionUsecase.sessionStream is
+  // `.distinct()`, so leaving it out makes a flag-only change (locked
+  // account going from "may auto-unlock" to "must not") invisible to
+  // everyone already listening.
   @override
-  List<Object?> get props => [keys];
+  List<Object?> get props => [keys, authologinIfPossible];
 
   Unlocked toUnlocked({required String pin}) {
     return Unlocked(keys: keys, pin: pin);
