@@ -288,5 +288,21 @@
     "donateLightningScreenButtonCopyInvoice": "Copy invoice",
     "donateLightningScreenButtonOpenWithLightning": "Open with Lightning",
     "donateLightningScreenQrInstruction": "Scan this QR code with your Lightning wallet app on your phone.",
-    "donateLightningScreenMessageInvoiceCopied":"Invoice copied to clipboard"
+    "donateLightningScreenMessageInvoiceCopied":"Invoice copied to clipboard",
+    "relayStatusTitle": "{ok} of {total} relays online",
+    "@relayStatusTitle": {
+        "placeholders": {
+            "ok": {
+                "type": "int"
+            },
+            "total": {
+                "type": "int"
+            }
+        }
+    },
+    "relayStatusSubtitle": "Notes are saved and synced",
+    "relayStatusOnline": "online",
+    "relayStatusConnecting": "connecting…",
+    "relayStatusNoResponse": "no response",
+    "relayStatusConfigureLink": "Configure relays"
 }

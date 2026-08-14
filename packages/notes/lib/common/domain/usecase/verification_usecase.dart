@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
-import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
+import 'package:common/domain/repo/app_lifecycle_listener_repository.dart';
 import 'package:nostr_notes/common/domain/repository/biometric_repository.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:common/tools/disposable.dart';

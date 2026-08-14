@@ -838,4 +838,24 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get donateLightningScreenMessageInvoiceCopied => 'Инвойс скопирован';
+
+  @override
+  String relayStatusTitle(int ok, int total) {
+    return '$ok из $total реле на связи';
+  }
+
+  @override
+  String get relayStatusSubtitle => 'Заметки сохраняются и синхронизируются';
+
+  @override
+  String get relayStatusOnline => 'на связи';
+
+  @override
+  String get relayStatusConnecting => 'подключение…';
+
+  @override
+  String get relayStatusNoResponse => 'нет ответа';
+
+  @override
+  String get relayStatusConfigureLink => 'Настроить реле';
 }

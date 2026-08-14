@@ -11,13 +11,18 @@ import '../model/relay_health.dart';
 import 'channel_factory.dart';
 import 'nostr_relay.dart';
 
-final class RelayMonitoring {
+/// Probes a single, not-yet-adopted relay URL over its own dedicated
+/// connection — used where there's no [NostrClient] with an open connection
+/// to piggyback on yet (checking a candidate URL before it's added to the
+/// app's relay set). See `RelayMonitorTicker` for probing relays already
+/// known to a client.
+final class SingleRelayMonitor {
   final Uri url;
   final ChannelFactory channelFactory;
   final Duration interval;
   final Duration timeout;
 
-  RelayMonitoring({
+  SingleRelayMonitor({
     required this.url,
     required this.channelFactory,
     this.interval = const Duration(seconds: 15),
@@ -30,6 +35,7 @@ final class RelayMonitoring {
   static const _probeKinds = [0, 1, 4, 7, 10002];
 
   Timer? _timer;
+  Timer? _timeoutTimer;
   StreamSubscription? _probeSubscription;
   final _controller = StreamController<RelayHealth>.broadcast();
   RelayHealth _lastStatus = RelayHealth.disconnected;
@@ -55,6 +61,8 @@ final class RelayMonitoring {
   void stop() {
     _timer?.cancel();
     _timer = null;
+    _timeoutTimer?.cancel();
+    _timeoutTimer = null;
     _probeSubscription?.cancel();
     _probeSubscription = null;
   }
@@ -95,14 +103,15 @@ final class RelayMonitoring {
             completed = true;
             log(
               'Relay monitoring probe failed for $url',
-              name: 'RelayMonitoring',
+              name: 'SingleRelayMonitor',
               error: e,
             );
             _emit(RelayHealth.error);
           },
         );
 
-    Future.delayed(timeout, () {
+    _timeoutTimer?.cancel();
+    _timeoutTimer = Timer(timeout, () {
       if (!completed) {
         completed = true;
         _probeSubscription?.cancel();

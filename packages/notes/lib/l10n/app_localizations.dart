@@ -1575,6 +1575,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invoice copied to clipboard'**
   String get donateLightningScreenMessageInvoiceCopied;
+
+  /// No description provided for @relayStatusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{ok} of {total} relays online'**
+  String relayStatusTitle(int ok, int total);
+
+  /// No description provided for @relayStatusSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes are saved and synced'**
+  String get relayStatusSubtitle;
+
+  /// No description provided for @relayStatusOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'online'**
+  String get relayStatusOnline;
+
+  /// No description provided for @relayStatusConnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'connecting…'**
+  String get relayStatusConnecting;
+
+  /// No description provided for @relayStatusNoResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'no response'**
+  String get relayStatusNoResponse;
+
+  /// No description provided for @relayStatusConfigureLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure relays'**
+  String get relayStatusConfigureLink;
 }
 
 class _AppLocalizationsDelegate

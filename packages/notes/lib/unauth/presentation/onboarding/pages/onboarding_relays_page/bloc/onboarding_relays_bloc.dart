@@ -1,10 +1,12 @@
 import 'package:common/domain/model/relay_info.dart';
+import 'package:common/domain/usecases/relays_monitoring_usecase.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:common/domain/repo/relays_list_repo.dart';
 import 'package:common/domain/usecases/get_relays_usecase.dart';
 import 'package:common/presentation/buttons/prymary_button.dart';
+import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'onboarding_relays_data.dart';
@@ -21,6 +23,12 @@ final class OnboardingRelaysBloc
   );
   late final saveButtonVm = PrymaryLoadingButtonVM();
 
+  late final NostrClient _client = DiStorage.shared.resolve();
+  // Same app-wide singleton the dashboard's RelayStatusIndicator reads —
+  // not a bloc-owned instance, so it isn't disposed here (see close()) and
+  // there's only ever one NostrClientDelegate registered on _client.
+  late final RelaysMonitoringUsecase monitor = DiStorage.shared.resolve();
+
   OnboardingRelaysBloc()
     : super(
         OnboardingRelaysState.common(data: OnboardingRelaysData.initial()),
@@ -28,6 +36,31 @@ final class OnboardingRelaysBloc
     _setupHandlers();
 
     add(const OnboardingRelaysEvent.initial());
+  }
+
+  @override
+  Future<void> close() {
+    // _client (and monitor) are the app-wide singletons, so any toggling
+    // done here that was never saved must be rolled back on the way out —
+    // otherwise unsaved candidates stay connected in the shared client.
+    final persisted = _relaysListRepo
+        .getRelaysList()
+        .map((url) => RelayInfo(url: Uri.parse(url)))
+        .toSet();
+    _syncClientRelays(persisted);
+    return super.close();
+  }
+
+  /// Keeps [_client]'s relay set in lockstep with [selected], so
+  /// [monitor] only tracks (and probes) relays the user has actually
+  /// picked — mirrors [NotesRepositoryImpl.syncRelays]'s diff pattern.
+  void _syncClientRelays(Set<RelayInfo> selected) {
+    final selectedUrls = selected.map((r) => r.url.toString()).toSet();
+    final current = _client.relaysList.toSet();
+    for (final removed in current.difference(selectedUrls)) {
+      _client.removeRelay(removed);
+    }
+    _client.addRelays(selectedUrls.difference(current));
   }
 
   void _setupHandlers() {
@@ -55,6 +88,7 @@ final class OnboardingRelaysBloc
   ) async {
     try {
       final result = await _getRelaysUsecase.execute();
+      _syncClientRelays(result.selected);
 
       emit(
         OnboardingRelaysState.common(
@@ -75,6 +109,7 @@ final class OnboardingRelaysBloc
     final selected = isSelected
         ? data.selectedRelays.where((r) => r != event.relay).toSet()
         : {...data.selectedRelays, event.relay};
+    _syncClientRelays(selected);
 
     emit(
       OnboardingRelaysState.common(
@@ -106,6 +141,7 @@ final class OnboardingRelaysBloc
     try {
       final relay = RelayInfo(url: Uri.parse(event.urlStr));
       final selectedRelays = {...data.selectedRelays, relay};
+      _syncClientRelays(selectedRelays);
 
       emit(
         OnboardingRelaysState.common(

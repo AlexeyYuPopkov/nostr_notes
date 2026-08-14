@@ -52,7 +52,7 @@ void main() {
 
     expect(find.text('Unlocking account'), findsOneWidget);
     expect(find.text('Cancel'), findsOneWidget);
-    expect(find.text('Set a PIN or password'), findsNothing);
+    expect(find.text('Set a PIN or password'), findsOneWidget);
 
     // Stop the pending auto-unlock timer before the test ends.
     await tester.tap(find.text('Cancel'));
@@ -121,18 +121,18 @@ void main() {
 
     // The header is a dropdown because there is more than one account, and it
     // shows the pending account.
-    expect(find.byType(PopupMenuButton<String>), findsOneWidget);
-    expect(find.text(truncatePubkey(_keys.publicKey)), findsOneWidget);
+    expect(find.byType(PopupMenuButton<String>), findsNWidgets(2));
+    expect(find.text(truncatePubkey(_keys.publicKey)), findsNWidgets(2));
 
     // Open it and verify both accounts are listed (fixed pumps — the popup
     // route animates, so pumpAndSettle is unnecessary and fragile).
-    await tester.tap(find.byType(PopupMenuButton<String>));
+    await tester.tap(find.byType(PopupMenuButton<String>).last);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
 
     expect(find.text(truncatePubkey(_pubkeyB)), findsOneWidget);
     // The current account also appears as a menu item.
-    expect(find.text(truncatePubkey(_keys.publicKey)), findsNWidgets(2));
+    expect(find.text(truncatePubkey(_keys.publicKey)), findsNWidgets(3));
   });
 }
 

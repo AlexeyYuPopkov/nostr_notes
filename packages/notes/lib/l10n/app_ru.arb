@@ -268,5 +268,21 @@
     "donateLightningScreenButtonCopyInvoice": "Скопировать инвойс",
     "donateLightningScreenButtonOpenWithLightning": "Открыть через Lightning",
     "donateLightningScreenQrInstruction": "Сканируйте QR-код в вашем Lightning-кошельке на телефоне.",
-    "donateLightningScreenMessageInvoiceCopied": "Инвойс скопирован"
+    "donateLightningScreenMessageInvoiceCopied": "Инвойс скопирован",
+    "relayStatusTitle": "{ok} из {total} реле на связи",
+    "@relayStatusTitle": {
+        "placeholders": {
+            "ok": {
+                "type": "int"
+            },
+            "total": {
+                "type": "int"
+            }
+        }
+    },
+    "relayStatusSubtitle": "Заметки сохраняются и синхронизируются",
+    "relayStatusOnline": "на связи",
+    "relayStatusConnecting": "подключение…",
+    "relayStatusNoResponse": "нет ответа",
+    "relayStatusConfigureLink": "Настроить реле"
 }

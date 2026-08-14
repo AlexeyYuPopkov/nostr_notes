@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:common/app/theme/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:common/domain/model/relay_info.dart';
-import 'package:common/data/repo/relays_monitoring_usecase_impl.dart';
-import 'package:nostr_notes/common/domain/model/relay_health.dart';
-import 'package:common/domain/usecases/relays_monitoring_usecase.dart';
+import 'package:common/data/repo/single_relay_monitoring_usecase_impl.dart';
+import 'package:nostr/model/relay_health.dart';
+import 'package:common/domain/usecases/single_relay_monitoring_usecase.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -72,50 +72,15 @@ final class _RelayTileState extends State<RelayTile> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return ListenableBuilder(
       listenable: vm,
       builder: (context, child) {
-        return Row(
-          spacing: Sizes.indent,
-          children: [
-            SizedBox(
-              width: Sizes.iconSmall,
-              child: Center(
-                child: StreamBuilder(
-                  stream: Stream.periodic(const Duration(seconds: 5), (x) => x)
-                      .asyncExpand(
-                        (e) => Stream.value(0.5).concatWith([
-                          Stream.value(1.0).delay(Durations.medium1),
-                        ]),
-                      ),
-
-                  builder: (context, asyncSnapshot) {
-                    return AnimatedOpacity(
-                      duration: Durations.medium3,
-                      opacity: asyncSnapshot.data ?? 1.0,
-                      child: _StatusIcon(
-                        isConnecting: vm.isConnecting,
-                        status: vm.status,
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-
-            Expanded(
-              child: Text(
-                widget.relay.url.toString(),
-                style: theme.textTheme.bodyLarge,
-              ),
-            ),
-            Checkbox.adaptive(
-              value: widget.isSelected,
-              activeColor: theme.colorScheme.primary,
-              onChanged: _onChanged,
-            ),
-          ],
+        return RelayTile1(
+          url: widget.relay.url.toString(),
+          isSelected: vm.isSelected,
+          isConnecting: vm.isConnecting,
+          status: vm.status,
+          onChanged: _onChanged,
         );
       },
     );
@@ -133,6 +98,64 @@ final class _RelayTileState extends State<RelayTile> {
   }
 }
 
+final class RelayTile1 extends StatelessWidget {
+  final String url;
+  final bool isSelected;
+  final bool isConnecting;
+  final RelayStatus? status;
+  final ValueChanged<bool?> onChanged;
+
+  const RelayTile1({
+    super.key,
+    required this.url,
+    required this.isSelected,
+    required this.isConnecting,
+    this.status,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Row(
+      spacing: Sizes.indent,
+      children: [
+        SizedBox(
+          width: Sizes.iconSmall,
+          child: Center(
+            child: StreamBuilder(
+              stream: Stream.periodic(const Duration(seconds: 5), (x) => x)
+                  .asyncExpand(
+                    (e) => Stream.value(
+                      0.5,
+                    ).concatWith([Stream.value(1.0).delay(Durations.medium1)]),
+                  ),
+
+              builder: (context, asyncSnapshot) {
+                return AnimatedOpacity(
+                  duration: Durations.medium3,
+                  opacity: asyncSnapshot.data ?? 1.0,
+                  child: _StatusIcon(
+                    isConnecting: isConnecting,
+                    status: status,
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+
+        Expanded(child: Text(url.toString(), style: theme.textTheme.bodyLarge)),
+        Checkbox.adaptive(
+          value: isSelected,
+          activeColor: theme.colorScheme.primary,
+          onChanged: onChanged,
+        ),
+      ],
+    );
+  }
+}
+
 final class RelayTileVM extends ChangeNotifier {
   final String url;
   final ChannelFactory channelFactory;
@@ -141,7 +164,7 @@ final class RelayTileVM extends ChangeNotifier {
   StreamSubscription<RelayStatus>? _sub;
   RelayStatus? status;
   bool isConnecting = false;
-  late final RelaysMonitoringUsecase _relaysMonitoringUsecase =
+  late final SingleRelayMonitoringUsecase _relaysMonitoringUsecase =
       _createRelaysMonitoringUsecase(url);
 
   RelayTileVM({
@@ -150,8 +173,8 @@ final class RelayTileVM extends ChangeNotifier {
     this.channelFactory = const ChannelFactory(),
   });
 
-  RelaysMonitoringUsecase _createRelaysMonitoringUsecase(String url) {
-    return RelaysMonitoringUsecaseImpl(
+  SingleRelayMonitoringUsecase _createRelaysMonitoringUsecase(String url) {
+    return SingleRelayMonitoringUsecaseImpl(
       uri: Uri.parse(url),
       channelFactory: channelFactory,
     );

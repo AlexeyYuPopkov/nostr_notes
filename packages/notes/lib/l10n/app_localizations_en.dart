@@ -827,4 +827,24 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get donateLightningScreenMessageInvoiceCopied =>
       'Invoice copied to clipboard';
+
+  @override
+  String relayStatusTitle(int ok, int total) {
+    return '$ok of $total relays online';
+  }
+
+  @override
+  String get relayStatusSubtitle => 'Notes are saved and synced';
+
+  @override
+  String get relayStatusOnline => 'online';
+
+  @override
+  String get relayStatusConnecting => 'connecting…';
+
+  @override
+  String get relayStatusNoResponse => 'no response';
+
+  @override
+  String get relayStatusConfigureLink => 'Configure relays';
 }

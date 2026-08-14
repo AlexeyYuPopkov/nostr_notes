@@ -8,6 +8,7 @@ import '../model/nostr_event.dart';
 import '../model/nostr_event_close.dart';
 import '../model/nostr_req.dart';
 import 'channel_factory.dart';
+import 'nostr_client_delegate.dart';
 import 'nostr_relay.dart';
 
 final class NostrClient {
@@ -15,15 +16,23 @@ final class NostrClient {
     ChannelFactory? channelFactory,
     Uuid? uuid,
     EventBatchParser? batchParser,
+    this.delegate,
   }) : _channelFactory = channelFactory ?? const ChannelFactory(),
        _uuid = uuid ?? const Uuid(),
        _batchParser = batchParser {
-    log('NostrClientVariant - init', name: 'NostrClientVariant');
+    log('NostrClient - init', name: 'NostrClient');
   }
 
   final ChannelFactory _channelFactory;
   final Uuid _uuid;
   final EventBatchParser? _batchParser;
+
+  /// Optional observer notified of raw per-relay signals (errors, inbound
+  /// activity) as they happen — settable rather than constructor-only so a
+  /// delegate that itself composes this client (see `RelaysMonitor`)
+  /// can be wired up after both exist, without a construction cycle.
+  /// `NostrClient` itself doesn't interpret or aggregate these signals.
+  NostrClientDelegate? delegate;
 
   final _relays = <String, NostrRelay>{};
   Iterable<String> get relays => _relays.values.map((e) => e.url);
@@ -36,6 +45,10 @@ final class NostrClient {
   /// Stream of non-fatal relay errors (connection failures, timeouts, etc.).
   /// These errors don't interrupt the main event stream.
   Stream<RelayError> get relayErrors => _relayErrorSubject.stream;
+
+  /// The configured relay set, as it changes — e.g. so a delegate can spin
+  /// up/tear down per-relay monitoring without polling [relaysList].
+  Stream<Set<String>> get relaysListStream => _relaySubject.stream;
 
   int get count => _relays.length;
 
@@ -150,13 +163,15 @@ final class NostrClient {
                         stackTrace: stackTrace,
                       ),
                     );
+                    delegate?.onRelayError(e.url, error, stackTrace);
                     return const Stream.empty();
                   })
-                  .doOnData((e) {
+                  .doOnData((event) {
                     log(
-                      'Received event: ${e.toString()} from relay',
+                      'Received event: ${event.toString()} from relay',
                       name: 'NostrClient',
                     );
+                    delegate?.onRelayActivity(e.url);
                   }),
             ),
           ),

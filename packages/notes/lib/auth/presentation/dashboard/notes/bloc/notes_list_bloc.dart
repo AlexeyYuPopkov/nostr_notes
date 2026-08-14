@@ -26,7 +26,6 @@ import 'notes_list_event.dart';
 import 'notes_list_state.dart';
 
 final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
-  static const errorStreamDebounce = Duration(milliseconds: 500);
   static const debounceGuard = Duration(milliseconds: 200);
   DiStorage get _di => DiStorage.shared;
   NotesListData get data => state.data;
@@ -47,7 +46,6 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
 
   StreamSubscription? _fetchNotesSubscription;
   StreamSubscription? _getNotesSubscription;
-  StreamSubscription? _errorSubscription;
   StreamSubscription? _dashboardTabSubscription;
   StreamSubscription<DashboardCommand>? _dashboardCommandSubscription;
 
@@ -71,8 +69,6 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
     _fetchNotesSubscription = null;
     _getNotesSubscription?.cancel();
     _getNotesSubscription = null;
-    _errorSubscription?.cancel();
-    _errorSubscription = null;
     _dashboardTabSubscription?.cancel();
     _dashboardTabSubscription = null;
     _dashboardCommandSubscription?.cancel();
@@ -191,12 +187,10 @@ final class NotesListBloc extends Bloc<NotesListEvent, NotesListState> {
           },
         );
 
-    _errorSubscription?.cancel();
-    _errorSubscription = _fetchNotesUsecase.relayErrors
-        .debounceTime(errorStreamDebounce)
-        .listen((error) {
-          add(NotesListEvent.error(error: error));
-        });
+    // Relay hiccups are normal in a decentralized system — surfaced via the
+    // small always-visible RelayStatusIndicator in the AppBar (which reads
+    // RelaysMonitoringUsecase directly, not through this bloc), not as
+    // a ScaffoldMessenger toast anymore.
 
     pendingVm.subscribe();
   }

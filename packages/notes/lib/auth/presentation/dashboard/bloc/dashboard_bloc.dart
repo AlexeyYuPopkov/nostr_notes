@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_list_tab_repo.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes_list_tab.dart';
-import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
+import 'package:common/domain/repo/app_lifecycle_listener_repository.dart';
 
 import 'package:rxdart/rxdart.dart';
 

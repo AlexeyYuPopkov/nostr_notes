@@ -838,4 +838,24 @@ class AppLocalizationsBg extends AppLocalizations {
   @override
   String get donateLightningScreenMessageInvoiceCopied =>
       'Фактурата е копирана в клипборда';
+
+  @override
+  String relayStatusTitle(int ok, int total) {
+    return '$ok от $total релета са свързани';
+  }
+
+  @override
+  String get relayStatusSubtitle => 'Бележките се запазват и синхронизират';
+
+  @override
+  String get relayStatusOnline => 'свързан';
+
+  @override
+  String get relayStatusConnecting => 'свързване…';
+
+  @override
+  String get relayStatusNoResponse => 'няма отговор';
+
+  @override
+  String get relayStatusConfigureLink => 'Настройване на релета';
 }

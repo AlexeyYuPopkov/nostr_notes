@@ -268,5 +268,21 @@
     "donateLightningScreenButtonCopyInvoice": "Копирай фактурата",
     "donateLightningScreenButtonOpenWithLightning": "Отвори чрез Lightning",
     "donateLightningScreenQrInstruction": "Сканирайте QR кода с вашия Lightning портфейл на телефона.",
-    "donateLightningScreenMessageInvoiceCopied": "Фактурата е копирана в клипборда"
+    "donateLightningScreenMessageInvoiceCopied": "Фактурата е копирана в клипборда",
+    "relayStatusTitle": "{ok} от {total} релета са свързани",
+    "@relayStatusTitle": {
+        "placeholders": {
+            "ok": {
+                "type": "int"
+            },
+            "total": {
+                "type": "int"
+            }
+        }
+    },
+    "relayStatusSubtitle": "Бележките се запазват и синхронизират",
+    "relayStatusOnline": "свързан",
+    "relayStatusConnecting": "свързване…",
+    "relayStatusNoResponse": "няма отговор",
+    "relayStatusConfigureLink": "Настройване на релета"
 }

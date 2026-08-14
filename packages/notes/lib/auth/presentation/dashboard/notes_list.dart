@@ -29,6 +29,7 @@ import 'notes/bloc/notes_list_event.dart';
 import 'notes/bloc/notes_list_state.dart';
 import 'decrypt_failed_dialog_mixin.dart';
 import 'header/note_list_header.dart';
+import 'widgets/relay_status_indicator.dart';
 
 abstract interface class NotesListCoordinator {
   const NotesListCoordinator();
@@ -220,6 +221,7 @@ final class _DashboardState extends State<_Dashboard>
                       padding: const EdgeInsets.only(left: Sizes.indent2x),
                       alignment: Alignment.centerRight,
                     ),
+                  const RelayStatusIndicator(),
                   _SettingsButton(onEndDrawer: widget.coordinator.onEndDrawer),
                 ],
               ),

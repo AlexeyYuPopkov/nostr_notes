@@ -79,9 +79,17 @@ final class _OnboardingPinPageState extends State<OnboardingPinPage>
           return ValueListenableBuilder(
             valueListenable: _vm._autoUnlockCancelled,
             builder: (context, autoUnlockCancelled, child) {
-              return (autoUnlock && autoUnlockCancelled == false)
-                  ? _AutoUnlock(vm: _vm)
-                  : _PinForm(vm: _vm);
+              return AnimatedCrossFade(
+                firstChild: _AutoUnlock(vm: _vm),
+                secondChild: _PinForm(vm: _vm),
+                crossFadeState: (autoUnlock && autoUnlockCancelled == false)
+                    ? CrossFadeState.showFirst
+                    : CrossFadeState.showSecond,
+                duration: AppDurations.medium,
+              );
+              // (autoUnlock && autoUnlockCancelled == false)
+              // ? _AutoUnlock(vm: _vm)
+              // : _PinForm(vm: _vm);
             },
           );
         },
@@ -169,7 +177,17 @@ final class _PinForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: Sizes.indentVariant4x),
-          Center(child: _AccountHeader(vm: vm)),
+          ValueListenableBuilder(
+            valueListenable: vm._keyboardVisible,
+            builder: (context, value, child) {
+              return AnimatedSize(
+                duration: AppDurations.medium,
+                child: value
+                    ? const SizedBox()
+                    : Center(child: _AccountHeader(vm: vm)),
+              );
+            },
+          ),
           const SizedBox(height: Sizes.indent2x),
           Form(
             key: vm._formKey,

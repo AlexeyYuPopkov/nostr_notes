@@ -93,7 +93,7 @@ const _appleNotesLight = AppThemePalette(
 );
 
 const _appleNotesDark = AppThemePalette(
-  primary: Color(0xFFFFD60A), // iOS systemYellow, dark variant
+  primary: Color(0xFFE0A500), // iOS systemYellow, dark variant
   onPrimary: Color(0xFF2B2000),
   primaryContainer: Color(0xFF4D3D00),
   onPrimaryContainer: Color(0xFFFFE9A8),

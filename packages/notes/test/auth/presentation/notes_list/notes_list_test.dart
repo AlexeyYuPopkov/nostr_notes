@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:common/domain/usecases/relays_monitoring_usecase.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -119,6 +120,23 @@ void main() {
     );
   });
 
+  // RelaysMonitoringUsecase (behind RelayStatusIndicator in the AppBar)
+  // owns a real Timer.periodic ticker. flutter_test's "no pending timers"
+  // check runs the instant each testWidgets body returns — before this
+  // file's tearDown(), and even before addTearDown callbacks registered
+  // from setUp() — so it has to be disposed as the literal last step
+  // inside each test body that renders NotesList, not in a teardown hook.
+  //
+  // The dispose chain also closes a BehaviorSubject (RelaysMonitor's
+  // status subject), which needs a real microtask pump to actually resolve —
+  // a bare `await` here runs inside flutter_test's FakeAsync zone, where
+  // that never happens on its own and the await hangs indefinitely.
+  // tester.runAsync() steps outside FakeAsync for this call, onto the real
+  // event loop, so the close() future genuinely completes.
+  Future<void> disposeRelayMonitoring(WidgetTester tester) => tester.runAsync(
+    () => DiStorage.shared.resolve<RelaysMonitoringUsecase>().dispose(),
+  );
+
   tearDown(() async {
     relayClient.disconnectAndDispose();
 
@@ -181,11 +199,24 @@ void main() {
 
       expect(find.byType(CommonShimmer), findsWidgets);
 
-      await tester.pumpAndSettle(const Duration(seconds: 5));
+      // RelayStatusIndicator's RelaysMonitoringUsecase keeps a real
+      // periodic probe timer running in the background, which schedules a
+      // new frame on every emission — pumpAndSettle would never see the
+      // tree settle and hang until its own timeout, so bounded pumps are
+      // used instead (see PumpHelpers.pumpFrames doc comment).
+      await PumpHelpers.waitFor(
+        tester,
+        find.byType(NewNotePromptPlaceholder),
+        reason:
+            'empty-state placeholder should appear once notes finish loading',
+      );
 
       expect(find.byType(NewNotePromptPlaceholder), findsOneWidget);
       expect(find.byType(CommonShimmer), findsNothing);
-      await tester.pumpAndSettle();
+      await PumpHelpers.pumpFrames(tester);
+
+      // Let the bloc's delayed refresh timer fire so no timers stay pending.
+      await tester.pump(const Duration(seconds: 3));
 
       // Close database
       await tester.pump();
@@ -198,7 +229,8 @@ void main() {
       // await session.dispose();
 
       await tester.pumpWidget(Container());
-      await tester.pumpAndSettle();
+      await PumpHelpers.pumpFrames(tester);
+      await disposeRelayMonitoring(tester);
     });
 
     testWidgets('NotesList - notes', (tester) async {
@@ -280,94 +312,93 @@ void main() {
       final db = di.resolve<AppDatabase>();
       await db.close();
       await tester.pump();
+      await disposeRelayMonitoring(tester);
     }, skip: false);
 
-    testWidgets(
-      'NotesList - wrong PIN: decrypt-failed dialog offers retry and '
-      'locks the session',
-      (tester) async {
-        final di = DiStorage.shared;
-        tester.view.physicalSize = _Helper.iPhoneSize;
-        tester.view.devicePixelRatio = _Helper.devicePixelRatio;
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+    testWidgets('NotesList - wrong PIN: decrypt-failed dialog offers retry and '
+        'locks the session', (tester) async {
+      final di = DiStorage.shared;
+      tester.view.physicalSize = _Helper.iPhoneSize;
+      tester.view.devicePixelRatio = _Helper.devicePixelRatio;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        final SessionUsecase session = DiStorage.shared.resolve();
-        session.setSession(
-          const Unlocked(keys: _Helper.keys, pin: _Helper.wrongPin),
-        );
+      final SessionUsecase session = DiStorage.shared.resolve();
+      session.setSession(
+        const Unlocked(keys: _Helper.keys, pin: _Helper.wrongPin),
+      );
 
-        when(
-          () => mockUuid.v4(),
-        ).thenReturn('f5996f40-6622-11f0-b6aa-77622cb064581');
-        when(
-          () => channelFactory.create('wss://test.relay'),
-        ).thenReturn(relayChannel);
+      when(
+        () => mockUuid.v4(),
+      ).thenReturn('f5996f40-6622-11f0-b6aa-77622cb064581');
+      when(
+        () => channelFactory.create('wss://test.relay'),
+      ).thenReturn(relayChannel);
 
-        relayChannel.onAdd = (data, channel) {
-          if (data is String && data.contains('"REQ"')) {
-            Future.microtask(() {
-              channel.mockStream.add(_TestEvents.note1);
-              channel.mockStream.add(_TestEvents.note2);
-              channel.mockStream.add(
-                '["EOSE","f5996f40-6622-11f0-b6aa-77622cb064581"]',
-              );
-            });
-          }
-        };
+      relayChannel.onAdd = (data, channel) {
+        if (data is String && data.contains('"REQ"')) {
+          Future.microtask(() {
+            channel.mockStream.add(_TestEvents.note1);
+            channel.mockStream.add(_TestEvents.note2);
+            channel.mockStream.add(
+              '["EOSE","f5996f40-6622-11f0-b6aa-77622cb064581"]',
+            );
+          });
+        }
+      };
 
-        await tester.pumpWidget(
-          AppLauncher.launchApp(
-            tester: tester,
-            child: const NotesList(
-              selectedNoteDTag: '',
-              coordinator: _TestNotesListCoordinator(),
-            ),
+      await tester.pumpWidget(
+        AppLauncher.launchApp(
+          tester: tester,
+          child: const NotesList(
+            selectedNoteDTag: '',
+            coordinator: _TestNotesListCoordinator(),
           ),
-        );
+        ),
+      );
 
-        await PumpHelpers.waitFor(
-          tester,
-          find.byType(AppAlertDialog),
-          reason: 'decrypt-failed dialog should appear on wrong PIN',
-        );
+      await PumpHelpers.waitFor(
+        tester,
+        find.byType(AppAlertDialog),
+        reason: 'decrypt-failed dialog should appear on wrong PIN',
+      );
 
-        // All (2 of 2) notes failed, so the "none decrypted" wording is used.
-        expect(
-          find.textContaining('None of your notes could be decrypted'),
-          findsOneWidget,
-        );
-        expect(find.byIcon(Icons.close), findsOneWidget);
-        expect(find.byIcon(Icons.lock_open), findsOneWidget);
+      // All (2 of 2) notes failed, so the "none decrypted" wording is used.
+      expect(
+        find.textContaining('None of your notes could be decrypted'),
+        findsOneWidget,
+      );
+      expect(find.byIcon(Icons.close), findsOneWidget);
+      expect(find.byIcon(Icons.lock_open), findsOneWidget);
 
-        // Behind the dialog, the undecryptable notes render as locked cards.
-        expect(find.byIcon(Icons.lock_outline), findsNWidgets(2));
-        expect(
-          find.textContaining('Note is locked', findRichText: true),
-          findsNWidgets(2),
-        );
+      // Behind the dialog, the undecryptable notes render as locked cards.
+      expect(find.byIcon(Icons.lock_outline), findsNWidgets(2));
+      expect(
+        find.textContaining('Note is locked', findRichText: true),
+        findsNWidgets(2),
+      );
 
-        await tester.tap(find.text('Retry with new PIN'));
-        await PumpHelpers.waitForGone(
-          tester,
-          find.byType(AppAlertDialog),
-          reason: 'dialog should close after tapping retry',
-        );
+      await tester.tap(find.text('Retry with new PIN'));
+      await PumpHelpers.waitForGone(
+        tester,
+        find.byType(AppAlertDialog),
+        reason: 'dialog should close after tapping retry',
+      );
 
-        expect(session.currentSession, isA<Auth>());
+      expect(session.currentSession, isA<Auth>());
 
-        // Let the bloc's delayed refresh timer fire so no timers stay pending.
-        await tester.pump(const Duration(seconds: 3));
+      // Let the bloc's delayed refresh timer fire so no timers stay pending.
+      await tester.pump(const Duration(seconds: 3));
 
-        // Close database
-        await tester.pump();
-        final db = di.resolve<AppDatabase>();
-        await db.close();
-        await tester.pump();
-      },
-    );
+      // Close database
+      await tester.pump();
+      final db = di.resolve<AppDatabase>();
+      await db.close();
+      await tester.pump();
+      await disposeRelayMonitoring(tester);
+    });
   });
 }
 

@@ -4,12 +4,12 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr/model/relay_health.dart';
-import 'package:nostr/nostr_client/relay_monitoring.dart';
+import 'package:nostr/nostr_client/single_relay_monitor.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:web_socket_channel/io.dart';
 
 void main() {
-  group('RelayMonitoring', () {
+  group('SingleRelayMonitor', () {
     late HttpServer server;
     late StreamSubscription serverSubscription;
     late String relayUrl;
@@ -72,7 +72,7 @@ void main() {
       );
 
       relayUrl = 'ws://localhost:${server.port}';
-      final sut = RelayMonitoring(
+      final sut = SingleRelayMonitor(
         url: Uri.parse(relayUrl),
         channelFactory: const ChannelFactory(),
         interval: const Duration(seconds: 60),
@@ -102,7 +102,7 @@ void main() {
       );
 
       relayUrl = 'ws://localhost:${server.port}';
-      final sut = RelayMonitoring(
+      final sut = SingleRelayMonitor(
         url: Uri.parse(relayUrl),
         channelFactory: const ChannelFactory(),
         interval: const Duration(seconds: 60),
@@ -127,7 +127,7 @@ void main() {
       );
 
       relayUrl = 'ws://localhost:${server.port}';
-      final sut = RelayMonitoring(
+      final sut = SingleRelayMonitor(
         url: Uri.parse(relayUrl),
         channelFactory: const ChannelFactory(),
         interval: const Duration(seconds: 60),
@@ -157,7 +157,7 @@ void main() {
           .listen((_) {});
 
       relayUrl = 'ws://localhost:$port';
-      final sut = RelayMonitoring(
+      final sut = SingleRelayMonitor(
         url: Uri.parse(relayUrl),
         channelFactory: const ChannelFactory(),
         interval: const Duration(seconds: 60),
@@ -190,7 +190,7 @@ void main() {
       );
 
       relayUrl = 'ws://localhost:${server.port}';
-      final sut = RelayMonitoring(
+      final sut = SingleRelayMonitor(
         url: Uri.parse(relayUrl),
         channelFactory: const ChannelFactory(),
         interval: const Duration(seconds: 60),

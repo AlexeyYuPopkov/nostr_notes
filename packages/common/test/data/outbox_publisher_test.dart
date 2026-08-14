@@ -15,9 +15,9 @@ import 'package:nostr_notes/services/outbox_publisher.dart';
 import 'package:nostr/nostr_client/ws_channel.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../notes/test/tools/mock_wschannel.dart';
 import '../../../notes/test/tools/mocks/mock_relays_list_repo.dart';
 import '../tools/di/in_memory_db_module.dart';
+import '../tools/moks.dart';
 
 void main() {
   group('OutboxPublisher', () {

@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
-import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
+import 'package:common/domain/repo/app_lifecycle_listener_repository.dart';
 import 'package:common/tools/disposable.dart';
 import 'package:rxdart/rxdart.dart';
 

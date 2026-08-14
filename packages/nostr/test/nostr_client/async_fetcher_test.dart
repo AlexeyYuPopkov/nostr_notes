@@ -9,7 +9,7 @@ import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:uuid/uuid.dart';
 
-import '../tools/mock_wschannel.dart';
+import '../mocks/mock_wschannel.dart';
 
 class _MockChannelFactory extends Mock implements ChannelFactory {}
 
@@ -70,7 +70,11 @@ void main() {
       'returns an empty result immediately when there are no relays',
       () async {
         final result = await sut.fetchEvents(
-          req: const NostrReq(filters: [NostrFilter(kinds: [1])]),
+          req: const NostrReq(
+            filters: [
+              NostrFilter(kinds: [1]),
+            ],
+          ),
         );
 
         expect(result.events, isEmpty);
@@ -110,7 +114,11 @@ void main() {
         };
 
         final result = await sut.fetchEvents(
-          req: const NostrReq(filters: [NostrFilter(kinds: [1])]),
+          req: const NostrReq(
+            filters: [
+              NostrFilter(kinds: [1]),
+            ],
+          ),
         );
 
         expect(result.error, isNull);
@@ -155,7 +163,11 @@ void main() {
 
         final result = await sut
             .fetchEvents(
-              req: const NostrReq(filters: [NostrFilter(kinds: [1])]),
+              req: const NostrReq(
+                filters: [
+                  NostrFilter(kinds: [1]),
+                ],
+              ),
               policy: const ReturnFirstPolicy(),
             )
             .timeout(const Duration(seconds: 5));
@@ -165,90 +177,90 @@ void main() {
       },
     );
 
-    test(
-      'WaitForAllPolicy times out when not all relays send EOSE',
-      () async {
-        final channel1 = MockWSChannel(url: _relayUrl1);
+    test('WaitForAllPolicy times out when not all relays send EOSE', () async {
+      final channel1 = MockWSChannel(url: _relayUrl1);
 
-        when(() => channelFactory.create(_relayUrl1)).thenReturn(channel1);
+      when(() => channelFactory.create(_relayUrl1)).thenReturn(channel1);
 
-        client.addRelay(_relayUrl1);
-        // channel1 never sends EOSE, so the request should time out.
+      client.addRelay(_relayUrl1);
+      // channel1 never sends EOSE, so the request should time out.
 
-        final result = await sut
-            .fetchEvents(
-              req: const NostrReq(filters: [NostrFilter(kinds: [1])]),
-              policy: const WaitForAllPolicy(
-                timeout: Duration(milliseconds: 50),
-              ),
-            )
-            .timeout(const Duration(seconds: 5));
+      final result = await sut
+          .fetchEvents(
+            req: const NostrReq(
+              filters: [
+                NostrFilter(kinds: [1]),
+              ],
+            ),
+            policy: const WaitForAllPolicy(timeout: Duration(milliseconds: 50)),
+          )
+          .timeout(const Duration(seconds: 5));
 
-        expect(result.error, equals(AsyncFetchError.timoutError));
-        expect(result.events, isEmpty);
-      },
-    );
+      expect(result.error, equals(AsyncFetchError.timoutError));
+      expect(result.events, isEmpty);
+    });
 
-    test(
-      'concurrent fetches on the same client only collect events matching '
-      'their own filter, even when the relay multiplexes both onto the '
-      'same connection',
-      () async {
-        final channel = MockWSChannel(url: _relayUrl1);
-        when(() => channelFactory.create(_relayUrl1)).thenReturn(channel);
-        client.addRelay(_relayUrl1);
+    test('concurrent fetches on the same client only collect events matching '
+        'their own filter, even when the relay multiplexes both onto the '
+        'same connection', () async {
+      final channel = MockWSChannel(url: _relayUrl1);
+      when(() => channelFactory.create(_relayUrl1)).thenReturn(channel);
+      client.addRelay(_relayUrl1);
 
-        var subCounter = 0;
-        when(() => uuid.v4()).thenAnswer((_) => 'sub-${subCounter++}');
+      var subCounter = 0;
+      when(() => uuid.v4()).thenAnswer((_) => 'sub-${subCounter++}');
 
-        channel.onAdd = (data, ch) {
-          if ((data as String).contains('"REQ"')) {
-            final decoded = jsonDecode(data) as List;
-            final subId = decoded[1] as String;
-            final filter = decoded[2] as Map<String, dynamic>;
-            final authors = (filter['authors'] as List).cast<String>();
+      channel.onAdd = (data, ch) {
+        if ((data as String).contains('"REQ"')) {
+          final decoded = jsonDecode(data) as List;
+          final subId = decoded[1] as String;
+          final filter = decoded[2] as Map<String, dynamic>;
+          final authors = (filter['authors'] as List).cast<String>();
 
-            Future.microtask(() {
-              // Simulates the relay multiplexing both subscriptions onto the
-              // same connection, while still only sending each subscription
-              // the events that match its own filter (as a compliant relay
-              // would).
-              if (authors.contains('pubkey-a')) {
-                ch.mockStream.add(
-                  _profileEventJson(subId, 'event-a', 'pubkey-a'),
-                );
-              }
-              if (authors.contains('pubkey-b')) {
-                ch.mockStream.add(
-                  _profileEventJson(subId, 'event-b', 'pubkey-b'),
-                );
-              }
-              ch.mockStream.add(_eoseJson(subId));
-            });
-          }
-        };
+          Future.microtask(() {
+            // Simulates the relay multiplexing both subscriptions onto the
+            // same connection, while still only sending each subscription
+            // the events that match its own filter (as a compliant relay
+            // would).
+            if (authors.contains('pubkey-a')) {
+              ch.mockStream.add(
+                _profileEventJson(subId, 'event-a', 'pubkey-a'),
+              );
+            }
+            if (authors.contains('pubkey-b')) {
+              ch.mockStream.add(
+                _profileEventJson(subId, 'event-b', 'pubkey-b'),
+              );
+            }
+            ch.mockStream.add(_eoseJson(subId));
+          });
+        }
+      };
 
-        final resultA = sut.fetchEvents(
-          req: const NostrReq(
-            filters: [NostrFilter(kinds: [0], authors: ['pubkey-a'])],
-          ),
-          policy: const ReturnFirstPolicy(),
-        );
-        final resultB = sut.fetchEvents(
-          req: const NostrReq(
-            filters: [NostrFilter(kinds: [0], authors: ['pubkey-b'])],
-          ),
-          policy: const ReturnFirstPolicy(),
-        );
+      final resultA = sut.fetchEvents(
+        req: const NostrReq(
+          filters: [
+            NostrFilter(kinds: [0], authors: ['pubkey-a']),
+          ],
+        ),
+        policy: const ReturnFirstPolicy(),
+      );
+      final resultB = sut.fetchEvents(
+        req: const NostrReq(
+          filters: [
+            NostrFilter(kinds: [0], authors: ['pubkey-b']),
+          ],
+        ),
+        policy: const ReturnFirstPolicy(),
+      );
 
-        final results = await Future.wait([
-          resultA,
-          resultB,
-        ]).timeout(const Duration(seconds: 5));
+      final results = await Future.wait([
+        resultA,
+        resultB,
+      ]).timeout(const Duration(seconds: 5));
 
-        expect(results[0].events.values.single.pubkey, 'pubkey-a');
-        expect(results[1].events.values.single.pubkey, 'pubkey-b');
-      },
-    );
+      expect(results[0].events.values.single.pubkey, 'pubkey-a');
+      expect(results[1].events.values.single.pubkey, 'pubkey-b');
+    });
   });
 }

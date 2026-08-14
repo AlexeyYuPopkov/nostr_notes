@@ -94,12 +94,14 @@ final class EditMarkdownNoteScreen extends StatelessWidget with DialogHelper {
                   style: markdownTheme.rawCodeTextStyle,
                   autocorrect: false,
                   inputFormatters: EditNoteFormatters.content,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: InputBorder.none,
+                    fillColor: theme.colorScheme.surface,
                     focusedBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     hintText: 'Enter markdown...',
                   ),
+
                   onTapOutside: (_) => FocusScope.of(context).unfocus(),
                   onChanged: (text) {
                     bloc.add(MarkdownEditNoteEvent.textChanged(text));
