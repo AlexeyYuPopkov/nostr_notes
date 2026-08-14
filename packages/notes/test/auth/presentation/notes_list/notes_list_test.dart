@@ -312,6 +312,12 @@ void main() {
       final db = di.resolve<AppDatabase>();
       await db.close();
       await tester.pump();
+
+      // Unmounts NotesList so BlocProvider closes DashboardBloc/NotesListBloc
+      // /AccsBloc before the leak check runs — without this they're still
+      // mounted (and never .close()d) when the test function returns.
+      await tester.pumpWidget(Container());
+      await PumpHelpers.pumpFrames(tester);
       await disposeRelayMonitoring(tester);
     }, skip: false);
 
@@ -397,6 +403,12 @@ void main() {
       final db = di.resolve<AppDatabase>();
       await db.close();
       await tester.pump();
+
+      // Unmounts NotesList so BlocProvider closes DashboardBloc/NotesListBloc
+      // /AccsBloc before the leak check runs — without this they're still
+      // mounted (and never .close()d) when the test function returns.
+      await tester.pumpWidget(Container());
+      await PumpHelpers.pumpFrames(tester);
       await disposeRelayMonitoring(tester);
     });
   });

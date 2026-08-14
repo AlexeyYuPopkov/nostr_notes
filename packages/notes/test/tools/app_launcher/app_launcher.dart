@@ -17,6 +17,7 @@ final class AppLauncher {
     final globalSettingsVm = GlobalSettingsVm(
       appThemeDataRepo: AppThemeDataRepoImpl(AppSharedPrefsMock()),
     );
+    addTearDown(globalSettingsVm.dispose);
     return GlobalSettingsScope(
       vm: globalSettingsVm,
       child: ListenableBuilder(

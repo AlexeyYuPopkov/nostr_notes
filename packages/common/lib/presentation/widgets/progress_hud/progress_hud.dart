@@ -115,6 +115,7 @@ final class _ProgressHudWidgetContentState
   void dispose() {
     vm.removeListener(_onVmChanged);
     _hideOverlay();
+    vm.dispose();
     super.dispose();
   }
 

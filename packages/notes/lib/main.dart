@@ -34,7 +34,7 @@ void main() async {
   // timeDilation = 4.0;
   final prefs = AppSharedPrefsImpl(await SharedPreferences.getInstance());
 
-  if (kDebugMode) {
+  if (kDebugMode || kProfileMode) {
     FlutterMemoryAllocations.instance.addListener((ObjectEvent event) {
       LeakTracking.dispatchObjectEvent(event.toMap());
     });

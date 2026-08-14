@@ -90,9 +90,24 @@ void main() {
     return MaterialApp(home: VerificationWidget(child: child));
   }
 
+  // Pumps buildSubject() and unmounts it again on tearDown — without an
+  // explicit unmount, VerificationWidget's Overlay (and its OverlayEntry)
+  // is never disposed, since flutter_test doesn't unmount a pumped tree on
+  // its own at test end.
+  Future<void> pumpSubject(
+    WidgetTester tester, {
+    Widget child = const SizedBox.shrink(),
+  }) async {
+    await tester.pumpWidget(buildSubject(child: child));
+    addTearDown(() async {
+      await tester.pumpWidget(Container());
+      await tester.pump();
+    });
+  }
+
   group('overlay visibility', () {
     testWidgets('overlay not shown initially', (tester) async {
-      await tester.pumpWidget(buildSubject());
+      await pumpSubject(tester);
 
       expect(find.byType(BackdropFilter), findsNothing);
     }, timeout: maxTimeout);
@@ -101,7 +116,7 @@ void main() {
       'overlay appears when app goes to background (Unlocked session)',
       (tester) async {
         sessionUsecase.setSession(unlockedSession);
-        await tester.pumpWidget(buildSubject());
+        await pumpSubject(tester);
 
         lifecycle.isActiveStream.add(false);
         await tester.pump(debounce);
@@ -115,7 +130,7 @@ void main() {
       tester,
     ) async {
       // session is Unauth by default
-      await tester.pumpWidget(buildSubject());
+      await pumpSubject(tester);
 
       lifecycle.isActiveStream.add(false);
       await tester.pump(debounce);
@@ -136,7 +151,7 @@ void main() {
         );
         bindVerificationUsecase();
 
-        await tester.pumpWidget(buildSubject());
+        await pumpSubject(tester);
 
         lifecycle.isActiveStream.add(false);
         await tester.pump(debounce);
@@ -152,12 +167,11 @@ void main() {
     testWidgets('overlay absorbs pointer events while shown', (tester) async {
       sessionUsecase.setSession(unlockedSession);
       var tapped = false;
-      await tester.pumpWidget(
-        buildSubject(
-          child: GestureDetector(
-            onTap: () => tapped = true,
-            child: const SizedBox(width: 100, height: 100),
-          ),
+      await pumpSubject(
+        tester,
+        child: GestureDetector(
+          onTap: () => tapped = true,
+          child: const SizedBox(width: 100, height: 100),
         ),
       );
 
@@ -171,7 +185,7 @@ void main() {
 
     testWidgets('child is rendered', (tester) async {
       const key = Key('child_key');
-      await tester.pumpWidget(buildSubject(child: const SizedBox(key: key)));
+      await pumpSubject(tester, child: const SizedBox(key: key));
 
       expect(find.byKey(key), findsOneWidget);
     }, timeout: maxTimeout);

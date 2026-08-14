@@ -110,6 +110,7 @@ dependencies:
   path_provider: ^2.1.5
   envied: ^1.3.5
   google_mobile_ads: ^9.0.0
+  leak_tracker_flutter_testing: ^3.0.10
 
 
 dev_dependencies:

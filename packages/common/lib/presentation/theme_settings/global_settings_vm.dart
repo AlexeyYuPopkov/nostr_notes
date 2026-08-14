@@ -103,6 +103,18 @@ final class GlobalSettingsVm {
     final parts = value.split(RegExp(r'[-_]'));
     return Locale(parts.first, parts.elementAtOrNull(1));
   }
+
+  /// The real apps hold one [GlobalSettingsVm] for their whole process
+  /// lifetime and never call this — it exists for tests, which construct a
+  /// fresh instance per test via `AppLauncher.launchApp` and otherwise leak
+  /// these 5 ValueNotifiers on every single widget test run.
+  void dispose() {
+    themeModeNotifier.dispose();
+    localeNotifier.dispose();
+    lightThemeStyleNotifier.dispose();
+    darkThemeStyleNotifier.dispose();
+    errorNotifier.dispose();
+  }
 }
 
 enum LanguageCode {
