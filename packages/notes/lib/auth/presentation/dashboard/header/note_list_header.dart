@@ -1,4 +1,3 @@
-
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:flutter/material.dart';
@@ -41,15 +40,19 @@ final class NoteListHeaderVm extends ChangeNotifier {
   bool onScrollNotification(ScrollNotification notification) {
     final metrics = notification.metrics;
 
-    // Defensive: force-show once we're actually back at the top, even if a
-    // scroll change reaches minScrollExtent without a preceding
-    // UserScrollNotification(forward) first — e.g. a jump/programmatic
-    // reset rather than a normal user drag.
-    if (metrics.pixels <= metrics.minScrollExtent) {
-      scrollOffset.value = 0.0;
-      headerVisibility.value = 1.0;
-      return false;
-    }
+    // NestedScrollView's outer position reports here too, and with an empty
+    // headerSliverBuilder it stays pinned at 0 — indistinguishable below
+    // from the inner list being back at the top, which snaps the header
+    // open mid-scroll.
+    final cannotScroll = metrics.maxScrollExtent <= metrics.minScrollExtent;
+    if (cannotScroll) return false;
+
+    // No force-show branch for "pixels are back at minScrollExtent": every
+    // scrollable in the subtree reports here, including the inactive tab's
+    // list, which sits at 0 while the visible one is scrolled down. Being
+    // at the top is handled where it belongs — NoteListHeader translates by
+    // scrollOffset/approxHeaderHeight, so offset 0 already renders the
+    // header fully open whatever headerVisibility says.
 
     // Raw live offset. NoteListHeader decides how to interpret it
     // (proportional vs. snap) against its own approxHeaderHeight, which
@@ -91,9 +94,6 @@ final class NoteListHeader extends StatelessWidget {
     required this.onRemoveFilter,
   }) : _vm = vm;
 
-  // Reuses the same constants NotesTabContent/AccsTabContent size their own
-  // content spacer with — a single source of truth, so the reserved space
-  // in the list and this widget's own animated height can't drift apart.
   double get approxHeaderHeight {
     if (tab is NotesNotesTab) {
       return filters.isNotEmpty
@@ -113,14 +113,6 @@ final class NoteListHeader extends StatelessWidget {
         builder: (context, child) {
           final offset = _vm.scrollOffset.value;
 
-          // Proportional tracking only applies while headerVisibility is
-          // still 0 (i.e. the last direction change was "hiding") AND
-          // we're within the first header-height of scroll. Scrolling back
-          // up sets headerVisibility to 1.0 almost immediately — at the
-          // very start of the upward drag, well before offset has caught
-          // up — so revealing always takes the animated-snap branch below
-          // instead, regardless of how far from the top you actually are.
-          // This is intentional: hide gradually, reveal instantly.
           if (offset < approxHeaderHeight && _vm.headerVisibility.value < 1.0) {
             final ratio = (offset / approxHeaderHeight).clamp(0.0, 1.0);
             return FractionalTranslation(

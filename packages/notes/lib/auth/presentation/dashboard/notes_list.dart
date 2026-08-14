@@ -159,9 +159,6 @@ final class _DashboardState extends State<_Dashboard>
       case ErrorState():
         final e = state.e;
         if (e is SomeNotesWasNotDecrypted) {
-          // NotesListBloc already reported this to DashboardBloc, which
-          // gates and shows the shared dialog; nothing to do here beyond
-          // skipping the generic error toast below.
           break;
         }
         showError(context, error: e);
