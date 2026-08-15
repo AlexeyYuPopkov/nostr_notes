@@ -37,11 +37,16 @@ jobs:
 
       - name: Build Flutter iOS
         working-directory: packages/notes
+        env:
+          # Our own hardware, so ads stay test creatives there and a stray tap
+          # can never become invalid traffic. Matching is per device id, so
+          # everyone else still gets live ads.
+          ADMOB_TEST_DEVICE_IDS: ${{ secrets.ADMOB_TEST_DEVICE_IDS }}
         run: |
-          flutter build ios --release --no-codesign --obfuscate --split-debug-info=build/debug-info || (
+          flutter build ios --release --no-codesign --obfuscate --split-debug-info=build/debug-info --dart-define=ADMOB_TEST_DEVICE_IDS="$ADMOB_TEST_DEVICE_IDS" || (
             echo "Build failed, clearing SPM artifacts and retrying..."
             rm -rf "$HOME/Library/Caches/org.swift.swiftpm"
-            flutter build ios --release --no-codesign --obfuscate --split-debug-info=build/debug-info
+            flutter build ios --release --no-codesign --obfuscate --split-debug-info=build/debug-info --dart-define=ADMOB_TEST_DEVICE_IDS="$ADMOB_TEST_DEVICE_IDS"
           )
 
       - name: Upload debug symbols

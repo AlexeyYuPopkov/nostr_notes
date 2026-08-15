@@ -37,6 +37,8 @@ final class AppConfig {
 
   static String get admobAppIdIos => _env.admobAppIdIos;
   static String get admobInterstitialIdIos => _env.admobInterstitialIdIos;
+  static String get admobInterstitialIdAndroid =>
+      _env.admobInterstitialIdAndroid;
 
   static const kUsesInMemoryStorage = bool.fromEnvironment(
     'IN_MEMORY_STORAGE',

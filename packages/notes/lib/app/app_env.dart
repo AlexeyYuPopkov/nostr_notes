@@ -6,6 +6,7 @@ abstract interface class AppEnv {
   String get kofiUrl;
   String get admobAppIdIos;
   String get admobInterstitialIdIos;
+  String get admobInterstitialIdAndroid;
 }
 
 final class DefaultAppEnv implements AppEnv {
@@ -25,4 +26,7 @@ final class DefaultAppEnv implements AppEnv {
 
   @override
   String get admobInterstitialIdIos => Env.admobInterstitialIdIos;
+
+  @override
+  String get admobInterstitialIdAndroid => Env.admobInterstitialIdAndroid;
 }
