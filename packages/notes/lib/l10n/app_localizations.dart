@@ -1309,8 +1309,14 @@ abstract class AppLocalizations {
   /// No description provided for @accsFormGoButtonCopiedMessage.
   ///
   /// In en, this message translates to:
-  /// **'Password\ncopied'**
+  /// **'Password copied'**
   String get accsFormGoButtonCopiedMessage;
+
+  /// No description provided for @accsFormGoUsernameCopiedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Username copied'**
+  String get accsFormGoUsernameCopiedMessage;
 
   /// No description provided for @accsConfirmationDialogDeletion.
   ///

@@ -695,7 +695,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get accsFormDoneButton => 'Готово';
 
   @override
-  String get accsFormGoButtonCopiedMessage => 'Пароль\nскопирован';
+  String get accsFormGoButtonCopiedMessage => 'Пароль скопирован';
+
+  @override
+  String get accsFormGoUsernameCopiedMessage => 'Имя пользователя скопировано';
 
   @override
   String get accsConfirmationDialogDeletion =>

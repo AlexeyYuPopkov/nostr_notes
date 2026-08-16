@@ -27,7 +27,7 @@ final class AppConfig {
       : Platform.environment.containsKey('FLUTTER_TEST') &&
             !const bool.fromEnvironment('INTEGRATION_TEST');
 
-  static final showAds = !kDebugMode && !kIsTest;
+  static final showAds = !kIsTest; //   !kDebugMode && !kIsTest;
 
   /// Developer's lightning address for in-app donations (LUD-16).
   static String get kDevLightningAddress => _env.devLightningAddress;

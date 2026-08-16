@@ -18,13 +18,22 @@ final class ClipboardHelper {
     await Clipboard.setData(ClipboardData(text: text));
   }
 
-  Future<void> _clearAfter(String text, Duration cleanAfter) async {
-    await Future.delayed(cleanAfter);
+  /// Whether the clipboard still carries exactly what we last put there.
+  /// Guards every overwrite: anything the user copied in the meantime is
+  /// theirs, and replacing it would lose data they meant to keep.
+  Future<bool> holds(String text) async {
     try {
       final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-      if (clipboardData?.text == text) {
-        await Clipboard.setData(const ClipboardData(text: ''));
-      }
-    } catch (_) {}
+      return clipboardData?.text == text;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<void> _clearAfter(String text, Duration cleanAfter) async {
+    await Future.delayed(cleanAfter);
+    if (await holds(text)) {
+      await Clipboard.setData(const ClipboardData(text: ''));
+    }
   }
 }

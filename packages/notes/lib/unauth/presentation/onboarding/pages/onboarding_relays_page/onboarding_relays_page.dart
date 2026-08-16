@@ -1,4 +1,5 @@
 import 'package:common/app/theme/sizes.dart';
+import 'package:common/app/theme/success_colors.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,8 @@ final class OnboardingRelaysPage extends StatelessWidget with DialogHelper {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final successColor =
+        theme.extension<SuccessColors>()?.success ?? theme.colorScheme.primary;
     final commonL10n = context.commonL10n;
 
     return BlocProvider(
@@ -47,8 +50,12 @@ final class OnboardingRelaysPage extends StatelessWidget with DialogHelper {
 
               return CustomScrollView(
                 slivers: [
-                  const SliverToBoxAdapter(
-                    child: Icon(Icons.cell_tower, size: headerIconSize),
+                  SliverToBoxAdapter(
+                    child: Icon(
+                      Icons.cell_tower,
+                      size: headerIconSize,
+                      color: successColor,
+                    ),
                   ),
 
                   const SliverToBoxAdapter(

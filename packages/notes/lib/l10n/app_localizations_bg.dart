@@ -693,7 +693,11 @@ class AppLocalizationsBg extends AppLocalizations {
   String get accsFormDoneButton => 'Готово';
 
   @override
-  String get accsFormGoButtonCopiedMessage => 'Паролата\nе копирана';
+  String get accsFormGoButtonCopiedMessage => 'Паролата е копирана';
+
+  @override
+  String get accsFormGoUsernameCopiedMessage =>
+      'Потребителското име е копирано';
 
   @override
   String get accsConfirmationDialogDeletion =>

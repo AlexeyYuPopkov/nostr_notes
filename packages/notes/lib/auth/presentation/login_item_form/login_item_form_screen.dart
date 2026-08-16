@@ -185,6 +185,7 @@ final class LoginItemFormScreen extends StatelessWidget
                               autofillHints: const [AutofillHints.url],
                               trailing: LoginItemGoIcon(
                                 url: bloc.websiteController.text.trim(),
+                                username: bloc.usernameController.text.trim(),
                                 password: bloc.passwordController.text.trim(),
                               ),
                             ),

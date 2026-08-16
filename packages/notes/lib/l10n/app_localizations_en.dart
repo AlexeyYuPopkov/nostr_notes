@@ -684,7 +684,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accsFormDoneButton => 'Done';
 
   @override
-  String get accsFormGoButtonCopiedMessage => 'Password\ncopied';
+  String get accsFormGoButtonCopiedMessage => 'Password copied';
+
+  @override
+  String get accsFormGoUsernameCopiedMessage => 'Username copied';
 
   @override
   String get accsConfirmationDialogDeletion =>
