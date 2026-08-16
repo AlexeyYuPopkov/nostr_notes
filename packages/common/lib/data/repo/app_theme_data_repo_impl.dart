@@ -1,3 +1,4 @@
+import 'package:common/app/theme/app_theme_style.dart';
 import 'package:common/domain/repo/app_shared_prefs.dart';
 import 'package:common/domain/repo/app_theme_data_repo_impl.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +7,8 @@ import 'package:common/presentation/tools/optional_box.dart';
 final class AppThemeDataRepoImpl implements AppThemeDataRepo {
   static const _keyThemeMode = 'gs_theme_mode';
   static const _keyLocaleCode = 'gs_locale_code';
-  static const _keyLightBgIndex = 'gs_light_bg_index';
-  static const _keyDarkBgIndex = 'gs_dark_bg_index';
-  static const _keyLightCardIndex = 'gs_light_card_index';
-  static const _keyDarkCardIndex = 'gs_dark_card_index';
+  static const _keyLightThemeStyle = 'gs_light_theme_style';
+  static const _keyDarkThemeStyle = 'gs_dark_theme_style';
 
   final AppSharedPrefs _prefs;
 
@@ -24,21 +23,26 @@ final class AppThemeDataRepoImpl implements AppThemeDataRepo {
     return AppThemeData(
       themeMode: themeMode,
       localeCode: OptionalBox(_prefs.getString(_keyLocaleCode)),
-      lightBgIndex: _prefs.getInt(_keyLightBgIndex) ?? 0,
-      darkBgIndex: _prefs.getInt(_keyDarkBgIndex) ?? 0,
-      lightCardIndex: _prefs.getInt(_keyLightCardIndex) ?? 0,
-      darkCardIndex: _prefs.getInt(_keyDarkCardIndex) ?? 0,
+      lightThemeStyle: _readStyle(_keyLightThemeStyle),
+      darkThemeStyle: _readStyle(_keyDarkThemeStyle),
     );
+  }
+
+  AppThemeStyle _readStyle(String key) {
+    final index = _prefs.getInt(key);
+    if (index == null) return AppThemeStyle.defaultStyle;
+    return AppThemeStyle.values[index.clamp(
+      0,
+      AppThemeStyle.values.length - 1,
+    )];
   }
 
   @override
   Future<void> save(AppThemeData data) async {
     final tasks = <Future<void>>[
       _prefs.setInt(_keyThemeMode, data.themeMode.index),
-      _prefs.setInt(_keyLightBgIndex, data.lightBgIndex),
-      _prefs.setInt(_keyDarkBgIndex, data.darkBgIndex),
-      _prefs.setInt(_keyLightCardIndex, data.lightCardIndex),
-      _prefs.setInt(_keyDarkCardIndex, data.darkCardIndex),
+      _prefs.setInt(_keyLightThemeStyle, data.lightThemeStyle.index),
+      _prefs.setInt(_keyDarkThemeStyle, data.darkThemeStyle.index),
     ];
 
     final localeCode = data.localeCode.value;

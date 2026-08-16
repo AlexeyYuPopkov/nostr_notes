@@ -1,0 +1,92 @@
+import 'dart:typed_data';
+
+import 'package:equatable/equatable.dart';
+import 'package:nostr_notes/auth/domain/model/login_item.dart';
+import 'package:nostr_notes/auth/presentation/login_item_form/bloc/login_item_form_data.dart';
+
+sealed class LoginItemFormState extends Equatable {
+  final LoginItemFormData data;
+
+  const LoginItemFormState({required this.data});
+
+  @override
+  List<Object?> get props => [data];
+
+  const factory LoginItemFormState.common({required LoginItemFormData data}) =
+      CommonState;
+
+  const factory LoginItemFormState.loading({required LoginItemFormData data}) =
+      LoadingState;
+
+  const factory LoginItemFormState.error({
+    required LoginItemFormData data,
+    required Object e,
+  }) = ErrorState;
+
+  const factory LoginItemFormState.didSave({
+    required LoginItemFormData data,
+    required LoginItem item,
+  }) = DidSaveState;
+
+  const factory LoginItemFormState.didDelete({
+    required LoginItemFormData data,
+  }) = DidDeleteState;
+
+  const factory LoginItemFormState.willExport({
+    required LoginItemFormData data,
+  }) = WillExportState;
+
+  const factory LoginItemFormState.exportSuccess({
+    required LoginItemFormData data,
+    required String filePath,
+    required Uint8List bytes,
+    required String fileName,
+  }) = ExportSuccessState;
+
+  const factory LoginItemFormState.didGenPassAppear({
+    required LoginItemFormData data,
+  }) = DidGenPassAppearState;
+}
+
+final class CommonState extends LoginItemFormState {
+  const CommonState({required super.data});
+}
+
+final class LoadingState extends LoginItemFormState {
+  const LoadingState({required super.data});
+}
+
+final class ErrorState extends LoginItemFormState {
+  final Object e;
+  const ErrorState({required super.data, required this.e});
+}
+
+final class DidSaveState extends LoginItemFormState {
+  final LoginItem item;
+  const DidSaveState({required super.data, required this.item});
+}
+
+final class DidDeleteState extends LoginItemFormState {
+  const DidDeleteState({required super.data});
+}
+
+final class WillExportState extends LoginItemFormState {
+  const WillExportState({required super.data});
+}
+
+final class ExportSuccessState extends LoginItemFormState {
+  final String filePath;
+  final Uint8List bytes;
+  final String fileName;
+
+  const ExportSuccessState({
+    required super.data,
+    required this.filePath,
+    required this.bytes,
+    required this.fileName,
+  });
+}
+
+final class DidGenPassAppearState extends LoginItemFormState {
+  const DidGenPassAppearState({required super.data});
+}

@@ -13,7 +13,7 @@ import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_data.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_event.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
-import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
+import 'package:common/domain/repo/app_lifecycle_listener_repository.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:common/presentation/tools/optional_box.dart';
 import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';

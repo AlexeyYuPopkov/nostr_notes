@@ -35,6 +35,7 @@ final class _PrymaryLoadingButtonState extends State<PrymaryLoadingButton> {
   @override
   void dispose() {
     vm.removeListener(_shouldUpdate);
+    vm.dispose();
     super.dispose();
   }
 

@@ -11,6 +11,7 @@ final class AppRouterPath {
   static const String contacts = 'contacts';
   static const String privacyPolicy = 'privacy_policy';
   static const String apkDistribution = 'apk_distribution';
+  static const String loginItemForm = '/login_item_form';
 }
 
 final class AppRouterName {

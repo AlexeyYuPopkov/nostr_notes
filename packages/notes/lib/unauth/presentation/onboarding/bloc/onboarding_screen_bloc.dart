@@ -71,10 +71,12 @@ final class OnboardingScreenBloc
         ? _pinEnabledRepo.getForUser(publicKey)
         : true;
 
+    final preventAuthologin = session is Auth && !session.authologinIfPossible;
+
     // An existing account that explicitly opted out of PIN (flag == false, not
     // the null/true default of a fresh account) can skip PIN entry. It still
     // needs relays first if none are configured yet.
-    final autoUnlock = hasRelays && !isUsePin;
+    final autoUnlock = !preventAuthologin && hasRelays && !isUsePin;
 
     final step = hasRelays ? const OnboardingPin() : const OnboardingRelays();
     add(OnboardingScreenEvent.onStep(step));

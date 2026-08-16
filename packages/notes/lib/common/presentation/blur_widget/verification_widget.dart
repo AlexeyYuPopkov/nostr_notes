@@ -20,6 +20,12 @@ final class _VerificationWidgetState extends State<VerificationWidget> {
   OverlayEntry? overlayEntry;
   final _overlayKey = GlobalKey<OverlayState>();
 
+  // Overlay.initialEntries is only ever consumed once, at the Overlay's own
+  // initState — so this must be created exactly once too, not inline in
+  // build() (which would allocate a fresh, never-inserted, never-disposed
+  // OverlayEntry on every rebuild of this widget).
+  late final _childEntry = OverlayEntry(builder: (_) => widget.child);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -32,10 +38,7 @@ final class _VerificationWidgetState extends State<VerificationWidget> {
       child: BlocConsumer<VerificationBloc, VerificationBlocState>(
         listener: _listener,
         buildWhen: (previous, current) => false,
-        builder: (_, _) => Overlay(
-          key: _overlayKey,
-          initialEntries: [OverlayEntry(builder: (_) => widget.child)],
-        ),
+        builder: (_, _) => Overlay(key: _overlayKey, initialEntries: [_childEntry]),
       ),
     );
   }
@@ -54,6 +57,8 @@ final class _VerificationWidgetState extends State<VerificationWidget> {
   @override
   void dispose() {
     hideOverLay();
+    _childEntry.remove();
+    _childEntry.dispose();
     super.dispose();
   }
 

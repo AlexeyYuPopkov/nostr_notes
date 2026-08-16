@@ -87,6 +87,18 @@ class CommonLocalizationsEn extends CommonLocalizations {
   String get themeScreenLabelCards => 'Cards';
 
   @override
+  String get themeScreenLabelStyle => 'Style';
+
+  @override
+  String get themeScreenStyleDefault => 'Default';
+
+  @override
+  String get themeScreenStyleAppleNotes => 'Apple Notes';
+
+  @override
+  String get themeScreenStyleClaude => 'Claude';
+
+  @override
   String get relaysPageTitle => 'Select Relays';
 
   @override

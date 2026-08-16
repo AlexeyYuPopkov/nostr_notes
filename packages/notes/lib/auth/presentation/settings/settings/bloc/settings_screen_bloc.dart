@@ -28,7 +28,7 @@ final class SettingsScreenBloc
     try {
       emit(SettingsScreenState.loading(data: data));
 
-      await authUsecase.restore();
+      await authUsecase.restore(authologinIfPossible: false);
 
       emit(SettingsScreenState.common(data: data));
     } catch (e) {
@@ -43,7 +43,7 @@ final class SettingsScreenBloc
     try {
       emit(SettingsScreenState.loading(data: data));
 
-      await authUsecase.logout();
+      await authUsecase.logout(authologinIfPossible: false);
 
       emit(SettingsScreenState.common(data: data));
     } catch (e) {

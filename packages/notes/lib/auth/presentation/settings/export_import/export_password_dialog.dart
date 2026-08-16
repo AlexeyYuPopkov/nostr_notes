@@ -78,13 +78,14 @@ final class _ExportPasswordDialogState extends State<ExportPasswordDialog> {
               child: Padding(
                 padding: const EdgeInsets.only(top: Sizes.indent),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: Sizes.indent,
                   children: [
                     Icon(
                       Icons.info_outline,
                       size: Sizes.iconSmall,
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
-                    const SizedBox(width: Sizes.indent),
                     Expanded(
                       child: Text(
                         l10n.exportImportPasswordDialogHint,

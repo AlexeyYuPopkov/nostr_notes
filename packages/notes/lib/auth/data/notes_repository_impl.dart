@@ -25,6 +25,7 @@ import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:uuid/uuid.dart';
 
+// TODO: Reduce responcibility of this class
 class NotesRepositoryImpl implements NotesRepository {
   final NostrClient _client;
   final RawEventStore _eventStore;
@@ -53,10 +54,18 @@ class NotesRepositoryImpl implements NotesRepository {
     _client.addRelays(newRelays.difference(current));
   }
 
+  // Only the kinds this repository itself requests (see sendNotesRequest /
+  // sendNoteRequest). _client.stream() is shared/broadcast across every
+  // consumer of NostrClient — anything else on it (other subscriptions'
+  // replies, a relay's own unsolicited traffic, a health-check probe that
+  // isn't scoped tightly enough) would otherwise get upserted here too.
+  static final _allowedKinds = {EventKind.note.value, EventKind.delete.value};
+
   @override
   Stream<List> get eventsStream => _client
       .stream()
       .whereType<NostrEventWithRelay>()
+      .where((e) => _allowedKinds.contains(e.kind))
       .bufferTime(const Duration(milliseconds: 100))
       .where((e) {
         return e.isNotEmpty;
@@ -67,14 +76,14 @@ class NotesRepositoryImpl implements NotesRepository {
       });
 
   @override
-  void sendNotesRequest({
+  String sendNotesRequest({
     required String pubkey,
     required Set<String> relays,
     DateTime? until,
   }) {
     _client.addRelays(relays);
 
-    _client.sendRequestToAll(
+    return _client.sendRequestToAll(
       NostrReq(
         filters: [
           NostrFilter(
@@ -98,14 +107,14 @@ class NotesRepositoryImpl implements NotesRepository {
   }
 
   @override
-  void sendNoteRequest({
+  String sendNoteRequest({
     required String id,
     required Set<String> relays,
     DateTime? until,
   }) {
     _client.addRelays(relays);
 
-    _client.sendRequestToAll(
+    return _client.sendRequestToAll(
       NostrReq(
         filters: [
           NostrFilter(
@@ -116,6 +125,11 @@ class NotesRepositoryImpl implements NotesRepository {
         ],
       ),
     );
+  }
+
+  @override
+  void closeRequest(String subscriptionId) {
+    _client.sendCloseForAll(subscriptionId);
   }
 
   @override

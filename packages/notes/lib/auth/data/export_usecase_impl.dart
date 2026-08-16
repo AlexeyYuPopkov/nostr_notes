@@ -1,10 +1,9 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 
-import 'package:archive/archive.dart';
+import 'package:nostr_notes/auth/data/backup/backup_crypto_helper.dart';
+import 'package:nostr_notes/auth/data/backup/backup_zip_helper.dart';
 import 'package:nostr_notes/auth/data/backup_templates.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:cryptography/cryptography.dart';
@@ -18,7 +17,7 @@ import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/services/hex_to_bytes.dart';
 import 'package:path_provider/path_provider.dart';
 
-const _kPbkdf2Iterations = 600000;
+const _kPbkdf2Iterations = BackupCryptoHelper.defaultIterations;
 
 final class ExportUsecaseImpl implements ExportUsecase {
   static const archivedFileName = 'notes_export.json';
@@ -123,21 +122,29 @@ final class ExportUsecaseImpl implements ExportUsecase {
         events: exportEvents,
       );
     } else {
-      final salt = _generateRandomBytes(16);
-      final secretKey = await ExportHelper.deriveKey(
+      final salt = BackupCryptoHelper.generateRandomBytes(16);
+      final secretKey = await BackupCryptoHelper.deriveKey(
         password,
         salt,
         _kPbkdf2Iterations,
       );
-      final algorithm = AesCbc.with256bits(macAlgorithm: Hmac.sha256());
+      final algorithm = BackupCryptoHelper.algorithm();
       final exportEvents = <Map<String, dynamic>>[];
 
       for (final note in notes) {
         exportEvents.add(
           NoteMapper.toNostrEvent(
             note.copyWith(
-              content: await _encryptField(note.content, secretKey, algorithm),
-              summary: await _encryptField(note.summary, secretKey, algorithm),
+              content: await BackupCryptoHelper.encryptField(
+                note.content,
+                secretKey,
+                algorithm,
+              ),
+              summary: await BackupCryptoHelper.encryptField(
+                note.summary,
+                secretKey,
+                algorithm,
+              ),
               labels: await _encryptLabels(note.labels, secretKey, algorithm),
             ),
           ).toJson(),
@@ -156,21 +163,12 @@ final class ExportUsecaseImpl implements ExportUsecase {
   }
 
   Future<Uint8List> _buildZipBytes(BackupPayload payload) async {
-    final jsonBytes = utf8.encode(
-      const JsonEncoder.withIndent('  ').convert(payload.toJson()),
+    return BackupZipHelper.buildZipBytes(
+      payload: payload,
+      archivedFileName: archivedFileName,
+      decryptScript: kDecryptBackupPy,
+      readme: kBackupReadmeMd,
     );
-    final archive = Archive()
-      ..addFile(ArchiveFile(archivedFileName, jsonBytes.length, jsonBytes));
-
-    _addTextFile(archive, 'decrypt_backup.py', kDecryptBackupPy);
-    _addTextFile(archive, 'BACKUP_README.md', kBackupReadmeMd);
-
-    return Uint8List.fromList(ZipEncoder().encode(archive));
-  }
-
-  void _addTextFile(Archive archive, String name, String content) {
-    final bytes = utf8.encode(content);
-    archive.addFile(ArchiveFile(name, bytes.length, bytes));
   }
 
   Future<String> _writeToTempFile(Uint8List bytes, String fileName) async {
@@ -182,51 +180,12 @@ final class ExportUsecaseImpl implements ExportUsecase {
   }
 
   String _fileName(String? customName) {
-    final sanitized = _sanitizeFileName(customName);
+    final sanitized = BackupZipHelper.sanitizeFileName(customName);
     if (sanitized != null) return '$sanitized.zip';
 
     const filePrefix = 'notes_backup_';
     final timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
     return '$filePrefix$timestamp.zip';
-  }
-
-  /// Returns a safe base file name (no extension) from user input, or null to
-  /// fall back to the default. Strips path separators, characters illegal in
-  /// file names and leading dots so the name can never escape the temp dir.
-  String? _sanitizeFileName(String? raw) {
-    if (raw == null) return null;
-    var name = raw.trim();
-    if (name.isEmpty) return null;
-
-    // Drop a trailing ".zip" the user may have typed; it is re-appended later.
-    if (name.toLowerCase().endsWith('.zip')) {
-      name = name.substring(0, name.length - 4);
-    }
-
-    name = name
-        .replaceAll(RegExp(r'[\\/:*?"<>|\x00-\x1f]'), '')
-        .replaceAll(RegExp(r'^\.+'), '')
-        .trim();
-    if (name.isEmpty) return null;
-
-    const maxLength = 64;
-    if (name.length > maxLength) name = name.substring(0, maxLength);
-    return name;
-  }
-
-  Future<String> _encryptField(
-    String text,
-    SecretKey key,
-    AesCbc algorithm,
-  ) async {
-    if (text.isEmpty) return '';
-    final iv = _generateRandomBytes(16);
-    final secretBox = await algorithm.encrypt(
-      utf8.encode(text),
-      secretKey: key,
-      nonce: iv,
-    );
-    return '${base64Encode(secretBox.cipherText)}?iv=${base64Encode(iv)}&mac=${base64Encode(secretBox.mac.bytes)}';
   }
 
   Future<List<BaseLabel>> _encryptLabels(
@@ -237,28 +196,11 @@ final class ExportUsecaseImpl implements ExportUsecase {
     if (labels.isEmpty) return const [];
     final joined = BaseLabel.joinLabels(labels.whereType<Label>());
     if (joined.isEmpty) return const [];
-    final encrypted = await _encryptField(joined, key, algorithm);
-    return [EncryptedLabel(textValue: encrypted)];
-  }
-
-  Uint8List _generateRandomBytes(int length) {
-    final random = math.Random.secure();
-    return Uint8List.fromList(
-      List.generate(length, (_) => random.nextInt(256)),
+    final encrypted = await BackupCryptoHelper.encryptField(
+      joined,
+      key,
+      algorithm,
     );
-  }
-}
-
-abstract interface class ExportHelper {
-  static Future<SecretKey> deriveKey(
-    String password,
-    Uint8List salt,
-    int iterations,
-  ) {
-    return Pbkdf2(
-      macAlgorithm: Hmac.sha256(),
-      iterations: iterations,
-      bits: 256,
-    ).deriveKeyFromPassword(password: password, nonce: salt);
+    return [EncryptedLabel(textValue: encrypted)];
   }
 }

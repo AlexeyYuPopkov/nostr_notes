@@ -481,6 +481,57 @@ class AppLocalizationsRu extends AppLocalizations {
       'Без пароля заметки будут экспортированы в открытом виде и любой, кто получит файл, сможет их прочитать.';
 
   @override
+  String get accsBackupSectionTitle => 'Аккаунты';
+
+  @override
+  String get accsBackupItemExportTitle => 'Экспорт всех аккаунтов';
+
+  @override
+  String get accsBackupItemExportSubtitle =>
+      'Экспортируйте все сохранённые аккаунты в защищённый паролем ZIP-архив. Пароль обязателен — этот файл может содержать ваши реальные пароли от аккаунтов.';
+
+  @override
+  String get accsBackupItemImportTitle => 'Импорт всех аккаунтов';
+
+  @override
+  String get accsBackupItemImportSubtitle =>
+      'Восстановите аккаунты из ранее экспортированного архива.';
+
+  @override
+  String get accsBackupExportPasswordDialogTitle =>
+      'Задайте пароль для резервной копии';
+
+  @override
+  String get accsBackupExportPasswordDialogTextFieldHint =>
+      'Пароль (обязательно)';
+
+  @override
+  String get accsBackupExportPasswordRequiredHint =>
+      'Пароль обязателен — без него в этой резервной копии пароли аккаунтов хранились бы в открытом виде.';
+
+  @override
+  String get accsBackupExportPasswordRequired => 'Введите пароль';
+
+  @override
+  String get accsBackupExportEmptyError => 'Нет аккаунтов для экспорта';
+
+  @override
+  String get accsBackupExportSuccess => 'Аккаунты успешно экспортированы';
+
+  @override
+  String get accsBackupImportDialogTitle => 'Импорт аккаунтов';
+
+  @override
+  String get accsBackupImportPolicyKeepNewestTitle => 'Оставить новейший';
+
+  @override
+  String get accsBackupImportPolicyKeepNewestSubtitle =>
+      'Использовать ту версию — из резервной копии или локальную — которая была изменена позже';
+
+  @override
+  String get accsBackupImportSuccess => 'Аккаунты успешно импортированы';
+
+  @override
   String get notesListPendingSyncTitle => 'Ожидает синхронизации';
 
   @override
@@ -572,16 +623,117 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notesListScreenTitle => 'Заметки';
 
   @override
-  String get notesListTabAll => 'Все';
-
-  @override
-  String get notesListTabFolders => 'Папки';
+  String get notesListTabNotes => 'Заметки';
 
   @override
   String get notesListSearchHint => 'Поиск по заметкам';
 
   @override
+  String get notesListFilterButtonTooltip => 'Фильтр по папке';
+
+  @override
+  String get notesListFilterSheetTitle => 'Фильтр по папке';
+
+  @override
   String get notesListSearchNothingFound => 'Ничего не найдено';
+
+  @override
+  String get accsTabTitle => 'Аккаунты';
+
+  @override
+  String get accsSectionAll => 'Все аккаунты';
+
+  @override
+  String get accsSearchHint => 'Поиск аккаунтов';
+
+  @override
+  String get accsEmptyTitle => 'Пока нет аккаунтов';
+
+  @override
+  String get accsAddTitle => 'Новый аккаунт';
+
+  @override
+  String get accsEditTitle => 'Редактировать аккаунт';
+
+  @override
+  String get accsFormTitleHint => 'Название аккаунта';
+
+  @override
+  String get accsFormTitleLabel => 'Название';
+
+  @override
+  String get accsFormWebsiteLabel => 'Сайт';
+
+  @override
+  String get accsFormWebsiteHint => 'Добавить сайт';
+
+  @override
+  String get accsFormUsernameLabel => 'Имя пользователя';
+
+  @override
+  String get accsFormUsernameHint => 'Добавить имя пользователя';
+
+  @override
+  String get accsFormPasswordLabel => 'Пароль';
+
+  @override
+  String get accsFormPasswordHint => 'Добавить пароль';
+
+  @override
+  String get accsFormNotesLabel => 'Заметки';
+
+  @override
+  String get accsFormNotesHint => 'Добавить заметку';
+
+  @override
+  String get accsFormSaveSuccess => 'Аккаунт успешно сохранён!';
+
+  @override
+  String get accsFormEditButton => 'Изменить';
+
+  @override
+  String get accsFormDoneButton => 'Готово';
+
+  @override
+  String get accsFormGoButtonCopiedMessage => 'Пароль скопирован';
+
+  @override
+  String get accsFormGoUsernameCopiedMessage => 'Имя пользователя скопировано';
+
+  @override
+  String get accsConfirmationDialogDeletion =>
+      'Вы уверены, что хотите удалить этот аккаунт? Действие нельзя отменить.';
+
+  @override
+  String get accsFormMoreMenuCopy => 'Скопировать данные';
+
+  @override
+  String get accsFormMoreMenuShare => 'Поделиться/бэкап';
+
+  @override
+  String get accsFormGenPassButton => 'Создать';
+
+  @override
+  String get accsFormGenPassStyleWords => 'По словам';
+
+  @override
+  String get accsFormGenPassStyleRandom => 'Случайный';
+
+  @override
+  String get accsFormGenPassHint =>
+      '«По словам» — несколько случайных слов, легко запомнить. «Случайный» — набор символов, надёжнее для сайтов без ограничений на спецсимволы.';
+
+  @override
+  String get accsFormGenPassStrengthDanger => 'Очень слабый';
+
+  @override
+  String get accsFormGenPassStrengthWeak => 'Слабый';
+
+  @override
+  String get accsFormGenPassStrengthGood => 'Хороший';
+
+  @override
+  String get accsFormGenPassStrengthStrong => 'Надёжный';
 
   @override
   String get notesListNewNoteTooltip => 'Новая заметка';
@@ -693,4 +845,24 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get donateLightningScreenMessageInvoiceCopied => 'Инвойс скопирован';
+
+  @override
+  String relayStatusTitle(int ok, int total) {
+    return '$ok из $total реле на связи';
+  }
+
+  @override
+  String get relayStatusSubtitle => 'Заметки сохраняются и синхронизируются';
+
+  @override
+  String get relayStatusOnline => 'на связи';
+
+  @override
+  String get relayStatusConnecting => 'подключение…';
+
+  @override
+  String get relayStatusNoResponse => 'нет ответа';
+
+  @override
+  String get relayStatusConfigureLink => 'Настроить реле';
 }

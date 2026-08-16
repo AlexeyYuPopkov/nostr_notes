@@ -146,6 +146,77 @@ void main() {
       },
     );
 
+    test(
+      'restore(authologinIfPossible: false) locks a no-PIN account and a '
+      'later plain restore() must not resurrect auto-unlock',
+      () async {
+        final (nsec, pubkey) = generateAccount();
+        await sut.execute(nsec: nsec);
+        sessionUsecase.setSession(
+          (sut.currentSession as Auth).toUnlocked(pin: ''),
+        );
+
+        // The user taps Exit in settings.
+        await sut.restore(authologinIfPossible: false);
+        expect((sut.currentSession as Auth).authologinIfPossible, isFalse);
+
+        // OnboardingScreen's own FutureBuilder restores again as soon as the
+        // unauth zone builds — and does so with the default (true).
+        await sut.restore();
+
+        final session = sut.currentSession;
+        expect(session, isA<Auth>());
+        expect(session.pubkey, pubkey);
+        expect(
+          (session as Auth).authologinIfPossible,
+          isFalse,
+          reason: 'an explicit Exit must survive a redundant restore',
+        );
+      },
+    );
+
+    test('restore() still allows auto-unlock on a cold start', () async {
+      final (nsec, _) = generateAccount();
+      await sut.execute(nsec: nsec);
+      // Cold start: nothing is in the session yet, only the stored key.
+      sessionUsecase.setSession(const Unauth());
+
+      await sut.restore();
+
+      expect((sut.currentSession as Auth).authologinIfPossible, isTrue);
+    });
+
+    test(
+      'switching to another account re-enables auto-unlock after an Exit',
+      () async {
+        final (nsecA, pubkeyA) = generateAccount();
+        final (nsecB, _) = generateAccount();
+        await sut.execute(nsec: nsecA);
+        sessionUsecase.setSession(
+          (sut.currentSession as Auth).toUnlocked(pin: ''),
+        );
+        // B becomes the active account, so switching back to A below is a
+        // real switch rather than switchAccount's same-account no-op.
+        await sut.addAccount(nsec: nsecB);
+        sessionUsecase.setSession(
+          (sut.currentSession as Auth).toUnlocked(pin: ''),
+        );
+
+        await sut.restore(authologinIfPossible: false);
+        expect((sut.currentSession as Auth).authologinIfPossible, isFalse);
+
+        await sut.switchAccount(pubkey: pubkeyA);
+
+        final session = sut.currentSession;
+        expect(session.pubkey, pubkeyA);
+        expect(
+          (session as Auth).authologinIfPossible,
+          isTrue,
+          reason: 'an account switch is an allowed auto-unlock trigger',
+        );
+      },
+    );
+
     test('logout removes the account and activates the next one', () async {
       final (nsecA, pubkeyA) = generateAccount();
       final (nsecB, pubkeyB) = generateAccount();
@@ -168,6 +239,27 @@ void main() {
       );
       expect(relaysListRepo.getRelaysList(), isNotEmpty);
     });
+
+    test(
+      'logout(authologinIfPossible: false) leaves the fallback account '
+      'locked instead of letting it auto-unlock',
+      () async {
+        final (nsecA, pubkeyA) = generateAccount();
+        final (nsecB, _) = generateAccount();
+        await sut.execute(nsec: nsecA);
+        sessionUsecase.setSession(
+          (sut.currentSession as Auth).toUnlocked(pin: '1234'),
+        );
+        await sut.addAccount(nsec: nsecB);
+
+        await sut.logout(authologinIfPossible: false);
+
+        final session = sut.currentSession;
+        expect(session, isA<Auth>());
+        expect(session.pubkey, pubkeyA);
+        expect((session as Auth).authologinIfPossible, isFalse);
+      },
+    );
 
     test('logout of the last account ends with Unauth', () async {
       final (nsec, pubkey) = generateAccount();

@@ -1,15 +1,15 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:archive/archive.dart';
 import 'package:common/services/event_store/database/daos/outbox_dao_interface.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/tag/tag.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
+import 'package:nostr_notes/auth/data/backup/backup_crypto_helper.dart';
+import 'package:nostr_notes/auth/data/backup/backup_zip_helper.dart';
 import 'package:nostr_notes/auth/data/export_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
 import 'package:nostr_notes/auth/data/models/backup_payload.dart';
@@ -23,7 +23,7 @@ import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:nostr_notes/services/hex_to_bytes.dart';
 
-const _kPbkdf2Iterations = 600000;
+const _kPbkdf2Iterations = BackupCryptoHelper.defaultIterations;
 
 final class ImportUsecaseImpl implements ImportUsecase {
   final RawEventStore _eventStore;
@@ -130,16 +130,13 @@ final class ImportUsecaseImpl implements ImportUsecase {
   ) async {
     try {
       final bytes = fileBytes ?? await _readFile(filePath);
-      final archive = ZipDecoder().decodeBytes(bytes);
-      final jsonFile = archive.findFile(ExportUsecaseImpl.archivedFileName);
-      if (jsonFile == null) {
+      final payload = BackupZipHelper.readPayload(
+        bytes,
+        ExportUsecaseImpl.archivedFileName,
+      );
+      if (payload == null) {
         throw const ImportError(payload: ImportErrorType.invalidFile);
       }
-
-      final payload = BackupPayload.fromJson(
-        jsonDecode(utf8.decode(jsonFile.content as List<int>))
-            as Map<String, dynamic>,
-      );
       if (payload.version != 1) {
         throw const ImportError(payload: ImportErrorType.invalidFile);
       }
@@ -214,8 +211,12 @@ final class ImportUsecaseImpl implements ImportUsecase {
 
     final salt = HexToBytes.hexToBytes(payload.salt!);
     final iterations = payload.iterations ?? _kPbkdf2Iterations;
-    final secretKey = await ExportHelper.deriveKey(password, salt, iterations);
-    final algorithm = AesCbc.with256bits(macAlgorithm: Hmac.sha256());
+    final secretKey = await BackupCryptoHelper.deriveKey(
+      password,
+      salt,
+      iterations,
+    );
+    final algorithm = BackupCryptoHelper.algorithm();
     return _AlgData(secretKey, algorithm);
   }
 
@@ -256,18 +257,12 @@ final class ImportUsecaseImpl implements ImportUsecase {
     return algData == null ? encoded : _decryptField(encoded, algData);
   }
 
-  Future<String> _decryptField(String encoded, _AlgData algData) async {
-    if (encoded.isEmpty) return '';
-    final parts = encoded.split('?iv=');
-    final cipherText = base64Decode(parts[0]);
-    final ivAndMac = parts[1].split('&mac=');
-    final iv = base64Decode(ivAndMac[0]);
-    final mac = Mac(base64Decode(ivAndMac[1]));
-    final plainBytes = await algData.algorithm.decrypt(
-      SecretBox(cipherText, nonce: iv, mac: mac),
-      secretKey: algData.secretKey,
+  Future<String> _decryptField(String encoded, _AlgData algData) {
+    return BackupCryptoHelper.decryptField(
+      encoded,
+      algData.secretKey,
+      algData.algorithm,
     );
-    return utf8.decode(plainBytes);
   }
 
   FutureOr<List<BaseLabel>> _decryptLabelsIfNeeded(

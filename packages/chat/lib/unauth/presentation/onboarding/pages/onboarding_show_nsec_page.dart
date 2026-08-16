@@ -3,10 +3,10 @@ import 'package:common/app/icons/app_icons.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/buttons/prymary_button.dart';
 import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
+import 'package:common/presentation/widgets/onboarding_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../provider/onboarding_provider.dart';
 
@@ -26,11 +26,9 @@ final class OnboardingShowNsecPage extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Center(
-            child: SvgPicture.asset(
+          const Center(
+            child: OnboardingIcon.asset(
               CommonIcons.nsecIcon,
-              width: Sizes.iconTitle,
-              height: Sizes.iconTitle,
               semanticsLabel: 'Nsec icon',
             ),
           ),

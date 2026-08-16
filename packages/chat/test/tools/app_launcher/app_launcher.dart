@@ -1,6 +1,5 @@
 import 'package:chat/common/di/di.dart';
 import 'package:chat/l10n/localization.dart';
-import 'package:common/app/theme/app_background_colors.dart';
 import 'package:common/app/vm/global_settings_scope.dart';
 import 'package:common/data/repo/app_theme_data_repo_impl.dart';
 import 'package:common/presentation/theme_settings/global_settings_vm.dart';
@@ -60,24 +59,12 @@ final class AppLauncher {
         child: ListenableBuilder(
           listenable: Listenable.merge([
             globSettingsVm.themeModeNotifier,
-            globSettingsVm.lightBgIndexNotifier,
-            globSettingsVm.darkBgIndexNotifier,
-            globSettingsVm.lightCardIndexNotifier,
-            globSettingsVm.darkCardIndexNotifier,
+            globSettingsVm.lightThemeStyleNotifier,
+            globSettingsVm.darkThemeStyleNotifier,
           ]),
           builder: (context, _) => MaterialApp(
-            theme: AppTheme.light(
-              backgroundColor:
-                  AppBackgroundColors.light[globSettingsVm.lightBgIndex],
-              cardColor:
-                  AppBackgroundColors.lightCard[globSettingsVm.lightCardIndex],
-            ),
-            darkTheme: AppTheme.dark(
-              backgroundColor:
-                  AppBackgroundColors.dark[globSettingsVm.darkBgIndex],
-              cardColor:
-                  AppBackgroundColors.darkCard[globSettingsVm.darkCardIndex],
-            ),
+            theme: AppTheme.light(style: globSettingsVm.lightThemeStyle),
+            darkTheme: AppTheme.dark(style: globSettingsVm.darkThemeStyle),
             themeMode: globSettingsVm.themeMode,
             localizationsDelegates: const [
               ...Localization.localizationsDelegates,

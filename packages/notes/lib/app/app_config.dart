@@ -4,6 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:nostr/model/tag/tag_value.dart';
 import 'package:nostr_notes/app/app_env.dart';
 
+final class FeatureFlags {
+  static const bool kEnableAccsTab = true;
+}
+
 final class AppConfig {
   static AppEnv _env = const DefaultAppEnv();
 
@@ -23,7 +27,7 @@ final class AppConfig {
       : Platform.environment.containsKey('FLUTTER_TEST') &&
             !const bool.fromEnvironment('INTEGRATION_TEST');
 
-  static final showAds = !kDebugMode && !kIsTest;
+  static final showAds = !kIsTest; //   !kDebugMode && !kIsTest;
 
   /// Developer's lightning address for in-app donations (LUD-16).
   static String get kDevLightningAddress => _env.devLightningAddress;
@@ -33,6 +37,10 @@ final class AppConfig {
 
   static String get admobAppIdIos => _env.admobAppIdIos;
   static String get admobInterstitialIdIos => _env.admobInterstitialIdIos;
+  static String get admobInterstitialIdAndroid =>
+      _env.admobInterstitialIdAndroid;
+  static String get admobBannerIdIos => _env.admobBannerIdIos;
+  static String get admobBannerIdAndroid => _env.admobBannerIdAndroid;
 
   static const kUsesInMemoryStorage = bool.fromEnvironment(
     'IN_MEMORY_STORAGE',

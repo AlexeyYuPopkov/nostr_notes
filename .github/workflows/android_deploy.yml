@@ -67,6 +67,10 @@ jobs:
         run: bundle exec fastlane deploy
         env:
           SUPPLY_JSON_KEY_FILE: fastlane/play_store_credentials.json
+          # Our own hardware, so ads stay test creatives there and a stray tap
+          # can never become invalid traffic. Matching is per device id, so
+          # everyone else still gets live ads.
+          ADMOB_TEST_DEVICE_IDS: ${{ secrets.ADMOB_TEST_DEVICE_IDS }}
 
       # - name: Prepare APK for GH Pages
       #   run: |

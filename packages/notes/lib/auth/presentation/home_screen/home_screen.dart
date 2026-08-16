@@ -18,7 +18,7 @@ import 'package:nostr_notes/auth/presentation/home_screen/widgets/resize_divider
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../notes_list/notes_list.dart';
+import '../dashboard/notes_list.dart';
 
 abstract interface class HomeScreenCoordinator implements NotesListCoordinator {
   const HomeScreenCoordinator();

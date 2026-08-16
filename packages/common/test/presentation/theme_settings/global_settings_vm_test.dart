@@ -1,3 +1,4 @@
+import 'package:common/app/theme/app_theme_style.dart';
 import 'package:common/domain/error/app_error.dart';
 import 'package:common/domain/repo/app_theme_data_repo_impl.dart';
 import 'package:common/presentation/theme_settings/global_settings_vm.dart';
@@ -11,18 +12,14 @@ class _MockAppThemeDataRepo extends Mock implements AppThemeDataRepo {}
 AppThemeData _themeData({
   ThemeMode themeMode = ThemeMode.system,
   String? localeCode,
-  int lightBgIndex = 0,
-  int darkBgIndex = 0,
-  int lightCardIndex = 0,
-  int darkCardIndex = 0,
+  AppThemeStyle lightThemeStyle = AppThemeStyle.defaultStyle,
+  AppThemeStyle darkThemeStyle = AppThemeStyle.defaultStyle,
 }) {
   return AppThemeData(
     themeMode: themeMode,
     localeCode: OptionalBox(localeCode),
-    lightBgIndex: lightBgIndex,
-    darkBgIndex: darkBgIndex,
-    lightCardIndex: lightCardIndex,
-    darkCardIndex: darkCardIndex,
+    lightThemeStyle: lightThemeStyle,
+    darkThemeStyle: darkThemeStyle,
   );
 }
 
@@ -78,24 +75,56 @@ void main() {
       expect(vm.locale, const Locale('en', 'US'));
     });
 
-    test('loads themeMode and background/card indices from the repo', () {
+    test('loads themeMode and light/dark theme styles from the repo', () {
       when(() => repo.load()).thenReturn(
         _themeData(
           themeMode: ThemeMode.dark,
-          lightBgIndex: 1,
-          darkBgIndex: 2,
-          lightCardIndex: 3,
-          darkCardIndex: 4,
+          lightThemeStyle: AppThemeStyle.appleNotes,
+          darkThemeStyle: AppThemeStyle.claude,
         ),
       );
 
       final vm = GlobalSettingsVm(appThemeDataRepo: repo);
 
       expect(vm.themeMode, ThemeMode.dark);
-      expect(vm.lightBgIndex, 1);
-      expect(vm.darkBgIndex, 2);
-      expect(vm.lightCardIndex, 3);
-      expect(vm.darkCardIndex, 4);
+      expect(vm.lightThemeStyle, AppThemeStyle.appleNotes);
+      expect(vm.darkThemeStyle, AppThemeStyle.claude);
+    });
+  });
+
+  group('GlobalSettingsVm.setLightThemeStyle / setDarkThemeStyle', () {
+    test('saves and updates the light theme style', () async {
+      when(() => repo.load()).thenReturn(_themeData());
+      final vm = GlobalSettingsVm(appThemeDataRepo: repo);
+
+      when(() => repo.save(any())).thenAnswer((_) async {});
+      when(
+        () => repo.load(),
+      ).thenReturn(_themeData(lightThemeStyle: AppThemeStyle.claude));
+
+      await vm.setLightThemeStyle(AppThemeStyle.claude);
+
+      final captured = verify(() => repo.save(captureAny())).captured.single
+          as AppThemeData;
+      expect(captured.lightThemeStyle, AppThemeStyle.claude);
+      expect(vm.lightThemeStyle, AppThemeStyle.claude);
+    });
+
+    test('saves and updates the dark theme style', () async {
+      when(() => repo.load()).thenReturn(_themeData());
+      final vm = GlobalSettingsVm(appThemeDataRepo: repo);
+
+      when(() => repo.save(any())).thenAnswer((_) async {});
+      when(
+        () => repo.load(),
+      ).thenReturn(_themeData(darkThemeStyle: AppThemeStyle.appleNotes));
+
+      await vm.setDarkThemeStyle(AppThemeStyle.appleNotes);
+
+      final captured = verify(() => repo.save(captureAny())).captured.single
+          as AppThemeData;
+      expect(captured.darkThemeStyle, AppThemeStyle.appleNotes);
+      expect(vm.darkThemeStyle, AppThemeStyle.appleNotes);
     });
   });
 

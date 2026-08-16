@@ -33,6 +33,13 @@ final class _AccountHeaderState extends State<AccountHeader> {
   ValueNotifier<bool> isOpened = ValueNotifier(false);
 
   @override
+  void dispose() {
+    vm.dispose();
+    isOpened.dispose();
+    super.dispose();
+  }
+
+  @override
   void didUpdateWidget(covariant AccountHeader oldWidget) {
     if (oldWidget.currentPubkey != widget.currentPubkey) {
       vm.dispose();

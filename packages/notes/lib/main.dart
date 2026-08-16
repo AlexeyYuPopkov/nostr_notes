@@ -1,4 +1,6 @@
-import 'package:common/app/theme/app_background_colors.dart';
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:common/data/repo/app_shared_prefs_impl.dart';
 import 'package:common/data/repo/app_theme_data_repo_impl.dart';
 import 'package:common/domain/repo/app_shared_prefs.dart';
@@ -6,7 +8,9 @@ import 'package:common/presentation/theme_settings/global_settings_vm.dart';
 import 'package:common/app/vm/global_settings_scope.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:di_storage/di_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:leak_tracker/leak_tracker.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/common/presentation/blur_widget/verification_widget.dart';
 import 'package:nostr_notes/l10n/localization.dart';
@@ -29,6 +33,33 @@ void main() async {
   // HttpOverrides.global = MyHttpOverrides();
   // timeDilation = 4.0;
   final prefs = AppSharedPrefsImpl(await SharedPreferences.getInstance());
+
+  if (kDebugMode || kProfileMode) {
+    FlutterMemoryAllocations.instance.addListener((ObjectEvent event) {
+      LeakTracking.dispatchObjectEvent(event.toMap());
+    });
+    LeakTracking.start();
+
+    // The periodic "leak_tracker: N memory leak(s): ..." line is just
+    // LeakSummary's counts. To see *which* classes are actually leaking,
+    // pull the details ourselves — collectLeaks() returns everything since
+    // the previous call, with the real class name in LeakReport.type.
+    Timer.periodic(const Duration(seconds: 20), (_) async {
+      final leaks = await LeakTracking.collectLeaks();
+      if (leaks.total == 0) return;
+      // One debugPrint call per line: VS Code's Debug Console collapses
+      // any single multi-line message down to its first line behind an
+      // expand arrow that's easy to miss — printing each line as its own
+      // call leaves nothing to collapse.
+      log(
+        'LeakTracking: ${leaks.total} leak(s) since last check',
+        name: 'LeakTracking',
+      );
+      for (final line in leaks.toYaml(phasesAreTests: false).split('\n')) {
+        if (line.isNotEmpty) log(line, name: 'LeakTracking');
+      }
+    });
+  }
   runApp(App(prefs: prefs));
 }
 
@@ -85,23 +116,15 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
         listenable: Listenable.merge([
           _globalSettingsVm.themeModeNotifier,
           _globalSettingsVm.localeNotifier,
-          _globalSettingsVm.lightBgIndexNotifier,
-          _globalSettingsVm.darkBgIndexNotifier,
-          _globalSettingsVm.lightCardIndexNotifier,
-          _globalSettingsVm.darkCardIndexNotifier,
+          _globalSettingsVm.lightThemeStyleNotifier,
+          _globalSettingsVm.darkThemeStyleNotifier,
         ]),
         builder: (context, _) {
           final vm = _globalSettingsVm;
           return MaterialApp.router(
             onGenerateTitle: (context) => context.l10n.appDisplayName,
-            theme: AppTheme.light(
-              backgroundColor: AppBackgroundColors.light[vm.lightBgIndex],
-              cardColor: AppBackgroundColors.lightCard[vm.lightCardIndex],
-            ),
-            darkTheme: AppTheme.dark(
-              backgroundColor: AppBackgroundColors.dark[vm.darkBgIndex],
-              cardColor: AppBackgroundColors.darkCard[vm.darkCardIndex],
-            ),
+            theme: AppTheme.light(style: vm.lightThemeStyle),
+            darkTheme: AppTheme.dark(style: vm.darkThemeStyle),
             themeMode: vm.themeMode,
             locale: vm.locale,
             localizationsDelegates: const [

@@ -1,6 +1,6 @@
 part of 'progress_hud.dart';
 
-sealed class HudPolicy {
+abstract class HudPolicy {
   const factory HudPolicy.defaultValue() = IndicatorWithCheckmark;
   factory HudPolicy.indicator({String? hint}) => Indicator(hint: hint ?? '');
   factory HudPolicy.blocking() = Blocking;
@@ -35,6 +35,11 @@ final class Indicator extends HudPolicy {
             ),
             clipBehavior: Clip.hardEdge,
             child: Material(
+              // Unstyled Material paints an opaque theme canvasColor
+              // background (near-black in dark mode), hiding the
+              // translucent white Container above and the hint text
+              // painted on top of it — must stay transparent.
+              color: Colors.transparent,
               child: Stack(
                 children: [
                   Center(
@@ -121,6 +126,7 @@ final class _IndicatorWithCheckmarkContentState
             ),
             clipBehavior: Clip.hardEdge,
             child: Material(
+              color: Colors.transparent,
               child: Stack(
                 children: [
                   AnimatedCrossFade(

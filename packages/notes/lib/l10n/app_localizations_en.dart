@@ -472,6 +472,56 @@ class AppLocalizationsEn extends AppLocalizations {
       'Without a password, notes will be exported as plain text and anyone with the file can read them.';
 
   @override
+  String get accsBackupSectionTitle => 'Accounts';
+
+  @override
+  String get accsBackupItemExportTitle => 'Export All Accounts';
+
+  @override
+  String get accsBackupItemExportSubtitle =>
+      'Export all your saved accounts to a password-protected ZIP archive. A password is required — this file can contain your real account passwords.';
+
+  @override
+  String get accsBackupItemImportTitle => 'Import All Accounts';
+
+  @override
+  String get accsBackupItemImportSubtitle =>
+      'Restore accounts from a previously exported archive.';
+
+  @override
+  String get accsBackupExportPasswordDialogTitle => 'Set Backup Password';
+
+  @override
+  String get accsBackupExportPasswordDialogTextFieldHint =>
+      'Password (required)';
+
+  @override
+  String get accsBackupExportPasswordRequiredHint =>
+      'A password is required — without one, this backup would store your account passwords as plain text.';
+
+  @override
+  String get accsBackupExportPasswordRequired => 'Enter a password';
+
+  @override
+  String get accsBackupExportEmptyError => 'No accounts to export';
+
+  @override
+  String get accsBackupExportSuccess => 'Accounts exported successfully';
+
+  @override
+  String get accsBackupImportDialogTitle => 'Import Accounts';
+
+  @override
+  String get accsBackupImportPolicyKeepNewestTitle => 'Keep newest';
+
+  @override
+  String get accsBackupImportPolicyKeepNewestSubtitle =>
+      'Use whichever version — backup or local — was edited more recently';
+
+  @override
+  String get accsBackupImportSuccess => 'Accounts imported successfully';
+
+  @override
   String get notesListPendingSyncTitle => 'Sync pending';
 
   @override
@@ -562,16 +612,117 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notesListScreenTitle => 'Notes';
 
   @override
-  String get notesListTabAll => 'All';
-
-  @override
-  String get notesListTabFolders => 'Folders';
+  String get notesListTabNotes => 'Notes';
 
   @override
   String get notesListSearchHint => 'Search notes';
 
   @override
+  String get notesListFilterButtonTooltip => 'Filter by folder';
+
+  @override
+  String get notesListFilterSheetTitle => 'Filter by folder';
+
+  @override
   String get notesListSearchNothingFound => 'Nothing found';
+
+  @override
+  String get accsTabTitle => 'Accounts';
+
+  @override
+  String get accsSectionAll => 'All accounts';
+
+  @override
+  String get accsSearchHint => 'Search accounts';
+
+  @override
+  String get accsEmptyTitle => 'No accounts yet';
+
+  @override
+  String get accsAddTitle => 'New account';
+
+  @override
+  String get accsEditTitle => 'Edit account';
+
+  @override
+  String get accsFormTitleHint => 'Account name';
+
+  @override
+  String get accsFormTitleLabel => 'Name';
+
+  @override
+  String get accsFormWebsiteLabel => 'Website';
+
+  @override
+  String get accsFormWebsiteHint => 'Add website';
+
+  @override
+  String get accsFormUsernameLabel => 'Username';
+
+  @override
+  String get accsFormUsernameHint => 'Add username';
+
+  @override
+  String get accsFormPasswordLabel => 'Password';
+
+  @override
+  String get accsFormPasswordHint => 'Add password';
+
+  @override
+  String get accsFormNotesLabel => 'Notes';
+
+  @override
+  String get accsFormNotesHint => 'Add a note';
+
+  @override
+  String get accsFormSaveSuccess => 'Account saved successfully!';
+
+  @override
+  String get accsFormEditButton => 'Edit';
+
+  @override
+  String get accsFormDoneButton => 'Done';
+
+  @override
+  String get accsFormGoButtonCopiedMessage => 'Password copied';
+
+  @override
+  String get accsFormGoUsernameCopiedMessage => 'Username copied';
+
+  @override
+  String get accsConfirmationDialogDeletion =>
+      'Are you sure you want to delete this account? This action cannot be undone.';
+
+  @override
+  String get accsFormMoreMenuCopy => 'Copy details';
+
+  @override
+  String get accsFormMoreMenuShare => 'Share/Backup';
+
+  @override
+  String get accsFormGenPassButton => 'Generate';
+
+  @override
+  String get accsFormGenPassStyleWords => 'By words';
+
+  @override
+  String get accsFormGenPassStyleRandom => 'Random';
+
+  @override
+  String get accsFormGenPassHint =>
+      '\"By words\" — a few random words, easy to remember. \"Random\" — a character set, more robust for sites without special-character restrictions.';
+
+  @override
+  String get accsFormGenPassStrengthDanger => 'Very weak';
+
+  @override
+  String get accsFormGenPassStrengthWeak => 'Weak';
+
+  @override
+  String get accsFormGenPassStrengthGood => 'Good';
+
+  @override
+  String get accsFormGenPassStrengthStrong => 'Strong';
 
   @override
   String get notesListNewNoteTooltip => 'New note';
@@ -683,4 +834,24 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get donateLightningScreenMessageInvoiceCopied =>
       'Invoice copied to clipboard';
+
+  @override
+  String relayStatusTitle(int ok, int total) {
+    return '$ok of $total relays online';
+  }
+
+  @override
+  String get relayStatusSubtitle => 'Notes are saved and synced';
+
+  @override
+  String get relayStatusOnline => 'online';
+
+  @override
+  String get relayStatusConnecting => 'connecting…';
+
+  @override
+  String get relayStatusNoResponse => 'no response';
+
+  @override
+  String get relayStatusConfigureLink => 'Configure relays';
 }

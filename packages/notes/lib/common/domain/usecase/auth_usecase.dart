@@ -63,8 +63,13 @@ final class AuthUsecase {
   }
 
   /// Activates a previously added account. The session becomes [Auth]
-  /// (locked), so the router sends the user to the PIN step.
-  Future<void> switchAccount({required String pubkey}) async {
+  /// (locked), so the router sends the user to the PIN step — unless
+  /// [authologinIfPossible] is false, in which case a no-PIN account stays
+  /// locked instead of silently auto-unlocking (see [logout]).
+  Future<void> switchAccount({
+    required String pubkey,
+    bool authologinIfPossible = true,
+  }) async {
     if (pubkey == _sessionUsecase.currentSession.pubkey) {
       return;
     }
@@ -88,13 +93,23 @@ final class AuthUsecase {
       value: userKeys.privateKey,
     );
 
-    _sessionUsecase.setSession(Auth(userKeys));
+    _sessionUsecase.setSession(
+      Auth(userKeys, authologinIfPossible: authologinIfPossible),
+    );
   }
 
   /// Restores the session from the stored active key. Also used to re-lock
   /// an [Unlocked] session (e.g. after a failed biometry check): the result
   /// is always [Auth] or [Unauth], never [Unlocked].
-  Future<Session> restore() async {
+  ///
+  /// [authologinIfPossible] only ever *grants* auto-unlock — it can never
+  /// take back an opt-out already recorded on the same account. Restoring
+  /// is idempotent and happens from several places that know nothing about
+  /// how the session got locked (app start, `OnboardingScreen`'s own
+  /// `FutureBuilder`, biometry re-lock), so letting a redundant restore
+  /// reset the flag would resurrect the auto-unlock the user just
+  /// suppressed by tapping Exit.
+  Future<Session> restore({bool authologinIfPossible = true}) async {
     final privateKey = await _secureStorage.getValue(key: secureStorageKey);
     if (privateKey.isEmpty) {
       _sessionUsecase.setSession(const Unauth());
@@ -113,14 +128,31 @@ final class AuthUsecase {
     // Migration: installs that stored a single key before multi-account
     // support have no entry in the accounts list yet.
     await _persistAccount(userKeys);
-    _sessionUsecase.setSession(Auth(userKeys));
+
+    final current = _sessionUsecase.currentSession;
+    final alreadyOptedOut =
+        current is Auth &&
+        current.pubkey == userKeys.publicKey &&
+        !current.authologinIfPossible;
+
+    _sessionUsecase.setSession(
+      Auth(
+        userKeys,
+        authologinIfPossible: authologinIfPossible && !alreadyOptedOut,
+      ),
+    );
 
     return _sessionUsecase.currentSession;
   }
 
   /// Removes the active account. When other accounts remain, activates the
   /// first of them (locked, PIN required); otherwise ends with [Unauth].
-  Future<void> logout() async {
+  ///
+  /// [authologinIfPossible] controls that fallback account, not the removed
+  /// one: an explicit logout (e.g. the "Log out" button, as opposed to just
+  /// backgrounding the app) should pass false, so a no-PIN fallback account
+  /// stays locked instead of silently auto-unlocking right back in.
+  Future<void> logout({bool authologinIfPossible = true}) async {
     final pubkey = _sessionUsecase.currentSession.pubkey;
     if (pubkey.isNotEmpty) {
       await _secureStorage.deleteValue(key: accountStorageKey(pubkey));
@@ -132,7 +164,10 @@ final class AuthUsecase {
     final remaining = _accountsRepo.getAccounts();
     if (remaining.isNotEmpty) {
       _sessionUsecase.setSession(const Unauth());
-      await switchAccount(pubkey: remaining.first);
+      await switchAccount(
+        pubkey: remaining.first,
+        authologinIfPossible: authologinIfPossible,
+      );
       return;
     }
 

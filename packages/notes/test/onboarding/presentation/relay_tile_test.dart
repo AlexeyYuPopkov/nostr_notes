@@ -117,7 +117,7 @@ void main() {
 
           vm.startMonitoring();
           async.flushMicrotasks();
-          // Timeout is 5 seconds (from RelaysMonitoringUsecaseImpl) + debounce 250ms
+          // Timeout is 5 seconds (from SingleRelayMonitoringUsecaseImpl) + debounce 250ms
           async.elapse(const Duration(seconds: 6));
 
           expect(vm.status, RelayStatus.disconnected);

@@ -13,6 +13,7 @@ import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'bloc/markdown_edit_note_bloc.dart';
 import 'bloc/markdown_edit_note_event.dart';
 import 'bloc/markdown_edit_note_state.dart';
+import 'tools/edit_note_formatters.dart';
 
 abstract interface class EditMarkdownNoteScreenCoordinator {
   FutureOr<dynamic> onNotePreviewRoute(
@@ -92,12 +93,15 @@ final class EditMarkdownNoteScreen extends StatelessWidget with DialogHelper {
                   textAlignVertical: TextAlignVertical.top,
                   style: markdownTheme.rawCodeTextStyle,
                   autocorrect: false,
-                  decoration: const InputDecoration(
+                  inputFormatters: EditNoteFormatters.content,
+                  decoration: InputDecoration(
                     border: InputBorder.none,
+                    fillColor: theme.colorScheme.surface,
                     focusedBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     hintText: 'Enter markdown...',
                   ),
+
                   onTapOutside: (_) => FocusScope.of(context).unfocus(),
                   onChanged: (text) {
                     bloc.add(MarkdownEditNoteEvent.textChanged(text));

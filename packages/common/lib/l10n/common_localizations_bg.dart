@@ -87,6 +87,18 @@ class CommonLocalizationsBg extends CommonLocalizations {
   String get themeScreenLabelCards => 'Карти';
 
   @override
+  String get themeScreenLabelStyle => 'Стил';
+
+  @override
+  String get themeScreenStyleDefault => 'Стандартна';
+
+  @override
+  String get themeScreenStyleAppleNotes => 'Apple Notes';
+
+  @override
+  String get themeScreenStyleClaude => 'Claude';
+
+  @override
   String get relaysPageTitle => 'Избери релета';
 
   @override

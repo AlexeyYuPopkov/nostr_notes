@@ -3,9 +3,9 @@ import 'package:common/l10n/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:common/app/theme/sizes.dart';
-import 'package:common/data/repo/relays_monitoring_usecase_impl.dart';
+import 'package:common/data/repo/single_relay_monitoring_usecase_impl.dart';
 import 'package:nostr_notes/common/domain/relay_validator.dart';
-import 'package:common/domain/usecases/relays_monitoring_usecase.dart';
+import 'package:common/domain/usecases/single_relay_monitoring_usecase.dart';
 
 class RelayInputTextField extends StatefulWidget {
   final ValueChanged<String>? onAdd;
@@ -36,8 +36,8 @@ final class RelayInputTextFieldVM extends ChangeNotifier with RelayValidator {
   late final controller = TextEditingController();
   final ChannelFactory channelFactory;
 
-  RelaysMonitoringUsecase _createRelaysMonitoringUsecase(String url) {
-    return RelaysMonitoringUsecaseImpl(
+  SingleRelayMonitoringUsecase _createRelaysMonitoringUsecase(String url) {
+    return SingleRelayMonitoringUsecaseImpl(
       uri: Uri.parse(url),
       channelFactory: channelFactory,
     );

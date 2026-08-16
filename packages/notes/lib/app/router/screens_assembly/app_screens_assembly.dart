@@ -1,9 +1,11 @@
 import 'package:common/presentation/raw_event/raw_event_screen.dart';
+import 'package:nostr_notes/auth/presentation/login_item_form/bloc/login_item_details_params.dart';
 import 'package:nostr_notes/auth/presentation/settings/apk_distribution/apk_distribution_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/contacts/contacts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/auth/presentation/edit_note_markdown_screen/edit_note_markdown_screen.dart';
+import 'package:nostr_notes/auth/presentation/login_item_form/login_item_form_screen.dart';
 
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note_preview_screen/note_preview_screen.dart';
@@ -71,4 +73,10 @@ final class AppScreensAssembly implements ScreensAssembly {
   @override
   Widget createApkDistributionScreen({bool showAppBar = true}) =>
       ApkDistributionScreen(showAppBar: showAppBar);
+
+  @override
+  Widget createLoginItemFormScreen({
+    required LoginItemDetailsParams params,
+    required LoginItemFormScreenCoordinator coordinator,
+  }) => LoginItemFormScreen(params: params, coordinator: coordinator);
 }

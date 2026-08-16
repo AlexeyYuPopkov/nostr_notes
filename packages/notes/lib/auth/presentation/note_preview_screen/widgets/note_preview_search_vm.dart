@@ -46,6 +46,9 @@ final class SearchVM extends ChangeNotifier {
   void dispose() {
     searchController.dispose();
     scrollController.dispose();
+    isSearchVisible.dispose();
+    searchQuery.dispose();
+    currentMatchIndex.dispose();
     super.dispose();
   }
 

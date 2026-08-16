@@ -18,4 +18,14 @@ abstract final class Env {
 
   @EnviedField(varName: 'ADMOB_INTERSTITIAL_ID_IOS')
   static final String admobInterstitialIdIos = _Env.admobInterstitialIdIos;
+
+  @EnviedField(varName: 'ADMOB_INTERSTITIAL_ID_ANDROID')
+  static final String admobInterstitialIdAndroid =
+      _Env.admobInterstitialIdAndroid;
+
+  @EnviedField(varName: 'ADMOB_BANNER_ID_IOS')
+  static final String admobBannerIdIos = _Env.admobBannerIdIos;
+
+  @EnviedField(varName: 'ADMOB_BANNER_ID_ANDROID')
+  static final String admobBannerIdAndroid = _Env.admobBannerIdAndroid;
 }

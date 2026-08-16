@@ -38,13 +38,20 @@ platform :android do
     updated_pubspec = current_pubspec.gsub(/version: .+/, "version: #{new_version}")
     File.write(pubspec_path, updated_pubspec)
     
+    # Наши собственные устройства получают тестовые креативы, поэтому
+    # случайный тап не превратится в недействительный трафик. Совпадение
+    # идёт по конкретным id, остальным пользователям реклама живая.
+    test_device_ids = ENV['ADMOB_TEST_DEVICE_IDS'].to_s
+    ads_define = "--dart-define=ADMOB_TEST_DEVICE_IDS=#{test_device_ids}"
+    UI.important("ADMOB_TEST_DEVICE_IDS пуст — на своих устройствах реклама будет живой") if test_device_ids.empty?
+
     # Собираем AAB через Flutter
     sh("cd ../.. && flutter clean") # опционально, для чистой сборки
     sh("cd ../.. && flutter pub get")
-    sh("cd ../.. && flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info")
-    
+    sh("cd ../.. && flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info #{ads_define}")
+
     # Собираем APK для прямой дистрибуции
-    sh("cd ../.. && flutter build apk --release --obfuscate --split-debug-info=build/debug-info")
+    sh("cd ../.. && flutter build apk --release --obfuscate --split-debug-info=build/debug-info #{ads_define}")
     
     # Генерируем чексумму для APK
     sh("cd ../../build/app/outputs/flutter-apk && sha256sum app-release.apk > app-release.apk.sha256")
