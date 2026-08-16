@@ -7,6 +7,8 @@ abstract interface class AppEnv {
   String get admobAppIdIos;
   String get admobInterstitialIdIos;
   String get admobInterstitialIdAndroid;
+  String get admobBannerIdIos;
+  String get admobBannerIdAndroid;
 }
 
 final class DefaultAppEnv implements AppEnv {
@@ -29,4 +31,10 @@ final class DefaultAppEnv implements AppEnv {
 
   @override
   String get admobInterstitialIdAndroid => Env.admobInterstitialIdAndroid;
+
+  @override
+  String get admobBannerIdIos => Env.admobBannerIdIos;
+
+  @override
+  String get admobBannerIdAndroid => Env.admobBannerIdAndroid;
 }

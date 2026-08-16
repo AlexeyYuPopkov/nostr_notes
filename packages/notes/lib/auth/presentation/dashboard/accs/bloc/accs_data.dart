@@ -2,13 +2,10 @@ import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 
 final class AccsData extends Equatable {
-  /// All decrypted login items of the current account.
+  static const adBannerOffset = 3;
+
   final List<LoginItem> items;
-
-  /// Subset of [items] matching [searchString]; only meaningful while
-  /// [searchString] is non-empty.
   final List<LoginItem> filtered;
-
   final String searchString;
 
   const AccsData._({
@@ -27,6 +24,16 @@ final class AccsData extends Equatable {
 
   bool get isSearching => searchString.trim().isNotEmpty;
 
+  List<AccsDataItem> get displayItems {
+    final rows = [
+      for (final item in visibleItems) AccsDataLoginItem(item: item),
+    ];
+    if (isSearching || rows.isEmpty) return rows;
+
+    final at = rows.length < adBannerOffset ? rows.length : adBannerOffset;
+    return [...rows.take(at), const AccsDataAdBanner(), ...rows.skip(at)];
+  }
+
   @override
   List<Object?> get props => [items, filtered, searchString];
 
@@ -41,4 +48,24 @@ final class AccsData extends Equatable {
       searchString: searchString ?? this.searchString,
     );
   }
+}
+
+/// A row of the accounts list: either a stored credential or the ad slot.
+sealed class AccsDataItem extends Equatable {
+  const AccsDataItem();
+}
+
+final class AccsDataLoginItem extends AccsDataItem {
+  final LoginItem item;
+  const AccsDataLoginItem({required this.item});
+
+  @override
+  List<Object?> get props => [item];
+}
+
+final class AccsDataAdBanner extends AccsDataItem {
+  const AccsDataAdBanner();
+
+  @override
+  List<Object?> get props => const [];
 }

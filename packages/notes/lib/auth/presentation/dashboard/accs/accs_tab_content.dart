@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/bloc/accs_bloc.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/accs/bloc/accs_data.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/bloc/accs_event.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/bloc/accs_state.dart';
+import 'package:nostr_notes/services/ads/ad_banner.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/widgets/account_list_card.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes_list_tab.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/notes_list_section_header.dart';
@@ -24,13 +26,13 @@ final class AccsTabContent extends StatelessWidget {
         }
 
         final data = state.data;
-        final items = data.visibleItems;
 
-        if (items.isEmpty) {
+        if (data.visibleItems.isEmpty) {
           return _AccsEmpty(isSearching: data.isSearching);
         }
 
-        final itemsLength = items.length;
+        final rows = data.displayItems;
+        final positions = _cardPositions(rows);
 
         return RefreshIndicator.adaptive(
           displacement: kNotesListHeaderWithSearch,
@@ -42,7 +44,7 @@ final class AccsTabContent extends StatelessWidget {
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  childCount: itemsLength + 1,
+                  childCount: rows.length + 1,
                   (context, index) {
                     if (index == 0) {
                       return NotesListSectionHeader(
@@ -50,18 +52,18 @@ final class AccsTabContent extends StatelessWidget {
                         isFirst: true,
                       );
                     }
-                    final itemIndex = index - 1;
-                    return AccountListCard(
-                      item: items[itemIndex],
-                      position: ListItemPosition.fromIndex(
-                        itemIndex,
-                        length: itemsLength,
+                    final rowIndex = index - 1;
+                    return switch (rows[rowIndex]) {
+                      AccsDataLoginItem(:final item) => AccountListCard(
+                        item: item,
+                        position: positions[rowIndex]!,
+                        onTap: onDetails,
+                        onDelete: (item) => context.read<AccsBloc>().add(
+                          AccsEvent.deleteItem(item),
+                        ),
                       ),
-                      onTap: onDetails,
-                      onDelete: (item) => context.read<AccsBloc>().add(
-                        AccsEvent.deleteItem(item),
-                      ),
-                    );
+                      AccsDataAdBanner() => const _AccsAdSlot(),
+                    };
                   },
                 ),
               ),
@@ -80,6 +82,52 @@ final class AccsTabContent extends StatelessWidget {
   Future<void> _onRefresh(BuildContext context) {
     context.read<AccsBloc>().add(const AccsEvent.sync());
     return Future.delayed(Durations.extralong1);
+  }
+
+  /// Rounded corners and separators group adjacent cards into one block, so
+  /// a position has to be read within its own run rather than the whole
+  /// list: the banner splits the run, and the card above it has to render as
+  /// the last of its group instead of a middle one. Null where a row is the
+  /// banner itself.
+  static List<ListItemPosition?> _cardPositions(List<AccsDataItem> rows) {
+    final positions = List<ListItemPosition?>.filled(rows.length, null);
+    var runStart = 0;
+
+    void closeRun(int end) {
+      final length = end - runStart;
+      for (var i = 0; i < length; i++) {
+        positions[runStart + i] = ListItemPosition.fromIndex(i, length: length);
+      }
+    }
+
+    for (var i = 0; i < rows.length; i++) {
+      if (rows[i] is AccsDataLoginItem) continue;
+      closeRun(i);
+      runStart = i + 1;
+    }
+    closeRun(rows.length);
+
+    return positions;
+  }
+}
+
+/// Keeps the banner visually apart from the credential cards it sits
+/// between: an ad that reads as another account row would invite taps meant
+/// for the list.
+final class _AccsAdSlot extends StatelessWidget {
+  const _AccsAdSlot();
+
+  @override
+  Widget build(BuildContext context) {
+    if (!AdBanner.isSupported) return const SizedBox.shrink();
+
+    return const Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: Sizes.indent,
+        vertical: Sizes.indent2x,
+      ),
+      child: Center(child: AdBanner()),
+    );
   }
 }
 
