@@ -242,10 +242,6 @@ class ExtraDerivation {
           recipientPublicKey: peerPubkey,
         );
 
-    log(
-      'Modifyed secret ${conversationKey.join(', ')}',
-      name: 'ExtraDerivation',
-    );
     // 32 байта
     return conversationKey;
   }
