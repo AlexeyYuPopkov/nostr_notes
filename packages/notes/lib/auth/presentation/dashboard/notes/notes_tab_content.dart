@@ -63,6 +63,8 @@ final class NotesTabContent extends StatelessWidget with LabelsPickerHelper {
     if (!hasAnyNotes && !hasQuery) {
       final breakpoint = Breakpoint.activeBreakpointOf(context);
       if (breakpoint.isSmall) {
+        // No coordinator: NotesList's own Scaffold already shows the button
+        // on a phone.
         return const HomeScreenEmptyStatePlaceholder();
       }
     }

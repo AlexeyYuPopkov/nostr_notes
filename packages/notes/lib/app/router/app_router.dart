@@ -174,7 +174,9 @@ final class AppRouter {
             name: AppRouterName.home,
             path: AppRouterPath.home,
             builder: (BuildContext context, GoRouterState state) {
-              return const HomeScreenEmptyStatePlaceholder();
+              return const HomeScreenEmptyStatePlaceholder(
+                coordinator: HomeScreenEmptyStatePlaceholderCoordinatorImpl(),
+              );
             },
             routes: [
               ...noteRouter.getRoutes(),

@@ -4,6 +4,7 @@ import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/bloc/dashboard_bloc.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/bloc/dashboard_state.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes_list_tab.dart';
+import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
@@ -20,12 +21,30 @@ enum HomeScreenEmptyStatePlaceholderType {
         return l10n.homeScreenEmptyStateAccsPlaceholder;
     }
   }
+
+  String getFabTooltip(Localization l10n) {
+    switch (this) {
+      case HomeScreenEmptyStatePlaceholderType.createNote:
+        return l10n.notesListNewNoteTooltip;
+      case HomeScreenEmptyStatePlaceholderType.createLoginItem:
+        return l10n.accsAddTitle;
+    }
+  }
+}
+
+abstract interface class HomeScreenEmptyStatePlaceholderCoordinator {
+  const HomeScreenEmptyStatePlaceholderCoordinator();
+
+  void onCreateNoteRoute(BuildContext context);
+  void onCreateLoginItemRoute(BuildContext context);
 }
 
 final class HomeScreenEmptyStatePlaceholder extends StatelessWidget {
   static const double opacity = 0.4;
 
-  const HomeScreenEmptyStatePlaceholder({super.key});
+  final HomeScreenEmptyStatePlaceholderCoordinator? coordinator;
+
+  const HomeScreenEmptyStatePlaceholder({super.key, this.coordinator});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +56,7 @@ final class HomeScreenEmptyStatePlaceholder extends StatelessWidget {
           NotesNotesTab() => HomeScreenEmptyStatePlaceholderType.createNote,
           AccsTab() => HomeScreenEmptyStatePlaceholderType.createLoginItem,
         };
-        return LayoutBuilder(
+        final content = LayoutBuilder(
           builder: (context, constraints) {
             final width = constraints.maxWidth;
 
@@ -75,7 +94,33 @@ final class HomeScreenEmptyStatePlaceholder extends StatelessWidget {
             );
           },
         );
+
+        final coordinator = this.coordinator;
+        if (coordinator == null) return content;
+
+        return Scaffold(
+          body: content,
+          floatingActionButton: Fab(
+            onNewNote: () => _onCreate(context, coordinator, type),
+            tooltip: type.getFabTooltip(context.l10n),
+          ),
+        );
       },
     );
+  }
+
+  void _onCreate(
+    BuildContext context,
+    HomeScreenEmptyStatePlaceholderCoordinator coordinator,
+    HomeScreenEmptyStatePlaceholderType type,
+  ) {
+    switch (type) {
+      case HomeScreenEmptyStatePlaceholderType.createNote:
+        coordinator.onCreateNoteRoute(context);
+        break;
+      case HomeScreenEmptyStatePlaceholderType.createLoginItem:
+        coordinator.onCreateLoginItemRoute(context);
+        break;
+    }
   }
 }
