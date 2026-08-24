@@ -232,6 +232,7 @@
     "notesListNewNoteTooltip": "Нова бележка",
     "notesFoldersEmptyStatePlaceholder": "Присвоявайте етикети на бележките, за да ги групирате в папки",
     "homeScreenEmptyStatePlaceholder": "Натиснете +, за да създадете бележка",
+    "homeScreenEmptyStateAccsPlaceholder": "Натиснете +, за да добавите акаунт",
     "notesListSectionToday": "Днес",
     "notesListSectionPrevious7Days": "Последните 7 дни",
     "notesListSectionPrevious30Days": "Последните 30 дни",

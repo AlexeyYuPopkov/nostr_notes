@@ -3,15 +3,17 @@ import 'dart:async';
 import 'package:common/domain/usecases/relays_monitoring_usecase.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr/model/user_keys.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/bloc/dashboard_bloc.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes_list.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/notes_list_card.dart';
-import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholder.dart';
+import 'package:nostr_notes/auth/presentation/widgets/home_screen_empty_state_placeholder.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/common/presentation/shimmers/common_shimmer_placeholder.dart';
@@ -188,9 +190,12 @@ void main() {
       await tester.pumpWidget(
         AppLauncher.launchApp(
           tester: tester,
-          child: const NotesList(
-            selectedNoteDTag: '',
-            coordinator: _TestNotesListCoordinator(),
+          child: BlocProvider(
+            create: (_) => DashboardBloc(),
+            child: const NotesList(
+              selectedNoteDTag: '',
+              coordinator: _TestNotesListCoordinator(),
+            ),
           ),
         ),
       );
@@ -206,12 +211,12 @@ void main() {
       // used instead (see PumpHelpers.pumpFrames doc comment).
       await PumpHelpers.waitFor(
         tester,
-        find.byType(NewNotePromptPlaceholder),
+        find.byType(HomeScreenEmptyStatePlaceholder),
         reason:
             'empty-state placeholder should appear once notes finish loading',
       );
 
-      expect(find.byType(NewNotePromptPlaceholder), findsOneWidget);
+      expect(find.byType(HomeScreenEmptyStatePlaceholder), findsOneWidget);
       expect(find.byType(CommonShimmer), findsNothing);
       await PumpHelpers.pumpFrames(tester);
 
@@ -290,9 +295,12 @@ void main() {
       await tester.pumpWidget(
         AppLauncher.launchApp(
           tester: tester,
-          child: const NotesList(
-            selectedNoteDTag: '',
-            coordinator: _TestNotesListCoordinator(),
+          child: BlocProvider(
+            create: (_) => DashboardBloc(),
+            child: const NotesList(
+              selectedNoteDTag: '',
+              coordinator: _TestNotesListCoordinator(),
+            ),
           ),
         ),
       );
@@ -358,9 +366,12 @@ void main() {
       await tester.pumpWidget(
         AppLauncher.launchApp(
           tester: tester,
-          child: const NotesList(
-            selectedNoteDTag: '',
-            coordinator: _TestNotesListCoordinator(),
+          child: BlocProvider(
+            create: (_) => DashboardBloc(),
+            child: const NotesList(
+              selectedNoteDTag: '',
+              coordinator: _TestNotesListCoordinator(),
+            ),
           ),
         ),
       );

@@ -1402,6 +1402,12 @@ abstract class AppLocalizations {
   /// **'Tap + to start writing'**
   String get homeScreenEmptyStatePlaceholder;
 
+  /// No description provided for @homeScreenEmptyStateAccsPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + to add an account'**
+  String get homeScreenEmptyStateAccsPlaceholder;
+
   /// No description provided for @notesListSectionToday.
   ///
   /// In en, this message translates to:

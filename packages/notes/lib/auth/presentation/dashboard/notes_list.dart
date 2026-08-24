@@ -69,9 +69,11 @@ final class NotesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    // DashboardBloc comes from HomeScreen: the routed screen in the other
+    // pane reads the same tab, and a second instance here would drift from
+    // it silently.
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => DashboardBloc()),
         BlocProvider(
           create: (context) =>
               AccsBloc(dashboardBloc: context.read<DashboardBloc>()),

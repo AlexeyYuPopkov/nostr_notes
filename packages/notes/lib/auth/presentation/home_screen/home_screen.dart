@@ -12,7 +12,8 @@ import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/domain/usecase/desktop_ratio_usecase.dart';
 import 'package:nostr_notes/auth/presentation/account_switcher/account_switcher_panel.dart';
-import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/bloc/dashboard_bloc.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/left_drawer.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/widgets/resize_divider.dart';
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
@@ -119,11 +120,18 @@ final class _HomeScreenState extends State<HomeScreen> {
           width: isDesktop ? drawerWidth : double.infinity,
           child: DrawerRouter(screensAssembly: widget.screensAssembly),
         ),
-        body: RouteHandlerWidget(
-          onRoute: (route, ctx) {
-            return RouteHandler.of(context)?.onRoute(route, ctx);
-          },
-          child: _buildAdaptiveLayout(context, screenWidth),
+        // Above AdaptiveLayout because both panes need the tab: the list
+        // builds it in the body slot, while the secondary slot holds the
+        // routed screen — siblings, so a provider inside either one is
+        // invisible to the other.
+        body: BlocProvider(
+          create: (_) => DashboardBloc(),
+          child: RouteHandlerWidget(
+            onRoute: (route, ctx) {
+              return RouteHandler.of(context)?.onRoute(route, ctx);
+            },
+            child: _buildAdaptiveLayout(context, screenWidth),
+          ),
         ),
       ),
     );
@@ -154,12 +162,7 @@ final class _HomeScreenState extends State<HomeScreen> {
 
     asc.SlotLayoutConfig secondaryConfig() => asc.SlotLayout.from(
       key: const Key('SecondaryBody Desktop'),
-      builder: (_) => Scaffold(
-        body: widget.child,
-        floatingActionButton: Fab(
-          onNewNote: () => widget.coordinator.onNewNoteRoute(context),
-        ),
-      ),
+      builder: (_) => widget.child,
     );
 
     asc.SlotLayoutConfig smallConfig() => asc.SlotLayout.from(

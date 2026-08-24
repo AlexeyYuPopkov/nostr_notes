@@ -747,6 +747,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Нажмите +, чтобы создать заметку';
 
   @override
+  String get homeScreenEmptyStateAccsPlaceholder =>
+      'Нажмите +, чтобы добавить аккаунт';
+
+  @override
   String get notesListSectionToday => 'Сегодня';
 
   @override

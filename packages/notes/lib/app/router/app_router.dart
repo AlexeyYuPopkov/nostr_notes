@@ -15,7 +15,7 @@ import 'package:nostr_notes/auth/presentation/home_screen/left_drawer.dart';
 import 'package:nostr_notes/auth/presentation/login_item_form/login_item_form_screen.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
-import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholder.dart';
+import 'package:nostr_notes/auth/presentation/widgets/home_screen_empty_state_placeholder.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/onboarding_screen.dart';
@@ -174,7 +174,7 @@ final class AppRouter {
             name: AppRouterName.home,
             path: AppRouterPath.home,
             builder: (BuildContext context, GoRouterState state) {
-              return const NewNotePromptPlaceholder();
+              return const HomeScreenEmptyStatePlaceholder();
             },
             routes: [
               ...noteRouter.getRoutes(),

@@ -735,6 +735,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeScreenEmptyStatePlaceholder => 'Tap + to start writing';
 
   @override
+  String get homeScreenEmptyStateAccsPlaceholder => 'Tap + to add an account';
+
+  @override
   String get notesListSectionToday => 'Today';
 
   @override

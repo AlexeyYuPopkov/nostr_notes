@@ -232,6 +232,7 @@
     "notesListNewNoteTooltip": "Новая заметка",
     "notesFoldersEmptyStatePlaceholder": "Назначайте метки заметкам, чтобы группировать их по папкам",
     "homeScreenEmptyStatePlaceholder": "Нажмите +, чтобы создать заметку",
+    "homeScreenEmptyStateAccsPlaceholder": "Нажмите +, чтобы добавить аккаунт",
     "notesListSectionToday": "Сегодня",
     "notesListSectionPrevious7Days": "Предыдущие 7 дней",
     "notesListSectionPrevious30Days": "Предыдущие 30 дней",

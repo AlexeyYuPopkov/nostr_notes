@@ -746,6 +746,10 @@ class AppLocalizationsBg extends AppLocalizations {
       'Натиснете +, за да създадете бележка';
 
   @override
+  String get homeScreenEmptyStateAccsPlaceholder =>
+      'Натиснете +, за да добавите акаунт';
+
+  @override
   String get notesListSectionToday => 'Днес';
 
   @override
