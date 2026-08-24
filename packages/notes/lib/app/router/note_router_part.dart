@@ -22,11 +22,15 @@ final class EditMarkdownNoteScreenCoordinatorImpl
 }
 
 final class NotePreviewScreenCoordinatorImpl
+    with NewNoteRoute
     implements NotePreviewScreenCoordinator {
   const NotePreviewScreenCoordinatorImpl();
 
   @override
-  FutureOr<dynamic> onNoteDetailsRoute(
+  void onCreateNoteRoute(BuildContext context) => newNote(context);
+
+  @override
+  FutureOr<dynamic> onNoteEditRoute(
     BuildContext context, {
     required String noteId,
   }) {

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
+import 'package:nostr_notes/app/router/create_routes.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:nostr_notes/auth/presentation/edit_note_markdown_screen/edit_note_markdown_screen.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';

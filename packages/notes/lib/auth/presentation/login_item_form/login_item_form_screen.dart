@@ -14,6 +14,8 @@ import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/ac
 import 'package:nostr_notes/auth/presentation/login_item_form/widgets/login_item_go_icon.dart';
 import 'package:nostr_notes/auth/presentation/tools/clipboard_helper.dart';
 import 'package:nostr_notes/auth/presentation/tools/share_file_helper.dart';
+import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
+import 'package:nostr_notes/common/presentation/layout/breakpoints.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 
 import 'bloc/login_item_details_params.dart';
@@ -27,6 +29,8 @@ import 'widgets/login_item_form_password_strength.dart';
 import 'widgets/login_item_form_text_field.dart';
 
 abstract interface class LoginItemFormScreenCoordinator {
+  void onCreateLoginItemRoute(BuildContext context);
+
   FutureOr<dynamic> onRawEventRoute(
     BuildContext context, {
     required String eventId,
@@ -129,6 +133,18 @@ final class LoginItemFormScreen extends StatelessWidget
             final item = state.data.initialItem.value;
 
             return Scaffold(
+              // While editing, the screen already has Save; adding "create
+              // another" next to unsaved changes invites losing them. Same
+              // breakpoint rule as the note preview — a phone shows this
+              // screen on top of the list, which has its own button.
+              floatingActionButton:
+                  !readonly || Breakpoint.activeBreakpointOf(context).isSmall
+                  ? null
+                  : Fab(
+                      onNewNote: () =>
+                          coordinator.onCreateLoginItemRoute(context),
+                      tooltip: context.l10n.accsAddTitle,
+                    ),
               body: AbsorbPointer(
                 absorbing: isLoading,
                 child: CustomScrollView(

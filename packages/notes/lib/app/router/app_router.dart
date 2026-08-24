@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
+import 'package:nostr_notes/app/router/create_routes.dart';
 import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/app_screens_assembly.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';

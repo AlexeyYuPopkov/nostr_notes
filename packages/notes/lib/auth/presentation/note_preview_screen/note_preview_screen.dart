@@ -13,6 +13,8 @@ import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/labels_picker.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import/export_password_dialog.dart';
 import 'package:nostr_notes/auth/presentation/tools/share_file_helper.dart';
+import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
+import 'package:nostr_notes/common/presentation/layout/breakpoints.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
@@ -30,7 +32,9 @@ import 'widgets/note_preview_search_widgets.dart';
 part 'note_preview_screen_share_part.dart';
 
 abstract interface class NotePreviewScreenCoordinator {
-  FutureOr<dynamic> onNoteDetailsRoute(
+  void onCreateNoteRoute(BuildContext context);
+
+  FutureOr<dynamic> onNoteEditRoute(
     BuildContext context, {
     required String noteId,
   });
@@ -111,6 +115,16 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
                 final isEnabled = note != null && state is! CannotDecryptState;
 
                 return Scaffold(
+                  // Only where this screen shares the window with the list:
+                  // full-screen on a phone it sits on top of the list, which
+                  // already offers the button one step back.
+                  floatingActionButton:
+                      Breakpoint.activeBreakpointOf(context).isSmall
+                      ? null
+                      : Fab(
+                          onNewNote: () =>
+                              widget.coordinator.onCreateNoteRoute(context),
+                        ),
                   appBar: AppBar(
                     actions: [
                       if (const AppPlatform().isDesktopLayout)
@@ -250,7 +264,7 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
   }
 
   void _onEdit(BuildContext context, String noteId) {
-    widget.coordinator.onNoteDetailsRoute(context, noteId: noteId);
+    widget.coordinator.onNoteEditRoute(context, noteId: noteId);
   }
 
   Future _onRefresh(BuildContext context) async {

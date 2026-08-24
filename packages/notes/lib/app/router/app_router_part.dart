@@ -1,7 +1,7 @@
 part of 'app_router.dart';
 
 final class HomeScreenCoordinatorImpl
-    with _NewLoginItem, _NewNote
+    with NewLoginItemRoute, NewNoteRoute
     implements HomeScreenCoordinator {
   final GlobalKey<ScaffoldState> _homeScaffoldKey;
   final GlobalKey<LeftDrawerState> _leftDrawerKey;
@@ -17,9 +17,10 @@ final class HomeScreenCoordinatorImpl
     BuildContext context, {
     required String noteId,
   }) {
-    final router = GoRouter.of(context);
     const path = '${AppRouterPath.home}/${AppRouterPath.noteDetails}';
-    return router.push(path, extra: PathParams(id: noteId).toJson());
+    GoRouter.of(
+      context,
+    ).openInPane(path, extra: PathParams(id: noteId).toJson());
   }
 
   @override
@@ -40,7 +41,7 @@ final class HomeScreenCoordinatorImpl
   }
 
   @override
-  void onAddLoginItemRoute(BuildContext context) => loginItem(context);
+  void onAddLoginItemRoute(BuildContext context) => newLoginItem(context);
 
   @override
   void onLoginItemDetails(
@@ -48,23 +49,21 @@ final class HomeScreenCoordinatorImpl
     required LoginItem item,
     required bool readonly,
   }) {
-    final router = GoRouter.of(context);
     const path = '${AppRouterPath.home}${AppRouterPath.loginItemForm}';
-    final extra = LoginItemDetailsParams(
-      id: item.dTag,
-      readonly: readonly,
-    ).toJson();
-    if (router.state.fullPath == AppRouterPath.home) {
-      router.push(path, extra: extra);
-    } else {
-      router.pushReplacement(path, extra: extra);
-    }
+    GoRouter.of(context).openInPane(
+      path,
+      extra: LoginItemDetailsParams(id: item.dTag, readonly: readonly).toJson(),
+    );
   }
 }
 
 final class LoginItemFormScreenCoordinatorImpl
+    with NewLoginItemRoute
     implements LoginItemFormScreenCoordinator {
   const LoginItemFormScreenCoordinatorImpl();
+
+  @override
+  void onCreateLoginItemRoute(BuildContext context) => newLoginItem(context);
 
   @override
   FutureOr<dynamic> onRawEventRoute(
@@ -83,39 +82,12 @@ final class LoginItemFormScreenCoordinatorImpl
 }
 
 final class HomeScreenEmptyStatePlaceholderCoordinatorImpl
-    with _NewLoginItem, _NewNote
+    with NewLoginItemRoute, NewNoteRoute
     implements HomeScreenEmptyStatePlaceholderCoordinator {
   const HomeScreenEmptyStatePlaceholderCoordinatorImpl();
   @override
   void onCreateNoteRoute(BuildContext context) => newNote(context);
 
   @override
-  void onCreateLoginItemRoute(BuildContext context) => loginItem(context);
-}
-
-mixin _NewLoginItem {
-  void loginItem(BuildContext context) {
-    final router = GoRouter.of(context);
-    final extra = LoginItemDetailsParams(id: '', readonly: false).toJson();
-    const path = '${AppRouterPath.home}${AppRouterPath.loginItemForm}';
-
-    if (router.state.fullPath == AppRouterPath.home) {
-      router.push(path, extra: extra);
-    } else {
-      router.pushReplacement(path, extra: extra);
-    }
-  }
-}
-
-mixin _NewNote {
-  void newNote(BuildContext context) {
-    final router = GoRouter.of(context);
-    const path = '${AppRouterPath.home}/${AppRouterPath.editNote}';
-
-    if (router.state.fullPath == AppRouterPath.home) {
-      router.push(path);
-    } else {
-      router.pushReplacement(path);
-    }
-  }
+  void onCreateLoginItemRoute(BuildContext context) => newLoginItem(context);
 }
