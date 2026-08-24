@@ -151,8 +151,8 @@ final class AppRouter {
               ? PathParams.fromJson(extra).id
               : null;
           final hasNote =
-              state.fullPath?.contains(AppRouterPath.notePreview) == true ||
-              state.fullPath?.contains(AppRouterPath.noteDetails) == true;
+              state.fullPath?.contains(AppRouterPath.noteDetails) == true ||
+              state.fullPath?.contains(AppRouterPath.editNote) == true;
 
           return Scaffold(
             body: HomeScreen(
@@ -176,31 +176,32 @@ final class AppRouter {
             builder: (BuildContext context, GoRouterState state) {
               return const NewNotePromptPlaceholder();
             },
-            routes: [...noteRouter.getRoutes()],
-          ),
-        ],
-      ),
-
-      GoRoute(
-        path: AppRouterPath.loginItemForm,
-        builder: (BuildContext context, GoRouterState state) {
-          final extra = state.extra;
-          final params = LoginItemDetailsParams.fromJson(
-            extra as Map<String, dynamic>,
-          );
-          return _screensAssembly.createLoginItemFormScreen(
-            params: params,
-            coordinator: const LoginItemFormScreenCoordinatorImpl(),
-          );
-        },
-        routes: [
-          GoRoute(
-            path: AppRouterPath.rawEventDetails,
-            builder: (context, state) {
-              final extra = state.extra as Map<String, dynamic>;
-              final params = PathParamsEventId.fromJson(extra);
-              return _screensAssembly.createRawEventScreen(params);
-            },
+            routes: [
+              ...noteRouter.getRoutes(),
+              GoRoute(
+                path: AppRouterPath.loginItemForm,
+                builder: (BuildContext context, GoRouterState state) {
+                  final extra = state.extra;
+                  final params = LoginItemDetailsParams.fromJson(
+                    extra as Map<String, dynamic>,
+                  );
+                  return _screensAssembly.createLoginItemFormScreen(
+                    params: params,
+                    coordinator: const LoginItemFormScreenCoordinatorImpl(),
+                  );
+                },
+                routes: [
+                  GoRoute(
+                    path: AppRouterPath.rawEventDetails,
+                    builder: (context, state) {
+                      final extra = state.extra as Map<String, dynamic>;
+                      final params = PathParamsEventId.fromJson(extra);
+                      return _screensAssembly.createRawEventScreen(params);
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),

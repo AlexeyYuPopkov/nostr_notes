@@ -120,8 +120,9 @@ final class _HomeScreenState extends State<HomeScreen> {
           child: DrawerRouter(screensAssembly: widget.screensAssembly),
         ),
         body: RouteHandlerWidget(
-          onRoute: (route, ctx) =>
-              RouteHandler.of(context)?.onRoute(route, ctx),
+          onRoute: (route, ctx) {
+            return RouteHandler.of(context)?.onRoute(route, ctx);
+          },
           child: _buildAdaptiveLayout(context, screenWidth),
         ),
       ),

@@ -16,17 +16,14 @@ final class HomeScreenCoordinatorImpl implements HomeScreenCoordinator {
     required String noteId,
   }) {
     final router = GoRouter.of(context);
-
-    return router.push(
-      '${AppRouterPath.home}/${AppRouterPath.notePreview}',
-      extra: PathParams(id: noteId).toJson(),
-    );
+    const path = '${AppRouterPath.home}/${AppRouterPath.noteDetails}';
+    return router.push(path, extra: PathParams(id: noteId).toJson());
   }
 
   @override
   void onNewNoteRoute(BuildContext context) {
     final router = GoRouter.of(context);
-    const path = '${AppRouterPath.home}/${AppRouterPath.noteDetails}';
+    const path = '${AppRouterPath.home}/${AppRouterPath.editNote}';
     return router.go(path);
   }
 
@@ -46,10 +43,14 @@ final class HomeScreenCoordinatorImpl implements HomeScreenCoordinator {
 
   @override
   void onAddLoginItemRoute(BuildContext context) {
-    GoRouter.of(context).push(
-      AppRouterPath.loginItemForm,
-      extra: LoginItemDetailsParams(id: '', readonly: false).toJson(),
-    );
+    final router = GoRouter.of(context);
+    final extra = LoginItemDetailsParams(id: '', readonly: false).toJson();
+
+    if (router.state.fullPath == AppRouterPath.home) {
+      router.push(AppRouterPath.loginItemForm, extra: extra);
+    } else {
+      router.pushReplacement(AppRouterPath.loginItemForm, extra: extra);
+    }
   }
 
   @override
@@ -58,10 +59,17 @@ final class HomeScreenCoordinatorImpl implements HomeScreenCoordinator {
     required LoginItem item,
     required bool readonly,
   }) {
-    GoRouter.of(context).push(
-      AppRouterPath.loginItemForm,
-      extra: LoginItemDetailsParams(id: item.dTag, readonly: readonly).toJson(),
-    );
+    final router = GoRouter.of(context);
+    const path = '${AppRouterPath.home}${AppRouterPath.loginItemForm}';
+    final extra = LoginItemDetailsParams(
+      id: item.dTag,
+      readonly: readonly,
+    ).toJson();
+    if (router.state.fullPath == AppRouterPath.home) {
+      router.push(path, extra: extra);
+    } else {
+      router.pushReplacement(path, extra: extra);
+    }
   }
 }
 
@@ -75,9 +83,11 @@ final class LoginItemFormScreenCoordinatorImpl
     required String eventId,
   }) {
     final router = GoRouter.of(context);
+    const path =
+        '${AppRouterPath.home}${AppRouterPath.loginItemForm}/${AppRouterPath.rawEventDetails}';
 
     return router.push(
-      '${AppRouterPath.loginItemForm}/${AppRouterPath.rawEventDetails}',
+      path,
       extra: PathParamsEventId(eventId: eventId).toJson(),
     );
   }

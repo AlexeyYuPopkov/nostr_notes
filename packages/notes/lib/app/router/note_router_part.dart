@@ -15,7 +15,7 @@ final class EditMarkdownNoteScreenCoordinatorImpl
     // preview (`/home/note_preview`, a sibling under `home`) so "back" from the
     // preview returns home instead of the just-created empty editor.
     return router.pushReplacement(
-      '${AppRouterPath.home}/${AppRouterPath.notePreview}',
+      '${AppRouterPath.home}/${AppRouterPath.noteDetails}',
       extra: PathParams(id: noteId).toJson(),
     );
   }
@@ -33,7 +33,7 @@ final class NotePreviewScreenCoordinatorImpl
     final router = GoRouter.of(context);
 
     return router.push(
-      '${AppRouterPath.home}/${AppRouterPath.noteDetails}',
+      '${AppRouterPath.home}/${AppRouterPath.editNote}',
       extra: PathParams(id: noteId).toJson(),
     );
   }
@@ -44,9 +44,11 @@ final class NotePreviewScreenCoordinatorImpl
     required String eventId,
   }) {
     final router = GoRouter.of(context);
+    const path =
+        '${AppRouterPath.home}/${AppRouterPath.editNote}/${AppRouterPath.rawEventDetails}';
 
     return router.push(
-      '${AppRouterPath.home}/${AppRouterPath.noteDetails}/${AppRouterPath.rawEventDetails}',
+      path,
       extra: PathParamsEventId(eventId: eventId).toJson(),
     );
   }

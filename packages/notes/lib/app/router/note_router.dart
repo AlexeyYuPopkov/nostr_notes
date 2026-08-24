@@ -19,7 +19,7 @@ final class NoteRouter {
   List<GoRoute> getRoutes() {
     return [
       GoRoute(
-        path: AppRouterPath.notePreview,
+        path: AppRouterPath.noteDetails,
         pageBuilder: (BuildContext context, GoRouterState state) {
           final extra = state.extra as Map<String, dynamic>;
           final params = PathParams.fromJson(extra);
@@ -37,7 +37,7 @@ final class NoteRouter {
         },
       ),
       GoRoute(
-        path: AppRouterPath.noteDetails,
+        path: AppRouterPath.editNote,
         pageBuilder: (BuildContext context, GoRouterState state) {
           final extra = state.extra as Map<String, dynamic>?;
           final params = extra == null ? null : PathParams.fromJson(extra);
