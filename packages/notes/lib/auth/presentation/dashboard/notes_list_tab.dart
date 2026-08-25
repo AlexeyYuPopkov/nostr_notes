@@ -17,17 +17,11 @@ import 'accs/accs_tab_header.dart';
 import 'notes/bloc/notes_list_event.dart';
 
 const double kNotesListHeaderWithoutSearch = Sizes.indent4x + Sizes.indent2x;
-// Calibrated against NoteListHeader's actual rendered height, not just the
-// nominal search-field size — a smaller value here previously understated
-// it by 4px, which silently under-sized the content spacer but hard-
-// overflowed NoteListHeader's own SizedBox (which sizes to this exact
-// value). If NoteListHeader's content changes, re-measure and adjust here.
+
 const double _kSearchFieldHeight = 56.0;
 const double kNotesListHeaderWithSearch =
     kNotesListHeaderWithoutSearch + _kSearchFieldHeight;
-// The folder-filter chip row (see FolderFilterChipsRow) sits between the
-// toolbar and the search field whenever a filter is active. Same
-// calibration note as _kSearchFieldHeight above applies here.
+
 const double _kFilterChipRowHeight = 52.0;
 const double kNotesListHeaderWithSearchAndFilter =
     kNotesListHeaderWithSearch + _kFilterChipRowHeight;

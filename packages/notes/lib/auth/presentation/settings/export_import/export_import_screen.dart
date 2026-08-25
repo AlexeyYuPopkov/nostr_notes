@@ -125,9 +125,9 @@ final class _ExportImportView extends StatelessWidget
         );
         break;
       case ImportSuccessAccountsState():
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.accsBackupImportSuccess)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.accsBackupImportSuccess)));
         RouteHandler.of(context)?.onRoute(const CloseSettingsRoute(), context);
         break;
       case WillImportAccountsState():
@@ -199,9 +199,7 @@ final class _ExportImportView extends StatelessWidget
 
     return MultiBlocListener(
       listeners: [
-        BlocListener<ExportImportBloc, ExportImportState>(
-          listener: _listener,
-        ),
+        BlocListener<ExportImportBloc, ExportImportState>(listener: _listener),
         BlocListener<AccountsBackupBloc, AccountsBackupState>(
           listener: _accountsListener,
         ),
@@ -223,13 +221,8 @@ final class _ExportImportView extends StatelessWidget
                     subtitle: l10n.exportImportItemExportSubtitle,
                     sectionTitle: l10n.exportImportSectionDataTitle,
                     position: .first,
-                    trailing: const Icon(
-                      Icons.upload,
-                      size: Sizes.iconMedium,
-                    ),
-                    onTap: notesLoading
-                        ? null
-                        : () => onWillExportTap(context),
+                    trailing: const Icon(Icons.upload, size: Sizes.iconMedium),
+                    onTap: notesLoading ? null : () => onWillExportTap(context),
                   ),
                   SettingsItemTile(
                     title: Text(l10n.exportImportItemImportTitle),
@@ -239,19 +232,14 @@ final class _ExportImportView extends StatelessWidget
                       Icons.download,
                       size: Sizes.iconMedium,
                     ),
-                    onTap: notesLoading
-                        ? null
-                        : () => onWillImportTap(context),
+                    onTap: notesLoading ? null : () => onWillImportTap(context),
                   ),
                   SettingsItemTile(
                     title: Text(l10n.accsBackupItemExportTitle),
                     subtitle: l10n.accsBackupItemExportSubtitle,
                     sectionTitle: l10n.accsBackupSectionTitle,
                     position: .first,
-                    trailing: const Icon(
-                      Icons.upload,
-                      size: Sizes.iconMedium,
-                    ),
+                    trailing: const Icon(Icons.upload, size: Sizes.iconMedium),
                     onTap: accountsLoading
                         ? null
                         : () => onWillExportAccountsTap(context),

@@ -4,8 +4,8 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
-import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
+import 'package:nostr_notes/app/router/create_routes.dart';
 import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/app_screens_assembly.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
@@ -14,8 +14,7 @@ import 'package:nostr_notes/auth/presentation/home_screen/home_screen.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/left_drawer.dart';
 import 'package:nostr_notes/auth/presentation/login_item_form/login_item_form_screen.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
-import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
-import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholder.dart';
+import 'package:nostr_notes/auth/presentation/widgets/home_screen_empty_state_placeholder.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/onboarding_screen.dart';
@@ -33,6 +32,11 @@ final class AppRouter {
   final ScreensAssembly _screensAssembly;
   late final noteRouter = NoteRouter(screensAssembly: _screensAssembly);
   final _navigatorKey = GlobalKey<NavigatorState>();
+
+  late final _homeScreenCoordinator = HomeScreenCoordinatorImpl(
+    homeScaffoldKey: _homeScaffoldKey,
+    leftDrawerKey: _leftDrawerKey,
+  );
 
   AppRouter({ScreensAssembly screensAssembly = const AppScreensAssembly()})
     : _screensAssembly = screensAssembly {
@@ -78,8 +82,7 @@ final class AppRouter {
     debugLogDiagnostics: true,
     redirect: (context, state) {
       if (state.matchedLocation.contains(AppRouterPath.contacts) ||
-          state.matchedLocation.contains(AppRouterPath.privacyPolicy) ||
-          state.matchedLocation.contains(AppRouterPath.apkDistribution)) {
+          state.matchedLocation.contains(AppRouterPath.privacyPolicy)) {
         return null;
       }
 
@@ -102,18 +105,7 @@ final class AppRouter {
               ? OnboardingScreenParams.fromJson(extra)
               : const OnboardingScreenParams(addAccount: false);
 
-          return RouteHandlerWidget(
-            child: OnboardingScreen(params: params),
-            onRoute: (route, context) {
-              if (route is ApkDistributionRoute) {
-                return GoRouter.of(
-                  context,
-                ).pushNamed(AppRouterName.apkDistribution, extra: true);
-              }
-
-              return RouteHandler.of(context)?.onRoute(route, context);
-            },
-          );
+          return OnboardingScreen(params: params);
         },
         routes: [
           GoRoute(
@@ -132,15 +124,6 @@ final class AppRouter {
               );
             },
           ),
-          GoRoute(
-            name: AppRouterName.apkDistribution,
-            path: AppRouterPath.apkDistribution,
-            builder: (BuildContext context, GoRouterState state) {
-              return _screensAssembly.createApkDistributionScreen(
-                showAppBar: state.extra != null,
-              );
-            },
-          ),
         ],
       ),
 
@@ -150,20 +133,18 @@ final class AppRouter {
           final selectedNoteDTag = extra is Map<String, dynamic>
               ? PathParams.fromJson(extra).id
               : null;
-          final hasNote =
-              state.fullPath?.contains(AppRouterPath.notePreview) == true ||
-              state.fullPath?.contains(AppRouterPath.noteDetails) == true;
+          // Anything deeper than /home is a detail screen. Matching route
+          // names instead would need updating for every new one, which is
+          // how the login item form ended up rendered off-screen on phones.
+          final hasDetailRoute = state.fullPath != AppRouterPath.home;
 
           return Scaffold(
             body: HomeScreen(
               scaffoldKey: _homeScaffoldKey,
               leftDrawerKey: _leftDrawerKey,
               screensAssembly: _screensAssembly,
-              coordinator: HomeScreenCoordinatorImpl(
-                homeScaffoldKey: _homeScaffoldKey,
-                leftDrawerKey: _leftDrawerKey,
-              ),
-              hasNote: hasNote,
+              coordinator: _homeScreenCoordinator,
+              hasDetailRoute: hasDetailRoute,
               selectedNoteDTag: selectedNoteDTag,
               child: child,
             ),
@@ -174,33 +155,37 @@ final class AppRouter {
             name: AppRouterName.home,
             path: AppRouterPath.home,
             builder: (BuildContext context, GoRouterState state) {
-              return const NewNotePromptPlaceholder();
+              return const HomeScreenEmptyStatePlaceholder(
+                coordinator: HomeScreenEmptyStatePlaceholderCoordinatorImpl(),
+              );
             },
-            routes: [...noteRouter.getRoutes()],
-          ),
-        ],
-      ),
-
-      GoRoute(
-        path: AppRouterPath.loginItemForm,
-        builder: (BuildContext context, GoRouterState state) {
-          final extra = state.extra;
-          final params = LoginItemDetailsParams.fromJson(
-            extra as Map<String, dynamic>,
-          );
-          return _screensAssembly.createLoginItemFormScreen(
-            params: params,
-            coordinator: const LoginItemFormScreenCoordinatorImpl(),
-          );
-        },
-        routes: [
-          GoRoute(
-            path: AppRouterPath.rawEventDetails,
-            builder: (context, state) {
-              final extra = state.extra as Map<String, dynamic>;
-              final params = PathParamsEventId.fromJson(extra);
-              return _screensAssembly.createRawEventScreen(params);
-            },
+            routes: [
+              ...noteRouter.getRoutes(),
+              GoRoute(
+                path: AppRouterPath.loginItemForm,
+                builder: (BuildContext context, GoRouterState state) {
+                  final extra = state.extra;
+                  final params = LoginItemDetailsParams.fromJson(
+                    extra as Map<String, dynamic>,
+                  );
+                  return _screensAssembly.createLoginItemFormScreen(
+                    params: params,
+                    coordinator: const LoginItemFormScreenCoordinatorImpl(),
+                  );
+                },
+              ),
+              // A sibling of the detail screens, not a child: it is opened
+              // from both the note preview and the login item form, and
+              // nesting it under one of them made the other reach across.
+              GoRoute(
+                path: AppRouterPath.rawEventDetails,
+                builder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>;
+                  final params = PathParamsEventId.fromJson(extra);
+                  return _screensAssembly.createRawEventScreen(params);
+                },
+              ),
+            ],
           ),
         ],
       ),

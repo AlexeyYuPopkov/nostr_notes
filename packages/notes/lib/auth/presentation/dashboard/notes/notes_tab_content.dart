@@ -11,7 +11,7 @@ import 'package:nostr_notes/auth/presentation/dashboard/notes_list_tab.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/labels_picker.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/notes_list_card.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/notes_list_section_header.dart';
-import 'package:nostr_notes/auth/presentation/widgets/new_note_prompt_placeholder.dart';
+import 'package:nostr_notes/auth/presentation/widgets/home_screen_empty_state_placeholder.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 import 'package:nostr_notes/common/presentation/layout/breakpoints.dart';
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
@@ -53,9 +53,6 @@ final class NotesTabContent extends StatelessWidget with LabelsPickerHelper {
 
   @override
   Widget build(BuildContext context) {
-    // Not const — depends on showFolderFilterChips, so the indicator settles
-    // right below the header regardless of which of its two heights (with
-    // or without the filter-chip row) is currently showing.
     final refreshDisplacement = _headerHeight;
     if (isLoading) {
       return _ShimmersList(headerHeight: _headerHeight);
@@ -63,20 +60,18 @@ final class NotesTabContent extends StatelessWidget with LabelsPickerHelper {
 
     final hasQuery = showSearch && searchQuery.trim().isNotEmpty;
 
-    // No notes at all and not searching → keep the existing "create first
-    // note" placeholder (small screens), without showing a search field.
     if (!hasAnyNotes && !hasQuery) {
       final breakpoint = Breakpoint.activeBreakpointOf(context);
       if (breakpoint.isSmall) {
-        return const NewNotePromptPlaceholder();
+        // No coordinator: NotesList's own Scaffold already shows the button
+        // on a phone.
+        return const HomeScreenEmptyStatePlaceholder();
       }
     }
 
     final mediaPadding = MediaQuery.paddingOf(context);
     final bloc = context.read<NotesListBloc>();
 
-    // Active search with no matches — search field stays pinned above the
-    // message (showSearch is always true when hasQuery is true).
     if (sections.isEmpty && hasQuery) {
       return const _NoSearchResults();
     }

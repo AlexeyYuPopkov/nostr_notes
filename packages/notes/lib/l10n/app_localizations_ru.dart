@@ -77,29 +77,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get onboardingSignUpButtonGenerateKey => 'Создать ключ Nostr';
 
   @override
-  String get apkDistributionTitle => 'Установка на Android';
-
-  @override
-  String apkDistributionInstructions(String groupUrl, String testingUrl) {
-    return '1. Перейдите в [Google Group]($groupUrl) и нажмите **Join group** (или **Ask to join group**)\n\n2. После вступления откройте [тестовую ссылку]($testingUrl)\n\n3. Нажмите **Become a tester**\n\n4. Установите приложение из **Google Play**';
-  }
-
-  @override
-  String get apkDistributionSubtitle =>
-      'Приложение находится в стадии бета-тестирования. Чтобы установить его на Android, вступите в группу тестировщиков — загружать APK не нужно.';
-
-  @override
-  String get apkDistributionDescription =>
-      'Вы можете скачать установочный файл напрямую. Рекомендуется проверить контрольную сумму SHA-256 после скачивания.';
-
-  @override
-  String get apkDistributionDownloadButton => 'Скачать .apk';
-
-  @override
-  String get apkDistributionViewChecksum =>
-      'Посмотреть контрольную сумму (SHA-256)';
-
-  @override
   String get appStoreBannerTitle => 'Доступно в App Store';
 
   @override
@@ -745,6 +722,10 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get homeScreenEmptyStatePlaceholder =>
       'Нажмите +, чтобы создать заметку';
+
+  @override
+  String get homeScreenEmptyStateAccsPlaceholder =>
+      'Нажмите +, чтобы добавить аккаунт';
 
   @override
   String get notesListSectionToday => 'Сегодня';

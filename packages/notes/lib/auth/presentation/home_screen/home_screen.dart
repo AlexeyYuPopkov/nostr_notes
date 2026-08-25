@@ -12,7 +12,8 @@ import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/domain/usecase/desktop_ratio_usecase.dart';
 import 'package:nostr_notes/auth/presentation/account_switcher/account_switcher_panel.dart';
-import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/bloc/dashboard_bloc.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/left_drawer.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/widgets/resize_divider.dart';
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
@@ -30,7 +31,7 @@ final class HomeScreen extends StatefulWidget {
   final ScreensAssembly screensAssembly;
   final HomeScreenCoordinator coordinator;
   final Widget child;
-  final bool hasNote;
+  final bool hasDetailRoute;
   final String? selectedNoteDTag;
 
   const HomeScreen({
@@ -40,7 +41,7 @@ final class HomeScreen extends StatefulWidget {
     required this.screensAssembly,
     required this.coordinator,
     required this.child,
-    required this.hasNote,
+    required this.hasDetailRoute,
     this.selectedNoteDTag,
   });
 
@@ -119,10 +120,18 @@ final class _HomeScreenState extends State<HomeScreen> {
           width: isDesktop ? drawerWidth : double.infinity,
           child: DrawerRouter(screensAssembly: widget.screensAssembly),
         ),
-        body: RouteHandlerWidget(
-          onRoute: (route, ctx) =>
-              RouteHandler.of(context)?.onRoute(route, ctx),
-          child: _buildAdaptiveLayout(context, screenWidth),
+        // Above AdaptiveLayout because both panes need the tab: the list
+        // builds it in the body slot, while the secondary slot holds the
+        // routed screen — siblings, so a provider inside either one is
+        // invisible to the other.
+        body: BlocProvider(
+          create: (_) => DashboardBloc(),
+          child: RouteHandlerWidget(
+            onRoute: (route, ctx) {
+              return RouteHandler.of(context)?.onRoute(route, ctx);
+            },
+            child: _buildAdaptiveLayout(context, screenWidth),
+          ),
         ),
       ),
     );
@@ -153,18 +162,13 @@ final class _HomeScreenState extends State<HomeScreen> {
 
     asc.SlotLayoutConfig secondaryConfig() => asc.SlotLayout.from(
       key: const Key('SecondaryBody Desktop'),
-      builder: (_) => Scaffold(
-        body: widget.child,
-        floatingActionButton: Fab(
-          onNewNote: () => widget.coordinator.onNewNoteRoute(context),
-        ),
-      ),
+      builder: (_) => widget.child,
     );
 
     asc.SlotLayoutConfig smallConfig() => asc.SlotLayout.from(
       key: const Key('Body Small'),
       builder: (_) => _MobileLayout(
-        hasNote: widget.hasNote,
+        hasDetailRoute: widget.hasDetailRoute,
         selectedNoteDTag: widget.selectedNoteDTag,
         coordinator: widget.coordinator,
         child: widget.child,
@@ -205,12 +209,12 @@ final class _HomeScreenState extends State<HomeScreen> {
 
 final class _MobileLayout extends StatelessWidget {
   final Widget child;
-  final bool hasNote;
+  final bool hasDetailRoute;
   final HomeScreenCoordinator coordinator;
   final String? selectedNoteDTag;
   const _MobileLayout({
     required this.child,
-    required this.hasNote,
+    required this.hasDetailRoute,
     required this.coordinator,
     this.selectedNoteDTag,
   });
@@ -225,10 +229,10 @@ final class _MobileLayout extends StatelessWidget {
             coordinator: coordinator,
           ),
           AnimatedSlide(
-            offset: hasNote ? const Offset(0.0, 0.0) : const Offset(1.0, 0.0),
+            offset: hasDetailRoute ? const Offset(0.0, 0.0) : const Offset(1.0, 0.0),
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
-            child: hasNote ? child : const SizedBox.shrink(),
+            child: hasDetailRoute ? child : const SizedBox.shrink(),
           ),
         ],
       ),

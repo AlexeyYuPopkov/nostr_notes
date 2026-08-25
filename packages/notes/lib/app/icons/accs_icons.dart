@@ -26,17 +26,26 @@ final class AccsIcons {
   static const IconData airbnb = IconData(0xf167, fontFamily: _fontFamily);
   static const IconData aliexpress = IconData(0xf166, fontFamily: _fontFamily);
   static const IconData amazon = IconData(0xf165, fontFamily: _fontFamily);
-  static const IconData americanexpress = IconData(0xf164, fontFamily: _fontFamily);
+  static const IconData americanexpress = IconData(
+    0xf164,
+    fontFamily: _fontFamily,
+  );
   static const IconData apple = IconData(0xf163, fontFamily: _fontFamily);
   static const IconData applemusic = IconData(0xf162, fontFamily: _fontFamily);
   static const IconData asana = IconData(0xf161, fontFamily: _fontFamily);
   static const IconData atlassian = IconData(0xf160, fontFamily: _fontFamily);
-  static const IconData bankofamerica = IconData(0xf15f, fontFamily: _fontFamily);
+  static const IconData bankofamerica = IconData(
+    0xf15f,
+    fontFamily: _fontFamily,
+  );
   static const IconData binance = IconData(0xf15e, fontFamily: _fontFamily);
   static const IconData bitbucket = IconData(0xf15d, fontFamily: _fontFamily);
   static const IconData bitwarden = IconData(0xf15c, fontFamily: _fontFamily);
   static const IconData bluesky = IconData(0xf15b, fontFamily: _fontFamily);
-  static const IconData bookingdotcom = IconData(0xf15a, fontFamily: _fontFamily);
+  static const IconData bookingdotcom = IconData(
+    0xf15a,
+    fontFamily: _fontFamily,
+  );
   static const IconData box = IconData(0xf159, fontFamily: _fontFamily);
   static const IconData cashapp = IconData(0xf158, fontFamily: _fontFamily);
   static const IconData chase = IconData(0xf157, fontFamily: _fontFamily);
@@ -123,7 +132,10 @@ final class AccsIcons {
   static const IconData wordpress = IconData(0xf107, fontFamily: _fontFamily);
   static const IconData x = IconData(0xf106, fontFamily: _fontFamily);
   static const IconData youtube = IconData(0xf105, fontFamily: _fontFamily);
-  static const IconData youtubemusic = IconData(0xf104, fontFamily: _fontFamily);
+  static const IconData youtubemusic = IconData(
+    0xf104,
+    fontFamily: _fontFamily,
+  );
   static const IconData zelle = IconData(0xf103, fontFamily: _fontFamily);
   static const IconData zendesk = IconData(0xf102, fontFamily: _fontFamily);
   static const IconData zoom = IconData(0xf101, fontFamily: _fontFamily);

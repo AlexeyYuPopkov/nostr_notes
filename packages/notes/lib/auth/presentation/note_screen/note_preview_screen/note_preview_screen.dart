@@ -13,12 +13,14 @@ import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/labels_picker.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import/export_password_dialog.dart';
 import 'package:nostr_notes/auth/presentation/tools/share_file_helper.dart';
+import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
+import 'package:nostr_notes/common/presentation/layout/breakpoints.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/tools/note_decrypt_error_message_mixin.dart';
-import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_bloc.dart';
-import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
+import 'package:nostr_notes/auth/presentation/note_screen/note_preview_screen/bloc/note_preview_bloc.dart';
+import 'package:nostr_notes/auth/presentation/note_screen/note_preview_screen/bloc/note_preview_state.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 
 import 'package:nostr_notes/auth/domain/model/note.dart';
@@ -30,10 +32,7 @@ import 'widgets/note_preview_search_widgets.dart';
 part 'note_preview_screen_share_part.dart';
 
 abstract interface class NotePreviewScreenCoordinator {
-  FutureOr<dynamic> onNoteDetailsRoute(
-    BuildContext context, {
-    required String noteId,
-  });
+  void onCreateNoteRoute(BuildContext context);
 
   FutureOr<dynamic> onRawEventRoute(
     BuildContext context, {
@@ -45,10 +44,15 @@ final class NotePreviewScreen extends StatefulWidget {
   final PathParams pathParams;
   final NotePreviewScreenCoordinator coordinator;
 
+  /// Switching into the editor is the parent's business — it is a mode of the
+  /// same destination, not a place to navigate to.
+  final VoidCallback onEdit;
+
   const NotePreviewScreen({
     super.key,
     required this.pathParams,
     required this.coordinator,
+    required this.onEdit,
   });
 
   @override
@@ -111,6 +115,16 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
                 final isEnabled = note != null && state is! CannotDecryptState;
 
                 return Scaffold(
+                  // Only where this screen shares the window with the list:
+                  // full-screen on a phone it sits on top of the list, which
+                  // already offers the button one step back.
+                  floatingActionButton:
+                      Breakpoint.activeBreakpointOf(context).isSmall
+                      ? null
+                      : Fab(
+                          onNewNote: () =>
+                              widget.coordinator.onCreateNoteRoute(context),
+                        ),
                   appBar: AppBar(
                     actions: [
                       if (const AppPlatform().isDesktopLayout)
@@ -148,7 +162,7 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
                       _EditButton(
                         onPressed: note == null || state is CannotDecryptState
                             ? null
-                            : () => _onEdit(context, note.dTag),
+                            : widget.onEdit,
                       ),
                       const SizedBox(width: Sizes.indent2x),
                     ],
@@ -247,10 +261,6 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
         ),
       ),
     );
-  }
-
-  void _onEdit(BuildContext context, String noteId) {
-    widget.coordinator.onNoteDetailsRoute(context, noteId: noteId);
   }
 
   Future _onRefresh(BuildContext context) async {

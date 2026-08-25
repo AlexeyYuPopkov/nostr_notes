@@ -1,14 +1,13 @@
 import 'package:common/presentation/raw_event/raw_event_screen.dart';
 import 'package:nostr_notes/auth/presentation/login_item_form/bloc/login_item_details_params.dart';
-import 'package:nostr_notes/auth/presentation/settings/apk_distribution/apk_distribution_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/contacts/contacts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
-import 'package:nostr_notes/auth/presentation/edit_note_markdown_screen/edit_note_markdown_screen.dart';
+import 'package:nostr_notes/auth/presentation/note_screen/note_screen.dart';
 import 'package:nostr_notes/auth/presentation/login_item_form/login_item_form_screen.dart';
 
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
-import 'package:nostr_notes/auth/presentation/note_preview_screen/note_preview_screen.dart';
+import 'package:nostr_notes/auth/presentation/note_screen/note_preview_screen/note_preview_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/del_acc/del_acc_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/donate_lightning/donate_lightning_screen.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import/export_import_screen.dart';
@@ -21,27 +20,16 @@ final class AppScreensAssembly implements ScreensAssembly {
   const AppScreensAssembly();
 
   @override
-  Widget createNotePreview(
-    PathParams pathParams, {
+  Widget createNoteScreen(
+    PathParams? pathParams, {
     required NotePreviewScreenCoordinator coordinator,
   }) {
-    return NotePreviewScreen(pathParams: pathParams, coordinator: coordinator);
+    return NoteScreen(pathParams: pathParams, coordinator: coordinator);
   }
 
   @override
   Widget createRawEventScreen(PathParamsEventId params) {
     return RawEventScreen(eventId: params.eventId);
-  }
-
-  @override
-  Widget createEditNoteMarkdownScreen(
-    PathParams? pathParams, {
-    required EditMarkdownNoteScreenCoordinator coordinator,
-  }) {
-    return EditMarkdownNoteScreen(
-      pathParams: pathParams,
-      coordinator: coordinator,
-    );
   }
 
   @override
@@ -71,9 +59,6 @@ final class AppScreensAssembly implements ScreensAssembly {
   Widget createExportImportScreen() => const ExportImportScreen();
 
   @override
-  Widget createApkDistributionScreen({bool showAppBar = true}) =>
-      ApkDistributionScreen(showAppBar: showAppBar);
-
   @override
   Widget createLoginItemFormScreen({
     required LoginItemDetailsParams params,

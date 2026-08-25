@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nostr_notes/auth/presentation/edit_note_markdown_screen/tools/edit_note_formatters.dart';
+import 'package:nostr_notes/auth/presentation/note_screen/edit_note_markdown_screen/tools/edit_note_formatters.dart';
 import 'package:nostr_notes/auth/presentation/tools/utf8_length_limiting_text_input_formatter.dart';
 
 void main() {

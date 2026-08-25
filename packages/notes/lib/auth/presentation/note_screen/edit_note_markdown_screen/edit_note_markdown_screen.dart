@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,22 +13,14 @@ import 'bloc/markdown_edit_note_event.dart';
 import 'bloc/markdown_edit_note_state.dart';
 import 'tools/edit_note_formatters.dart';
 
-abstract interface class EditMarkdownNoteScreenCoordinator {
-  FutureOr<dynamic> onNotePreviewRoute(
-    BuildContext context, {
-    required String noteId,
-  });
-}
-
 final class EditMarkdownNoteScreen extends StatelessWidget with DialogHelper {
-  final EditMarkdownNoteScreenCoordinator coordinator;
   final PathParams? pathParams;
 
-  EditMarkdownNoteScreen({
-    super.key,
-    this.pathParams,
-    required this.coordinator,
-  });
+  /// Reports the id the note was stored under — freshly assigned for a note
+  /// that had none. Leaving the editor afterwards is the caller's call.
+  final ValueChanged<String> onSaved;
+
+  EditMarkdownNoteScreen({super.key, this.pathParams, required this.onSaved});
 
   void _listener(BuildContext context, MarkdownEditNoteState state) {
     switch (state) {
@@ -46,19 +36,7 @@ final class EditMarkdownNoteScreen extends StatelessWidget with DialogHelper {
           SnackBar(content: Text(context.l10n.editNoteScreenSaveSuccess)),
         );
 
-        final noteId = pathParams?.id ?? '';
-        final isNew = noteId.isEmpty;
-
-        if (isNew) {
-          // RouteHandler.of(
-          //   context,
-          // )?.onRoute(NotePreviewRoute(noteId: state.note.dTag), context);
-
-          coordinator.onNotePreviewRoute(context, noteId: state.note.dTag);
-        } else {
-          Navigator.of(context).pop();
-        }
-
+        onSaved(state.note.dTag);
         break;
     }
   }

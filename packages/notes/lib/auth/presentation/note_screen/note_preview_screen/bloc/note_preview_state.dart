@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
-import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_data.dart';
+import 'package:nostr_notes/auth/presentation/note_screen/note_preview_screen/bloc/note_preview_data.dart';
 
 sealed class NotePreviewState extends Equatable {
   final NotePreviewData data;
