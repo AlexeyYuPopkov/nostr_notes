@@ -38,9 +38,6 @@ final class _FakeNotePreviewCoordinator
   void onCreateNoteRoute(BuildContext context) {}
 
   @override
-  void onNoteEditRoute(BuildContext context, {required String noteId}) {}
-
-  @override
   void onRawEventRoute(BuildContext context, {required String eventId}) {}
 }
 
@@ -114,9 +111,10 @@ void main() {
       await tester.pumpWidget(
         AppLauncher.launchApp(
           tester: tester,
-          child: const NotePreviewScreen(
-            pathParams: PathParams(id: _TestEvents.noteDTag),
-            coordinator: _FakeNotePreviewCoordinator(),
+          child: NotePreviewScreen(
+            pathParams: const PathParams(id: _TestEvents.noteDTag),
+            coordinator: const _FakeNotePreviewCoordinator(),
+            onEdit: () {},
           ),
         ),
       );
@@ -160,9 +158,10 @@ void main() {
       await tester.pumpWidget(
         AppLauncher.launchApp(
           tester: tester,
-          child: const NotePreviewScreen(
-            pathParams: PathParams(id: _TestEvents.noteDTag),
-            coordinator: _FakeNotePreviewCoordinator(),
+          child: NotePreviewScreen(
+            pathParams: const PathParams(id: _TestEvents.noteDTag),
+            coordinator: const _FakeNotePreviewCoordinator(),
+            onEdit: () {},
           ),
         ),
       );
@@ -210,9 +209,10 @@ void main() {
       await tester.pumpWidget(
         AppLauncher.launchApp(
           tester: tester,
-          child: const NotePreviewScreen(
-            pathParams: PathParams(id: _TestEvents.noteDTag),
-            coordinator: _FakeNotePreviewCoordinator(),
+          child: NotePreviewScreen(
+            pathParams: const PathParams(id: _TestEvents.noteDTag),
+            coordinator: const _FakeNotePreviewCoordinator(),
+            onEdit: () {},
           ),
         ),
       );

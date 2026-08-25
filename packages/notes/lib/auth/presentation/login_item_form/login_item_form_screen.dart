@@ -132,165 +132,181 @@ final class LoginItemFormScreen extends StatelessWidget
             final readonly = state.data.readonly;
             final item = state.data.initialItem.value;
 
-            return Scaffold(
-              // While editing, the screen already has Save; adding "create
-              // another" next to unsaved changes invites losing them. Same
-              // breakpoint rule as the note preview — a phone shows this
-              // screen on top of the list, which has its own button.
-              floatingActionButton:
-                  !readonly || Breakpoint.activeBreakpointOf(context).isSmall
-                  ? null
-                  : Fab(
-                      onNewNote: () =>
-                          coordinator.onCreateLoginItemRoute(context),
-                      tooltip: context.l10n.accsAddTitle,
-                    ),
-              body: AbsorbPointer(
-                absorbing: isLoading,
-                child: CustomScrollView(
-                  // Bouncing physics on both platforms so the app bar's
-                  // overscroll stretch is actually reachable.
-                  physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics(),
-                  ),
-                  slivers: [
-                    LoginItemFormHeader(
-                      titleController: bloc.titleController,
-                      websiteController: bloc.websiteController,
-                      title: Text(
-                        readonly
-                            ? context.l10n.accsTabTitle
-                            : context.l10n.accsAddTitle,
+            // Editing an existing item is a mode of this screen, so back
+            // returns to its readonly view instead of leaving — same rule as
+            // NoteScreen. An item created from scratch has no view to fall
+            // back to, so there back leaves as usual.
+            final returnsToView = !readonly && params.id.isNotEmpty;
+
+            return PopScope(
+              canPop: !returnsToView,
+              onPopInvokedWithResult: (didPop, _) {
+                if (didPop) return;
+                bloc.add(const LoginItemFormEvent.toggleMode());
+              },
+              child: Scaffold(
+                // While editing, the screen already has Save; adding "create
+                // another" next to unsaved changes invites losing them. Same
+                // breakpoint rule as the note preview — a phone shows this
+                // screen on top of the list, which has its own button.
+                floatingActionButton:
+                    !readonly || Breakpoint.activeBreakpointOf(context).isSmall
+                    ? null
+                    : Fab(
+                        onNewNote: () =>
+                            coordinator.onCreateLoginItemRoute(context),
+                        tooltip: context.l10n.accsAddTitle,
                       ),
-                      actions: [
-                        if (readonly && item != null)
-                          _MoreButton(coordinator: coordinator, item: item),
-                        const _TrailingAppbarButton(),
-                        const SizedBox(width: Sizes.indent2x),
-                      ],
+                body: AbsorbPointer(
+                  absorbing: isLoading,
+                  child: CustomScrollView(
+                    // Bouncing physics on both platforms so the app bar's
+                    // overscroll stretch is actually reachable.
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
                     ),
-                    SliverSafeArea(
-                      top: false,
-                      sliver: SliverPadding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: Sizes.indent,
-                          vertical: Sizes.indent2x,
+                    slivers: [
+                      LoginItemFormHeader(
+                        titleController: bloc.titleController,
+                        websiteController: bloc.websiteController,
+                        title: Text(
+                          readonly
+                              ? context.l10n.accsTabTitle
+                              : context.l10n.accsAddTitle,
                         ),
-                        sliver: SliverList.list(
-                          children: [
-                            LoginItemFormTextField(
-                              controller: bloc.titleController,
-                              label: context.l10n.accsFormTitleLabel,
-                              hint: context.l10n.accsFormTitleHint,
-                              textCapitalization: TextCapitalization.words,
-                              textInputAction: TextInputAction.next,
-                              enabled: !readonly,
-                              position: .first,
-                              inputFormatters: LoginItemFormFormatters.title,
-                            ),
-
-                            LoginItemFormTextField(
-                              controller: bloc.websiteController,
-                              label: context.l10n.accsFormWebsiteLabel,
-                              hint: context.l10n.accsFormWebsiteHint,
-                              keyboardType: TextInputType.url,
-                              textInputAction: TextInputAction.next,
-                              enabled: !readonly,
-                              position: .middle,
-                              inputFormatters: LoginItemFormFormatters.website,
-                              autofillHints: const [AutofillHints.url],
-                              trailing: LoginItemGoIcon(
-                                url: bloc.websiteController.text.trim(),
-                                username: bloc.usernameController.text.trim(),
-                                password: bloc.passwordController.text.trim(),
+                        actions: [
+                          if (readonly && item != null)
+                            _MoreButton(coordinator: coordinator, item: item),
+                          const _TrailingAppbarButton(),
+                          const SizedBox(width: Sizes.indent2x),
+                        ],
+                      ),
+                      SliverSafeArea(
+                        top: false,
+                        sliver: SliverPadding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: Sizes.indent,
+                            vertical: Sizes.indent2x,
+                          ),
+                          sliver: SliverList.list(
+                            children: [
+                              LoginItemFormTextField(
+                                controller: bloc.titleController,
+                                label: context.l10n.accsFormTitleLabel,
+                                hint: context.l10n.accsFormTitleHint,
+                                textCapitalization: TextCapitalization.words,
+                                textInputAction: TextInputAction.next,
+                                enabled: !readonly,
+                                position: .first,
+                                inputFormatters: LoginItemFormFormatters.title,
                               ),
-                            ),
 
-                            LoginItemFormTextField(
-                              controller: bloc.usernameController,
-                              label: context.l10n.accsFormUsernameLabel,
-                              hint: context.l10n.accsFormUsernameHint,
-                              keyboardType: TextInputType.emailAddress,
-                              textInputAction: TextInputAction.next,
-                              enabled: !readonly,
-                              position: .middle,
-                              inputFormatters: LoginItemFormFormatters.username,
-                              autofillHints: const [AutofillHints.username],
-                            ),
+                              LoginItemFormTextField(
+                                controller: bloc.websiteController,
+                                label: context.l10n.accsFormWebsiteLabel,
+                                hint: context.l10n.accsFormWebsiteHint,
+                                keyboardType: TextInputType.url,
+                                textInputAction: TextInputAction.next,
+                                enabled: !readonly,
+                                position: .middle,
+                                inputFormatters:
+                                    LoginItemFormFormatters.website,
+                                autofillHints: const [AutofillHints.url],
+                                trailing: LoginItemGoIcon(
+                                  url: bloc.websiteController.text.trim(),
+                                  username: bloc.usernameController.text.trim(),
+                                  password: bloc.passwordController.text.trim(),
+                                ),
+                              ),
 
-                            LoginItemFormTextField(
-                              controller: bloc.passwordController,
-                              label: context.l10n.accsFormPasswordLabel,
-                              hint: context.l10n.accsFormPasswordHint,
-                              obscurable: true,
-                              textInputAction: TextInputAction.next,
-                              enabled: !readonly,
-                              position: .last,
-                              inputFormatters: LoginItemFormFormatters.password,
-                              autofillHints: const [AutofillHints.password],
-                              trailing: readonly
-                                  ? null
-                                  : LoginItemFormGenPassIcon(
-                                      onTap: () => bloc.add(
-                                        const LoginItemFormEvent.willGenPassAppear(),
+                              LoginItemFormTextField(
+                                controller: bloc.usernameController,
+                                label: context.l10n.accsFormUsernameLabel,
+                                hint: context.l10n.accsFormUsernameHint,
+                                keyboardType: TextInputType.emailAddress,
+                                textInputAction: TextInputAction.next,
+                                enabled: !readonly,
+                                position: .middle,
+                                inputFormatters:
+                                    LoginItemFormFormatters.username,
+                                autofillHints: const [AutofillHints.username],
+                              ),
+
+                              LoginItemFormTextField(
+                                controller: bloc.passwordController,
+                                label: context.l10n.accsFormPasswordLabel,
+                                hint: context.l10n.accsFormPasswordHint,
+                                obscurable: true,
+                                textInputAction: TextInputAction.next,
+                                enabled: !readonly,
+                                position: .last,
+                                inputFormatters:
+                                    LoginItemFormFormatters.password,
+                                autofillHints: const [AutofillHints.password],
+                                trailing: readonly
+                                    ? null
+                                    : LoginItemFormGenPassIcon(
+                                        onTap: () => bloc.add(
+                                          const LoginItemFormEvent.willGenPassAppear(),
+                                        ),
                                       ),
-                                    ),
-                              bottom: ValueListenableBuilder(
-                                valueListenable: bloc.passwordController,
-                                builder: (context, value, child) {
-                                  return PasswordStrengthIndicator(
-                                    password: value.text,
+                                bottom: ValueListenableBuilder(
+                                  valueListenable: bloc.passwordController,
+                                  builder: (context, value, child) {
+                                    return PasswordStrengthIndicator(
+                                      password: value.text,
+                                    );
+                                  },
+                                ),
+                              ),
+
+                              BlocSelector<
+                                LoginItemFormBloc,
+                                LoginItemFormState,
+                                bool
+                              >(
+                                selector: (state) =>
+                                    state is DidGenPassAppearState,
+                                builder: (context, isOpen) {
+                                  return AnimatedSwitcher(
+                                    duration: AppDurations.medium,
+                                    child: isOpen
+                                        ? Padding(
+                                            key: const ValueKey('genPassPanel'),
+                                            padding: const EdgeInsets.only(
+                                              left: Sizes.indent,
+                                              right: Sizes.indent,
+                                              top: Sizes.indent2x,
+                                            ),
+                                            child: LoginItemFormGenPassPanel(
+                                              passwordController:
+                                                  bloc.passwordController,
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(
+                                            key: ValueKey('genPassPanelHidden'),
+                                          ),
                                   );
                                 },
                               ),
-                            ),
-
-                            BlocSelector<
-                              LoginItemFormBloc,
-                              LoginItemFormState,
-                              bool
-                            >(
-                              selector: (state) =>
-                                  state is DidGenPassAppearState,
-                              builder: (context, isOpen) {
-                                return AnimatedSwitcher(
-                                  duration: AppDurations.medium,
-                                  child: isOpen
-                                      ? Padding(
-                                          key: const ValueKey('genPassPanel'),
-                                          padding: const EdgeInsets.only(
-                                            left: Sizes.indent,
-                                            right: Sizes.indent,
-                                            top: Sizes.indent2x,
-                                          ),
-                                          child: LoginItemFormGenPassPanel(
-                                            passwordController:
-                                                bloc.passwordController,
-                                          ),
-                                        )
-                                      : const SizedBox.shrink(
-                                          key: ValueKey('genPassPanelHidden'),
-                                        ),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: Sizes.indent2x),
-                            LoginItemFormTextField(
-                              controller: bloc.notesController,
-                              label: context.l10n.accsFormNotesLabel,
-                              hint: context.l10n.accsFormNotesHint,
-                              minLines: 3,
-                              maxLines: 6,
-                              textInputAction: TextInputAction.newline,
-                              enabled: !readonly,
-                              position: .single,
-                              inputFormatters: LoginItemFormFormatters.notes,
-                            ),
-                          ],
+                              const SizedBox(height: Sizes.indent2x),
+                              LoginItemFormTextField(
+                                controller: bloc.notesController,
+                                label: context.l10n.accsFormNotesLabel,
+                                hint: context.l10n.accsFormNotesHint,
+                                minLines: 3,
+                                maxLines: 6,
+                                textInputAction: TextInputAction.newline,
+                                enabled: !readonly,
+                                position: .single,
+                                inputFormatters: LoginItemFormFormatters.notes,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );

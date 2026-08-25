@@ -196,16 +196,17 @@ final class AppRouter {
                     coordinator: const LoginItemFormScreenCoordinatorImpl(),
                   );
                 },
-                routes: [
-                  GoRoute(
-                    path: AppRouterPath.rawEventDetails,
-                    builder: (context, state) {
-                      final extra = state.extra as Map<String, dynamic>;
-                      final params = PathParamsEventId.fromJson(extra);
-                      return _screensAssembly.createRawEventScreen(params);
-                    },
-                  ),
-                ],
+              ),
+              // A sibling of the detail screens, not a child: it is opened
+              // from both the note preview and the login item form, and
+              // nesting it under one of them made the other reach across.
+              GoRoute(
+                path: AppRouterPath.rawEventDetails,
+                builder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>;
+                  final params = PathParamsEventId.fromJson(extra);
+                  return _screensAssembly.createRawEventScreen(params);
+                },
               ),
             ],
           ),

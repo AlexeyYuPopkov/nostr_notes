@@ -4,7 +4,7 @@ import 'package:nostr_notes/auth/presentation/settings/apk_distribution/apk_dist
 import 'package:nostr_notes/auth/presentation/settings/contacts/contacts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
-import 'package:nostr_notes/auth/presentation/note_screen/edit_note_markdown_screen/edit_note_markdown_screen.dart';
+import 'package:nostr_notes/auth/presentation/note_screen/note_screen.dart';
 import 'package:nostr_notes/auth/presentation/login_item_form/login_item_form_screen.dart';
 
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
@@ -21,27 +21,16 @@ final class AppScreensAssembly implements ScreensAssembly {
   const AppScreensAssembly();
 
   @override
-  Widget createNotePreview(
-    PathParams pathParams, {
+  Widget createNoteScreen(
+    PathParams? pathParams, {
     required NotePreviewScreenCoordinator coordinator,
   }) {
-    return NotePreviewScreen(pathParams: pathParams, coordinator: coordinator);
+    return NoteScreen(pathParams: pathParams, coordinator: coordinator);
   }
 
   @override
   Widget createRawEventScreen(PathParamsEventId params) {
     return RawEventScreen(eventId: params.eventId);
-  }
-
-  @override
-  Widget createEditNoteMarkdownScreen(
-    PathParams? pathParams, {
-    required EditMarkdownNoteScreenCoordinator coordinator,
-  }) {
-    return EditMarkdownNoteScreen(
-      pathParams: pathParams,
-      coordinator: coordinator,
-    );
   }
 
   @override

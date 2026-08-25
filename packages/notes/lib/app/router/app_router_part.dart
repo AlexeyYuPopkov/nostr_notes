@@ -71,8 +71,7 @@ final class LoginItemFormScreenCoordinatorImpl
     required String eventId,
   }) {
     final router = GoRouter.of(context);
-    const path =
-        '${AppRouterPath.home}${AppRouterPath.loginItemForm}/${AppRouterPath.rawEventDetails}';
+    const path = '${AppRouterPath.home}/${AppRouterPath.rawEventDetails}';
 
     return router.push(
       path,

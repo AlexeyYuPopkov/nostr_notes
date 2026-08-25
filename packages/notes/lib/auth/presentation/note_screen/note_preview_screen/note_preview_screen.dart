@@ -34,11 +34,6 @@ part 'note_preview_screen_share_part.dart';
 abstract interface class NotePreviewScreenCoordinator {
   void onCreateNoteRoute(BuildContext context);
 
-  FutureOr<dynamic> onNoteEditRoute(
-    BuildContext context, {
-    required String noteId,
-  });
-
   FutureOr<dynamic> onRawEventRoute(
     BuildContext context, {
     required String eventId,
@@ -49,10 +44,15 @@ final class NotePreviewScreen extends StatefulWidget {
   final PathParams pathParams;
   final NotePreviewScreenCoordinator coordinator;
 
+  /// Switching into the editor is the parent's business — it is a mode of the
+  /// same destination, not a place to navigate to.
+  final VoidCallback onEdit;
+
   const NotePreviewScreen({
     super.key,
     required this.pathParams,
     required this.coordinator,
+    required this.onEdit,
   });
 
   @override
@@ -162,7 +162,7 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
                       _EditButton(
                         onPressed: note == null || state is CannotDecryptState
                             ? null
-                            : () => _onEdit(context, note.dTag),
+                            : widget.onEdit,
                       ),
                       const SizedBox(width: Sizes.indent2x),
                     ],
@@ -261,10 +261,6 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
         ),
       ),
     );
-  }
-
-  void _onEdit(BuildContext context, String noteId) {
-    widget.coordinator.onNoteEditRoute(context, noteId: noteId);
   }
 
   Future _onRefresh(BuildContext context) async {

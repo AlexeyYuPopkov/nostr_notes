@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
 import 'package:nostr_notes/app/router/create_routes.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
-import 'package:nostr_notes/auth/presentation/note_screen/edit_note_markdown_screen/edit_note_markdown_screen.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note_screen/note_preview_screen/note_preview_screen.dart';
 
@@ -26,7 +25,7 @@ final class NoteRouter {
           final params = PathParams.fromJson(extra);
           return CustomTransitionPage(
             key: state.pageKey,
-            child: _screensAssembly.createNotePreview(
+            child: _screensAssembly.createNoteScreen(
               params,
               coordinator: const NotePreviewScreenCoordinatorImpl(),
             ),
@@ -45,9 +44,9 @@ final class NoteRouter {
 
           return CustomTransitionPage(
             key: state.pageKey,
-            child: _screensAssembly.createEditNoteMarkdownScreen(
+            child: _screensAssembly.createNoteScreen(
               params,
-              coordinator: const EditMarkdownNoteScreenCoordinatorImpl(),
+              coordinator: const NotePreviewScreenCoordinatorImpl(),
             ),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
@@ -55,16 +54,6 @@ final class NoteRouter {
                 },
           );
         },
-        routes: [
-          GoRoute(
-            path: AppRouterPath.rawEventDetails,
-            builder: (context, state) {
-              final extra = state.extra as Map<String, dynamic>;
-              final params = PathParamsEventId.fromJson(extra);
-              return _screensAssembly.createRawEventScreen(params);
-            },
-          ),
-        ],
       ),
     ];
   }
