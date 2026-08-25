@@ -4,7 +4,6 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
-import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
 import 'package:nostr_notes/app/router/create_routes.dart';
 import 'package:nostr_notes/app/router/note_router.dart';
@@ -15,7 +14,6 @@ import 'package:nostr_notes/auth/presentation/home_screen/home_screen.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/left_drawer.dart';
 import 'package:nostr_notes/auth/presentation/login_item_form/login_item_form_screen.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
-import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
 import 'package:nostr_notes/auth/presentation/widgets/home_screen_empty_state_placeholder.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
@@ -84,8 +82,7 @@ final class AppRouter {
     debugLogDiagnostics: true,
     redirect: (context, state) {
       if (state.matchedLocation.contains(AppRouterPath.contacts) ||
-          state.matchedLocation.contains(AppRouterPath.privacyPolicy) ||
-          state.matchedLocation.contains(AppRouterPath.apkDistribution)) {
+          state.matchedLocation.contains(AppRouterPath.privacyPolicy)) {
         return null;
       }
 
@@ -108,18 +105,7 @@ final class AppRouter {
               ? OnboardingScreenParams.fromJson(extra)
               : const OnboardingScreenParams(addAccount: false);
 
-          return RouteHandlerWidget(
-            child: OnboardingScreen(params: params),
-            onRoute: (route, context) {
-              if (route is ApkDistributionRoute) {
-                return GoRouter.of(
-                  context,
-                ).pushNamed(AppRouterName.apkDistribution, extra: true);
-              }
-
-              return RouteHandler.of(context)?.onRoute(route, context);
-            },
-          );
+          return OnboardingScreen(params: params);
         },
         routes: [
           GoRoute(
@@ -134,15 +120,6 @@ final class AppRouter {
             path: AppRouterPath.privacyPolicy,
             builder: (BuildContext context, GoRouterState state) {
               return _screensAssembly.createPrivacyPolicyScreen(
-                showAppBar: state.extra != null,
-              );
-            },
-          ),
-          GoRoute(
-            name: AppRouterName.apkDistribution,
-            path: AppRouterPath.apkDistribution,
-            builder: (BuildContext context, GoRouterState state) {
-              return _screensAssembly.createApkDistributionScreen(
                 showAppBar: state.extra != null,
               );
             },

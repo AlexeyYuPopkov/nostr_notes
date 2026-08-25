@@ -18,22 +18,6 @@
     "onboardingSignUpPageOptionMD2": "🔐 **You own your identity** - Your key is your identity. No company controls your account.",
     "onboardingSignUpPageOptionMD3": "🌍 **Works Everywhere** - Use the same key across all Nostr-powered apps",
     "onboardingSignUpButtonGenerateKey": "Generate a Nostr Key",
-    "apkDistributionTitle": "Install on Android",
-    "apkDistributionInstructions": "1. Go to the [Google Group]({groupUrl}) and click **Join group** (or **Ask to join group**)\n\n2. Once joined, open the [test link]({testingUrl})\n\n3. Tap **Become a tester**\n\n4. Install the app from **Google Play**",
-    "@apkDistributionInstructions": {
-        "placeholders": {
-            "groupUrl": {
-                "type": "String"
-            },
-            "testingUrl": {
-                "type": "String"
-            }
-        }
-    },
-    "apkDistributionSubtitle": "The app is currently in beta. To install it on Android, join the testers group — no APK download required.",
-    "apkDistributionDescription": "You can download the installation file directly. It is recommended to verify the SHA-256 checksum after downloading.",
-    "apkDistributionDownloadButton": "Download .apk",
-    "apkDistributionViewChecksum": "View Checksum (SHA-256)",
     "appStoreBannerTitle": "Available on the App Store",
     "appStoreBannerButton": "Open in AppStore",
     "apkBannerTitle": "Android APK",

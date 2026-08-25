@@ -10,7 +10,6 @@ final class AppRouterPath {
   static const String noteDetails = 'note_details';
   static const String contacts = 'contacts';
   static const String privacyPolicy = 'privacy_policy';
-  static const String apkDistribution = 'apk_distribution';
   static const String loginItemForm = '/login_item_form';
 }
 
@@ -20,6 +19,5 @@ final class AppRouterName {
   static const String onboarding = 'onboarding';
   static const String home = 'home';
   static const String note = 'note';
-  static const String apkDistribution = 'apk_distribution';
   // static const String noteDetails = 'note_details';
 }

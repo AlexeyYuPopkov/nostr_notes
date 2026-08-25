@@ -82,14 +82,6 @@ final class DrawerRouter extends StatelessWidget {
                     ),
                   ),
                 );
-              } else if (route is ApkDistributionRoute) {
-                return Navigator.of(context).push(
-                  MaterialPageRoute(
-                    settings: const RouteSettings(name: 'apk_distribution'),
-                    builder: (context) => screensAssembly
-                        .createApkDistributionScreen(showAppBar: true),
-                  ),
-                );
               } else if (route is HelpScreenRoute) {
                 return Navigator.of(context).push(
                   MaterialPageRoute(

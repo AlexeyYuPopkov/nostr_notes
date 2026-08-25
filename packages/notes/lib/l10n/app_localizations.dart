@@ -214,42 +214,6 @@ abstract class AppLocalizations {
   /// **'Generate a Nostr Key'**
   String get onboardingSignUpButtonGenerateKey;
 
-  /// No description provided for @apkDistributionTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Install on Android'**
-  String get apkDistributionTitle;
-
-  /// No description provided for @apkDistributionInstructions.
-  ///
-  /// In en, this message translates to:
-  /// **'1. Go to the [Google Group]({groupUrl}) and click **Join group** (or **Ask to join group**)\n\n2. Once joined, open the [test link]({testingUrl})\n\n3. Tap **Become a tester**\n\n4. Install the app from **Google Play**'**
-  String apkDistributionInstructions(String groupUrl, String testingUrl);
-
-  /// No description provided for @apkDistributionSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'The app is currently in beta. To install it on Android, join the testers group — no APK download required.'**
-  String get apkDistributionSubtitle;
-
-  /// No description provided for @apkDistributionDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'You can download the installation file directly. It is recommended to verify the SHA-256 checksum after downloading.'**
-  String get apkDistributionDescription;
-
-  /// No description provided for @apkDistributionDownloadButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Download .apk'**
-  String get apkDistributionDownloadButton;
-
-  /// No description provided for @apkDistributionViewChecksum.
-  ///
-  /// In en, this message translates to:
-  /// **'View Checksum (SHA-256)'**
-  String get apkDistributionViewChecksum;
-
   /// No description provided for @appStoreBannerTitle.
   ///
   /// In en, this message translates to:

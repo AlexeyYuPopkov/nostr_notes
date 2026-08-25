@@ -124,10 +124,10 @@ final class ExportImportBloc
         filePath: file.path ?? '',
         fileBytes: file.path != null
             ? await File(file.path!).readAsBytes()
-            : await file.readAsByteStream().fold<List<int>>(
-                [],
-                (buf, chunk) => buf..addAll(chunk),
-              ).then(Uint8List.fromList),
+            : await file
+                  .readAsByteStream()
+                  .fold<List<int>>([], (buf, chunk) => buf..addAll(chunk))
+                  .then(Uint8List.fromList),
         policy: event.policy,
       );
 

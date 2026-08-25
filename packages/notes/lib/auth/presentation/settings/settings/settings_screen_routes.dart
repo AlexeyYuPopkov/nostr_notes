@@ -44,10 +44,6 @@ final class ExportImportRoute implements AppRoute {
   const ExportImportRoute();
 }
 
-final class ApkDistributionRoute implements AppRoute {
-  const ApkDistributionRoute();
-}
-
 final class CloseSettingsRoute implements AppRoute {
   const CloseSettingsRoute();
 }

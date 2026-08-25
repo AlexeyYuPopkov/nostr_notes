@@ -76,28 +76,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingSignUpButtonGenerateKey => 'Generate a Nostr Key';
 
   @override
-  String get apkDistributionTitle => 'Install on Android';
-
-  @override
-  String apkDistributionInstructions(String groupUrl, String testingUrl) {
-    return '1. Go to the [Google Group]($groupUrl) and click **Join group** (or **Ask to join group**)\n\n2. Once joined, open the [test link]($testingUrl)\n\n3. Tap **Become a tester**\n\n4. Install the app from **Google Play**';
-  }
-
-  @override
-  String get apkDistributionSubtitle =>
-      'The app is currently in beta. To install it on Android, join the testers group — no APK download required.';
-
-  @override
-  String get apkDistributionDescription =>
-      'You can download the installation file directly. It is recommended to verify the SHA-256 checksum after downloading.';
-
-  @override
-  String get apkDistributionDownloadButton => 'Download .apk';
-
-  @override
-  String get apkDistributionViewChecksum => 'View Checksum (SHA-256)';
-
-  @override
   String get appStoreBannerTitle => 'Available on the App Store';
 
   @override

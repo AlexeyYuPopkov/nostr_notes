@@ -17,10 +17,8 @@ final class AppConfig {
   static const appStoreLink =
       'https://apps.apple.com/bg/app/private-notes-nostr/id6757975921';
 
-  static const googleGroupsTestersUrl =
-      'https://groups.google.com/g/private_notes_testers';
-  static const googlePlayTestingUrl =
-      'https://play.google.com/apps/testing/com.alekseii.yu.popkov.nostrNotes';
+  static const googlePlayLink =
+      'https://play.google.com/store/apps/details?id=com.alekseii.yu.popkov.nostrNotes';
 
   static final kIsTest = kIsWeb
       ? false

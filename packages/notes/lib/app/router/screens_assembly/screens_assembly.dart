@@ -19,7 +19,6 @@ abstract interface class ScreensAssembly {
   Widget deleteAccUsecaseScreen();
   Widget createDonateLightningScreen();
   Widget createExportImportScreen();
-  Widget createApkDistributionScreen({bool showAppBar = true});
   Widget createLoginItemFormScreen({
     required LoginItemDetailsParams params,
     required LoginItemFormScreenCoordinator coordinator,
