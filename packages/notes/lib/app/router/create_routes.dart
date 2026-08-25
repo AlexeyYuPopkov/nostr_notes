@@ -12,11 +12,11 @@ import 'package:nostr_notes/auth/presentation/login_item_form/bloc/login_item_de
 /// stacking a route per visited item — otherwise "back" walks the whole
 /// browsing history rather than returning to the empty pane.
 extension PaneNavigation on GoRouter {
-  FutureOr<dynamic>  openInPane(String path, {Object? extra}) {
+  FutureOr<dynamic> openInPane(String path, {Object? extra}) {
     if (state.fullPath == AppRouterPath.home) {
-      push(path, extra: extra);
+      return push(path, extra: extra);
     } else {
-      pushReplacement(path, extra: extra);
+      return pushReplacement(path, extra: extra);
     }
   }
 }
@@ -25,8 +25,8 @@ extension PaneNavigation on GoRouter {
 /// screen that can host one. They live in separate router libraries, so this
 /// is a plain file rather than a part.
 mixin NewLoginItemRoute {
-  void newLoginItem(BuildContext context) {
-    GoRouter.of(context).openInPane(
+  FutureOr<dynamic> newLoginItem(BuildContext context) {
+    return GoRouter.of(context).openInPane(
       '${AppRouterPath.home}${AppRouterPath.loginItemForm}',
       extra: LoginItemDetailsParams(id: '', readonly: false).toJson(),
     );
@@ -34,8 +34,8 @@ mixin NewLoginItemRoute {
 }
 
 mixin NewNoteRoute {
-  void newNote(BuildContext context) {
-    GoRouter.of(
+  FutureOr<dynamic> newNote(BuildContext context) {
+    return GoRouter.of(
       context,
     ).openInPane('${AppRouterPath.home}/${AppRouterPath.editNote}');
   }

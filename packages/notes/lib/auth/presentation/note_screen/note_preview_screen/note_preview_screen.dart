@@ -19,8 +19,8 @@ import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/tools/note_decrypt_error_message_mixin.dart';
-import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_bloc.dart';
-import 'package:nostr_notes/auth/presentation/note_preview_screen/bloc/note_preview_state.dart';
+import 'package:nostr_notes/auth/presentation/note_screen/note_preview_screen/bloc/note_preview_bloc.dart';
+import 'package:nostr_notes/auth/presentation/note_screen/note_preview_screen/bloc/note_preview_state.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 
 import 'package:nostr_notes/auth/domain/model/note.dart';

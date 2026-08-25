@@ -44,7 +44,7 @@ final class HomeScreenCoordinatorImpl
   void onAddLoginItemRoute(BuildContext context) => newLoginItem(context);
 
   @override
-  void onLoginItemDetails(
+  FutureOr<void> onLoginItemDetails(
     BuildContext context, {
     required LoginItem item,
     required bool readonly,

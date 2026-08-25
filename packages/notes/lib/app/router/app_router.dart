@@ -35,6 +35,11 @@ final class AppRouter {
   late final noteRouter = NoteRouter(screensAssembly: _screensAssembly);
   final _navigatorKey = GlobalKey<NavigatorState>();
 
+  late final _homeScreenCoordinator = HomeScreenCoordinatorImpl(
+    homeScaffoldKey: _homeScaffoldKey,
+    leftDrawerKey: _leftDrawerKey,
+  );
+
   AppRouter({ScreensAssembly screensAssembly = const AppScreensAssembly()})
     : _screensAssembly = screensAssembly {
     authUsecase.restore().then((_) => _createSessionSubscription());
@@ -151,20 +156,18 @@ final class AppRouter {
           final selectedNoteDTag = extra is Map<String, dynamic>
               ? PathParams.fromJson(extra).id
               : null;
-          final hasNote =
-              state.fullPath?.contains(AppRouterPath.noteDetails) == true ||
-              state.fullPath?.contains(AppRouterPath.editNote) == true;
+          // Anything deeper than /home is a detail screen. Matching route
+          // names instead would need updating for every new one, which is
+          // how the login item form ended up rendered off-screen on phones.
+          final hasDetailRoute = state.fullPath != AppRouterPath.home;
 
           return Scaffold(
             body: HomeScreen(
               scaffoldKey: _homeScaffoldKey,
               leftDrawerKey: _leftDrawerKey,
               screensAssembly: _screensAssembly,
-              coordinator: HomeScreenCoordinatorImpl(
-                homeScaffoldKey: _homeScaffoldKey,
-                leftDrawerKey: _leftDrawerKey,
-              ),
-              hasNote: hasNote,
+              coordinator: _homeScreenCoordinator,
+              hasDetailRoute: hasDetailRoute,
               selectedNoteDTag: selectedNoteDTag,
               child: child,
             ),

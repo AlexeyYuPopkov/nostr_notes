@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
-import 'package:nostr_notes/auth/presentation/edit_note_markdown_screen/bloc/markdown_edit_note_data.dart';
+import 'package:nostr_notes/auth/presentation/note_screen/edit_note_markdown_screen/bloc/markdown_edit_note_data.dart';
 
 sealed class MarkdownEditNoteState extends Equatable {
   final MarkdownEditNoteData data;

@@ -31,7 +31,7 @@ final class HomeScreen extends StatefulWidget {
   final ScreensAssembly screensAssembly;
   final HomeScreenCoordinator coordinator;
   final Widget child;
-  final bool hasNote;
+  final bool hasDetailRoute;
   final String? selectedNoteDTag;
 
   const HomeScreen({
@@ -41,7 +41,7 @@ final class HomeScreen extends StatefulWidget {
     required this.screensAssembly,
     required this.coordinator,
     required this.child,
-    required this.hasNote,
+    required this.hasDetailRoute,
     this.selectedNoteDTag,
   });
 
@@ -168,7 +168,7 @@ final class _HomeScreenState extends State<HomeScreen> {
     asc.SlotLayoutConfig smallConfig() => asc.SlotLayout.from(
       key: const Key('Body Small'),
       builder: (_) => _MobileLayout(
-        hasNote: widget.hasNote,
+        hasDetailRoute: widget.hasDetailRoute,
         selectedNoteDTag: widget.selectedNoteDTag,
         coordinator: widget.coordinator,
         child: widget.child,
@@ -209,12 +209,12 @@ final class _HomeScreenState extends State<HomeScreen> {
 
 final class _MobileLayout extends StatelessWidget {
   final Widget child;
-  final bool hasNote;
+  final bool hasDetailRoute;
   final HomeScreenCoordinator coordinator;
   final String? selectedNoteDTag;
   const _MobileLayout({
     required this.child,
-    required this.hasNote,
+    required this.hasDetailRoute,
     required this.coordinator,
     this.selectedNoteDTag,
   });
@@ -229,10 +229,10 @@ final class _MobileLayout extends StatelessWidget {
             coordinator: coordinator,
           ),
           AnimatedSlide(
-            offset: hasNote ? const Offset(0.0, 0.0) : const Offset(1.0, 0.0),
+            offset: hasDetailRoute ? const Offset(0.0, 0.0) : const Offset(1.0, 0.0),
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
-            child: hasNote ? child : const SizedBox.shrink(),
+            child: hasDetailRoute ? child : const SizedBox.shrink(),
           ),
         ],
       ),
