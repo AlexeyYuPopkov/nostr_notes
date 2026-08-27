@@ -4,6 +4,7 @@ import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/tag/tag.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
+import 'package:nostr_notes/auth/domain/model/pin_kdf.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 
 final class NoteMapper {
@@ -32,6 +33,8 @@ final class NoteMapper {
             Note.updatedAtTag,
             (note.updatedAt.millisecondsSinceEpoch ~/ 1000).toString(),
           ],
+        if (note.kdf != PinKdf.legacySha256)
+          [PinKdf.tagName, note.kdf.tagValue],
         if (note.labels.isNotEmpty)
           [
             Note.labelsTag,
@@ -87,6 +90,7 @@ final class NoteMapper {
       createdAt: createdAt,
       updatedAt: updatedAt ?? createdAt,
       labels: _parseLabels(labelsTagValue),
+      kdf: PinKdf.fromTagValue(event.getFirstTagStr(PinKdf.tagName)),
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:common/domain/error/app_error.dart';
 import 'package:nostr_notes/auth/data/models/login_item_payload.dart';
 import 'package:nostr_notes/auth/domain/model/encrypted_login_item.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
+import 'package:nostr_notes/auth/domain/model/pin_kdf.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/login_item_crypto_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
@@ -13,7 +14,8 @@ import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
 
 /// Uses the same NIP-44 conversation-key derivation as notes (session keys +
 /// PIN extra derivation), but over the [LoginItemPayload] JSON as a single
-/// blob. Kept separate from `NoteCryptoUseCase` so the existing class stays
+/// blob. Always [PinKdf.current]: unlike notes, login items never shipped,
+/// so no ciphertext exists that predates PBKDF2. Kept separate from `NoteCryptoUseCase` so the existing class stays
 /// untouched and `Note`-typed.
 final class LoginItemCryptoUsecaseImpl implements LoginItemCryptoUsecase {
   final CryptoService _cryptoService;
@@ -100,7 +102,10 @@ final class LoginItemCryptoUsecaseImpl implements LoginItemCryptoUsecase {
       final Unlocked s => s,
     };
 
-    final extraDerivation = _extraDerivation.execute(unlocked.pin);
+    final extraDerivation = _extraDerivation.execute(
+      unlocked.pin,
+      kdf: PinKdf.current,
+    );
 
     return _conversationKeyCache[unlocked] ??= await _cryptoService
         .deriveKeysAsync(
