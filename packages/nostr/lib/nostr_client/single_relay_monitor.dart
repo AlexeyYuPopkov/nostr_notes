@@ -164,13 +164,27 @@ final class _SingleRelayFetcher {
 
     controller.onCancel = () {
       subscription?.cancel();
-      relay.closeRequest(
-        NostrEventClose(relay: relay.url, subscriptionId: subscriptionId),
+      _ignoreTeardownFailure(
+        relay.closeRequest(
+          NostrEventClose(relay: relay.url, subscriptionId: subscriptionId),
+        ),
       );
-      relay.disconnect();
+      _ignoreTeardownFailure(relay.disconnect());
     };
 
     return controller.stream;
+  }
+
+  /// Teardown most often runs *because* the relay went unreachable, so a
+  /// failed goodbye is expected and there is no consumer left to tell.
+  void _ignoreTeardownFailure(FutureOr<dynamic> teardown) {
+    Future.value(teardown).catchError((Object e) {
+      log(
+        'Ignoring teardown failure for relay: ${relay.url}',
+        name: 'SingleRelayMonitor',
+        error: e,
+      );
+    });
   }
 
   /// A dead socket reports itself twice — the write fails and the inbound

@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nostr/model/nostr_filter.dart';
+import 'package:nostr/model/nostr_req.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:mocktail/mocktail.dart';
@@ -23,6 +25,28 @@ void main() {
       channel2 = MockWSChannel(url: relayUrl2);
       client = NostrClient(channelFactory: channelFactory);
     });
+
+    test(
+      'a write failing after dispose is reported to nobody, not thrown',
+      () async {
+        when(() => channelFactory.create(relayUrl1)).thenReturn(channel1);
+        client.addRelay(relayUrl1);
+        channel1.onAdd = (_, _) => throw Exception('offline');
+
+        await client.disconnectAndDispose();
+        client.sendRequestToAll(
+          const NostrReq(
+            filters: [
+              NostrFilter(kinds: [30023]),
+            ],
+          ),
+        );
+
+        // An unhandled async error here would fail this test on its own; the
+        // expect only pins down that nothing threw synchronously either.
+        await expectLater(pumpEventQueue(), completes);
+      },
+    );
 
     test('addRelay, connect, ready, removes relay', () async {
       when(() => channelFactory.create(relayUrl1)).thenReturn(channel1);

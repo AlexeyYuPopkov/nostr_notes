@@ -160,6 +160,7 @@ final class NostrClient {
   }
 
   void _reportRelayError(String url, Object error, StackTrace stackTrace) {
+    if (_relayErrorSubject.isClosed) return;
     log(
       'Error from relay $url, continuing with other relays: $error',
       name: 'NostrClient',
