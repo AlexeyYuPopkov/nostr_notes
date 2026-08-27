@@ -110,22 +110,24 @@ final class NostrClient {
   String sendRequestToAll(NostrReq req) {
     final subscriptionId = _uuid.v4();
     for (final relay in _relays.values) {
-      relay.sendRequest(req, subscriptionId);
+      _send(relay, () => relay.sendRequest(req, subscriptionId));
     }
     return subscriptionId;
   }
 
   void sendEventToAll(NostrEvent event) {
     for (final relay in _relays.values) {
-      // Future.microtask(() => relay.sendEvent(event));
-      relay.sendEvent(event);
+      _send(relay, () => relay.sendEvent(event));
     }
   }
 
   void sendCloseForAll(String subscriptionId) {
     for (final relay in _relays.values) {
-      relay.closeRequest(
-        NostrEventClose(relay: relay.url, subscriptionId: subscriptionId),
+      _send(
+        relay,
+        () => relay.closeRequest(
+          NostrEventClose(relay: relay.url, subscriptionId: subscriptionId),
+        ),
       );
     }
   }
@@ -133,11 +135,41 @@ final class NostrClient {
   void sendClose(String subscriptionId, String relayUrl) {
     for (final relay in _relays.values) {
       if (relay.url == relayUrl) {
-        relay.closeRequest(
-          NostrEventClose(relay: relay.url, subscriptionId: subscriptionId),
+        _send(
+          relay,
+          () => relay.closeRequest(
+            NostrEventClose(relay: relay.url, subscriptionId: subscriptionId),
+          ),
         );
       }
     }
+  }
+
+  /// Fire-and-forget write to a single relay, reporting a failure the same way
+  /// an inbound stream error is reported.
+  ///
+  /// Deliberately not routed through the relay's event stream: [stream]'s
+  /// `onErrorResume` would also unsubscribe that relay from the merged stream
+  /// until the relay set changes, so a single failed write would cost every
+  /// later event from that relay.
+  void _send(NostrRelay relay, FutureOr<void> Function() write) {
+    Future.sync(write).catchError(
+      (Object error, StackTrace stackTrace) =>
+          _reportRelayError(relay.url, error, stackTrace),
+    );
+  }
+
+  void _reportRelayError(String url, Object error, StackTrace stackTrace) {
+    log(
+      'Error from relay $url, continuing with other relays: $error',
+      name: 'NostrClient',
+      error: error,
+      stackTrace: stackTrace,
+    );
+    _relayErrorSubject.add(
+      RelayError(relayUrl: url, error: error, stackTrace: stackTrace),
+    );
+    delegate?.onRelayError(url, error, stackTrace);
   }
 
   Stream<BaseNostrEvent> stream() {
@@ -150,20 +182,7 @@ final class NostrClient {
               (e) => e.eventStream
                   .onErrorResume((error, stackTrace) {
                     // TODO: consider adding retry logic for transient errors, with backoff
-                    log(
-                      'Error from relay ${e.url}, continuing with other relays: $error',
-                      name: 'NostrClient',
-                      error: error,
-                      stackTrace: stackTrace,
-                    );
-                    _relayErrorSubject.add(
-                      RelayError(
-                        relayUrl: e.url,
-                        error: error,
-                        stackTrace: stackTrace,
-                      ),
-                    );
-                    delegate?.onRelayError(e.url, error, stackTrace);
+                    _reportRelayError(e.url, error, stackTrace);
                     return const Stream.empty();
                   })
                   .doOnData((event) {

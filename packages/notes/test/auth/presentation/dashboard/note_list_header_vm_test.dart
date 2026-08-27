@@ -125,7 +125,8 @@ void main() {
     expect(
       sut.headerVisibility.value,
       0.0,
-      reason: 'a position that cannot scroll says nothing about where the '
+      reason:
+          'a position that cannot scroll says nothing about where the '
           'user is in the list it coordinates',
     );
     expect(sut.scrollOffset.value, 400.0);

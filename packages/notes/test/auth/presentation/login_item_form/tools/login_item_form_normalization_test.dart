@@ -52,7 +52,10 @@ void main() {
     });
 
     test('a non-http scheme with :// passes through unchanged', () {
-      expect(helper.normalizedWebsiteUrl('ftp://files.example'), 'ftp://files.example');
+      expect(
+        helper.normalizedWebsiteUrl('ftp://files.example'),
+        'ftp://files.example',
+      );
     });
   });
 
@@ -126,10 +129,7 @@ void main() {
     });
 
     test('everything blank derives an empty title', () {
-      expect(
-        helper.deriveTitle(title: '', websiteUrl: '', username: ''),
-        '',
-      );
+      expect(helper.deriveTitle(title: '', websiteUrl: '', username: ''), '');
     });
   });
 }

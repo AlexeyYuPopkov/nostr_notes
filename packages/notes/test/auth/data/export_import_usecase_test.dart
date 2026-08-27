@@ -233,10 +233,12 @@ void main() {
         expect(await exportFileNameFor('../../etc/pa:ss'), 'etcpass.zip');
       });
 
-      test('falls back to default when only illegal/dot chars remain',
-          () async {
-        expect(await exportFileNameFor('...'), startsWith('notes_backup_'));
-      });
+      test(
+        'falls back to default when only illegal/dot chars remain',
+        () async {
+          expect(await exportFileNameFor('...'), startsWith('notes_backup_'));
+        },
+      );
     });
 
     test(

@@ -10,6 +10,7 @@ import '../model/nostr_event_close.dart';
 import '../model/nostr_event_eose.dart';
 import '../model/nostr_event_ok.dart';
 import '../model/nostr_req.dart';
+import '../model/relay_unreachable.dart';
 import 'channel_factory.dart';
 import 'ws_channel.dart';
 
@@ -180,7 +181,7 @@ class NostrRelay with NostrRelayEventMapper {
       );
       await _recover();
       if (_isCancelled) {
-        return;
+        throw RelayUnreachable(url);
       }
     }
     try {
@@ -188,6 +189,12 @@ class NostrRelay with NostrRelayEventMapper {
     } catch (e) {
       log('Failed to send request to relay: $url', name: 'Nostr', error: e);
       _recover();
+      // Rethrown rather than swallowed: NostrClient turns this into an
+      // onRelayError so the monitor sees a dead relay right away. Routing it
+      // through _controller instead would reach the same delegate, but
+      // NostrClient.stream()'s onErrorResume would also drop this relay out
+      // of the merged stream until the relay list changes.
+      rethrow;
     }
   }
 
@@ -199,7 +206,7 @@ class NostrRelay with NostrRelayEventMapper {
       );
       await _recover();
       if (_isCancelled) {
-        return;
+        throw RelayUnreachable(url);
       }
     }
     try {
@@ -207,6 +214,12 @@ class NostrRelay with NostrRelayEventMapper {
     } catch (e) {
       log('Failed to send close to relay: $url', name: 'Nostr', error: e);
       _recover();
+      // Rethrown rather than swallowed: NostrClient turns this into an
+      // onRelayError so the monitor sees a dead relay right away. Routing it
+      // through _controller instead would reach the same delegate, but
+      // NostrClient.stream()'s onErrorResume would also drop this relay out
+      // of the merged stream until the relay list changes.
+      rethrow;
     }
   }
 
@@ -218,7 +231,7 @@ class NostrRelay with NostrRelayEventMapper {
       );
       await _recover();
       if (_isCancelled) {
-        return;
+        throw RelayUnreachable(url);
       }
     }
     try {
@@ -226,6 +239,12 @@ class NostrRelay with NostrRelayEventMapper {
     } catch (e) {
       log('Failed to send event to relay: $url', name: 'Nostr', error: e);
       _recover();
+      // Rethrown rather than swallowed: NostrClient turns this into an
+      // onRelayError so the monitor sees a dead relay right away. Routing it
+      // through _controller instead would reach the same delegate, but
+      // NostrClient.stream()'s onErrorResume would also drop this relay out
+      // of the merged stream until the relay list changes.
+      rethrow;
     }
   }
 

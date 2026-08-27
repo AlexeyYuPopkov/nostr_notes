@@ -39,7 +39,10 @@ void main() {
 
     test('falls back to title when the website has no catalog match', () {
       expect(
-        helper.matchBrandIcon(website: 'https://my-internal-tool.example', title: 'PayPal'),
+        helper.matchBrandIcon(
+          website: 'https://my-internal-tool.example',
+          title: 'PayPal',
+        ),
         AccsIcons.paypal,
       );
     });
@@ -84,10 +87,7 @@ void main() {
     });
 
     test('a single-label host (no TLD) is used as-is and still may miss', () {
-      expect(
-        helper.matchBrandIcon(website: 'localhost', title: ''),
-        isNull,
-      );
+      expect(helper.matchBrandIcon(website: 'localhost', title: ''), isNull);
     });
   });
 

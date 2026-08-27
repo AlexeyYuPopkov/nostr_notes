@@ -16,10 +16,7 @@ import 'params/onboarding_screen_params.dart';
 final class OnboardingScreen extends StatelessWidget with DialogHelper {
   final OnboardingScreenParams params;
 
-  const OnboardingScreen({
-    super.key,
-    required this.params ,
-  });
+  const OnboardingScreen({super.key, required this.params});
 
   void _listener(BuildContext context, OnboardingScreenState state) {
     switch (state) {

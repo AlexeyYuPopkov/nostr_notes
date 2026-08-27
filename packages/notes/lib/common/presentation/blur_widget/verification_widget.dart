@@ -38,7 +38,8 @@ final class _VerificationWidgetState extends State<VerificationWidget> {
       child: BlocConsumer<VerificationBloc, VerificationBlocState>(
         listener: _listener,
         buildWhen: (previous, current) => false,
-        builder: (_, _) => Overlay(key: _overlayKey, initialEntries: [_childEntry]),
+        builder: (_, _) =>
+            Overlay(key: _overlayKey, initialEntries: [_childEntry]),
       ),
     );
   }

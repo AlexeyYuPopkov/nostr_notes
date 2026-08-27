@@ -12,15 +12,13 @@ import '../../integration_test/di/in_memory_db_module.dart';
 import '../../integration_test/di/test_app_di_overrides_proxy.dart';
 
 const _keys = UserKeys(
-  publicKey:
-      'bfea1ad2fdbbdd4c6d2419b3d4f63f09ad8a94d5835a7f97453eb93e860ea8fe',
+  publicKey: 'bfea1ad2fdbbdd4c6d2419b3d4f63f09ad8a94d5835a7f97453eb93e860ea8fe',
   privateKey:
       'efb23a073532e28f8f3cf1b3ba4bc92f1bb6ab4dd365c853cabf9b70044e3240',
 );
 
 const _keysB = UserKeys(
-  publicKey:
-      '1111111111111111111111111111111111111111111111111111111111111111',
+  publicKey: '1111111111111111111111111111111111111111111111111111111111111111',
   privateKey:
       '2222222222222222222222222222222222222222222222222222222222222222',
 );
@@ -53,15 +51,18 @@ void main() {
     ),
   );
 
-  test('auto-unlocks for an account that explicitly opted out of PIN', () async {
-    await bindWith({_pinFlagKey(_keys.publicKey): false});
-    DiStorage.shared.resolve<SessionUsecase>().setSession(const Auth(_keys));
+  test(
+    'auto-unlocks for an account that explicitly opted out of PIN',
+    () async {
+      await bindWith({_pinFlagKey(_keys.publicKey): false});
+      DiStorage.shared.resolve<SessionUsecase>().setSession(const Auth(_keys));
 
-    final bloc = OnboardingScreenBloc();
-    addTearDown(bloc.close);
+      final bloc = OnboardingScreenBloc();
+      addTearDown(bloc.close);
 
-    await expectLater(bloc.stream, pinStepWith(autoUnlock: true));
-  });
+      await expectLater(bloc.stream, pinStepWith(autoUnlock: true));
+    },
+  );
 
   test('requires PIN for a PIN-enabled account', () async {
     await bindWith({_pinFlagKey(_keys.publicKey): true});
@@ -85,38 +86,42 @@ void main() {
     await expectLater(bloc.stream, pinStepWith(autoUnlock: false));
   });
 
-  test('switching the session account updates pendingPubkey and autoUnlock', () async {
-    await bindWith({
-      _pinFlagKey(_keys.publicKey): false, // account A: opted out of PIN
-      _pinFlagKey(_keysB.publicKey): true, // account B: PIN enabled
-    });
-    final session = DiStorage.shared.resolve<SessionUsecase>();
-    session.setSession(const Auth(_keys));
+  test(
+    'switching the session account updates pendingPubkey and autoUnlock',
+    () async {
+      await bindWith({
+        _pinFlagKey(_keys.publicKey): false, // account A: opted out of PIN
+        _pinFlagKey(_keysB.publicKey): true, // account B: PIN enabled
+      });
+      final session = DiStorage.shared.resolve<SessionUsecase>();
+      session.setSession(const Auth(_keys));
 
-    final bloc = OnboardingScreenBloc();
-    addTearDown(bloc.close);
+      final bloc = OnboardingScreenBloc();
+      addTearDown(bloc.close);
 
-    await expectLater(
-      bloc.stream,
-      emitsThrough(
-        predicate<OnboardingScreenState>(
-          (s) => s.data.pendingPubkey == _keys.publicKey && s.data.autoUnlock,
-          'pending A, auto-unlock',
+      await expectLater(
+        bloc.stream,
+        emitsThrough(
+          predicate<OnboardingScreenState>(
+            (s) => s.data.pendingPubkey == _keys.publicKey && s.data.autoUnlock,
+            'pending A, auto-unlock',
+          ),
         ),
-      ),
-    );
+      );
 
-    // Switching to B re-runs _onAuthenticated (distinct compares pubkey).
-    session.setSession(const Auth(_keysB));
+      // Switching to B re-runs _onAuthenticated (distinct compares pubkey).
+      session.setSession(const Auth(_keysB));
 
-    await expectLater(
-      bloc.stream,
-      emitsThrough(
-        predicate<OnboardingScreenState>(
-          (s) => s.data.pendingPubkey == _keysB.publicKey && !s.data.autoUnlock,
-          'pending B, PIN required',
+      await expectLater(
+        bloc.stream,
+        emitsThrough(
+          predicate<OnboardingScreenState>(
+            (s) =>
+                s.data.pendingPubkey == _keysB.publicKey && !s.data.autoUnlock,
+            'pending B, PIN required',
+          ),
         ),
-      ),
-    );
-  });
+      );
+    },
+  );
 }

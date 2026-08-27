@@ -141,20 +141,24 @@ final class _SingleRelayFetcher {
     StreamSubscription? subscription;
 
     controller.onListen = () async {
-      subscription = relay.eventStream.listen((event) {
-        if (event is NostrEvent) {
-          controller.add(event);
-        } else if (event is NostrEventEose &&
-            event.subscriptionId == subscriptionId) {
-          controller.close();
-        }
-      }, onError: controller.addError);
+      subscription = relay.eventStream.listen(
+        (event) {
+          if (controller.isClosed) return;
+          if (event is NostrEvent) {
+            controller.add(event);
+          } else if (event is NostrEventEose &&
+              event.subscriptionId == subscriptionId) {
+            controller.close();
+          }
+        },
+        onError: (Object e, StackTrace stack) =>
+            _failOnce(controller, e, stack),
+      );
 
       try {
         await relay.sendRequest(req, subscriptionId);
-      } catch (e) {
-        controller.addError(e);
-        controller.close();
+      } catch (e, stack) {
+        _failOnce(controller, e, stack);
       }
     };
 
@@ -167,5 +171,17 @@ final class _SingleRelayFetcher {
     };
 
     return controller.stream;
+  }
+
+  /// A dead socket reports itself twice — the write fails and the inbound
+  /// stream errors — in either order. The consumer only needs the first.
+  void _failOnce(
+    StreamController<NostrEvent> controller,
+    Object error,
+    StackTrace stackTrace,
+  ) {
+    if (controller.isClosed) return;
+    controller.addError(error, stackTrace);
+    controller.close();
   }
 }

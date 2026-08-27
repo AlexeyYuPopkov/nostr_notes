@@ -11,10 +11,7 @@ final class LoginItemDeletions {
     required String vaultPubkey,
   }) async {
     final deletions = await eventStore.queryEvents(
-      RawEventQuery(
-        kinds: const [NostrKind.deletion],
-        authors: [vaultPubkey],
-      ),
+      RawEventQuery(kinds: const [NostrKind.deletion], authors: [vaultPubkey]),
     );
 
     return deletions
