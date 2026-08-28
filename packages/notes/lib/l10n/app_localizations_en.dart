@@ -262,6 +262,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsItemBuyMeACoffee => 'Buy me a coffee ☕';
 
   @override
+  String get settingsItemLeaveReview => 'Rate the app ⭐';
+
+  @override
+  String get settingsItemReportBug => 'Report a bug';
+
+  @override
   String get settingsItemDonateBTC => 'Donate via Lightning ⚡';
 
   @override

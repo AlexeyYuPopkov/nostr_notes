@@ -33,8 +33,7 @@ final class NoteMapper {
             Note.updatedAtTag,
             (note.updatedAt.millisecondsSinceEpoch ~/ 1000).toString(),
           ],
-        if (note.kdf != PinKdf.legacySha256)
-          [PinKdf.tagName, note.kdf.tagValue],
+        ?note.kdf.tag,
         if (note.labels.isNotEmpty)
           [
             Note.labelsTag,

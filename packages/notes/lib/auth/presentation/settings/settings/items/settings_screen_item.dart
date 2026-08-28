@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/app_config.dart';
+import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/items/donate_via_lightning/donate_via_lightning.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
@@ -17,17 +18,37 @@ import 'package:common/presentation/tools/list_item_position.dart';
 import '../bloc/settings_screen_event.dart';
 
 abstract class SettingsItem extends Equatable {
-  static const items = [
-    SettingsItemPreferences(),
-    SettingsItemImportExport(),
-    SettingsItemHelp(),
-    SettingsItemContacts(),
-    SettingsItemDonateLightning(),
-    SettingsItemBuyMeACoffee(),
-    SettingsItemLogout(),
-    SettingsItemLogoutAndClear(),
-    DeleteAcc(),
+  /// The rounded blocks of the screen, in order. An item's corners and
+  /// separators follow from where it sits in its block, so a block that
+  /// gains or loses an item still closes correctly.
+  static List<List<SettingsItem>> get sections => [
+    [
+      const SettingsItemPreferences(),
+      const SettingsItemImportExport(),
+      const SettingsItemHelp(),
+      const SettingsItemContacts(),
+      if (_isMobile) const SettingsItemLeaveReview(),
+      const SettingsItemReportBug(),
+      // Web and desktop, where there are no ads. The native iOS and Android
+      // builds are paid for by ads already, so asking for donations on top of
+      // them would be asking twice. `isMobile` is false in a browser even on
+      // a phone, which is what we want: the web build carries no ads either.
+      if (!_isMobile) ...[
+        const SettingsItemDonateLightning(),
+        const SettingsItemBuyMeACoffee(),
+      ],
+    ],
+    [const SettingsItemLogout()],
+    [const SettingsItemLogoutAndClear(), const DeleteAcc()],
   ];
+
+  static List<(SettingsItem, ListItemPosition)> get positionedItems => [
+    for (final section in sections)
+      for (final (index, item) in section.indexed)
+        (item, ListItemPosition.fromIndex(index, length: section.length)),
+  ];
+
+  static bool get _isMobile => const AppPlatform().isMobile;
 
   const SettingsItem();
 
@@ -40,7 +61,6 @@ abstract class SettingsItem extends Equatable {
 
   Widget trailing(BuildContext context);
 
-  ListItemPosition get position;
   String getSectionTitle(BuildContext context);
 
   @override
@@ -69,9 +89,6 @@ final class SettingsItemPreferences extends SettingsItem {
   String getSectionTitle(BuildContext context) {
     return context.l10n.settingsItemPreferences;
   }
-
-  @override
-  ListItemPosition get position => .first;
 }
 
 final class SettingsItemImportExport extends SettingsItem {
@@ -86,9 +103,6 @@ final class SettingsItemImportExport extends SettingsItem {
   void onTap(BuildContext context) {
     RouteHandler.of(context)?.onRoute(const ExportImportRoute(), context);
   }
-
-  @override
-  ListItemPosition get position => .middle;
 
   @override
   Widget trailing(BuildContext context) {
@@ -115,9 +129,6 @@ final class SettingsItemHelp extends SettingsItem {
   String getSectionTitle(BuildContext context) {
     return context.l10n.settingsScreenSectionSettingsTitle;
   }
-
-  @override
-  ListItemPosition get position => .middle;
 }
 
 final class SettingsItemContacts extends SettingsItem {
@@ -138,9 +149,56 @@ final class SettingsItemContacts extends SettingsItem {
 
   @override
   String getSectionTitle(BuildContext context) => '';
+}
+
+final class SettingsItemLeaveReview extends SettingsItem {
+  const SettingsItemLeaveReview();
 
   @override
-  ListItemPosition get position => .middle;
+  Widget getTitle(BuildContext context) =>
+      Text(context.l10n.settingsItemLeaveReview);
+
+  @override
+  void onTap(BuildContext context) {
+    url_launcher.launchUrl(
+      Uri.parse(
+        const AppPlatform().isIOS
+            ? AppConfig.appStoreReviewLink
+            : AppConfig.googlePlayLink,
+      ),
+      mode: url_launcher.LaunchMode.externalApplication,
+    );
+  }
+
+  @override
+  Widget trailing(BuildContext context) => const SizedBox();
+
+  @override
+  String getSectionTitle(BuildContext context) => '';
+}
+
+final class SettingsItemReportBug extends SettingsItem {
+  const SettingsItemReportBug();
+
+  static final _uri = Uri.parse(AppConfig.githubIssuesLink);
+
+  @override
+  Widget getTitle(BuildContext context) =>
+      Text(context.l10n.settingsItemReportBug);
+
+  @override
+  void onTap(BuildContext context) {
+    url_launcher.launchUrl(
+      _uri,
+      mode: url_launcher.LaunchMode.externalApplication,
+    );
+  }
+
+  @override
+  Widget trailing(BuildContext context) => const SizedBox();
+
+  @override
+  String getSectionTitle(BuildContext context) => '';
 }
 
 final class SettingsItemDonateLightning extends SettingsItem {
@@ -160,9 +218,6 @@ final class SettingsItemDonateLightning extends SettingsItem {
 
   @override
   String getSectionTitle(BuildContext context) => '';
-
-  @override
-  ListItemPosition get position => .middle;
 }
 
 final class SettingsItemBuyMeACoffee extends SettingsItem {
@@ -187,9 +242,6 @@ final class SettingsItemBuyMeACoffee extends SettingsItem {
 
   @override
   String getSectionTitle(BuildContext context) => '';
-
-  @override
-  ListItemPosition get position => .last;
 }
 
 final class SettingsItemLogout extends SettingsItem {
@@ -210,9 +262,6 @@ final class SettingsItemLogout extends SettingsItem {
   String getSectionTitle(BuildContext context) {
     return context.l10n.settingsScreenSectionSessionTitle;
   }
-
-  @override
-  ListItemPosition get position => .single;
 }
 
 final class SettingsItemLogoutAndClear extends SettingsItem with DialogHelper {
@@ -250,9 +299,6 @@ final class SettingsItemLogoutAndClear extends SettingsItem with DialogHelper {
   }
 
   @override
-  ListItemPosition get position => .first;
-
-  @override
   String getInfoText(BuildContext context) =>
       context.l10n.settingsScreenLogoutDescription;
 }
@@ -280,9 +326,6 @@ final class DeleteAcc extends SettingsItem with DialogHelper {
   String getSectionTitle(BuildContext context) {
     return context.l10n.settingsScreenSectionAccountTitle;
   }
-
-  @override
-  ListItemPosition get position => .last;
 
   @override
   String getInfoText(BuildContext context) =>

@@ -550,6 +550,18 @@ abstract class AppLocalizations {
   /// **'Buy me a coffee ☕'**
   String get settingsItemBuyMeACoffee;
 
+  /// No description provided for @settingsItemLeaveReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate the app ⭐'**
+  String get settingsItemLeaveReview;
+
+  /// No description provided for @settingsItemReportBug.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a bug'**
+  String get settingsItemReportBug;
+
   /// No description provided for @settingsItemDonateBTC.
   ///
   /// In en, this message translates to:

@@ -265,6 +265,12 @@ class AppLocalizationsBg extends AppLocalizations {
   String get settingsItemBuyMeACoffee => 'Купи ми кафе ☕';
 
   @override
+  String get settingsItemLeaveReview => 'Оценете приложението ⭐';
+
+  @override
+  String get settingsItemReportBug => 'Докладвайте грешка';
+
+  @override
   String get settingsItemDonateBTC => 'Поддръжка чрез Lightning ⚡';
 
   @override

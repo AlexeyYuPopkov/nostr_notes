@@ -265,6 +265,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsItemBuyMeACoffee => 'Купить мне кофе ☕';
 
   @override
+  String get settingsItemLeaveReview => 'Оценить приложение ⭐';
+
+  @override
+  String get settingsItemReportBug => 'Сообщить об ошибке';
+
+  @override
   String get settingsItemDonateBTC => 'Поддержать через Lightning ⚡';
 
   @override
