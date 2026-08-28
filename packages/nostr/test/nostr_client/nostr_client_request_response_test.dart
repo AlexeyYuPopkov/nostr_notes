@@ -90,7 +90,8 @@ void main() {
         client.stream(),
         emitsInOrder([
           predicate<NostrEvent>((event) {
-            final exepted = '''{"kind":4,
+            final exepted =
+                '''{"kind":4,
                 "id":"9fe82b0ab2bb9d3b4523daaf947a17a050945ee2d45dca2c109785eff20cbcb9",
                 "pubkey":"dbbd7125eaead5470fa0f1c8e148fc866a0e0a24756d9e9964810d9007ff73f8",
                 "created_at":1747690217,
@@ -106,7 +107,8 @@ void main() {
             );
           }),
           predicate<NostrEvent>((event) {
-            final exepted = '''{"kind":4,
+            final exepted =
+                '''{"kind":4,
             "id":"b6429ba094aa41ef040241f46b8390eb3ac7d42dd780558ccd20fb02fc0bbdba",
             "pubkey":"3c316a662b851c0c2292a22099e0a7ef3a34234024987a669d2bd711bb42e850",
             "created_at":1747690210,

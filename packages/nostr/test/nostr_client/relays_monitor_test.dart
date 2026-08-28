@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:nostr/model/nostr_filter.dart';
+import 'package:nostr/model/nostr_req.dart';
 import 'package:nostr/model/relay_health.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
@@ -174,6 +176,33 @@ void main() {
       sut.resume();
       sut.pause();
     });
+
+    test(
+      'a failed send marks the relay disconnected, without waiting for a tick',
+      () async {
+        _respondToNextReqWithEose(channel1);
+        client.addRelay(relayUrl1);
+        await sut.statuses.firstWhere(
+          (s) => s[relayUrl1] == RelayStatus.connected,
+        );
+
+        // Network drops with the socket still nominally open: writes stop
+        // landing, and nothing ever comes back in to report it.
+        channel1.onAdd = (_, _) => throw Exception('offline');
+        client.sendRequestToAll(
+          const NostrReq(
+            filters: [
+              NostrFilter(kinds: [30023]),
+            ],
+          ),
+        );
+
+        await expectLater(
+          sut.statuses.map((s) => s[relayUrl1]),
+          emitsThrough(RelayStatus.disconnected),
+        );
+      },
+    );
 
     test(
       'dispose() closes statuses and detaches the client delegate',

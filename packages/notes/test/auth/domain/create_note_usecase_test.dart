@@ -14,6 +14,7 @@ import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
+import 'package:nostr_notes/auth/domain/model/pin_kdf.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
@@ -37,7 +38,10 @@ class MockUuid extends Mock implements Uuid {}
 
 class MockExtraDerivation implements ExtraDerivation {
   @override
-  Future<Uint8List> Function(Uint8List)? execute(String? password) {
+  Future<Uint8List> Function(Uint8List)? execute(
+    String? password, {
+    PinKdf kdf = PinKdf.current,
+  }) {
     return null;
   }
 }

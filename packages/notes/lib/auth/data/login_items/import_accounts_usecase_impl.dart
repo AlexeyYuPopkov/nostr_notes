@@ -146,7 +146,8 @@ final class ImportAccountsUsecaseImpl implements ImportAccountsUsecase {
       );
     }
     final salt = HexToBytes.hexToBytes(payload.salt!);
-    final iterations = payload.iterations ?? BackupCryptoHelper.defaultIterations;
+    final iterations =
+        payload.iterations ?? BackupCryptoHelper.defaultIterations;
     final secretKey = await BackupCryptoHelper.deriveKey(
       password,
       salt,

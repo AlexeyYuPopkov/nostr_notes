@@ -229,7 +229,9 @@ final class _MobileLayout extends StatelessWidget {
             coordinator: coordinator,
           ),
           AnimatedSlide(
-            offset: hasDetailRoute ? const Offset(0.0, 0.0) : const Offset(1.0, 0.0),
+            offset: hasDetailRoute
+                ? const Offset(0.0, 0.0)
+                : const Offset(1.0, 0.0),
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
             child: hasDetailRoute ? child : const SizedBox.shrink(),

@@ -6,7 +6,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr/model/relay_health.dart';
 import 'package:nostr/nostr_client/single_relay_monitor.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
+import 'package:nostr/nostr_client/ws_channel.dart';
 import 'package:web_socket_channel/io.dart';
+
+import '../mocks/mock_wschannel.dart';
+
+final class _StubChannelFactory implements ChannelFactory {
+  final MockWSChannel channel;
+
+  const _StubChannelFactory(this.channel);
+
+  @override
+  WsChannel create(String url) => channel;
+}
 
 void main() {
   group('SingleRelayMonitor', () {
@@ -208,6 +220,39 @@ void main() {
       final filter = parsed[2] as Map<String, dynamic>;
       expect(filter['kinds'], [0, 1, 4, 7, 10002]);
       expect(filter['limit'], 1);
+
+      await sut.dispose();
+    });
+  });
+
+  group('SingleRelayMonitor - teardown', () {
+    test('a relay that dies mid-probe does not crash the teardown', () async {
+      const relayUrl = 'wss://relay.example.com';
+      final channel = MockWSChannel(url: relayUrl);
+      channel.onAdd = (data, ch) {
+        final frame = jsonDecode(data as String) as List;
+        if (frame.first == 'REQ') {
+          ch.mockStream.add(jsonEncode(['EOSE', frame[1]]));
+          return;
+        }
+        throw Exception('relay went away');
+      };
+
+      final sut = SingleRelayMonitor(
+        url: Uri.parse(relayUrl),
+        channelFactory: _StubChannelFactory(channel),
+        interval: const Duration(seconds: 60),
+        timeout: const Duration(milliseconds: 200),
+      );
+
+      final firstStatus = sut.status.first;
+      sut.start();
+      expect(await firstStatus, RelayHealth.connectedNoData);
+
+      // EOSE ends the probe, which cancels the fetch and makes it send CLOSE
+      // to a relay that no longer accepts writes. An unhandled async error
+      // from that path would fail this test.
+      await expectLater(pumpEventQueue(), completes);
 
       await sut.dispose();
     });

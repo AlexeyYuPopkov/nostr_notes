@@ -42,8 +42,7 @@ final class DeleteLoginItemUsecaseImpl implements DeleteLoginItemUsecase {
 
     // Strictly after the stored version at second precision, so the
     // tombstone supersedes it locally and on relays.
-    var createdAtSeconds =
-        _now.now().toUtc().millisecondsSinceEpoch ~/ 1000;
+    var createdAtSeconds = _now.now().toUtc().millisecondsSinceEpoch ~/ 1000;
     final previousSeconds = item.createdAt.millisecondsSinceEpoch ~/ 1000;
     if (createdAtSeconds <= previousSeconds) {
       createdAtSeconds = previousSeconds + 1;

@@ -56,7 +56,7 @@ final class NotesListCard extends StatelessWidget
       decoration: BoxDecoration(
         color: isSelected
             ? theme.colorScheme.secondaryContainer
-            :  theme.colorScheme.tertiaryContainer,
+            : theme.colorScheme.tertiaryContainer,
         borderRadius: sectionItem.position.getRadius(),
         border: sectionItem.position.getBorder(
           theme.colorScheme.outline,

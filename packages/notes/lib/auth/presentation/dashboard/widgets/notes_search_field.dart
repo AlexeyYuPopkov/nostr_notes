@@ -35,7 +35,7 @@ final class _NotesSearchFieldState extends State<NotesSearchField> {
 
   void _onChanged(BuildContext context, String value) {
     widget.onChanged(value);
-    
+
     setState(() {}); // toggle the clear button
   }
 

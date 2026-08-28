@@ -107,7 +107,6 @@ final class FolderFilterChipsRow extends StatelessWidget {
               ),
             );
           },
-
         ),
       ),
     );

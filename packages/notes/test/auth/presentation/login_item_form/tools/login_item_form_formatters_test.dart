@@ -62,10 +62,7 @@ void main() {
 
     group('username', () {
       test('keeps inner whitespace (legal in some systems)', () {
-        expect(
-          apply(LoginItemFormFormatters.username, 'John Doe'),
-          'John Doe',
-        );
+        expect(apply(LoginItemFormFormatters.username, 'John Doe'), 'John Doe');
       });
 
       test('truncates to the short-field cap', () {
@@ -79,7 +76,10 @@ void main() {
 
     group('password', () {
       test('preserves whitespace anywhere — may be intentional', () {
-        expect(apply(LoginItemFormFormatters.password, ' p a s s '), ' p a s s ');
+        expect(
+          apply(LoginItemFormFormatters.password, ' p a s s '),
+          ' p a s s ',
+        );
       });
 
       test('truncates to the password cap', () {

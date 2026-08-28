@@ -6,16 +6,6 @@ import 'nostr_client.dart';
 import 'nostr_client_delegate.dart';
 import 'relay_monitor_ticker.dart';
 
-/// Fleet-wide relay status for the whole currently-configured relay set.
-///
-/// Composes a [NostrClient] two ways: as its [NostrClientDelegate], for
-/// real connection signals (errors and inbound activity, including EOSE) on
-/// the app's own persistent connections; and via a single [RelayMonitorTicker]
-/// that periodically nudges every relay over those same connections, so an
-/// otherwise-idle relay still produces a signal to react to. No dedicated
-/// probe sockets, no separate health state — a relay's status is exactly
-/// what the client last observed from it, defaulting to [RelayStatus.warning]
-/// ("not yet confirmed") until its first signal arrives.
 final class RelaysMonitor implements NostrClientDelegate {
   final NostrClient _client;
   final RelayMonitorTicker _ticker;

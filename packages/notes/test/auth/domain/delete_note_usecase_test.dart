@@ -12,6 +12,7 @@ import 'package:nostr/nostr_client/nostr_event_creator.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/delete_note_usecase.dart';
+import 'package:nostr_notes/auth/domain/model/pin_kdf.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:common/domain/error/error_messages_provider.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
@@ -94,7 +95,10 @@ class _MockCryptoRepo implements CryptoService {
 
 class _MockExtraDerivation implements ExtraDerivation {
   @override
-  Future<Uint8List> Function(Uint8List)? execute(String? password) {
+  Future<Uint8List> Function(Uint8List)? execute(
+    String? password, {
+    PinKdf kdf = PinKdf.current,
+  }) {
     return null;
   }
 }

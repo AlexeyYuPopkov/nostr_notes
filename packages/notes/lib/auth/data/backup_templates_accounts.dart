@@ -211,7 +211,8 @@ if __name__ == "__main__":
     main()
 ''';
 
-const String kAccountsBackupReadmeMd = r'''# Nostr Notes — Accounts Backup Format & Decryption
+const String kAccountsBackupReadmeMd =
+    r'''# Nostr Notes — Accounts Backup Format & Decryption
 
 This archive contains your saved accounts (logins) exported from **Nostr Notes**.
 It **always requires a password** — unlike a notes backup, this file can contain

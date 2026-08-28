@@ -146,34 +146,31 @@ void main() {
       },
     );
 
-    test(
-      'restore(authologinIfPossible: false) locks a no-PIN account and a '
-      'later plain restore() must not resurrect auto-unlock',
-      () async {
-        final (nsec, pubkey) = generateAccount();
-        await sut.execute(nsec: nsec);
-        sessionUsecase.setSession(
-          (sut.currentSession as Auth).toUnlocked(pin: ''),
-        );
+    test('restore(authologinIfPossible: false) locks a no-PIN account and a '
+        'later plain restore() must not resurrect auto-unlock', () async {
+      final (nsec, pubkey) = generateAccount();
+      await sut.execute(nsec: nsec);
+      sessionUsecase.setSession(
+        (sut.currentSession as Auth).toUnlocked(pin: ''),
+      );
 
-        // The user taps Exit in settings.
-        await sut.restore(authologinIfPossible: false);
-        expect((sut.currentSession as Auth).authologinIfPossible, isFalse);
+      // The user taps Exit in settings.
+      await sut.restore(authologinIfPossible: false);
+      expect((sut.currentSession as Auth).authologinIfPossible, isFalse);
 
-        // OnboardingScreen's own FutureBuilder restores again as soon as the
-        // unauth zone builds — and does so with the default (true).
-        await sut.restore();
+      // OnboardingScreen's own FutureBuilder restores again as soon as the
+      // unauth zone builds — and does so with the default (true).
+      await sut.restore();
 
-        final session = sut.currentSession;
-        expect(session, isA<Auth>());
-        expect(session.pubkey, pubkey);
-        expect(
-          (session as Auth).authologinIfPossible,
-          isFalse,
-          reason: 'an explicit Exit must survive a redundant restore',
-        );
-      },
-    );
+      final session = sut.currentSession;
+      expect(session, isA<Auth>());
+      expect(session.pubkey, pubkey);
+      expect(
+        (session as Auth).authologinIfPossible,
+        isFalse,
+        reason: 'an explicit Exit must survive a redundant restore',
+      );
+    });
 
     test('restore() still allows auto-unlock on a cold start', () async {
       final (nsec, _) = generateAccount();
@@ -240,26 +237,23 @@ void main() {
       expect(relaysListRepo.getRelaysList(), isNotEmpty);
     });
 
-    test(
-      'logout(authologinIfPossible: false) leaves the fallback account '
-      'locked instead of letting it auto-unlock',
-      () async {
-        final (nsecA, pubkeyA) = generateAccount();
-        final (nsecB, _) = generateAccount();
-        await sut.execute(nsec: nsecA);
-        sessionUsecase.setSession(
-          (sut.currentSession as Auth).toUnlocked(pin: '1234'),
-        );
-        await sut.addAccount(nsec: nsecB);
+    test('logout(authologinIfPossible: false) leaves the fallback account '
+        'locked instead of letting it auto-unlock', () async {
+      final (nsecA, pubkeyA) = generateAccount();
+      final (nsecB, _) = generateAccount();
+      await sut.execute(nsec: nsecA);
+      sessionUsecase.setSession(
+        (sut.currentSession as Auth).toUnlocked(pin: '1234'),
+      );
+      await sut.addAccount(nsec: nsecB);
 
-        await sut.logout(authologinIfPossible: false);
+      await sut.logout(authologinIfPossible: false);
 
-        final session = sut.currentSession;
-        expect(session, isA<Auth>());
-        expect(session.pubkey, pubkeyA);
-        expect((session as Auth).authologinIfPossible, isFalse);
-      },
-    );
+      final session = sut.currentSession;
+      expect(session, isA<Auth>());
+      expect(session.pubkey, pubkeyA);
+      expect((session as Auth).authologinIfPossible, isFalse);
+    });
 
     test('logout of the last account ends with Unauth', () async {
       final (nsec, pubkey) = generateAccount();

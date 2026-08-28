@@ -63,9 +63,7 @@ void main() {
     );
   }
 
-  testWidgets('renders nothing before any statuses are known', (
-    tester,
-  ) async {
+  testWidgets('renders nothing before any statuses are known', (tester) async {
     await pumpIndicator(tester);
     await tester.pump();
 

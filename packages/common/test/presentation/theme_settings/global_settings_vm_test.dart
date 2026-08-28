@@ -104,8 +104,8 @@ void main() {
 
       await vm.setLightThemeStyle(AppThemeStyle.claude);
 
-      final captured = verify(() => repo.save(captureAny())).captured.single
-          as AppThemeData;
+      final captured =
+          verify(() => repo.save(captureAny())).captured.single as AppThemeData;
       expect(captured.lightThemeStyle, AppThemeStyle.claude);
       expect(vm.lightThemeStyle, AppThemeStyle.claude);
     });
@@ -121,8 +121,8 @@ void main() {
 
       await vm.setDarkThemeStyle(AppThemeStyle.appleNotes);
 
-      final captured = verify(() => repo.save(captureAny())).captured.single
-          as AppThemeData;
+      final captured =
+          verify(() => repo.save(captureAny())).captured.single as AppThemeData;
       expect(captured.darkThemeStyle, AppThemeStyle.appleNotes);
       expect(vm.darkThemeStyle, AppThemeStyle.appleNotes);
     });
@@ -138,26 +138,30 @@ void main() {
 
       await vm.setLocale(const Locale('ru'));
 
-      final captured = verify(() => repo.save(captureAny())).captured.single
-          as AppThemeData;
+      final captured =
+          verify(() => repo.save(captureAny())).captured.single as AppThemeData;
       expect(captured.localeCode.value, 'ru');
       expect(vm.locale, const Locale('ru'));
     });
 
-    test('setting locale to null persists a null localeCode (system)', () async {
-      when(() => repo.load()).thenReturn(_themeData(localeCode: 'ru'));
-      final vm = GlobalSettingsVm(appThemeDataRepo: repo);
+    test(
+      'setting locale to null persists a null localeCode (system)',
+      () async {
+        when(() => repo.load()).thenReturn(_themeData(localeCode: 'ru'));
+        final vm = GlobalSettingsVm(appThemeDataRepo: repo);
 
-      when(() => repo.save(any())).thenAnswer((_) async {});
-      when(() => repo.load()).thenReturn(_themeData(localeCode: null));
+        when(() => repo.save(any())).thenAnswer((_) async {});
+        when(() => repo.load()).thenReturn(_themeData(localeCode: null));
 
-      await vm.setLocale(null);
+        await vm.setLocale(null);
 
-      final captured = verify(() => repo.save(captureAny())).captured.single
-          as AppThemeData;
-      expect(captured.localeCode.isNull, isTrue);
-      expect(vm.locale, isNull);
-    });
+        final captured =
+            verify(() => repo.save(captureAny())).captured.single
+                as AppThemeData;
+        expect(captured.localeCode.isNull, isTrue);
+        expect(vm.locale, isNull);
+      },
+    );
 
     test('leaves localeNotifier unchanged when save throws', () async {
       when(() => repo.load()).thenReturn(_themeData(localeCode: 'en'));
@@ -170,8 +174,10 @@ void main() {
       expect(vm.locale, const Locale('en'));
       final error = vm.errorNotifier.value;
       expect(error, isA<CustomError<GlobalSettingsError>>());
-      expect((error as CustomError<GlobalSettingsError>).payload.reason,
-          'Failed to save app theme data');
+      expect(
+        (error as CustomError<GlobalSettingsError>).payload.reason,
+        'Failed to save app theme data',
+      );
     });
   });
 

@@ -263,13 +263,13 @@ void main() {
 /// Fixture login-item (kind 31023) events, as they'd arrive from a relay —
 /// three distinct d-tags, deduplicated from what a real sync would receive
 /// from multiple relays. Authored by the vault derived from [_keys], and
-/// the `content` is real NIP-44 ciphertext encrypted under PIN [_pin] — so
-/// this test's session genuinely decrypts them.
+/// the `content` is real NIP-44 ciphertext encrypted under PIN [_pin] with
+/// [PinKdf.current] — so this test's session genuinely decrypts them.
 final class _Helper {
   static const rawEvents = [
     {
       'kind': 31023,
-      'id': 'a478aee5eccd9876faa58028fcb872df1152c6c7458ed0cc71dd3b0707378ce5',
+      'id': 'ed2c347d6bc7cf23cf531e21c041352cb08b016a7216c45db41889466471a880',
       'pubkey':
           'd02386c8255ae21c4ff24f1df5d7f630943e333f614eda317e73deedb7f2b7c3',
       'created_at': 1786275327,
@@ -277,13 +277,13 @@ final class _Helper {
         ['d', 'b7af2c7c-88a3-4fee-97de-15a1de886fc6'],
       ],
       'content':
-          'AihMXR9z+cQ4RRdidBMdkjP5Ph/TsF/P85LoHmGwB0EJD/SnHWOinJmICW88NM4JFgx3ewCgfgKwhXw5JNHsQmMsvMS3zZVPipZGwb2WGiCd1EsSyjQXbVwvU13N9PddcmJtsKZOwTJZNRRzkCVBRFsaclc52gjOyrFhw5qv8Ddw0V+Yvl1Yxl4z8yj/tEWCe9EY1JpuC0Ek98ThBmBCWxxMGJHvtj0N/9SNe8hEkQwm+unFFegbmQ0kSRi5TOcVHKMV56YP7irwl9fWhV+tk5Dgx6rfz6piaceVtf4gXdqQ+e8=',
+          'Ajqx1ncJNndQxi/Y5vMYE4nm3ojO1smRDS3ZGop5jcAcrEc6SQOxMHRyk16L7sWNMdqSUCl4JrFZcyB+CjkHItVqce+PSTs+DPttaWHRlREMV13GuseiWXbAjKeD3ASXXwmuIsuCMjvKm4M6EM2xGVh52YTfSspbDpf8j2eeKBIbw3Jp3pIRNzoOsP2DKsyUzL7MgVbxMMrFgmNI1efKXtFf9LowlLLSIe3+VYfbgwMmjkYuDn2spLrM82xfykObSTaeGv+ApvWJwvBGA7BS8kNYnkmY+ho3wAda2OABcEhCB4A=',
       'sig':
-          '39295723ff71e828c4232240cff14debb44c95d8bd68cbd740e56a621bc2e6f192f566105e333e98d318965cf1d1597c957c232fdad5d28be948af0114464bb2',
+          '37b0f21790ac056fc44f73d32aa5ec2390181b5ea75e28376447aacf8e6fd4f18ee683fda71cf9398b4d1f6107c025ce8df78425e2222e4efc89b5b9042ca088',
     },
     {
       'kind': 31023,
-      'id': '02809810a1cc21a752488d950e6ef70ced79c884f27741f18d8ae20ad49c0917',
+      'id': '4f5e73bab536974fd7a7c6a8b6b76fd559b5b5e31315cc9a384d6a9b68d089d0',
       'pubkey':
           'd02386c8255ae21c4ff24f1df5d7f630943e333f614eda317e73deedb7f2b7c3',
       'created_at': 1786275287,
@@ -291,13 +291,13 @@ final class _Helper {
         ['d', '30d5086c-6e55-4227-80d8-cd923f474d49'],
       ],
       'content':
-          'Ajt+28mTjKkw+yJk8tn/GYTy7euBOC7vedW4lpGQ/ytStH4Eie/xDbPo5IMVIhju+e9c1ytbKG3JZC1arF9ovKSarVbb3PnJjiABW2kB9NpkS7fZD9ocpzWGUlgI0e/SDzvtr9T4I6mOwsMgr07LOY0JJxAWl6MWsGpsPPTJN+/NnN3XVCCc9g31Pib7EcLwgzGzEnEFFcs3TQR/Yok50kB4XULqMc+CIz48k2RyT2Tjf+oDeKU2ozy3tjczDTFl0Nwvr4c4wWDwj9f7lq57myyj9Px2eegSqsWXrjJIjiCjSzM=',
+          'AuyFAhX0GOYnml3aZC0Nlm/j+xh8D+PUyeXqi1E9neYRbjrHJmid+i3oOGpXZgl938Zg2OdNgsNDUVSy/zpZPm6fBg/TSL+rieSlivvr8bCCfENJRpzKToickPCoN3dTIFmgrPRzU/2lcTGxs3f2yKN3aGf4EEmYwYpXFfEBDu3tlxG5z3C4Qn1ZQnscSIqmVZzX3Bm6E4Fubj7MzTZYxv3f7fdO7Pxan+g/ulADozo8HooUhOBc4Go3mgD5x5BLOh4J94XAmvm+zm1CMsdau5XssQFewqpNrrJw5EcoVrP7Sao=',
       'sig':
-          'f2d9b0a5ccdb58f495540e3536a9ce351d2f3adeecd1f6379b4ae8bed886bb12cebae9df40148ef813ffc2197c54cadb43dc9c6e6afc0b29cbce7887ba587c1e',
+          '05001ee493bc054aa45cf7fd9cd592d4314c3b4669f8528318e2be568537fb0ec502d9799420ce9fa889f849783c5562ae66f848834e742449c927cf95d90079',
     },
     {
       'kind': 31023,
-      'id': 'af01c3383432b0e3c9291c255220a64587cdd46b06814408d666ea2bb32bca85',
+      'id': 'ca3324f3d018d74474c0689885562890e3cb598a68f0555fcc2e9af6f46bb816',
       'pubkey':
           'd02386c8255ae21c4ff24f1df5d7f630943e333f614eda317e73deedb7f2b7c3',
       'created_at': 1786275237,
@@ -305,9 +305,9 @@ final class _Helper {
         ['d', 'f5ea33c2-4184-4376-8994-ef5a3ff3b531'],
       ],
       'content':
-          'Alqm7Yl8QXUaBQJNv8twK/VZGbE3BsqhkJfgzjPXQ4cDd73aEZc7itqNDgb2MLQH/6KMNgkqhSVro7mDCZ3HbOgjjRQ1A9hihDtUxlHByM9xqVcMGRpXWP8vpcUUFvvvC/fTGAUydZIiGzaGhb8+6DRWGjAtQkzKfkF/fG8kjJb+k0BSF3S3FN9pgM6meclokGPS1OKxoyldROYR3eJOz1osSU05NVzM6JQYGYSbslw6TdouQOcaKS4u1QnmBj3/yMBRvKXzVu1oAbbUIFWFAc+23TWVo55g2iODGhxr9cQNY44=',
+          'AjrV3+O/6c3PswCAns6DrFGGmbq6RR9WA3fWpMzbYfK/5YgJzInhQr08wu/OkTIGO5TBVsTz0TZEnVlKMy+D+ss8whDvvaFsW5qvxRzuZTtl49HtuEAYCFdwDdexSrTIU6b4fKFPh8kCA6uEvBNMIYVLMl6LTTAbnpzbZwtf5FCDv4/9+E1VGRZyD4TffEOQ1hbVRiRRdQH/T9JwbBTPtdSCcnIZT+4vAgklt6HquJUKRTSc9B/+yD+czIn96jk6jhlLbfzqisSoyFKcDA4D97/egARgNdyA7bPMj0EHjXhHCe8=',
       'sig':
-          'b7ab6b3db5f14a3cb9bdd18e19413c2ebb880d7c2ee216b2e73d3fb2cf1e5d0e2398cee810ac140295ac4c0e51142f2b50f1faa29ca24b15f9de090b301162bd',
+          'df5fd097a13c3990dbb03e52e6ceef86200ecc5dcc9288ab0592a30f7aaec27d376844d8015d0b4c0e46e7b9896e02168caef5db1239b29a79acf3dd6188b98a',
     },
   ];
 

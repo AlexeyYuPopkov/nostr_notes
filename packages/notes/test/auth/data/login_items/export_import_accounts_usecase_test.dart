@@ -54,7 +54,10 @@ void main() {
 
       sessionUsecase = SessionUsecase();
       await sessionUsecase.setSession(
-        const Session.unlocked(keys: NotesFixtures.keys, pin: NotesFixtures.pin),
+        const Session.unlocked(
+          keys: NotesFixtures.keys,
+          pin: NotesFixtures.pin,
+        ),
       );
 
       vaultIdentity = VaultIdentityUsecaseImpl(sessionUsecase: sessionUsecase);
@@ -189,9 +192,14 @@ void main() {
     });
 
     group('collision policies', () {
-      Future<(LoginItem saved, Uint8List backup)> seedThenDivergeLocally() async {
+      Future<(LoginItem saved, Uint8List backup)>
+      seedThenDivergeLocally() async {
         final saved = await saveSut.execute(
-          item: LoginItem.draft(title: 'GitHub', username: 'octocat', password: 'orig'),
+          item: LoginItem.draft(
+            title: 'GitHub',
+            username: 'octocat',
+            password: 'orig',
+          ),
         );
 
         final (_, bytes, _) = await exportSut.exportAccounts(
@@ -199,25 +207,26 @@ void main() {
         );
 
         // Diverge the local copy under the same dTag.
-        await saveSut.execute(
-          item: saved.copyWith(password: 'diverged-local'),
-        );
+        await saveSut.execute(item: saved.copyWith(password: 'diverged-local'));
 
         return (saved, bytes);
       }
 
-      test('keepIncoming: the backup version overwrites the local edit', () async {
-        final (saved, bytes) = await seedThenDivergeLocally();
+      test(
+        'keepIncoming: the backup version overwrites the local edit',
+        () async {
+          final (saved, bytes) = await seedThenDivergeLocally();
 
-        await importSut.importAccounts(
-          password: 'backup-pw-123',
-          fileBytes: bytes,
-          policy: const LoginItemImportPolicy.keepIncoming(),
-        );
+          await importSut.importAccounts(
+            password: 'backup-pw-123',
+            fileBytes: bytes,
+            policy: const LoginItemImportPolicy.keepIncoming(),
+          );
 
-        final result = await getSut.execute(dTag: saved.dTag);
-        expect(result!.password, 'orig');
-      });
+          final result = await getSut.execute(dTag: saved.dTag);
+          expect(result!.password, 'orig');
+        },
+      );
 
       test('keepExisting: the local edit survives', () async {
         final (saved, bytes) = await seedThenDivergeLocally();
@@ -232,22 +241,19 @@ void main() {
         expect(result!.password, 'diverged-local');
       });
 
-      test(
-        'keepNewest: the more recently updated version wins (the local '
-        'edit, since it was saved after the backup)',
-        () async {
-          final (saved, bytes) = await seedThenDivergeLocally();
+      test('keepNewest: the more recently updated version wins (the local '
+          'edit, since it was saved after the backup)', () async {
+        final (saved, bytes) = await seedThenDivergeLocally();
 
-          await importSut.importAccounts(
-            password: 'backup-pw-123',
-            fileBytes: bytes,
-            policy: const LoginItemImportPolicy.keepNewest(),
-          );
+        await importSut.importAccounts(
+          password: 'backup-pw-123',
+          fileBytes: bytes,
+          policy: const LoginItemImportPolicy.keepNewest(),
+        );
 
-          final result = await getSut.execute(dTag: saved.dTag);
-          expect(result!.password, 'diverged-local');
-        },
-      );
+        final result = await getSut.execute(dTag: saved.dTag);
+        expect(result!.password, 'diverged-local');
+      });
     });
   });
 }

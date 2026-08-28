@@ -3,7 +3,6 @@ import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
 
-
 final class NotesListData extends Equatable {
   /// Full, decrypted set of the user's notes.
   final List<Note> allNotes;
@@ -34,7 +33,8 @@ final class NotesListData extends Equatable {
   /// is active, otherwise all.
   List<Note> get notes => isFiltering ? filtered : allNotes;
 
-  bool get isFiltering => searchString.trim().isNotEmpty || folderFilter.isNotEmpty;
+  bool get isFiltering =>
+      searchString.trim().isNotEmpty || folderFilter.isNotEmpty;
 
   factory NotesListData.initial() {
     return const NotesListData._(
