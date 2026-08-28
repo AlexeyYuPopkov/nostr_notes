@@ -33,8 +33,11 @@ final class NoteCryptoUseCase {
        _extraDerivation = extraDerivation;
 
   Future<Note> encryptNote(Note note) async {
-    const kdf = PinKdf.current;
     final pin = _getPin();
+    // Without a PIN there is nothing to stretch and both branches collapse to
+    // the same plain NIP-44 key, so such a note carries no KDF tag at all —
+    // it also keeps its event id stable for accounts that never set one.
+    final kdf = pin.isEmpty ? PinKdf.legacySha256 : PinKdf.current;
 
     final privateKey = _getPrivateKey();
     final peerPubkey = _getPeerPubkey();

@@ -35,6 +35,14 @@ enum PinKdf {
   /// in this app (the backup password has its own, random, stored salt).
   static const saltInfo = 'nostr-notes:pin-kdf:v2';
 
+  /// The event tag recording this KDF, or null for [legacySha256] — an absent
+  /// tag is exactly how a pre-migration note is recognised.
+  ///
+  /// Every place that builds a note event must emit this; `NoteMapper` is not
+  /// the only one (`NotesRepositoryImpl.publishNote` assembles its own tags).
+  List<String>? get tag =>
+      this == PinKdf.legacySha256 ? null : [tagName, tagValue];
+
   /// Absent tag means the note predates versioning, hence [legacySha256].
   static PinKdf fromTagValue(String? value) {
     if (value == null || value.isEmpty) return PinKdf.legacySha256;

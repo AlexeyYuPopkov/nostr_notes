@@ -12,6 +12,8 @@ import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
+import 'package:common/services/event_store/raw_event_store.dart';
+import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/model/pin_kdf.dart';
@@ -153,9 +155,74 @@ void main() {
       expect(pending.first.eventId, isNotEmpty);
     });
 
+    test(
+      'a note saved with a PIN can be read back and decrypted',
+      () async {
+        when(() => mockUuid.v1()).thenReturn('uuid-v1');
+
+        final di = DiStorage.shared;
+        final sessionUsecase = SessionUsecase()
+          ..setSession(
+            const Unlocked(
+              keys: UserKeys(
+                publicKey: SomeMokedData.publicKey,
+                privateKey: SomeMokedData.privateKey,
+              ),
+              pin: '1234',
+            ),
+          );
+        // The real ExtraDerivation, not the mock the other tests use: the KDF
+        // version has to survive the trip through the event's tags, and a null
+        // derivation never exercises that.
+        final crypto = NoteCryptoUseCase(
+          sessionUsecase: sessionUsecase,
+          cryptoService: sut4,
+          extraDerivation: ExtraDerivation(
+            cryptoService: sut4,
+            sessionUsecase: sessionUsecase,
+          ),
+        );
+        final usecase = CreateNoteUsecase(
+          sessionUsecase: sessionUsecase,
+          noteCryptoUseCase: crypto,
+          notesRepository: NotesRepositoryImpl(
+            client: client,
+            outboxDao: sut2,
+            eventStore: di.resolve(),
+            eventCreator: const NostrEventCreator(
+              randomBytes: SomeMokedData.randomBytes,
+            ),
+          ),
+        );
+
+        await usecase.execute(
+          content: 'message',
+          noteToEdit: null,
+          now: mockNow,
+          uuid: mockUuid,
+        );
+
+        final RawEventStore store = di.resolve();
+        final stored = await store.queryEvents(
+          const RawEventQuery(kinds: [30023]),
+        );
+        final saved = NoteMapper.fromNostrEvent(stored.single)!;
+
+        expect(
+          saved.kdf,
+          PinKdf.current,
+          reason:
+              'the KDF version must be recorded on the event itself — without '
+              'it the note reads back as legacy and decrypts to garbage',
+        );
+        expect((await crypto.decryptNote(saved)).content, 'message');
+      },
+      timeout: const Timeout(Duration(minutes: 2)),
+    );
+
     test('OutboxPublisher picks up event and publishes to both relays', () async {
       const eventId =
-          'f99328fd84e2571e8715652ed33b2fbaa27651e622a582a17eaaa071deeb0636';
+          '60f8bdecef9ce60bb0ff228a8b1e346d38f3bea771516ba91f36ccbb56c71998';
       when(() => mockUuid.v1()).thenReturn('uuid-v1');
       when(() => mockUuid.v4()).thenReturn('sub-id');
       when(
@@ -207,16 +274,17 @@ void main() {
       const sentEvent =
           '["EVENT",{'
           '"kind":30023,'
-          '"id":"f99328fd84e2571e8715652ed33b2fbaa27651e622a582a17eaaa071deeb0636",'
+          '"id":"60f8bdecef9ce60bb0ff228a8b1e346d38f3bea771516ba91f36ccbb56c71998",'
           '"pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",'
           '"created_at":1750157400,'
           '"tags":[["client","996e10ba"],["t","996e10ba"],["d","uuid-v1"],'
           '["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"],'
           '["summary","AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5MgglehbzsNjlKVP2pURGJCzdQgzLK8YLoTvhDY+2SM3HQaY62I4LStarNw5IQJc7dgdfVkUof7BqVEJ8YsAUvjfC"],'
+          '["pin_kdf","2"],'
           '["updated_at","1750157400"],'
           '["labels","AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5Mh0TPRLvo9SiBXGcyjE0Sk2xYFHLK8YLoTvhDY+2SM3HQXyVyN0bWhAykUrQVvd8hxVQqvF/Ti2tKbQ74GFrSasx"]],'
           '"content":"AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5MgglehbzsNjlKVP2pURGJCzdQgzLK8YLoTvhDY+2SM3HQaY62I4LStarNw5IQJc7dgdfVkUof7BqVEJ8YsAUvjfC",'
-          '"sig":"ef997766585a9c7cd1f8d18cdb291ecec427dd44f5399c35696fd5e4dd12578c69eeab7fbfae0b2fefda329e67e7c7e51f1e2c7cfcccb2dc507b1a2518e95b05"}]';
+          '"sig":"af39f6e3a26411cf0bdb907f692c433f621b152ee40bc4a1d7072568f501b20c8ce58e90eb06f1a88d0d00a4e766d2fe06002ade4df7eee050bd3ab125f0e777"}]';
 
       final eventJson = jsonDecode(sentEvent);
 
@@ -232,7 +300,7 @@ void main() {
 
     test('OutboxPublisher publishes with partial relay response', () async {
       const eventId =
-          'f99328fd84e2571e8715652ed33b2fbaa27651e622a582a17eaaa071deeb0636';
+          '60f8bdecef9ce60bb0ff228a8b1e346d38f3bea771516ba91f36ccbb56c71998';
       when(() => mockUuid.v1()).thenReturn('uuid-v1');
       when(() => mockUuid.v4()).thenReturn('sub-id');
       when(
@@ -278,16 +346,17 @@ void main() {
       const sentEvent =
           '["EVENT",{'
           '"kind":30023,'
-          '"id":"f99328fd84e2571e8715652ed33b2fbaa27651e622a582a17eaaa071deeb0636",'
+          '"id":"60f8bdecef9ce60bb0ff228a8b1e346d38f3bea771516ba91f36ccbb56c71998",'
           '"pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",'
           '"created_at":1750157400,'
           '"tags":[["client","996e10ba"],["t","996e10ba"],["d","uuid-v1"],'
           '["p","5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee"],'
           '["summary","AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5MgglehbzsNjlKVP2pURGJCzdQgzLK8YLoTvhDY+2SM3HQaY62I4LStarNw5IQJc7dgdfVkUof7BqVEJ8YsAUvjfC"],'
+          '["pin_kdf","2"],'
           '["updated_at","1750157400"],'
           '["labels","AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5Mh0TPRLvo9SiBXGcyjE0Sk2xYFHLK8YLoTvhDY+2SM3HQXyVyN0bWhAykUrQVvd8hxVQqvF/Ti2tKbQ74GFrSasx"]],'
           '"content":"AuXvY0J+AMpiCAy3NWZxZgQ9mz6UDHcitHPicTq5W8w5MgglehbzsNjlKVP2pURGJCzdQgzLK8YLoTvhDY+2SM3HQaY62I4LStarNw5IQJc7dgdfVkUof7BqVEJ8YsAUvjfC",'
-          '"sig":"ef997766585a9c7cd1f8d18cdb291ecec427dd44f5399c35696fd5e4dd12578c69eeab7fbfae0b2fefda329e67e7c7e51f1e2c7cfcccb2dc507b1a2518e95b05"}]';
+          '"sig":"af39f6e3a26411cf0bdb907f692c433f621b152ee40bc4a1d7072568f501b20c8ce58e90eb06f1a88d0d00a4e766d2fe06002ade4df7eee050bd3ab125f0e777"}]';
 
       final eventJson = jsonDecode(sentEvent);
 

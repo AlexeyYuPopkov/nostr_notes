@@ -268,6 +268,7 @@ class NotesRepositoryImpl implements NotesRepository {
       [Tag.d.value, dTagValue],
       [Tag.p.value, pubkey],
       [const SummaryTag().value, note.summary],
+      ?note.kdf.tag,
       if (initAtSeconds != null) [Note.updatedAtTag, initAtSeconds.toString()],
       if (labels.isNotEmpty)
         [
