@@ -282,29 +282,38 @@ class ExtraDerivation {
       return cached;
     }
 
-    final pinKey = await _passwordToKey(password, baseKey, kdf);
-    final derived = await _cryptoService.spec256k1Async(
-      senderPrivateKey: pinKey,
-      recipientPublicKey: baseKey,
-    );
+    final derived = switch (kdf) {
+      PinKdf.legacySha256 => await _legacyKey(password, baseKey),
+      PinKdf.pbkdf2 => await _stretchedKey(password, baseKey),
+    };
 
     return (_expando[session] ??= {})[kdf] = derived;
   }
 
-  Future<Uint8List> _passwordToKey(
-    String pin,
-    Uint8List baseKey,
-    PinKdf kdf,
-  ) async {
-    switch (kdf) {
-      case PinKdf.legacySha256:
-        return Uint8List.fromList(sha256.convert(utf8.encode(pin)).bytes);
-      case PinKdf.pbkdf2:
-        return AppWorker.instance.compute(
-          params: (pin: pin, salt: _salt(baseKey)),
-          callback: stretchPin,
-        );
-    }
+  /// The shape that shipped before PBKDF2: one SHA-256 pass over the PIN,
+  /// then a second ECDH on the result. Reproduced byte for byte — this is
+  /// what notes already on relays decrypt with.
+  Future<Uint8List> _legacyKey(String pin, Uint8List baseKey) {
+    final pinKey = Uint8List.fromList(sha256.convert(utf8.encode(pin)).bytes);
+    return _cryptoService.spec256k1Async(
+      senderPrivateKey: pinKey,
+      recipientPublicKey: baseKey,
+    );
+  }
+
+  /// Stretch the PIN, then bind the result to the account's own key material
+  /// so neither half alone opens a note.
+  ///
+  /// No second ECDH here, unlike [_legacyKey]: next to 200k PBKDF2 rounds it
+  /// added about 0.15% to an attacker's per-guess cost while reading like
+  /// part of the defence.
+  Future<Uint8List> _stretchedKey(String pin, Uint8List baseKey) async {
+    final stretched = await AppWorker.instance.compute(
+      params: (pin: pin, salt: _salt(baseKey)),
+      callback: stretchPin,
+    );
+
+    return Uint8List.fromList(sha256.convert([...baseKey, ...stretched]).bytes);
   }
 
   /// The account's own key material is the only per-account value available

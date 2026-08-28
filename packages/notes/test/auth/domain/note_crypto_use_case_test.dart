@@ -112,6 +112,30 @@ void main() {
       expect(decrypted.summary, summary);
     });
 
+    test('the legacy key derivation is frozen', () async {
+      sessionUsecase.setSession(
+        const Session.unlocked(
+          keys: UserKeys(privateKey: privateKey, publicKey: publicKey),
+          pin: pin,
+        ),
+      );
+
+      final key = await cryptoService.deriveKeysAsync(
+        senderPrivateKey: privateKey,
+        recipientPublicKey: publicKey,
+        extraDerivation: extraDerivation.execute(pin, kdf: PinKdf.legacySha256),
+      );
+
+      expect(
+        key.map((b) => b.toRadixString(16).padLeft(2, '0')).join(),
+        '13092e838484e58d6bcd66001c0bdca0b9bed5a318f0c0efc450baaac2b5ee60',
+        reason:
+            'Notes already on relays were encrypted with this exact key. '
+            'If this value has to change, they can no longer be read — the '
+            'legacy branch is a format, not an implementation detail.',
+      );
+    });
+
     test('the two KDFs derive different keys from the same PIN', () async {
       sessionUsecase.setSession(
         const Session.unlocked(
