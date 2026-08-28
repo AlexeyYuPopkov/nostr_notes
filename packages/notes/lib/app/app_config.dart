@@ -20,6 +20,15 @@ final class AppConfig {
   static const googlePlayLink =
       'https://play.google.com/store/apps/details?id=com.alekseii.yu.popkov.nostrNotes';
 
+  /// `action=write-review` opens the App Store straight on the review sheet.
+  /// Google Play has no such parameter — [googlePlayLink] is reused there and
+  /// lands the user on the listing, where the rating control lives.
+  static const appStoreReviewLink =
+      'https://apps.apple.com/app/id6757975921?action=write-review';
+
+  static const githubIssuesLink =
+      'https://github.com/AlexeyYuPopkov/nostr_notes/issues';
+
   static final kIsTest = kIsWeb
       ? false
       : Platform.environment.containsKey('FLUTTER_TEST') &&
