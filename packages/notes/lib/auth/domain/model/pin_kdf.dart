@@ -6,8 +6,15 @@
 /// were never released, so everything on a relay is already [pbkdf2].
 enum PinKdf {
   /// A single SHA-256 pass over the PIN — no salt, no stretching. Only for
-  /// reading notes written before [pbkdf2]; never chosen for new ciphertext.
+  /// reading notes written before the tag existed; never chosen for new
+  /// ciphertext. This is the one value that writes no tag at all.
   legacySha256('1'),
+
+  /// No PIN took part: the key is the plain NIP-44 conversation key, so the
+  /// note opens with the account keys alone. Recorded explicitly rather than
+  /// left implicit — a reader must not apply a PIN the writer never used,
+  /// and a note with no PIN protection should say so.
+  none('0'),
 
   /// PBKDF2-HMAC-SHA256, [pbkdf2Iterations] rounds, salted per account.
   pbkdf2('2');
@@ -42,6 +49,10 @@ enum PinKdf {
   /// the only one (`NotesRepositoryImpl.publishNote` assembles its own tags).
   List<String>? get tag =>
       this == PinKdf.legacySha256 ? null : [tagName, tagValue];
+
+  /// Whether the PIN is mixed into the key at all. [none] is the derivation
+  /// that does nothing, so it must not be handed a password.
+  bool get usesPin => this != PinKdf.none;
 
   /// Absent tag means the note predates versioning, hence [legacySha256].
   static PinKdf fromTagValue(String? value) {

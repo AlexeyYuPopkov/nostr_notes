@@ -208,9 +208,9 @@ void main() {
 
       // encryptNote stamps the note with the current KDF — that upgrade is
       // exactly how an old note migrates, so it survives the round trip.
-      // No PIN, so no KDF tag is stamped — nothing was stretched, and
-      // both branches would derive the same key anyway.
-      expect(decrypted, initialNote);
+      // No PIN took part, and the note records that rather than staying
+      // silent about it.
+      expect(decrypted, initialNote.copyWith(kdf: PinKdf.none));
     });
 
     test(

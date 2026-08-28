@@ -85,13 +85,21 @@ void main() {
       );
     });
 
-    test('an account with no PIN round-trips and writes no KDF tag', () async {
+    test('a note written with no PIN still opens once a PIN is set', () async {
       switchTo(_accountA, '');
+      final encrypted = await sut.encryptNote(noteWith('written with no pin'));
 
-      final encrypted = await sut.encryptNote(noteWith('no pin here'));
+      expect(
+        encrypted.kdf,
+        PinKdf.none,
+        reason: 'the note has to say that no PIN protects it',
+      );
 
-      expect(encrypted.kdf, PinKdf.legacySha256);
-      expect((await sut.decryptNote(encrypted)).content, 'no pin here');
+      // The account gains a PIN afterwards. The note was never encrypted with
+      // one, so the reader must not apply it.
+      switchTo(_accountA, '1234');
+
+      expect((await sut.decryptNote(encrypted)).content, 'written with no pin');
     });
   });
 }

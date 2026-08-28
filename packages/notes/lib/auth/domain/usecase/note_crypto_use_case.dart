@@ -34,10 +34,10 @@ final class NoteCryptoUseCase {
 
   Future<Note> encryptNote(Note note) async {
     final pin = _getPin();
-    // Without a PIN there is nothing to stretch and both branches collapse to
-    // the same plain NIP-44 key, so such a note carries no KDF tag at all —
-    // it also keeps its event id stable for accounts that never set one.
-    final kdf = pin.isEmpty ? PinKdf.legacySha256 : PinKdf.current;
+    // Recorded even when no PIN took part: a reader that has a PIN must not
+    // apply it to a note written without one, and "no tag" has to keep
+    // meaning "written before the tag existed".
+    final kdf = pin.isEmpty ? PinKdf.none : PinKdf.current;
 
     final privateKey = _getPrivateKey();
     final peerPubkey = _getPeerPubkey();
@@ -266,7 +266,10 @@ class ExtraDerivation {
     String? password, {
     PinKdf kdf = PinKdf.current,
   }) {
-    if (password == null || password.isEmpty) {
+    // PinKdf.none wins over whatever the session holds: the note was written
+    // without a PIN, so applying one now would derive a key it was never
+    // encrypted with.
+    if (!kdf.usesPin || password == null || password.isEmpty) {
       return null;
     }
     return (Uint8List input) => _extraDerivation(password, input, kdf);
@@ -288,6 +291,9 @@ class ExtraDerivation {
     final derived = switch (kdf) {
       PinKdf.legacySha256 => await _legacyKey(password, baseKey),
       PinKdf.pbkdf2 => await _stretchedKey(password, baseKey),
+      // execute() returns null for this one, so no derivation function is
+      // ever handed out and this branch is unreachable.
+      PinKdf.none => throw StateError('PinKdf.none derives no key material'),
     };
 
     return (_expando[session] ??= {})[kdf] = derived;
