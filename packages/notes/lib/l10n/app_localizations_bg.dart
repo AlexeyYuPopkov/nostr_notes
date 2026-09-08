@@ -265,6 +265,16 @@ class AppLocalizationsBg extends AppLocalizations {
   String get settingsItemBuyMeACoffee => 'Купи ми кафе ☕';
 
   @override
+  String exportImportExportSkippedWarning(String count) {
+    return 'Резервното копие е създадено, но $count бележки не можаха да бъдат дешифрирани и липсват в него.';
+  }
+
+  @override
+  String exportImportImportSkippedWarning(String count) {
+    return 'Пропуснати бележки: $count. Запазените, които заменят, не можаха да бъдат дешифрирани и бяха оставени.';
+  }
+
+  @override
   String get settingsItemLeaveReview => 'Оценете приложението ⭐';
 
   @override

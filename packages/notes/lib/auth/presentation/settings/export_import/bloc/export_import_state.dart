@@ -24,6 +24,7 @@ sealed class ExportImportState extends Equatable {
     required String filePath,
     required Uint8List bytes,
     required String fileName,
+    required int skippedNotes,
   }) = SuccessState;
 
   const factory ExportImportState.error({
@@ -39,6 +40,7 @@ sealed class ExportImportState extends Equatable {
 
   const factory ExportImportState.importSuccess({
     required ExportImportData data,
+    required int skippedNotes,
   }) = ImportSuccessState;
 }
 
@@ -79,11 +81,15 @@ final class SuccessState extends ExportImportState {
   final Uint8List bytes;
   final String fileName;
 
+  /// Notes left out of the backup because they could not be decrypted.
+  final int skippedNotes;
+
   const SuccessState({
     required super.data,
     required this.filePath,
     required this.bytes,
     required this.fileName,
+    required this.skippedNotes,
   });
 
   @override
@@ -94,7 +100,11 @@ final class SuccessState extends ExportImportState {
 }
 
 final class ImportSuccessState extends ExportImportState {
-  const ImportSuccessState({required super.data});
+  /// Notes left un-imported because the stored note they collide with could
+  /// not be decrypted, and overwriting something unreadable would lose it.
+  final int skippedNotes;
+
+  const ImportSuccessState({required super.data, required this.skippedNotes});
 
   @override
   bool operator ==(Object other) => identical(this, other);

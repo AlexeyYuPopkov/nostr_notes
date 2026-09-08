@@ -78,12 +78,24 @@ final class _ExportImportView extends StatelessWidget
         );
         break;
       case SuccessState(:final filePath, :final bytes, :final fileName):
+        if (state.skippedNotes > 0) {
+          _warn(
+            context,
+            l10n.exportImportExportSkippedWarning('${state.skippedNotes}'),
+          );
+        }
         shareFile(filePath, bytes, fileName, context);
         break;
-      case ImportSuccessState():
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(l10n.exportImportImportSuccess)));
+      case ImportSuccessState(:final skippedNotes):
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              skippedNotes > 0
+                  ? l10n.exportImportImportSkippedWarning('$skippedNotes')
+                  : l10n.exportImportImportSuccess,
+            ),
+          ),
+        );
 
         RouteHandler.of(context)?.onRoute(const CloseSettingsRoute(), context);
         break;
@@ -96,6 +108,18 @@ final class _ExportImportView extends StatelessWidget
         onExportTap(context);
         break;
     }
+  }
+
+  /// Long enough to be read: it reports data missing from a backup, which
+  /// the default duration is too short to convey.
+  void _warn(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 8),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ),
+    );
   }
 
   void _accountsListener(

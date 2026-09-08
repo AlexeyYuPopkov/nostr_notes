@@ -47,13 +47,13 @@ final class ExportImportBloc
   ) async {
     emit(ExportImportState.loading(data: data));
     try {
-      final (filePath, bytes, fileName) = await _exportUsecase.exportNotes(
+      final result = await _exportUsecase.exportNotes(
         params: ExportParamsAll(
           password: event.password,
           fileName: event.fileName,
         ),
       );
-      if (bytes.isEmpty) {
+      if (result.bytes.isEmpty) {
         emit(
           ExportImportState.error(
             data: data,
@@ -69,9 +69,10 @@ final class ExportImportBloc
       emit(
         ExportImportState.success(
           data: data,
-          filePath: filePath,
-          bytes: bytes,
-          fileName: fileName,
+          filePath: result.filePath,
+          bytes: result.bytes,
+          fileName: result.fileName,
+          skippedNotes: result.skippedNotes,
         ),
       );
     } catch (e) {
@@ -119,7 +120,7 @@ final class ExportImportBloc
         return;
       }
 
-      await _importUsecase.importNotes(
+      final skippedNotes = await _importUsecase.importNotes(
         password: event.password,
         filePath: file.path ?? '',
         fileBytes: file.path != null
@@ -133,7 +134,9 @@ final class ExportImportBloc
 
       emit(ExportImportState.loading(data: data, progress: 0.9));
       await Future.delayed(const Duration(milliseconds: 700));
-      emit(ExportImportState.importSuccess(data: data));
+      emit(
+        ExportImportState.importSuccess(data: data, skippedNotes: skippedNotes),
+      );
     } catch (e) {
       emit(ExportImportState.error(data: data, error: e));
       rethrow;
