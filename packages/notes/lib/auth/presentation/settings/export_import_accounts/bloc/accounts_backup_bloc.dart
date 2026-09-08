@@ -53,11 +53,11 @@ final class AccountsBackupBloc
   ) async {
     emit(AccountsBackupState.loading(data: data));
     try {
-      final (filePath, bytes, fileName) = await _exportUsecase.exportAccounts(
+      final result = await _exportUsecase.exportAccounts(
         password: event.password,
         fileName: event.fileName,
       );
-      if (bytes.isEmpty) {
+      if (result.bytes.isEmpty) {
         emit(
           AccountsBackupState.error(
             data: data,
@@ -75,9 +75,10 @@ final class AccountsBackupBloc
       emit(
         AccountsBackupState.success(
           data: data,
-          filePath: filePath,
-          bytes: bytes,
-          fileName: fileName,
+          filePath: result.filePath,
+          bytes: result.bytes,
+          fileName: result.fileName,
+          skippedAccounts: result.skippedAccounts,
         ),
       );
     } catch (e) {
@@ -127,7 +128,7 @@ final class AccountsBackupBloc
         return;
       }
 
-      await _importUsecase.importAccounts(
+      final skippedAccounts = await _importUsecase.importAccounts(
         password: event.password,
         filePath: file.path ?? '',
         fileBytes: file.path != null
@@ -141,7 +142,12 @@ final class AccountsBackupBloc
 
       emit(AccountsBackupState.loading(data: data, progress: 0.9));
       await Future.delayed(const Duration(milliseconds: 700));
-      emit(AccountsBackupState.importSuccess(data: data));
+      emit(
+        AccountsBackupState.importSuccess(
+          data: data,
+          skippedAccounts: skippedAccounts,
+        ),
+      );
     } catch (e) {
       emit(AccountsBackupState.error(data: data, error: e));
     }

@@ -1,21 +1,18 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 
-import 'package:common/services/event_store/raw_event_store.dart';
+import 'package:nostr_notes/auth/data/mappers/login_item_mapper.dart';
+import 'package:nostr_notes/auth/domain/model/encrypted_login_item.dart';
+import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/auth/data/backup/backup_crypto_helper.dart';
 import 'package:nostr_notes/auth/data/backup/backup_zip_helper.dart';
 import 'package:nostr_notes/auth/data/backup_templates_accounts.dart';
-import 'package:nostr_notes/auth/data/mappers/login_item_mapper.dart';
 import 'package:nostr_notes/auth/data/models/backup_payload.dart';
 import 'package:nostr_notes/auth/data/models/login_item_payload.dart';
-import 'package:nostr_notes/auth/domain/model/encrypted_login_item.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/export_accounts_usecase.dart';
-import 'package:nostr_notes/auth/domain/usecase/login_items/login_item_crypto_usecase.dart';
-import 'package:nostr_notes/auth/domain/usecase/login_items/vault_identity_usecase.dart';
-import 'package:nostr_notes/core/event_kind.dart';
+import 'package:nostr_notes/auth/domain/usecase/login_items/watch_login_items_usecase.dart';
 import 'package:nostr_notes/services/hex_to_bytes.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -29,20 +26,18 @@ import 'package:path_provider/path_provider.dart';
 final class ExportAccountsUsecaseImpl implements ExportAccountsUsecase {
   static const archivedFileName = 'accounts_export.json';
 
-  final RawEventStore _eventStore;
-  final VaultIdentityUsecase _vaultIdentityUsecase;
-  final LoginItemCryptoUsecase _loginItemCryptoUsecase;
+  /// The same source the list screen reads from, deliberately: which items
+  /// exist — tombstones, NIP-09 deletions, duplicate versions of one d-tag —
+  /// must be decided in exactly one place. A backup that disagrees with the
+  /// list resurrects deleted accounts on the next import.
+  final WatchLoginItemsUsecase _watchLoginItemsUsecase;
 
   const ExportAccountsUsecaseImpl({
-    required RawEventStore eventStore,
-    required VaultIdentityUsecase vaultIdentityUsecase,
-    required LoginItemCryptoUsecase loginItemCryptoUsecase,
-  }) : _eventStore = eventStore,
-       _vaultIdentityUsecase = vaultIdentityUsecase,
-       _loginItemCryptoUsecase = loginItemCryptoUsecase;
+    required WatchLoginItemsUsecase watchLoginItemsUsecase,
+  }) : _watchLoginItemsUsecase = watchLoginItemsUsecase;
 
   @override
-  Future<(String, Uint8List, String)> exportAccounts({
+  Future<ExportAccountsResult> exportAccounts({
     required String password,
     String? fileName,
     List<String>? dTags,
@@ -54,32 +49,20 @@ final class ExportAccountsUsecaseImpl implements ExportAccountsUsecase {
     }
 
     try {
-      final vaultPubkey = _vaultIdentityUsecase.execute().publicKey;
-      final events = await _eventStore.queryEvents(
-        RawEventQuery(
-          kinds: const [NostrKind.loginItem],
-          authors: [vaultPubkey],
-          tagFilters: dTags != null ? [TagFilter('d', dTags)] : null,
-        ),
-      );
+      final all = await _watchLoginItemsUsecase.execute().first;
+      final selected = dTags == null
+          ? all
+          : all.where((item) => dTags.contains(item.dTag));
 
-      if (events.isEmpty) {
-        return ('', Uint8List(0), '');
-      }
-
-      final encryptedItems = LoginItemMapper.fromNostrEvents(events);
-      final decryptedItems = <LoginItem>[];
-      for (final item in encryptedItems) {
-        try {
-          decryptedItems.add(await _loginItemCryptoUsecase.decrypt(item));
-        } catch (e) {
-          log(e.toString(), name: 'ExportAccountsUsecase');
-          continue;
-        }
-      }
+      // A locked item carries blank secrets, so writing one into a backup
+      // would quietly replace a password with an empty string.
+      final decryptedItems = selected
+          .where((item) => item.error == null)
+          .toList();
+      final skippedAccounts = selected.length - decryptedItems.length;
 
       if (decryptedItems.isEmpty) {
-        return ('', Uint8List(0), '');
+        return _nothingToExport;
       }
 
       final BackupPayload payload;
@@ -118,7 +101,12 @@ final class ExportAccountsUsecaseImpl implements ExportAccountsUsecase {
         );
       }
 
-      return (filePath, zipBytes, resolvedFileName);
+      return (
+        filePath: filePath,
+        bytes: zipBytes,
+        fileName: resolvedFileName,
+        skippedAccounts: skippedAccounts,
+      );
     } on ExportAccountsError {
       rethrow;
     } catch (e) {
@@ -128,6 +116,15 @@ final class ExportAccountsUsecaseImpl implements ExportAccountsUsecase {
       );
     }
   }
+
+  /// Empty bytes are how the caller recognises "nothing to export"; it is
+  /// not an error on its own.
+  static final _nothingToExport = (
+    filePath: '',
+    bytes: Uint8List(0),
+    fileName: '',
+    skippedAccounts: 0,
+  );
 
   Future<BackupPayload> _createPayload(
     List<LoginItem> items, {

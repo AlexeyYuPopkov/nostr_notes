@@ -26,7 +26,7 @@ import 'package:rxdart/transformers.dart';
 import 'package:uuid/uuid.dart';
 
 // TODO: Reduce responcibility of this class
-class NotesRepositoryImpl implements NotesRepository {
+class NotesRepositoryImpl with GetNotesFiltering implements NotesRepository {
   final NostrClient _client;
   final RawEventStore _eventStore;
   final OutboxDaoInterface _outboxDao;
@@ -130,78 +130,6 @@ class NotesRepositoryImpl implements NotesRepository {
   @override
   void closeRequest(String subscriptionId) {
     _client.sendCloseForAll(subscriptionId);
-  }
-
-  @override
-  Future<Iterable<Note>> getNotes({required String pubkey}) async {
-    final rawResult = await _eventStore.queryEvents(
-      RawEventQuery(
-        authors: [pubkey],
-        kinds: [EventKind.note.value],
-        tagFilters: [
-          TagFilter(Tag.p.value, [pubkey]),
-        ],
-      ),
-    );
-
-    final deleted = await _eventStore.queryEvents(
-      RawEventQuery(authors: [pubkey], kinds: const [NostrKind.deletion]),
-    );
-
-    return _performNotesFiltering(rawNotes: rawResult, deleted: deleted);
-  }
-
-  static Future<Iterable<Note>> _performNotesFiltering({
-    required Iterable<NostrEvent> rawNotes,
-    required Iterable<NostrEvent> deleted,
-  }) async {
-    return AppWorker.instance.compute(
-      params: (rawNotes, deleted),
-      callback: _performNotesFilteringIsolateEntry,
-    );
-  }
-
-  static Iterable<Note> _performNotesFilteringIsolateEntry(
-    (Iterable<NostrEvent> rawNotes, Iterable<NostrEvent> deleted) params,
-  ) {
-    final deletedDTags = params.$2
-        .where((e) => e.kind == NostrKind.deletion)
-        .map(ATag.getAllFromEvent)
-        .expand((aTags) => aTags)
-        .map((aTag) => aTag.dTag)
-        .toSet();
-
-    final result = params.$1.where((e) => e.content.isNotEmpty).where((e) {
-      final dTag = e.getDTag();
-      if (dTag == null || dTag.isEmpty) {
-        return false;
-      }
-
-      return !deletedDTags.contains(dTag);
-    }).nonNulls;
-
-    return NoteMapper.fromNostrEvents(result);
-  }
-
-  @override
-  Stream<Iterable<Note>> watchNotes({required String pubkey}) {
-    return _eventStore
-        .watchEvents(
-          RawEventQuery(
-            authors: [pubkey],
-            kinds: [EventKind.note.value],
-            tagFilters: [
-              TagFilter(Tag.p.value, [pubkey]),
-            ],
-          ),
-        )
-        .asyncMap((items) async {
-          final deleted = await _eventStore.queryEvents(
-            RawEventQuery(authors: [pubkey], kinds: const [NostrKind.deletion]),
-          );
-
-          return _performNotesFiltering(rawNotes: items, deleted: deleted);
-        });
   }
 
   @override
@@ -492,5 +420,39 @@ class NotesRepositoryImpl implements NotesRepository {
       _eventStore.deleteEvents(aTags.ids),
       _outboxDao.removeUndeliveredByEventIds(aTags.ids),
     ]).then((_) => null);
+  }
+}
+
+mixin GetNotesFiltering {
+  Future<Iterable<Note>> performNotesFiltering({
+    required Iterable<NostrEvent> rawNotes,
+    required Iterable<NostrEvent> deleted,
+  }) async {
+    return AppWorker.instance.compute(
+      params: (rawNotes, deleted),
+      callback: _performNotesFilteringIsolateEntry,
+    );
+  }
+
+  static Iterable<Note> _performNotesFilteringIsolateEntry(
+    (Iterable<NostrEvent> rawNotes, Iterable<NostrEvent> deleted) params,
+  ) {
+    final deletedDTags = params.$2
+        .where((e) => e.kind == NostrKind.deletion)
+        .map(ATag.getAllFromEvent)
+        .expand((aTags) => aTags)
+        .map((aTag) => aTag.dTag)
+        .toSet();
+
+    final result = params.$1.where((e) => e.content.isNotEmpty).where((e) {
+      final dTag = e.getDTag();
+      if (dTag == null || dTag.isEmpty) {
+        return false;
+      }
+
+      return !deletedDTags.contains(dTag);
+    }).nonNulls;
+
+    return NoteMapper.fromNostrEvents(result);
   }
 }

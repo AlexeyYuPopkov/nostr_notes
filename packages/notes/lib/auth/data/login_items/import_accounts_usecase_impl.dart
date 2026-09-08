@@ -37,7 +37,7 @@ final class ImportAccountsUsecaseImpl implements ImportAccountsUsecase {
        _saveLoginItemUsecase = saveLoginItemUsecase;
 
   @override
-  Future<void> importAccounts({
+  Future<int> importAccounts({
     required String password,
     String filePath = '',
     Uint8List? fileBytes,
@@ -82,9 +82,19 @@ final class ImportAccountsUsecaseImpl implements ImportAccountsUsecase {
 
     // 2) Resolve each collision against the currently stored item (if any)
     //    and persist through the normal save path.
+    var skippedAccounts = 0;
     try {
       for (final item in incoming) {
         final existing = await _getLoginItemUsecase.execute(dTag: item.dTag);
+
+        // A locked item has blank secrets, so every policy that could pick it
+        // — or merge with it — ends in a save that replaces a real password
+        // with an empty string.
+        if (existing?.error != null) {
+          skippedAccounts++;
+          continue;
+        }
+
         final resolved = policy.apply(item, existing);
         await _saveLoginItemUsecase.execute(item: resolved);
       }
@@ -96,6 +106,8 @@ final class ImportAccountsUsecaseImpl implements ImportAccountsUsecase {
         parentError: e,
       );
     }
+
+    return skippedAccounts;
   }
 
   Future<BackupPayload> _readFileAndZip(

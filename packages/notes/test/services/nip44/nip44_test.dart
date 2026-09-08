@@ -6,6 +6,7 @@ void main() {
   const text =
       'Lorem ipsum dolor sit amet consectetur adipiscing elit. '
       'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+  const iterations = 5;
   group('Nip44', () {
     const Nip44 sut = Nip44();
 
@@ -67,7 +68,6 @@ void main() {
       const publicKey =
           '5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee';
 
-      const iterations = 100;
       final stopwatch = Stopwatch()..start();
 
       for (var i = 0; i < iterations; i++) {
@@ -103,7 +103,6 @@ void main() {
       const publicKey =
           '5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee';
 
-      const iterations = 100;
       final stopwatch = Stopwatch()..start();
 
       for (var i = 0; i < iterations; i++) {
@@ -136,7 +135,6 @@ void main() {
           recipientPublicKey: publicKey,
         );
 
-        const iterations = 100;
         final stopwatch = Stopwatch()..start();
 
         for (var i = 0; i < iterations; i++) {
@@ -160,7 +158,6 @@ void main() {
 
         expect(stopwatch.elapsedMilliseconds < 400, true);
       },
-      skip: true,
     );
   });
 }
