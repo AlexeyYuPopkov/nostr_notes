@@ -11,6 +11,7 @@ import 'package:nostr_notes/auth/data/export_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/get_pending_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/import_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/lightning_donation_repo_impl.dart';
+import 'package:nostr_notes/auth/data/notes/get_notes_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
@@ -113,8 +114,9 @@ final class AuthDiScope extends DiScope {
     );
 
     di.bind<GetNotesUsecase>(
-      () => GetNotesUsecase(
-        notesRepository: di.resolve(),
+      () => GetNotesUsecaseImpl(
+        eventStore: di.resolve(),
+        // notesRepository: di.resolve(),
         sessionUsecase: di.resolve(),
         noteCryptoUseCase: di.resolve(),
       ),
@@ -142,8 +144,9 @@ final class AuthDiScope extends DiScope {
 
     di.bind<ExportUsecase>(
       () => ExportUsecaseImpl(
-        eventStore: di.resolve(),
+        // eventStore: di.resolve(),
         noteCryptoUseCase: di.resolve(),
+        getNotesUsecase: di.resolve(),
       ),
       module: this,
       lifeTime: const LifeTime.prototype(),

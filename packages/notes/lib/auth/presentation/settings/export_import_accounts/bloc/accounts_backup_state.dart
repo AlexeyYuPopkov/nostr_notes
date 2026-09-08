@@ -24,6 +24,7 @@ sealed class AccountsBackupState extends Equatable {
     required String filePath,
     required Uint8List bytes,
     required String fileName,
+    required int skippedAccounts,
   }) = SuccessAccountsState;
 
   const factory AccountsBackupState.error({
@@ -41,6 +42,7 @@ sealed class AccountsBackupState extends Equatable {
 
   const factory AccountsBackupState.importSuccess({
     required AccountsBackupData data,
+    required int skippedAccounts,
   }) = ImportSuccessAccountsState;
 }
 
@@ -81,11 +83,15 @@ final class SuccessAccountsState extends AccountsBackupState {
   final Uint8List bytes;
   final String fileName;
 
+  /// Accounts left out of the backup because they could not be decrypted.
+  final int skippedAccounts;
+
   const SuccessAccountsState({
     required super.data,
     required this.filePath,
     required this.bytes,
     required this.fileName,
+    required this.skippedAccounts,
   });
 
   @override
@@ -96,7 +102,14 @@ final class SuccessAccountsState extends AccountsBackupState {
 }
 
 final class ImportSuccessAccountsState extends AccountsBackupState {
-  const ImportSuccessAccountsState({required super.data});
+  /// Accounts left un-imported because the stored account they collide with
+  /// could not be decrypted, and overwriting it would blank a real password.
+  final int skippedAccounts;
+
+  const ImportSuccessAccountsState({
+    required super.data,
+    required this.skippedAccounts,
+  });
 
   @override
   bool operator ==(Object other) => identical(this, other);

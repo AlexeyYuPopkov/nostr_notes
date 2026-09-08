@@ -550,6 +550,18 @@ abstract class AppLocalizations {
   /// **'Buy me a coffee ☕'**
   String get settingsItemBuyMeACoffee;
 
+  /// No description provided for @exportImportExportAccountsSkippedWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup created, but {count} account(s) could not be decrypted and are not in it.'**
+  String exportImportExportAccountsSkippedWarning(String count);
+
+  /// No description provided for @exportImportImportAccountsSkippedWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} account(s) were skipped: the stored account they replace could not be decrypted, and it was kept instead.'**
+  String exportImportImportAccountsSkippedWarning(String count);
+
   /// No description provided for @exportImportExportSkippedWarning.
   ///
   /// In en, this message translates to:

@@ -7,7 +7,11 @@ abstract interface class ImportAccountsUsecase {
   /// Unlike [ImportUsecase] (notes), [password] is required and rejected if
   /// empty — mirrors [ExportAccountsUsecase] requiring one on export, so an
   /// accounts backup can never round-trip unencrypted.
-  Future<void> importAccounts({
+  /// Returns how many incoming accounts were left out because the stored
+  /// account they collide with could not be decrypted. Such an account is
+  /// never overwritten: a locked item carries blank secrets, so applying a
+  /// policy against it would write an empty password over a real one.
+  Future<int> importAccounts({
     required String password,
     String filePath,
     Uint8List? fileBytes,

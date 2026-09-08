@@ -265,6 +265,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsItemBuyMeACoffee => 'Купить мне кофе ☕';
 
   @override
+  String exportImportExportAccountsSkippedWarning(String count) {
+    return 'Бэкап создан, но $count аккаунтов не удалось расшифровать — их в нём нет.';
+  }
+
+  @override
+  String exportImportImportAccountsSkippedWarning(String count) {
+    return 'Пропущено аккаунтов: $count. Сохранённые, которые они заменяют, не расшифровались и были оставлены как есть.';
+  }
+
+  @override
   String exportImportExportSkippedWarning(String count) {
     return 'Бэкап создан, но $count заметок не удалось расшифровать — их в нём нет.';
   }

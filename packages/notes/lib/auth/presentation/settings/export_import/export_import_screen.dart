@@ -140,6 +140,14 @@ final class _ExportImportView extends StatelessWidget
         );
         break;
       case SuccessAccountsState(:final filePath, :final bytes, :final fileName):
+        if (state.skippedAccounts > 0) {
+          _warn(
+            context,
+            l10n.exportImportExportAccountsSkippedWarning(
+              '${state.skippedAccounts}',
+            ),
+          );
+        }
         shareFile(
           filePath,
           bytes,
@@ -148,10 +156,18 @@ final class _ExportImportView extends StatelessWidget
           successMessage: (l10n) => l10n.accsBackupExportSuccess,
         );
         break;
-      case ImportSuccessAccountsState():
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(l10n.accsBackupImportSuccess)));
+      case ImportSuccessAccountsState(:final skippedAccounts):
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              skippedAccounts > 0
+                  ? l10n.exportImportImportAccountsSkippedWarning(
+                      '$skippedAccounts',
+                    )
+                  : l10n.accsBackupImportSuccess,
+            ),
+          ),
+        );
         RouteHandler.of(context)?.onRoute(const CloseSettingsRoute(), context);
         break;
       case WillImportAccountsState():

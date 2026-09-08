@@ -5,15 +5,15 @@ import 'package:flutter/foundation.dart';
 import 'package:nostr_notes/auth/data/backup/backup_crypto_helper.dart';
 import 'package:nostr_notes/auth/data/backup/backup_zip_helper.dart';
 import 'package:nostr_notes/auth/data/backup_templates.dart';
-import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
 import 'package:nostr_notes/auth/data/models/backup_payload.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/export_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
-import 'package:nostr_notes/core/event_kind.dart';
+
 import 'package:nostr_notes/services/hex_to_bytes.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -21,14 +21,15 @@ const _kPbkdf2Iterations = BackupCryptoHelper.defaultIterations;
 
 final class ExportUsecaseImpl implements ExportUsecase {
   static const archivedFileName = 'notes_export.json';
-  final RawEventStore _eventStore;
+
   final NoteCryptoUseCase _noteCryptoUseCase;
+  final GetNotesUsecase _getNotesUsecase;
 
   const ExportUsecaseImpl({
-    required RawEventStore eventStore,
     required NoteCryptoUseCase noteCryptoUseCase,
-  }) : _eventStore = eventStore,
-       _noteCryptoUseCase = noteCryptoUseCase;
+    required GetNotesUsecase getNotesUsecase,
+  }) : _noteCryptoUseCase = noteCryptoUseCase,
+       _getNotesUsecase = getNotesUsecase;
 
   @override
   Future<ExportResult> exportNotes({required ExportParams params}) async {
@@ -37,20 +38,17 @@ final class ExportUsecaseImpl implements ExportUsecase {
         ExportParamsIds(:final noteIds) => noteIds,
         ExportParamsAll() => null,
       };
-      final events = await _eventStore.queryEvents(
-        RawEventQuery(
-          kinds: [EventKind.note.value],
-          tagFilters: noteIds != null ? [TagFilter('d', noteIds)] : null,
-        ),
+
+      final notes = await _getNotesUsecase.executeAsync(
+        dTags: noteIds?.toSet(),
       );
 
       // Nothing stored — surfaced as empty bytes so the caller can show the
       // "no notes" message; not an error per se.
-      if (events.isEmpty) {
+      if (notes.isEmpty) {
         return _nothingToExport;
       }
 
-      final notes = NoteMapper.fromNostrEvents(events);
       final decryptedNotes = <Note>[];
       var skippedNotes = 0;
       for (final note in notes) {

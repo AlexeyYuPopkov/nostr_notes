@@ -1,0 +1,8 @@
+# Performance cases assert on wall-clock time, so on a shared or loaded
+# machine they measure the machine rather than the code — identical work
+# swung from 180 ms to 668 ms between runs. Skipped by default so they can
+# never fail a commit or CI; measure deliberately with:
+#   flutter test --run-skipped --tags perf
+tags:
+  perf:
+    skip: "wall-clock measurement; run with --run-skipped --tags perf"

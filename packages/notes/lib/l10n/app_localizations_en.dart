@@ -262,6 +262,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsItemBuyMeACoffee => 'Buy me a coffee ☕';
 
   @override
+  String exportImportExportAccountsSkippedWarning(String count) {
+    return 'Backup created, but $count account(s) could not be decrypted and are not in it.';
+  }
+
+  @override
+  String exportImportImportAccountsSkippedWarning(String count) {
+    return '$count account(s) were skipped: the stored account they replace could not be decrypted, and it was kept instead.';
+  }
+
+  @override
   String exportImportExportSkippedWarning(String count) {
     return 'Backup created, but $count note(s) could not be decrypted and are not in it.';
   }

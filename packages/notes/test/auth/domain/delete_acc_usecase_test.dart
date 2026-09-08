@@ -7,6 +7,10 @@ import 'package:nostr/model/user_keys.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
+import 'package:nostr_notes/auth/data/notes/get_notes_usecase_impl.dart';
+import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
+import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/domain/usecase/delete_acc_usecase.dart';
 import 'package:common/data/repo/key_tool_repository_impl.dart';
@@ -52,12 +56,13 @@ void main() {
     late DeleteAccUsecase sut;
     late OutboxDaoInterface outboxDao;
     late RawEventStore eventStore;
+    late GetNotesUsecase getNotesUsecase;
     late NotesRepositoryImpl notesRepo;
     late SecureStorage secureStorage;
     final mockNow = _MockNow();
     final mockUuid = _MockUuid();
 
-    setUp(() {
+    setUp(() async {
       final di = DiStorage.shared;
       di.bind<ErrorMessagesProvider>(
         () => const MockErrorMessagesProvider(),
@@ -92,6 +97,22 @@ void main() {
         now: mockNow,
         eventCreator: NostrEventCreator(
           randomBytes: Uint8List.fromList(List<int>.generate(32, (i) => i)),
+        ),
+      );
+
+      final cryptoService = CryptoService.create();
+      await cryptoService.init();
+
+      getNotesUsecase = GetNotesUsecaseImpl(
+        eventStore: eventStore,
+        sessionUsecase: sessionUsecase,
+        noteCryptoUseCase: NoteCryptoUseCase(
+          cryptoService: cryptoService,
+          sessionUsecase: sessionUsecase,
+          extraDerivation: ExtraDerivation(
+            cryptoService: cryptoService,
+            sessionUsecase: sessionUsecase,
+          ),
         ),
       );
 
@@ -194,19 +215,11 @@ void main() {
 
       await eventStore.upsert([_Helper.event1, _Helper.event2]);
 
-      final getNotesResult = await notesRepo.getNotes(
-        pubkey: SomeMokedData.publicKey,
-      );
-
-      expect(getNotesResult, isA<Iterable>());
-      expect(getNotesResult.isEmpty, isTrue);
-
-      final watchNotesResult = await notesRepo
-          .watchNotes(pubkey: SomeMokedData.publicKey)
-          .first;
-
-      expect(watchNotesResult, isA<Iterable>());
-      expect(watchNotesResult.isEmpty, isTrue);
+      // Both reads must honour the deletion: the one-shot path feeds export,
+      // the stream feeds the list, and a note hidden in one but present in
+      // the other is how deleted notes ended up in backups.
+      expect(await getNotesUsecase.executeAsync(), isEmpty);
+      expect(await getNotesUsecase.execute().first, isEmpty);
 
       final privateKey = await secureStorage.getValue(
         key: SomeMokedData.publicKey,

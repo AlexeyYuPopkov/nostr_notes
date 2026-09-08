@@ -18,11 +18,13 @@ import 'package:nostr/model/user_keys.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr_notes/auth/data/export_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/import_usecase_impl.dart';
+import 'package:nostr_notes/auth/data/notes/get_notes_usecase_impl.dart';
 import 'package:nostr_notes/auth/domain/usecase/export_usecase.dart';
 import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
 import 'package:nostr_notes/auth/data/models/backup_payload.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
+import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/import_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
@@ -63,6 +65,7 @@ void main() {
     late RawEventStore eventStore;
     late OutboxDaoInterface outboxDao;
     late NoteCryptoUseCase noteCryptoUseCase;
+    late GetNotesUsecase getNotesUsecase;
     late SessionUsecase sessionUsecase;
     late ExportUsecaseImpl exportSut;
     late ImportUsecaseImpl importSut;
@@ -100,8 +103,14 @@ void main() {
         ),
       );
 
-      exportSut = ExportUsecaseImpl(
+      getNotesUsecase = GetNotesUsecaseImpl(
         eventStore: eventStore,
+        sessionUsecase: sessionUsecase,
+        noteCryptoUseCase: noteCryptoUseCase,
+      );
+
+      exportSut = ExportUsecaseImpl(
+        getNotesUsecase: getNotesUsecase,
         noteCryptoUseCase: noteCryptoUseCase,
       );
 
@@ -171,6 +180,37 @@ void main() {
         ),
       ]);
     }
+
+    test('exporting one note by d-tag does not export the others', () async {
+      final noteA = await noteCryptoUseCase.decryptNote(
+        NoteMapper.fromJsonStr(NotesFixtures.eventJson1)!,
+      );
+      final noteB = await noteCryptoUseCase.decryptNote(
+        NoteMapper.fromJsonStr(NotesFixtures.eventJson2)!,
+      );
+      for (final note in [noteA, noteB]) {
+        await _seedEncryptedNote(
+          eventStore: eventStore,
+          noteCryptoUseCase: noteCryptoUseCase,
+          note: note,
+        );
+      }
+
+      final result = await exportSut.exportNotes(
+        params: ExportParamsIds(password: password, noteIds: [noteA.dTag]),
+      );
+      addTearDown(() => File(result.filePath).deleteSync());
+
+      final exported = _readExportJson(result.filePath).events;
+      expect(
+        exported,
+        hasLength(1),
+        reason:
+            'sharing a single note must not hand over the whole store — the '
+            'ids are d-tags, and dropping the filter exports everything',
+      );
+      expect(_findTag(exported.single['tags'] as List, 'd'), noteA.dTag);
+    });
 
     test('export reports notes it could not decrypt instead of dropping '
         'them silently', () async {

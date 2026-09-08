@@ -94,11 +94,7 @@ final class LoginItemsDiScope extends DiScope {
     );
 
     di.bind<ExportAccountsUsecase>(
-      () => ExportAccountsUsecaseImpl(
-        eventStore: di.resolve(),
-        vaultIdentityUsecase: di.resolve(),
-        loginItemCryptoUsecase: di.resolve(),
-      ),
+      () => ExportAccountsUsecaseImpl(watchLoginItemsUsecase: di.resolve()),
       module: this,
       lifeTime: const LifeTime.prototype(),
     );

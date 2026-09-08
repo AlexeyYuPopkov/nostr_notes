@@ -270,14 +270,13 @@ final class LoginItemFormBloc
     try {
       emit(LoginItemFormState.loading(data: data));
 
-      final (filePath, bytes, fileName) = await _exportAccountsUsecase
-          .exportAccounts(
-            password: event.password,
-            fileName: event.fileName,
-            dTags: [item.dTag],
-          );
+      final result = await _exportAccountsUsecase.exportAccounts(
+        password: event.password,
+        fileName: event.fileName,
+        dTags: [item.dTag],
+      );
 
-      if (bytes.isEmpty) {
+      if (result.bytes.isEmpty) {
         emit(
           LoginItemFormState.error(
             data: data,
@@ -292,9 +291,9 @@ final class LoginItemFormBloc
       emit(
         LoginItemFormState.exportSuccess(
           data: data,
-          filePath: filePath,
-          bytes: bytes,
-          fileName: fileName,
+          filePath: result.filePath,
+          bytes: result.bytes,
+          fileName: result.fileName,
         ),
       );
     } catch (e) {
