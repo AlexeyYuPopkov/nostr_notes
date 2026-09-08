@@ -550,6 +550,18 @@ abstract class AppLocalizations {
   /// **'Buy me a coffee ☕'**
   String get settingsItemBuyMeACoffee;
 
+  /// No description provided for @exportImportExportSkippedWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup created, but {count} note(s) could not be decrypted and are not in it.'**
+  String exportImportExportSkippedWarning(String count);
+
+  /// No description provided for @exportImportImportSkippedWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} note(s) were skipped: the stored note they replace could not be decrypted, and it was kept instead.'**
+  String exportImportImportSkippedWarning(String count);
+
   /// No description provided for @settingsItemLeaveReview.
   ///
   /// In en, this message translates to:

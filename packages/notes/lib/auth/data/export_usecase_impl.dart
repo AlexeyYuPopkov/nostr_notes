@@ -31,9 +31,7 @@ final class ExportUsecaseImpl implements ExportUsecase {
        _noteCryptoUseCase = noteCryptoUseCase;
 
   @override
-  Future<(String, Uint8List, String)> exportNotes({
-    required ExportParams params,
-  }) async {
+  Future<ExportResult> exportNotes({required ExportParams params}) async {
     try {
       final noteIds = switch (params) {
         ExportParamsIds(:final noteIds) => noteIds,
@@ -49,23 +47,25 @@ final class ExportUsecaseImpl implements ExportUsecase {
       // Nothing stored — surfaced as empty bytes so the caller can show the
       // "no notes" message; not an error per se.
       if (events.isEmpty) {
-        return ('', Uint8List(0), '');
+        return _nothingToExport;
       }
 
       final notes = NoteMapper.fromNostrEvents(events);
       final decryptedNotes = <Note>[];
+      var skippedNotes = 0;
       for (final note in notes) {
         try {
           final item = await _noteCryptoUseCase.decryptNote(note);
           decryptedNotes.add(item);
         } catch (e) {
+          skippedNotes++;
           log(e.toString(), name: 'ExportUsecase');
           continue;
         }
       }
 
       if (decryptedNotes.isEmpty) {
-        return ('', Uint8List(0), '');
+        return _nothingToExport;
       }
 
       final BackupPayload payload;
@@ -98,13 +98,27 @@ final class ExportUsecaseImpl implements ExportUsecase {
         throw const ExportError(payload: ExportErrorType.fileWriteFailed);
       }
 
-      return (filePath, zipBytes, fileName);
+      return (
+        filePath: filePath,
+        bytes: zipBytes,
+        fileName: fileName,
+        skippedNotes: skippedNotes,
+      );
     } on ExportError {
       rethrow;
     } catch (e) {
       throw ExportError(payload: ExportErrorType.unknown, parentError: e);
     }
   }
+
+  /// Empty bytes are how the caller recognises "nothing to export"; it is
+  /// not an error on its own.
+  static final _nothingToExport = (
+    filePath: '',
+    bytes: Uint8List(0),
+    fileName: '',
+    skippedNotes: 0,
+  );
 
   Future<BackupPayload> _createPayload(
     List<Note> notes, {

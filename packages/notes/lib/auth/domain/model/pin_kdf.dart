@@ -54,12 +54,18 @@ enum PinKdf {
   /// that does nothing, so it must not be handed a password.
   bool get usesPin => this != PinKdf.none;
 
-  /// Absent tag means the note predates versioning, hence [legacySha256].
-  static PinKdf fromTagValue(String? value) {
-    if (value == null || value.isEmpty) return PinKdf.legacySha256;
+  /// [whenAbsent] is what a missing tag means, and that differs by event
+  /// kind: for notes it is [legacySha256] (written before versioning), for
+  /// login items [current] (they never shipped a legacy derivation, only a
+  /// build that did not write the tag yet).
+  static PinKdf fromTagValue(
+    String? value, {
+    PinKdf whenAbsent = PinKdf.legacySha256,
+  }) {
+    if (value == null || value.isEmpty) return whenAbsent;
     return PinKdf.values.firstWhere(
       (kdf) => kdf.tagValue == value,
-      orElse: () => PinKdf.legacySha256,
+      orElse: () => whenAbsent,
     );
   }
 }

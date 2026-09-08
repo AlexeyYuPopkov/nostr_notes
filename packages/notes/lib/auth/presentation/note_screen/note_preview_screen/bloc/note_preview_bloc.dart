@@ -200,14 +200,14 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   ) async {
     emit(NotePreviewState.loading(data: data));
     try {
-      final (filePath, bytes, fileName) = await _exportUsecase.exportNotes(
+      final result = await _exportUsecase.exportNotes(
         params: ExportParamsIds(
           password: event.password,
           fileName: event.fileName,
           noteIds: [pathParams.id],
         ),
       );
-      if (bytes.isEmpty) {
+      if (result.bytes.isEmpty) {
         emit(
           NotePreviewState.error(
             data: data,
@@ -223,9 +223,9 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
       emit(
         NotePreviewState.exportSuccess(
           data: data,
-          filePath: filePath,
-          bytes: bytes,
-          fileName: fileName,
+          filePath: result.filePath,
+          bytes: result.bytes,
+          fileName: result.fileName,
         ),
       );
     } catch (e) {

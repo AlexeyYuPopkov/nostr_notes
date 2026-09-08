@@ -22,7 +22,9 @@ final class LoginItemCryptoUsecaseImpl implements LoginItemCryptoUsecase {
   final SessionUsecase _sessionUsecase;
   final ExtraDerivation _extraDerivation;
 
-  final _conversationKeyCache = Expando<Uint8List>(
+  /// Keyed by session, then by KDF: a vault can hold items written before a
+  /// PIN existed alongside items written after it.
+  final _conversationKeyCache = Expando<Map<PinKdf, Uint8List>>(
     'LoginItemCryptoUsecaseImpl.nip44Cache',
   );
 
@@ -49,9 +51,10 @@ final class LoginItemCryptoUsecaseImpl implements LoginItemCryptoUsecase {
       rev: item.revision,
     );
 
+    final kdf = _kdfForCurrentSession();
     final encryptedPayload = await _cryptoService.encryptNip44(
       plaintext: jsonEncode(payload.toJson()),
-      conversationKey: await _conversationKey(),
+      conversationKey: await _conversationKey(kdf),
     );
 
     return EncryptedLoginItem(
@@ -59,6 +62,7 @@ final class LoginItemCryptoUsecaseImpl implements LoginItemCryptoUsecase {
       dTag: item.dTag,
       encryptedPayload: encryptedPayload,
       createdAt: item.createdAt,
+      kdf: kdf,
     );
   }
 
@@ -66,7 +70,7 @@ final class LoginItemCryptoUsecaseImpl implements LoginItemCryptoUsecase {
   Future<LoginItem> decrypt(EncryptedLoginItem item) async {
     final payloadJson = await _cryptoService.decryptNip44(
       payload: item.encryptedPayload,
-      conversationKey: await _conversationKey(),
+      conversationKey: await _conversationKey(item.kdf),
     );
 
     final payload = LoginItemPayload.fromJson(
@@ -94,24 +98,34 @@ final class LoginItemCryptoUsecaseImpl implements LoginItemCryptoUsecase {
     );
   }
 
-  Future<Uint8List> _conversationKey() async {
+  /// A PIN can be absent, and then it takes no part in the key at all — the
+  /// item has to record that so a later PIN is not applied to it.
+  PinKdf _kdfForCurrentSession() =>
+      _unlockedSession().pin.isEmpty ? PinKdf.none : PinKdf.current;
+
+  Unlocked _unlockedSession() {
     final session = _sessionUsecase.currentSession;
-    final unlocked = switch (session) {
+    return switch (session) {
       Unauth() => throw const AppError.notAuthenticated(),
       Auth() => throw const AppError.notUnlocked(),
       final Unlocked s => s,
     };
+  }
 
-    final extraDerivation = _extraDerivation.execute(
-      unlocked.pin,
-      kdf: PinKdf.current,
+  Future<Uint8List> _conversationKey(PinKdf kdf) async {
+    final unlocked = _unlockedSession();
+
+    final cached = (_conversationKeyCache[unlocked] ??= {})[kdf];
+    if (cached != null) {
+      return cached;
+    }
+
+    final derived = await _cryptoService.deriveKeysAsync(
+      senderPrivateKey: unlocked.keys.privateKey,
+      recipientPublicKey: unlocked.keys.publicKey,
+      extraDerivation: _extraDerivation.execute(unlocked.pin, kdf: kdf),
     );
 
-    return _conversationKeyCache[unlocked] ??= await _cryptoService
-        .deriveKeysAsync(
-          senderPrivateKey: unlocked.keys.privateKey,
-          recipientPublicKey: unlocked.keys.publicKey,
-          extraDerivation: extraDerivation,
-        );
+    return (_conversationKeyCache[unlocked] ??= {})[kdf] = derived;
   }
 }

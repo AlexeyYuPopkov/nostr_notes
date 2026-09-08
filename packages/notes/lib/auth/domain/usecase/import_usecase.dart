@@ -4,7 +4,10 @@ import 'package:common/domain/error/app_error.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 
 abstract interface class ImportUsecase {
-  Future<void> importNotes({
+  /// Returns how many incoming notes were left out because the stored note
+  /// they collide with could not be decrypted. Such a note is never
+  /// overwritten: unreadable is not the same as unwanted.
+  Future<int> importNotes({
     required String password,
     String filePath,
     Uint8List? fileBytes,

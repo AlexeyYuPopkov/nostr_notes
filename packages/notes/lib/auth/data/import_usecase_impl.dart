@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -48,7 +49,7 @@ final class ImportUsecaseImpl implements ImportUsecase {
        _now = now;
 
   @override
-  Future<void> importNotes({
+  Future<int> importNotes({
     required String password,
     String filePath = '',
     Uint8List? fileBytes,
@@ -94,15 +95,21 @@ final class ImportUsecaseImpl implements ImportUsecase {
       // 2) Load already stored notes that share a d-tag with the import, so the
       //    policy can resolve each collision. Results keep their d-tag, so the
       //    store replaces the stored version natively (addressable events).
-      final existingByDTag = await _loadExistingByDTag(plainNotes, pubkey);
+      final existing = await _loadExistingByDTag(plainNotes, pubkey);
 
       // 3) Resolve collisions, refresh summary when content changed, and build
       //    properly signed events under the current account's key.
       final eventsToStore = <NostrEvent>[];
       for (final incoming in plainNotes) {
-        final existing = existingByDTag[incoming.dTag];
-        final resolved = policy.apply(incoming, existing);
-        final note = _withFreshSummary(resolved, incoming, existing);
+        // No policy can be applied against a note we cannot read, and every
+        // one of them ends in a write that would replace it. Skipping keeps
+        // the stored ciphertext, which may still be recoverable.
+        if (existing.unreadable.contains(incoming.dTag)) {
+          continue;
+        }
+        final stored = existing.byDTag[incoming.dTag];
+        final resolved = policy.apply(incoming, stored);
+        final note = _withFreshSummary(resolved, incoming, stored);
         eventsToStore.add(
           await _buildSignedEvent(
             note: note,
@@ -117,6 +124,8 @@ final class ImportUsecaseImpl implements ImportUsecase {
       for (final event in eventsToStore) {
         await _outboxDao.insert(eventId: event.id);
       }
+
+      return existing.unreadable.length;
     } on ImportError {
       rethrow;
     } catch (e) {
@@ -159,16 +168,11 @@ final class ImportUsecaseImpl implements ImportUsecase {
 
   /// Loads and decrypts the stored notes whose d-tag matches any incoming one,
   /// keyed by d-tag. Only notes authored by [pubkey] are considered.
-  Future<Map<String, Note>> _loadExistingByDTag(
-    List<Note> incoming,
-    String pubkey,
-  ) async {
-    final dTags = incoming
-        .map((n) => n.dTag)
-        .where((d) => d.isNotEmpty)
-        .toList();
+  Future<({Map<String, Note> byDTag, Set<String> unreadable})>
+  _loadExistingByDTag(List<Note> incoming, String pubkey) async {
+    final dTags = incoming.map((e) => e.dTag).toSet();
     if (dTags.isEmpty) {
-      return const {};
+      return (byDTag: const <String, Note>{}, unreadable: const <String>{});
     }
 
     final events = await _eventStore.queryEvents(
@@ -180,12 +184,20 @@ final class ImportUsecaseImpl implements ImportUsecase {
     );
 
     final result = <String, Note>{};
+    final unreadable = <String>{};
     for (final event in events) {
       final note = NoteMapper.fromNostrEvent(event);
       if (note == null) continue;
-      result[note.dTag] = await _noteCryptoUseCase.decryptNote(note);
+      try {
+        result[note.dTag] = await _noteCryptoUseCase.decryptNote(note);
+      } catch (e) {
+        // One stored note that will not open must not abort the whole
+        // import; the notes it does not collide with are still fine.
+        unreadable.add(note.dTag);
+        log(e.toString(), name: 'ImportUsecase');
+      }
     }
-    return result;
+    return (byDTag: result, unreadable: unreadable);
   }
 
   /// The summary is derived from content, so it must be regenerated whenever a
