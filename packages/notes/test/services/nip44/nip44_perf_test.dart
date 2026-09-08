@@ -12,7 +12,7 @@ void main() {
   const text =
       'Lorem ipsum dolor sit amet consectetur adipiscing elit. '
       'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
-  const iterations = 5;
+  const iterations = 50;
   group('Nip44 encryption/decryption performance', () {
     const Nip44 sut = Nip44();
     test('Nip44 encryption/decryption performance', () async {
