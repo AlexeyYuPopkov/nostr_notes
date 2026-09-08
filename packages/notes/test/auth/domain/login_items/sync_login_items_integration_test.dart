@@ -264,7 +264,9 @@ void main() {
 /// three distinct d-tags, deduplicated from what a real sync would receive
 /// from multiple relays. Authored by the vault derived from [_keys], and
 /// the `content` is real NIP-44 ciphertext encrypted under PIN [_pin] with
-/// [PinKdf.current] — so this test's session genuinely decrypts them.
+/// [PinKdf.current] at the test iteration count — so this test's session
+/// genuinely decrypts them. Changing PinKdf.pbkdf2Iterations invalidates
+/// this ciphertext.
 final class _Helper {
   static const rawEvents = [
     {
@@ -275,11 +277,12 @@ final class _Helper {
       'created_at': 1786275327,
       'tags': [
         ['d', 'b7af2c7c-88a3-4fee-97de-15a1de886fc6'],
+        ['pin_kdf', '2'],
       ],
       'content':
-          'Ajqx1ncJNndQxi/Y5vMYE4nm3ojO1smRDS3ZGop5jcAcrEc6SQOxMHRyk16L7sWNMdqSUCl4JrFZcyB+CjkHItVqce+PSTs+DPttaWHRlREMV13GuseiWXbAjKeD3ASXXwmuIsuCMjvKm4M6EM2xGVh52YTfSspbDpf8j2eeKBIbw3Jp3pIRNzoOsP2DKsyUzL7MgVbxMMrFgmNI1efKXtFf9LowlLLSIe3+VYfbgwMmjkYuDn2spLrM82xfykObSTaeGv+ApvWJwvBGA7BS8kNYnkmY+ho3wAda2OABcEhCB4A=',
+          'AmmaIdMcUGnnRMC53Fjx2xID6UtQX3i/flqOIVmo/Rphor9Y/8x3XZ7LwhDwmL1470OD0n5DKnPMH+xKwayvaEnbncAc1L7we9Av83n9Cl4nczVqN5HmLPD5rXL29u5QBzVHPffncrMfn/t5IgakckbPUedxrBUI/rZJrXC59lg+pLzB4ciptXHergmBq1BuL/OK61P8LwCTqM0BtX90R7Hn/bVhiNF4jICldFOXJ2buCO31JoLnfEhV18BMvtiYjVUMPaeGzWlshOxxj+/8UvoD3SK+cGdcOHNuEJ4M9pAsJOY=',
       'sig':
-          '37b0f21790ac056fc44f73d32aa5ec2390181b5ea75e28376447aacf8e6fd4f18ee683fda71cf9398b4d1f6107c025ce8df78425e2222e4efc89b5b9042ca088',
+          'df533d9f23a22f4bc908e4d072afe5495304f60020e6213c8e3d119275252b6404d3c4209a2be45a9c8dbf5450dbaeee50f5a19f22c5f70f59bbb523937a0586',
     },
     {
       'kind': 31023,
@@ -289,11 +292,12 @@ final class _Helper {
       'created_at': 1786275287,
       'tags': [
         ['d', '30d5086c-6e55-4227-80d8-cd923f474d49'],
+        ['pin_kdf', '2'],
       ],
       'content':
-          'AuyFAhX0GOYnml3aZC0Nlm/j+xh8D+PUyeXqi1E9neYRbjrHJmid+i3oOGpXZgl938Zg2OdNgsNDUVSy/zpZPm6fBg/TSL+rieSlivvr8bCCfENJRpzKToickPCoN3dTIFmgrPRzU/2lcTGxs3f2yKN3aGf4EEmYwYpXFfEBDu3tlxG5z3C4Qn1ZQnscSIqmVZzX3Bm6E4Fubj7MzTZYxv3f7fdO7Pxan+g/ulADozo8HooUhOBc4Go3mgD5x5BLOh4J94XAmvm+zm1CMsdau5XssQFewqpNrrJw5EcoVrP7Sao=',
+          'AgWk6p1byegVAHb8nCEgFVS97UgMRnA/QTAtTCex97c/xx3W9XDBnFi/A7H0zyqh6rBwjnt+0nR9MlFPWoKoPPuCXPfvEP8CsKPGORLa4s+cn8aMiv3a0D+RSjLd3CWzi1JCN52Vs2bSZkK2cbcM9JjaGjNEj9valHe6enSH5SpgjvaK1Nqdr33ebb909q0liGQQRcFz/S1KgsxXCiqQW42/JYSHKV0toWAbaAv36ELJmKuqt5kQ0WngMneuY/5tmDRwg2b9re/+qulvt16iKIzCEetacRGmZpH39+FXodYjIYc=',
       'sig':
-          '05001ee493bc054aa45cf7fd9cd592d4314c3b4669f8528318e2be568537fb0ec502d9799420ce9fa889f849783c5562ae66f848834e742449c927cf95d90079',
+          '18c6077c1ba1916301d6ff7c071509f77425be602d31e8ea0513c4b99a9a83945660240867e1b95eea0b6227c1bbf556039124965d06224d14d87586aeeff1bf',
     },
     {
       'kind': 31023,
@@ -303,11 +307,12 @@ final class _Helper {
       'created_at': 1786275237,
       'tags': [
         ['d', 'f5ea33c2-4184-4376-8994-ef5a3ff3b531'],
+        ['pin_kdf', '2'],
       ],
       'content':
-          'AjrV3+O/6c3PswCAns6DrFGGmbq6RR9WA3fWpMzbYfK/5YgJzInhQr08wu/OkTIGO5TBVsTz0TZEnVlKMy+D+ss8whDvvaFsW5qvxRzuZTtl49HtuEAYCFdwDdexSrTIU6b4fKFPh8kCA6uEvBNMIYVLMl6LTTAbnpzbZwtf5FCDv4/9+E1VGRZyD4TffEOQ1hbVRiRRdQH/T9JwbBTPtdSCcnIZT+4vAgklt6HquJUKRTSc9B/+yD+czIn96jk6jhlLbfzqisSoyFKcDA4D97/egARgNdyA7bPMj0EHjXhHCe8=',
+          'AoXPloLTEGeJsbbg/Z/OpEYr+vDlt5s74sUn/cwburrKD/Jln30TTS84h3FEAh3iKy4WXGmND0ucwwZV8l+9KI4LYuYGXFN26U/YRsy7C/vAiluB6lTH8oluEuWIIdZZhAnx4CeCbXNoLxjJxC0h/4i+f9UeBml3j84LbuVarc9GiJslsqPRKmu2BF1EihAKt1PSIeNI0/PJo6FFoZK+VSTXd1ITbDrTzANv4NkwVu+1uUCFbZrzCdX+4qqgceMYjVYTUHq6w5MDGPsw84gHb07j5chcMgPO32WmgJeud7e17i8=',
       'sig':
-          'df5fd097a13c3990dbb03e52e6ceef86200ecc5dcc9288ab0592a30f7aaec27d376844d8015d0b4c0e46e7b9896e02168caef5db1239b29a79acf3dd6188b98a',
+          'c3999ac35962522fda08d2ca5f30c0997ed5b2533520be9bc4299fd3ade20bc4be90c65ca6286c06e7a5c09a5f87c8fae16257676b9a6484f3f084215799f2ba',
     },
   ];
 

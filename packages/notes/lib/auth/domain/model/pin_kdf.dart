@@ -1,3 +1,5 @@
+import 'package:nostr_notes/app/app_config.dart';
+
 /// Which key-derivation function turned the PIN into key material for a
 /// given piece of ciphertext.
 ///
@@ -36,7 +38,13 @@ enum PinKdf {
   ///
   /// Raising it buys less than the wall clock suggests — an attacker runs
   /// native SHA-256, we run Dart. See `doc/pbkdf2.md`.
-  static const pbkdf2Iterations = 200000;
+  ///
+  /// Cut down under test. The count is a cost knob, not behaviour, and at the
+  /// production value a full run with coverage takes tens of minutes — long
+  /// enough that tests with timeouts and timing assertions start failing.
+  /// Ciphertext fixtures are generated with whichever value applies, so a
+  /// change here means regenerating them.
+  static int get pbkdf2Iterations => AppConfig.kIsTest ? 1000 : 200000;
 
   /// Domain separation so the salt can never collide with another PBKDF2 use
   /// in this app (the backup password has its own, random, stored salt).
