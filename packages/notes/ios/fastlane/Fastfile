@@ -64,11 +64,16 @@ platform :ios do
       code_sign_identity: "Apple Distribution"
     )
 
+    # Package resolution is deliberately left on. gym archives into its own
+    # derived data, separate from the one `flutter build ios` filled earlier
+    # in the workflow, so skipping resolution leaves the GoogleMobileAds
+    # binary artifact missing here — "file not found at path: .../
+    # SourcePackages/artifacts/...". The workflow clears the shared SwiftPM
+    # artifact cache just before this step so the fetch starts clean.
     build_app(
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
       export_method: "app-store",
-      skip_package_dependencies_resolution: true,
       export_options: {
         provisioningProfiles: {
           "com.alekseii.yu.popkov.nostrNotes" => "match AppStore com.alekseii.yu.popkov.nostrNotes"
