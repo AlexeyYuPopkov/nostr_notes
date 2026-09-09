@@ -66,26 +66,27 @@ final class _SettingsScreenState extends State<SettingsScreen>
         child: BlocConsumer<SettingsScreenBloc, SettingsScreenState>(
           listener: _listener,
           builder: (context, state) {
+            final items = SettingsItem.positionedItems;
             return AbsorbPointer(
               absorbing: state is LoadingState,
               child: ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(),
                 controller: _vm.scrollController,
-                itemCount: SettingsItem.items.length + 1,
+                itemCount: items.length + 1,
                 itemBuilder: (context, index) {
-                  if (index == SettingsItem.items.length) {
+                  if (index == items.length) {
                     return const Padding(
                       padding: EdgeInsets.all(Sizes.indent2x),
                       child: DistributionBanners(),
                     );
                   }
-                  final item = SettingsItem.items[index];
+                  final (item, position) = items[index];
                   return SettingsItemTile(
                     title: item.getTitle(context),
                     subtitle: item.getInfoText(context),
                     titleTextColorBuilder: item.getTitleTextColor,
                     sectionTitle: item.getSectionTitle(context),
-                    position: item.position,
+                    position: position,
                     trailing: item.trailing(context),
                     onTap: () => item.onTap(context),
                     onBuildSectionTitle: (ctx) =>

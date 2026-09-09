@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/app_config.dart';
@@ -44,13 +47,13 @@ final class ExportImportBloc
   ) async {
     emit(ExportImportState.loading(data: data));
     try {
-      final (filePath, bytes, fileName) = await _exportUsecase.exportNotes(
+      final result = await _exportUsecase.exportNotes(
         params: ExportParamsAll(
           password: event.password,
           fileName: event.fileName,
         ),
       );
-      if (bytes.isEmpty) {
+      if (result.bytes.isEmpty) {
         emit(
           ExportImportState.error(
             data: data,
@@ -66,9 +69,10 @@ final class ExportImportBloc
       emit(
         ExportImportState.success(
           data: data,
-          filePath: filePath,
-          bytes: bytes,
-          fileName: fileName,
+          filePath: result.filePath,
+          bytes: result.bytes,
+          fileName: result.fileName,
+          skippedNotes: result.skippedNotes,
         ),
       );
     } catch (e) {
@@ -116,16 +120,23 @@ final class ExportImportBloc
         return;
       }
 
-      await _importUsecase.importNotes(
+      final skippedNotes = await _importUsecase.importNotes(
         password: event.password,
         filePath: file.path ?? '',
-        fileBytes: await file.readAsBytes(),
+        fileBytes: file.path != null
+            ? await File(file.path!).readAsBytes()
+            : await file
+                  .readAsByteStream()
+                  .fold<List<int>>([], (buf, chunk) => buf..addAll(chunk))
+                  .then(Uint8List.fromList),
         policy: event.policy,
       );
 
       emit(ExportImportState.loading(data: data, progress: 0.9));
       await Future.delayed(const Duration(milliseconds: 700));
-      emit(ExportImportState.importSuccess(data: data));
+      emit(
+        ExportImportState.importSuccess(data: data, skippedNotes: skippedNotes),
+      );
     } catch (e) {
       emit(ExportImportState.error(data: data, error: e));
       rethrow;

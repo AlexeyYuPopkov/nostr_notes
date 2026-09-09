@@ -1,4 +1,4 @@
-import 'package:common/app/theme/app_background_colors.dart';
+import 'package:common/app/theme/app_theme_style.dart';
 import 'package:common/app/vm/global_settings_scope.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
@@ -8,6 +8,8 @@ import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
+
+import 'widgets/theme_style_icon.dart';
 
 final class ThemeSettingsScreen extends StatefulWidget {
   const ThemeSettingsScreen({super.key});
@@ -56,7 +58,6 @@ class _ThemeSettingsScreenState extends State<ThemeSettingsScreen>
             onChanged: (mode) => onChanged(context, mode: mode),
             child: ListView(
               controller: _scrollVm.scrollController,
-              // physics: AlwaysScrollableScrollPhysics(),
               children: [
                 SectionTitle(
                   sectionTitle: l10n.themeScreenSectionTitleColorTheme,
@@ -75,41 +76,23 @@ class _ThemeSettingsScreenState extends State<ThemeSettingsScreen>
                   themeMode: ThemeMode.dark,
                   position: ListItemPosition.last,
                 ),
-                _ColorPicker(
+                _StylePicker(
                   brightness: .light,
-                  colors: AppBackgroundColors.light,
-                  title: l10n.themeScreenLabelBackground,
-                  position: ListItemPosition.first,
-                  notifier: _vm.lightBgIndexNotifier,
-                  onChanged: _vm.setLightBgIndex,
+                  title: l10n.themeScreenLabelStyle,
+                  sectionTitle: l10n.themeScreenLabelLight,
+                  notifier: _vm.lightThemeStyleNotifier,
+                  onChanged: _vm.setLightThemeStyle,
                   onBuildSectionTitle: (ctx) =>
                       _scrollVm.registerSection(.colorsLight, ctx),
                 ),
-                _ColorPicker(
-                  brightness: .light,
-                  colors: AppBackgroundColors.lightCard,
-                  title: l10n.themeScreenLabelCards,
-                  position: ListItemPosition.last,
-                  notifier: _vm.lightCardIndexNotifier,
-                  onChanged: _vm.setLightCardIndex,
-                ),
-                _ColorPicker(
+                _StylePicker(
                   brightness: .dark,
-                  colors: AppBackgroundColors.dark,
-                  title: l10n.themeScreenLabelBackground,
-                  position: ListItemPosition.first,
-                  notifier: _vm.darkBgIndexNotifier,
-                  onChanged: _vm.setDarkBgIndex,
+                  title: l10n.themeScreenLabelStyle,
+                  sectionTitle: l10n.themeScreenLabelDark,
+                  notifier: _vm.darkThemeStyleNotifier,
+                  onChanged: _vm.setDarkThemeStyle,
                   onBuildSectionTitle: (ctx) =>
                       _scrollVm.registerSection(.colorsDark, ctx),
-                ),
-                _ColorPicker(
-                  brightness: .dark,
-                  colors: AppBackgroundColors.darkCard,
-                  title: l10n.themeScreenLabelCards,
-                  position: ListItemPosition.last,
-                  notifier: _vm.darkCardIndexNotifier,
-                  onChanged: _vm.setDarkCardIndex,
                 ),
               ],
             ),
@@ -159,20 +142,22 @@ final class _Tile extends StatelessWidget with _OnThemeChanged {
   }
 }
 
-final class _ColorPicker extends StatelessWidget {
+/// One brightness's independently-selectable [AppThemeStyle] — three named
+/// tiles (Default / Apple Notes / Claude), each previewing its own
+/// background+primary rather than a bare color dot, since a style is more
+/// than a single swatch now.
+final class _StylePicker extends StatelessWidget {
   final Brightness brightness;
-  final List<Color> colors;
   final String title;
-  final ListItemPosition position;
-  final ValueNotifier<int> notifier;
-  final ValueChanged<int> onChanged;
+  final String sectionTitle;
+  final ValueNotifier<AppThemeStyle> notifier;
+  final ValueChanged<AppThemeStyle> onChanged;
   final void Function(BuildContext)? onBuildSectionTitle;
 
-  const _ColorPicker({
+  const _StylePicker({
     required this.brightness,
-    required this.colors,
     required this.title,
-    required this.position,
+    required this.sectionTitle,
     required this.notifier,
     required this.onChanged,
     this.onBuildSectionTitle,
@@ -182,75 +167,75 @@ final class _ColorPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
       valueListenable: notifier,
-      builder: (context, selectedIndex, _) {
-        return SettingsItemTile(
-          title: Text(title),
-          position: position,
-          sectionTitle: _getSectionTitle(context),
-          trailing: _ColorSwatchRow(
-            colors: colors,
-            selectedIndex: selectedIndex,
-            onSelected: onChanged,
+      builder: (context, selected, _) {
+        final styles = AppThemeStyle.values;
+        return RadioGroup<AppThemeStyle>(
+          groupValue: selected,
+          onChanged: (style) {
+            if (style != null) onChanged(style);
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (final (i, style) in styles.indexed)
+                _StyleTile(
+                  style: style,
+                  brightness: brightness,
+                  position: ListItemPosition.fromIndex(
+                    i,
+                    length: styles.length,
+                  ),
+                  sectionTitle: i == 0 ? sectionTitle : '',
+                  onBuildSectionTitle: i == 0 ? onBuildSectionTitle : null,
+                  onTap: () => onChanged(style),
+                ),
+            ],
           ),
-          onTap: null,
-          onBuildSectionTitle: onBuildSectionTitle,
         );
       },
     );
   }
-
-  String _getSectionTitle(BuildContext context) => switch (brightness) {
-    .light => context.commonL10n.themeScreenLabelLight,
-    .dark => context.commonL10n.themeScreenLabelDark,
-  };
 }
 
-final class _ColorSwatchRow extends StatelessWidget {
-  final List<Color> colors;
-  final int selectedIndex;
-  final ValueChanged<int> onSelected;
+final class _StyleTile extends StatelessWidget {
+  final AppThemeStyle style;
+  final Brightness brightness;
+  final ListItemPosition position;
+  final String sectionTitle;
+  final void Function(BuildContext)? onBuildSectionTitle;
+  final VoidCallback onTap;
 
-  const _ColorSwatchRow({
-    required this.colors,
-    required this.selectedIndex,
-    required this.onSelected,
+  const _StyleTile({
+    required this.style,
+    required this.brightness,
+    required this.position,
+    required this.sectionTitle,
+    required this.onBuildSectionTitle,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      spacing: Sizes.indent,
-      children: List.generate(colors.length, (i) {
-        final color = colors[i];
-        final isSelected = i == selectedIndex;
-        return GestureDetector(
-          onTap: () => onSelected(i),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            width: Sizes.indentVariant4x,
-            height: Sizes.indentVariant4x,
-            decoration: BoxDecoration(
-              color: color,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: isSelected
-                    ? theme.colorScheme.primary
-                    : theme.colorScheme.outline,
-                width: isSelected ? Sizes.thickness2x : Sizes.thickness,
-              ),
-            ),
-            child: isSelected
-                ? Icon(
-                    Icons.check,
-                    size: Sizes.iconSmall,
-                    color: theme.colorScheme.primary,
-                  )
-                : null,
-          ),
-        );
-      }),
+    final palette = style.paletteFor(brightness);
+
+    return SettingsItemTile(
+      title: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ThemeStyleIcon(palette: palette),
+          const SizedBox(width: Sizes.indent2x),
+          Text(style.getLocalizedName(context)),
+        ],
+      ),
+      position: position,
+      sectionTitle: sectionTitle,
+      trailing: Radio<AppThemeStyle>.adaptive(
+        value: style,
+        activeColor: theme.colorScheme.primary,
+      ),
+      onTap: onTap,
+      onBuildSectionTitle: onBuildSectionTitle,
     );
   }
 }

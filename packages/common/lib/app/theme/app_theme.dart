@@ -3,6 +3,7 @@ import 'package:common/app/theme/sizes.dart';
 
 import 'app_color_scheme.dart';
 import 'app_text_theme.dart';
+import 'app_theme_style.dart';
 import 'gpt_markdown_theme_data.dart';
 import 'shimmer_colors.dart';
 import 'success_colors.dart';
@@ -10,17 +11,26 @@ import 'success_colors.dart';
 final class AppTheme {
   const AppTheme();
 
-  static ThemeData light({
-    Color backgroundColor = const Color(0xFFF2F2F7),
-    Color cardColor = const Color(0xFFFFFFFF),
-  }) {
+  static ThemeData light({AppThemeStyle style = AppThemeStyle.defaultStyle}) {
+    final palette = style.paletteFor(Brightness.light);
     return ThemeData(
-      colorScheme: AppColorScheme.light.copyWith(tertiaryContainer: cardColor),
+      // primary/surface/tertiaryContainer/outline below always come from
+      // [palette] — the values baked into AppColorScheme.light for those
+      // fields are just a fallback shape, never what actually renders.
+      colorScheme: AppColorScheme.light.copyWith(
+        primary: palette.primary,
+        onPrimary: palette.onPrimary,
+        primaryContainer: palette.primaryContainer,
+        onPrimaryContainer: palette.onPrimaryContainer,
+        surface: palette.background,
+        tertiaryContainer: palette.card,
+        outline: palette.outline,
+      ),
       useMaterial3: true,
-      scaffoldBackgroundColor: backgroundColor,
+      scaffoldBackgroundColor: palette.background,
       appBarTheme: AppBarTheme(
-        backgroundColor: backgroundColor,
-        surfaceTintColor: backgroundColor,
+        backgroundColor: palette.background,
+        surfaceTintColor: palette.background,
         shadowColor: Colors.transparent,
         foregroundColor: AppColorScheme.light.onSurface,
         elevation: 0,
@@ -30,34 +40,34 @@ final class AppTheme {
           fontWeight: FontWeight.w600,
         ),
       ),
-      drawerTheme: DrawerThemeData(backgroundColor: backgroundColor),
+      drawerTheme: DrawerThemeData(backgroundColor: palette.background),
       textTheme: AppTextTheme.createTextThemeWithColor(
         AppColorScheme.light.onSurface,
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: const Color(0xFFFFFFFF),
+        fillColor: palette.card,
         errorStyle: TextStyle(
           color: AppColorScheme.light.error,
           fontSize: TextSizes.small,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(Sizes.radius),
-          borderSide: BorderSide(color: AppColorScheme.light.outline),
+          borderSide: BorderSide(color: palette.outline),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(Sizes.radius),
-          borderSide: BorderSide(color: AppColorScheme.light.outline),
+          borderSide: BorderSide(color: palette.outline),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(Sizes.radius),
-          borderSide: BorderSide(color: AppColorScheme.light.primary),
+          borderSide: BorderSide(color: palette.primary),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColorScheme.light.primary,
-          foregroundColor: AppColorScheme.light.onPrimary,
+          backgroundColor: palette.primary,
+          foregroundColor: palette.onPrimary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(Sizes.radius),
           ),
@@ -69,7 +79,7 @@ final class AppTheme {
         ),
       ),
       cardTheme: CardThemeData(
-        color: cardColor, // Apple Notes: white card on grey background
+        color: palette.card,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Sizes.radiusVariant),
         ),
@@ -78,12 +88,12 @@ final class AppTheme {
         margin: const EdgeInsets.all(Sizes.indent),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: AppColorScheme.light.primary,
+        color: palette.primary,
         strokeWidth: Sizes.thickness,
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: backgroundColor,
-        foregroundColor: AppColorScheme.light.primary,
+        backgroundColor: palette.background,
+        foregroundColor: palette.primary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Sizes.radiusVariant),
         ),
@@ -97,21 +107,23 @@ final class AppTheme {
     );
   }
 
-  static ThemeData dark({
-    Color backgroundColor = const Color(0xFF000000),
-    Color cardColor = const Color(0xFF3A3A3C),
-  }) {
-    final outline = _outlineFromCardColor(cardColor);
+  static ThemeData dark({AppThemeStyle style = AppThemeStyle.defaultStyle}) {
+    final palette = style.paletteFor(Brightness.dark);
     return ThemeData(
       colorScheme: AppColorScheme.dark.copyWith(
-        tertiaryContainer: cardColor,
-        outline: outline,
+        primary: palette.primary,
+        onPrimary: palette.onPrimary,
+        primaryContainer: palette.primaryContainer,
+        onPrimaryContainer: palette.onPrimaryContainer,
+        surface: palette.background,
+        tertiaryContainer: palette.card,
+        outline: palette.outline,
       ),
       useMaterial3: true,
-      scaffoldBackgroundColor: backgroundColor,
+      scaffoldBackgroundColor: palette.background,
       appBarTheme: AppBarTheme(
-        backgroundColor: backgroundColor,
-        surfaceTintColor: backgroundColor,
+        backgroundColor: palette.background,
+        surfaceTintColor: palette.background,
         shadowColor: Colors.transparent,
         foregroundColor: AppColorScheme.dark.onSurface,
         elevation: 0,
@@ -121,34 +133,34 @@ final class AppTheme {
           fontWeight: FontWeight.w600,
         ),
       ),
-      drawerTheme: DrawerThemeData(backgroundColor: backgroundColor),
+      drawerTheme: DrawerThemeData(backgroundColor: palette.background),
       textTheme: AppTextTheme.createTextThemeWithColor(
         AppColorScheme.dark.onSurface,
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: backgroundColor,
+        fillColor: palette.background,
         errorStyle: TextStyle(
           color: AppColorScheme.dark.error,
           fontSize: TextSizes.small,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(Sizes.radius),
-          borderSide: BorderSide(color: AppColorScheme.dark.outline),
+          borderSide: BorderSide(color: palette.outline),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(Sizes.radius),
-          borderSide: BorderSide(color: AppColorScheme.dark.outline),
+          borderSide: BorderSide(color: palette.outline),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(Sizes.radius),
-          borderSide: BorderSide(color: AppColorScheme.dark.primary),
+          borderSide: BorderSide(color: palette.primary),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColorScheme.dark.primary,
-          foregroundColor: AppColorScheme.dark.onSurface,
+          backgroundColor: palette.primary,
+          foregroundColor: palette.onPrimary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(Sizes.radius),
           ),
@@ -160,7 +172,7 @@ final class AppTheme {
         ),
       ),
       cardTheme: CardThemeData(
-        color: cardColor, // Apple Notes dark: card on black background
+        color: palette.card,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Sizes.radiusVariant),
         ),
@@ -170,7 +182,7 @@ final class AppTheme {
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: AppColorScheme.dark.secondaryContainer,
-        foregroundColor: AppColorScheme.dark.primary,
+        foregroundColor: palette.primary,
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Sizes.radiusVariant),
@@ -187,12 +199,5 @@ final class AppTheme {
         SuccessColors.dark,
       ],
     );
-  }
-
-  static Color _outlineFromCardColor(Color cardColor) {
-    const lightnessStep = 0.18;
-    final hsl = HSLColor.fromColor(cardColor);
-    final lightness = (hsl.lightness + lightnessStep).clamp(0.0, 1.0);
-    return hsl.withLightness(lightness).toColor();
   }
 }

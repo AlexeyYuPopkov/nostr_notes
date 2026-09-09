@@ -23,6 +23,9 @@ final class LayoutConfig {
   /// [drawerRatio = 0.7]
   static const drawerRatio = 0.7;
 
+  /// [switcherDrawerRatio = 0.4] - width ratio for the account switcher drawer
+  static const switcherDrawerRatio = 0.4;
+
   /// [internalAnimations = false]
   static const internalAnimations = true;
 }

@@ -1,72 +1,69 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
-import 'package:archive/archive.dart';
-import 'package:common/services/event_store/raw_event_store.dart';
+import 'package:nostr_notes/auth/data/backup/backup_crypto_helper.dart';
+import 'package:nostr_notes/auth/data/backup/backup_zip_helper.dart';
+import 'package:nostr_notes/auth/data/backup_templates.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
 import 'package:nostr_notes/auth/data/models/backup_payload.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/domain/usecase/export_usecase.dart';
+import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
-import 'package:nostr_notes/core/event_kind.dart';
+
 import 'package:nostr_notes/services/hex_to_bytes.dart';
 import 'package:path_provider/path_provider.dart';
 
-const _kPbkdf2Iterations = 600000;
+const _kPbkdf2Iterations = BackupCryptoHelper.defaultIterations;
 
 final class ExportUsecaseImpl implements ExportUsecase {
   static const archivedFileName = 'notes_export.json';
-  final RawEventStore _eventStore;
+
   final NoteCryptoUseCase _noteCryptoUseCase;
+  final GetNotesUsecase _getNotesUsecase;
 
   const ExportUsecaseImpl({
-    required RawEventStore eventStore,
     required NoteCryptoUseCase noteCryptoUseCase,
-  }) : _eventStore = eventStore,
-       _noteCryptoUseCase = noteCryptoUseCase;
+    required GetNotesUsecase getNotesUsecase,
+  }) : _noteCryptoUseCase = noteCryptoUseCase,
+       _getNotesUsecase = getNotesUsecase;
 
   @override
-  Future<(String, Uint8List, String)> exportNotes({
-    required ExportParams params,
-  }) async {
+  Future<ExportResult> exportNotes({required ExportParams params}) async {
     try {
       final noteIds = switch (params) {
         ExportParamsIds(:final noteIds) => noteIds,
         ExportParamsAll() => null,
       };
-      final events = await _eventStore.queryEvents(
-        RawEventQuery(
-          kinds: [EventKind.note.value],
-          tagFilters: noteIds != null ? [TagFilter('d', noteIds)] : null,
-        ),
+
+      final notes = await _getNotesUsecase.executeAsync(
+        dTags: noteIds?.toSet(),
       );
 
       // Nothing stored — surfaced as empty bytes so the caller can show the
       // "no notes" message; not an error per se.
-      if (events.isEmpty) {
-        return ('', Uint8List(0), '');
+      if (notes.isEmpty) {
+        return _nothingToExport;
       }
 
-      final notes = NoteMapper.fromNostrEvents(events);
       final decryptedNotes = <Note>[];
+      var skippedNotes = 0;
       for (final note in notes) {
         try {
           final item = await _noteCryptoUseCase.decryptNote(note);
           decryptedNotes.add(item);
         } catch (e) {
+          skippedNotes++;
           log(e.toString(), name: 'ExportUsecase');
           continue;
         }
       }
 
       if (decryptedNotes.isEmpty) {
-        return ('', Uint8List(0), '');
+        return _nothingToExport;
       }
 
       final BackupPayload payload;
@@ -99,13 +96,27 @@ final class ExportUsecaseImpl implements ExportUsecase {
         throw const ExportError(payload: ExportErrorType.fileWriteFailed);
       }
 
-      return (filePath, zipBytes, fileName);
+      return (
+        filePath: filePath,
+        bytes: zipBytes,
+        fileName: fileName,
+        skippedNotes: skippedNotes,
+      );
     } on ExportError {
       rethrow;
     } catch (e) {
       throw ExportError(payload: ExportErrorType.unknown, parentError: e);
     }
   }
+
+  /// Empty bytes are how the caller recognises "nothing to export"; it is
+  /// not an error on its own.
+  static final _nothingToExport = (
+    filePath: '',
+    bytes: Uint8List(0),
+    fileName: '',
+    skippedNotes: 0,
+  );
 
   Future<BackupPayload> _createPayload(
     List<Note> notes, {
@@ -123,21 +134,29 @@ final class ExportUsecaseImpl implements ExportUsecase {
         events: exportEvents,
       );
     } else {
-      final salt = _generateRandomBytes(16);
-      final secretKey = await ExportHelper.deriveKey(
+      final salt = BackupCryptoHelper.generateRandomBytes(16);
+      final secretKey = await BackupCryptoHelper.deriveKey(
         password,
         salt,
         _kPbkdf2Iterations,
       );
-      final algorithm = AesCbc.with256bits(macAlgorithm: Hmac.sha256());
+      final algorithm = BackupCryptoHelper.algorithm();
       final exportEvents = <Map<String, dynamic>>[];
 
       for (final note in notes) {
         exportEvents.add(
           NoteMapper.toNostrEvent(
             note.copyWith(
-              content: await _encryptField(note.content, secretKey, algorithm),
-              summary: await _encryptField(note.summary, secretKey, algorithm),
+              content: await BackupCryptoHelper.encryptField(
+                note.content,
+                secretKey,
+                algorithm,
+              ),
+              summary: await BackupCryptoHelper.encryptField(
+                note.summary,
+                secretKey,
+                algorithm,
+              ),
               labels: await _encryptLabels(note.labels, secretKey, algorithm),
             ),
           ).toJson(),
@@ -156,88 +175,29 @@ final class ExportUsecaseImpl implements ExportUsecase {
   }
 
   Future<Uint8List> _buildZipBytes(BackupPayload payload) async {
-    final jsonBytes = utf8.encode(
-      const JsonEncoder.withIndent('  ').convert(payload.toJson()),
+    return BackupZipHelper.buildZipBytes(
+      payload: payload,
+      archivedFileName: archivedFileName,
+      decryptScript: kDecryptBackupPy,
+      readme: kBackupReadmeMd,
     );
-    final archive = Archive()
-      ..addFile(ArchiveFile(archivedFileName, jsonBytes.length, jsonBytes));
-
-    await _tryAddAsset(
-      archive,
-      'assets/decrypt_backup.py',
-      'decrypt_backup.py',
-    );
-    await _tryAddAsset(archive, 'assets/BACKUP_README.md', 'BACKUP_README.md');
-
-    return Uint8List.fromList(ZipEncoder().encode(archive));
-  }
-
-  Future<void> _tryAddAsset(
-    Archive archive,
-    String assetKey,
-    String entryName,
-  ) async {
-    try {
-      final content = await rootBundle.loadString(assetKey);
-      final bytes = utf8.encode(content);
-      archive.addFile(ArchiveFile(entryName, bytes.length, bytes));
-    } catch (_) {
-      // Asset missing in this build — skip silently.
-    }
   }
 
   Future<String> _writeToTempFile(Uint8List bytes, String fileName) async {
-    final file = File('${(await getTemporaryDirectory()).path}/$fileName');
+    final dir = await getTemporaryDirectory();
+    await dir.create(recursive: true);
+    final file = File('${dir.path}/$fileName');
     await file.writeAsBytes(bytes);
     return file.path;
   }
 
   String _fileName(String? customName) {
-    final sanitized = _sanitizeFileName(customName);
+    final sanitized = BackupZipHelper.sanitizeFileName(customName);
     if (sanitized != null) return '$sanitized.zip';
 
     const filePrefix = 'notes_backup_';
     final timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
     return '$filePrefix$timestamp.zip';
-  }
-
-  /// Returns a safe base file name (no extension) from user input, or null to
-  /// fall back to the default. Strips path separators, characters illegal in
-  /// file names and leading dots so the name can never escape the temp dir.
-  String? _sanitizeFileName(String? raw) {
-    if (raw == null) return null;
-    var name = raw.trim();
-    if (name.isEmpty) return null;
-
-    // Drop a trailing ".zip" the user may have typed; it is re-appended later.
-    if (name.toLowerCase().endsWith('.zip')) {
-      name = name.substring(0, name.length - 4);
-    }
-
-    name = name
-        .replaceAll(RegExp(r'[\\/:*?"<>|\x00-\x1f]'), '')
-        .replaceAll(RegExp(r'^\.+'), '')
-        .trim();
-    if (name.isEmpty) return null;
-
-    const maxLength = 64;
-    if (name.length > maxLength) name = name.substring(0, maxLength);
-    return name;
-  }
-
-  Future<String> _encryptField(
-    String text,
-    SecretKey key,
-    AesCbc algorithm,
-  ) async {
-    if (text.isEmpty) return '';
-    final iv = _generateRandomBytes(16);
-    final secretBox = await algorithm.encrypt(
-      utf8.encode(text),
-      secretKey: key,
-      nonce: iv,
-    );
-    return '${base64Encode(secretBox.cipherText)}?iv=${base64Encode(iv)}&mac=${base64Encode(secretBox.mac.bytes)}';
   }
 
   Future<List<BaseLabel>> _encryptLabels(
@@ -248,28 +208,11 @@ final class ExportUsecaseImpl implements ExportUsecase {
     if (labels.isEmpty) return const [];
     final joined = BaseLabel.joinLabels(labels.whereType<Label>());
     if (joined.isEmpty) return const [];
-    final encrypted = await _encryptField(joined, key, algorithm);
-    return [EncryptedLabel(textValue: encrypted)];
-  }
-
-  Uint8List _generateRandomBytes(int length) {
-    final random = math.Random.secure();
-    return Uint8List.fromList(
-      List.generate(length, (_) => random.nextInt(256)),
+    final encrypted = await BackupCryptoHelper.encryptField(
+      joined,
+      key,
+      algorithm,
     );
-  }
-}
-
-abstract interface class ExportHelper {
-  static Future<SecretKey> deriveKey(
-    String password,
-    Uint8List salt,
-    int iterations,
-  ) {
-    return Pbkdf2(
-      macAlgorithm: Hmac.sha256(),
-      iterations: iterations,
-      bits: 256,
-    ).deriveKeyFromPassword(password: password, nonce: salt);
+    return [EncryptedLabel(textValue: encrypted)];
   }
 }

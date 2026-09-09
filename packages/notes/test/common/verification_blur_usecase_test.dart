@@ -5,7 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:nostr/model/user_keys.dart';
 import 'package:common/data/repo/key_tool_repository_impl.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
-import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
+import 'package:common/domain/repo/app_lifecycle_listener_repository.dart';
 import 'package:nostr_notes/common/domain/repository/biometric_repository.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
@@ -13,6 +13,7 @@ import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
 
 import 'package:rxdart/rxdart.dart';
 
+import '../tools/mocks/mock_accounts_repo.dart';
 import '../tools/mocks/mock_relays_list_repo.dart';
 import '../tools/mocks/mock_secure_storage.dart';
 import '../tools/some_moked_data.dart';
@@ -87,6 +88,7 @@ void main() {
       sessionUsecase: sessionUsecase,
       keyToolRepository: keyToolRepository,
       relaysListRepo: relaysListRepo,
+      accountsRepo: MockAccountsRepo(),
     );
     buildSut();
   });

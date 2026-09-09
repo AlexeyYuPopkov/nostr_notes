@@ -76,19 +76,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingSignUpButtonGenerateKey => 'Generate a Nostr Key';
 
   @override
-  String get apkDistributionTitle => 'Download APK';
-
-  @override
-  String get apkDistributionDescription =>
-      'You can download the installation file directly. It is recommended to verify the SHA-256 checksum after downloading.';
-
-  @override
-  String get apkDistributionDownloadButton => 'Download .apk';
-
-  @override
-  String get apkDistributionViewChecksum => 'View Checksum (SHA-256)';
-
-  @override
   String get appStoreBannerTitle => 'Available on the App Store';
 
   @override
@@ -98,7 +85,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get apkBannerTitle => 'Android APK';
 
   @override
-  String get apkBannerButton => 'Download APK';
+  String get apkBannerButton => 'Android (Google Play)';
 
   @override
   String get onboardingSignUpAlreadyHaveAccount => 'Already have an account?';
@@ -179,6 +166,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.';
 
   @override
+  String get onboardingPinPageAutoUnlockTitle => 'Unlocking account';
+
+  @override
+  String get onboardingPinPageAutoUnlockButton => 'Unlock';
+
+  @override
   String get errorEmptyNsec => 'NSEC key cannot be empty';
 
   @override
@@ -197,6 +190,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String errorInvalidPinFormatMinCount(String minCount) {
     return 'PIN or password must be at least $minCount characters long';
   }
+
+  @override
+  String get accountSwitcherTitle => 'Accounts';
+
+  @override
+  String get accountSwitcherAddAccount => 'Add Account';
 
   @override
   String get settingsScreenTitle => 'Settings';
@@ -261,6 +260,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsItemBuyMeACoffee => 'Buy me a coffee ☕';
+
+  @override
+  String exportImportExportAccountsSkippedWarning(String count) {
+    return 'Backup created, but $count account(s) could not be decrypted and are not in it.';
+  }
+
+  @override
+  String exportImportImportAccountsSkippedWarning(String count) {
+    return '$count account(s) were skipped: the stored account they replace could not be decrypted, and it was kept instead.';
+  }
+
+  @override
+  String exportImportExportSkippedWarning(String count) {
+    return 'Backup created, but $count note(s) could not be decrypted and are not in it.';
+  }
+
+  @override
+  String exportImportImportSkippedWarning(String count) {
+    return '$count note(s) were skipped: the stored note they replace could not be decrypted, and it was kept instead.';
+  }
+
+  @override
+  String get settingsItemLeaveReview => 'Rate the app ⭐';
+
+  @override
+  String get settingsItemReportBug => 'Report a bug';
 
   @override
   String get settingsItemDonateBTC => 'Donate via Lightning ⚡';
@@ -451,6 +476,56 @@ class AppLocalizationsEn extends AppLocalizations {
       'Without a password, notes will be exported as plain text and anyone with the file can read them.';
 
   @override
+  String get accsBackupSectionTitle => 'Accounts';
+
+  @override
+  String get accsBackupItemExportTitle => 'Export All Accounts';
+
+  @override
+  String get accsBackupItemExportSubtitle =>
+      'Export all your saved accounts to a password-protected ZIP archive. A password is required — this file can contain your real account passwords.';
+
+  @override
+  String get accsBackupItemImportTitle => 'Import All Accounts';
+
+  @override
+  String get accsBackupItemImportSubtitle =>
+      'Restore accounts from a previously exported archive.';
+
+  @override
+  String get accsBackupExportPasswordDialogTitle => 'Set Backup Password';
+
+  @override
+  String get accsBackupExportPasswordDialogTextFieldHint =>
+      'Password (required)';
+
+  @override
+  String get accsBackupExportPasswordRequiredHint =>
+      'A password is required — without one, this backup would store your account passwords as plain text.';
+
+  @override
+  String get accsBackupExportPasswordRequired => 'Enter a password';
+
+  @override
+  String get accsBackupExportEmptyError => 'No accounts to export';
+
+  @override
+  String get accsBackupExportSuccess => 'Accounts exported successfully';
+
+  @override
+  String get accsBackupImportDialogTitle => 'Import Accounts';
+
+  @override
+  String get accsBackupImportPolicyKeepNewestTitle => 'Keep newest';
+
+  @override
+  String get accsBackupImportPolicyKeepNewestSubtitle =>
+      'Use whichever version — backup or local — was edited more recently';
+
+  @override
+  String get accsBackupImportSuccess => 'Accounts imported successfully';
+
+  @override
   String get notesListPendingSyncTitle => 'Sync pending';
 
   @override
@@ -476,8 +551,25 @@ class AppLocalizationsEn extends AppLocalizations {
       'Cryptographic parameters are invalid for this note.';
 
   @override
-  String get notesListSomeNotesDecryptFailed =>
-      'Some notes couldn\'t be decrypted. Check your PIN.';
+  String get notesListDecryptFailedDialogTitle => 'Couldn\'t decrypt notes';
+
+  @override
+  String notesListDecryptFailedDialogMessage(int failed, int total) {
+    return '$failed of $total notes couldn\'t be decrypted. The PIN may be wrong — you can retry with another PIN. Your notes stay safely encrypted.';
+  }
+
+  @override
+  String get notesListDecryptFailedDialogMessageAll =>
+      'None of your notes could be decrypted. The PIN may be wrong — you can retry with another PIN. Your notes stay safely encrypted.';
+
+  @override
+  String get notesListDecryptFailedDialogRetry => 'Retry with new PIN';
+
+  @override
+  String get notesListLockedNoteTitle => 'Note is locked';
+
+  @override
+  String get notesListLockedNoteSubtitle => 'PIN is required to decrypt';
 
   @override
   String get editNoteScreenSaveSuccess => 'Note saved successfully!';
@@ -524,10 +616,120 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notesListScreenTitle => 'Notes';
 
   @override
-  String get notesListTabAll => 'All';
+  String get notesListTabNotes => 'Notes';
 
   @override
-  String get notesListTabFolders => 'Folders';
+  String get notesListSearchHint => 'Search notes';
+
+  @override
+  String get notesListFilterButtonTooltip => 'Filter by folder';
+
+  @override
+  String get notesListFilterSheetTitle => 'Filter by folder';
+
+  @override
+  String get notesListSearchNothingFound => 'Nothing found';
+
+  @override
+  String get accsTabTitle => 'Accounts';
+
+  @override
+  String get accsSectionAll => 'All accounts';
+
+  @override
+  String get accsSearchHint => 'Search accounts';
+
+  @override
+  String get accsEmptyTitle => 'No accounts yet';
+
+  @override
+  String get accsAddTitle => 'New account';
+
+  @override
+  String get accsEditTitle => 'Edit account';
+
+  @override
+  String get accsFormTitleHint => 'Account name';
+
+  @override
+  String get accsFormTitleLabel => 'Name';
+
+  @override
+  String get accsFormWebsiteLabel => 'Website';
+
+  @override
+  String get accsFormWebsiteHint => 'Add website';
+
+  @override
+  String get accsFormUsernameLabel => 'Username';
+
+  @override
+  String get accsFormUsernameHint => 'Add username';
+
+  @override
+  String get accsFormPasswordLabel => 'Password';
+
+  @override
+  String get accsFormPasswordHint => 'Add password';
+
+  @override
+  String get accsFormNotesLabel => 'Notes';
+
+  @override
+  String get accsFormNotesHint => 'Add a note';
+
+  @override
+  String get accsFormSaveSuccess => 'Account saved successfully!';
+
+  @override
+  String get accsFormEditButton => 'Edit';
+
+  @override
+  String get accsFormDoneButton => 'Done';
+
+  @override
+  String get accsFormGoButtonCopiedMessage => 'Password copied';
+
+  @override
+  String get accsFormGoUsernameCopiedMessage => 'Username copied';
+
+  @override
+  String get accsConfirmationDialogDeletion =>
+      'Are you sure you want to delete this account? This action cannot be undone.';
+
+  @override
+  String get accsFormMoreMenuCopy => 'Copy details';
+
+  @override
+  String get accsFormMoreMenuShare => 'Share/Backup';
+
+  @override
+  String get accsFormGenPassButton => 'Generate';
+
+  @override
+  String get accsFormGenPassStyleWords => 'By words';
+
+  @override
+  String get accsFormGenPassStyleRandom => 'Random';
+
+  @override
+  String get accsFormGenPassHint =>
+      '\"By words\" — a few random words, easy to remember. \"Random\" — a character set, more robust for sites without special-character restrictions.';
+
+  @override
+  String get accsFormGenPassStrengthDanger => 'Very weak';
+
+  @override
+  String get accsFormGenPassStrengthWeak => 'Weak';
+
+  @override
+  String get accsFormGenPassStrengthGood => 'Good';
+
+  @override
+  String get accsFormGenPassStrengthStrong => 'Strong';
+
+  @override
+  String get notesListNewNoteTooltip => 'New note';
 
   @override
   String get notesFoldersEmptyStatePlaceholder =>
@@ -535,6 +737,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeScreenEmptyStatePlaceholder => 'Tap + to start writing';
+
+  @override
+  String get homeScreenEmptyStateAccsPlaceholder => 'Tap + to add an account';
 
   @override
   String get notesListSectionToday => 'Today';
@@ -636,4 +841,24 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get donateLightningScreenMessageInvoiceCopied =>
       'Invoice copied to clipboard';
+
+  @override
+  String relayStatusTitle(int ok, int total) {
+    return '$ok of $total relays online';
+  }
+
+  @override
+  String get relayStatusSubtitle => 'Notes are saved and synced';
+
+  @override
+  String get relayStatusOnline => 'online';
+
+  @override
+  String get relayStatusConnecting => 'connecting…';
+
+  @override
+  String get relayStatusNoResponse => 'no response';
+
+  @override
+  String get relayStatusConfigureLink => 'Configure relays';
 }

@@ -1,6 +1,6 @@
+import 'package:common/presentation/widgets/onboarding_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gpt_markdown/gpt_markdown.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/l10n/localization.dart';
@@ -22,13 +22,17 @@ final class OnboardingSignUpPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Center(
-            child: SvgPicture.asset(
+          const Center(
+            child: OnboardingIcon.asset(
               AppIcons.welcomeIcon,
-              width: Sizes.iconTitle,
-              height: Sizes.iconTitle,
               semanticsLabel: 'Nostr icon',
             ),
+            //  SvgPicture.asset(
+            //   AppIcons.welcomeIcon,
+            //   width: Sizes.iconTitle,
+            //   height: Sizes.iconTitle,
+            //   semanticsLabel: 'Nostr icon',
+            // ),
           ),
           const SizedBox(height: Sizes.indentVariant4x),
           Center(

@@ -1,4 +1,5 @@
 import 'package:common/app/vm/global_settings_scope.dart';
+import 'package:common/presentation/theme_settings/global_settings_vm.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ final class LocaleSettingsScreen extends StatefulWidget {
 }
 
 final class _LocaleSettingsScreenState extends State<LocaleSettingsScreen> {
-  Future<void> _onChanged(_LocaleOption option) async {
+  Future<void> _onChanged(LanguageCode option) async {
     final vm = GlobalSettingsScope.of(context);
     await vm.setLocale(option.locale);
   }
@@ -28,9 +29,9 @@ final class _LocaleSettingsScreenState extends State<LocaleSettingsScreen> {
       body: ValueListenableBuilder<Locale?>(
         valueListenable: vm.localeNotifier,
         builder: (context, selectedLocale, _) {
-          final selected = _LocaleOption.fromLocale(selectedLocale);
+          final selected = selectedLocale?.code ?? LanguageCode.system;
 
-          return RadioGroup<_LocaleOption>(
+          return RadioGroup<LanguageCode>(
             groupValue: selected,
             onChanged: (value) {
               if (value != null) {
@@ -38,11 +39,11 @@ final class _LocaleSettingsScreenState extends State<LocaleSettingsScreen> {
               }
             },
             child: ListView.builder(
-              itemCount: _LocaleOption.values.length,
+              itemCount: LanguageCode.values.length,
               itemBuilder: (context, index) {
-                final item = _LocaleOption.values[index];
+                final item = LanguageCode.values[index];
                 return SettingsItemTile(
-                  title: Text(item.getTitle(l10n)),
+                  title: Text(item.getLocalizedName(l10n)),
                   position: item.position,
                   sectionTitle: '',
                   trailing: Radio.adaptive(
@@ -60,46 +61,13 @@ final class _LocaleSettingsScreenState extends State<LocaleSettingsScreen> {
   }
 }
 
-enum _LocaleOption {
-  system,
-  english,
-  russian,
-  bulgarian;
-
-  Locale? get locale => switch (this) {
-    _LocaleOption.system => null,
-    _LocaleOption.english => const Locale('en'),
-    _LocaleOption.russian => const Locale('ru'),
-    _LocaleOption.bulgarian => const Locale('bg'),
-  };
-
-  static _LocaleOption fromLocale(Locale? locale) {
-    final code = locale?.languageCode;
-    return switch (code) {
-      'en' => _LocaleOption.english,
-      'ru' => _LocaleOption.russian,
-      'bg' => _LocaleOption.bulgarian,
-      _ => _LocaleOption.system,
-    };
-  }
-}
-
-extension on _LocaleOption {
-  String getTitle(Localization l10n) {
-    return switch (this) {
-      _LocaleOption.system => l10n.preferencesScreenLanguageSystem,
-      _LocaleOption.english => l10n.preferencesScreenLanguageEnglish,
-      _LocaleOption.russian => l10n.preferencesScreenLanguageRussian,
-      _LocaleOption.bulgarian => l10n.preferencesScreenLanguageBulgarian,
-    };
-  }
-
+extension on LanguageCode {
   ListItemPosition get position {
     return switch (this) {
-      _LocaleOption.system => .first,
-      _LocaleOption.english => .middle,
-      _LocaleOption.russian => .middle,
-      _LocaleOption.bulgarian => .last,
+      LanguageCode.system => .first,
+      LanguageCode.en => .middle,
+      LanguageCode.ru => .middle,
+      LanguageCode.bg => .last,
     };
   }
 }

@@ -5,35 +5,43 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
-import 'package:nostr_notes/app/router/app_router_path.dart';
 import 'package:nostr_notes/app/router/drawer_router.dart' show DrawerRouter;
-import 'package:nostr_notes/app/router/note_router.dart';
 import 'package:nostr_notes/app/router/screens_assembly/screens_assembly.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/domain/usecase/desktop_ratio_usecase.dart';
-import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
+import 'package:nostr_notes/auth/presentation/account_switcher/account_switcher_panel.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/bloc/dashboard_bloc.dart';
+import 'package:nostr_notes/auth/presentation/home_screen/left_drawer.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/widgets/resize_divider.dart';
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../notes_list/notes_list.dart';
+import '../dashboard/notes_list.dart';
+
+abstract interface class HomeScreenCoordinator implements NotesListCoordinator {
+  const HomeScreenCoordinator();
+}
 
 final class HomeScreen extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
+  final GlobalKey<LeftDrawerState> leftDrawerKey;
   final ScreensAssembly screensAssembly;
+  final HomeScreenCoordinator coordinator;
   final Widget child;
-  final bool hasNote;
+  final bool hasDetailRoute;
   final String? selectedNoteDTag;
 
   const HomeScreen({
     super.key,
     required this.scaffoldKey,
+    required this.leftDrawerKey,
     required this.screensAssembly,
+    required this.coordinator,
     required this.child,
-    required this.hasNote,
+    required this.hasDetailRoute,
     this.selectedNoteDTag,
   });
 
@@ -93,41 +101,38 @@ final class _HomeScreenState extends State<HomeScreen> {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final isDesktop = screenWidth >= LayoutConfig.desktopScreenWidth;
     final drawerWidth = screenWidth * LayoutConfig.drawerRatio;
+    final switcherWidth = screenWidth * LayoutConfig.switcherDrawerRatio;
 
     // log(drawerWidth.toString(), name: 'HomeScreen.build');
 
-    return Scaffold(
-      key: widget.scaffoldKey,
-      endDrawer: SizedBox(
-        width: isDesktop ? drawerWidth : double.infinity,
-        child: DrawerRouter(screensAssembly: widget.screensAssembly),
-      ),
-      body: RouteHandlerWidget(
-        onRoute: (route, ctx) async {
-          if (route is NotePreviewRoute) {
-            final router = GoRouter.of(ctx);
-
-            final currentUri = Uri.parse(router.state.matchedLocation);
-            final uri = Uri(
-              pathSegments: [AppRouterName.home, AppRouterPath.notePreview],
-            );
-
-            if (currentUri.pathSegments.contains(AppRouterPath.noteDetails)) {
-              await Navigator.of(ctx).maybePop();
-            }
-            if (currentUri.pathSegments.contains(AppRouterPath.notePreview) ||
-                currentUri.pathSegments.contains(AppRouterPath.noteDetails)) {
-              return router.pushReplacement(
-                '/${uri.path}',
-                extra: route.toExtra(),
-              );
-            } else {
-              return router.push('/${uri.path}', extra: route.toExtra());
-            }
-          }
-          return RouteHandler.of(context)?.onRoute(route, ctx);
+    return LeftDrawer(
+      key: widget.leftDrawerKey,
+      drawerWidth: isDesktop ? switcherWidth : screenWidth,
+      drawer: AccountSwitcherPanel(
+        onAddAccount: () {
+          widget.leftDrawerKey.currentState?.close();
+          widget.coordinator.onAddAccountRoute(context);
         },
-        child: _buildAdaptiveLayout(context, screenWidth),
+      ),
+      content: Scaffold(
+        key: widget.scaffoldKey,
+        endDrawer: SizedBox(
+          width: isDesktop ? drawerWidth : double.infinity,
+          child: DrawerRouter(screensAssembly: widget.screensAssembly),
+        ),
+        // Above AdaptiveLayout because both panes need the tab: the list
+        // builds it in the body slot, while the secondary slot holds the
+        // routed screen — siblings, so a provider inside either one is
+        // invisible to the other.
+        body: BlocProvider(
+          create: (_) => DashboardBloc(),
+          child: RouteHandlerWidget(
+            onRoute: (route, ctx) {
+              return RouteHandler.of(context)?.onRoute(route, ctx);
+            },
+            child: _buildAdaptiveLayout(context, screenWidth),
+          ),
+        ),
       ),
     );
   }
@@ -141,7 +146,10 @@ final class _HomeScreenState extends State<HomeScreen> {
           child: Row(
             children: [
               Expanded(
-                child: _NoteList(selectedNoteDTag: widget.selectedNoteDTag),
+                child: _NoteList(
+                  selectedNoteDTag: widget.selectedNoteDTag,
+                  coordinator: widget.coordinator,
+                ),
               ),
               ResizeDivider(
                 onDrag: (delta) => _onResizeDividerDrag(delta, screenWidth),
@@ -154,15 +162,15 @@ final class _HomeScreenState extends State<HomeScreen> {
 
     asc.SlotLayoutConfig secondaryConfig() => asc.SlotLayout.from(
       key: const Key('SecondaryBody Desktop'),
-      builder: (_) =>
-          Scaffold(body: widget.child, floatingActionButton: const Fab()),
+      builder: (_) => widget.child,
     );
 
     asc.SlotLayoutConfig smallConfig() => asc.SlotLayout.from(
       key: const Key('Body Small'),
       builder: (_) => _MobileLayout(
-        hasNote: widget.hasNote,
+        hasDetailRoute: widget.hasDetailRoute,
         selectedNoteDTag: widget.selectedNoteDTag,
+        coordinator: widget.coordinator,
         child: widget.child,
       ),
     );
@@ -201,11 +209,13 @@ final class _HomeScreenState extends State<HomeScreen> {
 
 final class _MobileLayout extends StatelessWidget {
   final Widget child;
-  final bool hasNote;
+  final bool hasDetailRoute;
+  final HomeScreenCoordinator coordinator;
   final String? selectedNoteDTag;
   const _MobileLayout({
     required this.child,
-    required this.hasNote,
+    required this.hasDetailRoute,
+    required this.coordinator,
     this.selectedNoteDTag,
   });
 
@@ -214,12 +224,17 @@ final class _MobileLayout extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          _NoteList(selectedNoteDTag: selectedNoteDTag),
+          _NoteList(
+            selectedNoteDTag: selectedNoteDTag,
+            coordinator: coordinator,
+          ),
           AnimatedSlide(
-            offset: hasNote ? const Offset(0.0, 0.0) : const Offset(1.0, 0.0),
+            offset: hasDetailRoute
+                ? const Offset(0.0, 0.0)
+                : const Offset(1.0, 0.0),
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
-            child: hasNote ? child : const SizedBox.shrink(),
+            child: hasDetailRoute ? child : const SizedBox.shrink(),
           ),
         ],
       ),
@@ -228,31 +243,30 @@ final class _MobileLayout extends StatelessWidget {
 }
 
 final class _NoteList extends StatelessWidget {
+  final HomeScreenCoordinator coordinator;
   final String? selectedNoteDTag;
-  const _NoteList({this.selectedNoteDTag});
+
+  const _NoteList({this.selectedNoteDTag, required this.coordinator});
 
   @override
   Widget build(BuildContext context) {
     return NotesList(
       selectedNoteDTag: selectedNoteDTag,
-      onTap: (note) {
-        RouteHandler.of(
-          context,
-        )?.onRoute(NotePreviewRoute(noteId: note.dTag), context);
-      },
+      coordinator: coordinator,
     );
   }
 }
 
 final class PlaceholderAddNoteButton extends StatelessWidget {
-  const PlaceholderAddNoteButton({super.key});
+  final VoidCallback? onNewNote;
+  const PlaceholderAddNoteButton({super.key, this.onNewNote});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return CupertinoButton(
       padding: EdgeInsets.zero,
-      onPressed: () => _onNewNote(context),
+      onPressed: onNewNote,
       child: Stack(
         children: [
           DecoratedBox(
@@ -289,9 +303,5 @@ final class PlaceholderAddNoteButton extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  void _onNewNote(BuildContext context) {
-    RouteHandler.of(context)?.onRoute(const NewNoteRoute(), context);
   }
 }

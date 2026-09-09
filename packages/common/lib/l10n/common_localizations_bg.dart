@@ -87,11 +87,27 @@ class CommonLocalizationsBg extends CommonLocalizations {
   String get themeScreenLabelCards => 'Карти';
 
   @override
+  String get themeScreenLabelStyle => 'Стил';
+
+  @override
+  String get themeScreenStyleDefault => 'Стандартна';
+
+  @override
+  String get themeScreenStyleAppleNotes => 'Apple Notes';
+
+  @override
+  String get themeScreenStyleClaude => 'Claude';
+
+  @override
   String get relaysPageTitle => 'Избери релета';
 
   @override
   String get relaysPageDescription =>
       'Релетата са сървъри, които съхраняват и доставят вашите криптирани бележки. Изберете поне едно реле, за да продължите';
+
+  @override
+  String get relaysPageAddCustomLabel =>
+      'По желание добавете свое реле, като въведете неговия адрес';
 
   @override
   String get relaysPageAddCustomHint => 'wss://...';

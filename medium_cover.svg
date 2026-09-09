@@ -1,0 +1,52 @@
+<svg width="1400" height="788" viewBox="0 0 1400 788" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1400" y2="788" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#16202E"/>
+      <stop offset="1" stop-color="#0B0F14"/>
+    </linearGradient>
+    <radialGradient id="hubGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#38BDF8"/>
+      <stop offset="1" stop-color="#1E6FB0"/>
+    </radialGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- background -->
+  <rect width="1400" height="788" fill="url(#bg)"/>
+
+  <!-- relay network (centered cluster) -->
+  <g stroke="#2A3A4D" stroke-width="1.8" opacity="0.9">
+    <line x1="700" y1="250" x2="600" y2="165"/>
+    <line x1="700" y1="250" x2="805" y2="170"/>
+    <line x1="700" y1="250" x2="835" y2="330"/>
+    <line x1="700" y1="250" x2="565" y2="330"/>
+    <line x1="700" y1="250" x2="705" y2="135"/>
+  </g>
+
+  <!-- neutral node -->
+  <circle cx="705" cy="135" r="8" fill="#5B6B7E"/>
+
+  <!-- "fits" nodes (green) -->
+  <circle cx="600" cy="165" r="17" fill="#143322"/>
+  <text x="600" y="171" font-family="Inter, Arial, sans-serif" font-size="19" font-weight="700" fill="#4CD787" text-anchor="middle">✓</text>
+  <circle cx="805" cy="170" r="17" fill="#143322"/>
+  <text x="805" y="176" font-family="Inter, Arial, sans-serif" font-size="19" font-weight="700" fill="#4CD787" text-anchor="middle">✓</text>
+
+  <!-- "doesn't fit" nodes (red) -->
+  <circle cx="835" cy="330" r="17" fill="#3A1E22"/>
+  <text x="835" y="336" font-family="Inter, Arial, sans-serif" font-size="19" font-weight="700" fill="#FF6B72" text-anchor="middle">✗</text>
+  <circle cx="565" cy="330" r="17" fill="#3A1E22"/>
+  <text x="565" y="336" font-family="Inter, Arial, sans-serif" font-size="19" font-weight="700" fill="#FF6B72" text-anchor="middle">✗</text>
+
+  <!-- central hub -->
+  <circle cx="700" cy="250" r="27" fill="url(#hubGlow)" filter="url(#soft)"/>
+  <circle cx="700" cy="250" r="27" fill="none" stroke="#BAE6FD" stroke-width="1.8"/>
+
+  <!-- title block (centered) -->
+  <text x="700" y="510" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="150" font-weight="800" fill="#FFFFFF" letter-spacing="-3" text-anchor="middle">Nostr</text>
+  <text x="700" y="575" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="500" fill="#AEB9C7" text-anchor="middle">a backend «out of the box»</text>
+  <text x="700" y="635" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="35" font-weight="600" fill="#38BDF8" text-anchor="middle">where it fits — and where it doesn&apos;t</text>
+</svg>

@@ -1,12 +1,10 @@
+import 'package:common/tools/disposable.dart';
 import 'package:nostr/model/relay_health.dart';
-import 'package:nostr_notes/common/domain/relay_validator.dart';
 
-abstract interface class RelaysMonitoringUsecase {
-  Future<void> dispose();
-
-  bool isValidRelayUrl(String url);
-  RelayValidatorError? validateRelayUrl(String url);
-
-  Future<RelayHealth> canConnect();
-  Stream<RelayHealth> health();
+/// Fleet-wide relay status for a small always-visible connectivity
+/// indicator — see `RelaysMonitor` (nostr package) for the underlying
+/// mechanism this wraps with app-lifecycle awareness (pausing the probe
+/// ticker while the app is backgrounded).
+abstract interface class RelaysMonitoringUsecase implements Disposable {
+  Stream<Map<String, RelayStatus>> get statuses;
 }

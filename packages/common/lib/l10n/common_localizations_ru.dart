@@ -87,11 +87,27 @@ class CommonLocalizationsRu extends CommonLocalizations {
   String get themeScreenLabelCards => 'Карточки';
 
   @override
+  String get themeScreenLabelStyle => 'Стиль';
+
+  @override
+  String get themeScreenStyleDefault => 'Стандартная';
+
+  @override
+  String get themeScreenStyleAppleNotes => 'Apple Notes';
+
+  @override
+  String get themeScreenStyleClaude => 'Claude';
+
+  @override
   String get relaysPageTitle => 'Выбор реле';
 
   @override
   String get relaysPageDescription =>
       'Реле - это серверы, которые хранят и доставляют ваши зашифрованные заметки. Выберите хотя бы одно реле, чтобы продолжить';
+
+  @override
+  String get relaysPageAddCustomLabel =>
+      'Опционально добавьте своё реле, указав его адрес';
 
   @override
   String get relaysPageAddCustomHint => 'wss://...';

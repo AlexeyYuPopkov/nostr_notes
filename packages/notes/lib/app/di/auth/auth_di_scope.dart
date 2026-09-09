@@ -4,15 +4,14 @@ import 'package:common/data/zap/perform_lighting_invoice_service.dart';
 import 'package:common/services/event_store/database/daos/daos.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:common/tools/app_worker/app_worker.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
-import 'package:nostr/nostr_client/nostr_relay.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
 import 'package:nostr_notes/auth/data/export_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/get_pending_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/import_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/lightning_donation_repo_impl.dart';
+import 'package:nostr_notes/auth/data/notes/get_notes_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/notes_repository_impl.dart';
 import 'package:nostr_notes/auth/domain/repo/notes_repository.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
@@ -31,17 +30,6 @@ final class AuthDiScope extends DiScope {
 
   @override
   void bind(DiStorage di) {
-    di.bind<NostrClient>(
-      () => NostrClient(
-        batchParser: (batch, relayUrl) => AppWorker.instance.compute(
-          params: (batch, relayUrl),
-          callback: NostrRelayEventMapper.parseBatch,
-        ),
-      ),
-      module: this,
-      lifeTime: const LifeTime.single(),
-    );
-
     di.bind<Connectivity>(
       () => Connectivity(),
       module: this,
@@ -126,8 +114,9 @@ final class AuthDiScope extends DiScope {
     );
 
     di.bind<GetNotesUsecase>(
-      () => GetNotesUsecase(
-        notesRepository: di.resolve(),
+      () => GetNotesUsecaseImpl(
+        eventStore: di.resolve(),
+        // notesRepository: di.resolve(),
         sessionUsecase: di.resolve(),
         noteCryptoUseCase: di.resolve(),
       ),
@@ -155,8 +144,9 @@ final class AuthDiScope extends DiScope {
 
     di.bind<ExportUsecase>(
       () => ExportUsecaseImpl(
-        eventStore: di.resolve(),
+        // eventStore: di.resolve(),
         noteCryptoUseCase: di.resolve(),
+        getNotesUsecase: di.resolve(),
       ),
       module: this,
       lifeTime: const LifeTime.prototype(),

@@ -77,20 +77,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get onboardingSignUpButtonGenerateKey => 'Создать ключ Nostr';
 
   @override
-  String get apkDistributionTitle => 'Скачать APK';
-
-  @override
-  String get apkDistributionDescription =>
-      'Вы можете скачать установочный файл напрямую. Рекомендуется проверить контрольную сумму SHA-256 после скачивания.';
-
-  @override
-  String get apkDistributionDownloadButton => 'Скачать .apk';
-
-  @override
-  String get apkDistributionViewChecksum =>
-      'Посмотреть контрольную сумму (SHA-256)';
-
-  @override
   String get appStoreBannerTitle => 'Доступно в App Store';
 
   @override
@@ -100,7 +86,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get apkBannerTitle => 'Android APK';
 
   @override
-  String get apkBannerButton => 'Скачать APK';
+  String get apkBannerButton => 'Android (Google Play)';
 
   @override
   String get onboardingSignUpAlreadyHaveAccount => 'Уже есть аккаунт?';
@@ -183,6 +169,12 @@ class AppLocalizationsRu extends AppLocalizations {
       'PIN - это дополнительный уровень защиты на случай компрометации nsec. Он хранится только в памяти и никогда не сохраняется на диск. Если PIN утерян, существующие заметки расшифровать нельзя. Если создать или изменить заметку с неверным PIN, она будет зашифрована с этим неверным PIN.';
 
   @override
+  String get onboardingPinPageAutoUnlockTitle => 'Разблокировка аккаунта';
+
+  @override
+  String get onboardingPinPageAutoUnlockButton => 'Разблокировать';
+
+  @override
   String get errorEmptyNsec => 'Ключ NSEC не может быть пустым';
 
   @override
@@ -201,6 +193,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String errorInvalidPinFormatMinCount(String minCount) {
     return 'PIN или пароль должен содержать минимум $minCount символов';
   }
+
+  @override
+  String get accountSwitcherTitle => 'Аккаунты';
+
+  @override
+  String get accountSwitcherAddAccount => 'Добавить аккаунт';
 
   @override
   String get settingsScreenTitle => 'Настройки';
@@ -265,6 +263,32 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsItemBuyMeACoffee => 'Купить мне кофе ☕';
+
+  @override
+  String exportImportExportAccountsSkippedWarning(String count) {
+    return 'Бэкап создан, но $count аккаунтов не удалось расшифровать — их в нём нет.';
+  }
+
+  @override
+  String exportImportImportAccountsSkippedWarning(String count) {
+    return 'Пропущено аккаунтов: $count. Сохранённые, которые они заменяют, не расшифровались и были оставлены как есть.';
+  }
+
+  @override
+  String exportImportExportSkippedWarning(String count) {
+    return 'Бэкап создан, но $count заметок не удалось расшифровать — их в нём нет.';
+  }
+
+  @override
+  String exportImportImportSkippedWarning(String count) {
+    return 'Пропущено заметок: $count. Их не удалось сопоставить с сохранёнными — те не расшифровались и были оставлены как есть.';
+  }
+
+  @override
+  String get settingsItemLeaveReview => 'Оценить приложение ⭐';
+
+  @override
+  String get settingsItemReportBug => 'Сообщить об ошибке';
 
   @override
   String get settingsItemDonateBTC => 'Поддержать через Lightning ⚡';
@@ -460,6 +484,57 @@ class AppLocalizationsRu extends AppLocalizations {
       'Без пароля заметки будут экспортированы в открытом виде и любой, кто получит файл, сможет их прочитать.';
 
   @override
+  String get accsBackupSectionTitle => 'Аккаунты';
+
+  @override
+  String get accsBackupItemExportTitle => 'Экспорт всех аккаунтов';
+
+  @override
+  String get accsBackupItemExportSubtitle =>
+      'Экспортируйте все сохранённые аккаунты в защищённый паролем ZIP-архив. Пароль обязателен — этот файл может содержать ваши реальные пароли от аккаунтов.';
+
+  @override
+  String get accsBackupItemImportTitle => 'Импорт всех аккаунтов';
+
+  @override
+  String get accsBackupItemImportSubtitle =>
+      'Восстановите аккаунты из ранее экспортированного архива.';
+
+  @override
+  String get accsBackupExportPasswordDialogTitle =>
+      'Задайте пароль для резервной копии';
+
+  @override
+  String get accsBackupExportPasswordDialogTextFieldHint =>
+      'Пароль (обязательно)';
+
+  @override
+  String get accsBackupExportPasswordRequiredHint =>
+      'Пароль обязателен — без него в этой резервной копии пароли аккаунтов хранились бы в открытом виде.';
+
+  @override
+  String get accsBackupExportPasswordRequired => 'Введите пароль';
+
+  @override
+  String get accsBackupExportEmptyError => 'Нет аккаунтов для экспорта';
+
+  @override
+  String get accsBackupExportSuccess => 'Аккаунты успешно экспортированы';
+
+  @override
+  String get accsBackupImportDialogTitle => 'Импорт аккаунтов';
+
+  @override
+  String get accsBackupImportPolicyKeepNewestTitle => 'Оставить новейший';
+
+  @override
+  String get accsBackupImportPolicyKeepNewestSubtitle =>
+      'Использовать ту версию — из резервной копии или локальную — которая была изменена позже';
+
+  @override
+  String get accsBackupImportSuccess => 'Аккаунты успешно импортированы';
+
+  @override
   String get notesListPendingSyncTitle => 'Ожидает синхронизации';
 
   @override
@@ -485,8 +560,26 @@ class AppLocalizationsRu extends AppLocalizations {
       'Криптографические параметры для этой заметки недействительны.';
 
   @override
-  String get notesListSomeNotesDecryptFailed =>
-      'Не удалось расшифровать часть заметок. Проверьте PIN.';
+  String get notesListDecryptFailedDialogTitle =>
+      'Не удалось расшифровать заметки';
+
+  @override
+  String notesListDecryptFailedDialogMessage(int failed, int total) {
+    return 'Не удалось расшифровать $failed из $total заметок. Возможно, введён неверный PIN — попробуйте другой PIN. Заметки остаются надёжно зашифрованными.';
+  }
+
+  @override
+  String get notesListDecryptFailedDialogMessageAll =>
+      'Не удалось расшифровать ни одной заметки. Возможно, введён неверный PIN — попробуйте другой PIN. Заметки остаются надёжно зашифрованными.';
+
+  @override
+  String get notesListDecryptFailedDialogRetry => 'Ввести другой PIN';
+
+  @override
+  String get notesListLockedNoteTitle => 'Заметка заблокирована';
+
+  @override
+  String get notesListLockedNoteSubtitle => 'Нужен PIN для расшифровки';
 
   @override
   String get editNoteScreenSaveSuccess => 'Заметка успешно сохранена!';
@@ -533,10 +626,120 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notesListScreenTitle => 'Заметки';
 
   @override
-  String get notesListTabAll => 'Все';
+  String get notesListTabNotes => 'Заметки';
 
   @override
-  String get notesListTabFolders => 'Папки';
+  String get notesListSearchHint => 'Поиск по заметкам';
+
+  @override
+  String get notesListFilterButtonTooltip => 'Фильтр по папке';
+
+  @override
+  String get notesListFilterSheetTitle => 'Фильтр по папке';
+
+  @override
+  String get notesListSearchNothingFound => 'Ничего не найдено';
+
+  @override
+  String get accsTabTitle => 'Аккаунты';
+
+  @override
+  String get accsSectionAll => 'Все аккаунты';
+
+  @override
+  String get accsSearchHint => 'Поиск аккаунтов';
+
+  @override
+  String get accsEmptyTitle => 'Пока нет аккаунтов';
+
+  @override
+  String get accsAddTitle => 'Новый аккаунт';
+
+  @override
+  String get accsEditTitle => 'Редактировать аккаунт';
+
+  @override
+  String get accsFormTitleHint => 'Название аккаунта';
+
+  @override
+  String get accsFormTitleLabel => 'Название';
+
+  @override
+  String get accsFormWebsiteLabel => 'Сайт';
+
+  @override
+  String get accsFormWebsiteHint => 'Добавить сайт';
+
+  @override
+  String get accsFormUsernameLabel => 'Имя пользователя';
+
+  @override
+  String get accsFormUsernameHint => 'Добавить имя пользователя';
+
+  @override
+  String get accsFormPasswordLabel => 'Пароль';
+
+  @override
+  String get accsFormPasswordHint => 'Добавить пароль';
+
+  @override
+  String get accsFormNotesLabel => 'Заметки';
+
+  @override
+  String get accsFormNotesHint => 'Добавить заметку';
+
+  @override
+  String get accsFormSaveSuccess => 'Аккаунт успешно сохранён!';
+
+  @override
+  String get accsFormEditButton => 'Изменить';
+
+  @override
+  String get accsFormDoneButton => 'Готово';
+
+  @override
+  String get accsFormGoButtonCopiedMessage => 'Пароль скопирован';
+
+  @override
+  String get accsFormGoUsernameCopiedMessage => 'Имя пользователя скопировано';
+
+  @override
+  String get accsConfirmationDialogDeletion =>
+      'Вы уверены, что хотите удалить этот аккаунт? Действие нельзя отменить.';
+
+  @override
+  String get accsFormMoreMenuCopy => 'Скопировать данные';
+
+  @override
+  String get accsFormMoreMenuShare => 'Поделиться/бэкап';
+
+  @override
+  String get accsFormGenPassButton => 'Создать';
+
+  @override
+  String get accsFormGenPassStyleWords => 'По словам';
+
+  @override
+  String get accsFormGenPassStyleRandom => 'Случайный';
+
+  @override
+  String get accsFormGenPassHint =>
+      '«По словам» — несколько случайных слов, легко запомнить. «Случайный» — набор символов, надёжнее для сайтов без ограничений на спецсимволы.';
+
+  @override
+  String get accsFormGenPassStrengthDanger => 'Очень слабый';
+
+  @override
+  String get accsFormGenPassStrengthWeak => 'Слабый';
+
+  @override
+  String get accsFormGenPassStrengthGood => 'Хороший';
+
+  @override
+  String get accsFormGenPassStrengthStrong => 'Надёжный';
+
+  @override
+  String get notesListNewNoteTooltip => 'Новая заметка';
 
   @override
   String get notesFoldersEmptyStatePlaceholder =>
@@ -545,6 +748,10 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get homeScreenEmptyStatePlaceholder =>
       'Нажмите +, чтобы создать заметку';
+
+  @override
+  String get homeScreenEmptyStateAccsPlaceholder =>
+      'Нажмите +, чтобы добавить аккаунт';
 
   @override
   String get notesListSectionToday => 'Сегодня';
@@ -645,4 +852,24 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get donateLightningScreenMessageInvoiceCopied => 'Инвойс скопирован';
+
+  @override
+  String relayStatusTitle(int ok, int total) {
+    return '$ok из $total реле на связи';
+  }
+
+  @override
+  String get relayStatusSubtitle => 'Заметки сохраняются и синхронизируются';
+
+  @override
+  String get relayStatusOnline => 'на связи';
+
+  @override
+  String get relayStatusConnecting => 'подключение…';
+
+  @override
+  String get relayStatusNoResponse => 'нет ответа';
+
+  @override
+  String get relayStatusConfigureLink => 'Настроить реле';
 }

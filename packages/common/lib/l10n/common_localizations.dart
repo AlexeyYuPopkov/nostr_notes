@@ -256,6 +256,30 @@ abstract class CommonLocalizations {
   /// **'Cards'**
   String get themeScreenLabelCards;
 
+  /// No description provided for @themeScreenLabelStyle.
+  ///
+  /// In en, this message translates to:
+  /// **'Style'**
+  String get themeScreenLabelStyle;
+
+  /// No description provided for @themeScreenStyleDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get themeScreenStyleDefault;
+
+  /// No description provided for @themeScreenStyleAppleNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Notes'**
+  String get themeScreenStyleAppleNotes;
+
+  /// No description provided for @themeScreenStyleClaude.
+  ///
+  /// In en, this message translates to:
+  /// **'Claude'**
+  String get themeScreenStyleClaude;
+
   /// No description provided for @relaysPageTitle.
   ///
   /// In en, this message translates to:
@@ -267,6 +291,12 @@ abstract class CommonLocalizations {
   /// In en, this message translates to:
   /// **'Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue'**
   String get relaysPageDescription;
+
+  /// No description provided for @relaysPageAddCustomLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Optionally, add your own relay by its address'**
+  String get relaysPageAddCustomLabel;
 
   /// No description provided for @relaysPageAddCustomHint.
   ///

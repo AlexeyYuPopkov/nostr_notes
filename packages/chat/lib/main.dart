@@ -1,7 +1,6 @@
 import 'package:chat/common/di/di.dart';
 import 'package:chat/l10n/localization.dart';
 import 'package:chat/router/app_router.dart';
-import 'package:common/app/theme/app_background_colors.dart';
 import 'package:common/app/theme/app_theme.dart';
 import 'package:common/app/vm/global_settings_scope.dart';
 import 'package:common/data/repo/app_shared_prefs_impl.dart';
@@ -85,22 +84,14 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
       child: ListenableBuilder(
         listenable: Listenable.merge([
           _globalSettingsVm.themeModeNotifier,
-          _globalSettingsVm.lightBgIndexNotifier,
-          _globalSettingsVm.darkBgIndexNotifier,
-          _globalSettingsVm.lightCardIndexNotifier,
-          _globalSettingsVm.darkCardIndexNotifier,
+          _globalSettingsVm.lightThemeStyleNotifier,
+          _globalSettingsVm.darkThemeStyleNotifier,
         ]),
         builder: (context, _) {
           final vm = _globalSettingsVm;
           return MaterialApp.router(
-            theme: AppTheme.light(
-              backgroundColor: AppBackgroundColors.light[vm.lightBgIndex],
-              cardColor: AppBackgroundColors.lightCard[vm.lightCardIndex],
-            ),
-            darkTheme: AppTheme.dark(
-              backgroundColor: AppBackgroundColors.dark[vm.darkBgIndex],
-              cardColor: AppBackgroundColors.darkCard[vm.darkCardIndex],
-            ),
+            theme: AppTheme.light(style: vm.lightThemeStyle),
+            darkTheme: AppTheme.dark(style: vm.darkThemeStyle),
             themeMode: vm.themeMode,
             // locale: , // TODO: implement locale change
             localizationsDelegates: const [

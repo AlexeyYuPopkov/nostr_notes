@@ -48,7 +48,7 @@ abstract class _$OnboardingProvider extends $Notifier<OnboardingState> {
   OnboardingState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<OnboardingState, OnboardingState>;
     final element =
         ref.element
@@ -58,6 +58,6 @@ abstract class _$OnboardingProvider extends $Notifier<OnboardingState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

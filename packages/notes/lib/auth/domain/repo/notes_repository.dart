@@ -9,23 +9,27 @@ import 'package:uuid/uuid.dart';
 abstract interface class NotesRepository {
   void syncRelays(Set<String> relays);
 
-  void sendNotesRequest({
+  /// Sends the REQ and returns its subscriptionId, so the caller can later
+  /// close it via [closeRequest] once it stops listening.
+  String sendNotesRequest({
     required String pubkey,
     required Set<String> relays,
     DateTime? until,
   });
 
-  void sendNoteRequest({
+  /// Sends the REQ and returns its subscriptionId, so the caller can later
+  /// close it via [closeRequest] once it stops listening.
+  String sendNoteRequest({
     required String id,
     required Set<String> relays,
     DateTime? until,
   });
 
+  /// Sends CLOSE for a subscriptionId returned by [sendNotesRequest] or
+  /// [sendNoteRequest].
+  void closeRequest(String subscriptionId);
+
   Stream<List> get eventsStream;
-
-  Future<Iterable<Note>> getNotes({required String pubkey});
-
-  Stream<Iterable<Note>> watchNotes({required String pubkey});
 
   Stream<Note> watchNote({required String pubkey, required String id});
 

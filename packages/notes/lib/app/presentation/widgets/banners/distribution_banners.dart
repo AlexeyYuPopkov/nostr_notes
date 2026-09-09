@@ -4,8 +4,6 @@ import 'package:common/presentation/tools/link_tap_handler.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/app/app_config.dart';
-import 'package:nostr_notes/app/router/app_route/route_handler.dart';
-import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 
 final class DistributionBanners extends StatelessWidget with LinkTapHandler {
@@ -44,7 +42,7 @@ final class DistributionBanners extends StatelessWidget with LinkTapHandler {
                 child: _Banner(
                   buttonText: l10n.apkBannerButton,
                   icon: Icons.android,
-                  onTap: () => _launchApk(context),
+                  onTap: () => _launchGooglePlay(context),
                 ),
               ),
             ],
@@ -57,8 +55,8 @@ final class DistributionBanners extends StatelessWidget with LinkTapHandler {
   void _launchAppStore(BuildContext context) =>
       launchUrl(context, url: AppConfig.appStoreLink);
 
-  void _launchApk(BuildContext context) =>
-      RouteHandler.of(context)?.onRoute(const ApkDistributionRoute(), context);
+  void _launchGooglePlay(BuildContext context) =>
+      launchUrl(context, url: AppConfig.googlePlayLink);
 }
 
 final class _Banner extends StatelessWidget {

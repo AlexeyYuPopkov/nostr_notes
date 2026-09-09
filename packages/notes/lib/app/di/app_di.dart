@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:di_storage/di_storage.dart';
 import 'package:nostr_notes/app/di/auth/auth_di_scope.dart';
+import 'package:nostr_notes/app/di/auth/login_items_di_scope.dart';
 import 'package:nostr_notes/app/di/unauth/ads_di_module.dart';
 import 'package:nostr_notes/app/di/unauth/db_module.dart';
 import 'package:nostr_notes/services/outbox_publisher.dart';
@@ -27,10 +28,7 @@ final class AppDi implements Di {
   Future<void> bindUnauthModules() async {
     final di = DiStorage.shared;
 
-    di.removeScope<UnauthDiScope>();
-    di.removeScope<DbModule>();
-    di.removeScope<CryptoDiModule>();
-    di.removeScope<AdsDiModule>();
+    removeUnauthModules();
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -39,6 +37,7 @@ final class AppDi implements Di {
 
     await const CryptoDiModule().bind(di);
     await const AdsDiModule().bind(di);
+    const NostrModule().bind(di);
   }
 
   @override
@@ -48,9 +47,11 @@ final class AppDi implements Di {
     final di = DiStorage.shared;
 
     di.removeScope<AuthDiScope>();
+    di.removeScope<LoginItemsDiScope>();
     // di.removeScope<ClassificationDi>();
 
     const AuthDiScope().bind(di);
+    const LoginItemsDiScope().bind(di);
     testOverrides?.call(di);
     final outbox = di.tryResolve<OutboxPublisher>();
     await outbox?.init();
@@ -61,6 +62,7 @@ final class AppDi implements Di {
   void removeAuthModules() {
     final di = DiStorage.shared;
     di.removeScope<AuthDiScope>();
+    di.removeScope<LoginItemsDiScope>();
   }
 
   @override
@@ -70,5 +72,6 @@ final class AppDi implements Di {
     di.removeScope<DbModule>();
     di.removeScope<CryptoDiModule>();
     di.removeScope<AdsDiModule>();
+    di.removeScope<NostrModule>();
   }
 }

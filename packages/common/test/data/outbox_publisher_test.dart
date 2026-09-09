@@ -15,9 +15,9 @@ import 'package:nostr_notes/services/outbox_publisher.dart';
 import 'package:nostr/nostr_client/ws_channel.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../notes/test/tools/mock_wschannel.dart';
 import '../../../notes/test/tools/mocks/mock_relays_list_repo.dart';
 import '../tools/di/in_memory_db_module.dart';
+import '../tools/moks.dart';
 
 void main() {
   group('OutboxPublisher', () {
@@ -139,28 +139,30 @@ void main() {
         expect(mockChannelFactory.channels, isEmpty);
       });
 
-      test('keeps event and retries on publish failure (all relays reject)',
-          () async {
-        mockChannelFactory.respondWithOk = false;
-        mockChannelFactory.respondWithFail = true;
-        mockRawEventStore.upsert([_createTestEvent('event1')]);
+      test(
+        'keeps event and retries on publish failure (all relays reject)',
+        () async {
+          mockChannelFactory.respondWithOk = false;
+          mockChannelFactory.respondWithFail = true;
+          mockRawEventStore.upsert([_createTestEvent('event1')]);
 
-        await sut.init();
-        mockOutboxDao.addPendingEvent(_createOutboxEvent('event1'));
+          await sut.init();
+          mockOutboxDao.addPendingEvent(_createOutboxEvent('event1'));
 
-        await Future.delayed(const Duration(milliseconds: 100));
-        // First attempt failed: event left in place, nothing removed.
-        expect(mockOutboxDao.removeCalledWith, isEmpty);
-        expect(mockChannelFactory.channels, isNotEmpty);
-        final attemptsAfterFirst = mockChannelFactory.channels.length;
+          await Future.delayed(const Duration(milliseconds: 100));
+          // First attempt failed: event left in place, nothing removed.
+          expect(mockOutboxDao.removeCalledWith, isEmpty);
+          expect(mockChannelFactory.channels, isNotEmpty);
+          final attemptsAfterFirst = mockChannelFactory.channels.length;
 
-        // Fresh event → retry after 3s; a second publish attempt is made.
-        await Future.delayed(const Duration(seconds: 3, milliseconds: 300));
-        expect(
-          mockChannelFactory.channels.length,
-          greaterThan(attemptsAfterFirst),
-        );
-      });
+          // Fresh event → retry after 3s; a second publish attempt is made.
+          await Future.delayed(const Duration(seconds: 3, milliseconds: 300));
+          expect(
+            mockChannelFactory.channels.length,
+            greaterThan(attemptsAfterFirst),
+          );
+        },
+      );
     });
 
     group('connectivity', () {

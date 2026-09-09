@@ -5,7 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:nostr/model/user_keys.dart';
 import 'package:common/data/repo/key_tool_repository_impl.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
-import 'package:nostr_notes/common/domain/repository/app_lifecycle_listener_repository.dart';
+import 'package:common/domain/repo/app_lifecycle_listener_repository.dart';
 import 'package:nostr_notes/common/domain/repository/biometric_repository.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
@@ -13,6 +13,7 @@ import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
 import 'package:nostr_notes/common/presentation/blur_widget/verification_widget.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../tools/mocks/mock_accounts_repo.dart';
 import '../../tools/mocks/mock_relays_list_repo.dart';
 import '../../tools/mocks/mock_secure_storage.dart';
 import '../../tools/some_moked_data.dart';
@@ -54,6 +55,7 @@ void main() {
     sessionUsecase: sessionUsecase,
     keyToolRepository: const KeyToolRepositoryImpl(),
     relaysListRepo: MockRelaysListRepo(),
+    accountsRepo: MockAccountsRepo(),
   );
 
   void bindVerificationUsecase() {
@@ -88,9 +90,24 @@ void main() {
     return MaterialApp(home: VerificationWidget(child: child));
   }
 
+  // Pumps buildSubject() and unmounts it again on tearDown — without an
+  // explicit unmount, VerificationWidget's Overlay (and its OverlayEntry)
+  // is never disposed, since flutter_test doesn't unmount a pumped tree on
+  // its own at test end.
+  Future<void> pumpSubject(
+    WidgetTester tester, {
+    Widget child = const SizedBox.shrink(),
+  }) async {
+    await tester.pumpWidget(buildSubject(child: child));
+    addTearDown(() async {
+      await tester.pumpWidget(Container());
+      await tester.pump();
+    });
+  }
+
   group('overlay visibility', () {
     testWidgets('overlay not shown initially', (tester) async {
-      await tester.pumpWidget(buildSubject());
+      await pumpSubject(tester);
 
       expect(find.byType(BackdropFilter), findsNothing);
     }, timeout: maxTimeout);
@@ -99,7 +116,7 @@ void main() {
       'overlay appears when app goes to background (Unlocked session)',
       (tester) async {
         sessionUsecase.setSession(unlockedSession);
-        await tester.pumpWidget(buildSubject());
+        await pumpSubject(tester);
 
         lifecycle.isActiveStream.add(false);
         await tester.pump(debounce);
@@ -113,7 +130,7 @@ void main() {
       tester,
     ) async {
       // session is Unauth by default
-      await tester.pumpWidget(buildSubject());
+      await pumpSubject(tester);
 
       lifecycle.isActiveStream.add(false);
       await tester.pump(debounce);
@@ -134,7 +151,7 @@ void main() {
         );
         bindVerificationUsecase();
 
-        await tester.pumpWidget(buildSubject());
+        await pumpSubject(tester);
 
         lifecycle.isActiveStream.add(false);
         await tester.pump(debounce);
@@ -150,12 +167,11 @@ void main() {
     testWidgets('overlay absorbs pointer events while shown', (tester) async {
       sessionUsecase.setSession(unlockedSession);
       var tapped = false;
-      await tester.pumpWidget(
-        buildSubject(
-          child: GestureDetector(
-            onTap: () => tapped = true,
-            child: const SizedBox(width: 100, height: 100),
-          ),
+      await pumpSubject(
+        tester,
+        child: GestureDetector(
+          onTap: () => tapped = true,
+          child: const SizedBox(width: 100, height: 100),
         ),
       );
 
@@ -169,7 +185,7 @@ void main() {
 
     testWidgets('child is rendered', (tester) async {
       const key = Key('child_key');
-      await tester.pumpWidget(buildSubject(child: const SizedBox(key: key)));
+      await pumpSubject(tester, child: const SizedBox(key: key));
 
       expect(find.byKey(key), findsOneWidget);
     }, timeout: maxTimeout);

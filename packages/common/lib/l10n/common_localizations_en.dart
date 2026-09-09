@@ -87,11 +87,27 @@ class CommonLocalizationsEn extends CommonLocalizations {
   String get themeScreenLabelCards => 'Cards';
 
   @override
+  String get themeScreenLabelStyle => 'Style';
+
+  @override
+  String get themeScreenStyleDefault => 'Default';
+
+  @override
+  String get themeScreenStyleAppleNotes => 'Apple Notes';
+
+  @override
+  String get themeScreenStyleClaude => 'Claude';
+
+  @override
   String get relaysPageTitle => 'Select Relays';
 
   @override
   String get relaysPageDescription =>
       'Relays are servers that store and deliver your encrypted notes. Select at least one relay to continue';
+
+  @override
+  String get relaysPageAddCustomLabel =>
+      'Optionally, add your own relay by its address';
 
   @override
   String get relaysPageAddCustomHint => 'wss://...';

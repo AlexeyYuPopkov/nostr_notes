@@ -4,7 +4,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/onboarding_screen.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_nsec_page/onboarding_nsec_sign_in.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_nsec_page/onboarding_sign_up_page.dart';
-import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_pin_page.dart';
+import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_pin_page/onboarding_pin_page.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/onboarding_relays_page.dart';
 import 'package:common/presentation/relay_input_text_field.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_show_nsec_page.dart';

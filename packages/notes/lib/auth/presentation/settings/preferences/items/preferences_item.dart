@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:common/l10n/localization.dart';
 import 'package:common/app/vm/global_settings_scope.dart';
+import 'package:common/presentation/theme_settings/global_settings_vm.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_notes/l10n/localization.dart';
@@ -116,24 +117,27 @@ final class LocalePreferencesItem extends PreferencesItem {
   @override
   Widget trailing(BuildContext context) {
     final vm = GlobalSettingsScope.of(context);
-    final languageCode = vm.localeNotifier.value?.languageCode;
-    final label = switch (languageCode) {
-      null => context.l10n.preferencesScreenLanguageSystem,
-      'ru' => context.l10n.preferencesScreenLanguageRussian,
-      _ => context.l10n.preferencesScreenLanguageEnglish,
-    };
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          label,
-          style: Theme.of(context).textTheme.bodyMedium,
-          overflow: TextOverflow.ellipsis,
-        ),
-        const SizedBox(width: Sizes.halfIndent),
-        const Icon(Icons.arrow_forward_ios, size: Sizes.iconSmall),
-      ],
+    return ValueListenableBuilder(
+      valueListenable: vm.localeNotifier,
+      builder: (context, value, child) {
+        final label = (value?.code ?? LanguageCode.system).getLocalizedName(
+          context.l10n,
+        );
+
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              label,
+              style: Theme.of(context).textTheme.bodyMedium,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(width: Sizes.halfIndent),
+            const Icon(Icons.arrow_forward_ios, size: Sizes.iconSmall),
+          ],
+        );
+      },
     );
   }
 

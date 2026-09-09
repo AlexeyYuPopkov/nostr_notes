@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
+import 'package:nostr_notes/auth/domain/model/pin_kdf.dart';
 
 final class Note extends Equatable {
   /// Tag key for [updatedAt]. NOTE: the tag/field name `updated_at` is a
@@ -28,6 +29,11 @@ final class Note extends Equatable {
   final Object? error;
   final List<BaseLabel> labels;
 
+  /// Which KDF turned the PIN into this note's key. Read back from the event
+  /// so an old note still decrypts; re-encrypting lifts it to
+  /// [PinKdf.current], which is how notes migrate.
+  final PinKdf kdf;
+
   const Note({
     required this.eventId,
     required this.dTag,
@@ -37,6 +43,7 @@ final class Note extends Equatable {
     required this.updatedAt,
     this.labels = const [],
     this.error,
+    this.kdf = PinKdf.legacySha256,
   }) : _summary = summary;
 
   @override
@@ -49,6 +56,7 @@ final class Note extends Equatable {
     updatedAt,
     error,
     labels,
+    kdf,
   ];
 
   Note copyWith({
@@ -59,6 +67,7 @@ final class Note extends Equatable {
     DateTime? createdAt,
     DateTime? updatedAt,
     List<BaseLabel>? labels,
+    PinKdf? kdf,
   }) {
     return Note(
       eventId: eventId,
@@ -68,6 +77,7 @@ final class Note extends Equatable {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       labels: labels ?? this.labels,
+      kdf: kdf ?? this.kdf,
       error: clearError ? null : (error ?? this.error),
     );
   }

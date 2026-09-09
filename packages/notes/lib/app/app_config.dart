@@ -4,6 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:nostr/model/tag/tag_value.dart';
 import 'package:nostr_notes/app/app_env.dart';
 
+final class FeatureFlags {
+  static const bool kEnableAccsTab = true;
+}
+
 final class AppConfig {
   static AppEnv _env = const DefaultAppEnv();
 
@@ -13,17 +17,24 @@ final class AppConfig {
   static const appStoreLink =
       'https://apps.apple.com/bg/app/private-notes-nostr/id6757975921';
 
-  static const apkGHPagesUrl =
-      'https://alexeyyupopkov.github.io/downloads/nostr_notes-release.apk';
-  static const apkGHPagesSha256Url =
-      'https://alexeyyupopkov.github.io/downloads/nostr_notes-release.apk.sha256';
+  static const googlePlayLink =
+      'https://play.google.com/store/apps/details?id=com.alekseii.yu.popkov.nostrNotes';
+
+  /// `action=write-review` opens the App Store straight on the review sheet.
+  /// Google Play has no such parameter — [googlePlayLink] is reused there and
+  /// lands the user on the listing, where the rating control lives.
+  static const appStoreReviewLink =
+      'https://apps.apple.com/app/id6757975921?action=write-review';
+
+  static const githubIssuesLink =
+      'https://github.com/AlexeyYuPopkov/nostr_notes/issues';
 
   static final kIsTest = kIsWeb
       ? false
       : Platform.environment.containsKey('FLUTTER_TEST') &&
             !const bool.fromEnvironment('INTEGRATION_TEST');
 
-  static final showAds = !kDebugMode && !kIsTest;
+  static final showAds = !kIsTest; //   !kDebugMode && !kIsTest;
 
   /// Developer's lightning address for in-app donations (LUD-16).
   static String get kDevLightningAddress => _env.devLightningAddress;
@@ -33,6 +44,10 @@ final class AppConfig {
 
   static String get admobAppIdIos => _env.admobAppIdIos;
   static String get admobInterstitialIdIos => _env.admobInterstitialIdIos;
+  static String get admobInterstitialIdAndroid =>
+      _env.admobInterstitialIdAndroid;
+  static String get admobBannerIdIos => _env.admobBannerIdIos;
+  static String get admobBannerIdAndroid => _env.admobBannerIdAndroid;
 
   static const kUsesInMemoryStorage = bool.fromEnvironment(
     'IN_MEMORY_STORAGE',

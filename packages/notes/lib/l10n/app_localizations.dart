@@ -214,30 +214,6 @@ abstract class AppLocalizations {
   /// **'Generate a Nostr Key'**
   String get onboardingSignUpButtonGenerateKey;
 
-  /// No description provided for @apkDistributionTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Download APK'**
-  String get apkDistributionTitle;
-
-  /// No description provided for @apkDistributionDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'You can download the installation file directly. It is recommended to verify the SHA-256 checksum after downloading.'**
-  String get apkDistributionDescription;
-
-  /// No description provided for @apkDistributionDownloadButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Download .apk'**
-  String get apkDistributionDownloadButton;
-
-  /// No description provided for @apkDistributionViewChecksum.
-  ///
-  /// In en, this message translates to:
-  /// **'View Checksum (SHA-256)'**
-  String get apkDistributionViewChecksum;
-
   /// No description provided for @appStoreBannerTitle.
   ///
   /// In en, this message translates to:
@@ -259,7 +235,7 @@ abstract class AppLocalizations {
   /// No description provided for @apkBannerButton.
   ///
   /// In en, this message translates to:
-  /// **'Download APK'**
+  /// **'Android (Google Play)'**
   String get apkBannerButton;
 
   /// No description provided for @onboardingSignUpAlreadyHaveAccount.
@@ -400,6 +376,18 @@ abstract class AppLocalizations {
   /// **'The PIN is an additional layer of protection against nsec compromise. It is stored only in memory and is never persisted. If the PIN is lost, your existing notes cannot be decrypted. If you create or edit a note with an incorrect PIN, that note will be encrypted with the wrong PIN.'**
   String get onboardingPinPageInfoPin;
 
+  /// No description provided for @onboardingPinPageAutoUnlockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocking account'**
+  String get onboardingPinPageAutoUnlockTitle;
+
+  /// No description provided for @onboardingPinPageAutoUnlockButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get onboardingPinPageAutoUnlockButton;
+
   /// No description provided for @errorEmptyNsec.
   ///
   /// In en, this message translates to:
@@ -435,6 +423,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PIN or password must be at least {minCount} characters long'**
   String errorInvalidPinFormatMinCount(String minCount);
+
+  /// No description provided for @accountSwitcherTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accountSwitcherTitle;
+
+  /// No description provided for @accountSwitcherAddAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Account'**
+  String get accountSwitcherAddAccount;
 
   /// No description provided for @settingsScreenTitle.
   ///
@@ -549,6 +549,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Buy me a coffee ☕'**
   String get settingsItemBuyMeACoffee;
+
+  /// No description provided for @exportImportExportAccountsSkippedWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup created, but {count} account(s) could not be decrypted and are not in it.'**
+  String exportImportExportAccountsSkippedWarning(String count);
+
+  /// No description provided for @exportImportImportAccountsSkippedWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} account(s) were skipped: the stored account they replace could not be decrypted, and it was kept instead.'**
+  String exportImportImportAccountsSkippedWarning(String count);
+
+  /// No description provided for @exportImportExportSkippedWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup created, but {count} note(s) could not be decrypted and are not in it.'**
+  String exportImportExportSkippedWarning(String count);
+
+  /// No description provided for @exportImportImportSkippedWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} note(s) were skipped: the stored note they replace could not be decrypted, and it was kept instead.'**
+  String exportImportImportSkippedWarning(String count);
+
+  /// No description provided for @settingsItemLeaveReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate the app ⭐'**
+  String get settingsItemLeaveReview;
+
+  /// No description provided for @settingsItemReportBug.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a bug'**
+  String get settingsItemReportBug;
 
   /// No description provided for @settingsItemDonateBTC.
   ///
@@ -880,6 +916,96 @@ abstract class AppLocalizations {
   /// **'Without a password, notes will be exported as plain text and anyone with the file can read them.'**
   String get exportImportNoPasswordWarning;
 
+  /// No description provided for @accsBackupSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accsBackupSectionTitle;
+
+  /// No description provided for @accsBackupItemExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export All Accounts'**
+  String get accsBackupItemExportTitle;
+
+  /// No description provided for @accsBackupItemExportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export all your saved accounts to a password-protected ZIP archive. A password is required — this file can contain your real account passwords.'**
+  String get accsBackupItemExportSubtitle;
+
+  /// No description provided for @accsBackupItemImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import All Accounts'**
+  String get accsBackupItemImportTitle;
+
+  /// No description provided for @accsBackupItemImportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore accounts from a previously exported archive.'**
+  String get accsBackupItemImportSubtitle;
+
+  /// No description provided for @accsBackupExportPasswordDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Backup Password'**
+  String get accsBackupExportPasswordDialogTitle;
+
+  /// No description provided for @accsBackupExportPasswordDialogTextFieldHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Password (required)'**
+  String get accsBackupExportPasswordDialogTextFieldHint;
+
+  /// No description provided for @accsBackupExportPasswordRequiredHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A password is required — without one, this backup would store your account passwords as plain text.'**
+  String get accsBackupExportPasswordRequiredHint;
+
+  /// No description provided for @accsBackupExportPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a password'**
+  String get accsBackupExportPasswordRequired;
+
+  /// No description provided for @accsBackupExportEmptyError.
+  ///
+  /// In en, this message translates to:
+  /// **'No accounts to export'**
+  String get accsBackupExportEmptyError;
+
+  /// No description provided for @accsBackupExportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts exported successfully'**
+  String get accsBackupExportSuccess;
+
+  /// No description provided for @accsBackupImportDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Accounts'**
+  String get accsBackupImportDialogTitle;
+
+  /// No description provided for @accsBackupImportPolicyKeepNewestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep newest'**
+  String get accsBackupImportPolicyKeepNewestTitle;
+
+  /// No description provided for @accsBackupImportPolicyKeepNewestSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use whichever version — backup or local — was edited more recently'**
+  String get accsBackupImportPolicyKeepNewestSubtitle;
+
+  /// No description provided for @accsBackupImportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts imported successfully'**
+  String get accsBackupImportSuccess;
+
   /// No description provided for @notesListPendingSyncTitle.
   ///
   /// In en, this message translates to:
@@ -922,11 +1048,41 @@ abstract class AppLocalizations {
   /// **'Cryptographic parameters are invalid for this note.'**
   String get notesListDecryptReasonInvalidParams;
 
-  /// No description provided for @notesListSomeNotesDecryptFailed.
+  /// No description provided for @notesListDecryptFailedDialogTitle.
   ///
   /// In en, this message translates to:
-  /// **'Some notes couldn\'t be decrypted. Check your PIN.'**
-  String get notesListSomeNotesDecryptFailed;
+  /// **'Couldn\'t decrypt notes'**
+  String get notesListDecryptFailedDialogTitle;
+
+  /// No description provided for @notesListDecryptFailedDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{failed} of {total} notes couldn\'t be decrypted. The PIN may be wrong — you can retry with another PIN. Your notes stay safely encrypted.'**
+  String notesListDecryptFailedDialogMessage(int failed, int total);
+
+  /// No description provided for @notesListDecryptFailedDialogMessageAll.
+  ///
+  /// In en, this message translates to:
+  /// **'None of your notes could be decrypted. The PIN may be wrong — you can retry with another PIN. Your notes stay safely encrypted.'**
+  String get notesListDecryptFailedDialogMessageAll;
+
+  /// No description provided for @notesListDecryptFailedDialogRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry with new PIN'**
+  String get notesListDecryptFailedDialogRetry;
+
+  /// No description provided for @notesListLockedNoteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Note is locked'**
+  String get notesListLockedNoteTitle;
+
+  /// No description provided for @notesListLockedNoteSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN is required to decrypt'**
+  String get notesListLockedNoteSubtitle;
 
   /// No description provided for @editNoteScreenSaveSuccess.
   ///
@@ -1006,17 +1162,233 @@ abstract class AppLocalizations {
   /// **'Notes'**
   String get notesListScreenTitle;
 
-  /// No description provided for @notesListTabAll.
+  /// No description provided for @notesListTabNotes.
   ///
   /// In en, this message translates to:
-  /// **'All'**
-  String get notesListTabAll;
+  /// **'Notes'**
+  String get notesListTabNotes;
 
-  /// No description provided for @notesListTabFolders.
+  /// No description provided for @notesListSearchHint.
   ///
   /// In en, this message translates to:
-  /// **'Folders'**
-  String get notesListTabFolders;
+  /// **'Search notes'**
+  String get notesListSearchHint;
+
+  /// No description provided for @notesListFilterButtonTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by folder'**
+  String get notesListFilterButtonTooltip;
+
+  /// No description provided for @notesListFilterSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by folder'**
+  String get notesListFilterSheetTitle;
+
+  /// No description provided for @notesListSearchNothingFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing found'**
+  String get notesListSearchNothingFound;
+
+  /// No description provided for @accsTabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accsTabTitle;
+
+  /// No description provided for @accsSectionAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All accounts'**
+  String get accsSectionAll;
+
+  /// No description provided for @accsSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search accounts'**
+  String get accsSearchHint;
+
+  /// No description provided for @accsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No accounts yet'**
+  String get accsEmptyTitle;
+
+  /// No description provided for @accsAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New account'**
+  String get accsAddTitle;
+
+  /// No description provided for @accsEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit account'**
+  String get accsEditTitle;
+
+  /// No description provided for @accsFormTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Account name'**
+  String get accsFormTitleHint;
+
+  /// No description provided for @accsFormTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get accsFormTitleLabel;
+
+  /// No description provided for @accsFormWebsiteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get accsFormWebsiteLabel;
+
+  /// No description provided for @accsFormWebsiteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add website'**
+  String get accsFormWebsiteHint;
+
+  /// No description provided for @accsFormUsernameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get accsFormUsernameLabel;
+
+  /// No description provided for @accsFormUsernameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add username'**
+  String get accsFormUsernameHint;
+
+  /// No description provided for @accsFormPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get accsFormPasswordLabel;
+
+  /// No description provided for @accsFormPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add password'**
+  String get accsFormPasswordHint;
+
+  /// No description provided for @accsFormNotesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get accsFormNotesLabel;
+
+  /// No description provided for @accsFormNotesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a note'**
+  String get accsFormNotesHint;
+
+  /// No description provided for @accsFormSaveSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Account saved successfully!'**
+  String get accsFormSaveSuccess;
+
+  /// No description provided for @accsFormEditButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get accsFormEditButton;
+
+  /// No description provided for @accsFormDoneButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get accsFormDoneButton;
+
+  /// No description provided for @accsFormGoButtonCopiedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Password copied'**
+  String get accsFormGoButtonCopiedMessage;
+
+  /// No description provided for @accsFormGoUsernameCopiedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Username copied'**
+  String get accsFormGoUsernameCopiedMessage;
+
+  /// No description provided for @accsConfirmationDialogDeletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this account? This action cannot be undone.'**
+  String get accsConfirmationDialogDeletion;
+
+  /// No description provided for @accsFormMoreMenuCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy details'**
+  String get accsFormMoreMenuCopy;
+
+  /// No description provided for @accsFormMoreMenuShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share/Backup'**
+  String get accsFormMoreMenuShare;
+
+  /// No description provided for @accsFormGenPassButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate'**
+  String get accsFormGenPassButton;
+
+  /// No description provided for @accsFormGenPassStyleWords.
+  ///
+  /// In en, this message translates to:
+  /// **'By words'**
+  String get accsFormGenPassStyleWords;
+
+  /// No description provided for @accsFormGenPassStyleRandom.
+  ///
+  /// In en, this message translates to:
+  /// **'Random'**
+  String get accsFormGenPassStyleRandom;
+
+  /// No description provided for @accsFormGenPassHint.
+  ///
+  /// In en, this message translates to:
+  /// **'\"By words\" — a few random words, easy to remember. \"Random\" — a character set, more robust for sites without special-character restrictions.'**
+  String get accsFormGenPassHint;
+
+  /// No description provided for @accsFormGenPassStrengthDanger.
+  ///
+  /// In en, this message translates to:
+  /// **'Very weak'**
+  String get accsFormGenPassStrengthDanger;
+
+  /// No description provided for @accsFormGenPassStrengthWeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Weak'**
+  String get accsFormGenPassStrengthWeak;
+
+  /// No description provided for @accsFormGenPassStrengthGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get accsFormGenPassStrengthGood;
+
+  /// No description provided for @accsFormGenPassStrengthStrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong'**
+  String get accsFormGenPassStrengthStrong;
+
+  /// No description provided for @notesListNewNoteTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'New note'**
+  String get notesListNewNoteTooltip;
 
   /// No description provided for @notesFoldersEmptyStatePlaceholder.
   ///
@@ -1029,6 +1401,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tap + to start writing'**
   String get homeScreenEmptyStatePlaceholder;
+
+  /// No description provided for @homeScreenEmptyStateAccsPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + to add an account'**
+  String get homeScreenEmptyStateAccsPlaceholder;
 
   /// No description provided for @notesListSectionToday.
   ///
@@ -1215,6 +1593,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invoice copied to clipboard'**
   String get donateLightningScreenMessageInvoiceCopied;
+
+  /// No description provided for @relayStatusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{ok} of {total} relays online'**
+  String relayStatusTitle(int ok, int total);
+
+  /// No description provided for @relayStatusSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes are saved and synced'**
+  String get relayStatusSubtitle;
+
+  /// No description provided for @relayStatusOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'online'**
+  String get relayStatusOnline;
+
+  /// No description provided for @relayStatusConnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'connecting…'**
+  String get relayStatusConnecting;
+
+  /// No description provided for @relayStatusNoResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'no response'**
+  String get relayStatusNoResponse;
+
+  /// No description provided for @relayStatusConfigureLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure relays'**
+  String get relayStatusConfigureLink;
 }
 
 class _AppLocalizationsDelegate

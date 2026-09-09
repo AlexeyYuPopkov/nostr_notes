@@ -18,11 +18,13 @@ import 'package:nostr/model/user_keys.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr_notes/auth/data/export_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/import_usecase_impl.dart';
+import 'package:nostr_notes/auth/data/notes/get_notes_usecase_impl.dart';
 import 'package:nostr_notes/auth/domain/usecase/export_usecase.dart';
 import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
 import 'package:nostr_notes/auth/data/models/backup_payload.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
+import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/import_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
@@ -63,6 +65,7 @@ void main() {
     late RawEventStore eventStore;
     late OutboxDaoInterface outboxDao;
     late NoteCryptoUseCase noteCryptoUseCase;
+    late GetNotesUsecase getNotesUsecase;
     late SessionUsecase sessionUsecase;
     late ExportUsecaseImpl exportSut;
     late ImportUsecaseImpl importSut;
@@ -100,8 +103,14 @@ void main() {
         ),
       );
 
-      exportSut = ExportUsecaseImpl(
+      getNotesUsecase = GetNotesUsecaseImpl(
         eventStore: eventStore,
+        sessionUsecase: sessionUsecase,
+        noteCryptoUseCase: noteCryptoUseCase,
+      );
+
+      exportSut = ExportUsecaseImpl(
+        getNotesUsecase: getNotesUsecase,
         noteCryptoUseCase: noteCryptoUseCase,
       );
 
@@ -136,9 +145,9 @@ void main() {
         note: backupNote,
       );
 
-      final (exportPath, _, _) = await exportSut.exportNotes(
+      final exportPath = (await exportSut.exportNotes(
         params: const ExportParamsAll(password: password),
-      );
+      )).filePath;
 
       await _clearNotes(eventStore);
       await _seedEncryptedNote(
@@ -153,10 +162,127 @@ void main() {
       return exportPath;
     }
 
-    test('returns empty bytes when no notes in the store', () async {
-      final (_, resultBytes, _) = await exportSut.exportNotes(
+    // Ciphertext the current session's key cannot open — a note left behind
+    // by another PIN, which is exactly the case that used to be swallowed on
+    // export and fatal on import.
+    Future<void> seedUnreadableNote(String dTag) async {
+      await eventStore.upsert([
+        NoteMapper.toNostrEvent(
+          Note(
+            eventId: '',
+            dTag: dTag,
+            content: 'AmNvcnJ1cHRlZC1jaXBoZXJ0ZXh0LXRoYXQtd2lsbC1ub3Qtb3Blbg==',
+            summary: 'AmNvcnJ1cHRlZC1zdW1tYXJ5',
+            createdAt: DateTime(2026),
+            updatedAt: DateTime(2026),
+          ),
+          pubkey: NotesFixtures.keys.publicKey,
+        ),
+      ]);
+    }
+
+    test('exporting one note by d-tag does not export the others', () async {
+      final noteA = await noteCryptoUseCase.decryptNote(
+        NoteMapper.fromJsonStr(NotesFixtures.eventJson1)!,
+      );
+      final noteB = await noteCryptoUseCase.decryptNote(
+        NoteMapper.fromJsonStr(NotesFixtures.eventJson2)!,
+      );
+      for (final note in [noteA, noteB]) {
+        await _seedEncryptedNote(
+          eventStore: eventStore,
+          noteCryptoUseCase: noteCryptoUseCase,
+          note: note,
+        );
+      }
+
+      final result = await exportSut.exportNotes(
+        params: ExportParamsIds(password: password, noteIds: [noteA.dTag]),
+      );
+      addTearDown(() => File(result.filePath).deleteSync());
+
+      final exported = _readExportJson(result.filePath).events;
+      expect(
+        exported,
+        hasLength(1),
+        reason:
+            'sharing a single note must not hand over the whole store — the '
+            'ids are d-tags, and dropping the filter exports everything',
+      );
+      expect(_findTag(exported.single['tags'] as List, 'd'), noteA.dTag);
+    });
+
+    test('export reports notes it could not decrypt instead of dropping '
+        'them silently', () async {
+      await _seedEncryptedNote(
+        eventStore: eventStore,
+        noteCryptoUseCase: noteCryptoUseCase,
+        note: await noteCryptoUseCase.decryptNote(
+          NoteMapper.fromJsonStr(NotesFixtures.eventJson1)!,
+        ),
+      );
+      await seedUnreadableNote('unreadable-d-tag');
+
+      final result = await exportSut.exportNotes(
         params: const ExportParamsAll(password: password),
       );
+      addTearDown(() => File(result.filePath).deleteSync());
+
+      expect(result.skippedNotes, 1);
+      expect(
+        _readExportJson(result.filePath).events,
+        hasLength(1),
+        reason: 'the readable note is still backed up',
+      );
+    });
+
+    test(
+      'import keeps a stored note it cannot read rather than replacing it',
+      () async {
+        final backupNote = await noteCryptoUseCase.decryptNote(
+          NoteMapper.fromJsonStr(NotesFixtures.eventJson1)!,
+        );
+        await _seedEncryptedNote(
+          eventStore: eventStore,
+          noteCryptoUseCase: noteCryptoUseCase,
+          note: backupNote,
+        );
+        final exported = await exportSut.exportNotes(
+          params: const ExportParamsAll(password: password),
+        );
+        addTearDown(() => File(exported.filePath).deleteSync());
+
+        // The stored note under that d-tag becomes unreadable after the backup
+        // was taken — a different PIN, a half-migrated note, anything.
+        await _clearNotes(eventStore);
+        await seedUnreadableNote(backupNote.dTag);
+        final before = await eventStore.queryEvents(
+          RawEventQuery(kinds: [EventKind.note.value]),
+        );
+
+        final skipped = await importSut.importNotes(
+          password: password,
+          filePath: exported.filePath,
+        );
+
+        expect(skipped, 1);
+        final after = await eventStore.queryEvents(
+          RawEventQuery(kinds: [EventKind.note.value]),
+        );
+        expect(
+          after.single.content,
+          before.single.content,
+          reason:
+              'unreadable is not unwanted — overwriting it would destroy the '
+              'only copy of something that may still be recoverable',
+        );
+      },
+    );
+
+    test('returns empty bytes when no notes in the store', () async {
+      final resultBytes = (await exportSut.exportNotes(
+        params: const ExportParamsAll(password: password),
+      )).bytes;
       expect(resultBytes, isEmpty);
     });
 
@@ -171,9 +297,9 @@ void main() {
         note: note,
       );
 
-      final (filePath, _, _) = await exportSut.exportNotes(
+      final filePath = (await exportSut.exportNotes(
         params: const ExportParamsAll(password: ''),
-      );
+      )).filePath;
       addTearDown(() => File(filePath).deleteSync());
 
       final payload = _readExportJson(filePath);
@@ -206,9 +332,11 @@ void main() {
           noteCryptoUseCase: noteCryptoUseCase,
           note: note,
         );
-        final (filePath, _, name) = await exportSut.exportNotes(
+        final exportResult = await exportSut.exportNotes(
           params: ExportParamsAll(password: password, fileName: fileName),
         );
+        final filePath = exportResult.filePath;
+        final name = exportResult.fileName;
         addTearDown(() => File(filePath).deleteSync());
         return name;
       }
@@ -233,10 +361,12 @@ void main() {
         expect(await exportFileNameFor('../../etc/pa:ss'), 'etcpass.zip');
       });
 
-      test('falls back to default when only illegal/dot chars remain',
-          () async {
-        expect(await exportFileNameFor('...'), startsWith('notes_backup_'));
-      });
+      test(
+        'falls back to default when only illegal/dot chars remain',
+        () async {
+          expect(await exportFileNameFor('...'), startsWith('notes_backup_'));
+        },
+      );
     });
 
     test(
@@ -252,9 +382,9 @@ void main() {
           note: note,
         );
 
-        final (filePath, _, _) = await exportSut.exportNotes(
+        final filePath = (await exportSut.exportNotes(
           params: const ExportParamsAll(password: password),
-        );
+        )).filePath;
         addTearDown(() => File(filePath).deleteSync());
 
         final payload = _readExportJson(filePath);
@@ -277,9 +407,9 @@ void main() {
         note: note,
       );
 
-      final (filePath, _, _) = await exportSut.exportNotes(
+      final filePath = (await exportSut.exportNotes(
         params: const ExportParamsAll(password: password),
-      );
+      )).filePath;
       addTearDown(() => File(filePath).deleteSync());
 
       expect(filePath, isNotEmpty);
@@ -304,9 +434,9 @@ void main() {
         note: note,
       );
 
-      final (filePath, _, _) = await exportSut.exportNotes(
+      final filePath = (await exportSut.exportNotes(
         params: const ExportParamsAll(password: password),
-      );
+      )).filePath;
       addTearDown(() => File(filePath).deleteSync());
 
       final payload = _readExportJson(filePath);
@@ -344,9 +474,9 @@ void main() {
           note: note,
         );
 
-        final (filePath, _, _) = await exportSut.exportNotes(
+        final filePath = (await exportSut.exportNotes(
           params: const ExportParamsAll(password: password),
-        );
+        )).filePath;
         addTearDown(() => File(filePath).deleteSync());
 
         final payload = _readExportJson(filePath);
@@ -394,9 +524,9 @@ void main() {
         note: note2,
       );
 
-      final (filePath, _, _) = await exportSut.exportNotes(
+      final filePath = (await exportSut.exportNotes(
         params: const ExportParamsAll(password: password),
-      );
+      )).filePath;
       addTearDown(() => File(filePath).deleteSync());
 
       final payload = _readExportJson(filePath);
@@ -476,9 +606,9 @@ void main() {
           note: original,
         );
 
-        final (exportPath, _, _) = await exportSut.exportNotes(
+        final exportPath = (await exportSut.exportNotes(
           params: const ExportParamsAll(password: password),
-        );
+        )).filePath;
         addTearDown(() => File(exportPath).deleteSync());
 
         await _clearNotes(eventStore);
@@ -526,9 +656,9 @@ void main() {
           note: original,
         );
 
-        final (exportPath, _, _) = await exportSut.exportNotes(
+        final exportPath = (await exportSut.exportNotes(
           params: const ExportParamsAll(password: password),
-        );
+        )).filePath;
         addTearDown(() => File(exportPath).deleteSync());
 
         await _clearNotes(eventStore);
@@ -556,9 +686,9 @@ void main() {
             note: original,
           );
 
-          final (exportPath, _, _) = await exportSut.exportNotes(
+          final exportPath = (await exportSut.exportNotes(
             params: const ExportParamsAll(password: password),
-          );
+          )).filePath;
           addTearDown(() => File(exportPath).deleteSync());
 
           await _clearNotes(eventStore);
@@ -596,9 +726,9 @@ void main() {
             note: original,
           );
 
-          final (exportPath, _, _) = await exportSut.exportNotes(
+          final exportPath = (await exportSut.exportNotes(
             params: const ExportParamsAll(password: ''),
-          );
+          )).filePath;
           addTearDown(() => File(exportPath).deleteSync());
 
           await _clearNotes(eventStore);
@@ -634,9 +764,9 @@ void main() {
           note: note,
         );
 
-        final (exportPath, _, _) = await exportSut.exportNotes(
+        final exportPath = (await exportSut.exportNotes(
           params: const ExportParamsAll(password: password),
-        );
+        )).filePath;
         addTearDown(() => File(exportPath).deleteSync());
 
         await expectLater(
@@ -668,9 +798,9 @@ void main() {
           note: note2,
         );
 
-        final (exportPath, _, _) = await exportSut.exportNotes(
+        final exportPath = (await exportSut.exportNotes(
           params: const ExportParamsAll(password: password),
-        );
+        )).filePath;
         addTearDown(() => File(exportPath).deleteSync());
 
         // Empty store before import → no collisions for any policy.
@@ -785,9 +915,9 @@ void main() {
             note: original,
           );
 
-          final (exportPath, _, _) = await exportSut.exportNotes(
+          final exportPath = (await exportSut.exportNotes(
             params: const ExportParamsAll(password: password),
-          );
+          )).filePath;
           addTearDown(() => File(exportPath).deleteSync());
 
           await _clearNotes(eventStore);

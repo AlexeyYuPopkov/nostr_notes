@@ -35,12 +35,20 @@ final class ExportParamsIds extends ExportParams {
   });
 }
 
+/// On web [filePath] is empty; callers must use [bytes] + [fileName] instead.
+typedef ExportResult = ({
+  String filePath,
+  Uint8List bytes,
+  String fileName,
+
+  /// Notes that are in the store but could not be decrypted, and so are
+  /// missing from the backup. A backup that silently lost notes is worse
+  /// than one that says how many, so this is reported rather than logged.
+  int skippedNotes,
+});
+
 abstract interface class ExportUsecase {
-  /// Returns `(filePath, zipBytes, fileName)`.
-  /// On web [filePath] is empty; callers must use [zipBytes] + [fileName] instead.
-  Future<(String, Uint8List, String)> exportNotes({
-    required ExportParams params,
-  });
+  Future<ExportResult> exportNotes({required ExportParams params});
 }
 
 final class ExportError extends CustomError<ExportErrorType> {

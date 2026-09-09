@@ -2085,7 +2085,7 @@ final class $$NostrEventsTableReferences
   static MultiTypedResultKey<$NostrTagsTable, List<NostrTagData>>
   _nostrTagsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
     db.nostrTags,
-    aliasName: $_aliasNameGenerator(db.nostrEvents.id, db.nostrTags.eventId),
+    aliasName: 'nostr_events__id__nostr_tags__event_id',
   );
 
   $$NostrTagsTableProcessedTableManager get nostrTagsRefs {
@@ -2103,10 +2103,7 @@ final class $$NostrEventsTableReferences
   static MultiTypedResultKey<$NostrEventRelaysTable, List<NostrEventRelayData>>
   _nostrEventRelaysRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
     db.nostrEventRelays,
-    aliasName: $_aliasNameGenerator(
-      db.nostrEvents.id,
-      db.nostrEventRelays.eventId,
-    ),
+    aliasName: 'nostr_events__id__nostr_event_relays__event_id',
   );
 
   $$NostrEventRelaysTableProcessedTableManager get nostrEventRelaysRefs {
@@ -2130,10 +2127,7 @@ final class $$NostrEventsTableReferences
   _noteClassProbabilitiesRefsTable(_$AppDatabase db) =>
       MultiTypedResultKey.fromTable(
         db.noteClassProbabilities,
-        aliasName: $_aliasNameGenerator(
-          db.nostrEvents.id,
-          db.noteClassProbabilities.eventId,
-        ),
+        aliasName: 'nostr_events__id__note_class_probabilities__event_id',
       );
 
   $$NoteClassProbabilitiesTableProcessedTableManager
@@ -2649,9 +2643,7 @@ final class $$NostrTagsTableReferences
   $$NostrTagsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static $NostrEventsTable _eventIdTable(_$AppDatabase db) =>
-      db.nostrEvents.createAlias(
-        $_aliasNameGenerator(db.nostrTags.eventId, db.nostrEvents.id),
-      );
+      db.nostrEvents.createAlias('nostr_tags__event_id__nostr_events__id');
 
   $$NostrEventsTableProcessedTableManager get eventId {
     final $_column = $_itemColumn<String>('event_id')!;
@@ -2968,10 +2960,8 @@ final class $$NostrEventRelaysTableReferences
     super.$_typedResult,
   );
 
-  static $NostrEventsTable _eventIdTable(_$AppDatabase db) =>
-      db.nostrEvents.createAlias(
-        $_aliasNameGenerator(db.nostrEventRelays.eventId, db.nostrEvents.id),
-      );
+  static $NostrEventsTable _eventIdTable(_$AppDatabase db) => db.nostrEvents
+      .createAlias('nostr_event_relays__event_id__nostr_events__id');
 
   $$NostrEventsTableProcessedTableManager get eventId {
     final $_column = $_itemColumn<String>('event_id')!;
@@ -3524,13 +3514,8 @@ final class $$NoteClassProbabilitiesTableReferences
     super.$_typedResult,
   );
 
-  static $NostrEventsTable _eventIdTable(_$AppDatabase db) =>
-      db.nostrEvents.createAlias(
-        $_aliasNameGenerator(
-          db.noteClassProbabilities.eventId,
-          db.nostrEvents.id,
-        ),
-      );
+  static $NostrEventsTable _eventIdTable(_$AppDatabase db) => db.nostrEvents
+      .createAlias('note_class_probabilities__event_id__nostr_events__id');
 
   $$NostrEventsTableProcessedTableManager get eventId {
     final $_column = $_itemColumn<String>('event_id')!;

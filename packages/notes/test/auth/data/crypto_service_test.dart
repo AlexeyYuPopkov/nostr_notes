@@ -1,3 +1,6 @@
+@Tags(['perf'])
+library;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';

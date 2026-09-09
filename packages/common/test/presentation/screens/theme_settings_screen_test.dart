@@ -1,4 +1,5 @@
 import 'package:common/app/theme/app_theme.dart';
+import 'package:common/app/theme/app_theme_style.dart';
 import 'package:common/data/repo/app_theme_data_repo_impl.dart';
 
 import 'package:common/presentation/theme_settings/global_settings_vm.dart';
@@ -61,25 +62,33 @@ void main() {
         AppTheme.light().scaffoldBackgroundColor,
       );
 
-      // Tap 2-й цвет для светлой темы
-      final lightBgRow = find
-          .byWidgetPredicate(
-            (w) =>
-                w.runtimeType.toString() == '_ColorSwatchRow' &&
-                w is StatelessWidget,
-          )
-          .first;
-      final lightBgSwatch = find
-          .descendant(of: lightBgRow, matching: find.byType(GestureDetector))
-          .at(1); // индекс 1 — второй цвет
-      await tester.tap(lightBgSwatch);
+      // The light style section renders first — exactly one tile per style.
+      final lightStyleGroup = find.byWidgetPredicate(
+        (w) =>
+            w is RadioGroup<AppThemeStyle> &&
+            w.groupValue == AppThemeStyle.defaultStyle,
+      );
+      expect(lightStyleGroup, findsOneWidget);
+      expect(
+        find.descendant(
+          of: lightStyleGroup,
+          matching: find.byType(Radio<AppThemeStyle>),
+        ),
+        findsNWidgets(AppThemeStyle.values.length),
+      );
+
+      // Pick "Apple Notes" for the light style.
+      final lightStyleRadios = find.descendant(
+        of: lightStyleGroup,
+        matching: find.byType(Radio<AppThemeStyle>),
+      );
+      await tester.tap(lightStyleRadios.at(1)); // Apple Notes
       await tester.pumpAndSettle();
-      expect(vm.lightBgIndex, 1);
+
+      expect(vm.lightThemeStyle, AppThemeStyle.appleNotes);
       expect(
         Theme.of(tester.element(screen)).scaffoldBackgroundColor,
-        AppTheme.light(
-          backgroundColor: const Color(0xFFFFFFFF),
-        ).scaffoldBackgroundColor,
+        AppTheme.light(style: AppThemeStyle.appleNotes).scaffoldBackgroundColor,
       );
 
       // Tap Dark Theme
@@ -104,27 +113,32 @@ void main() {
         AppTheme.dark().scaffoldBackgroundColor,
       );
 
-      // Tap 3-й цвет для тёмной темы
-      // Порядок _ColorSwatchRow в ListView: 0=lightBg, 1=lightCard, 2=darkBg, 3=darkCard
-      final darkBgRow = find
-          .byWidgetPredicate(
-            (w) =>
-                w.runtimeType.toString() == '_ColorSwatchRow' &&
-                w is StatelessWidget,
-          )
-          .at(2);
-      final darkBgSwatch = find
-          .descendant(of: darkBgRow, matching: find.byType(GestureDetector))
-          .at(2); // индекс 2 — третий цвет
-      await tester.ensureVisible(darkBgSwatch);
-      await tester.tap(darkBgSwatch);
+      // Pick "Claude" for the dark style. It's the only remaining group with
+      // the default groupValue now, but it may still be offscreen (lazily
+      // built by the ListView) — scroll it into view first.
+      final darkStyleGroup = find.byWidgetPredicate(
+        (w) =>
+            w is RadioGroup<AppThemeStyle> &&
+            w.groupValue == AppThemeStyle.defaultStyle,
+      );
+      await tester.scrollUntilVisible(
+        darkStyleGroup,
+        300,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.pumpAndSettle();
-      expect(vm.darkBgIndex, 2);
+
+      final darkStyleRadios = find.descendant(
+        of: darkStyleGroup,
+        matching: find.byType(Radio<AppThemeStyle>),
+      );
+      await tester.tap(darkStyleRadios.at(2)); // Claude
+      await tester.pumpAndSettle();
+
+      expect(vm.darkThemeStyle, AppThemeStyle.claude);
       expect(
         Theme.of(tester.element(screen)).scaffoldBackgroundColor,
-        AppTheme.dark(
-          backgroundColor: const Color(0xFF18181B),
-        ).scaffoldBackgroundColor,
+        AppTheme.dark(style: AppThemeStyle.claude).scaffoldBackgroundColor,
       );
     });
   });

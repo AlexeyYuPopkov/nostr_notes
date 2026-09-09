@@ -1,39 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:common/app/theme/app_theme_style.dart';
 import 'package:common/presentation/tools/optional_box.dart';
 
 final class AppThemeData {
   final ThemeMode themeMode;
   final OptionalBox<String> localeCode;
-  final int lightBgIndex;
-  final int darkBgIndex;
-  final int lightCardIndex;
-  final int darkCardIndex;
+  final AppThemeStyle lightThemeStyle;
+  final AppThemeStyle darkThemeStyle;
 
   const AppThemeData({
     required this.themeMode,
     required this.localeCode,
-    required this.lightBgIndex,
-    required this.darkBgIndex,
-    this.lightCardIndex = 0,
-    this.darkCardIndex = 0,
+    this.lightThemeStyle = AppThemeStyle.defaultStyle,
+    this.darkThemeStyle = AppThemeStyle.defaultStyle,
   });
 
   AppThemeData copyWith({
     ThemeMode? themeMode,
     OptionalBox<String>? localeCode,
-
-    int? lightBgIndex,
-    int? darkBgIndex,
-    int? lightCardIndex,
-    int? darkCardIndex,
+    AppThemeStyle? lightThemeStyle,
+    AppThemeStyle? darkThemeStyle,
   }) {
     return AppThemeData(
       themeMode: themeMode ?? this.themeMode,
       localeCode: localeCode ?? this.localeCode,
-      lightBgIndex: lightBgIndex ?? this.lightBgIndex,
-      darkBgIndex: darkBgIndex ?? this.darkBgIndex,
-      lightCardIndex: lightCardIndex ?? this.lightCardIndex,
-      darkCardIndex: darkCardIndex ?? this.darkCardIndex,
+      lightThemeStyle: lightThemeStyle ?? this.lightThemeStyle,
+      darkThemeStyle: darkThemeStyle ?? this.darkThemeStyle,
     );
   }
 }

@@ -34,6 +34,11 @@ sealed class OnboardingScreenEvent extends Equatable {
   const factory OnboardingScreenEvent.didChangeSettings(bool isUsePin) =
       DidChangeSettingsEvent;
 
+  const factory OnboardingScreenEvent.pendingAccount({
+    required String pubkey,
+    required bool autoUnlock,
+  }) = PendingAccountEvent;
+
   @override
   List<Object?> get props => const [];
 }
@@ -84,4 +89,13 @@ final class SettingsEvent extends OnboardingScreenEvent {
 final class DidChangeSettingsEvent extends OnboardingScreenEvent {
   final bool isUsePin;
   const DidChangeSettingsEvent(this.isUsePin);
+}
+
+final class PendingAccountEvent extends OnboardingScreenEvent {
+  final String pubkey;
+  final bool autoUnlock;
+  const PendingAccountEvent({required this.pubkey, required this.autoUnlock});
+
+  @override
+  List<Object?> get props => [pubkey, autoUnlock];
 }

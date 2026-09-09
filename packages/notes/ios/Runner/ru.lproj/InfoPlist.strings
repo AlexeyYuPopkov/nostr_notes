@@ -1,0 +1,4 @@
+"CFBundleDisplayName" = "Private Notes (Nostr)";
+"NSPhotoLibraryUsageDescription" = "Приложению нужен доступ к фотобиблиотеке для сохранения изображений из заметок.";
+"NSFaceIDUsageDescription" = "Разблокируйте приложение для доступа к личным заметкам";
+"NSUserTrackingUsageDescription" = "Этот идентификатор используется для показа персонализированной рекламы.";

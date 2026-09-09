@@ -1,15 +1,16 @@
 import 'dart:async';
-import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:archive/archive.dart';
 import 'package:common/services/event_store/database/daos/outbox_dao_interface.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/tag/tag.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
+import 'package:nostr_notes/auth/data/backup/backup_crypto_helper.dart';
+import 'package:nostr_notes/auth/data/backup/backup_zip_helper.dart';
 import 'package:nostr_notes/auth/data/export_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
 import 'package:nostr_notes/auth/data/models/backup_payload.dart';
@@ -23,7 +24,7 @@ import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:nostr_notes/services/hex_to_bytes.dart';
 
-const _kPbkdf2Iterations = 600000;
+const _kPbkdf2Iterations = BackupCryptoHelper.defaultIterations;
 
 final class ImportUsecaseImpl implements ImportUsecase {
   final RawEventStore _eventStore;
@@ -48,7 +49,7 @@ final class ImportUsecaseImpl implements ImportUsecase {
        _now = now;
 
   @override
-  Future<void> importNotes({
+  Future<int> importNotes({
     required String password,
     String filePath = '',
     Uint8List? fileBytes,
@@ -94,15 +95,21 @@ final class ImportUsecaseImpl implements ImportUsecase {
       // 2) Load already stored notes that share a d-tag with the import, so the
       //    policy can resolve each collision. Results keep their d-tag, so the
       //    store replaces the stored version natively (addressable events).
-      final existingByDTag = await _loadExistingByDTag(plainNotes, pubkey);
+      final existing = await _loadExistingByDTag(plainNotes, pubkey);
 
       // 3) Resolve collisions, refresh summary when content changed, and build
       //    properly signed events under the current account's key.
       final eventsToStore = <NostrEvent>[];
       for (final incoming in plainNotes) {
-        final existing = existingByDTag[incoming.dTag];
-        final resolved = policy.apply(incoming, existing);
-        final note = _withFreshSummary(resolved, incoming, existing);
+        // No policy can be applied against a note we cannot read, and every
+        // one of them ends in a write that would replace it. Skipping keeps
+        // the stored ciphertext, which may still be recoverable.
+        if (existing.unreadable.contains(incoming.dTag)) {
+          continue;
+        }
+        final stored = existing.byDTag[incoming.dTag];
+        final resolved = policy.apply(incoming, stored);
+        final note = _withFreshSummary(resolved, incoming, stored);
         eventsToStore.add(
           await _buildSignedEvent(
             note: note,
@@ -117,6 +124,8 @@ final class ImportUsecaseImpl implements ImportUsecase {
       for (final event in eventsToStore) {
         await _outboxDao.insert(eventId: event.id);
       }
+
+      return existing.unreadable.length;
     } on ImportError {
       rethrow;
     } catch (e) {
@@ -130,16 +139,13 @@ final class ImportUsecaseImpl implements ImportUsecase {
   ) async {
     try {
       final bytes = fileBytes ?? await _readFile(filePath);
-      final archive = ZipDecoder().decodeBytes(bytes);
-      final jsonFile = archive.findFile(ExportUsecaseImpl.archivedFileName);
-      if (jsonFile == null) {
+      final payload = BackupZipHelper.readPayload(
+        bytes,
+        ExportUsecaseImpl.archivedFileName,
+      );
+      if (payload == null) {
         throw const ImportError(payload: ImportErrorType.invalidFile);
       }
-
-      final payload = BackupPayload.fromJson(
-        jsonDecode(utf8.decode(jsonFile.content as List<int>))
-            as Map<String, dynamic>,
-      );
       if (payload.version != 1) {
         throw const ImportError(payload: ImportErrorType.invalidFile);
       }
@@ -162,16 +168,11 @@ final class ImportUsecaseImpl implements ImportUsecase {
 
   /// Loads and decrypts the stored notes whose d-tag matches any incoming one,
   /// keyed by d-tag. Only notes authored by [pubkey] are considered.
-  Future<Map<String, Note>> _loadExistingByDTag(
-    List<Note> incoming,
-    String pubkey,
-  ) async {
-    final dTags = incoming
-        .map((n) => n.dTag)
-        .where((d) => d.isNotEmpty)
-        .toList();
+  Future<({Map<String, Note> byDTag, Set<String> unreadable})>
+  _loadExistingByDTag(List<Note> incoming, String pubkey) async {
+    final dTags = incoming.map((e) => e.dTag).toSet();
     if (dTags.isEmpty) {
-      return const {};
+      return (byDTag: const <String, Note>{}, unreadable: const <String>{});
     }
 
     final events = await _eventStore.queryEvents(
@@ -183,12 +184,20 @@ final class ImportUsecaseImpl implements ImportUsecase {
     );
 
     final result = <String, Note>{};
+    final unreadable = <String>{};
     for (final event in events) {
       final note = NoteMapper.fromNostrEvent(event);
       if (note == null) continue;
-      result[note.dTag] = await _noteCryptoUseCase.decryptNote(note);
+      try {
+        result[note.dTag] = await _noteCryptoUseCase.decryptNote(note);
+      } catch (e) {
+        // One stored note that will not open must not abort the whole
+        // import; the notes it does not collide with are still fine.
+        unreadable.add(note.dTag);
+        log(e.toString(), name: 'ImportUsecase');
+      }
     }
-    return result;
+    return (byDTag: result, unreadable: unreadable);
   }
 
   /// The summary is derived from content, so it must be regenerated whenever a
@@ -214,8 +223,12 @@ final class ImportUsecaseImpl implements ImportUsecase {
 
     final salt = HexToBytes.hexToBytes(payload.salt!);
     final iterations = payload.iterations ?? _kPbkdf2Iterations;
-    final secretKey = await ExportHelper.deriveKey(password, salt, iterations);
-    final algorithm = AesCbc.with256bits(macAlgorithm: Hmac.sha256());
+    final secretKey = await BackupCryptoHelper.deriveKey(
+      password,
+      salt,
+      iterations,
+    );
+    final algorithm = BackupCryptoHelper.algorithm();
     return _AlgData(secretKey, algorithm);
   }
 
@@ -256,18 +269,12 @@ final class ImportUsecaseImpl implements ImportUsecase {
     return algData == null ? encoded : _decryptField(encoded, algData);
   }
 
-  Future<String> _decryptField(String encoded, _AlgData algData) async {
-    if (encoded.isEmpty) return '';
-    final parts = encoded.split('?iv=');
-    final cipherText = base64Decode(parts[0]);
-    final ivAndMac = parts[1].split('&mac=');
-    final iv = base64Decode(ivAndMac[0]);
-    final mac = Mac(base64Decode(ivAndMac[1]));
-    final plainBytes = await algData.algorithm.decrypt(
-      SecretBox(cipherText, nonce: iv, mac: mac),
-      secretKey: algData.secretKey,
+  Future<String> _decryptField(String encoded, _AlgData algData) {
+    return BackupCryptoHelper.decryptField(
+      encoded,
+      algData.secretKey,
+      algData.algorithm,
     );
-    return utf8.decode(plainBytes);
   }
 
   FutureOr<List<BaseLabel>> _decryptLabelsIfNeeded(
