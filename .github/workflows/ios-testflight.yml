@@ -83,10 +83,10 @@ jobs:
           MATCH_PASSWORD: ${{ secrets.NOSTR_NOTES_MATCH_PASSWORD }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.NOSTR_NOTES_MATCH_GIT_BASIC_AUTHORIZATION }}
         run: |
-          # gym resolves the package graph a second time, in its own derived
-          # data, and SwiftPM refuses to fetch a binary target whose artifact
-          # directory the Flutter build above already created:
-          # "already exists in file system". Only the artifacts are dropped —
-          # the pins in Package.resolved still decide what gets fetched.
+          # gym archives into its own derived data, so it resolves the package
+          # graph a second time and fetches the GoogleMobileAds binary target
+          # again. Handing it a clean artifact cache avoids SwiftPM tripping
+          # over the copy the Flutter build above left there ("already exists
+          # in file system"). Package.resolved still pins what gets fetched.
           rm -rf "$HOME/Library/Caches/org.swift.swiftpm/artifacts"
           bundle exec fastlane beta
