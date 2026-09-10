@@ -1,3 +1,6 @@
 source "https://rubygems.org"
 
-gem "fastlane"
+# Pinned so the three platforms cannot drift apart: each folder has its own
+# lock, and without a constraint they resolve to whatever was newest on
+# the day someone last ran bundle. Bump all three together.
+gem "fastlane", "2.239.0"

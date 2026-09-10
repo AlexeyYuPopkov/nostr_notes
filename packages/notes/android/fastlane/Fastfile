@@ -1,3 +1,5 @@
+require 'shellwords'
+
 # This file contains the fastlane.tools configuration
 # You can find the documentation at https://docs.fastlane.tools
 #
@@ -41,8 +43,13 @@ platform :android do
     # Наши собственные устройства получают тестовые креативы, поэтому
     # случайный тап не превратится в недействительный трафик. Совпадение
     # идёт по конкретным id, остальным пользователям реклама живая.
+    # Нормализуем и экранируем: список набирают через ", ", а подстановка идёт
+    # прямо в шелл-команду — незакавыченный пробел разрывает аргумент, и
+    # flutter принимает остаток за target-файл ("Target file ... not found").
     test_device_ids = ENV['ADMOB_TEST_DEVICE_IDS'].to_s
-    ads_define = "--dart-define=ADMOB_TEST_DEVICE_IDS=#{test_device_ids}"
+      .split(',').map(&:strip).reject(&:empty?).join(',')
+    ads_define =
+      "--dart-define=ADMOB_TEST_DEVICE_IDS=#{test_device_ids}".shellescape
     UI.important("ADMOB_TEST_DEVICE_IDS пуст — на своих устройствах реклама будет живой") if test_device_ids.empty?
 
     # Собираем AAB через Flutter
