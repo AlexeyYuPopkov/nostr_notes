@@ -24,20 +24,36 @@ platform :android do
   lane :deploy do |options|
     track_name = options[:track] || 'internal' # по умолчанию internal
 
-    # Увеличиваем versionCode в pubspec.yaml
+    # Формат: 1.0.0+10
     pubspec_path = "../../pubspec.yaml"
     current_pubspec = File.read(pubspec_path)
-    version_line = current_pubspec.match(/version: (.+)/)[1]
-    
-    # Формат: 1.0.0+10
-    version_parts = version_line.split('+')
+    version_parts = current_pubspec.match(/version: (.+)/)[1].split('+')
     version_name = version_parts[0]
-    current_code = version_parts[1].to_i
-    new_code = current_code + 1
-    new_version = "#{version_name}+#{new_code}"
-    
-    # Обновляем pubspec.yaml
-    updated_pubspec = current_pubspec.gsub(/version: .+/, "version: #{new_version}")
+    pubspec_code = version_parts[1].to_i
+
+    # Номер спрашиваем у Google Play, как iOS спрашивает его у TestFlight
+    # (latest_testflight_build_number). Раньше он выводился только из
+    # pubspec.yaml, а CI не коммитит бамп обратно — поэтому каждый прогон
+    # заново получал одно и то же число и падал с "Version code N has
+    # already been used". Черновики и закрытые треки номер тоже занимают,
+    # так что берём максимум по всем трекам.
+    used_codes = %w[internal alpha beta production].flat_map do |track|
+      begin
+        google_play_track_version_codes(track: track)
+      rescue StandardError => e
+        UI.message("Трек #{track} пропущен: #{e.message}")
+        []
+      end
+    end
+
+    # pubspec как нижняя граница: если API почему-то не покажет занятый
+    # номер, версия из репозитория всё равно не даст откатиться назад.
+    new_code = [used_codes.map(&:to_i).max.to_i, pubspec_code].max + 1
+    UI.important("versionCode: #{new_code}")
+
+    updated_pubspec = current_pubspec.gsub(
+      /version: .+/, "version: #{version_name}+#{new_code}"
+    )
     File.write(pubspec_path, updated_pubspec)
     
     # Наши собственные устройства получают тестовые креативы, поэтому
