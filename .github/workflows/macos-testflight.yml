@@ -34,7 +34,9 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
+          # fastlane 2.239 pulls excon and rbs, which need Ruby >= 3.3;
+          # the Gemfile.lock is resolved against this version.
+          ruby-version: '3.4'
           bundler-cache: true
           working-directory: packages/notes/macos
 
