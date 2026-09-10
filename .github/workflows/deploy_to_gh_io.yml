@@ -1,14 +1,13 @@
 name: Deploy Flutter Web to GH Pages Repo
 
 on:
-  push:
-    branches: [main]
-    tags:
-      - 'v*'
+  # Deploys run by hand only. A push to main should not ship a build to a
+  # store or to Pages on its own — uncomment to go back to automatic.
+  # push:
+  #   branches: [main]
+  #   tags:
+  #     - 'v*'
   workflow_dispatch:
-
-# on:
-#   workflow_dispatch:
 
 jobs:
   build-and-deploy:
