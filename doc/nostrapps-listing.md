@@ -36,9 +36,10 @@ remote; `git-remote-nostr` должен лежать в `PATH`.
     ngit account login                     # nsec или nostrconnect/bunker
     git push -o 'title=...' -o 'description=...' -u nostr pr/add-private-notes
 
-Готовый клон с уже сделанным коммитом и обоими бинарниками лежит вне этого
-репозитория: `../nostrapps-com` (ветка `pr/add-private-notes`, бинарники в
-`.ngit-bin/`).
+Готовый клон с уже сделанным коммитом лежит вне этого репозитория:
+`../nostrapps-com`, ветка `pr/add-private-notes`. Бинарники `ngit` и
+`git-remote-nostr` установлены в `~/.local/bin`; git находит обработчик
+`nostr://` по имени файла в `PATH`, формулы в Homebrew для него нет.
 
 ## Готовая запись
 
@@ -61,7 +62,7 @@ features = [
   "Multiple accounts, markdown editor, labels and search",
   "No server and no sign-up — only your keypair"
 ]
-npub = "npub1euhqefc8pg5w0sjqgytqdz0n00kav49gd2rtk9egsxcqvg0j2r3syppchl"
+npub = "npub16zwpxkf2ptrygujekyfxdlt76xp32sv9dh2f9waqxw2mfrq038sq4csu8f"
 platforms = [ "android", "desktop", "ios", "web" ]
 source = "https://github.com/AlexeyYuPopkov/nostr_notes"
 thumb = "https://alexeyyupopkov.github.io/preview/icon-256.png"
@@ -86,7 +87,10 @@ Obsidian Nostr Writer и Lantern. В App Store приложение лежит �
 **`platforms`** — допустимы ровно четыре значения: `android`, `desktop`,
 `ios`, `web`. macOS идёт как `desktop`.
 
-**`npub`** обязателен. Это `devNostrPubkey` из `.env`, переведённый в bech32.
+**`npub`** обязателен. Это личный ключ автора, а не `devNostrPubkey` из
+`.env`: каталог превращает его в ссылку на njump и рендерит имя через
+`<nostr-name>`, а у ключа из `.env` нет профиля (kind 0), поэтому имя на
+карточке осталось бы пустым.
 
 **`url`** — одна ссылка на всю запись, кнопка «скачать» на карточке ведёт
 только туда. Web-сборка подходит лучше всего: открывается без установки, а на
