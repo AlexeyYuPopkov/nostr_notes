@@ -119,6 +119,8 @@ dev_dependencies:
   integration_test:
     sdk: flutter
 
+  bdd_widget_test: ^2.1.4
+
   flutter_secure_storage: ^10.3.1
   flutter_lints: ^6.0.0
 
