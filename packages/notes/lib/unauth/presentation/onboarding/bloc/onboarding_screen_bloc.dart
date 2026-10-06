@@ -29,7 +29,8 @@ final class OnboardingScreenBloc
   late final AuthUsecase authUsecase = _di.resolve();
   late final PinUsecase pinUsecase = _di.resolve();
   late final RelaysListRepo relaysListRepo = _di.resolve();
-  late final nsecPageVm = OnboardingNsecPageVm();
+  OnboardingNsecPageVm? _nsecPageVm;
+  OnboardingNsecPageVm get nsecPageVm => _nsecPageVm ??= OnboardingNsecPageVm();
   late final PinKeyboardTypeRepo _pinKeyboardTypeRepo = _di.resolve();
   late final PinEnabledRepo _pinEnabledRepo = _di.resolve();
 
@@ -132,6 +133,7 @@ final class OnboardingScreenBloc
   Future<void> close() {
     sessionSubscription?.cancel();
     sessionSubscription = null;
+    _nsecPageVm?.dispose();
     return super.close();
   }
 
