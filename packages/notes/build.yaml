@@ -1,0 +1,6 @@
+targets:
+  $default:
+    builders:
+      bdd_widget_test|featureBuilder:
+        options:
+          stepFolderName: bdd_steps

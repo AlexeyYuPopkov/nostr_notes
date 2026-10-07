@@ -6,7 +6,12 @@ pubget:
 	flutter pub get
 
 codegen:
-	melos exec --concurrency=1 -- dart run build_runner build --delete-conflicting-outputs
+	melos exec --concurrency=1 -- dart run build_runner build
+
+notes_codegen:
+	cd packages/notes && \
+	fvm dart run build_runner build && \
+	cd ../../
 
 l10n:
 	melos exec --concurrency=1 --file-exists=l10n.yaml -- flutter gen-l10n
