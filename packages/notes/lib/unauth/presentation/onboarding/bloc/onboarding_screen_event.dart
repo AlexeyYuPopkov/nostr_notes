@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:nostr_notes/common/domain/model/pin_keyboard_type.dart';
 import 'package:common/presentation/buttons/vm/loading_button_vm.dart';
+import 'package:nostr_notes/services/backup_files/backup_file_picker.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
 
 sealed class OnboardingScreenEvent extends Equatable {
@@ -22,6 +23,20 @@ sealed class OnboardingScreenEvent extends Equatable {
 
   const factory OnboardingScreenEvent.onNsecGenerated(String nsec) =
       OnNsecGeneratedEvent;
+
+  /// Encrypts the generated key into a backup file; the screen then hands
+  /// it to the user and reports back with [OnboardingScreenEvent.keyBackupSaved].
+  const factory OnboardingScreenEvent.saveKeyBackup({
+    required String password,
+    String? fileName,
+  }) = SaveKeyBackupEvent;
+
+  const factory OnboardingScreenEvent.keyBackupSaved() = KeyBackupSavedEvent;
+
+  const factory OnboardingScreenEvent.signInWithKeyBackup({
+    required PickedBackupFile file,
+    required String password,
+  }) = SignInWithKeyBackupEvent;
 
   const factory OnboardingScreenEvent.onRelaysSelected(List<String> relays) =
       OnRelaysSelectedEvent;
@@ -72,6 +87,22 @@ final class OnGenerateKeyEvent extends OnboardingScreenEvent {
 final class OnNsecGeneratedEvent extends OnboardingScreenEvent {
   final String nsec;
   const OnNsecGeneratedEvent(this.nsec);
+}
+
+final class SaveKeyBackupEvent extends OnboardingScreenEvent {
+  final String password;
+  final String? fileName;
+  const SaveKeyBackupEvent({required this.password, this.fileName});
+}
+
+final class KeyBackupSavedEvent extends OnboardingScreenEvent {
+  const KeyBackupSavedEvent();
+}
+
+final class SignInWithKeyBackupEvent extends OnboardingScreenEvent {
+  final PickedBackupFile file;
+  final String password;
+  const SignInWithKeyBackupEvent({required this.file, required this.password});
 }
 
 final class OnRelaysSelectedEvent extends OnboardingScreenEvent {

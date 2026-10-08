@@ -48,6 +48,7 @@ final class OnboardingRelaysBloc
         .map((url) => RelayInfo(url: Uri.parse(url)))
         .toSet();
     _syncClientRelays(persisted);
+    saveButtonVm.dispose();
     return super.close();
   }
 

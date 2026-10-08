@@ -3,8 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cryptography/cryptography.dart';
-import 'package:nostr_notes/auth/data/backup/backup_crypto_helper.dart';
-import 'package:nostr_notes/auth/data/backup/backup_zip_helper.dart';
+import 'package:nostr_notes/common/data/backup/backup_crypto_helper.dart';
 import 'package:nostr_notes/auth/data/login_items/export_accounts_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/models/backup_payload.dart';
 import 'package:nostr_notes/auth/data/models/login_item_payload.dart';
@@ -96,7 +95,14 @@ final class ImportAccountsUsecaseImpl implements ImportAccountsUsecase {
         }
 
         final resolved = policy.apply(item, existing);
-        await _saveLoginItemUsecase.execute(item: resolved);
+        // Save bumps created_at past the item it is given. It has to
+        // supersede the stored version, not the backup's older timestamp, or
+        // an import in the same second as a local edit ties and may lose.
+        await _saveLoginItemUsecase.execute(
+          item: existing == null
+              ? resolved
+              : resolved.copyWith(createdAt: existing.createdAt),
+        );
       }
     } on ImportAccountsError {
       rethrow;
@@ -116,7 +122,7 @@ final class ImportAccountsUsecaseImpl implements ImportAccountsUsecase {
   ) async {
     try {
       final bytes = fileBytes ?? await _readFile(filePath);
-      final payload = BackupZipHelper.readPayload(
+      final payload = BackupPayload.fromZip(
         bytes,
         ExportAccountsUsecaseImpl.archivedFileName,
       );
@@ -159,7 +165,7 @@ final class ImportAccountsUsecaseImpl implements ImportAccountsUsecase {
     }
     final salt = HexToBytes.hexToBytes(payload.salt!);
     final iterations =
-        payload.iterations ?? BackupCryptoHelper.defaultIterations;
+        payload.iterations ?? BackupCryptoHelper.legacyIterations;
     final secretKey = await BackupCryptoHelper.deriveKey(
       password,
       salt,

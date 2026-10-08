@@ -17,6 +17,7 @@ import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/user_keys.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr_notes/auth/data/export_usecase_impl.dart';
+import 'package:nostr_notes/common/data/backup/backup_crypto_helper.dart';
 import 'package:nostr_notes/auth/data/import_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/notes/get_notes_usecase_impl.dart';
 import 'package:nostr_notes/auth/domain/usecase/export_usecase.dart';
@@ -392,7 +393,7 @@ void main() {
         expect(payload.encrypted, isTrue);
         expect(payload.salt, isA<String>());
         expect(payload.salt, isNotEmpty);
-        expect(payload.iterations, equals(600000));
+        expect(payload.iterations, equals(BackupCryptoHelper.iterations));
       },
     );
 
@@ -443,7 +444,7 @@ void main() {
 
       expect(payload.version, equals(1));
       expect(payload.encrypted, isTrue);
-      expect(payload.iterations, equals(600000));
+      expect(payload.iterations, equals(BackupCryptoHelper.iterations));
       expect(payload.salt, isNotEmpty);
       expect(payload.events, hasLength(1));
 
@@ -1044,7 +1045,7 @@ Future<String> _decryptExportField(
 
   final secretKey = await Pbkdf2(
     macAlgorithm: Hmac.sha256(),
-    iterations: 600000,
+    iterations: BackupCryptoHelper.iterations,
     bits: 256,
   ).deriveKeyFromPassword(password: password, nonce: salt);
 

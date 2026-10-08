@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 
 import 'package:nostr_notes/auth/data/mappers/login_item_mapper.dart';
 import 'package:nostr_notes/auth/domain/model/encrypted_login_item.dart';
 import 'package:nostr_notes/core/event_kind.dart';
-import 'package:nostr_notes/auth/data/backup/backup_crypto_helper.dart';
-import 'package:nostr_notes/auth/data/backup/backup_zip_helper.dart';
+import 'package:nostr_notes/common/data/backup/backup_crypto_helper.dart';
+import 'package:nostr_notes/common/data/backup/backup_file_writer.dart';
+import 'package:nostr_notes/common/data/backup/backup_zip_helper.dart';
 import 'package:nostr_notes/auth/data/backup_templates_accounts.dart';
 import 'package:nostr_notes/auth/data/models/backup_payload.dart';
 import 'package:nostr_notes/auth/data/models/login_item_payload.dart';
@@ -14,7 +14,6 @@ import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/export_accounts_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/watch_login_items_usecase.dart';
 import 'package:nostr_notes/services/hex_to_bytes.dart';
-import 'package:path_provider/path_provider.dart';
 
 /// Mirrors `ExportUsecaseImpl` (notes) but over login items — see that class
 /// for the shared zip/crypto plumbing (`BackupCryptoHelper`/`BackupZipHelper`).
@@ -25,6 +24,7 @@ import 'package:path_provider/path_provider.dart';
 /// [ExportAccountsUsecase] for why).
 final class ExportAccountsUsecaseImpl implements ExportAccountsUsecase {
   static const archivedFileName = 'accounts_export.json';
+  static const _defaultFilePrefix = 'accounts_backup_';
 
   /// The same source the list screen reads from, deliberately: which items
   /// exist — tombstones, NIP-09 deletions, duplicate versions of one d-tag —
@@ -75,19 +75,23 @@ final class ExportAccountsUsecaseImpl implements ExportAccountsUsecase {
         );
       }
 
-      final resolvedFileName = _fileName(fileName);
+      final resolvedFileName = BackupZipHelper.zipFileName(
+        fileName,
+        defaultPrefix: _defaultFilePrefix,
+      );
       final Uint8List zipBytes;
       final String filePath;
       try {
         zipBytes = BackupZipHelper.buildZipBytes(
-          payload: payload,
+          json: payload.toJson(),
           archivedFileName: archivedFileName,
           decryptScript: kAccountsDecryptBackupPy,
           readme: kAccountsBackupReadmeMd,
         );
-        filePath = kIsWeb
-            ? ''
-            : await _writeToTempFile(zipBytes, resolvedFileName);
+        filePath = await BackupFileWriter.writeToTemp(
+          zipBytes,
+          resolvedFileName,
+        );
       } catch (e) {
         throw ExportAccountsError(
           payload: ExportAccountsErrorType.fileWriteFailed,
@@ -134,7 +138,7 @@ final class ExportAccountsUsecaseImpl implements ExportAccountsUsecase {
     final secretKey = await BackupCryptoHelper.deriveKey(
       password,
       salt,
-      BackupCryptoHelper.defaultIterations,
+      BackupCryptoHelper.iterations,
     );
     final algorithm = BackupCryptoHelper.algorithm();
 
@@ -182,25 +186,8 @@ final class ExportAccountsUsecaseImpl implements ExportAccountsUsecase {
       encrypted: true,
       exportedAt: DateTime.now().toUtc().toIso8601String(),
       salt: HexToBytes.bytesToHex(salt),
-      iterations: BackupCryptoHelper.defaultIterations,
+      iterations: BackupCryptoHelper.iterations,
       events: exportEvents,
     );
-  }
-
-  Future<String> _writeToTempFile(Uint8List bytes, String fileName) async {
-    final dir = await getTemporaryDirectory();
-    await dir.create(recursive: true);
-    final file = File('${dir.path}/$fileName');
-    await file.writeAsBytes(bytes);
-    return file.path;
-  }
-
-  String _fileName(String? customName) {
-    final sanitized = BackupZipHelper.sanitizeFileName(customName);
-    if (sanitized != null) return '$sanitized.zip';
-
-    const filePrefix = 'accounts_backup_';
-    final timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
-    return '$filePrefix$timestamp.zip';
   }
 }

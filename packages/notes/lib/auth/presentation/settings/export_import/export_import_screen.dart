@@ -18,13 +18,13 @@ import 'package:nostr_notes/auth/domain/usecase/login_items/export_accounts_usec
 import 'package:nostr_notes/auth/domain/usecase/login_items/import_accounts_usecase.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import/bloc/export_import_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import/bloc/export_import_state.dart';
-import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/accounts_export_password_dialog.dart';
+import 'package:nostr_notes/common/presentation/dialogs/backup_password_dialog.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/accounts_import_dialog.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/bloc/accounts_backup_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/bloc/accounts_backup_event.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/bloc/accounts_backup_state.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
-import 'package:nostr_notes/auth/presentation/tools/share_file_helper.dart';
+import 'package:nostr_notes/common/presentation/tools/share_file_helper.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 
 import 'bloc/export_import_event.dart';

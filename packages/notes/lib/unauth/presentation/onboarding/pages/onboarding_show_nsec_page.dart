@@ -4,6 +4,7 @@ import 'package:common/presentation/widgets/onboarding_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/common/presentation/dialogs/backup_password_dialog.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/buttons/prymary_button.dart';
@@ -70,7 +71,29 @@ final class OnboardingShowNsecPage extends StatelessWidget {
               onTap: () => _onCopyKey(context, nsec),
             ),
           ),
+          const SizedBox(height: Sizes.indent2x),
+          Center(
+            child: OutlinedButton.icon(
+              onPressed: () => _onSaveToFile(context),
+              icon: const Icon(Icons.save_alt),
+              label: Text(l10n.onboardingShowNsecPageButtonSaveToFile),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  Future<void> _onSaveToFile(BuildContext context) async {
+    final result = await showDialog<BackupPasswordDialogResult>(
+      context: context,
+      builder: (_) => const BackupPasswordDialog.keysExport(),
+    );
+    if (result == null || !context.mounted) return;
+    context.read<OnboardingScreenBloc>().add(
+      OnboardingScreenEvent.saveKeyBackup(
+        password: result.password,
+        fileName: result.fileName,
       ),
     );
   }

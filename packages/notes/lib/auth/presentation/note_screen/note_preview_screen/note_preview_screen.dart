@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/labels_picker.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import/export_password_dialog.dart';
-import 'package:nostr_notes/auth/presentation/tools/share_file_helper.dart';
+import 'package:nostr_notes/common/presentation/tools/share_file_helper.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
 import 'package:nostr_notes/common/presentation/layout/breakpoints.dart';
 import 'package:nostr_notes/l10n/localization.dart';

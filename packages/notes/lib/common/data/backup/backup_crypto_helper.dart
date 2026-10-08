@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:cryptography/cryptography.dart';
+import 'package:nostr_notes/app/app_config.dart';
 
 /// Password-based field encryption shared by every backup export/import
 /// usecase (notes, accounts, …): PBKDF2 key derivation, then AES-256-CBC +
@@ -10,7 +11,18 @@ import 'package:cryptography/cryptography.dart';
 /// exactly what `decrypt_backup.py` (bundled in every backup zip) expects,
 /// regardless of which content type produced it.
 abstract final class BackupCryptoHelper {
-  static const defaultIterations = 600000;
+  static const productionIterations = 600000;
+
+  /// The count is written into every backup payload and import derives with
+  /// the stored value, so changing it never breaks existing files.
+  ///
+  /// Cut down under test, like `PinKdf.pbkdf2Iterations`: at the production
+  /// value each export/import costs seconds of pure-Dart PBKDF2.
+  static int get iterations => AppConfig.kIsTest ? 1000 : productionIterations;
+
+  /// For payloads that predate the stored count; they were all written with
+  /// the production value, so this must not follow [iterations] under test.
+  static const legacyIterations = productionIterations;
 
   static Future<SecretKey> deriveKey(
     String password,

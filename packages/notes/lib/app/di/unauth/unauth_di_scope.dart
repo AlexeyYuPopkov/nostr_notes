@@ -38,6 +38,14 @@ import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
+import 'package:nostr_notes/common/data/keys_backup/export_keys_usecase_impl.dart';
+import 'package:nostr_notes/common/data/keys_backup/import_keys_usecase_impl.dart';
+import 'package:nostr_notes/common/domain/usecase/keys_backup/export_keys_usecase.dart';
+import 'package:nostr_notes/common/domain/usecase/keys_backup/import_keys_usecase.dart';
+import 'package:nostr_notes/services/backup_files/backup_file_picker.dart';
+import 'package:nostr_notes/services/backup_files/backup_file_picker_impl.dart';
+import 'package:nostr_notes/services/backup_files/file_share_service.dart';
+import 'package:nostr_notes/services/backup_files/file_share_service_impl.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
 import 'package:nostr_notes/common/domain/usecase/get_user_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -152,6 +160,30 @@ final class UnauthDiScope extends DiScope {
       ),
       module: this,
       lifeTime: const LifeTime.single(),
+    );
+
+    di.bind<FileShareService>(
+      () => const FileShareServiceImpl(),
+      module: this,
+      lifeTime: const LifeTime.single(),
+    );
+
+    di.bind<BackupFilePicker>(
+      () => const BackupFilePickerImpl(),
+      module: this,
+      lifeTime: const LifeTime.single(),
+    );
+
+    di.bind<ExportKeysUsecase>(
+      () => ExportKeysUsecaseImpl(keyToolRepository: di.resolve()),
+      module: this,
+      lifeTime: const LifeTime.prototype(),
+    );
+
+    di.bind<ImportKeysUsecase>(
+      () => ImportKeysUsecaseImpl(keyToolRepository: di.resolve()),
+      module: this,
+      lifeTime: const LifeTime.prototype(),
     );
 
     di.bind<PinUsecase>(
