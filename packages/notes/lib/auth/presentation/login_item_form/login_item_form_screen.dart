@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/export_accounts_usecase.dart';
-import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/accounts_export_password_dialog.dart';
+import 'package:nostr_notes/common/presentation/dialogs/backup_password_dialog.dart';
 import 'package:nostr_notes/auth/presentation/login_item_form/widgets/login_item_go_icon.dart';
 import 'package:nostr_notes/auth/presentation/tools/clipboard_helper.dart';
 import 'package:nostr_notes/common/presentation/tools/share_file_helper.dart';
@@ -105,10 +105,10 @@ final class LoginItemFormScreen extends StatelessWidget
   }
 
   Future<void> _onExport(BuildContext context) async {
-    final result = await showDialog<AccountsExportPasswordDialogResult>(
+    final result = await showDialog<BackupPasswordDialogResult>(
       context: context,
       barrierDismissible: true,
-      builder: (_) => const AccountsExportPasswordDialog(),
+      builder: (_) => const BackupPasswordDialog.accountsExport(),
     );
     if (result == null || !context.mounted) return;
     context.read<LoginItemFormBloc>().add(

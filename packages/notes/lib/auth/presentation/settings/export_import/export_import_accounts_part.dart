@@ -45,10 +45,10 @@ mixin _ExportAccountsHelper {
   }
 
   Future<void> onExportAccountsTap(BuildContext context) async {
-    final result = await showDialog<AccountsExportPasswordDialogResult>(
+    final result = await showDialog<BackupPasswordDialogResult>(
       context: context,
       barrierDismissible: true,
-      builder: (_) => const AccountsExportPasswordDialog(),
+      builder: (_) => const BackupPasswordDialog.accountsExport(),
     );
     if (result == null || !context.mounted) return;
     context.read<AccountsBackupBloc>().add(

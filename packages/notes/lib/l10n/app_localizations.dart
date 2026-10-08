@@ -328,6 +328,60 @@ abstract class AppLocalizations {
   /// **'Sign Up'**
   String get onboardingNsecPageButtonSignUp;
 
+  /// No description provided for @onboardingShowNsecPageButtonSaveToFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to File'**
+  String get onboardingShowNsecPageButtonSaveToFile;
+
+  /// No description provided for @onboardingShowNsecPageKeySaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Key file saved'**
+  String get onboardingShowNsecPageKeySaved;
+
+  /// No description provided for @onboardingNsecPageButtonLoadFromFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Load from File'**
+  String get onboardingNsecPageButtonLoadFromFile;
+
+  /// No description provided for @keysBackupExportDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Protect the Key File'**
+  String get keysBackupExportDialogTitle;
+
+  /// No description provided for @keysBackupExportDialogWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'The file holds your private key, encrypted with this password. You will need the password to sign in from the file — it cannot be recovered.'**
+  String get keysBackupExportDialogWarning;
+
+  /// No description provided for @keysBackupImportDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Key File Password'**
+  String get keysBackupImportDialogTitle;
+
+  /// No description provided for @keysBackupInvalidFileError.
+  ///
+  /// In en, this message translates to:
+  /// **'This file is not a key backup.'**
+  String get keysBackupInvalidFileError;
+
+  /// No description provided for @keysBackupUnsupportedVersionError.
+  ///
+  /// In en, this message translates to:
+  /// **'This key file was made by a newer version of the app. Please update.'**
+  String get keysBackupUnsupportedVersionError;
+
+  /// No description provided for @keysBackupInvalidKeyError.
+  ///
+  /// In en, this message translates to:
+  /// **'The key file contains an invalid key.'**
+  String get keysBackupInvalidKeyError;
+
   /// No description provided for @onboardingNsecPageValidationEmpty.
   ///
   /// In en, this message translates to:

@@ -31,7 +31,7 @@ void main() {
       await iOpenTheOnboardingScreen(tester);
       await iTapText(tester, 'Get Started');
       await iSeeText(tester, 'Load from File');
-    }, tags: ['wip']);
+    });
     testWidgets('''A key file with the correct password signs in''', (
       tester,
     ) async {
@@ -43,7 +43,7 @@ void main() {
       await iEnterIntoBackupPasswordField(tester, '1234');
       await iTapText(tester, 'OK');
       await iSeePage(tester, 'Select Relays');
-    }, tags: ['wip']);
+    });
     testWidgets('''A wrong password keeps the user on the sign-in page''', (
       tester,
     ) async {
@@ -56,7 +56,7 @@ void main() {
       await iTapText(tester, 'OK');
       await iSeeText(tester, 'Wrong password, or the backup is corrupted.');
       await iSeePage(tester, 'Enter your Nostr nsec');
-    }, tags: ['wip']);
+    });
     testWidgets('''A notes backup is not accepted as a key file''', (
       tester,
     ) async {
@@ -69,7 +69,7 @@ void main() {
       await iTapText(tester, 'OK');
       await iSeeText(tester, 'This file is not a key backup.');
       await iSeePage(tester, 'Enter your Nostr nsec');
-    }, tags: ['wip']);
+    });
     testWidgets('''Cancelling the file picker keeps the sign-in page''', (
       tester,
     ) async {
@@ -79,6 +79,6 @@ void main() {
       await iTapText(tester, 'Get Started');
       await iTapText(tester, 'Load from File');
       await iSeePage(tester, 'Enter your Nostr nsec');
-    }, tags: ['wip']);
+    });
   });
 }

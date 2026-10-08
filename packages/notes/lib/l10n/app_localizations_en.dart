@@ -139,6 +139,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingNsecPageButtonSignUp => 'Sign Up';
 
   @override
+  String get onboardingShowNsecPageButtonSaveToFile => 'Save to File';
+
+  @override
+  String get onboardingShowNsecPageKeySaved => 'Key file saved';
+
+  @override
+  String get onboardingNsecPageButtonLoadFromFile => 'Load from File';
+
+  @override
+  String get keysBackupExportDialogTitle => 'Protect the Key File';
+
+  @override
+  String get keysBackupExportDialogWarning =>
+      'The file holds your private key, encrypted with this password. You will need the password to sign in from the file — it cannot be recovered.';
+
+  @override
+  String get keysBackupImportDialogTitle => 'Key File Password';
+
+  @override
+  String get keysBackupInvalidFileError => 'This file is not a key backup.';
+
+  @override
+  String get keysBackupUnsupportedVersionError =>
+      'This key file was made by a newer version of the app. Please update.';
+
+  @override
+  String get keysBackupInvalidKeyError =>
+      'The key file contains an invalid key.';
+
+  @override
   String get onboardingNsecPageValidationEmpty => 'NSEC key cannot be empty';
 
   @override

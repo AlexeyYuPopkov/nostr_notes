@@ -4,7 +4,10 @@ import 'package:common/presentation/widgets/onboarding_icon.dart';
 import 'package:common/presentation/widgets/onboarding_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:di_storage/di_storage.dart';
+import 'package:nostr_notes/common/presentation/dialogs/backup_password_dialog.dart';
 import 'package:nostr_notes/l10n/localization.dart';
+import 'package:nostr_notes/services/backup_files/backup_file_picker.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/buttons/prymary_loading_button.dart';
 import 'package:common/presentation/buttons/vm/loading_button_vm.dart';
@@ -120,6 +123,14 @@ final class _OnboardingNsecSignInState extends State<OnboardingNsecSignIn>
               onTap: (vm) => _onNext(context, vm),
             ),
           ),
+          const SizedBox(height: Sizes.indent2x),
+          Center(
+            child: OutlinedButton.icon(
+              onPressed: () => _onLoadFromFile(context),
+              icon: const Icon(Icons.file_open_outlined),
+              label: Text(l10n.onboardingNsecPageButtonLoadFromFile),
+            ),
+          ),
           const SizedBox(height: Sizes.indent4x),
           Center(
             child: Text(
@@ -146,6 +157,24 @@ final class _OnboardingNsecSignInState extends State<OnboardingNsecSignIn>
     // );
     final vm = context.read<OnboardingScreenBloc>().nsecPageVm;
     vm.toggleMode();
+  }
+
+  Future<void> _onLoadFromFile(BuildContext context) async {
+    final bloc = context.read<OnboardingScreenBloc>();
+    final file = await DiStorage.shared.resolve<BackupFilePicker>().pickZip();
+    if (file == null || !context.mounted) return;
+
+    final result = await showDialog<BackupPasswordDialogResult>(
+      context: context,
+      builder: (_) => const BackupPasswordDialog.keysImport(),
+    );
+    if (result == null) return;
+    bloc.add(
+      OnboardingScreenEvent.signInWithKeyBackup(
+        file: file,
+        password: result.password,
+      ),
+    );
   }
 
   void _onNext(BuildContext context, LoadingButtonVM vm) {

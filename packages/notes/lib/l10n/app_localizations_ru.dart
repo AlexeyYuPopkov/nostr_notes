@@ -140,6 +140,37 @@ class AppLocalizationsRu extends AppLocalizations {
   String get onboardingNsecPageButtonSignUp => 'Зарегистрироваться';
 
   @override
+  String get onboardingShowNsecPageButtonSaveToFile => 'Сохранить в файл';
+
+  @override
+  String get onboardingShowNsecPageKeySaved => 'Файл с ключом сохранён';
+
+  @override
+  String get onboardingNsecPageButtonLoadFromFile => 'Загрузить из файла';
+
+  @override
+  String get keysBackupExportDialogTitle => 'Защитите файл с ключом';
+
+  @override
+  String get keysBackupExportDialogWarning =>
+      'Файл содержит ваш приватный ключ, зашифрованный этим паролем. Пароль понадобится для входа по файлу — восстановить его невозможно.';
+
+  @override
+  String get keysBackupImportDialogTitle => 'Пароль файла с ключом';
+
+  @override
+  String get keysBackupInvalidFileError =>
+      'Этот файл не является резервной копией ключа.';
+
+  @override
+  String get keysBackupUnsupportedVersionError =>
+      'Файл с ключом создан более новой версией приложения. Обновите приложение.';
+
+  @override
+  String get keysBackupInvalidKeyError =>
+      'Файл содержит недействительный ключ.';
+
+  @override
   String get onboardingNsecPageValidationEmpty =>
       'Ключ NSEC не может быть пустым';
 
