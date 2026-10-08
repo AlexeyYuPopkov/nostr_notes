@@ -13,7 +13,7 @@ import 'package:nostr_notes/auth/domain/usecase/login_items/export_accounts_usec
 import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/accounts_export_password_dialog.dart';
 import 'package:nostr_notes/auth/presentation/login_item_form/widgets/login_item_go_icon.dart';
 import 'package:nostr_notes/auth/presentation/tools/clipboard_helper.dart';
-import 'package:nostr_notes/auth/presentation/tools/share_file_helper.dart';
+import 'package:nostr_notes/common/presentation/tools/share_file_helper.dart';
 import 'package:nostr_notes/auth/presentation/home_screen/fab.dart';
 import 'package:nostr_notes/common/presentation/layout/breakpoints.dart';
 import 'package:nostr_notes/l10n/localization.dart';

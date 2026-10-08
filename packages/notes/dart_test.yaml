@@ -6,3 +6,8 @@
 tags:
   perf:
     skip: "wall-clock measurement; run with --run-skipped --tags perf"
+  # Acceptance scenarios written ahead of their feature (red by design).
+  # Drop the tag from a scenario once it passes; run them with:
+  #   flutter test --run-skipped --tags wip
+  wip:
+    skip: "feature not implemented yet; run with --run-skipped --tags wip"

@@ -1,9 +1,9 @@
 import 'dart:developer';
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 
-import 'package:nostr_notes/auth/data/backup/backup_crypto_helper.dart';
-import 'package:nostr_notes/auth/data/backup/backup_zip_helper.dart';
+import 'package:nostr_notes/common/data/backup/backup_crypto_helper.dart';
+import 'package:nostr_notes/common/data/backup/backup_file_writer.dart';
+import 'package:nostr_notes/common/data/backup/backup_zip_helper.dart';
 import 'package:nostr_notes/auth/data/backup_templates.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
@@ -15,12 +15,10 @@ import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 
 import 'package:nostr_notes/services/hex_to_bytes.dart';
-import 'package:path_provider/path_provider.dart';
-
-const _kPbkdf2Iterations = BackupCryptoHelper.defaultIterations;
 
 final class ExportUsecaseImpl implements ExportUsecase {
   static const archivedFileName = 'notes_export.json';
+  static const _defaultFilePrefix = 'notes_backup_';
 
   final NoteCryptoUseCase _noteCryptoUseCase;
   final GetNotesUsecase _getNotesUsecase;
@@ -79,12 +77,15 @@ final class ExportUsecaseImpl implements ExportUsecase {
         );
       }
 
-      final fileName = _fileName(params.fileName);
+      final fileName = BackupZipHelper.zipFileName(
+        params.fileName,
+        defaultPrefix: _defaultFilePrefix,
+      );
       final Uint8List zipBytes;
       final String filePath;
       try {
-        zipBytes = await _buildZipBytes(payload);
-        filePath = kIsWeb ? '' : await _writeToTempFile(zipBytes, fileName);
+        zipBytes = _buildZipBytes(payload);
+        filePath = await BackupFileWriter.writeToTemp(zipBytes, fileName);
       } catch (e) {
         throw ExportError(
           payload: ExportErrorType.fileWriteFailed,
@@ -138,7 +139,7 @@ final class ExportUsecaseImpl implements ExportUsecase {
       final secretKey = await BackupCryptoHelper.deriveKey(
         password,
         salt,
-        _kPbkdf2Iterations,
+        BackupCryptoHelper.iterations,
       );
       final algorithm = BackupCryptoHelper.algorithm();
       final exportEvents = <Map<String, dynamic>>[];
@@ -168,36 +169,19 @@ final class ExportUsecaseImpl implements ExportUsecase {
         encrypted: true,
         exportedAt: DateTime.now().toUtc().toIso8601String(),
         salt: HexToBytes.bytesToHex(salt),
-        iterations: _kPbkdf2Iterations,
+        iterations: BackupCryptoHelper.iterations,
         events: exportEvents,
       );
     }
   }
 
-  Future<Uint8List> _buildZipBytes(BackupPayload payload) async {
+  Uint8List _buildZipBytes(BackupPayload payload) {
     return BackupZipHelper.buildZipBytes(
-      payload: payload,
+      json: payload.toJson(),
       archivedFileName: archivedFileName,
       decryptScript: kDecryptBackupPy,
       readme: kBackupReadmeMd,
     );
-  }
-
-  Future<String> _writeToTempFile(Uint8List bytes, String fileName) async {
-    final dir = await getTemporaryDirectory();
-    await dir.create(recursive: true);
-    final file = File('${dir.path}/$fileName');
-    await file.writeAsBytes(bytes);
-    return file.path;
-  }
-
-  String _fileName(String? customName) {
-    final sanitized = BackupZipHelper.sanitizeFileName(customName);
-    if (sanitized != null) return '$sanitized.zip';
-
-    const filePrefix = 'notes_backup_';
-    final timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
-    return '$filePrefix$timestamp.zip';
   }
 
   Future<List<BaseLabel>> _encryptLabels(

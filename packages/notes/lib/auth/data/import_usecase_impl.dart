@@ -9,8 +9,7 @@ import 'package:cryptography/cryptography.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/tag/tag.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
-import 'package:nostr_notes/auth/data/backup/backup_crypto_helper.dart';
-import 'package:nostr_notes/auth/data/backup/backup_zip_helper.dart';
+import 'package:nostr_notes/common/data/backup/backup_crypto_helper.dart';
 import 'package:nostr_notes/auth/data/export_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/mappers/note_mapper.dart';
 import 'package:nostr_notes/auth/data/models/backup_payload.dart';
@@ -23,8 +22,6 @@ import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/core/tools/now.dart';
 import 'package:nostr_notes/services/hex_to_bytes.dart';
-
-const _kPbkdf2Iterations = BackupCryptoHelper.defaultIterations;
 
 final class ImportUsecaseImpl implements ImportUsecase {
   final RawEventStore _eventStore;
@@ -139,7 +136,7 @@ final class ImportUsecaseImpl implements ImportUsecase {
   ) async {
     try {
       final bytes = fileBytes ?? await _readFile(filePath);
-      final payload = BackupZipHelper.readPayload(
+      final payload = BackupPayload.fromZip(
         bytes,
         ExportUsecaseImpl.archivedFileName,
       );
@@ -222,7 +219,8 @@ final class ImportUsecaseImpl implements ImportUsecase {
     }
 
     final salt = HexToBytes.hexToBytes(payload.salt!);
-    final iterations = payload.iterations ?? _kPbkdf2Iterations;
+    final iterations =
+        payload.iterations ?? BackupCryptoHelper.legacyIterations;
     final secretKey = await BackupCryptoHelper.deriveKey(
       password,
       salt,

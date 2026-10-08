@@ -24,7 +24,7 @@ import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/bl
 import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/bloc/accounts_backup_event.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/bloc/accounts_backup_state.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
-import 'package:nostr_notes/auth/presentation/tools/share_file_helper.dart';
+import 'package:nostr_notes/common/presentation/tools/share_file_helper.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 
 import 'bloc/export_import_event.dart';

@@ -2,26 +2,29 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
-import 'package:nostr_notes/auth/data/models/backup_payload.dart';
 
 /// ZIP packaging shared by every backup export/import usecase — the payload
 /// JSON under a content-specific entry name, plus a matching README/decrypt
 /// script pair so the archive is self-describing without the app.
 abstract final class BackupZipHelper {
+  static const defaultDecryptScriptName = 'decrypt_backup.py';
+  static const readmeName = 'BACKUP_README.md';
+
   static Uint8List buildZipBytes({
-    required BackupPayload payload,
+    required Map<String, Object?> json,
     required String archivedFileName,
     required String decryptScript,
     required String readme,
+    String decryptScriptName = defaultDecryptScriptName,
   }) {
     final jsonBytes = utf8.encode(
-      const JsonEncoder.withIndent('  ').convert(payload.toJson()),
+      const JsonEncoder.withIndent('  ').convert(json),
     );
     final archive = Archive()
       ..addFile(ArchiveFile(archivedFileName, jsonBytes.length, jsonBytes));
 
-    _addTextFile(archive, 'decrypt_backup.py', decryptScript);
-    _addTextFile(archive, 'BACKUP_README.md', readme);
+    _addTextFile(archive, decryptScriptName, decryptScript);
+    _addTextFile(archive, readmeName, readme);
 
     return Uint8List.fromList(ZipEncoder().encode(archive));
   }
@@ -31,16 +34,18 @@ abstract final class BackupZipHelper {
     archive.addFile(ArchiveFile(name, bytes.length, bytes));
   }
 
-  /// Null if [archivedFileName] isn't present in the archive.
-  static BackupPayload? readPayload(List<int> bytes, String archivedFileName) {
+  /// Null if [archivedFileName] isn't present in the archive or isn't a JSON
+  /// object.
+  static Map<String, Object?>? readJson(
+    List<int> bytes,
+    String archivedFileName,
+  ) {
     final archive = ZipDecoder().decodeBytes(bytes);
     final jsonFile = archive.findFile(archivedFileName);
     if (jsonFile == null) return null;
 
-    return BackupPayload.fromJson(
-      jsonDecode(utf8.decode(jsonFile.content as List<int>))
-          as Map<String, dynamic>,
-    );
+    final decoded = jsonDecode(utf8.decode(jsonFile.content as List<int>));
+    return decoded is Map<String, Object?> ? decoded : null;
   }
 
   /// Returns a safe base file name (no extension) from user input, or null
@@ -64,5 +69,17 @@ abstract final class BackupZipHelper {
 
     if (name.length > maxLength) name = name.substring(0, maxLength);
     return name;
+  }
+
+  /// [customName] when usable, else `<defaultPrefix><timestamp>.zip`.
+  static String zipFileName(
+    String? customName, {
+    required String defaultPrefix,
+  }) {
+    final sanitized = sanitizeFileName(customName);
+    if (sanitized != null) return '$sanitized.zip';
+
+    final timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
+    return '$defaultPrefix$timestamp.zip';
   }
 }

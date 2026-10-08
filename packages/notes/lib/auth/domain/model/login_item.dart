@@ -111,6 +111,7 @@ final class LoginItem extends Equatable {
     String? notes,
     String? image,
     String? totpSecret,
+    DateTime? createdAt,
     Object? error,
     bool clearError = false,
   }) {
@@ -125,7 +126,7 @@ final class LoginItem extends Equatable {
       image: image ?? this.image,
       totpSecret: totpSecret ?? this.totpSecret,
       revision: revision,
-      createdAt: createdAt,
+      createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt,
       error: clearError ? null : (error ?? this.error),
     );
