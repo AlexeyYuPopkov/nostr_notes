@@ -201,7 +201,10 @@ final class NostrClient {
             name: 'NostrClient',
           );
         })
-        .asBroadcastStream();
+        // Not asBroadcastStream(): it never cancels its source, so every
+        // stream() call would stay subscribed to every relay after its last
+        // listener is gone. share() releases the source on the last cancel.
+        .share();
 
     return result;
   }
