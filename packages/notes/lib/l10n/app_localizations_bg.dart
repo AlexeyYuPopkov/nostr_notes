@@ -633,6 +633,18 @@ class AppLocalizationsBg extends AppLocalizations {
       'Npub е формата на публичния ви ключ, която можете да споделяте. Дайте го на другите, за да ви намерят в приложенията на Nostr.';
 
   @override
+  String get credentialsDataScreenTooltipShow => 'Покажи';
+
+  @override
+  String get credentialsDataScreenTooltipHide => 'Скрий';
+
+  @override
+  String get credentialsDataScreenTooltipCopy => 'Копирай';
+
+  @override
+  String get credentialsDataScreenTooltipSaveToFile => 'Запази във файл';
+
+  @override
   String get credentialsDataScreenLabelPin => 'ПИН';
 
   @override

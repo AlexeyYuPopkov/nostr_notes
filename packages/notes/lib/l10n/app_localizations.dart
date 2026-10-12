@@ -1180,6 +1180,30 @@ abstract class AppLocalizations {
   /// **'Your npub is the shareable form of your public key. Give it to others so they can find you in Nostr apps.'**
   String get credentialsDataScreenInfoNpub;
 
+  /// No description provided for @credentialsDataScreenTooltipShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show'**
+  String get credentialsDataScreenTooltipShow;
+
+  /// No description provided for @credentialsDataScreenTooltipHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide'**
+  String get credentialsDataScreenTooltipHide;
+
+  /// No description provided for @credentialsDataScreenTooltipCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get credentialsDataScreenTooltipCopy;
+
+  /// No description provided for @credentialsDataScreenTooltipSaveToFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to file'**
+  String get credentialsDataScreenTooltipSaveToFile;
+
   /// No description provided for @credentialsDataScreenLabelPin.
   ///
   /// In en, this message translates to:

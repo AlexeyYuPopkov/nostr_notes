@@ -624,6 +624,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your npub is the shareable form of your public key. Give it to others so they can find you in Nostr apps.';
 
   @override
+  String get credentialsDataScreenTooltipShow => 'Show';
+
+  @override
+  String get credentialsDataScreenTooltipHide => 'Hide';
+
+  @override
+  String get credentialsDataScreenTooltipCopy => 'Copy';
+
+  @override
+  String get credentialsDataScreenTooltipSaveToFile => 'Save to file';
+
+  @override
   String get credentialsDataScreenLabelPin => 'Pin';
 
   @override

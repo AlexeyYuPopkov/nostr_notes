@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/common/domain/usecase/keys_backup/export_keys_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/keys_backup/key_backup_entry.dart';
 
-import '../../tools/fakes/fake_backup_files.dart';
+import 'package:notes_test_kit/fakes/fake_backup_files.dart';
 
 /// Usage: a key backup file protected with {'1234'}
 Future<void> aKeyBackupFileProtectedWith(

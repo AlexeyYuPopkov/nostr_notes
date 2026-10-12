@@ -117,6 +117,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  notes_test_kit:
+    path: ../notes_test_kit
   integration_test:
     sdk: flutter
 
@@ -125,7 +127,9 @@ dev_dependencies:
   flutter_secure_storage: ^11.2.0
   flutter_lints: ^6.0.0
 
-  build_runner: ^2.13.1
+  # 2.16.2 needs analyzer >=14.3, but auto_route_generator -> lean_builder
+  # caps _fe_analyzer_shared <106, which holds analyzer at 14.1.
+  build_runner: '>=2.13.1 <2.16.2'
   # freezed: ^3.0.6
   json_serializable: ^6.9.5
 

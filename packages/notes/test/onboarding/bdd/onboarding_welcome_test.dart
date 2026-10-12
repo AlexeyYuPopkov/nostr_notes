@@ -4,12 +4,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import './../../bdd_steps/common/a_fresh_install.dart';
-import './../../bdd_steps/onboarding/i_open_the_onboarding_screen.dart';
-import './../../bdd_steps/common/i_see_text.dart';
-import './../../bdd_steps/common/i_tap_text.dart';
-import './../../bdd_steps/common/i_see_page.dart';
-import '../../bdd_steps/common/the_app_was_launched_before.dart';
+import 'package:notes_test_kit/bdd_steps/a_fresh_install.dart';
+import './steps/i_open_the_onboarding_screen.dart';
+import 'package:notes_test_kit/bdd_steps/i_see_text.dart';
+import 'package:notes_test_kit/bdd_steps/i_tap_text.dart';
+import 'package:notes_test_kit/bdd_steps/i_see_page.dart';
+import 'package:notes_test_kit/bdd_steps/the_app_was_launched_before.dart';
 
 void main() {
   group('''Onboarding welcome page''', () {

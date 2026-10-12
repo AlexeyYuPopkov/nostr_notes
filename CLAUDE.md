@@ -52,6 +52,7 @@ This is a Melos workspace (`melos.yaml`) with these packages:
 - **`packages/chat`** — Chat app. Uses `get_it` for DI, `auto_route` for routing.
 - **`packages/nostr`** — Pure Nostr protocol: `NostrClient`, `NostrRelay`, event models, NIP implementations.
 - **`packages/common`** — Shared models, theme (`AppTheme`, `AppBackgroundColors`), `GlobalSettingsScope`/`GlobalSettingsVm`, presentation widgets, `AppDatabase` (drift/sqlite).
+- **`packages/notes_test_kit`** — Test-only package (dev dependency of `notes`): shared BDD steps, `PumpHelpers`, `TestAppDiOverridesProxy`.
 - **`cpp/ffi/`** — Native secp256k1 crypto module. Built as an xcframework for iOS/macOS and `.so` for Android. Consumed via `CryptoService` (abstract interface with mobile/web implementations).
 
 ## Architecture (packages/notes)
@@ -128,5 +129,7 @@ tearDown(() => DiStorage.shared.removeAll());
 **Mocking** — use `Mocktail`. In-memory DB available via `InMemoryDbModule` (re-exported from `packages/common/test/tools/di/`).
 
 **Async UI** — use `PumpHelpers.waitFor(tester, finder, reason: '...')` instead of manual pump loops. Use `PumpHelpers.pumpFrames` when `pumpAndSettle` would hang due to background streams.
+
+**BDD** (`bdd_widget_test`, `*.feature` → generated `*_test.dart`, run `make codegen`) — a feature's own steps live in `steps/` next to it; steps shared across features live in `notes_test_kit/lib/bdd_steps/` and must be listed under `externalSteps` in `packages/notes/build.yaml`, or the generator creates a new stub instead.
 
 **Semantics** — use `PumpHelpers.findBySemanticsId(identifier)` to find widgets by their `Semantics.identifier` without needing the full semantics tree.

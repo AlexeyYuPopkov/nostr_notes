@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../tools/fakes/fake_backup_files.dart';
+import 'package:notes_test_kit/fakes/fake_backup_files.dart';
 
 const _timeout = Duration(seconds: 5);
 const _pollInterval = Duration(milliseconds: 50);

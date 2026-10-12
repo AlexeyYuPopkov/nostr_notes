@@ -4,17 +4,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import './../../bdd_steps/common/a_fresh_install.dart';
-import './../../bdd_steps/common/the_app_was_launched_before.dart';
-import './../../bdd_steps/keys_backup/fake_file_dialogs.dart';
-import './../../bdd_steps/onboarding/i_open_the_onboarding_screen.dart';
-import './../../bdd_steps/common/i_tap_text.dart';
-import './../../bdd_steps/common/i_see_text.dart';
-import './../../bdd_steps/keys_backup/a_key_backup_file_protected_with.dart';
-import './../../bdd_steps/keys_backup/i_enter_into_backup_password_field.dart';
-import './../../bdd_steps/common/i_see_page.dart';
-import './../../bdd_steps/keys_backup/a_notes_backup_file.dart';
-import './../../bdd_steps/keys_backup/the_file_picker_is_cancelled.dart';
+import 'package:notes_test_kit/bdd_steps/a_fresh_install.dart';
+import 'package:notes_test_kit/bdd_steps/the_app_was_launched_before.dart';
+import 'package:notes_test_kit/bdd_steps/fake_file_dialogs.dart';
+import './steps/i_open_the_onboarding_screen.dart';
+import 'package:notes_test_kit/bdd_steps/i_tap_text.dart';
+import 'package:notes_test_kit/bdd_steps/i_see_text.dart';
+import './steps/a_key_backup_file_protected_with.dart';
+import 'package:notes_test_kit/bdd_steps/i_enter_into_backup_password_field.dart';
+import 'package:notes_test_kit/bdd_steps/i_see_page.dart';
+import './steps/a_notes_backup_file.dart';
+import './steps/the_file_picker_is_cancelled.dart';
 
 void main() {
   group('''Sign in with a key backup file''', () {

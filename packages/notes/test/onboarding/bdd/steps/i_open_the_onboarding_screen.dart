@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/onboarding_screen.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/params/onboarding_screen_params.dart';
 
-import '../../tools/app_launcher/app_launcher.dart';
+import '../../../tools/app_launcher/app_launcher.dart';
 
 /// Usage: I open the onboarding screen
 Future<void> iOpenTheOnboardingScreen(WidgetTester tester) async {

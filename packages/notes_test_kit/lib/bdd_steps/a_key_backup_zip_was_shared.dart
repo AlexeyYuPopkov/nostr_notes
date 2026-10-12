@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:archive/archive.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../tools/fakes/fake_backup_files.dart';
+import 'package:notes_test_kit/fakes/fake_backup_files.dart';
 
 final _bech32Nsec = RegExp(r'nsec1[02-9ac-hj-np-z]{58}');
 

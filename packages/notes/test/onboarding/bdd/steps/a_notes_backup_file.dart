@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:archive/archive.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../tools/fakes/fake_backup_files.dart';
+import 'package:notes_test_kit/fakes/fake_backup_files.dart';
 
 /// Usage: a notes backup file
 Future<void> aNotesBackupFile(WidgetTester tester) async {

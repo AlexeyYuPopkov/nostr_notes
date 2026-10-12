@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/services/backup_files/backup_file_picker.dart';
 import 'package:nostr_notes/services/backup_files/file_share_service.dart';
 
-import '../../tools/fakes/fake_backup_files.dart';
+import 'package:notes_test_kit/fakes/fake_backup_files.dart';
 
 const _pathProviderChannel = MethodChannel('plugins.flutter.io/path_provider');
 

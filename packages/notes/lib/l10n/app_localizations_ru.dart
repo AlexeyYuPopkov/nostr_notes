@@ -635,6 +635,18 @@ class AppLocalizationsRu extends AppLocalizations {
       'Npub — это форма публичного ключа, которой можно делиться. Передайте его другим, чтобы они нашли вас в приложениях Nostr.';
 
   @override
+  String get credentialsDataScreenTooltipShow => 'Показать';
+
+  @override
+  String get credentialsDataScreenTooltipHide => 'Скрыть';
+
+  @override
+  String get credentialsDataScreenTooltipCopy => 'Копировать';
+
+  @override
+  String get credentialsDataScreenTooltipSaveToFile => 'Сохранить в файл';
+
+  @override
   String get credentialsDataScreenLabelPin => 'PIN';
 
   @override
