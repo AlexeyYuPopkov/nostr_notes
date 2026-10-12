@@ -5,3 +5,5 @@ analyzer:
     # The whole package is test code; it lives in lib/ only so tests can
     # import it via package:, which the lint can't tell apart from app code.
     invalid_use_of_visible_for_testing_member: ignore
+  exclude:
+    - build/**

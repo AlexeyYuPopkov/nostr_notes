@@ -171,6 +171,9 @@
     "accsBackupImportPolicyKeepNewestTitle": "Оставить новейший",
     "accsBackupImportPolicyKeepNewestSubtitle": "Использовать ту версию — из резервной копии или локальную — которая была изменена позже",
     "accsBackupImportSuccess": "Аккаунты успешно импортированы",
+    "keysBackupSectionTitle": "Ключи",
+    "keysBackupItemExportTitle": "Экспорт ключа",
+    "keysBackupItemExportSubtitle": "Сохраните приватный ключ аккаунта (nsec) в файл, защищённый паролем. Храните пароль надёжно — восстановить его невозможно.",
     "@exportImportPasswordTooShort": {
         "placeholders": {
             "count": {

@@ -12,6 +12,22 @@ abstract interface class PumpHelpers {
     }
   }
 
+  /// Like [WidgetTester.pumpAndSettle], but returns instead of throwing when
+  /// frames are still scheduled after [maxDuration] of fake time — e.g. a
+  /// progress indicator spinning while work runs on the real clock. Whatever
+  /// waits for that work is the caller's next step.
+  static Future<void> pumpUntilIdle(
+    WidgetTester tester, {
+    Duration maxDuration = const Duration(seconds: 5),
+  }) async {
+    const step = Duration(milliseconds: 100);
+    final maxSteps = maxDuration.inMilliseconds ~/ step.inMilliseconds;
+    for (var i = 0; i < maxSteps; i++) {
+      await tester.pump(step);
+      if (!tester.binding.hasScheduledFrame) return;
+    }
+  }
+
   /// Pumps frames until [finder] matches at least one widget.
   ///
   /// Throws if the widget doesn't appear within [timeout].

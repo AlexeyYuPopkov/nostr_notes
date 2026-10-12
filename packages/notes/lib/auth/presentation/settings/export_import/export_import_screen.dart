@@ -23,7 +23,11 @@ import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/ac
 import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/bloc/accounts_backup_bloc.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/bloc/accounts_backup_event.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/bloc/accounts_backup_state.dart';
+import 'package:nostr_notes/auth/presentation/settings/export_import_keys/bloc/keys_backup_bloc.dart';
+import 'package:nostr_notes/auth/presentation/settings/export_import_keys/bloc/keys_backup_event.dart';
+import 'package:nostr_notes/auth/presentation/settings/export_import_keys/bloc/keys_backup_state.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/settings_screen_routes.dart';
+import 'package:nostr_notes/common/presentation/error_localization/keys_backup_error_localization.dart';
 import 'package:nostr_notes/common/presentation/tools/share_file_helper.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 
@@ -31,10 +35,13 @@ import 'bloc/export_import_event.dart';
 import 'export_password_dialog.dart';
 
 part 'export_import_accounts_part.dart';
+part 'export_import_keys_part.dart';
 part 'export_inport_part.dart';
 part 'import_dialog_part.dart';
 
 final class ExportImportScreen extends StatelessWidget {
+  static const exportKeyItemSemanticsId = 'ExportImportScreen.exportKeyItem';
+
   const ExportImportScreen({super.key});
 
   @override
@@ -44,6 +51,7 @@ final class ExportImportScreen extends StatelessWidget {
         providers: [
           BlocProvider(create: (_) => ExportImportBloc()),
           BlocProvider(create: (_) => AccountsBackupBloc()),
+          BlocProvider(create: (_) => KeysBackupBloc()),
         ],
         child: const _ExportImportView(),
       ),
@@ -58,7 +66,9 @@ final class _ExportImportView extends StatelessWidget
         _ImportHelper,
         _ExportAccountsHelper,
         _ImportAccountsHelper,
-        ShareFileHelper {
+        _ExportKeyHelper,
+        ShareFileHelper,
+        KeysBackupErrorLocalization {
   const _ExportImportView();
 
   void _listener(BuildContext context, ExportImportState state) async {
@@ -182,6 +192,30 @@ final class _ExportImportView extends StatelessWidget
     }
   }
 
+  void _keysListener(BuildContext context, KeysBackupState state) {
+    ProgressHud.of(context)?.setLoading(isLoading: state is LoadingKeysState);
+
+    switch (state) {
+      case ErrorKeysState(:final error):
+        showError(
+          context,
+          error: error,
+          messageBuilder: (e) => keysBackupErrorMessage(context.l10n, e),
+        );
+      case ExportedKeysState(:final file):
+        shareFile(
+          file.filePath,
+          file.bytes,
+          file.fileName,
+          context,
+          successMessage: (l10n) => l10n.onboardingShowNsecPageKeySaved,
+        );
+      case IdleKeysState():
+      case LoadingKeysState():
+        break;
+    }
+  }
+
   String? _errorMessage(Localization l10n, Object? error) {
     return switch (error) {
       ExportError(:final payload) => switch (payload) {
@@ -243,6 +277,7 @@ final class _ExportImportView extends StatelessWidget
         BlocListener<AccountsBackupBloc, AccountsBackupState>(
           listener: _accountsListener,
         ),
+        BlocListener<KeysBackupBloc, KeysBackupState>(listener: _keysListener),
       ],
       child: Builder(
         builder: (context) {
@@ -250,6 +285,8 @@ final class _ExportImportView extends StatelessWidget
               context.watch<ExportImportBloc>().state is LoadingState;
           final accountsLoading =
               context.watch<AccountsBackupBloc>().state is LoadingAccountsState;
+          final keysLoading =
+              context.watch<KeysBackupBloc>().state is LoadingKeysState;
 
           return Scaffold(
             appBar: AppBar(title: Text(l10n.exportImportScreenTitle)),
@@ -295,6 +332,20 @@ final class _ExportImportView extends StatelessWidget
                     onTap: accountsLoading
                         ? null
                         : () => onWillImportAccountsTap(context),
+                  ),
+                  Semantics(
+                    identifier: ExportImportScreen.exportKeyItemSemanticsId,
+                    child: SettingsItemTile(
+                      title: Text(l10n.keysBackupItemExportTitle),
+                      subtitle: l10n.keysBackupItemExportSubtitle,
+                      sectionTitle: l10n.keysBackupSectionTitle,
+                      position: .single,
+                      trailing: const Icon(
+                        Icons.upload,
+                        size: Sizes.iconMedium,
+                      ),
+                      onTap: keysLoading ? null : () => onExportKeyTap(context),
+                    ),
                   ),
                 ],
               ),

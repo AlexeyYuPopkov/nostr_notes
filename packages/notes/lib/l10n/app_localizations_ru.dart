@@ -566,6 +566,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get accsBackupImportSuccess => 'Аккаунты успешно импортированы';
 
   @override
+  String get keysBackupSectionTitle => 'Ключи';
+
+  @override
+  String get keysBackupItemExportTitle => 'Экспорт ключа';
+
+  @override
+  String get keysBackupItemExportSubtitle =>
+      'Сохраните приватный ключ аккаунта (nsec) в файл, защищённый паролем. Храните пароль надёжно — восстановить его невозможно.';
+
+  @override
   String get notesListPendingSyncTitle => 'Ожидает синхронизации';
 
   @override

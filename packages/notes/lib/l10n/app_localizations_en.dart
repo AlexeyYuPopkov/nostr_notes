@@ -556,6 +556,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accsBackupImportSuccess => 'Accounts imported successfully';
 
   @override
+  String get keysBackupSectionTitle => 'Keys';
+
+  @override
+  String get keysBackupItemExportTitle => 'Export Key';
+
+  @override
+  String get keysBackupItemExportSubtitle =>
+      'Save your account\'s private key (nsec) to a password-protected file. Keep the password safe — it cannot be recovered.';
+
+  @override
   String get notesListPendingSyncTitle => 'Sync pending';
 
   @override

@@ -187,7 +187,7 @@ final class _CheckmarkAnimationState extends State<CheckmarkAnimation>
     vsync: this,
     duration: IndicatorWithCheckmark.animationDuration,
   );
-  late final Animation<double> _animation = CurvedAnimation(
+  late final CurvedAnimation _animation = CurvedAnimation(
     parent: _controller,
     curve: Curves.easeOutBack,
   );
@@ -202,6 +202,7 @@ final class _CheckmarkAnimationState extends State<CheckmarkAnimation>
 
   @override
   void dispose() {
+    _animation.dispose();
     _controller.dispose();
     super.dispose();
   }

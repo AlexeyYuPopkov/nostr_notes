@@ -1060,6 +1060,24 @@ abstract class AppLocalizations {
   /// **'Accounts imported successfully'**
   String get accsBackupImportSuccess;
 
+  /// No description provided for @keysBackupSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keys'**
+  String get keysBackupSectionTitle;
+
+  /// No description provided for @keysBackupItemExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Key'**
+  String get keysBackupItemExportTitle;
+
+  /// No description provided for @keysBackupItemExportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save your account\'s private key (nsec) to a password-protected file. Keep the password safe — it cannot be recovered.'**
+  String get keysBackupItemExportSubtitle;
+
   /// No description provided for @notesListPendingSyncTitle.
   ///
   /// In en, this message translates to:

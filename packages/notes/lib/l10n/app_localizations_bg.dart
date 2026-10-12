@@ -564,6 +564,16 @@ class AppLocalizationsBg extends AppLocalizations {
   String get accsBackupImportSuccess => 'Акаунтите са импортирани успешно';
 
   @override
+  String get keysBackupSectionTitle => 'Ключове';
+
+  @override
+  String get keysBackupItemExportTitle => 'Експорт на ключа';
+
+  @override
+  String get keysBackupItemExportSubtitle =>
+      'Запазете частния ключ на акаунта (nsec) във файл, защитен с парола. Пазете паролата — тя не може да бъде възстановена.';
+
+  @override
   String get notesListPendingSyncTitle => 'Очаква синхронизация';
 
   @override
