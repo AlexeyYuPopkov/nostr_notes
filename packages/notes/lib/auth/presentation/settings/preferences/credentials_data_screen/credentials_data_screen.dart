@@ -9,7 +9,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_data_screen/bloc/credentials_data_bloc.dart';
+import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_data_screen/bloc/credentials_data_event.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_data_screen/bloc/credentials_data_state.dart';
+import 'package:nostr_notes/common/presentation/dialogs/backup_password_dialog.dart';
+import 'package:nostr_notes/common/presentation/error_localization/keys_backup_error_localization.dart';
+import 'package:nostr_notes/common/presentation/tools/share_file_helper.dart';
 
 import 'package:nostr_notes/common/presentation/widgets/info_text.dart';
 
@@ -23,19 +27,21 @@ final class CredentialsDataScreen extends StatefulWidget with DialogHelper {
 enum _Section {
   nsec,
   privateKey,
+  npub,
   pubKey,
   pin;
 
   String title(Localization l10n) => switch (this) {
     _Section.nsec => l10n.credentialsDataScreenLabelNsec,
     _Section.privateKey => l10n.credentialsDataScreenLabelPrivateKey,
+    _Section.npub => l10n.credentialsDataScreenLabelNpub,
     _Section.pubKey => l10n.credentialsDataScreenLabelPubKey,
     _Section.pin => l10n.credentialsDataScreenLabelPin,
   };
 }
 
 final class _CredentialsDataScreenState extends State<CredentialsDataScreen>
-    with DialogHelper {
+    with DialogHelper, ShareFileHelper, KeysBackupErrorLocalization {
   final scrollController = ScrollController();
   late final _vm = SectionScrollVm<_Section>(
     scrollController: scrollController,
@@ -55,9 +61,37 @@ final class _CredentialsDataScreenState extends State<CredentialsDataScreen>
       case LoadingState():
         break;
       case ErrorState():
-        showError(context, error: state.error);
+        showError(
+          context,
+          error: state.error,
+          messageBuilder: (e) => keysBackupErrorMessage(context.l10n, e),
+        );
+        break;
+      case KeyBackupReadyState(:final file):
+        shareFile(
+          file.filePath,
+          file.bytes,
+          file.fileName,
+          context,
+          successMessage: (l10n) => l10n.onboardingShowNsecPageKeySaved,
+        );
         break;
     }
+  }
+
+  Future<void> _onSaveToFile(BuildContext context) async {
+    final bloc = context.read<CredentialsDataBloc>();
+    final result = await showDialog<BackupPasswordDialogResult>(
+      context: context,
+      builder: (_) => const BackupPasswordDialog.keysExport(),
+    );
+    if (result == null) return;
+    bloc.add(
+      CredentialsDataEvent.saveKeyBackup(
+        password: result.password,
+        fileName: result.fileName,
+      ),
+    );
   }
 
   @override
@@ -93,6 +127,7 @@ final class _CredentialsDataScreenState extends State<CredentialsDataScreen>
                   ),
                   onChangeDependencies: (ctx) =>
                       _vm.registerSection(.nsec, ctx),
+                  onSave: () => _onSaveToFile(context),
                 ),
                 InfoText(text: l10n.credentialsDataScreenWarningNsec),
                 _Item(
@@ -102,6 +137,14 @@ final class _CredentialsDataScreenState extends State<CredentialsDataScreen>
                       _vm.registerSection(.privateKey, ctx),
                 ),
                 InfoText(text: l10n.credentialsDataScreenWarningPrivateKey),
+                _Item(
+                  title: _Section.npub.title(l10n),
+                  value: state.data.npub,
+                  secure: false,
+                  onChangeDependencies: (ctx) =>
+                      _vm.registerSection(.npub, ctx),
+                ),
+                InfoText(text: l10n.credentialsDataScreenInfoNpub),
                 _Item(
                   title: _Section.pubKey.title(l10n),
                   value: state.data.pubkey,
@@ -132,6 +175,9 @@ final class _Item extends StatefulWidget {
   final EdgeInsets padding;
   final void Function(BuildContext)? onChangeDependencies;
 
+  /// Shows a "save to file" button after the copy button when set.
+  final VoidCallback? onSave;
+
   const _Item({
     required this.title,
     required this.value,
@@ -142,6 +188,7 @@ final class _Item extends StatefulWidget {
       top: Sizes.indent2x,
     ),
     this.onChangeDependencies,
+    this.onSave,
   });
 
   @override
@@ -250,8 +297,10 @@ final class _ItemState extends State<_Item> {
                     ),
                   CupertinoButton(
                     minimumSize: Size.zero,
-                    padding: const EdgeInsets.only(
-                      right: Sizes.indent,
+                    padding: EdgeInsets.only(
+                      right: widget.onSave == null
+                          ? Sizes.indent
+                          : Sizes.halfIndent,
                       left: Sizes.halfIndent,
                       top: Sizes.indent,
                       bottom: Sizes.indent,
@@ -263,6 +312,22 @@ final class _ItemState extends State<_Item> {
                       size: Sizes.padding2x,
                     ),
                   ),
+                  if (widget.onSave case final onSave?)
+                    CupertinoButton(
+                      minimumSize: Size.zero,
+                      padding: const EdgeInsets.only(
+                        right: Sizes.indent,
+                        left: Sizes.halfIndent,
+                        top: Sizes.indent,
+                        bottom: Sizes.indent,
+                      ),
+                      onPressed: onSave,
+                      child: Icon(
+                        Icons.save_alt,
+                        color: theme.colorScheme.primary,
+                        size: Sizes.padding2x,
+                      ),
+                    ),
                 ],
               ),
             ),

@@ -626,6 +626,13 @@ class AppLocalizationsBg extends AppLocalizations {
   String get credentialsDataScreenLabelPubKey => 'Публичен ключ';
 
   @override
+  String get credentialsDataScreenLabelNpub => 'Npub';
+
+  @override
+  String get credentialsDataScreenInfoNpub =>
+      'Npub е формата на публичния ви ключ, която можете да споделяте. Дайте го на другите, за да ви намерят в приложенията на Nostr.';
+
+  @override
   String get credentialsDataScreenLabelPin => 'ПИН';
 
   @override

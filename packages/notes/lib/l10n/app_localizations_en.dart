@@ -617,6 +617,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get credentialsDataScreenLabelPubKey => 'Public Key';
 
   @override
+  String get credentialsDataScreenLabelNpub => 'Npub';
+
+  @override
+  String get credentialsDataScreenInfoNpub =>
+      'Your npub is the shareable form of your public key. Give it to others so they can find you in Nostr apps.';
+
+  @override
   String get credentialsDataScreenLabelPin => 'Pin';
 
   @override

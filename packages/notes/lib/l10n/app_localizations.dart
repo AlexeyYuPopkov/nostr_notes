@@ -1168,6 +1168,18 @@ abstract class AppLocalizations {
   /// **'Public Key'**
   String get credentialsDataScreenLabelPubKey;
 
+  /// No description provided for @credentialsDataScreenLabelNpub.
+  ///
+  /// In en, this message translates to:
+  /// **'Npub'**
+  String get credentialsDataScreenLabelNpub;
+
+  /// No description provided for @credentialsDataScreenInfoNpub.
+  ///
+  /// In en, this message translates to:
+  /// **'Your npub is the shareable form of your public key. Give it to others so they can find you in Nostr apps.'**
+  String get credentialsDataScreenInfoNpub;
+
   /// No description provided for @credentialsDataScreenLabelPin.
   ///
   /// In en, this message translates to:

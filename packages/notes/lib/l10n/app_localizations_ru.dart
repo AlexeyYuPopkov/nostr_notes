@@ -628,6 +628,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get credentialsDataScreenLabelPubKey => 'Публичный ключ';
 
   @override
+  String get credentialsDataScreenLabelNpub => 'Npub';
+
+  @override
+  String get credentialsDataScreenInfoNpub =>
+      'Npub — это форма публичного ключа, которой можно делиться. Передайте его другим, чтобы они нашли вас в приложениях Nostr.';
+
+  @override
   String get credentialsDataScreenLabelPin => 'PIN';
 
   @override
