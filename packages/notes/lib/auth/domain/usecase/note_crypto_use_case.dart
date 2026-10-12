@@ -24,13 +24,11 @@ final class NoteCryptoUseCase {
   );
 
   NoteCryptoUseCase({
-    required CryptoService cryptoService,
-    required SessionUsecase sessionUsecase,
-    required ExtraDerivation extraDerivation,
+    required this._cryptoService,
+    required this._sessionUsecase,
+    required this._extraDerivation,
     bool useCache = true,
-  }) : _cryptoService = cryptoService,
-       _sessionUsecase = sessionUsecase,
-       _extraDerivation = extraDerivation;
+  });
 
   Future<Note> encryptNote(Note note) async {
     final pin = _getPin();
@@ -257,10 +255,9 @@ class ExtraDerivation {
   );
 
   ExtraDerivation({
-    required CryptoService cryptoService,
-    required SessionUsecase sessionUsecase,
-  }) : _cryptoService = cryptoService,
-       _sessionUsecase = sessionUsecase;
+    required this._cryptoService,
+    required this._sessionUsecase,
+  });
 
   Future<Uint8List> Function(Uint8List)? execute(
     String? password, {

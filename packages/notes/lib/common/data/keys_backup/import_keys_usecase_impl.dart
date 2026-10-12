@@ -15,8 +15,7 @@ import 'package:nostr_notes/services/hex_to_bytes.dart';
 final class ImportKeysUsecaseImpl implements ImportKeysUsecase {
   final KeyToolRepository _keyToolRepository;
 
-  const ImportKeysUsecaseImpl({required KeyToolRepository keyToolRepository})
-    : _keyToolRepository = keyToolRepository;
+  const ImportKeysUsecaseImpl({required this._keyToolRepository});
 
   @override
   Future<List<KeyBackupEntry>> importKeys({

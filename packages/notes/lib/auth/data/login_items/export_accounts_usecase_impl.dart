@@ -32,9 +32,7 @@ final class ExportAccountsUsecaseImpl implements ExportAccountsUsecase {
   /// list resurrects deleted accounts on the next import.
   final WatchLoginItemsUsecase _watchLoginItemsUsecase;
 
-  const ExportAccountsUsecaseImpl({
-    required WatchLoginItemsUsecase watchLoginItemsUsecase,
-  }) : _watchLoginItemsUsecase = watchLoginItemsUsecase;
+  const ExportAccountsUsecaseImpl({required this._watchLoginItemsUsecase});
 
   @override
   Future<ExportAccountsResult> exportAccounts({

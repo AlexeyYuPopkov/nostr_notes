@@ -4,8 +4,7 @@ import 'package:common/services/event_store/database/daos/outbox_dao_interface.d
 final class GetPendingUsecaseImpl implements GetPendingUsecase {
   final OutboxDaoInterface _outboxDao;
 
-  GetPendingUsecaseImpl({required OutboxDaoInterface outboxDao})
-    : _outboxDao = outboxDao;
+  GetPendingUsecaseImpl({required this._outboxDao});
 
   @override
   Stream<Set<String>> execute() {

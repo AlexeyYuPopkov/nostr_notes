@@ -283,7 +283,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingShowNsecPageButtonCopyKey.
   ///
   /// In en, this message translates to:
-  /// **'Copy Key'**
+  /// **'Copy'**
   String get onboardingShowNsecPageButtonCopyKey;
 
   /// No description provided for @onboardingShowNsecPageKeyCopied.
@@ -331,7 +331,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingShowNsecPageButtonSaveToFile.
   ///
   /// In en, this message translates to:
-  /// **'Save to File'**
+  /// **'Save'**
   String get onboardingShowNsecPageButtonSaveToFile;
 
   /// No description provided for @onboardingShowNsecPageKeySaved.

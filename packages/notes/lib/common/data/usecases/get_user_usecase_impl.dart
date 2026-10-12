@@ -14,10 +14,9 @@ final class GetUserUsecaseImpl implements GetUserUsecase {
   final RawEventStore _rawEventStore;
 
   const GetUserUsecaseImpl({
-    required AsyncFetcher asyncFetcher,
-    required RawEventStore rawEventStore,
-  }) : _asyncFetcher = asyncFetcher,
-       _rawEventStore = rawEventStore;
+    required this._asyncFetcher,
+    required this._rawEventStore,
+  });
 
   @override
   Stream<User?> execute({required String pubkey, bool force = false}) async* {

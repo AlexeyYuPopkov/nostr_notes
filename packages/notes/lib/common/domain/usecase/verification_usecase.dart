@@ -36,10 +36,10 @@ final class VerificationUsecase implements Disposable {
   VerificationUsecase({
     required this.biometricRepository,
     required this.appLifecycleListenerRepository,
-    required AuthUsecase authUsecase,
+    required this._authUsecase,
     this.maxInactiveDuration = defaultMaxInactiveDuration,
     this.debounceGuard = defaultDebounceGuard,
-  }) : _authUsecase = authUsecase;
+  });
 
   Stream<Verification> createStream({
     required BiometricRepositoryRequest biometryRequest,

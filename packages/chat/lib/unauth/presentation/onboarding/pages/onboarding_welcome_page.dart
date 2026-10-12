@@ -64,7 +64,7 @@ final class OnboardingWelcomePage extends ConsumerWidget {
           Center(
             child: PrymaryButton(
               title: l10n.onboardingWelcomeButtonNext,
-              onTap: () => _onNext(ref),
+              onPressed: () => _onNext(ref),
             ),
           ),
           const SizedBox(height: Sizes.indent2x),

@@ -322,7 +322,7 @@ final class _FolderFilterPickerContentState
             child: Center(
               child: PrymaryButton(
                 title: context.commonL10n.commonButtonDone,
-                onTap: () {
+                onPressed: () {
                   Navigator.of(context).maybePop();
                   widget.onApply(_vm.selected.value);
                 },

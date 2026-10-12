@@ -15,11 +15,10 @@ final class NostrClient {
   NostrClient({
     ChannelFactory? channelFactory,
     Uuid? uuid,
-    EventBatchParser? batchParser,
+    this._batchParser,
     this.delegate,
   }) : _channelFactory = channelFactory ?? const ChannelFactory(),
-       _uuid = uuid ?? const Uuid(),
-       _batchParser = batchParser {
+       _uuid = uuid ?? const Uuid() {
     log('NostrClient - init', name: 'NostrClient');
   }
 

@@ -10,12 +10,10 @@ class GetNoteUsecase {
   final NoteCryptoUseCase _noteCryptoUseCase;
 
   GetNoteUsecase({
-    required NotesRepository notesRepository,
-    required SessionUsecase sessionUsecase,
-    required NoteCryptoUseCase noteCryptoUseCase,
-  }) : _notesRepository = notesRepository,
-       _sessionUsecase = sessionUsecase,
-       _noteCryptoUseCase = noteCryptoUseCase;
+    required this._notesRepository,
+    required this._sessionUsecase,
+    required this._noteCryptoUseCase,
+  });
 
   Future<Note?> execute(String id) async {
     final keys = _sessionUsecase.currentSession.keys;

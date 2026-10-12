@@ -5,8 +5,7 @@ import 'package:common/services/event_store/raw_event_store.dart';
 final class GetEventRepoImpl implements GetEventRepo {
   final RawEventStore _eventStore;
 
-  const GetEventRepoImpl({required RawEventStore eventStore})
-    : _eventStore = eventStore;
+  const GetEventRepoImpl({required this._eventStore});
 
   @override
   Future<NostrEvent> getEvent(String eventId) async {

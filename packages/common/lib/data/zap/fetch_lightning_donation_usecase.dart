@@ -13,10 +13,9 @@ import 'zap_request_description.dart';
 
 final class FetchLightningDonationUsecase {
   const FetchLightningDonationUsecase({
-    required NostrClient nostrClient,
-    required RawEventStore eventStore,
-  }) : _nostrClient = nostrClient,
-       _eventStore = eventStore;
+    required this._nostrClient,
+    required this._eventStore,
+  });
 
   final NostrClient _nostrClient;
   final RawEventStore _eventStore;

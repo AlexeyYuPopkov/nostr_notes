@@ -15,14 +15,11 @@ final class AuthUsecase {
   final RelaysListRepo _relaysListRepo;
 
   AuthUsecase({
-    required SecureStorage secureStorage,
-    required SessionUsecase sessionUsecase,
-    required KeyToolRepository keyToolRepository,
-    required RelaysListRepo relaysListRepo,
-  }) : _secureStorage = secureStorage,
-       _sessionUsecase = sessionUsecase,
-       _keyToolRepository = keyToolRepository,
-       _relaysListRepo = relaysListRepo;
+    required this._secureStorage,
+    required this._sessionUsecase,
+    required this._keyToolRepository,
+    required this._relaysListRepo,
+  });
 
   Stream<Session> get session => _sessionUsecase.sessionStream;
   Session get currentSession => _sessionUsecase.currentSession;

@@ -23,12 +23,10 @@ final class CryptoServiceImplMobile implements CryptoService {
   final _mobileNip44 = const Nip44();
 
   CryptoServiceImplMobile._({
-    required Spec256k1Isolate spec256k1Isolate,
-    DeriveKeys deriveKeys = const DeriveKeys(),
-    Uint8List? randomBytes,
-  }) : _spec256k1Isolate = spec256k1Isolate,
-       _deriveKeys = deriveKeys,
-       _randomBytes = randomBytes;
+    required this._spec256k1Isolate,
+    this._deriveKeys = const DeriveKeys(),
+    this._randomBytes,
+  });
 
   factory CryptoServiceImplMobile({
     Spec256k1Isolate? spec256k1Isolate,

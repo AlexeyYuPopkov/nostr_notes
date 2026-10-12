@@ -10,9 +10,7 @@ final class PendingVm extends ValueNotifier<Set<String>> {
   final GetPendingUsecase _getPendingUsecase;
   StreamSubscription? _subscription;
 
-  PendingVm({required GetPendingUsecase getPendingUsecase})
-    : _getPendingUsecase = getPendingUsecase,
-      super({});
+  PendingVm({required this._getPendingUsecase}) : super({});
 
   bool isPending(String eventId) => value.contains(eventId);
 

@@ -12,14 +12,11 @@ final class DeleteAccUsecase {
   final AuthUsecase _authUsecase;
 
   const DeleteAccUsecase({
-    required NotesRepository notesRepository,
-    required SessionUsecase sessionUsecase,
-    required RelaysListRepo relaysListRepo,
-    required AuthUsecase authUsecase,
-  }) : _sessionUsecase = sessionUsecase,
-       _notesRepository = notesRepository,
-       _relaysListRepo = relaysListRepo,
-       _authUsecase = authUsecase;
+    required this._notesRepository,
+    required this._sessionUsecase,
+    required this._relaysListRepo,
+    required this._authUsecase,
+  });
 
   Stream<DeleteAccStatus> execute([Duration dalay = Duration.zero]) async* {
     final pubkey = _sessionUsecase.currentSession.pubkey;

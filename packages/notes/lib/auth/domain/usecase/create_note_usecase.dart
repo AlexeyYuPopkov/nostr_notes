@@ -17,13 +17,10 @@ final class CreateNoteUsecase {
   final NotesRepository _notesRepository;
 
   CreateNoteUsecase({
-    required SessionUsecase sessionUsecase,
-    required NoteCryptoUseCase noteCryptoUseCase,
-    required NotesRepository notesRepository,
-  }) : _sessionUsecase = sessionUsecase,
-
-       _noteCryptoUseCase = noteCryptoUseCase,
-       _notesRepository = notesRepository;
+    required this._sessionUsecase,
+    required this._noteCryptoUseCase,
+    required this._notesRepository,
+  });
 
   Future<Note> execute({
     required String content,

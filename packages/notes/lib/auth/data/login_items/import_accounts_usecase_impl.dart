@@ -28,12 +28,10 @@ final class ImportAccountsUsecaseImpl implements ImportAccountsUsecase {
   final SaveLoginItemUsecase _saveLoginItemUsecase;
 
   const ImportAccountsUsecaseImpl({
-    required VaultIdentityUsecase vaultIdentityUsecase,
-    required GetLoginItemUsecase getLoginItemUsecase,
-    required SaveLoginItemUsecase saveLoginItemUsecase,
-  }) : _vaultIdentityUsecase = vaultIdentityUsecase,
-       _getLoginItemUsecase = getLoginItemUsecase,
-       _saveLoginItemUsecase = saveLoginItemUsecase;
+    required this._vaultIdentityUsecase,
+    required this._getLoginItemUsecase,
+    required this._saveLoginItemUsecase,
+  });
 
   @override
   Future<int> importAccounts({

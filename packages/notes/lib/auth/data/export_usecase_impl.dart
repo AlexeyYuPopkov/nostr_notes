@@ -24,10 +24,9 @@ final class ExportUsecaseImpl implements ExportUsecase {
   final GetNotesUsecase _getNotesUsecase;
 
   const ExportUsecaseImpl({
-    required NoteCryptoUseCase noteCryptoUseCase,
-    required GetNotesUsecase getNotesUsecase,
-  }) : _noteCryptoUseCase = noteCryptoUseCase,
-       _getNotesUsecase = getNotesUsecase;
+    required this._noteCryptoUseCase,
+    required this._getNotesUsecase,
+  });
 
   @override
   Future<ExportResult> exportNotes({required ExportParams params}) async {

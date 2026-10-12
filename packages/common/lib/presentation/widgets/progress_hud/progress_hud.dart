@@ -45,8 +45,7 @@ final class ProgressHud extends InheritedWidget {
 }
 
 final class ProgressHudVm extends ChangeNotifier {
-  ProgressHudVm({HudPolicy policy = const HudPolicy.defaultValue()})
-    : _policy = policy;
+  ProgressHudVm({this._policy = const HudPolicy.defaultValue()});
   HudPolicy _policy;
 
   double? _progress;

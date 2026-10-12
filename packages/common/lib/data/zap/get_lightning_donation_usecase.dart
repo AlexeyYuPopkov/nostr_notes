@@ -7,8 +7,7 @@ import 'package:nostr/model/tag/tag_value.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 
 final class GetLightningDonationUsecase {
-  const GetLightningDonationUsecase({required RawEventStore eventStore})
-    : _eventStore = eventStore;
+  const GetLightningDonationUsecase({required this._eventStore});
 
   final RawEventStore _eventStore;
 

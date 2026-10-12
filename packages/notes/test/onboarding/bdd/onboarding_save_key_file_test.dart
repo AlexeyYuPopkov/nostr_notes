@@ -27,13 +27,13 @@ void main() {
 
     testWidgets('''The generated key can be saved to a file''', (tester) async {
       await bddSetUp(tester);
-      await iSeeText(tester, 'Save to File');
+      await iSeeText(tester, 'Save');
     });
     testWidgets('''The backup password must be at least 4 characters''', (
       tester,
     ) async {
       await bddSetUp(tester);
-      await iTapText(tester, 'Save to File');
+      await iTapText(tester, 'Save');
       await iEnterIntoBackupPasswordField(tester, '123');
       await iTapText(tester, 'OK');
       await iSeeText(tester, 'Password must be at least 4 characters');
@@ -43,7 +43,7 @@ void main() {
       tester,
     ) async {
       await bddSetUp(tester);
-      await iTapText(tester, 'Save to File');
+      await iTapText(tester, 'Save');
       await iTapText(tester, 'Cancel');
       await noFileWasShared(tester);
       await iSeeText(tester, 'Your Nostr Private Key (Nsec Key)');
@@ -52,7 +52,7 @@ void main() {
       '''A valid password shares an encrypted backup and continues onboarding''',
       (tester) async {
         await bddSetUp(tester);
-        await iTapText(tester, 'Save to File');
+        await iTapText(tester, 'Save');
         await iEnterIntoBackupPasswordField(tester, '1234');
         await iTapText(tester, 'OK');
         await theKeyFileIsPrepared(tester);

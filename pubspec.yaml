@@ -3,7 +3,7 @@ name: nostr_workspace
 publish_to: none
 
 environment:
-  sdk: ">=3.11.0 <4.0.0"
+  sdk: ^3.12.0
 
 workspace:
   - packages/common
@@ -13,7 +13,7 @@ workspace:
 
 
 dev_dependencies:
-  melos: ^7.5.0
+  melos: ^8.9.0
 
 melos:
   command:

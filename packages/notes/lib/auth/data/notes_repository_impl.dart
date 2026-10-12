@@ -34,16 +34,12 @@ class NotesRepositoryImpl with GetNotesFiltering implements NotesRepository {
   final Now _now;
 
   const NotesRepositoryImpl({
-    required NostrClient client,
-    required RawEventStore eventStore,
-    required OutboxDaoInterface outboxDao,
-    NostrEventCreator eventCreator = const NostrEventCreator(),
-    Now now = const Now(),
-  }) : _client = client,
-       _eventStore = eventStore,
-       _outboxDao = outboxDao,
-       _eventCreator = eventCreator,
-       _now = now;
+    required this._client,
+    required this._eventStore,
+    required this._outboxDao,
+    this._eventCreator = const NostrEventCreator(),
+    this._now = const Now(),
+  });
 
   @override
   void syncRelays(Set<String> newRelays) {

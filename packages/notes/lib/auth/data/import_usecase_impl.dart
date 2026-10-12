@@ -32,18 +32,13 @@ final class ImportUsecaseImpl implements ImportUsecase {
   final Now _now;
 
   const ImportUsecaseImpl({
-    required RawEventStore eventStore,
-    required NoteCryptoUseCase noteCryptoUseCase,
-    required SessionUsecase sessionUsecase,
-    required OutboxDaoInterface outboxDao,
-    NostrEventCreator eventCreator = const NostrEventCreator(),
-    Now now = const Now(),
-  }) : _eventStore = eventStore,
-       _noteCryptoUseCase = noteCryptoUseCase,
-       _sessionUsecase = sessionUsecase,
-       _outboxDao = outboxDao,
-       _eventCreator = eventCreator,
-       _now = now;
+    required this._eventStore,
+    required this._noteCryptoUseCase,
+    required this._sessionUsecase,
+    required this._outboxDao,
+    this._eventCreator = const NostrEventCreator(),
+    this._now = const Now(),
+  });
 
   @override
   Future<int> importNotes({

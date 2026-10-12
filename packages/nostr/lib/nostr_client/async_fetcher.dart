@@ -10,7 +10,7 @@ import 'package:nostr/nostr_client/nostr_client.dart';
 final class AsyncFetcher {
   final NostrClient _client;
 
-  AsyncFetcher({required NostrClient client}) : _client = client;
+  AsyncFetcher({required this._client});
 
   Future<ResultWithRelay> fetchEvents({
     required NostrReq req,

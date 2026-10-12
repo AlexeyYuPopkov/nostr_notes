@@ -6,6 +6,7 @@ import 'package:common/services/event_store/database/daos/nostr_event_dao.dart';
 import 'package:common/services/event_store/database/daos/outbox_dao_interface.dart';
 import 'package:common/services/event_store/drift_event_store.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
+
 // import 'package:sqlite3/open.dart';
 
 // void _ensureSqlite3() {

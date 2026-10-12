@@ -76,8 +76,8 @@ void main() {
         expect(find.byType(OnboardingShowNsecPage), findsOneWidget);
         expect(find.text('Your Nostr Private Key (Nsec Key)'), findsOneWidget);
 
-        // Tap "Copy Key" — this saves the key and authenticates the user
-        final copyKeyButton = find.text('Copy Key');
+        // Tap "Copy" — this saves the key and authenticates the user
+        final copyKeyButton = find.text('Copy');
         expect(copyKeyButton, findsOneWidget);
         await tester.tap(copyKeyButton);
         await tester.pumpAndSettle(const Duration(seconds: 2));
@@ -173,8 +173,8 @@ void main() {
         await tester.tap(find.text('Generate a Nostr Key'));
         await tester.pumpAndSettle();
 
-        // Show Nsec → Copy Key
-        await tester.tap(find.text('Copy Key'));
+        // Show Nsec → Copy
+        await tester.tap(find.text('Copy'));
         await tester.pumpAndSettle(const Duration(seconds: 2));
 
         // Enter a custom relay URL in the input field

@@ -32,7 +32,7 @@ final class CryptoServiceImplWeb with HexToBytes implements CryptoService {
   )
   _spec256k1Wasm;
 
-  CryptoServiceImplWeb._({Uint8List? randomBytes}) : _randomBytes = randomBytes;
+  CryptoServiceImplWeb._({this._randomBytes});
 
   factory CryptoServiceImplWeb({Uint8List? randomBytes}) {
     return _instance ??= CryptoServiceImplWeb._(randomBytes: randomBytes);

@@ -17,8 +17,7 @@ final class ExportKeysUsecaseImpl implements ExportKeysUsecase {
 
   final KeyToolRepository _keyToolRepository;
 
-  const ExportKeysUsecaseImpl({required KeyToolRepository keyToolRepository})
-    : _keyToolRepository = keyToolRepository;
+  const ExportKeysUsecaseImpl({required this._keyToolRepository});
 
   @override
   Future<KeysBackupFile> exportKeys({

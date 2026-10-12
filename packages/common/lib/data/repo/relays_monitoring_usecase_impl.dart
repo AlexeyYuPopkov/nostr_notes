@@ -11,10 +11,9 @@ final class RelaysMonitoringUsecaseImpl implements RelaysMonitoringUsecase {
   late final StreamSubscription<bool> _lifecycleSub;
 
   RelaysMonitoringUsecaseImpl({
-    required RelaysMonitor monitor,
-    required AppLifecycleListenerRepository lifecycle,
-  }) : _monitor = monitor,
-       _lifecycle = lifecycle {
+    required this._monitor,
+    required this._lifecycle,
+  }) {
     _lifecycleSub = _lifecycle.isActiveStream.listen((isActive) {
       if (isActive) {
         _monitor.resume();

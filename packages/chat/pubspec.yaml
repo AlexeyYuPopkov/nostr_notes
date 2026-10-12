@@ -3,7 +3,7 @@ description: Nostr chat
 version: 0.0.1
 publish_to: none
 environment:
-  sdk: ">=3.11.0 <4.0.0"
+  sdk: ^3.12.0
 
 # Melos
 resolution: workspace
@@ -20,7 +20,7 @@ dependencies:
     
   flutter_web_plugins:
     sdk: flutter
-  cupertino_icons: ^1.0.9
+  cupertino_icons: ^2.0.0
 
   get_it: ^9.2.1
   auto_route: ^11.1.0
@@ -33,7 +33,7 @@ dependencies:
   shared_preferences: ^2.5.5
 
   collection: ^1.19.0
-  equatable: ^2.0.8
+  equatable: ^3.0.0
   json_annotation: ^4.11.0
 
   flutter_svg: ^2.2.4

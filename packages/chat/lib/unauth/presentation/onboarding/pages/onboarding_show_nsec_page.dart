@@ -67,7 +67,7 @@ final class OnboardingShowNsecPage extends ConsumerWidget {
           Center(
             child: PrymaryButton(
               title: l10n.onboardingShowNsecPageButtonCopyKey,
-              onTap: () => _onCopyKey(context, ref, nsec),
+              onPressed: () => _onCopyKey(context, ref, nsec),
             ),
           ),
         ],

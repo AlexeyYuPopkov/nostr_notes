@@ -16,14 +16,11 @@ final class SyncLoginItemsUsecaseImpl implements SyncLoginItemsUsecase {
   final VaultIdentityUsecase _vaultIdentityUsecase;
 
   const SyncLoginItemsUsecaseImpl({
-    required NostrClient client,
-    required RawEventStore eventStore,
-    required RelaysListRepo relaysListRepo,
-    required VaultIdentityUsecase vaultIdentityUsecase,
-  }) : _client = client,
-       _eventStore = eventStore,
-       _relaysListRepo = relaysListRepo,
-       _vaultIdentityUsecase = vaultIdentityUsecase;
+    required this._client,
+    required this._eventStore,
+    required this._relaysListRepo,
+    required this._vaultIdentityUsecase,
+  });
 
   @override
   Stream<List<dynamic>> execute() {

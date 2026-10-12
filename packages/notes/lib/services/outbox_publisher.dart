@@ -25,17 +25,13 @@ import 'package:rxdart/rxdart.dart';
 /// [_isProcessing], so no per-row "in flight" state is needed.
 class OutboxPublisher implements Disposable {
   OutboxPublisher({
-    required OutboxDaoInterface outboxDao,
-    required RawEventStore rawEventStore,
-    required RelaysListRepo relaysListRepo,
-    required ChannelFactory channelFactory,
-    required Connectivity connectivity,
+    required this._outboxDao,
+    required this._rawEventStore,
+    required this._relaysListRepo,
+    required this._channelFactory,
+    required this._connectivity,
     this.connectivityDebounce = const Duration(seconds: 2),
-  }) : _outboxDao = outboxDao,
-       _rawEventStore = rawEventStore,
-       _relaysListRepo = relaysListRepo,
-       _channelFactory = channelFactory,
-       _connectivity = connectivity;
+  });
 
   final OutboxDaoInterface _outboxDao;
   final RawEventStore _rawEventStore;

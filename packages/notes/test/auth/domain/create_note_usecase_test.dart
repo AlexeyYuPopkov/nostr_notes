@@ -155,70 +155,66 @@ void main() {
       expect(pending.first.eventId, isNotEmpty);
     });
 
-    test(
-      'a note saved with a PIN can be read back and decrypted',
-      () async {
-        when(() => mockUuid.v1()).thenReturn('uuid-v1');
+    test('a note saved with a PIN can be read back and decrypted', () async {
+      when(() => mockUuid.v1()).thenReturn('uuid-v1');
 
-        final di = DiStorage.shared;
-        final sessionUsecase = SessionUsecase()
-          ..setSession(
-            const Unlocked(
-              keys: UserKeys(
-                publicKey: SomeMokedData.publicKey,
-                privateKey: SomeMokedData.privateKey,
-              ),
-              pin: '1234',
+      final di = DiStorage.shared;
+      final sessionUsecase = SessionUsecase()
+        ..setSession(
+          const Unlocked(
+            keys: UserKeys(
+              publicKey: SomeMokedData.publicKey,
+              privateKey: SomeMokedData.privateKey,
             ),
-          );
-        // The real ExtraDerivation, not the mock the other tests use: the KDF
-        // version has to survive the trip through the event's tags, and a null
-        // derivation never exercises that.
-        final crypto = NoteCryptoUseCase(
-          sessionUsecase: sessionUsecase,
+            pin: '1234',
+          ),
+        );
+      // The real ExtraDerivation, not the mock the other tests use: the KDF
+      // version has to survive the trip through the event's tags, and a null
+      // derivation never exercises that.
+      final crypto = NoteCryptoUseCase(
+        sessionUsecase: sessionUsecase,
+        cryptoService: sut4,
+        extraDerivation: ExtraDerivation(
           cryptoService: sut4,
-          extraDerivation: ExtraDerivation(
-            cryptoService: sut4,
-            sessionUsecase: sessionUsecase,
-          ),
-        );
-        final usecase = CreateNoteUsecase(
           sessionUsecase: sessionUsecase,
-          noteCryptoUseCase: crypto,
-          notesRepository: NotesRepositoryImpl(
-            client: client,
-            outboxDao: sut2,
-            eventStore: di.resolve(),
-            eventCreator: const NostrEventCreator(
-              randomBytes: SomeMokedData.randomBytes,
-            ),
+        ),
+      );
+      final usecase = CreateNoteUsecase(
+        sessionUsecase: sessionUsecase,
+        noteCryptoUseCase: crypto,
+        notesRepository: NotesRepositoryImpl(
+          client: client,
+          outboxDao: sut2,
+          eventStore: di.resolve(),
+          eventCreator: const NostrEventCreator(
+            randomBytes: SomeMokedData.randomBytes,
           ),
-        );
+        ),
+      );
 
-        await usecase.execute(
-          content: 'message',
-          noteToEdit: null,
-          now: mockNow,
-          uuid: mockUuid,
-        );
+      await usecase.execute(
+        content: 'message',
+        noteToEdit: null,
+        now: mockNow,
+        uuid: mockUuid,
+      );
 
-        final RawEventStore store = di.resolve();
-        final stored = await store.queryEvents(
-          const RawEventQuery(kinds: [30023]),
-        );
-        final saved = NoteMapper.fromNostrEvent(stored.single)!;
+      final RawEventStore store = di.resolve();
+      final stored = await store.queryEvents(
+        const RawEventQuery(kinds: [30023]),
+      );
+      final saved = NoteMapper.fromNostrEvent(stored.single)!;
 
-        expect(
-          saved.kdf,
-          PinKdf.current,
-          reason:
-              'the KDF version must be recorded on the event itself — without '
-              'it the note reads back as legacy and decrypts to garbage',
-        );
-        expect((await crypto.decryptNote(saved)).content, 'message');
-      },
-      timeout: const Timeout(Duration(minutes: 2)),
-    );
+      expect(
+        saved.kdf,
+        PinKdf.current,
+        reason:
+            'the KDF version must be recorded on the event itself — without '
+            'it the note reads back as legacy and decrypts to garbage',
+      );
+      expect((await crypto.decryptNote(saved)).content, 'message');
+    }, timeout: const Timeout(Duration(minutes: 2)));
 
     test('OutboxPublisher picks up event and publishes to both relays', () async {
       const eventId =

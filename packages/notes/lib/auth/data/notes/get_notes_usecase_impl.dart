@@ -20,13 +20,10 @@ class GetNotesUsecaseImpl with GetNotesFiltering implements GetNotesUsecase {
 
   GetNotesUsecaseImpl({
     // required NotesRepository notesRepository,
-    required SessionUsecase sessionUsecase,
-    required NoteCryptoUseCase noteCryptoUseCase,
-    required RawEventStore eventStore,
-  }) : // _notesRepository = notesRepository,
-       _sessionUsecase = sessionUsecase,
-       _noteCryptoUseCase = noteCryptoUseCase,
-       _eventStore = eventStore;
+    required this._sessionUsecase,
+    required this._noteCryptoUseCase,
+    required this._eventStore,
+  });
 
   @override
   Stream<List<Note>> execute() {

@@ -177,7 +177,7 @@ final class _LabelsPickerContentState extends State<_LabelsPickerContent> {
                 return Center(
                   child: PrymaryButton(
                     title: context.commonL10n.commonButtonDone,
-                    onTap: _vm.canUpdate
+                    onPressed: _vm.canUpdate
                         ? () {
                             Navigator.of(context).maybePop();
                             widget.onApply(selected.toList());

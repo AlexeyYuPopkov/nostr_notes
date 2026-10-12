@@ -114,7 +114,7 @@ class AppLocalizationsBg extends AppLocalizations {
       '🚫 **Личен** – всеки, притежаващ този ключ, ще получи достъп до акаунта ви. Никога не го споделяйте.';
 
   @override
-  String get onboardingShowNsecPageButtonCopyKey => 'Копирай ключ';
+  String get onboardingShowNsecPageButtonCopyKey => 'Копирай';
 
   @override
   String get onboardingShowNsecPageKeyCopied => 'Ключът е копиран в клипборда';
@@ -140,7 +140,7 @@ class AppLocalizationsBg extends AppLocalizations {
   String get onboardingNsecPageButtonSignUp => 'Регистрирай се';
 
   @override
-  String get onboardingShowNsecPageButtonSaveToFile => 'Запази във файл';
+  String get onboardingShowNsecPageButtonSaveToFile => 'Запази';
 
   @override
   String get onboardingShowNsecPageKeySaved => 'Файлът с ключа е запазен';

@@ -138,31 +138,29 @@ void main() {
       expect(find.byType(BackdropFilter), findsNothing);
     }, timeout: maxTimeout);
 
-    testWidgets(
-      'overlay is removed when app returns to foreground quickly',
-      (tester) async {
-        sessionUsecase.setSession(unlockedSession);
-        // Rebuild with large maxInactiveDuration so quick return skips biometry
-        DiStorage.shared.remove<VerificationUsecase>();
-        verificationUsecase = VerificationUsecase(
-          biometricRepository: biometry,
-          appLifecycleListenerRepository: lifecycle,
-          authUsecase: buildAuthUsecase(),
-        );
-        bindVerificationUsecase();
+    testWidgets('overlay is removed when app returns to foreground quickly', (
+      tester,
+    ) async {
+      sessionUsecase.setSession(unlockedSession);
+      // Rebuild with large maxInactiveDuration so quick return skips biometry
+      DiStorage.shared.remove<VerificationUsecase>();
+      verificationUsecase = VerificationUsecase(
+        biometricRepository: biometry,
+        appLifecycleListenerRepository: lifecycle,
+        authUsecase: buildAuthUsecase(),
+      );
+      bindVerificationUsecase();
 
-        await pumpSubject(tester);
+      await pumpSubject(tester);
 
-        lifecycle.isActiveStream.add(false);
-        await tester.pump(debounce);
-        expect(find.byType(BackdropFilter), findsOneWidget);
+      lifecycle.isActiveStream.add(false);
+      await tester.pump(debounce);
+      expect(find.byType(BackdropFilter), findsOneWidget);
 
-        lifecycle.isActiveStream.add(true);
-        await tester.pump(debounce);
-        expect(find.byType(BackdropFilter), findsNothing);
-      },
-      timeout: maxTimeout,
-    );
+      lifecycle.isActiveStream.add(true);
+      await tester.pump(debounce);
+      expect(find.byType(BackdropFilter), findsNothing);
+    }, timeout: maxTimeout);
 
     testWidgets('overlay absorbs pointer events while shown', (tester) async {
       sessionUsecase.setSession(unlockedSession);

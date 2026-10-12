@@ -29,9 +29,9 @@ final class RelayMonitorTicker {
   Timer? _timer;
 
   RelayMonitorTicker({
-    required NostrClient client,
+    required this._client,
     this.interval = const Duration(seconds: 15),
-  }) : _client = client;
+  });
 
   void start() {
     _timer?.cancel();

@@ -113,7 +113,7 @@ class AppLocalizationsEn extends AppLocalizations {
       '🚫 **Private** – Anyone with this key can access your account. Never share it.';
 
   @override
-  String get onboardingShowNsecPageButtonCopyKey => 'Copy Key';
+  String get onboardingShowNsecPageButtonCopyKey => 'Copy';
 
   @override
   String get onboardingShowNsecPageKeyCopied => 'Key copied to clipboard';
@@ -139,7 +139,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingNsecPageButtonSignUp => 'Sign Up';
 
   @override
-  String get onboardingShowNsecPageButtonSaveToFile => 'Save to File';
+  String get onboardingShowNsecPageButtonSaveToFile => 'Save';
 
   @override
   String get onboardingShowNsecPageKeySaved => 'Key file saved';
