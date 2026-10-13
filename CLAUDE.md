@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-**Flutter version**: 3.44.0 (managed via FVM — use `fvm flutter` or ensure the correct version is active)
+**Flutter version**: pinned in `.fvmrc` (currently 3.47.7), managed via FVM — use `fvm flutter`. CI reads the same file (`flutter-version-file: .fvmrc`).
 
 ```bash
 # Install dependencies (all packages via Melos)
