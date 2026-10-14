@@ -16,7 +16,7 @@ final class AccountChipVM extends ChangeNotifier {
 
   AccountChipVM({required this.pubkey, required this.getUserUsecase}) {
     _subscription = getUserUsecase.execute(pubkey: pubkey).listen((user) {
-      if (user == null || user == _user) return;
+      if (user == null) return;
 
       _user = user;
       notifyListeners();

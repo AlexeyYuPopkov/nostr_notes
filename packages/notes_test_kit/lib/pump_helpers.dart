@@ -28,6 +28,14 @@ abstract interface class PumpHelpers {
     }
   }
 
+  /// Unmounts the tree and fires the zero timers its disposal scheduled — drift
+  /// closes a cancelled `watch()` query in a `Timer.run`, which otherwise fails
+  /// the test with "A Timer is still pending".
+  static Future<void> unmount(WidgetTester tester) async {
+    await tester.pumpWidget(const SizedBox());
+    await tester.pump(Duration.zero);
+  }
+
   /// Pumps frames until [finder] matches at least one widget.
   ///
   /// Throws if the widget doesn't appear within [timeout].

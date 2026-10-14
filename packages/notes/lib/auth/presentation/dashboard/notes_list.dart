@@ -13,6 +13,7 @@ import 'package:nostr_notes/auth/presentation/account_switcher/account_switcher_
 import 'package:nostr_notes/common/presentation/account_avatar.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes_list_tab.dart';
 import 'package:nostr_notes/common/domain/usecase/get_user_usecase.dart';
+import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/acc_switcher/account_chip_vm.dart';
 import 'package:nostr_notes/l10n/localization.dart';
@@ -367,17 +368,31 @@ final class _AccountSwitcherButton extends StatefulWidget {
 }
 
 final class _AccountSwitcherButtonState extends State<_AccountSwitcherButton> {
-  late final _pubkey = DiStorage.shared
-      .resolve<SessionUsecase>()
-      .currentSession
-      .pubkey;
-  late final _vm = AccountChipVM(
-    pubkey: _pubkey,
-    getUserUsecase: DiStorage.shared.resolve<GetUserUsecase>(),
-  );
+  final _sessionUsecase = DiStorage.shared.resolve<SessionUsecase>();
+  final _getUserUsecase = DiStorage.shared.resolve<GetUserUsecase>();
+  late var _pubkey = _sessionUsecase.currentSession.pubkey;
+  late var _vm = _createVm();
+  StreamSubscription<Session>? _sessionSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _sessionSubscription = _sessionUsecase.sessionStream.listen((session) {
+      if (session.pubkey == _pubkey) return;
+      _vm.dispose();
+      setState(() {
+        _pubkey = session.pubkey;
+        _vm = _createVm();
+      });
+    });
+  }
+
+  AccountChipVM _createVm() =>
+      AccountChipVM(pubkey: _pubkey, getUserUsecase: _getUserUsecase);
 
   @override
   void dispose() {
+    _sessionSubscription?.cancel();
     _vm.dispose();
     super.dispose();
   }
