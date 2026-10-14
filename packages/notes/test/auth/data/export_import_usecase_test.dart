@@ -11,6 +11,7 @@ import 'package:cryptography/cryptography.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostr/key_tool/key_tool.dart';
 import 'package:nostr/model/nostr_event.dart';
@@ -636,13 +637,15 @@ void main() {
           }
         };
 
+        final client = NostrClient(channelFactory: channelFactory);
+        addTearDown(client.disconnectAndDispose);
         final publisher = OutboxPublisher(
           outboxDao: outboxDao,
           rawEventStore: eventStore,
           relaysListRepo: MockRelaysListRepo.withRelays({
             MockRelaysListRepo.relayUrl1,
           }),
-          channelFactory: channelFactory,
+          client: client,
           connectivity: _MockConnectivity(),
         );
         addTearDown(publisher.dispose);

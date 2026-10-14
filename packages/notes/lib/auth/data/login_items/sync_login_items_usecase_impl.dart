@@ -27,7 +27,7 @@ final class SyncLoginItemsUsecaseImpl implements SyncLoginItemsUsecase {
     final vaultPubkey = _vaultIdentityUsecase.execute().publicKey;
 
     return _relaysListRepo.relaysListStream.switchMap((relays) {
-      _syncRelays(relays);
+      _client.syncRelays(relays);
 
       final subscriptionId = _client.sendRequestToAll(
         NostrReq(
@@ -59,13 +59,5 @@ final class SyncLoginItemsUsecaseImpl implements SyncLoginItemsUsecase {
           })
           .doOnCancel(() => _client.sendCloseForAll(subscriptionId));
     });
-  }
-
-  void _syncRelays(Set<String> relays) {
-    final current = _client.relaysList.toSet();
-    for (final removed in current.difference(relays)) {
-      _client.removeRelay(removed);
-    }
-    _client.addRelays(relays.difference(current));
   }
 }

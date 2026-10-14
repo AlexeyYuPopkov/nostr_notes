@@ -96,6 +96,15 @@ final class NostrClient {
     _relaySubject.add({...?_relaySubject.valueOrNull, ...validUrls});
   }
 
+  /// Connects to the relays in [urls] that are missing and drops the rest.
+  void syncRelays(Set<String> urls) {
+    final current = relays.toSet();
+    for (final removed in current.difference(urls)) {
+      removeRelay(removed);
+    }
+    addRelays(urls.difference(current));
+  }
+
   Future<void> removeRelay(String url) async {
     final relay = _relays[url];
     await relay?.disconnect();

@@ -169,7 +169,7 @@ void main() {
         relaysListRepo: MockRelaysListRepo.withRelays({
           MockRelaysListRepo.relayUrl1,
         }),
-        channelFactory: channelFactory,
+        client: client,
         connectivity: _MockConnectivity(),
       );
 

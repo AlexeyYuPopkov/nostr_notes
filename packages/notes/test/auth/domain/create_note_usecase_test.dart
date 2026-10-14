@@ -104,7 +104,7 @@ void main() {
         outboxDao: sut2,
         rawEventStore: di.resolve(),
         relaysListRepo: MockRelaysListRepo.withStubRelays(),
-        channelFactory: channelFactory,
+        client: client,
         connectivity: _MockConnectivity(),
       );
 

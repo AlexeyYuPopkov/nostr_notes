@@ -42,13 +42,7 @@ class NotesRepositoryImpl with GetNotesFiltering implements NotesRepository {
   });
 
   @override
-  void syncRelays(Set<String> newRelays) {
-    final current = _client.relaysList.toSet();
-    for (final removed in current.difference(newRelays)) {
-      _client.removeRelay(removed);
-    }
-    _client.addRelays(newRelays.difference(current));
-  }
+  void syncRelays(Set<String> newRelays) => _client.syncRelays(newRelays);
 
   // Only the kinds this repository itself requests (see sendNotesRequest /
   // sendNoteRequest). _client.stream() is shared/broadcast across every
