@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/nip44_exception.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
@@ -16,8 +15,6 @@ import 'package:nostr_notes/auth/presentation/note_screen/note_preview_screen/bl
 import 'package:common/domain/repo/app_lifecycle_listener_repository.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:common/presentation/tools/optional_box.dart';
-import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
-import 'package:nostr_notes/services/ads/ads_service.dart';
 import 'package:nostr_notes/services/outbox_publisher.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -33,8 +30,6 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
   late final OutboxPublisher _outbox = _di.resolve();
   late final AppLifecycleListenerRepository _appLifecycleListener = _di
       .resolve();
-  late final VerificationUsecase _verificationUsecase = _di.resolve();
-  late final AdsService _adsService = _di.resolve();
   StreamSubscription? _getNoteSubscription;
   StreamSubscription? _fetchNoteSubscription;
   StreamSubscription? _lifecycleSubscription;
@@ -187,10 +182,6 @@ final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {
     WillExportNoteEvent event,
     Emitter<NotePreviewState> emit,
   ) async {
-    if (AppConfig.showAds) {
-      _verificationUsecase.skipNextVerification();
-      await _adsService.showInterstitial();
-    }
     emit(NotePreviewState.willExportNote(data: data));
   }
 

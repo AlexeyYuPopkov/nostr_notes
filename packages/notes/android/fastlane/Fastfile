@@ -56,25 +56,13 @@ platform :android do
     )
     File.write(pubspec_path, updated_pubspec)
     
-    # Наши собственные устройства получают тестовые креативы, поэтому
-    # случайный тап не превратится в недействительный трафик. Совпадение
-    # идёт по конкретным id, остальным пользователям реклама живая.
-    # Нормализуем и экранируем: список набирают через ", ", а подстановка идёт
-    # прямо в шелл-команду — незакавыченный пробел разрывает аргумент, и
-    # flutter принимает остаток за target-файл ("Target file ... not found").
-    test_device_ids = ENV['ADMOB_TEST_DEVICE_IDS'].to_s
-      .split(',').map(&:strip).reject(&:empty?).join(',')
-    ads_define =
-      "--dart-define=ADMOB_TEST_DEVICE_IDS=#{test_device_ids}".shellescape
-    UI.important("ADMOB_TEST_DEVICE_IDS пуст — на своих устройствах реклама будет живой") if test_device_ids.empty?
-
     # Собираем AAB через Flutter
     sh("cd ../.. && flutter clean") # опционально, для чистой сборки
     sh("cd ../.. && flutter pub get")
-    sh("cd ../.. && flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info #{ads_define}")
+    sh("cd ../.. && flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info")
 
     # Собираем APK для прямой дистрибуции
-    sh("cd ../.. && flutter build apk --release --obfuscate --split-debug-info=build/debug-info #{ads_define}")
+    sh("cd ../.. && flutter build apk --release --obfuscate --split-debug-info=build/debug-info")
     
     # Генерируем чексумму для APK
     sh("cd ../../build/app/outputs/flutter-apk && sha256sum app-release.apk > app-release.apk.sha256")
