@@ -6,10 +6,9 @@ final class DesktopRatioUsecase {
   final SessionUsecase _sessionUsecase;
 
   const DesktopRatioUsecase({
-    required DesktopRatioRepo repo,
-    required SessionUsecase sessionUsecase,
-  }) : _sessionUsecase = sessionUsecase,
-       _repo = repo;
+    required this._repo,
+    required this._sessionUsecase,
+  });
 
   double? get() {
     final pubkey = _sessionUsecase.currentSession.pubkey;

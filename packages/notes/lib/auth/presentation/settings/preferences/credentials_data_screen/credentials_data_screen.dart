@@ -9,7 +9,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_data_screen/bloc/credentials_data_bloc.dart';
+import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_data_screen/bloc/credentials_data_event.dart';
 import 'package:nostr_notes/auth/presentation/settings/preferences/credentials_data_screen/bloc/credentials_data_state.dart';
+import 'package:nostr_notes/common/presentation/dialogs/backup_password_dialog.dart';
+import 'package:nostr_notes/common/presentation/error_localization/keys_backup_error_localization.dart';
+import 'package:nostr_notes/common/presentation/tools/share_file_helper.dart';
 
 import 'package:nostr_notes/common/presentation/widgets/info_text.dart';
 
@@ -23,19 +27,34 @@ final class CredentialsDataScreen extends StatefulWidget with DialogHelper {
 enum _Section {
   nsec,
   privateKey,
+  npub,
   pubKey,
   pin;
 
   String title(Localization l10n) => switch (this) {
     _Section.nsec => l10n.credentialsDataScreenLabelNsec,
     _Section.privateKey => l10n.credentialsDataScreenLabelPrivateKey,
+    _Section.npub => l10n.credentialsDataScreenLabelNpub,
     _Section.pubKey => l10n.credentialsDataScreenLabelPubKey,
     _Section.pin => l10n.credentialsDataScreenLabelPin,
+  };
+
+  String get semanticsIdVisibilityButton =>
+      'CredentialsDataScreen.$name.visibilityButton';
+  String get semanticsIdSaveButton => 'CredentialsDataScreen.$name.saveButton';
+  String get semanticsIdCopyButton => 'CredentialsDataScreen.$name.copyButton';
+
+  String get name => switch (this) {
+    _Section.nsec => 'nsec',
+    _Section.privateKey => 'privateKey',
+    _Section.npub => 'npub',
+    _Section.pubKey => 'pubKey',
+    _Section.pin => 'pin',
   };
 }
 
 final class _CredentialsDataScreenState extends State<CredentialsDataScreen>
-    with DialogHelper {
+    with DialogHelper, ShareFileHelper, KeysBackupErrorLocalization {
   final scrollController = ScrollController();
   late final _vm = SectionScrollVm<_Section>(
     scrollController: scrollController,
@@ -55,9 +74,37 @@ final class _CredentialsDataScreenState extends State<CredentialsDataScreen>
       case LoadingState():
         break;
       case ErrorState():
-        showError(context, error: state.error);
+        showError(
+          context,
+          error: state.error,
+          messageBuilder: (e) => keysBackupErrorMessage(context.l10n, e),
+        );
+        break;
+      case KeyBackupReadyState(:final file):
+        shareFile(
+          file.filePath,
+          file.bytes,
+          file.fileName,
+          context,
+          successMessage: (l10n) => l10n.onboardingShowNsecPageKeySaved,
+        );
         break;
     }
+  }
+
+  Future<void> _onSaveToFile(BuildContext context) async {
+    final bloc = context.read<CredentialsDataBloc>();
+    final result = await showDialog<BackupPasswordDialogResult>(
+      context: context,
+      builder: (_) => const BackupPasswordDialog.keysExport(),
+    );
+    if (result == null) return;
+    bloc.add(
+      CredentialsDataEvent.saveKeyBackup(
+        password: result.password,
+        fileName: result.fileName,
+      ),
+    );
   }
 
   @override
@@ -78,32 +125,39 @@ final class _CredentialsDataScreenState extends State<CredentialsDataScreen>
                       : value.title(l10n),
                 ),
               ),
-
-              // title: Text(l10n.credentialsDataScreenTitle),
             ),
 
             body: ListView(
               controller: _vm.scrollController,
               children: [
                 _Item(
-                  title: _Section.nsec.title(l10n),
+                  section: _Section.nsec,
                   value: state.data.nsec,
                   padding: const EdgeInsets.symmetric(
                     horizontal: Sizes.indent2x,
                   ),
                   onChangeDependencies: (ctx) =>
                       _vm.registerSection(.nsec, ctx),
+                  onSave: () => _onSaveToFile(context),
                 ),
                 InfoText(text: l10n.credentialsDataScreenWarningNsec),
                 _Item(
-                  title: _Section.privateKey.title(l10n),
+                  section: _Section.privateKey,
                   value: state.data.privateKey,
                   onChangeDependencies: (ctx) =>
                       _vm.registerSection(.privateKey, ctx),
                 ),
                 InfoText(text: l10n.credentialsDataScreenWarningPrivateKey),
                 _Item(
-                  title: _Section.pubKey.title(l10n),
+                  section: _Section.npub,
+                  value: state.data.npub,
+                  secure: false,
+                  onChangeDependencies: (ctx) =>
+                      _vm.registerSection(.npub, ctx),
+                ),
+                InfoText(text: l10n.credentialsDataScreenInfoNpub),
+                _Item(
+                  section: _Section.pubKey,
                   value: state.data.pubkey,
                   secure: false,
                   onChangeDependencies: (ctx) =>
@@ -111,7 +165,7 @@ final class _CredentialsDataScreenState extends State<CredentialsDataScreen>
                 ),
                 InfoText(text: l10n.credentialsDataScreenInfoPubKey),
                 _Item(
-                  title: _Section.pin.title(l10n),
+                  section: _Section.pin,
                   value: state.data.pin,
                   onChangeDependencies: (ctx) => _vm.registerSection(.pin, ctx),
                 ),
@@ -126,14 +180,17 @@ final class _CredentialsDataScreenState extends State<CredentialsDataScreen>
 }
 
 final class _Item extends StatefulWidget {
-  final String title;
+  final _Section section;
   final String value;
   final bool secure;
   final EdgeInsets padding;
   final void Function(BuildContext)? onChangeDependencies;
 
+  /// Shows a "save to file" button after the copy button when set.
+  final VoidCallback? onSave;
+
   const _Item({
-    required this.title,
+    required this.section,
     required this.value,
     this.secure = true,
     this.padding = const EdgeInsets.only(
@@ -142,6 +199,7 @@ final class _Item extends StatefulWidget {
       top: Sizes.indent2x,
     ),
     this.onChangeDependencies,
+    this.onSave,
   });
 
   @override
@@ -185,20 +243,15 @@ final class _ItemState extends State<_Item> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     return Padding(
       padding: widget.padding,
       child: Column(
         mainAxisSize: .min,
         crossAxisAlignment: .start,
         children: [
-          // Text(
-          //   widget.title,
-          //   style: theme.textTheme.titleMedium,
-          //   maxLines: 1,
-          //   overflow: TextOverflow.ellipsis,
-          // ),
           SectionTitle(
-            sectionTitle: widget.title,
+            sectionTitle: widget.section.title(l10n),
             padding: const EdgeInsets.symmetric(vertical: Sizes.indent2x),
             onChangeDependencies: widget.onChangeDependencies,
           ),
@@ -210,6 +263,7 @@ final class _ItemState extends State<_Item> {
             maxLines: 1,
             obscureText: _isObscured,
             style: theme.textTheme.bodyLarge,
+
             decoration: InputDecoration(
               filled: true,
               border: OutlineInputBorder(
@@ -233,36 +287,76 @@ final class _ItemState extends State<_Item> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (widget.secure)
-                    CupertinoButton(
-                      minimumSize: Size.zero,
-                      padding: const EdgeInsets.only(
-                        right: Sizes.halfIndent,
-                        left: Sizes.indent,
-                        top: Sizes.indent,
-                        bottom: Sizes.indent,
-                      ),
-                      onPressed: _toggleVisibility,
-                      child: Icon(
-                        _isObscured ? Icons.visibility_off : Icons.visibility,
-                        color: theme.colorScheme.primary,
-                        size: Sizes.padding2x,
+                    Semantics(
+                      identifier: widget.section.semanticsIdVisibilityButton,
+                      child: Tooltip(
+                        message: _isObscured
+                            ? l10n.credentialsDataScreenTooltipShow
+                            : l10n.credentialsDataScreenTooltipHide,
+                        child: CupertinoButton(
+                          minimumSize: Size.zero,
+                          padding: const EdgeInsets.only(
+                            right: Sizes.halfIndent,
+                            left: Sizes.indent,
+                            top: Sizes.indent,
+                            bottom: Sizes.indent,
+                          ),
+                          onPressed: _toggleVisibility,
+                          child: Icon(
+                            _isObscured
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: theme.colorScheme.primary,
+                            size: Sizes.padding2x,
+                          ),
+                        ),
                       ),
                     ),
-                  CupertinoButton(
-                    minimumSize: Size.zero,
-                    padding: const EdgeInsets.only(
-                      right: Sizes.indent,
-                      left: Sizes.halfIndent,
-                      top: Sizes.indent,
-                      bottom: Sizes.indent,
-                    ),
-                    onPressed: _copyToClipboard,
-                    child: Icon(
-                      _copied ? Icons.check : Icons.copy,
-                      color: theme.colorScheme.primary,
-                      size: Sizes.padding2x,
+                  Semantics(
+                    identifier: widget.section.semanticsIdCopyButton,
+                    child: Tooltip(
+                      message: l10n.credentialsDataScreenTooltipCopy,
+                      child: CupertinoButton(
+                        minimumSize: Size.zero,
+                        padding: EdgeInsets.only(
+                          right: widget.onSave == null
+                              ? Sizes.indent
+                              : Sizes.halfIndent,
+                          left: Sizes.halfIndent,
+                          top: Sizes.indent,
+                          bottom: Sizes.indent,
+                        ),
+                        onPressed: _copyToClipboard,
+                        child: Icon(
+                          _copied ? Icons.check : Icons.copy,
+                          color: theme.colorScheme.primary,
+                          size: Sizes.padding2x,
+                        ),
+                      ),
                     ),
                   ),
+                  if (widget.onSave case final onSave?)
+                    Semantics(
+                      identifier: widget.section.semanticsIdSaveButton,
+                      child: Tooltip(
+                        message: l10n.credentialsDataScreenTooltipSaveToFile,
+                        child: CupertinoButton(
+                          minimumSize: Size.zero,
+                          padding: const EdgeInsets.only(
+                            right: Sizes.indent,
+                            left: Sizes.halfIndent,
+                            top: Sizes.indent,
+                            bottom: Sizes.indent,
+                          ),
+                          onPressed: onSave,
+                          child: Icon(
+                            Icons.save_alt,
+                            color: theme.colorScheme.primary,
+                            size: Sizes.padding2x,
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),

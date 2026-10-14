@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:nostr_notes/common/domain/usecase/keys_backup/export_keys_usecase.dart';
 
 import 'onboarding_screen_data.dart';
 
@@ -30,6 +31,20 @@ sealed class OnboardingScreenState extends Equatable {
   const factory OnboardingScreenState.didUnlock({
     required OnboardingScreenData data,
   }) = DidUnlockState;
+
+  const factory OnboardingScreenState.keyBackupReady({
+    required OnboardingScreenData data,
+    required KeysBackupFile file,
+  }) = KeyBackupReadyState;
+}
+
+/// The encrypted key file is built and waits to be shared or saved.
+final class KeyBackupReadyState extends OnboardingScreenState {
+  final KeysBackupFile file;
+  const KeyBackupReadyState({required super.data, required this.file});
+
+  @override
+  List<Object?> get props => [data, file.fileName, file.bytes];
 }
 
 final class InitialState extends OnboardingScreenState {

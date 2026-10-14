@@ -4,6 +4,7 @@ import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:notes_test_kit/pump_helpers.dart';
 import 'package:nostr/nostr_client/async_fetcher.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/auth/domain/repo/accounts_repo.dart';
@@ -114,6 +115,8 @@ void main() {
       expect(find.byIcon(Icons.check_circle), findsOneWidget);
       expect(sessionUsecase.currentSession.pubkey, pubkeyB);
       expect(accountsRepo.getAccounts(), [pubkeyA, pubkeyB]);
+
+      await PumpHelpers.unmount(tester);
     });
 
     testWidgets('tap on another account locks the session with its keys', (
@@ -141,6 +144,8 @@ void main() {
       expect(sessionUsecase.currentSession, isA<Auth>());
       expect(sessionUsecase.currentSession.pubkey, pubkeyA);
       expect(sessionUsecase.currentSession.pubkey, isNot(pubkeyB));
+
+      await PumpHelpers.unmount(tester);
     });
 
     testWidgets('add account button invokes the callback', (tester) async {
@@ -159,6 +164,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(addAccountTaps, 1);
+
+      await PumpHelpers.unmount(tester);
     });
   });
 }

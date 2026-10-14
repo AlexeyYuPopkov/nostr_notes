@@ -15,14 +15,11 @@ class FetchNotesUsecase {
   final Now _now;
 
   FetchNotesUsecase({
-    required NotesRepository notesRepository,
-    required SessionUsecase sessionUsecase,
-    required RelaysListRepo relaysListRepo,
-    Now now = const Now(),
-  }) : _notesRepository = notesRepository,
-       _sessionUsecase = sessionUsecase,
-       _relaysListRepo = relaysListRepo,
-       _now = now;
+    required this._notesRepository,
+    required this._sessionUsecase,
+    required this._relaysListRepo,
+    this._now = const Now(),
+  });
 
   Stream<List<dynamic>> execute(FetchNotesUsecaseParams params) {
     return switch (params) {

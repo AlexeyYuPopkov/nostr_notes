@@ -38,13 +38,13 @@ final class Note extends Equatable {
     required this.eventId,
     required this.dTag,
     required this.content,
-    required String summary,
+    required this._summary,
     required this.createdAt,
     required this.updatedAt,
     this.labels = const [],
     this.error,
     this.kdf = PinKdf.legacySha256,
-  }) : _summary = summary;
+  });
 
   @override
   List<Object?> get props => [

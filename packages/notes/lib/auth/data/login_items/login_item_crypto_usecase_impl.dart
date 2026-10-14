@@ -29,12 +29,10 @@ final class LoginItemCryptoUsecaseImpl implements LoginItemCryptoUsecase {
   );
 
   LoginItemCryptoUsecaseImpl({
-    required CryptoService cryptoService,
-    required SessionUsecase sessionUsecase,
-    required ExtraDerivation extraDerivation,
-  }) : _cryptoService = cryptoService,
-       _sessionUsecase = sessionUsecase,
-       _extraDerivation = extraDerivation;
+    required this._cryptoService,
+    required this._sessionUsecase,
+    required this._extraDerivation,
+  });
 
   @override
   Future<EncryptedLoginItem> encrypt(LoginItem item) async {

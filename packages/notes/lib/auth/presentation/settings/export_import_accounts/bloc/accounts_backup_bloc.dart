@@ -3,14 +3,11 @@ import 'dart:typed_data';
 
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/export_accounts_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/import_accounts_usecase.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/bloc/accounts_backup_data.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/bloc/accounts_backup_event.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import_accounts/bloc/accounts_backup_state.dart';
-import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
-import 'package:nostr_notes/services/ads/ads_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 /// Mirrors `ExportImportBloc` (notes) — separate bloc entirely, per the
@@ -28,8 +25,6 @@ final class AccountsBackupBloc
 
   late final ExportAccountsUsecase _exportUsecase = _di.resolve();
   late final ImportAccountsUsecase _importUsecase = _di.resolve();
-  late final VerificationUsecase _verificationUsecase = _di.resolve();
-  late final AdsService _adsService = _di.resolve();
 
   AccountsBackupBloc()
     : super(AccountsBackupState.idle(data: AccountsBackupData.initial())) {
@@ -90,10 +85,6 @@ final class AccountsBackupBloc
     WillExportAccountsEvent event,
     Emitter<AccountsBackupState> emit,
   ) async {
-    if (AppConfig.showAds) {
-      _verificationUsecase.skipNextVerification();
-      await _adsService.showInterstitial();
-    }
     emit(AccountsBackupState.willExport(data: data));
   }
 
@@ -101,10 +92,6 @@ final class AccountsBackupBloc
     WillImportAccountsEvent event,
     Emitter<AccountsBackupState> emit,
   ) async {
-    if (AppConfig.showAds) {
-      _verificationUsecase.skipNextVerification();
-      await _adsService.showInterstitial();
-    }
     emit(AccountsBackupState.willImport(data: data));
   }
 

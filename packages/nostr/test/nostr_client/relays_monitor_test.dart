@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostr/model/nostr_filter.dart';
@@ -42,7 +40,6 @@ void main() {
     late MockWSChannel channel1;
     late MockWSChannel channel2;
     late RelaysMonitor sut;
-    late StreamSubscription clientSub;
 
     setUp(() {
       channelFactory = MockChannelFactory();
@@ -53,15 +50,9 @@ void main() {
 
       client = NostrClient(channelFactory: channelFactory);
       sut = RelaysMonitor(client: client);
-
-      // RelaysMonitor only sees live signals (onRelayActivity/onRelayError)
-      // while something is subscribed to client.stream() — same as the
-      // app's own NotesRepositoryImpl.eventsStream keeping it alive.
-      clientSub = client.stream().listen((_) {});
     });
 
     tearDown(() async {
-      await clientSub.cancel();
       await sut.dispose();
       await client.disconnectAndDispose();
     });
@@ -149,6 +140,10 @@ void main() {
 
     test('pause() stops the ticker, but a live (non-probe) signal still '
         'updates status', () async {
+      // Another feature (notes sync, say) keeps the connection's stream
+      // alive while the monitor itself is paused.
+      final appSub = client.stream().listen((_) {});
+      addTearDown(appSub.cancel);
       client.addRelay(relayUrl1);
       await sut.statuses.first;
 
@@ -175,6 +170,33 @@ void main() {
       sut.resume();
       sut.resume();
       sut.pause();
+    });
+
+    test('a probe answer marks the relay connected with no other listener '
+        'on the client stream (e.g. during onboarding)', () async {
+      _respondToNextReqWithEose(channel1);
+      client.addRelay(relayUrl1);
+
+      await expectLater(
+        sut.statuses.map((s) => s[relayUrl1]),
+        emitsThrough(RelayStatus.connected),
+      );
+    });
+
+    test('pause() releases the client stream: with no other listener a relay '
+        'signal no longer reaches the monitor', () async {
+      client.addRelay(relayUrl1);
+      await sut.statuses.firstWhere((s) => s.containsKey(relayUrl1));
+      expect(_reqWasSent(channel1), isTrue);
+
+      sut.pause();
+      final seen = <RelayStatus?>[];
+      final sub = sut.statuses.map((s) => s[relayUrl1]).listen(seen.add);
+      channel1.mockStream.add('["EOSE","after-pause"]');
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      await sub.cancel();
+
+      expect(seen, isNot(contains(RelayStatus.connected)));
     });
 
     test(

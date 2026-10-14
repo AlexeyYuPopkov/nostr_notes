@@ -11,12 +11,14 @@ import 'package:cryptography/cryptography.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostr/key_tool/key_tool.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/user_keys.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr_notes/auth/data/export_usecase_impl.dart';
+import 'package:nostr_notes/common/data/backup/backup_crypto_helper.dart';
 import 'package:nostr_notes/auth/data/import_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/notes/get_notes_usecase_impl.dart';
 import 'package:nostr_notes/auth/domain/usecase/export_usecase.dart';
@@ -392,7 +394,7 @@ void main() {
         expect(payload.encrypted, isTrue);
         expect(payload.salt, isA<String>());
         expect(payload.salt, isNotEmpty);
-        expect(payload.iterations, equals(600000));
+        expect(payload.iterations, equals(BackupCryptoHelper.iterations));
       },
     );
 
@@ -443,7 +445,7 @@ void main() {
 
       expect(payload.version, equals(1));
       expect(payload.encrypted, isTrue);
-      expect(payload.iterations, equals(600000));
+      expect(payload.iterations, equals(BackupCryptoHelper.iterations));
       expect(payload.salt, isNotEmpty);
       expect(payload.events, hasLength(1));
 
@@ -635,13 +637,15 @@ void main() {
           }
         };
 
+        final client = NostrClient(channelFactory: channelFactory);
+        addTearDown(client.disconnectAndDispose);
         final publisher = OutboxPublisher(
           outboxDao: outboxDao,
           rawEventStore: eventStore,
           relaysListRepo: MockRelaysListRepo.withRelays({
             MockRelaysListRepo.relayUrl1,
           }),
-          channelFactory: channelFactory,
+          client: client,
           connectivity: _MockConnectivity(),
         );
         addTearDown(publisher.dispose);
@@ -1044,7 +1048,7 @@ Future<String> _decryptExportField(
 
   final secretKey = await Pbkdf2(
     macAlgorithm: Hmac.sha256(),
-    iterations: 600000,
+    iterations: BackupCryptoHelper.iterations,
     bits: 256,
   ).deriveKeyFromPassword(password: password, nonce: salt);
 

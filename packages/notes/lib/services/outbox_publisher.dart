@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer' as dev;
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr/nostr_client/nostr_publisher.dart';
 import 'package:common/domain/repo/relays_list_repo.dart';
@@ -25,22 +24,18 @@ import 'package:rxdart/rxdart.dart';
 /// [_isProcessing], so no per-row "in flight" state is needed.
 class OutboxPublisher implements Disposable {
   OutboxPublisher({
-    required OutboxDaoInterface outboxDao,
-    required RawEventStore rawEventStore,
-    required RelaysListRepo relaysListRepo,
-    required ChannelFactory channelFactory,
-    required Connectivity connectivity,
+    required this._outboxDao,
+    required this._rawEventStore,
+    required this._relaysListRepo,
+    required this._client,
+    required this._connectivity,
     this.connectivityDebounce = const Duration(seconds: 2),
-  }) : _outboxDao = outboxDao,
-       _rawEventStore = rawEventStore,
-       _relaysListRepo = relaysListRepo,
-       _channelFactory = channelFactory,
-       _connectivity = connectivity;
+  });
 
   final OutboxDaoInterface _outboxDao;
   final RawEventStore _rawEventStore;
   final RelaysListRepo _relaysListRepo;
-  final ChannelFactory _channelFactory;
+  final NostrClient _client;
   final Connectivity _connectivity;
   final Duration connectivityDebounce;
 
@@ -53,6 +48,10 @@ class OutboxPublisher implements Disposable {
   bool _refreshRequested = false;
 
   static const _retryDelay = Duration(seconds: 20);
+
+  /// Generous because the first publish on a relay also waits out its
+  /// WebSocket handshake; [NostrPublisher] returns early once all relays reply.
+  static const _publishWindow = Duration(seconds: 10);
 
   Future<void> init() async {
     // Cancel existing subscriptions to prevent memory leak on app resume
@@ -188,27 +187,25 @@ class OutboxPublisher implements Disposable {
         return;
       }
 
-      final client = NostrClient(channelFactory: _channelFactory);
-      try {
-        client.addRelays(relays);
+      _client.syncRelays(relays);
+      final publisher = NostrPublisher(
+        client: _client,
+        event: event,
+        window: _publishWindow,
+      );
+      final report = await publisher.execute();
 
-        final publisher = NostrPublisher(client: client, event: event);
-        final report = await publisher.execute();
-
-        if (!report.isAnySuccess) {
-          _scheduleRetry(item, report.error.toString());
-        } else {
-          // Delivered — remove from the outbox.
-          await _outboxDao.remove(item.eventId);
-          final confirmed = report.okEvents.where((e) => e.isOk).length;
-          dev.log(
-            'Published ${item.eventId} (${_getKindName(event.kind)}) '
-            'to $confirmed relays',
-            name: 'OutboxPublisher',
-          );
-        }
-      } finally {
-        await client.disconnectAndDispose();
+      if (!report.isAnySuccess) {
+        _scheduleRetry(item, report.error.toString());
+      } else {
+        // Delivered — remove from the outbox.
+        await _outboxDao.remove(item.eventId);
+        final confirmed = report.okEvents.where((e) => e.isOk).length;
+        dev.log(
+          'Published ${item.eventId} (${_getKindName(event.kind)}) '
+          'to $confirmed relays',
+          name: 'OutboxPublisher',
+        );
       }
     } catch (e) {
       _scheduleRetry(item, e.toString());
@@ -278,7 +275,7 @@ class NoopOutboxPublisher implements OutboxPublisher, Disposable {
   StreamSubscription<List<OutboxEventData>>? _subscription;
 
   @override
-  ChannelFactory get _channelFactory => throw UnimplementedError();
+  NostrClient get _client => throw UnimplementedError();
 
   @override
   Connectivity get _connectivity => throw UnimplementedError();

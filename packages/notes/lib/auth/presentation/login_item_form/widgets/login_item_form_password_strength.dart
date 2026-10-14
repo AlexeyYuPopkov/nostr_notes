@@ -11,8 +11,8 @@ final class PasswordStrengthIndicator extends StatefulWidget {
   const PasswordStrengthIndicator({
     super.key,
     required this.password,
-    PasswordStrengthUsecase strengthUsecase = const PasswordStrengthUsecase(),
-  }) : _strengthUsecase = strengthUsecase;
+    this._strengthUsecase = const PasswordStrengthUsecase(),
+  });
 
   @override
   State<PasswordStrengthIndicator> createState() =>

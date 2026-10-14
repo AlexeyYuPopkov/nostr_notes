@@ -35,12 +35,12 @@ final class NotesTabContent extends StatelessWidget with LabelsPickerHelper {
     required this.isLoading,
     required this.sections,
     required this.onTap,
-    required SectionScrollVm scrollSectionsVm,
+    required this._scrollSectionsVm,
     this.searchQuery = '',
     this.hasAnyNotes = false,
     this.showSearch = true,
     this.showFolderFilterChips = false,
-  }) : _scrollSectionsVm = scrollSectionsVm;
+  });
 
   double get _headerHeight {
     if (!showSearch) {

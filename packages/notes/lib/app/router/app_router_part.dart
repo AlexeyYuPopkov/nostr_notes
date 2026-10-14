@@ -7,10 +7,9 @@ final class HomeScreenCoordinatorImpl
   final GlobalKey<LeftDrawerState> _leftDrawerKey;
 
   const HomeScreenCoordinatorImpl({
-    required GlobalKey<ScaffoldState> homeScaffoldKey,
-    required GlobalKey<LeftDrawerState> leftDrawerKey,
-  }) : _homeScaffoldKey = homeScaffoldKey,
-       _leftDrawerKey = leftDrawerKey;
+    required this._homeScaffoldKey,
+    required this._leftDrawerKey,
+  });
 
   @override
   FutureOr<dynamic> onNotePreviewRoute(

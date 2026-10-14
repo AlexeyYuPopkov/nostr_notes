@@ -12,20 +12,4 @@ abstract final class Env {
 
   @EnviedField(varName: 'KOFI_URL')
   static final String kofiUrl = _Env.kofiUrl;
-
-  @EnviedField(varName: 'ADMOB_APP_ID_IOS')
-  static final String admobAppIdIos = _Env.admobAppIdIos;
-
-  @EnviedField(varName: 'ADMOB_INTERSTITIAL_ID_IOS')
-  static final String admobInterstitialIdIos = _Env.admobInterstitialIdIos;
-
-  @EnviedField(varName: 'ADMOB_INTERSTITIAL_ID_ANDROID')
-  static final String admobInterstitialIdAndroid =
-      _Env.admobInterstitialIdAndroid;
-
-  @EnviedField(varName: 'ADMOB_BANNER_ID_IOS')
-  static final String admobBannerIdIos = _Env.admobBannerIdIos;
-
-  @EnviedField(varName: 'ADMOB_BANNER_ID_ANDROID')
-  static final String admobBannerIdAndroid = _Env.admobBannerIdAndroid;
 }

@@ -136,7 +136,7 @@ void main() {
 
         final remoteEvent = _metadataEvent(
           id: 'remote-event-id',
-          createdAt: 1000,
+          createdAt: DateTime.now().millisecondsSinceEpoch ~/ 1000,
           profile: const {'name': 'alice'},
         );
 

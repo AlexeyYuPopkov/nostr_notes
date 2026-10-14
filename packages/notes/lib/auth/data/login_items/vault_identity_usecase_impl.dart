@@ -29,8 +29,7 @@ final class VaultIdentityUsecaseImpl implements VaultIdentityUsecase {
 
   final SessionUsecase _sessionUsecase;
 
-  const VaultIdentityUsecaseImpl({required SessionUsecase sessionUsecase})
-    : _sessionUsecase = sessionUsecase;
+  const VaultIdentityUsecaseImpl({required this._sessionUsecase});
 
   @override
   UserKeys execute() {

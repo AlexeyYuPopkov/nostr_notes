@@ -3,14 +3,11 @@ import 'dart:typed_data';
 
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/domain/usecase/export_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/import_usecase.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import/bloc/export_import_data.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import/bloc/export_import_event.dart';
 import 'package:nostr_notes/auth/presentation/settings/export_import/bloc/export_import_state.dart';
-import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
-import 'package:nostr_notes/services/ads/ads_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 final class ExportImportBloc
@@ -22,8 +19,6 @@ final class ExportImportBloc
 
   late final ExportUsecase _exportUsecase = _di.resolve();
   late final ImportUsecase _importUsecase = _di.resolve();
-  late final VerificationUsecase _verificationUsecase = _di.resolve();
-  late final AdsService _adsService = _di.resolve();
 
   ExportImportBloc()
     : super(ExportImportState.idle(data: ExportImportData.initial())) {
@@ -84,10 +79,6 @@ final class ExportImportBloc
     WillExportEvent event,
     Emitter<ExportImportState> emit,
   ) async {
-    if (AppConfig.showAds) {
-      _verificationUsecase.skipNextVerification();
-      await _adsService.showInterstitial();
-    }
     emit(ExportImportState.willExport(data: data));
   }
 
@@ -95,10 +86,6 @@ final class ExportImportBloc
     WillImportEvent event,
     Emitter<ExportImportState> emit,
   ) async {
-    if (AppConfig.showAds) {
-      _verificationUsecase.skipNextVerification();
-      await _adsService.showInterstitial();
-    }
     emit(ExportImportState.willImport(data: data));
   }
 

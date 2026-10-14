@@ -1,0 +1,26 @@
+name: notes_test_kit
+description: Test infrastructure and BDD steps shared by nostr_notes tests.
+publish_to: none
+
+environment:
+  sdk: ^3.12.0
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
+  common:
+    path: ../common
+  nostr_notes:
+    path: ../notes
+  archive: ^4.0.9
+  connectivity_plus: ^7.1.1
+  di_storage: ^2.0.1
+  flutter_secure_storage: ^11.2.0
+  shared_preferences: ^2.5.5
+
+dev_dependencies:
+  flutter_lints: ^6.0.0

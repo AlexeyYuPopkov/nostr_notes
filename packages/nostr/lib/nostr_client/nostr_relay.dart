@@ -20,10 +20,9 @@ typedef EventBatchParser =
 class NostrRelay with NostrRelayEventMapper {
   NostrRelay._({
     required String url,
-    required ChannelFactory channelFactory,
-    EventBatchParser? batchParser,
-  }) : _channelFactory = channelFactory,
-       _batchParser = batchParser {
+    required this._channelFactory,
+    this._batchParser,
+  }) {
     _channel = _channelFactory.create(url);
     _createSubscription();
   }

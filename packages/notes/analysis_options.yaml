@@ -8,6 +8,11 @@ analyzer:
     - .dart_tool/**
     - .idea/**
     - .vscode/**
+    - android/**
+    - ios/**
+    - web/**
+    - macos/**
+    - linux/**
 # Make the analyzer ignore a certain rule.
 
 linter:

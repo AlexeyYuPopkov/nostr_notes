@@ -147,7 +147,7 @@ final class _LoginItemGoIconState extends State<LoginItemGoIcon>
 
   @override
   Widget build(BuildContext context) {
-    return ProgressHudWidgetContent(
+    return ProgressHudScopeWidget(
       child: Builder(
         builder: (context) {
           final theme = Theme.of(context);
@@ -183,7 +183,7 @@ enum _CopiedField {
   };
 }
 
-final class _HudPolicy extends HudPolicy {
+final class _HudPolicy extends ProgressHudStyle {
   /// A floor, not a fixed size: the box keeps its square look for short
   /// labels and grows for translations that need more room. Cyrillic runs
   /// well past the English wording, and a hard square clipped it.

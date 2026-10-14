@@ -14,10 +14,9 @@ final class PerformLightingInvoiceService {
   final ZapEventCreator _zapEventCreator;
 
   PerformLightingInvoiceService({
-    required FetchUserZapperService fetchUserZapperService,
-    required ZapEventCreator zapEventCreator,
-  }) : _zapEventCreator = zapEventCreator,
-       _fetchUserZapperService = fetchUserZapperService;
+    required this._fetchUserZapperService,
+    required this._zapEventCreator,
+  });
 
   Future<PerformLightingInvoiceResult> execute(
     PerformLightingPaymentUsecaseParams params,
@@ -130,11 +129,7 @@ final class ZapEventCreator {
   final Now _now;
   final NostrEventCreator _eventCreator;
 
-  const ZapEventCreator({
-    required NostrEventCreator eventCreator,
-    Now now = const Now(),
-  }) : _now = now,
-       _eventCreator = eventCreator;
+  const ZapEventCreator({required this._eventCreator, this._now = const Now()});
 
   NostrEvent zapInvoice({
     required UserDataZapper zapper,

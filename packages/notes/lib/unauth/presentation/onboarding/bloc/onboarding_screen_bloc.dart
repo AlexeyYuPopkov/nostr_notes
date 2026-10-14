@@ -6,6 +6,9 @@ import 'package:nostr_notes/auth/domain/repo/pin_keyboard_type_repo.dart';
 import 'package:common/domain/repo/relays_list_repo.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
+import 'package:nostr_notes/common/domain/usecase/keys_backup/export_keys_usecase.dart';
+import 'package:nostr_notes/common/domain/usecase/keys_backup/import_keys_usecase.dart';
+import 'package:nostr_notes/common/domain/usecase/keys_backup/key_backup_entry.dart';
 import 'package:nostr_notes/common/domain/usecase/pin_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_nsec_page/onboarding_nsec_page.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_step.dart';
@@ -33,6 +36,8 @@ final class OnboardingScreenBloc
   OnboardingNsecPageVm get nsecPageVm => _nsecPageVm ??= OnboardingNsecPageVm();
   late final PinKeyboardTypeRepo _pinKeyboardTypeRepo = _di.resolve();
   late final PinEnabledRepo _pinEnabledRepo = _di.resolve();
+  late final ExportKeysUsecase _exportKeysUsecase = _di.resolve();
+  late final ImportKeysUsecase _importKeysUsecase = _di.resolve();
 
   StreamSubscription? sessionSubscription;
   StreamSubscription? relaysSubscription;
@@ -105,6 +110,9 @@ final class OnboardingScreenBloc
     on<OnPinEvent>(_onOnPinEvent);
     on<OnGenerateKeyEvent>(_onGenerateKeyEvent);
     on<OnNsecGeneratedEvent>(_onNsecGeneratedEvent);
+    on<SaveKeyBackupEvent>(_onSaveKeyBackupEvent);
+    on<KeyBackupSavedEvent>(_onKeyBackupSavedEvent);
+    on<SignInWithKeyBackupEvent>(_onSignInWithKeyBackupEvent);
     on<OnRelaysSelectedEvent>(_onRelaysSelectedEvent);
     on<SettingsEvent>(
       _onSettingsEvent,
@@ -221,24 +229,75 @@ final class OnboardingScreenBloc
     );
   }
 
-  void _onNsecGeneratedEvent(
+  Future<void> _onNsecGeneratedEvent(
     OnNsecGeneratedEvent event,
+    Emitter<OnboardingScreenState> emit,
+  ) => _authenticateWith(event.nsec, emit);
+
+  void _onSaveKeyBackupEvent(
+    SaveKeyBackupEvent event,
+    Emitter<OnboardingScreenState> emit,
+  ) async {
+    final nsec = data.generatedNsec;
+    if (nsec == null) return;
+    try {
+      emit(OnboardingScreenState.loading(data: data));
+      final file = await _exportKeysUsecase.exportKeys(
+        keys: [KeyBackupEntry(nsec: nsec)],
+        password: event.password,
+        fileName: event.fileName,
+      );
+      emit(OnboardingScreenState.keyBackupReady(data: data, file: file));
+    } catch (e) {
+      emit(OnboardingScreenState.error(e: e, data: data));
+    }
+  }
+
+  Future<void> _onKeyBackupSavedEvent(
+    KeyBackupSavedEvent event,
+    Emitter<OnboardingScreenState> emit,
+  ) async {
+    final nsec = data.generatedNsec;
+    if (nsec == null) return;
+    await _authenticateWith(nsec, emit);
+  }
+
+  /// Only the first key is used for now; the backup format already holds a
+  /// list so several accounts can be restored from one file later.
+  void _onSignInWithKeyBackupEvent(
+    SignInWithKeyBackupEvent event,
     Emitter<OnboardingScreenState> emit,
   ) async {
     try {
       emit(OnboardingScreenState.loading(data: data));
-
-      if (addAccount) {
-        await authUsecase.addAccount(nsec: event.nsec);
-      } else {
-        await authUsecase.execute(nsec: event.nsec);
-      }
-
+      final keys = await _importKeysUsecase.importKeys(
+        password: event.password,
+        filePath: event.file.path,
+        fileBytes: event.file.bytes,
+      );
+      await _authenticate(keys.first.nsec);
       emit(OnboardingScreenState.common(data: data));
     } catch (e) {
       emit(OnboardingScreenState.error(e: e, data: data));
     }
   }
+
+  Future<void> _authenticateWith(
+    String nsec,
+    Emitter<OnboardingScreenState> emit,
+  ) async {
+    try {
+      emit(OnboardingScreenState.loading(data: data));
+      await _authenticate(nsec);
+      emit(OnboardingScreenState.common(data: data));
+    } catch (e) {
+      emit(OnboardingScreenState.error(e: e, data: data));
+    }
+  }
+
+  Future<void> _authenticate(String nsec) => addAccount
+      ? authUsecase.addAccount(nsec: nsec)
+      : authUsecase.execute(nsec: nsec);
 
   void _onRelaysSelectedEvent(
     OnRelaysSelectedEvent event,

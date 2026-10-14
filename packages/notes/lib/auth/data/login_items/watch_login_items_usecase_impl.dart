@@ -15,12 +15,10 @@ final class WatchLoginItemsUsecaseImpl implements WatchLoginItemsUsecase {
   final LoginItemCryptoUsecase _loginItemCryptoUsecase;
 
   const WatchLoginItemsUsecaseImpl({
-    required RawEventStore eventStore,
-    required VaultIdentityUsecase vaultIdentityUsecase,
-    required LoginItemCryptoUsecase loginItemCryptoUsecase,
-  }) : _eventStore = eventStore,
-       _vaultIdentityUsecase = vaultIdentityUsecase,
-       _loginItemCryptoUsecase = loginItemCryptoUsecase;
+    required this._eventStore,
+    required this._vaultIdentityUsecase,
+    required this._loginItemCryptoUsecase,
+  });
 
   @override
   Stream<List<LoginItem>> execute() {

@@ -5,28 +5,44 @@ import 'package:flutter/material.dart';
 final class PrymaryButton extends StatelessWidget {
   static const minWidth = 100.0;
   static const disabledOpacity = 0.5;
-  final String title;
-  final VoidCallback? onTap;
 
-  const PrymaryButton({super.key, required this.title, this.onTap});
+  final String title;
+  final Widget? icon;
+  final VoidCallback? onPressed;
+
+  const PrymaryButton({
+    super.key,
+    required this.title,
+    this.icon,
+    this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final color = onTap == null
+    final color = onPressed == null
         ? theme.colorScheme.onSurface.withValues(
             alpha: PrymaryButton.disabledOpacity,
           )
         : theme.colorScheme.onPrimary;
 
     return CupertinoButton.filled(
-      onPressed: onTap,
+      onPressed: onPressed,
       child: ConstrainedBox(
         constraints: const BoxConstraints(minWidth: minWidth),
         child: DefaultTextStyle(
           style: TextStyle(color: color),
-          child: Text(title, textAlign: TextAlign.center),
+          child: icon == null
+              ? Text(title, textAlign: TextAlign.center)
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: .spaceEvenly,
+                  children: [
+                    Expanded(child: Text(title, textAlign: TextAlign.center)),
+                    icon!,
+                  ],
+                ),
         ),
       ),
     );
@@ -39,13 +55,13 @@ final class OpacityOutlinedButton extends StatelessWidget {
   final Widget title;
   final Color? backgroundColor;
 
-  final VoidCallback? onTap;
+  final VoidCallback? onPressed;
 
   const OpacityOutlinedButton({
     super.key,
     required this.title,
     this.backgroundColor,
-    this.onTap,
+    this.onPressed,
   });
 
   @override
@@ -53,20 +69,16 @@ final class OpacityOutlinedButton extends StatelessWidget {
     final theme = Theme.of(context);
 
     return CupertinoButton(
-      onPressed: onTap,
+      onPressed: onPressed,
       padding: .zero,
       sizeStyle: .small,
       child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          minWidth: minWidth,
-          maxHeight: Sizes.buttonHeight,
-        ),
-
+        constraints: const BoxConstraints(minWidth: minWidth),
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: backgroundColor ?? Colors.transparent,
             border: Border.all(color: theme.colorScheme.outline),
-            borderRadius: BorderRadius.circular(Sizes.buttonHeight),
+            borderRadius: BorderRadius.circular(12.0),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
