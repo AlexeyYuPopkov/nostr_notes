@@ -8,7 +8,7 @@ final class MockWSChannel implements WsChannel {
 
   void Function(dynamic data, MockWSChannel channel)? onAdd;
 
-  MockWSChannel({required String url}) : _url = url;
+  MockWSChannel({required this._url});
 
   final mockStream = PublishSubject<String>();
 

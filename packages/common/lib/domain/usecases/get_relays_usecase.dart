@@ -7,8 +7,7 @@ import 'package:common/domain/repo/relays_list_repo.dart';
 final class GetRelaysUsecase {
   final RelaysListRepo _relaysListRepo;
 
-  const GetRelaysUsecase({required RelaysListRepo relaysListRepo})
-    : _relaysListRepo = relaysListRepo;
+  const GetRelaysUsecase({required this._relaysListRepo});
 
   FutureOr<GetRelaysUsecaseResult> execute() {
     return GetRelaysUsecaseResult(

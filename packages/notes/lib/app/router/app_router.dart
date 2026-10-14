@@ -38,8 +38,7 @@ final class AppRouter {
     leftDrawerKey: _leftDrawerKey,
   );
 
-  AppRouter({ScreensAssembly screensAssembly = const AppScreensAssembly()})
-    : _screensAssembly = screensAssembly {
+  AppRouter({this._screensAssembly = const AppScreensAssembly()}) {
     authUsecase.restore().then((_) => _createSessionSubscription());
   }
 

@@ -46,10 +46,11 @@ final class BiometricDatasourceImpl implements BiometricRepository {
       final shouldAuthenticate = await canAuthenticate();
 
       if (shouldAuthenticate) {
-        return auth.authenticate(
+        final authenticated = await auth.authenticate(
           localizedReason: parameters.localizedReason,
           biometricOnly: true,
         );
+        return authenticated;
       } else {
         return false;
       }

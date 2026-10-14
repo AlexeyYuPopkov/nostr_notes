@@ -10,7 +10,7 @@ import 'package:nostr/nostr_client/nostr_client.dart';
 final class AsyncFetcher {
   final NostrClient _client;
 
-  AsyncFetcher({required NostrClient client}) : _client = client;
+  AsyncFetcher({required this._client});
 
   Future<ResultWithRelay> fetchEvents({
     required NostrReq req,
@@ -49,22 +49,19 @@ final class AsyncFetcher {
           event.subscriptionId == subscriptionId) {
         eoseRelays.add(event.relay);
 
+        final everyRelayAnswered = eoseRelays.length >= relayCount;
         switch (policy) {
           case ReturnFirstPolicy():
-            complete(null);
+            if (events.isNotEmpty || everyRelayAnswered) complete(null);
           case WaitForAllPolicy():
-            if (eoseRelays.length >= relayCount) {
-              complete(null);
-            }
+            if (everyRelayAnswered) complete(null);
         }
       }
     });
 
     subscriptionId = _client.sendRequestToAll(req);
 
-    if (policy case WaitForAllPolicy(:final timeout)) {
-      timer = Timer(timeout, () => complete(AsyncFetchError.timoutError));
-    }
+    timer = Timer(policy.timeout, () => complete(AsyncFetchError.timoutError));
 
     final result = await completer.future;
     await subscription.cancel();
@@ -82,16 +79,21 @@ final class ResultWithRelay {
 }
 
 sealed class AsyncFetchPolicy {
-  const AsyncFetchPolicy();
+  /// Upper bound on the wait: a relay may never send EOSE.
+  final Duration timeout;
+
+  const AsyncFetchPolicy({this.timeout = const Duration(seconds: 3)});
 }
 
+/// Completes at the first EOSE once some relay has delivered events, or when
+/// every relay has answered. An EOSE from a relay that simply lacks the data
+/// does not end the wait.
 final class ReturnFirstPolicy extends AsyncFetchPolicy {
-  const ReturnFirstPolicy();
+  const ReturnFirstPolicy({super.timeout});
 }
 
 final class WaitForAllPolicy extends AsyncFetchPolicy {
-  final Duration timeout;
-  const WaitForAllPolicy({this.timeout = const Duration(seconds: 3)});
+  const WaitForAllPolicy({super.timeout});
 }
 
 enum AsyncFetchError { timoutError }

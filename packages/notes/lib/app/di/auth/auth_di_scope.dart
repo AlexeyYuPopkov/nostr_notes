@@ -4,7 +4,6 @@ import 'package:common/data/zap/perform_lighting_invoice_service.dart';
 import 'package:common/services/event_store/database/daos/daos.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
 import 'package:nostr_notes/auth/data/export_usecase_impl.dart';
@@ -42,7 +41,7 @@ final class AuthDiScope extends DiScope {
           outboxDao: di.resolve(),
           rawEventStore: di.resolve(),
           relaysListRepo: di.resolve(),
-          channelFactory: const ChannelFactory(),
+          client: di.resolve(),
           connectivity: di.resolve(),
         );
       },

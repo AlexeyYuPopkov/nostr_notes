@@ -113,7 +113,7 @@ class AppLocalizationsEn extends AppLocalizations {
       '🚫 **Private** – Anyone with this key can access your account. Never share it.';
 
   @override
-  String get onboardingShowNsecPageButtonCopyKey => 'Copy Key';
+  String get onboardingShowNsecPageButtonCopyKey => 'Copy';
 
   @override
   String get onboardingShowNsecPageKeyCopied => 'Key copied to clipboard';
@@ -137,6 +137,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingNsecPageButtonSignUp => 'Sign Up';
+
+  @override
+  String get onboardingShowNsecPageButtonSaveToFile => 'Save';
+
+  @override
+  String get onboardingShowNsecPageKeySaved => 'Key file saved';
+
+  @override
+  String get onboardingNsecPageButtonLoadFromFile => 'Load from File';
+
+  @override
+  String get keysBackupExportDialogTitle => 'Protect the Key File';
+
+  @override
+  String get keysBackupExportDialogWarning =>
+      'The file holds your private key, encrypted with this password. You will need the password to sign in from the file — it cannot be recovered.';
+
+  @override
+  String get keysBackupImportDialogTitle => 'Key File Password';
+
+  @override
+  String get keysBackupInvalidFileError => 'This file is not a key backup.';
+
+  @override
+  String get keysBackupUnsupportedVersionError =>
+      'This key file was made by a newer version of the app. Please update.';
+
+  @override
+  String get keysBackupInvalidKeyError =>
+      'The key file contains an invalid key.';
 
   @override
   String get onboardingNsecPageValidationEmpty => 'NSEC key cannot be empty';
@@ -526,6 +556,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accsBackupImportSuccess => 'Accounts imported successfully';
 
   @override
+  String get keysBackupSectionTitle => 'Keys';
+
+  @override
+  String get keysBackupItemExportTitle => 'Export Key';
+
+  @override
+  String get keysBackupItemExportSubtitle =>
+      'Save your account\'s private key (nsec) to a password-protected file. Keep the password safe — it cannot be recovered.';
+
+  @override
   String get notesListPendingSyncTitle => 'Sync pending';
 
   @override
@@ -585,6 +625,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get credentialsDataScreenLabelPubKey => 'Public Key';
+
+  @override
+  String get credentialsDataScreenLabelNpub => 'Npub';
+
+  @override
+  String get credentialsDataScreenInfoNpub =>
+      'Your npub is the shareable form of your public key. Give it to others so they can find you in Nostr apps.';
+
+  @override
+  String get credentialsDataScreenTooltipShow => 'Show';
+
+  @override
+  String get credentialsDataScreenTooltipHide => 'Hide';
+
+  @override
+  String get credentialsDataScreenTooltipCopy => 'Copy';
+
+  @override
+  String get credentialsDataScreenTooltipSaveToFile => 'Save to file';
 
   @override
   String get credentialsDataScreenLabelPin => 'Pin';

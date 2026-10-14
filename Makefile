@@ -1,21 +1,32 @@
+# Run every Flutter/Dart tool with the SDK pinned in .fvmrc, never the one on PATH.
+FVM_EXEC := fvm exec
+MELOS := $(FVM_EXEC) melos
+FLUTTER := fvm flutter
+DART := fvm dart
+
 
 bootstrap:
-	melos bootstrap
+	$(MELOS) bootstrap
 
 pubget:
-	flutter pub get
+	$(FLUTTER) pub get
 
 codegen:
-	melos exec --concurrency=1 -- dart run build_runner build --delete-conflicting-outputs
+	$(MELOS) exec --concurrency=1 -- dart run build_runner build
+
+notes_codegen:
+	cd packages/notes && \
+	$(DART) run build_runner build && \
+	cd ../../
 
 l10n:
-	melos exec --concurrency=1 --file-exists=l10n.yaml -- flutter gen-l10n
+	$(MELOS) exec --concurrency=1 --file-exists=l10n.yaml -- flutter gen-l10n
 
 del_imports:
-	melos exec --concurrency=1 -- dart fix --apply --code=unnecessary_import  --code=unused_import
+	$(MELOS) exec --concurrency=1 -- dart fix --apply --code=unnecessary_import  --code=unused_import
 
 test:
-	melos exec --concurrency=1 -- flutter test --coverage
+	$(MELOS) exec --concurrency=1 -- flutter test --coverage
 	./print_coverage.sh
 	mkdir -p coverage
 	for pkg in nostr common chat notes; do \
@@ -36,7 +47,7 @@ relay_down:
 	bundle exec fastlane relay_down
 
 appbundle:
-	flutter build appbundle --release
+	$(FLUTTER) build appbundle --release
 
 ffi-macos: ffi-macos-xcframework
 
@@ -88,7 +99,7 @@ ffi-android: ffi-android-arm64-crypto ffi-android-arm64-crypto
 
 
 ffi-gen-crypto_module:
-	dart run ffigen --config ffigen_crypto_module.yaml
+	$(DART) run ffigen --config ffigen_crypto_module.yaml
 
 build_apk:
-	flutter build apk --release --obfuscate --split-debug-info=build/symbols/release
+	$(FLUTTER) build apk --release --obfuscate --split-debug-info=build/symbols/release

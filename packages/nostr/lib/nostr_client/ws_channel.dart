@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WsChannel {
-  WsChannel({required String url, required WebSocketChannel channel})
-    : _url = url,
-      _channel = channel;
+  WsChannel({required this._url, required this._channel});
   final String _url;
   final WebSocketChannel _channel;
   bool _isReady = false;

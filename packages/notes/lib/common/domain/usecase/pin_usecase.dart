@@ -7,8 +7,7 @@ final class PinUsecaseParams {
   final String _pin;
   final bool usePin;
 
-  const PinUsecaseParams({required String pin, required this.usePin})
-    : _pin = pin;
+  const PinUsecaseParams({required this._pin, required this.usePin});
 
   String get pin => usePin ? _pin.trim() : '';
 }
@@ -17,8 +16,7 @@ final class PinUsecase {
   static const minLength = 3;
   final SessionUsecase _sessionUsecase;
 
-  const PinUsecase({required SessionUsecase sessionUsecase})
-    : _sessionUsecase = sessionUsecase;
+  const PinUsecase({required this._sessionUsecase});
 
   Future<void> execute({required PinUsecaseParams params}) async {
     final validationError = validate(params.pin, params.usePin);

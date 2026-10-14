@@ -28,8 +28,7 @@ final class GlobalSettingsVm {
   late final ValueNotifier<AppThemeStyle> darkThemeStyleNotifier;
   late final ValueNotifier<AppError?> errorNotifier;
 
-  GlobalSettingsVm({required AppThemeDataRepo appThemeDataRepo})
-    : _appThemeDataRepo = appThemeDataRepo {
+  GlobalSettingsVm({required this._appThemeDataRepo}) {
     final appThemeData = _appThemeDataRepo.load();
     themeModeNotifier = ValueNotifier(appThemeData.themeMode);
     localeNotifier = ValueNotifier(_parseLocale(appThemeData.localeCode.value));

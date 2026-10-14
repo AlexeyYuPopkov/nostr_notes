@@ -2511,7 +2511,7 @@ class $$NostrEventsTableTableManager
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable(table),
+                  e.readTable<$NostrEventsTable, NostrEventData>(table),
                   $$NostrEventsTableReferences(db, table, e),
                 ),
               )
@@ -2868,7 +2868,7 @@ class $$NostrTagsTableTableManager
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable(table),
+                  e.readTable<$NostrTagsTable, NostrTagData>(table),
                   $$NostrTagsTableReferences(db, table, e),
                 ),
               )
@@ -3173,7 +3173,9 @@ class $$NostrEventRelaysTableTableManager
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable(table),
+                  e.readTable<$NostrEventRelaysTable, NostrEventRelayData>(
+                    table,
+                  ),
                   $$NostrEventRelaysTableReferences(db, table, e),
                 ),
               )
@@ -3462,7 +3464,16 @@ class $$OutboxEventsTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<$OutboxEventsTable, OutboxEventData>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $OutboxEventsTable,
+                    OutboxEventData
+                  >(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
@@ -3723,7 +3734,10 @@ class $$NoteClassProbabilitiesTableTableManager
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable(table),
+                  e.readTable<
+                    $NoteClassProbabilitiesTable,
+                    NoteClassProbabilityData
+                  >(table),
                   $$NoteClassProbabilitiesTableReferences(db, table, e),
                 ),
               )

@@ -12,11 +12,7 @@ final class FetchEventRepoImpl implements FetchEventRepo {
 
   final RawEventStore _eventStore;
 
-  const FetchEventRepoImpl({
-    required RawEventStore eventStore,
-    required NostrClient client,
-  }) : _client = client,
-       _eventStore = eventStore;
+  const FetchEventRepoImpl({required this._eventStore, required this._client});
 
   @override
   Stream<Iterable<BaseEvent>> getEvents(String eventId) {

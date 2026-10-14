@@ -5,9 +5,7 @@ final class ErrorMessagesProviderImpl implements ErrorMessagesProvider {
   // ignore: unused_field
   final RootContextProvider _rootContextProvider;
 
-  const ErrorMessagesProviderImpl({
-    required RootContextProvider rootContextProvider,
-  }) : _rootContextProvider = rootContextProvider;
+  const ErrorMessagesProviderImpl({required this._rootContextProvider});
 
   // TODO: localize these messages
   @override

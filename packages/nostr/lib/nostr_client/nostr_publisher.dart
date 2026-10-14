@@ -70,10 +70,7 @@ final class NostrPublisher {
 
     client.sendEventToAll(event);
 
-    final result = await Future.any([
-      sendFuture,
-      Future.delayed(defaultWindow),
-    ]);
+    final result = await Future.any([sendFuture, Future.delayed(window)]);
 
     if (result is NostrEvent) {
       return PublishEventReport(
@@ -86,7 +83,7 @@ final class NostrPublisher {
       return PublishEventReport(
         okEvents: okEvents,
         close: closeEvents,
-        exceededTimeout: defaultWindow,
+        exceededTimeout: window,
         event: event,
       );
     }

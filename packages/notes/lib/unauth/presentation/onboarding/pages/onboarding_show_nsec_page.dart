@@ -4,15 +4,25 @@ import 'package:common/presentation/widgets/onboarding_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostr_notes/common/presentation/dialogs/backup_password_dialog.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
-import 'package:common/presentation/buttons/prymary_button.dart';
 
 import '../bloc/onboarding_screen_bloc.dart';
 import '../bloc/onboarding_screen_event.dart';
 
 final class OnboardingShowNsecPage extends StatelessWidget {
   const OnboardingShowNsecPage({super.key});
+
+  static final _actionButtonStyle = ButtonStyle(
+    minimumSize: const WidgetStatePropertyAll(
+      Size.fromHeight(Sizes.buttonHeight),
+    ),
+
+    shape: WidgetStatePropertyAll(
+      RoundedRectangleBorder(borderRadius: BorderRadius.circular(Sizes.radius)),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +74,46 @@ final class OnboardingShowNsecPage extends StatelessWidget {
           _NsecCard(nsec: nsec),
           const SizedBox(height: Sizes.indent4x),
           const SizedBox(height: Sizes.indent4x),
-          Center(
-            child: PrymaryButton(
-              title: l10n.onboardingShowNsecPageButtonCopyKey,
-              onTap: () => _onCopyKey(context, nsec),
-            ),
+          Row(
+            spacing: Sizes.indent2x,
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () => _onCopyKey(context, nsec),
+                  style: _actionButtonStyle,
+                  icon: const Icon(Icons.copy),
+                  label: _SingleLineLabel(
+                    l10n.onboardingShowNsecPageButtonCopyKey,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: FilledButton.icon(
+                  onPressed: () => _onSaveToFile(context),
+                  style: _actionButtonStyle,
+                  icon: const Icon(Icons.save_alt),
+                  label: _SingleLineLabel(
+                    l10n.onboardingShowNsecPageButtonSaveToFile,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
+      ),
+    );
+  }
+
+  Future<void> _onSaveToFile(BuildContext context) async {
+    final result = await showDialog<BackupPasswordDialogResult>(
+      context: context,
+      builder: (_) => const BackupPasswordDialog.keysExport(),
+    );
+    if (result == null || !context.mounted) return;
+    context.read<OnboardingScreenBloc>().add(
+      OnboardingScreenEvent.saveKeyBackup(
+        password: result.password,
+        fileName: result.fileName,
       ),
     );
   }
@@ -89,24 +132,18 @@ final class OnboardingShowNsecPage extends StatelessWidget {
   }
 }
 
-// final class _Option extends StatelessWidget {
-//   final String md;
-//   const _Option({required this.md});
+/// Shrinks instead of wrapping, so both buttons in the row keep one height
+/// whatever the translation length.
+final class _SingleLineLabel extends StatelessWidget {
+  final String text;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final theme = Theme.of(context);
-//     return MarkdownBody(
-//       shrinkWrap: true,
-//       data: md,
-//       styleSheet: MarkdownStyleSheet(
-//         pPadding: EdgeInsets.zero,
-//         p: theme.textTheme.bodyLarge,
-//         textAlign: WrapAlignment.start,
-//       ),
-//     );
-//   }
-// }
+  const _SingleLineLabel(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return FittedBox(fit: BoxFit.scaleDown, child: Text(text, maxLines: 1));
+  }
+}
 
 final class _NsecCard extends StatelessWidget {
   final String nsec;

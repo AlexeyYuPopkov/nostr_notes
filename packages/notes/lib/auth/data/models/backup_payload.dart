@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:nostr_notes/common/data/backup/backup_zip_helper.dart';
 
 part 'backup_payload.g.dart';
 
@@ -17,6 +18,12 @@ final class BackupPayload {
 
   factory BackupPayload.fromJson(Map<String, dynamic> json) =>
       _$BackupPayloadFromJson(json);
+
+  /// Null if [archivedFileName] isn't present in the zip.
+  static BackupPayload? fromZip(List<int> bytes, String archivedFileName) {
+    final json = BackupZipHelper.readJson(bytes, archivedFileName);
+    return json == null ? null : BackupPayload.fromJson(json);
+  }
 
   final int version;
   final bool encrypted;

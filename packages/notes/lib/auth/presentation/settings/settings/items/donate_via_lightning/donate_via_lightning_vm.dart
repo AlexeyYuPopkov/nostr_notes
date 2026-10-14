@@ -17,11 +17,10 @@ final class DonateViaLightningVm {
   final ValueNotifier<int> invoice = ValueNotifier(0);
 
   DonateViaLightningVm({
-    required FetchLightningDonationUsecase fetchLightningDonationUsecase,
-    required GetLightningDonationUsecase getLightningDonationUsecase,
+    required this._fetchLightningDonationUsecase,
+    required this._getLightningDonationUsecase,
     String clientTagValue = AppConfig.appId,
-  }) : _fetchLightningDonationUsecase = fetchLightningDonationUsecase,
-       _getLightningDonationUsecase = getLightningDonationUsecase;
+  });
 
   void subscribe(FetchLightningPaymentParams params) {
     _getSubscription?.cancel();

@@ -21,16 +21,12 @@ final class SaveLoginItemUsecaseImpl implements SaveLoginItemUsecase {
   final NostrEventCreator _eventCreator;
 
   const SaveLoginItemUsecaseImpl({
-    required RawEventStore eventStore,
-    required OutboxDaoInterface outboxDao,
-    required VaultIdentityUsecase vaultIdentityUsecase,
-    required LoginItemCryptoUsecase loginItemCryptoUsecase,
-    NostrEventCreator eventCreator = const NostrEventCreator(),
-  }) : _eventStore = eventStore,
-       _outboxDao = outboxDao,
-       _vaultIdentityUsecase = vaultIdentityUsecase,
-       _loginItemCryptoUsecase = loginItemCryptoUsecase,
-       _eventCreator = eventCreator;
+    required this._eventStore,
+    required this._outboxDao,
+    required this._vaultIdentityUsecase,
+    required this._loginItemCryptoUsecase,
+    this._eventCreator = const NostrEventCreator(),
+  });
 
   @override
   Future<LoginItem> execute({

@@ -31,7 +31,6 @@ final class OnboardingWelcomePage extends StatelessWidget {
           const Center(
             child: OnboardingIcon.asset(
               AppIcons.welcomeIcon,
-
               semanticsLabel: 'Nostr icon',
             ),
           ),
@@ -43,7 +42,6 @@ final class OnboardingWelcomePage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          // const SomeFuncWidget(),
           const SizedBox(height: Sizes.indentVariant4x),
           Center(
             child: Text(
@@ -70,7 +68,7 @@ final class OnboardingWelcomePage extends StatelessWidget {
           Center(
             child: PrymaryButton(
               title: l10n.onboardingWelcomeButtonNext,
-              onTap: () => _onNext(context),
+              onPressed: () => _onNext(context),
             ),
           ),
           const SizedBox(height: Sizes.indent2x),

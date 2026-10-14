@@ -7,8 +7,7 @@ import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 final class CredentialsDataUsecase {
   final SessionUsecase _session;
 
-  const CredentialsDataUsecase({required SessionUsecase session})
-    : _session = session;
+  const CredentialsDataUsecase({required this._session});
 
   Future<CredentialsData> execute() async {
     final session = _session.currentSession;

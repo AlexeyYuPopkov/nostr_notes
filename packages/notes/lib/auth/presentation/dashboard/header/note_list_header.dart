@@ -87,12 +87,12 @@ final class NoteListHeader extends StatelessWidget {
   const NoteListHeader({
     super.key,
     required this.scrollVm,
-    required NoteListHeaderVm vm,
+    required this._vm,
     required this.searchString,
     required this.tab,
     required this.filters,
     required this.onRemoveFilter,
-  }) : _vm = vm;
+  });
 
   double get approxHeaderHeight {
     if (tab is NotesNotesTab) {

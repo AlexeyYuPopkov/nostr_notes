@@ -34,20 +34,11 @@ final class AppConfig {
       : Platform.environment.containsKey('FLUTTER_TEST') &&
             !const bool.fromEnvironment('INTEGRATION_TEST');
 
-  static final showAds = !kIsTest; //   !kDebugMode && !kIsTest;
-
   /// Developer's lightning address for in-app donations (LUD-16).
   static String get kDevLightningAddress => _env.devLightningAddress;
 
   /// Developer's nostr hex pubkey — used to create NIP-57 zap events.
   static String get kDevNostrPubkey => _env.devNostrPubkey;
-
-  static String get admobAppIdIos => _env.admobAppIdIos;
-  static String get admobInterstitialIdIos => _env.admobInterstitialIdIos;
-  static String get admobInterstitialIdAndroid =>
-      _env.admobInterstitialIdAndroid;
-  static String get admobBannerIdIos => _env.admobBannerIdIos;
-  static String get admobBannerIdAndroid => _env.admobBannerIdAndroid;
 
   static const kUsesInMemoryStorage = bool.fromEnvironment(
     'IN_MEMORY_STORAGE',

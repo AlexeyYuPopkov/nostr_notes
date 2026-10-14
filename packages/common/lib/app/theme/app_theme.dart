@@ -98,7 +98,12 @@ final class AppTheme {
           borderRadius: BorderRadius.circular(Sizes.radiusVariant),
         ),
       ),
-
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(splashFactory: NoSplash.splashFactory),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(splashFactory: NoSplash.splashFactory),
+      ),
       extensions: [
         ShimmerColors.fromBrightness(Brightness.light),
         AppGptMarkdownTheme.light(),
@@ -192,7 +197,12 @@ final class AppTheme {
         backgroundColor: AppColorScheme.dark.secondaryContainer,
         contentTextStyle: TextStyle(color: AppColorScheme.dark.onSurface),
       ),
-
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(splashFactory: NoSplash.splashFactory),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(splashFactory: NoSplash.splashFactory),
+      ),
       extensions: [
         ShimmerColors.fromBrightness(Brightness.light),
         AppGptMarkdownTheme.dark(),

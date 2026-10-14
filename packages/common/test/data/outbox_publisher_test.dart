@@ -11,6 +11,7 @@ import 'package:common/services/event_store/database/tables/outbox_events.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
+import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/services/outbox_publisher.dart';
 import 'package:nostr/nostr_client/ws_channel.dart';
 import 'package:rxdart/rxdart.dart';
@@ -27,6 +28,7 @@ void main() {
     late MockRelaysListRepo mockRelaysListRepo;
     late _MockChannelFactory mockChannelFactory;
     late _MockConnectivity mockConnectivity;
+    late NostrClient client;
     late OutboxPublisher sut;
 
     setUp(() {
@@ -40,12 +42,13 @@ void main() {
       mockRelaysListRepo = MockRelaysListRepo.withRelays({'wss://relay.test'});
       mockChannelFactory = _MockChannelFactory();
       mockConnectivity = _MockConnectivity();
+      client = NostrClient(channelFactory: mockChannelFactory);
 
       sut = OutboxPublisher(
         outboxDao: mockOutboxDao,
         rawEventStore: mockRawEventStore,
         relaysListRepo: mockRelaysListRepo,
-        channelFactory: mockChannelFactory,
+        client: client,
         connectivity: mockConnectivity,
         connectivityDebounce: Duration.zero,
       );
@@ -53,6 +56,7 @@ void main() {
 
     tearDown(() async {
       await sut.dispose();
+      await client.disconnectAndDispose();
       mockOutboxDao.dispose();
       DiStorage.shared.removeAll();
       await db.close();
@@ -152,15 +156,12 @@ void main() {
           await Future.delayed(const Duration(milliseconds: 100));
           // First attempt failed: event left in place, nothing removed.
           expect(mockOutboxDao.removeCalledWith, isEmpty);
-          expect(mockChannelFactory.channels, isNotEmpty);
-          final attemptsAfterFirst = mockChannelFactory.channels.length;
+          expect(mockChannelFactory.sentCount, isNonZero);
+          final attemptsAfterFirst = mockChannelFactory.sentCount;
 
           // Fresh event → retry after 3s; a second publish attempt is made.
           await Future.delayed(const Duration(seconds: 3, milliseconds: 300));
-          expect(
-            mockChannelFactory.channels.length,
-            greaterThan(attemptsAfterFirst),
-          );
+          expect(mockChannelFactory.sentCount, greaterThan(attemptsAfterFirst));
         },
       );
     });
@@ -303,6 +304,9 @@ class _MockChannelFactory implements ChannelFactory {
   bool respondWithFail = false;
 
   final channels = <MockWSChannel>[];
+
+  int get sentCount =>
+      channels.fold(0, (count, channel) => count + channel.verifyAddCalled());
 
   @override
   WsChannel create(String url) {

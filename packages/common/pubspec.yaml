@@ -3,7 +3,7 @@ description: common package for nostr workspace
 version: 0.0.1
 publish_to: none
 environment:
-  sdk: ">=3.11.0 <4.0.0"
+  sdk: ^3.12.0
 
 # Melos
 resolution: workspace
@@ -17,12 +17,12 @@ dependencies:
 
   flutter_web_plugins:
     sdk: flutter
-  cupertino_icons: ^1.0.9
+  cupertino_icons: ^2.0.0
 
   di_storage: ^2.0.1
   # auto_route: ^11.1.0
   meta: ^1.17.0
-  equatable: ^2.0.8
+  equatable: ^3.0.0
   # riverpod: ^3.2.1
 
 
@@ -31,7 +31,7 @@ dependencies:
   drift: ^2.32.1
   drift_flutter: ^0.3.0
   connectivity_plus: ^7.1.1
-  flutter_secure_storage: ^10.3.1
+  flutter_secure_storage: ^11.2.0
   shared_preferences: ^2.5.5
 
   collection: ^1.19.0
@@ -54,7 +54,9 @@ dev_dependencies:
   integration_test:
     sdk: flutter
 
-  build_runner: ^2.13.1
+  # 2.16.2 needs analyzer >=14.3, but auto_route_generator -> lean_builder
+  # caps _fe_analyzer_shared <106, which holds analyzer at 14.1.
+  build_runner: '>=2.13.1 <2.16.2'
 
   json_serializable: ^6.9.5
   auto_route_generator: ^10.5.0

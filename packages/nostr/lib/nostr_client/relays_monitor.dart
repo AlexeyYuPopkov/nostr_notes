@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 
+import '../model/base_nostr_event.dart';
 import '../model/relay_health.dart';
 import 'nostr_client.dart';
 import 'nostr_client_delegate.dart';
@@ -34,6 +35,11 @@ final class RelaysMonitor implements NostrClientDelegate {
 
   bool _paused = false;
 
+  /// The client only reports relay activity to its delegate while something
+  /// listens to [NostrClient.stream]; the monitor can't rely on another
+  /// feature (e.g. notes sync, absent during onboarding) doing so.
+  StreamSubscription<BaseNostrEvent>? _activitySub;
+
   Stream<Map<String, RelayStatus>> get statuses => _statusSubject.stream;
 
   void _onRelaysChanged(Set<String> urls) {
@@ -42,11 +48,22 @@ final class RelaysMonitor implements NostrClientDelegate {
       _liveStatus.remove(removed);
     }
     if (urls.isEmpty) {
-      _ticker.stop();
+      _stopProbing();
     } else if (!_paused) {
-      _ticker.start();
+      _startProbing();
     }
     _emit();
+  }
+
+  void _startProbing() {
+    _activitySub ??= _client.stream().listen((_) {});
+    _ticker.start();
+  }
+
+  void _stopProbing() {
+    _ticker.stop();
+    _activitySub?.cancel();
+    _activitySub = null;
   }
 
   @override
@@ -76,19 +93,21 @@ final class RelaysMonitor implements NostrClientDelegate {
   void pause() {
     if (_paused) return;
     _paused = true;
-    _ticker.stop();
+    _stopProbing();
   }
 
   void resume() {
     if (!_paused) return;
     _paused = false;
     if (_knownUrls.isNotEmpty) {
-      _ticker.start();
+      _startProbing();
     }
   }
 
   Future<void> dispose() async {
     await _relaysSub.cancel();
+    await _activitySub?.cancel();
+    _activitySub = null;
     await _ticker.dispose();
     if (identical(_client.delegate, this)) {
       _client.delegate = null;

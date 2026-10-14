@@ -114,7 +114,7 @@ class AppLocalizationsBg extends AppLocalizations {
       '🚫 **Личен** – всеки, притежаващ този ключ, ще получи достъп до акаунта ви. Никога не го споделяйте.';
 
   @override
-  String get onboardingShowNsecPageButtonCopyKey => 'Копирай ключ';
+  String get onboardingShowNsecPageButtonCopyKey => 'Копирай';
 
   @override
   String get onboardingShowNsecPageKeyCopied => 'Ключът е копиран в клипборда';
@@ -138,6 +138,36 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get onboardingNsecPageButtonSignUp => 'Регистрирай се';
+
+  @override
+  String get onboardingShowNsecPageButtonSaveToFile => 'Запази';
+
+  @override
+  String get onboardingShowNsecPageKeySaved => 'Файлът с ключа е запазен';
+
+  @override
+  String get onboardingNsecPageButtonLoadFromFile => 'Зареди от файл';
+
+  @override
+  String get keysBackupExportDialogTitle => 'Защитете файла с ключа';
+
+  @override
+  String get keysBackupExportDialogWarning =>
+      'Файлът съдържа вашия частен ключ, криптиран с тази парола. Паролата ще ви трябва за вход от файла — тя не може да бъде възстановена.';
+
+  @override
+  String get keysBackupImportDialogTitle => 'Парола на файла с ключа';
+
+  @override
+  String get keysBackupInvalidFileError =>
+      'Този файл не е резервно копие на ключ.';
+
+  @override
+  String get keysBackupUnsupportedVersionError =>
+      'Файлът с ключа е създаден от по-нова версия на приложението. Моля, обновете го.';
+
+  @override
+  String get keysBackupInvalidKeyError => 'Файлът съдържа невалиден ключ.';
 
   @override
   String get onboardingNsecPageValidationEmpty =>
@@ -534,6 +564,16 @@ class AppLocalizationsBg extends AppLocalizations {
   String get accsBackupImportSuccess => 'Акаунтите са импортирани успешно';
 
   @override
+  String get keysBackupSectionTitle => 'Ключове';
+
+  @override
+  String get keysBackupItemExportTitle => 'Експорт на ключа';
+
+  @override
+  String get keysBackupItemExportSubtitle =>
+      'Запазете частния ключ на акаунта (nsec) във файл, защитен с парола. Пазете паролата — тя не може да бъде възстановена.';
+
+  @override
   String get notesListPendingSyncTitle => 'Очаква синхронизация';
 
   @override
@@ -594,6 +634,25 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get credentialsDataScreenLabelPubKey => 'Публичен ключ';
+
+  @override
+  String get credentialsDataScreenLabelNpub => 'Npub';
+
+  @override
+  String get credentialsDataScreenInfoNpub =>
+      'Npub е формата на публичния ви ключ, която можете да споделяте. Дайте го на другите, за да ви намерят в приложенията на Nostr.';
+
+  @override
+  String get credentialsDataScreenTooltipShow => 'Покажи';
+
+  @override
+  String get credentialsDataScreenTooltipHide => 'Скрий';
+
+  @override
+  String get credentialsDataScreenTooltipCopy => 'Копирай';
+
+  @override
+  String get credentialsDataScreenTooltipSaveToFile => 'Запази във файл';
 
   @override
   String get credentialsDataScreenLabelPin => 'ПИН';

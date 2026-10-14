@@ -15,11 +15,10 @@ final class NostrClient {
   NostrClient({
     ChannelFactory? channelFactory,
     Uuid? uuid,
-    EventBatchParser? batchParser,
+    this._batchParser,
     this.delegate,
   }) : _channelFactory = channelFactory ?? const ChannelFactory(),
-       _uuid = uuid ?? const Uuid(),
-       _batchParser = batchParser {
+       _uuid = uuid ?? const Uuid() {
     log('NostrClient - init', name: 'NostrClient');
   }
 
@@ -95,6 +94,15 @@ final class NostrClient {
       _addRelay(url);
     }
     _relaySubject.add({...?_relaySubject.valueOrNull, ...validUrls});
+  }
+
+  /// Connects to the relays in [urls] that are missing and drops the rest.
+  void syncRelays(Set<String> urls) {
+    final current = relays.toSet();
+    for (final removed in current.difference(urls)) {
+      removeRelay(removed);
+    }
+    addRelays(urls.difference(current));
   }
 
   Future<void> removeRelay(String url) async {
@@ -202,7 +210,10 @@ final class NostrClient {
             name: 'NostrClient',
           );
         })
-        .asBroadcastStream();
+        // Not asBroadcastStream(): it never cancels its source, so every
+        // stream() call would stay subscribed to every relay after its last
+        // listener is gone. share() releases the source on the last cancel.
+        .share();
 
     return result;
   }

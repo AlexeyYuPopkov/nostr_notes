@@ -89,8 +89,8 @@ class CustomError<T> extends AppError {
     required this.payload,
     super.parentError,
     super.reason,
-    String message = '',
-  }) : _message = message;
+    this._message = '',
+  });
 
   CustomError<T> copyWithMessage(String message) => CustomError<T>(
     payload: payload,

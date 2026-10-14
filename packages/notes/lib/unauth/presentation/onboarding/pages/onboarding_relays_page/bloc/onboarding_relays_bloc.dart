@@ -48,19 +48,15 @@ final class OnboardingRelaysBloc
         .map((url) => RelayInfo(url: Uri.parse(url)))
         .toSet();
     _syncClientRelays(persisted);
+    saveButtonVm.dispose();
     return super.close();
   }
 
   /// Keeps [_client]'s relay set in lockstep with [selected], so
   /// [monitor] only tracks (and probes) relays the user has actually
-  /// picked — mirrors [NotesRepositoryImpl.syncRelays]'s diff pattern.
+  /// picked.
   void _syncClientRelays(Set<RelayInfo> selected) {
-    final selectedUrls = selected.map((r) => r.url.toString()).toSet();
-    final current = _client.relaysList.toSet();
-    for (final removed in current.difference(selectedUrls)) {
-      _client.removeRelay(removed);
-    }
-    _client.addRelays(selectedUrls.difference(current));
+    _client.syncRelays(selected.map((r) => r.url.toString()).toSet());
   }
 
   void _setupHandlers() {

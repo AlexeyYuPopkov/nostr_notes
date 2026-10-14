@@ -14,12 +14,10 @@ final class GetLoginItemUsecaseImpl implements GetLoginItemUsecase {
   final LoginItemCryptoUsecase _loginItemCryptoUsecase;
 
   const GetLoginItemUsecaseImpl({
-    required RawEventStore eventStore,
-    required VaultIdentityUsecase vaultIdentityUsecase,
-    required LoginItemCryptoUsecase loginItemCryptoUsecase,
-  }) : _eventStore = eventStore,
-       _vaultIdentityUsecase = vaultIdentityUsecase,
-       _loginItemCryptoUsecase = loginItemCryptoUsecase;
+    required this._eventStore,
+    required this._vaultIdentityUsecase,
+    required this._loginItemCryptoUsecase,
+  });
 
   @override
   Future<LoginItem?> execute({required String dTag}) async {

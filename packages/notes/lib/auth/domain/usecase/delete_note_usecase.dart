@@ -11,10 +11,9 @@ final class DeleteNoteUsecase {
   final NotesRepository _notesRepository;
 
   DeleteNoteUsecase({
-    required SessionUsecase sessionUsecase,
-    required NotesRepository notesRepository,
-  }) : _sessionUsecase = sessionUsecase,
-       _notesRepository = notesRepository;
+    required this._sessionUsecase,
+    required this._notesRepository,
+  });
 
   Future<Note> execute({
     required Note note,

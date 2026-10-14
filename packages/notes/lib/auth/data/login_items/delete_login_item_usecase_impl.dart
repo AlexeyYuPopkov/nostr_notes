@@ -21,16 +21,12 @@ final class DeleteLoginItemUsecaseImpl implements DeleteLoginItemUsecase {
   final Now _now;
 
   const DeleteLoginItemUsecaseImpl({
-    required RawEventStore eventStore,
-    required OutboxDaoInterface outboxDao,
-    required VaultIdentityUsecase vaultIdentityUsecase,
-    NostrEventCreator eventCreator = const NostrEventCreator(),
-    Now now = const Now(),
-  }) : _eventStore = eventStore,
-       _outboxDao = outboxDao,
-       _vaultIdentityUsecase = vaultIdentityUsecase,
-       _eventCreator = eventCreator,
-       _now = now;
+    required this._eventStore,
+    required this._outboxDao,
+    required this._vaultIdentityUsecase,
+    this._eventCreator = const NostrEventCreator(),
+    this._now = const Now(),
+  });
 
   @override
   Future<void> execute({required LoginItem item}) async {

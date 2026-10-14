@@ -7,6 +7,7 @@ import 'package:nostr_notes/common/data/mappers/user_mapper.dart';
 import 'package:nostr_notes/common/domain/model/user.dart';
 import 'package:nostr_notes/common/domain/usecase/get_user_usecase.dart';
 import 'package:nostr_notes/core/event_kind.dart';
+import 'package:rxdart/rxdart.dart';
 
 final class GetUserUsecaseImpl implements GetUserUsecase {
   static const _staleAfter = Duration(hours: 6);
@@ -14,26 +15,24 @@ final class GetUserUsecaseImpl implements GetUserUsecase {
   final RawEventStore _rawEventStore;
 
   const GetUserUsecaseImpl({
-    required AsyncFetcher asyncFetcher,
-    required RawEventStore rawEventStore,
-  }) : _asyncFetcher = asyncFetcher,
-       _rawEventStore = rawEventStore;
+    required this._asyncFetcher,
+    required this._rawEventStore,
+  });
 
   @override
-  Stream<User?> execute({required String pubkey, bool force = false}) async* {
-    final localEvents = await _rawEventStore
-        .queryEvents(
-          RawEventQuery(authors: [pubkey], kinds: const [NostrKind.user]),
-        )
-        .then(
-          (items) => items.where(
-            (e) => e.kind == NostrKind.user && e.pubkey == pubkey,
-          ),
-        );
+  Stream<User?> execute({required String pubkey, bool force = false}) {
+    final storedUser = _rawEventStore
+        .watchEvents(_userQuery(pubkey))
+        .map((events) => _newestUser(events, pubkey));
+    final refresh = Stream.fromFuture(
+      _refresh(pubkey: pubkey, force: force),
+    ).ignoreElements();
+    return Rx.merge([storedUser, refresh]).distinct();
+  }
 
-    final localEvent = localEvents.isEmpty ? null : localEvents.first;
-
-    yield localEvent == null ? null : UserMapper.fromNostrEvent(localEvent);
+  Future<void> _refresh({required String pubkey, required bool force}) async {
+    final localEvents = await _rawEventStore.queryEvents(_userQuery(pubkey));
+    final localEvent = _newestEvent(localEvents, pubkey);
 
     if (!force && localEvent != null && !_isStale(localEvent)) {
       return;
@@ -55,21 +54,31 @@ final class GetUserUsecaseImpl implements GetUserUsecase {
       policy: const ReturnFirstPolicy(),
     );
 
-    if (result.events.isEmpty) {
+    final fetchedEvent = _newestEvent(result.events.values, pubkey);
+
+    if (fetchedEvent == null) {
       return;
     }
 
-    final fetchedEvents =
-        result.events.values
-            .where((e) => e.kind == NostrKind.user && e.pubkey == pubkey)
-            .toList()
-          ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
-    final fetchedEvent = fetchedEvents.first;
-
     if (localEvent == null || fetchedEvent.createdAt > localEvent.createdAt) {
       await _rawEventStore.upsert([fetchedEvent]);
-      yield UserMapper.fromNostrEvent(fetchedEvent);
     }
+  }
+
+  static RawEventQuery _userQuery(String pubkey) =>
+      RawEventQuery(authors: [pubkey], kinds: const [NostrKind.user]);
+
+  static NostrEvent? _newestEvent(Iterable<NostrEvent> events, String pubkey) {
+    final userEvents = events
+        .where((e) => e.kind == NostrKind.user && e.pubkey == pubkey)
+        .toList();
+    if (userEvents.isEmpty) return null;
+    return userEvents.reduce((a, b) => a.createdAt >= b.createdAt ? a : b);
+  }
+
+  static User? _newestUser(Iterable<NostrEvent> events, String pubkey) {
+    final event = _newestEvent(events, pubkey);
+    return event == null ? null : UserMapper.fromNostrEvent(event);
   }
 
   static bool _isStale(NostrEvent event) {

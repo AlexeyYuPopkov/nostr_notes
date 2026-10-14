@@ -13,8 +13,7 @@ part 'note_router_part.dart';
 final class NoteRouter {
   final ScreensAssembly _screensAssembly;
 
-  const NoteRouter({required ScreensAssembly screensAssembly})
-    : _screensAssembly = screensAssembly;
+  const NoteRouter({required this._screensAssembly});
 
   List<GoRoute> getRoutes() {
     return [

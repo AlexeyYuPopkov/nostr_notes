@@ -140,8 +140,8 @@ final class TabParams extends Equatable {
   const TabParams({
     required this.selectedNoteDTag,
     required this.coordinator,
-    required SectionScrollVm scrollSectionsVm,
-  }) : _scrollSectionsVm = scrollSectionsVm;
+    required this._scrollSectionsVm,
+  });
 
   @override
   List<Object?> get props => [selectedNoteDTag];

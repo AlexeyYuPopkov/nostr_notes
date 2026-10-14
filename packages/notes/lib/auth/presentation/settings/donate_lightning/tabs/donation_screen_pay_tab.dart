@@ -54,7 +54,7 @@ final class _ButtonDone extends StatelessWidget {
   Widget build(BuildContext context) {
     return PrymaryButton(
       title: context.commonL10n.commonButtonDone,
-      onTap: () => Navigator.of(context).pop(),
+      onPressed: () => Navigator.of(context).pop(),
     );
   }
 }
@@ -97,7 +97,7 @@ final class _OpenWithLightning extends StatelessWidget {
 
         return PrymaryButton(
           title: context.l10n.donateLightningScreenButtonOpenWithLightning,
-          onTap: () async {
+          onPressed: () async {
             final opened = await OpenWalletHelper.openLightningInvoice(
               lightningInvoice: invoice,
             );
@@ -172,7 +172,7 @@ final class _Qr extends StatelessWidget {
             ),
             Center(
               child: OpacityOutlinedButton(
-                onTap: () => _onCopyInvoice(context, invoice),
+                onPressed: () => _onCopyInvoice(context, invoice),
                 title: Row(
                   mainAxisSize: MainAxisSize.min,
                   spacing: Sizes.indent,

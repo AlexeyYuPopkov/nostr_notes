@@ -2,6 +2,7 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:notes_test_kit/pump_helpers.dart';
 import 'package:nostr/model/user_keys.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
@@ -57,6 +58,8 @@ void main() {
     // Stop the pending auto-unlock timer before the test ends.
     await tester.tap(find.text('Cancel'));
     await tester.pump();
+
+    await PumpHelpers.unmount(tester);
   });
 
   testWidgets('Cancel halts the auto-unlock and reveals a manual Unlock', (
@@ -78,6 +81,8 @@ void main() {
       DiStorage.shared.resolve<SessionUsecase>().currentSession.isUnlocked,
       isFalse,
     );
+
+    await PumpHelpers.unmount(tester);
   });
 
   testWidgets('the countdown auto-unlocks the session when not cancelled', (
@@ -103,6 +108,8 @@ void main() {
       DiStorage.shared.resolve<SessionUsecase>().currentSession.isUnlocked,
       isTrue,
     );
+
+    await PumpHelpers.unmount(tester);
   });
 
   testWidgets('account header dropdown lists all stored accounts', (
@@ -133,6 +140,8 @@ void main() {
     expect(find.text(truncatePubkey(_pubkeyB)), findsOneWidget);
     // The current account also appears as a menu item.
     expect(find.text(truncatePubkey(_keys.publicKey)), findsNWidgets(3));
+
+    await PumpHelpers.unmount(tester);
   });
 }
 

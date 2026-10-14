@@ -3,14 +3,11 @@ import 'package:common/presentation/tools/optional_box.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/delete_login_item_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/export_accounts_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/get_login_item_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/save_login_item_usecase.dart';
-import 'package:nostr_notes/common/domain/usecase/verification_usecase.dart';
-import 'package:nostr_notes/services/ads/ads_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../tools/login_item_form_normalization.dart';
@@ -33,9 +30,6 @@ final class LoginItemFormBloc
       .resolve();
   late final ExportAccountsUsecase _exportAccountsUsecase = DiStorage.shared
       .resolve();
-  late final VerificationUsecase _verificationUsecase = DiStorage.shared
-      .resolve();
-  late final AdsService _adsService = DiStorage.shared.resolve();
 
   final titleController = TextEditingController();
   final websiteController = TextEditingController();
@@ -251,10 +245,6 @@ final class LoginItemFormBloc
     WillExportEvent event,
     Emitter<LoginItemFormState> emit,
   ) async {
-    if (AppConfig.showAds) {
-      _verificationUsecase.skipNextVerification();
-      await _adsService.showInterstitial();
-    }
     emit(LoginItemFormState.willExport(data: data));
   }
 

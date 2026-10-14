@@ -18,16 +18,12 @@ final class AuthUsecase {
   final AccountsRepo _accountsRepo;
 
   AuthUsecase({
-    required SecureStorage secureStorage,
-    required SessionUsecase sessionUsecase,
-    required KeyToolRepository keyToolRepository,
-    required RelaysListRepo relaysListRepo,
-    required AccountsRepo accountsRepo,
-  }) : _secureStorage = secureStorage,
-       _sessionUsecase = sessionUsecase,
-       _keyToolRepository = keyToolRepository,
-       _relaysListRepo = relaysListRepo,
-       _accountsRepo = accountsRepo;
+    required this._secureStorage,
+    required this._sessionUsecase,
+    required this._keyToolRepository,
+    required this._relaysListRepo,
+    required this._accountsRepo,
+  });
 
   static String accountStorageKey(String pubkey) => '$secureStorageKey.$pubkey';
 

@@ -12,12 +12,10 @@ final class LightningDonationRepoImpl implements LightningDonationRepo {
   final PerformLightingInvoiceService _performLightingInvoiceService;
 
   LightningDonationRepoImpl({
-    required SessionUsecase sessionUsecase,
-    required RelaysListRepo relaysListRepo,
-    required PerformLightingInvoiceService performLightingInvoiceService,
-  }) : _sessionUsecase = sessionUsecase,
-       _relaysListRepo = relaysListRepo,
-       _performLightingInvoiceService = performLightingInvoiceService;
+    required this._sessionUsecase,
+    required this._relaysListRepo,
+    required this._performLightingInvoiceService,
+  });
 
   @override
   Future<String> getInvoice({required int sats}) async {

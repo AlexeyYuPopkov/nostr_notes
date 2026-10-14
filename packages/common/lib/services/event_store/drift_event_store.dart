@@ -7,7 +7,7 @@ import 'package:common/services/event_store/raw_event_store.dart';
 ///
 /// [RawEventStore] implementation with drift
 class DriftEventStore implements RawEventStore {
-  const DriftEventStore({required NostrEventDao dao}) : _dao = dao;
+  const DriftEventStore({required this._dao});
   final NostrEventDao _dao;
 
   @override

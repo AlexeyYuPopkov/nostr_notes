@@ -76,7 +76,7 @@ final class _Banner extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return OpacityOutlinedButton(
-      onTap: onTap,
+      onPressed: onTap,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

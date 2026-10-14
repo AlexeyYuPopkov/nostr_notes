@@ -177,6 +177,76 @@ void main() {
       },
     );
 
+    test(
+      'ReturnFirstPolicy keeps waiting when the first EOSE comes from a relay '
+      'without matching events',
+      () async {
+        final channel1 = MockWSChannel(url: _relayUrl1);
+        final channel2 = MockWSChannel(url: _relayUrl2);
+
+        when(() => channelFactory.create(_relayUrl1)).thenReturn(channel1);
+        when(() => channelFactory.create(_relayUrl2)).thenReturn(channel2);
+
+        client.addRelay(_relayUrl1);
+        client.addRelay(_relayUrl2);
+
+        // A fast relay that doesn't have the profile answers first.
+        channel1.onAdd = (data, ch) {
+          if ((data as String).contains('"REQ"')) {
+            Future.microtask(() => ch.mockStream.add(_eoseJson('sub-id')));
+          }
+        };
+        channel2.onAdd = (data, ch) {
+          if ((data as String).contains('"REQ"')) {
+            Future.delayed(const Duration(milliseconds: 20), () {
+              ch.mockStream.add(
+                _profileEventJson('sub-id', 'profile-1', 'pubkey'),
+              );
+              ch.mockStream.add(_eoseJson('sub-id'));
+            });
+          }
+        };
+
+        final result = await sut
+            .fetchEvents(
+              req: const NostrReq(
+                filters: [
+                  NostrFilter(kinds: [0]),
+                ],
+              ),
+              policy: const ReturnFirstPolicy(),
+            )
+            .timeout(const Duration(seconds: 5));
+
+        expect(result.error, isNull);
+        expect(result.events.keys, contains('profile-1'));
+      },
+    );
+
+    test('ReturnFirstPolicy times out when no relay sends EOSE', () async {
+      final channel1 = MockWSChannel(url: _relayUrl1);
+
+      when(() => channelFactory.create(_relayUrl1)).thenReturn(channel1);
+
+      client.addRelay(_relayUrl1);
+
+      final result = await sut
+          .fetchEvents(
+            req: const NostrReq(
+              filters: [
+                NostrFilter(kinds: [0]),
+              ],
+            ),
+            policy: const ReturnFirstPolicy(
+              timeout: Duration(milliseconds: 50),
+            ),
+          )
+          .timeout(const Duration(seconds: 5));
+
+      expect(result.error, equals(AsyncFetchError.timoutError));
+      expect(result.events, isEmpty);
+    });
+
     test('WaitForAllPolicy times out when not all relays send EOSE', () async {
       final channel1 = MockWSChannel(url: _relayUrl1);
 

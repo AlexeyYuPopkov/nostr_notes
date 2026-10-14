@@ -1,0 +1,28 @@
+targets:
+  $default:
+    builders:
+      bdd_widget_test|featureBuilder:
+        options:
+          # Feature-specific steps live in a `steps/` folder next to the feature.
+          stepFolderName: ./steps
+          # Shared steps: test/ is not importable via package:, so they live
+          # in notes_test_kit and are matched here by file name.
+          externalSteps:
+            - package:notes_test_kit/bdd_steps/a_fresh_install.dart
+            - package:notes_test_kit/bdd_steps/error_at_first_tf.dart
+            - package:notes_test_kit/bdd_steps/i_scroll_to_semantics.dart
+            - package:notes_test_kit/bdd_steps/i_see_page.dart
+            - package:notes_test_kit/bdd_steps/i_see_semantics.dart
+            - package:notes_test_kit/bdd_steps/i_see_text.dart
+            - package:notes_test_kit/bdd_steps/i_tap_semantics.dart
+            - package:notes_test_kit/bdd_steps/i_tap_text.dart
+            - package:notes_test_kit/bdd_steps/input_at_first_tf.dart
+            - package:notes_test_kit/bdd_steps/the_app_was_launched_before.dart
+            - package:notes_test_kit/bdd_steps/i_dont_see_text.dart
+            - package:notes_test_kit/bdd_steps/a_fake_clipboard.dart
+            - package:notes_test_kit/bdd_steps/the_clipboard_contains.dart
+            - package:notes_test_kit/bdd_steps/fake_file_dialogs.dart
+            - package:notes_test_kit/bdd_steps/i_enter_into_backup_password_field.dart
+            - package:notes_test_kit/bdd_steps/the_key_file_is_prepared.dart
+            - package:notes_test_kit/bdd_steps/a_key_backup_zip_was_shared.dart
+            - package:notes_test_kit/bdd_steps/no_file_was_shared.dart
