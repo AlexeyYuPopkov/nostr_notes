@@ -1,3 +1,5 @@
+import 'package:common/presentation/widgets/progress_hud/progress_hud.dart';
+
 Feature: Sign in with a key backup file
 
   Background:
@@ -12,20 +14,26 @@ Feature: Sign in with a key backup file
 
   Scenario: A key file with the correct password signs in
     Given a key backup file protected with {'1234'}
+    And the key import waits until released
     When I open the onboarding screen
     And I tap {'Get Started'} text
     And I tap {'Load from File'} text
     And I enter {'1234'} into backup password field
     And I tap {'OK'} text
+    Then I see {ProgressHud.semanticsId} semantics
+    When the key import is released
     Then I see {'Select Relays'} page
 
   Scenario: A wrong password keeps the user on the sign-in page
     Given a key backup file protected with {'1234'}
+    And the key import waits until released
     When I open the onboarding screen
     And I tap {'Get Started'} text
     And I tap {'Load from File'} text
     And I enter {'9999'} into backup password field
     And I tap {'OK'} text
+    Then I see {ProgressHud.semanticsId} semantics
+    When the key import is released
     Then I see {'Wrong password, or the backup is corrupted.'} text
     And I see {'Enter your Nostr nsec'} page
 
@@ -35,7 +43,10 @@ Feature: Sign in with a key backup file
     And I tap {'Get Started'} text
     And I tap {'Load from File'} text
     And I enter {'1234'} into backup password field
+    And the key import waits until released
     And I tap {'OK'} text
+    Then I see {ProgressHud.semanticsId} semantics
+    When the key import is released
     Then I see {'This file is not a key backup.'} text
     And I see {'Enter your Nostr nsec'} page
 

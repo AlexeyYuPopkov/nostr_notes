@@ -46,7 +46,7 @@ final class ExportImportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProgressHudWidgetContent(
+    return ProgressHudScopeWidget(
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => ExportImportBloc()),

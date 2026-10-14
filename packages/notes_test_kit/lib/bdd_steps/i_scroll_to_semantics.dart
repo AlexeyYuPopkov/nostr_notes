@@ -26,5 +26,5 @@ Future<void> iScrollToSemantics(WidgetTester tester, String identifier) async {
     );
   }
   await tester.ensureVisible(finder);
-  await tester.pumpAndSettle();
+  await PumpHelpers.pumpUntilIdle(tester);
 }

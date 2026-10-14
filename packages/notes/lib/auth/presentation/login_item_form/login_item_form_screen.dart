@@ -121,7 +121,7 @@ final class LoginItemFormScreen extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    return ProgressHudWidgetContent(
+    return ProgressHudScopeWidget(
       child: BlocProvider(
         create: (context) => LoginItemFormBloc(pathParams: params),
         child: BlocConsumer<LoginItemFormBloc, LoginItemFormState>(

@@ -1,14 +1,15 @@
 part of 'progress_hud.dart';
 
-abstract class HudPolicy {
-  const factory HudPolicy.defaultValue() = IndicatorWithCheckmark;
-  factory HudPolicy.indicator({String? hint}) => Indicator(hint: hint ?? '');
-  factory HudPolicy.blocking() = Blocking;
-  const HudPolicy();
+abstract class ProgressHudStyle {
+  const factory ProgressHudStyle.defaultValue() = IndicatorWithCheckmark;
+  factory ProgressHudStyle.indicator({String? hint}) =>
+      Indicator(hint: hint ?? '');
+  factory ProgressHudStyle.blocking() = Blocking;
+  const ProgressHudStyle();
   Widget build(BuildContext context, ProgressHudVm vm);
 }
 
-final class Blocking extends HudPolicy {
+final class Blocking extends ProgressHudStyle {
   const Blocking();
 
   @override
@@ -16,7 +17,7 @@ final class Blocking extends HudPolicy {
       const SizedBox.expand();
 }
 
-final class Indicator extends HudPolicy {
+final class Indicator extends ProgressHudStyle {
   const Indicator({this.hint = ''});
   final String hint;
 
@@ -78,7 +79,7 @@ final class Indicator extends HudPolicy {
   }
 }
 
-final class IndicatorWithCheckmark extends HudPolicy {
+final class IndicatorWithCheckmark extends ProgressHudStyle {
   static const hudSize = Size(110.0, 110.0);
   static const checkmarkThreshold = 0.9;
   static const animationDuration = Duration(milliseconds: 500);

@@ -97,7 +97,7 @@ final class _NotePreviewScreenState extends State<NotePreviewScreen>
 
   @override
   Widget build(BuildContext context) {
-    return ProgressHudWidgetContent(
+    return ProgressHudScopeWidget(
       child: BlocProvider(
         create: (context) => NotePreviewBloc(pathParams: widget.pathParams),
         child: BlocConsumer<NotePreviewBloc, NotePreviewState>(

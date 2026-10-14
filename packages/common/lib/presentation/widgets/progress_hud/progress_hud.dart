@@ -1,3 +1,33 @@
+// Usage (see e.g. NotePreviewScreen, ExportImportScreen):
+//
+//   // 1. Wrap the screen; the HUD is drawn into the nearest Overlay
+//   //    (the app's Navigator provides one).
+//   @override
+//   Widget build(BuildContext context) {
+//     return ProgressHudScopeWidget(
+//       child: BlocProvider(
+//         create: (_) => SomeBloc(),
+//         child: BlocListener<SomeBloc, SomeState>(
+//           listener: _listener,
+//           child: ...,
+//         ),
+//       ),
+//     );
+//   }
+//
+//   // 2. Drive it from a context *below* the wrapper — `ProgressHud.of`
+//   //    returns null for the context that builds ProgressHudScopeWidget.
+//   void _listener(BuildContext context, SomeState state) {
+//     final hud = ProgressHud.of(context);
+//     hud?.setLoading(isLoading: state is LoadingState);
+//     if (state is LoadingState) hud?.vm.progress = state.progress; // 0..1
+//   }
+//
+//   // Look: spinner + checkmark at progress >= 0.9 (default),
+//   // spinner only, or a silent input blocker.
+//   hud?.setLoading(isLoading: true, policy: HudPolicy.indicator(hint: '…'));
+//   hud?.setLoading(isLoading: true, policy: HudPolicy.blocking());
+
 import 'dart:developer';
 
 import 'package:common/app/theme/sizes.dart';
@@ -7,6 +37,7 @@ import 'package:flutter/material.dart';
 part 'hud_policy_part.dart';
 
 final class ProgressHud extends InheritedWidget {
+  static const semanticsId = 'ProgressHud';
   const ProgressHud({super.key, required this.vm, required super.child});
   final ProgressHudVm vm;
 
@@ -17,14 +48,14 @@ final class ProgressHud extends InheritedWidget {
   static void setLoadingOf(
     BuildContext context, {
     required bool isLoading,
-    HudPolicy policy = const HudPolicy.defaultValue(),
+    ProgressHudStyle policy = const ProgressHudStyle.defaultValue(),
   }) {
     of(context)?.setLoading(isLoading: isLoading, policy: policy);
   }
 
   void setLoading({
     required bool isLoading,
-    HudPolicy policy = const HudPolicy.defaultValue(),
+    ProgressHudStyle policy = const ProgressHudStyle.defaultValue(),
   }) {
     if (vm.isLoading != isLoading) {
       log('Setting isLoading to $isLoading', name: 'ProgressHud');
@@ -45,8 +76,8 @@ final class ProgressHud extends InheritedWidget {
 }
 
 final class ProgressHudVm extends ChangeNotifier {
-  ProgressHudVm({this._policy = const HudPolicy.defaultValue()});
-  HudPolicy _policy;
+  ProgressHudVm({this._policy = const ProgressHudStyle.defaultValue()});
+  ProgressHudStyle _policy;
 
   double? _progress;
 
@@ -65,7 +96,7 @@ final class ProgressHudVm extends ChangeNotifier {
 
   void setLoading(
     bool value, {
-    HudPolicy policy = const HudPolicy.defaultValue(),
+    ProgressHudStyle policy = const ProgressHudStyle.defaultValue(),
   }) {
     if (_isLoading != value) {
       _isLoading = value;
@@ -76,31 +107,15 @@ final class ProgressHudVm extends ChangeNotifier {
   }
 }
 
-final class ProgressHudWidget extends StatelessWidget {
-  const ProgressHudWidget({super.key, required this.child});
+final class ProgressHudScopeWidget extends StatefulWidget {
+  const ProgressHudScopeWidget({super.key, required this.child});
   final Widget child;
 
   @override
-  Widget build(BuildContext context) {
-    return Overlay(
-      initialEntries: [
-        OverlayEntry(builder: (_) => ProgressHudWidgetContent(child: child)),
-      ],
-    );
-  }
+  State<ProgressHudScopeWidget> createState() => _ProgressHudScopeWidgetState();
 }
 
-final class ProgressHudWidgetContent extends StatefulWidget {
-  const ProgressHudWidgetContent({super.key, required this.child});
-  final Widget child;
-
-  @override
-  State<ProgressHudWidgetContent> createState() =>
-      _ProgressHudWidgetContentState();
-}
-
-final class _ProgressHudWidgetContentState
-    extends State<ProgressHudWidgetContent> {
+final class _ProgressHudScopeWidgetState extends State<ProgressHudScopeWidget> {
   late final vm = ProgressHudVm();
   OverlayEntry? overlayEntry;
 
@@ -169,11 +184,14 @@ final class _OverlayContentState extends State<_OverlayContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        const Positioned.fill(child: ColoredBox(color: Color(0x4D9E9E9E))),
-        widget.vm._policy.build(context, widget.vm),
-      ],
+    return Semantics(
+      identifier: ProgressHud.semanticsId,
+      child: Stack(
+        children: [
+          const Positioned.fill(child: ColoredBox(color: Color(0x4D9E9E9E))),
+          widget.vm._policy.build(context, widget.vm),
+        ],
+      ),
     );
   }
 }
