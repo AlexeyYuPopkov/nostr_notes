@@ -78,10 +78,10 @@ unauth/       ← Pre-login screens (onboarding, etc.)
 - Scopes are removed/replaced on logout. DI uses `DiStorage.shared` (not `get_it`) for `packages/notes`.
 
 **Routing** (`app/router/`):
-- Uses `go_router`. Never call `GoRouter.of(context)` directly from UI.
-- Navigation is triggered via `RouteHandler.of(context)?.onRoute(SomeRoute(), context)`.
-- Route types are plain classes implementing `AppRoute` (see `settings_screen_routes.dart`).
+- Uses `go_router`. Screens never call the router: they call an injected `XScreenCoordinator`; `XScreenCoordinatorImpl` lives in `app/router/*_router_part.dart` and is injected via `ScreensAssembly`. `Navigator.of(context).pop()` and modal dialogs/sheets (`showDialog`, `showModalBottomSheet`, …) straight from a screen are allowed.
+- Inside the settings drawer (`DrawerRouter`, nested `Navigator`) screens emit `AppRoute` objects via `RouteHandler.of(context)?.onRoute(SomeRoute(), context)` (routes in `settings_screen_routes.dart`).
 - `AppRouter` manages the `GoRouter` instance, handles auth redirect, and refreshes on session changes.
+- Recipes and rules: the `navigation-coordinator` skill.
 
 **State management**:
 - `flutter_bloc` (`Bloc`) for screen-level state (settings, credentials, donate flows).
@@ -111,7 +111,7 @@ lib/
 
 - **DI**: `get_it`. `Di.registerUnauthModules()` pushes the `unauth-scope`; drop it with `Di.dropUnauthModules()`. Shared repos/usecases come from `packages/common`.
 - **State**: Riverpod 3 with codegen — `@riverpod` notifiers in a `provider/` folder next to the screen, UI as `ConsumerWidget`. Root is `ProviderScope` in `main.dart`. Run `make codegen` after changing a provider.
-- **Routing**: `auto_route` — screens are `@RoutePage()`, routes are registered in `router/app_router.dart`.
+- **Routing**: `auto_route`, routes registered in `router/app_router.dart`. Same coordinator pattern as notes: the screen takes an `XScreenCoordinator`; a `@RoutePage()` wrapper in `router/` builds it with `XScreenCoordinatorImpl`. See the `navigation-coordinator` skill. (`OnboardingScreen` still calls `context.replaceRoute` directly — not yet migrated.)
 - **Tests**: wrap in `AppLauncher.launchApp` from `packages/chat/test/tools/app_launcher/` (gives `ProviderScope`, theme, l10n). Call `AppLauncher.setUp()` in `setUp` and `addTearDown(AppLauncher.tearDown)`; it swaps `SecureStorage` for a fake in `get_it`. BDD steps shared with notes come from `app_test_kit` (listed in `packages/chat/build.yaml`); never add `notes_test_kit` to chat — it pulls in the notes app and its native plugins.
 
 ## Running the app with an AI agent (Marionette)
@@ -126,7 +126,7 @@ The `marionette_flutter` version in `packages/chat/pubspec.yaml` must match the 
 ## AI agent setup
 
 - Instructions: this file. `AGENTS.md` is a symlink to it; `.github/copilot-instructions.md` points here.
-- Skills: `.agents/skills/` (`.claude/skills` is a symlink to it). Project-owned skills are `nostr` and `self-documenting-code`. The `flutter-*` and `marionette-*` skills are copied from upstream, so re-sync them instead of hand-editing them. Where a skill and this file disagree, this file wins.
+- Skills: `.agents/skills/` (`.claude/skills` is a symlink to it). Project-owned skills are `nostr`, `navigation-coordinator` and `self-documenting-code`. The `flutter-*` and `marionette-*` skills are copied from upstream, so re-sync them instead of hand-editing them. Where a skill and this file disagree, this file wins.
 - MCP servers: `.mcp.json` — `dart` (analyzer, tests, pub) and `marionette` (drive the running app).
 - Claude Code: shared settings and the `reference_prompt.sh` hook live in `.claude/settings.json`; personal permissions go in the git-ignored `.claude/settings.local.json`.
 
