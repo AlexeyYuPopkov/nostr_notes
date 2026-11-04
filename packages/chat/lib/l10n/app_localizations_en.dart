@@ -139,4 +139,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingNsecPageValidationInvalid => 'Invalid NSEC key';
+
+  @override
+  String get tabChats => 'Chats';
+
+  @override
+  String get tabSettings => 'Settings';
+
+  @override
+  String get chatsListTitle => 'Chats';
+
+  @override
+  String get chatsListEmpty => 'No chats yet';
+
+  @override
+  String get chatsListLoadError => 'Couldn\'t load chats';
+
+  @override
+  String get chatMessageHint => 'Message';
+
+  @override
+  String get chatSend => 'Send';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsPlaceholder => 'Settings will appear here';
 }

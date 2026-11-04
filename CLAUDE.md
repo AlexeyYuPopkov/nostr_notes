@@ -102,14 +102,15 @@ Don't carry notes patterns (Bloc, `Vm`, `DiStorage`, `go_router`) into chat.
 ```
 lib/
   common/di/    ← `Di` (get_it scopes)
-  common/domain/ ← models, usecases (AuthUsecase, SessionUsecase)
+  common/domain/ ← models, repo interfaces (ChatsRepo), usecases (AuthUsecase, SessionUsecase)
+  common/data/  ← repo implementations (`FakeChatsRepo` — in-memory until relays are wired)
   common/debug/ ← Marionette configuration (debug only)
-  router/       ← `AppRouter` (@AutoRouterConfig)
+  router/       ← `AppRouter` (@AutoRouterConfig); `auth_router.dart` — tab bar, @RoutePage wrappers, coordinator impls
   unauth/presentation/ ← onboarding
-  auth/         ← screens after login
+  auth/         ← screens after login: chats_list/, chat/, settings/
 ```
 
-- **DI**: `get_it`. `Di.registerUnauthModules()` pushes the `unauth-scope`; drop it with `Di.dropUnauthModules()`. Shared repos/usecases come from `packages/common`.
+- **DI**: `get_it`. `Di.registerUnauthModules()` pushes the `unauth-scope`; drop it with `Di.dropUnauthModules()`. `Di.registerAuthModules()` pushes the `auth-scope` (chat repos) when onboarding completes. Shared repos/usecases come from `packages/common`.
 - **State**: Riverpod 3 with codegen — `@riverpod` notifiers in a `provider/` folder next to the screen, UI as `ConsumerWidget`. Root is `ProviderScope` in `main.dart`. Run `make codegen` after changing a provider.
 - **Routing**: `auto_route`, routes registered in `router/app_router.dart`. Same coordinator pattern as notes: the screen takes an `XScreenCoordinator`; a `@RoutePage()` wrapper in `router/` builds it with `XScreenCoordinatorImpl`. See the `navigation-coordinator` skill. (`OnboardingScreen` still calls `context.replaceRoute` directly — not yet migrated.)
 - **Tests**: wrap in `AppLauncher.launchApp` from `packages/chat/test/tools/app_launcher/` (gives `ProviderScope`, theme, l10n). Call `AppLauncher.setUp()` in `setUp` and `addTearDown(AppLauncher.tearDown)`; it swaps `SecureStorage` for a fake in `get_it`. BDD steps shared with notes come from `app_test_kit` (listed in `packages/chat/build.yaml`); never add `notes_test_kit` to chat — it pulls in the notes app and its native plugins.

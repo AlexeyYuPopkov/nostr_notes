@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:chat/common/di/di.dart';
 import 'package:chat/common/domain/usecase/auth_usecase.dart';
 import 'package:chat/router/app_router.gr.dart';
 import 'package:chat/unauth/presentation/onboarding/provider/onboarding_state.dart';
@@ -60,7 +61,8 @@ final class _OnboardingBody extends ConsumerWidget with DialogHelper {
       }
 
       if (next is OnboardingDone) {
-        context.replaceRoute(const HomeRoute());
+        Di.registerAuthModules();
+        context.replaceRoute(const AuthTabsRoute());
       }
     });
 

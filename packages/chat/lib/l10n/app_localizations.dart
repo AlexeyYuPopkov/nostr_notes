@@ -321,6 +321,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid NSEC key'**
   String get onboardingNsecPageValidationInvalid;
+
+  /// No description provided for @tabChats.
+  ///
+  /// In en, this message translates to:
+  /// **'Chats'**
+  String get tabChats;
+
+  /// No description provided for @tabSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get tabSettings;
+
+  /// No description provided for @chatsListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Chats'**
+  String get chatsListTitle;
+
+  /// No description provided for @chatsListEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No chats yet'**
+  String get chatsListEmpty;
+
+  /// No description provided for @chatsListLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load chats'**
+  String get chatsListLoadError;
+
+  /// No description provided for @chatMessageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get chatMessageHint;
+
+  /// No description provided for @chatSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get chatSend;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @settingsPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings will appear here'**
+  String get settingsPlaceholder;
 }
 
 class _AppLocalizationsDelegate
