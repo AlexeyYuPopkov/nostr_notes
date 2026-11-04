@@ -117,6 +117,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  app_test_kit:
+    path: ../app_test_kit
   notes_test_kit:
     path: ../notes_test_kit
   integration_test:

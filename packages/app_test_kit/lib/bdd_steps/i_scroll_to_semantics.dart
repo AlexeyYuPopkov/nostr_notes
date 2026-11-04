@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:notes_test_kit/pump_helpers.dart';
+import 'package:app_test_kit/pump_helpers.dart';
 
 const _scrollStep = 100.0;
 

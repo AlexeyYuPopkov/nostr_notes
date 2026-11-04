@@ -56,3 +56,7 @@ app.*.map.json
 
 # FVM Version Cache
 .fvm/
+# AI agents
+.claude/settings.local.json
+.playwright-mcp/
+.marionette/

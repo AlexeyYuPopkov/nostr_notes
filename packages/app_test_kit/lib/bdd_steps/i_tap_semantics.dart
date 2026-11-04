@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:notes_test_kit/pump_helpers.dart';
+import 'package:app_test_kit/pump_helpers.dart';
 import 'i_scroll_to_semantics.dart';
 
 /// Usage: I tap semantics {'CredentialsDataScreen.nsec.copyButton'}

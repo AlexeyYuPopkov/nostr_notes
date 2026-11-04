@@ -4,7 +4,7 @@ import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:notes_test_kit/pump_helpers.dart';
+import 'package:app_test_kit/pump_helpers.dart';
 import 'package:nostr/nostr_client/async_fetcher.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/auth/domain/repo/accounts_repo.dart';

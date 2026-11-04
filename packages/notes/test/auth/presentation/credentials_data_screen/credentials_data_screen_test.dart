@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:notes_test_kit/bdd_steps/a_fresh_install.dart';
-import 'package:notes_test_kit/bdd_steps/a_fake_clipboard.dart';
+import 'package:app_test_kit/bdd_steps/a_fake_clipboard.dart';
 import './steps/credentials_data_screen_visible.dart';
-import 'package:notes_test_kit/bdd_steps/i_see_text.dart';
-import 'package:notes_test_kit/bdd_steps/i_see_semantics.dart';
-import 'package:notes_test_kit/bdd_steps/i_dont_see_text.dart';
-import 'package:notes_test_kit/bdd_steps/i_tap_semantics.dart';
-import 'package:notes_test_kit/bdd_steps/the_clipboard_contains.dart';
-import 'package:notes_test_kit/bdd_steps/i_scroll_to_semantics.dart';
+import 'package:app_test_kit/bdd_steps/i_see_text.dart';
+import 'package:app_test_kit/bdd_steps/i_see_semantics.dart';
+import 'package:app_test_kit/bdd_steps/i_dont_see_text.dart';
+import 'package:app_test_kit/bdd_steps/i_tap_semantics.dart';
+import 'package:app_test_kit/bdd_steps/the_clipboard_contains.dart';
+import 'package:app_test_kit/bdd_steps/i_scroll_to_semantics.dart';
 import 'package:notes_test_kit/bdd_steps/fake_file_dialogs.dart';
 import 'package:notes_test_kit/bdd_steps/i_enter_into_backup_password_field.dart';
-import 'package:notes_test_kit/bdd_steps/i_tap_text.dart';
+import 'package:app_test_kit/bdd_steps/i_tap_text.dart';
 import 'package:notes_test_kit/bdd_steps/the_key_file_is_prepared.dart';
 import 'package:notes_test_kit/bdd_steps/a_key_backup_zip_was_shared.dart';
 

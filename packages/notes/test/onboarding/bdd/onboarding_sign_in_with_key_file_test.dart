@@ -7,17 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:notes_test_kit/bdd_steps/a_fresh_install.dart';
-import 'package:notes_test_kit/bdd_steps/the_app_was_launched_before.dart';
+import 'package:app_test_kit/bdd_steps/the_app_was_launched_before.dart';
 import 'package:notes_test_kit/bdd_steps/fake_file_dialogs.dart';
 import './steps/i_open_the_onboarding_screen.dart';
-import 'package:notes_test_kit/bdd_steps/i_tap_text.dart';
-import 'package:notes_test_kit/bdd_steps/i_see_text.dart';
+import 'package:app_test_kit/bdd_steps/i_tap_text.dart';
+import 'package:app_test_kit/bdd_steps/i_see_text.dart';
 import './steps/a_key_backup_file_protected_with.dart';
 import './steps/the_key_import_waits_until_released.dart';
 import 'package:notes_test_kit/bdd_steps/i_enter_into_backup_password_field.dart';
-import 'package:notes_test_kit/bdd_steps/i_see_semantics.dart';
+import 'package:app_test_kit/bdd_steps/i_see_semantics.dart';
 import './steps/the_key_import_is_released.dart';
-import 'package:notes_test_kit/bdd_steps/i_see_page.dart';
+import 'package:app_test_kit/bdd_steps/i_see_page.dart';
 import './steps/a_notes_backup_file.dart';
 import './steps/the_file_picker_is_cancelled.dart';
 

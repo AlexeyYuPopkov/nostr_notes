@@ -7,13 +7,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:notes_test_kit/bdd_steps/a_fresh_install.dart';
 import 'package:notes_test_kit/bdd_steps/fake_file_dialogs.dart';
 import './steps/i_open_the_onboarding_screen.dart';
-import 'package:notes_test_kit/bdd_steps/i_tap_text.dart';
-import 'package:notes_test_kit/bdd_steps/i_see_text.dart';
+import 'package:app_test_kit/bdd_steps/i_tap_text.dart';
+import 'package:app_test_kit/bdd_steps/i_see_text.dart';
 import 'package:notes_test_kit/bdd_steps/i_enter_into_backup_password_field.dart';
 import 'package:notes_test_kit/bdd_steps/no_file_was_shared.dart';
 import 'package:notes_test_kit/bdd_steps/the_key_file_is_prepared.dart';
 import 'package:notes_test_kit/bdd_steps/a_key_backup_zip_was_shared.dart';
-import 'package:notes_test_kit/bdd_steps/i_see_page.dart';
+import 'package:app_test_kit/bdd_steps/i_see_page.dart';
 
 void main() {
   group('''Save the generated key to a file''', () {
