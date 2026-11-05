@@ -1,3 +1,5 @@
+import 'package:chat/common/data/fake_chats_repo.dart';
+import 'package:chat/common/domain/repo/chats_repo.dart';
 import 'package:chat/common/domain/usecase/auth_usecase.dart';
 import 'package:chat/common/domain/usecase/session_usecase.dart';
 import 'package:common/data/repo/key_tool_repository_impl.dart';
@@ -11,10 +13,13 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class Di {
+  static const _unauthScope = 'unauth-scope';
+  static const _authScope = 'auth-scope';
+
   static Future<void> registerUnauthModules() async {
     final prefs = await SharedPreferences.getInstance();
 
-    GetIt.I.pushNewScope(scopeName: 'unauth-scope');
+    GetIt.I.pushNewScope(scopeName: _unauthScope);
 
     GetIt.I.registerSingleton<RelaysListRepo>(
       RelaysListRepoImpl(prefs),
@@ -42,6 +47,20 @@ abstract class Di {
   }
 
   static Future<void> dropUnauthModules() {
-    return GetIt.I.dropScope('unauth-scope');
+    return GetIt.I.dropScope(_unauthScope);
+  }
+
+  static void registerAuthModules() {
+    if (GetIt.I.hasScope(_authScope)) {
+      return;
+    }
+    GetIt.I.pushNewScope(scopeName: _authScope);
+    GetIt.I.registerLazySingleton<ChatsRepo>(FakeChatsRepo.new);
+  }
+
+  static Future<void> dropAuthModules() async {
+    if (GetIt.I.hasScope(_authScope)) {
+      await GetIt.I.dropScope(_authScope);
+    }
   }
 }

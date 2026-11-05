@@ -11,6 +11,7 @@ workspace:
   - packages/notes
   - packages/chat
   - packages/notes_test_kit
+  - packages/app_test_kit
 
 
 dev_dependencies:

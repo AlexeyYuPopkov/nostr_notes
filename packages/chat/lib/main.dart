@@ -1,3 +1,4 @@
+import 'package:chat/common/debug/marionette_config.dart';
 import 'package:chat/common/di/di.dart';
 import 'package:chat/l10n/localization.dart';
 import 'package:chat/router/app_router.dart';
@@ -8,8 +9,10 @@ import 'package:common/data/repo/app_theme_data_repo_impl.dart';
 import 'package:common/domain/repo/app_shared_prefs.dart';
 import 'package:common/presentation/theme_settings/global_settings_vm.dart';
 import 'package:common/l10n/localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:marionette_flutter/marionette_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // import 'package:flutter_web_plugins/flutter_web_plugins.dart';
@@ -17,7 +20,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 // final _appRouter = AppRouter();
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  if (kDebugMode) {
+    MarionetteBinding.ensureInitialized(marionetteConfiguration);
+  } else {
+    WidgetsFlutterBinding.ensureInitialized();
+  }
 
   // if (!kIsWeb) {
   //     setUrlStrategy(const HashUrlStrategy());

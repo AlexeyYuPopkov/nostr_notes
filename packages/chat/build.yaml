@@ -1,0 +1,21 @@
+targets:
+  $default:
+    builders:
+      bdd_widget_test|featureBuilder:
+        options:
+          # Feature-specific steps live in a `steps/` folder next to the feature.
+          stepFolderName: ./steps
+          # Shared steps: matched by file name.
+          externalSteps:
+            - package:app_test_kit/bdd_steps/a_fake_clipboard.dart
+            - package:app_test_kit/bdd_steps/error_at_first_tf.dart
+            - package:app_test_kit/bdd_steps/i_dont_see_text.dart
+            - package:app_test_kit/bdd_steps/i_scroll_to_semantics.dart
+            - package:app_test_kit/bdd_steps/i_see_page.dart
+            - package:app_test_kit/bdd_steps/i_see_semantics.dart
+            - package:app_test_kit/bdd_steps/i_see_text.dart
+            - package:app_test_kit/bdd_steps/i_tap_semantics.dart
+            - package:app_test_kit/bdd_steps/i_tap_text.dart
+            - package:app_test_kit/bdd_steps/input_at_first_tf.dart
+            - package:app_test_kit/bdd_steps/the_app_was_launched_before.dart
+            - package:app_test_kit/bdd_steps/the_clipboard_contains.dart

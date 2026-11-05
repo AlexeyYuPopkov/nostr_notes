@@ -2,7 +2,7 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:notes_test_kit/pump_helpers.dart';
+import 'package:app_test_kit/pump_helpers.dart';
 import 'package:nostr/model/user_keys.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';

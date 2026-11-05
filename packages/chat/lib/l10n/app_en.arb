@@ -36,5 +36,14 @@
     "onboardingNsecPageButtonSignUp": "Sign Up",
     "onboardingNsecPageValidationEmpty": "NSEC key cannot be empty",
     "onboardingNsecPageValidationNpub": "This is a public key (npub). Please enter your private key (nsec)",
-    "onboardingNsecPageValidationInvalid": "Invalid NSEC key"
+    "onboardingNsecPageValidationInvalid": "Invalid NSEC key",
+    "tabChats": "Chats",
+    "tabSettings": "Settings",
+    "chatsListTitle": "Chats",
+    "chatsListEmpty": "No chats yet",
+    "chatsListLoadError": "Couldn't load chats",
+    "chatMessageHint": "Message",
+    "chatSend": "Send",
+    "settingsTitle": "Settings",
+    "settingsPlaceholder": "Settings will appear here"
 }

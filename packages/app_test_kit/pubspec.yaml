@@ -1,0 +1,18 @@
+name: app_test_kit
+description: App-agnostic test helpers and BDD steps shared by the notes and chat tests.
+publish_to: none
+
+environment:
+  sdk: ^3.12.0
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
+  shared_preferences: ^2.5.5
+
+dev_dependencies:
+  flutter_lints: ^6.0.0

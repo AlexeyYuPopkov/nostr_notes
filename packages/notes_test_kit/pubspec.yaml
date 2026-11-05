@@ -1,5 +1,5 @@
 name: notes_test_kit
-description: Test infrastructure and BDD steps shared by nostr_notes tests.
+description: Notes-specific test infrastructure and BDD steps (DI overrides, backup-file fakes). App-agnostic helpers live in app_test_kit.
 publish_to: none
 
 environment:
