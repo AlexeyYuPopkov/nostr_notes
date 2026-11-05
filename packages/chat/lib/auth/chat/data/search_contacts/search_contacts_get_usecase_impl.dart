@@ -1,4 +1,4 @@
-import 'package:chat/auth/chat/data/model/nostr_kind.dart';
+import 'package:chat/auth/common/data/model/nostr_kind.dart';
 import 'package:chat/auth/chat/domain/usecase/search_contacts_get_usecase.dart';
 import 'package:collection/collection.dart';
 import 'package:common/data/mappers/user_mapper.dart';

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:chat/auth/chat/presentation/chat/chat_screen.dart';
 import 'package:chat/auth/chat/presentation/chats_list/chats_list_screen.dart';
 import 'package:chat/auth/chat/presentation/search_contact/search_contact_screen.dart';
+import 'package:chat/auth/settings/presentation/profile/profile_screen.dart';
 import 'package:chat/auth/settings/presentation/settings/settings_screen.dart';
 import 'package:chat/auth/home/presentation/home/home_navigation_bar.dart';
 import 'package:chat/router/app_router.gr.dart';
@@ -58,7 +59,16 @@ final class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
   @override
-  Widget build(BuildContext context) => const SettingsScreen();
+  Widget build(BuildContext context) =>
+      const SettingsScreen(coordinator: SettingsScreenCoordinatorImpl());
+}
+
+@RoutePage()
+final class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
+  @override
+  Widget build(BuildContext context) => const ProfileScreen();
 }
 
 final class ChatsListScreenCoordinatorImpl
@@ -93,5 +103,15 @@ final class SearchContactScreenCoordinatorImpl
     required String pubkey,
   }) async {
     await context.router.root.replace(ChatRoute(pubkey: pubkey));
+  }
+}
+
+final class SettingsScreenCoordinatorImpl implements SettingsScreenCoordinator {
+  const SettingsScreenCoordinatorImpl();
+
+  // Like the chat, the profile covers the tab bar.
+  @override
+  Future<void> onProfileRoute(BuildContext context) async {
+    await context.router.root.push(const ProfileRoute());
   }
 }

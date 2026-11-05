@@ -370,12 +370,6 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settingsTitle;
 
-  /// No description provided for @settingsPlaceholder.
-  ///
-  /// In en, this message translates to:
-  /// **'Settings will appear here'**
-  String get settingsPlaceholder;
-
   /// No description provided for @searchContactTitle.
   ///
   /// In en, this message translates to:
@@ -405,6 +399,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search failed. Check your relays and try again'**
   String get searchContactError;
+
+  /// No description provided for @settingsItemProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get settingsItemProfile;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTitle;
+
+  /// No description provided for @profileSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get profileSave;
+
+  /// No description provided for @profileNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get profileNameLabel;
+
+  /// No description provided for @profileNameHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Short name. Other apps show it when there\'s no display name'**
+  String get profileNameHelper;
+
+  /// No description provided for @profileDisplayNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Display name'**
+  String get profileDisplayNameLabel;
+
+  /// No description provided for @profileDisplayNameHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'A longer name that can use any characters'**
+  String get profileDisplayNameHelper;
+
+  /// No description provided for @profilePictureLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Picture URL'**
+  String get profilePictureLabel;
+
+  /// No description provided for @profilePictureHint.
+  ///
+  /// In en, this message translates to:
+  /// **'https://example.com/avatar.jpg'**
+  String get profilePictureHint;
+
+  /// No description provided for @profilePictureInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a full link starting with https:// or http://'**
+  String get profilePictureInvalid;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile saved'**
+  String get profileSaved;
+
+  /// No description provided for @profileNotPublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved on this device, but no relay accepted it'**
+  String get profileNotPublished;
+
+  /// No description provided for @profileSaveError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save the profile'**
+  String get profileSaveError;
+
+  /// No description provided for @profileNpubLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Public key (npub)'**
+  String get profileNpubLabel;
+
+  /// No description provided for @profilePubkeyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Public key (hex)'**
+  String get profilePubkeyLabel;
+
+  /// No description provided for @profileCopyTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get profileCopyTooltip;
 }
 
 class _AppLocalizationsDelegate

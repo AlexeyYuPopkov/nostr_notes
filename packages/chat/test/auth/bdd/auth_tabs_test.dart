@@ -9,8 +9,8 @@ import './steps/a_chat_with.dart';
 import './steps/i_open_the_authorized_area.dart';
 import 'package:app_test_kit/bdd_steps/i_see_text.dart';
 import 'package:app_test_kit/bdd_steps/i_tap_semantics.dart';
-import 'package:app_test_kit/bdd_steps/i_tap_text.dart';
 import 'package:app_test_kit/bdd_steps/i_see_semantics.dart';
+import 'package:app_test_kit/bdd_steps/i_tap_text.dart';
 import 'package:app_test_kit/bdd_steps/input_at_first_tf.dart';
 
 void main() {
@@ -33,7 +33,7 @@ void main() {
       await bddSetUp(tester);
       await iOpenTheAuthorizedArea(tester);
       await iTapSemantics(tester, 'AuthTabs.settings');
-      await iSeeText(tester, 'Settings will appear here');
+      await iSeeSemantics(tester, 'SettingsScreen.profileItem');
     });
     testWidgets('''Tapping a chat opens it''', (tester) async {
       await bddSetUp(tester);

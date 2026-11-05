@@ -107,7 +107,8 @@ lib/
   auth/
     home/       ← tab-bar shell (`HomeNavigationBar`)
     chat/       ← domain/ (Chat, ChatsRepo, search usecases), data/ (`FakeChatsRepo` — in-memory; search_contacts/ — offline-first kind 0 search: `SearchContactsFetchUsecaseImpl` fills `RawEventStore` from relays, `SearchContactsGetUsecaseImpl` watches it), presentation/ (chats_list, chat, search_contact — modal)
-    settings/presentation/settings/
+    settings/   ← presentation/settings/ (menu items), presentation/profile/ + domain/ + data/profile/ — edit own kind 0 (name, display_name, picture); merges into the stored content, store first, then `NostrPublisher` (chat has no outbox yet)
+    common/     ← shared by several auth features (`NostrKind`)
 ```
 
 Where new code goes (features, layers, shared levels, tests): the `feature-layout` skill.

@@ -11,7 +11,7 @@ Feature: Authorized area tabs
   Scenario: The settings tab shows the settings screen
     When I open the authorized area
     And I tap semantics {'AuthTabs.settings'}
-    Then I see {'Settings will appear here'} text
+    Then I see semantics {'SettingsScreen.profileItem'}
 
   Scenario: Tapping a chat opens it
     When I open the authorized area

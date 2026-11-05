@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:chat/auth/chat/data/model/nostr_kind.dart';
+import 'package:chat/auth/common/data/model/nostr_kind.dart';
 import 'package:chat/auth/chat/domain/usecase/search_contacts_fetch_usecase.dart';
 import 'package:common/domain/repo/relays_list_repo.dart';
 import 'package:common/services/event_store/raw_event_store.dart';

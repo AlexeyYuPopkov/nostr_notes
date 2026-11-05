@@ -4,6 +4,10 @@ import 'package:chat/auth/chat/data/search_contacts/search_contacts_get_usecase_
 import 'package:chat/auth/chat/domain/repo/chats_repo.dart';
 import 'package:chat/auth/chat/domain/usecase/search_contacts_fetch_usecase.dart';
 import 'package:chat/auth/chat/domain/usecase/search_contacts_get_usecase.dart';
+import 'package:chat/auth/settings/data/profile/get_current_profile_usecase_impl.dart';
+import 'package:chat/auth/settings/data/profile/update_profile_usecase_impl.dart';
+import 'package:chat/auth/settings/domain/usecase/get_current_profile_usecase.dart';
+import 'package:chat/auth/settings/domain/usecase/update_profile_usecase.dart';
 import 'package:chat/common/domain/usecase/auth_usecase.dart';
 import 'package:chat/common/domain/usecase/session_usecase.dart';
 import 'package:common/data/repo/key_tool_repository_impl.dart';
@@ -87,6 +91,23 @@ abstract class Di {
     );
     GetIt.I.registerFactory<SearchContactsGetUsecase>(
       () => SearchContactsGetUsecaseImpl(eventStore: GetIt.I.get()),
+    );
+    GetIt.I.registerFactory<GetCurrentProfileUsecase>(
+      () => GetCurrentProfileUsecaseImpl(
+        sessionUsecase: GetIt.I.get(),
+        eventStore: GetIt.I.get(),
+        client: GetIt.I.get(),
+        asyncFetcher: AsyncFetcher(client: GetIt.I.get()),
+        relaysListRepo: GetIt.I.get(),
+      ),
+    );
+    GetIt.I.registerFactory<UpdateProfileUsecase>(
+      () => UpdateProfileUsecaseImpl(
+        sessionUsecase: GetIt.I.get(),
+        eventStore: GetIt.I.get(),
+        client: GetIt.I.get(),
+        relaysListRepo: GetIt.I.get(),
+      ),
     );
   }
 
