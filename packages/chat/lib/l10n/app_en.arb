@@ -45,5 +45,10 @@
     "chatMessageHint": "Message",
     "chatSend": "Send",
     "settingsTitle": "Settings",
-    "settingsPlaceholder": "Settings will appear here"
+    "settingsPlaceholder": "Settings will appear here",
+    "searchContactTitle": "New chat",
+    "searchContactHint": "Name, npub or public key",
+    "searchContactInitialHint": "Search people by name, npub or public key",
+    "searchContactNoResults": "No users found",
+    "searchContactError": "Search failed. Check your relays and try again"
 }

@@ -1,5 +1,5 @@
-import 'package:chat/common/data/fake_chats_repo.dart';
-import 'package:chat/common/domain/repo/chats_repo.dart';
+import 'package:chat/auth/chat/data/fake_chats_repo.dart';
+import 'package:chat/auth/chat/domain/repo/chats_repo.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 

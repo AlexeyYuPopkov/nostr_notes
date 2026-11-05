@@ -375,6 +375,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings will appear here'**
   String get settingsPlaceholder;
+
+  /// No description provided for @searchContactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New chat'**
+  String get searchContactTitle;
+
+  /// No description provided for @searchContactHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Name, npub or public key'**
+  String get searchContactHint;
+
+  /// No description provided for @searchContactInitialHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search people by name, npub or public key'**
+  String get searchContactInitialHint;
+
+  /// No description provided for @searchContactNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No users found'**
+  String get searchContactNoResults;
+
+  /// No description provided for @searchContactError.
+  ///
+  /// In en, this message translates to:
+  /// **'Search failed. Check your relays and try again'**
+  String get searchContactError;
 }
 
 class _AppLocalizationsDelegate

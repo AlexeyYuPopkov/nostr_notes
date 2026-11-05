@@ -166,4 +166,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsPlaceholder => 'Settings will appear here';
+
+  @override
+  String get searchContactTitle => 'New chat';
+
+  @override
+  String get searchContactHint => 'Name, npub or public key';
+
+  @override
+  String get searchContactInitialHint =>
+      'Search people by name, npub or public key';
+
+  @override
+  String get searchContactNoResults => 'No users found';
+
+  @override
+  String get searchContactError =>
+      'Search failed. Check your relays and try again';
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:nostr_notes/common/domain/model/user.dart';
+import 'package:common/domain/model/user.dart';
 import 'package:nostr_notes/common/domain/usecase/get_user_usecase.dart';
 
 final class AccountChipVM extends ChangeNotifier {
