@@ -13,7 +13,9 @@ final class FakeWsChannel implements WsChannel {
 
   FakeWsChannel({required this.url});
 
-  void receive(String frame) => _incoming.add(frame);
+  void receive(String frame) {
+    if (!_incoming.isClosed) _incoming.add(frame);
+  }
 
   @override
   void add(dynamic data) => onSend?.call(data as String, this);

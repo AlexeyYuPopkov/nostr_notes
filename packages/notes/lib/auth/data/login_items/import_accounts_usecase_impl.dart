@@ -13,7 +13,7 @@ import 'package:nostr_notes/auth/domain/usecase/login_items/import_accounts_usec
 import 'package:nostr_notes/auth/domain/usecase/login_items/save_login_item_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/vault_identity_usecase.dart';
 import 'package:nostr_notes/core/event_kind.dart';
-import 'package:nostr_notes/services/hex_to_bytes.dart';
+import 'package:nostr/hex/hex_to_bytes.dart';
 
 /// Mirrors `ImportUsecaseImpl` (notes) but delegates the actual write to
 /// [SaveLoginItemUsecase] instead of hand-rolling event signing: unlike a

@@ -24,7 +24,7 @@ import 'package:common/services/event_store/database/daos/outbox_dao_interface.d
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostr_notes/core/tools/now.dart';
-import 'package:nostr_notes/services/outbox_publisher.dart';
+import 'package:common/services/outbox/outbox_publisher.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../integration_test/di/in_memory_db_module.dart';

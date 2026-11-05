@@ -346,6 +346,12 @@ abstract class AppLocalizations {
   /// **'No chats yet'**
   String get chatsListEmpty;
 
+  /// No description provided for @chatsListStartChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a chat'**
+  String get chatsListStartChat;
+
   /// No description provided for @chatsListLoadError.
   ///
   /// In en, this message translates to:
@@ -363,6 +369,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send'**
   String get chatSend;
+
+  /// No description provided for @chatEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get chatEdit;
+
+  /// No description provided for @chatCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get chatCopy;
+
+  /// No description provided for @chatEditing.
+  ///
+  /// In en, this message translates to:
+  /// **'Editing message'**
+  String get chatEditing;
+
+  /// No description provided for @chatCancelEditing.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel editing'**
+  String get chatCancelEditing;
+
+  /// No description provided for @chatEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'edited'**
+  String get chatEdited;
+
+  /// No description provided for @chatEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet. Say hi!'**
+  String get chatEmpty;
+
+  /// No description provided for @chatLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load messages'**
+  String get chatLoadError;
+
+  /// No description provided for @chatSendError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save the message'**
+  String get chatSendError;
 
   /// No description provided for @settingsTitle.
   ///

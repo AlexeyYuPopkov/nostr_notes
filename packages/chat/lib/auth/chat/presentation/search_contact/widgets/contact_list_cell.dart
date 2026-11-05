@@ -1,8 +1,8 @@
+import 'package:chat/auth/chat/presentation/common/user_title.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/domain/model/user.dart';
 import 'package:common/presentation/account_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr/key_tool/key_tool.dart';
 
 final class ContactListCell extends StatelessWidget {
   static const avatarSize = 40.0;
@@ -15,12 +15,10 @@ final class ContactListCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final npub = truncatePubkey(KeyTool.npubKey(user.pubkey));
-    final name = [user.displayName, user.name].whereType<String>().firstWhere(
-      (e) => e.trim().isNotEmpty,
-      orElse: () => '',
-    );
-    final subtitle = user.nip05?.trim().isNotEmpty == true ? user.nip05! : npub;
+    final name = user.readableName;
+    final subtitle = user.nip05?.trim().isNotEmpty == true
+        ? user.nip05!
+        : user.shortNpub;
 
     return ListTile(
       shape: RoundedRectangleBorder(
@@ -32,12 +30,8 @@ final class ContactListCell extends StatelessWidget {
         size: avatarSize,
         pictureUrl: user.picture,
       ),
-      title: Text(
-        name.isEmpty ? npub : name,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
-      subtitle: name.isEmpty
+      title: Text(user.title, maxLines: 1, overflow: TextOverflow.ellipsis),
+      subtitle: name == null
           ? null
           : Text(subtitle, maxLines: 1, overflow: TextOverflow.ellipsis),
       onTap: onTap,

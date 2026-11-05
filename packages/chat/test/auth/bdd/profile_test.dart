@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import './steps/the_user_is_signed_in.dart';
 import './steps/my_profile_is_named.dart';
+import 'package:app_test_kit/bdd_steps/i_close_the_app.dart';
 import './steps/i_open_the_authorized_area.dart';
 import 'package:app_test_kit/bdd_steps/i_tap_semantics.dart';
 import 'package:app_test_kit/bdd_steps/i_see_text.dart';
@@ -23,76 +24,111 @@ void main() {
       await myProfileIsNamed(tester, 'Alice');
     }
 
+    Future<void> bddTearDown(WidgetTester tester) async {
+      await iCloseTheApp(tester);
+    }
+
     testWidgets('''The profile opens from the settings''', (tester) async {
-      await bddSetUp(tester);
-      await iOpenTheAuthorizedArea(tester);
-      await iTapSemantics(tester, 'AuthTabs.settings');
-      await iTapSemantics(tester, 'SettingsScreen.profileItem');
-      await iSeeText(tester, 'Alice');
+      try {
+        await bddSetUp(tester);
+        await iOpenTheAuthorizedArea(tester);
+        await iTapSemantics(tester, 'AuthTabs.settings');
+        await iTapSemantics(tester, 'SettingsScreen.profileItem');
+        await iSeeText(tester, 'Alice');
+      } finally {
+        await bddTearDown(tester);
+      }
     });
     testWidgets('''A malformed picture link is rejected''', (tester) async {
-      await bddSetUp(tester);
-      await iOpenMyProfile(tester);
-      await iEnterIntoSemantics(
-        tester,
-        'not a link',
-        'ProfileScreen.pictureField',
-      );
-      await iSeeText(
-        tester,
-        'Enter a full link starting with https:// or http://',
-      );
+      try {
+        await bddSetUp(tester);
+        await iOpenMyProfile(tester);
+        await iEnterIntoSemantics(
+          tester,
+          'not a link',
+          'ProfileScreen.pictureField',
+        );
+        await iSeeText(
+          tester,
+          'Enter a full link starting with https:// or http://',
+        );
+      } finally {
+        await bddTearDown(tester);
+      }
     });
     testWidgets('''A saved name is kept''', (tester) async {
-      await bddSetUp(tester);
-      await iOpenMyProfile(tester);
-      await iEnterIntoSemantics(tester, 'Bob', 'ProfileScreen.nameField');
-      await iTapSemantics(tester, 'ProfileScreen.saveButton');
-      await iSeeText(tester, 'Profile saved');
-      await mySavedNameIs(tester, 'Bob');
+      try {
+        await bddSetUp(tester);
+        await iOpenMyProfile(tester);
+        await iEnterIntoSemantics(tester, 'Bob', 'ProfileScreen.nameField');
+        await iTapSemantics(tester, 'ProfileScreen.saveButton');
+        await iSeeText(tester, 'Profile saved');
+        await mySavedNameIs(tester, 'Bob');
+      } finally {
+        await bddTearDown(tester);
+      }
     });
     testWidgets('''A profile no relay accepted stays on the device''', (
       tester,
     ) async {
-      await bddSetUp(tester);
-      await noRelayAcceptsMyProfile(tester);
-      await iOpenMyProfile(tester);
-      await iEnterIntoSemantics(tester, 'Bob', 'ProfileScreen.nameField');
-      await iTapSemantics(tester, 'ProfileScreen.saveButton');
-      await iSeeText(tester, 'Saved on this device, but no relay accepted it');
-      await mySavedNameIs(tester, 'Bob');
+      try {
+        await bddSetUp(tester);
+        await noRelayAcceptsMyProfile(tester);
+        await iOpenMyProfile(tester);
+        await iEnterIntoSemantics(tester, 'Bob', 'ProfileScreen.nameField');
+        await iTapSemantics(tester, 'ProfileScreen.saveButton');
+        await iSeeText(
+          tester,
+          'Saved on this device, but no relay accepted it',
+        );
+        await mySavedNameIs(tester, 'Bob');
+      } finally {
+        await bddTearDown(tester);
+      }
     });
     testWidgets('''My public keys are shown''', (tester) async {
-      await bddSetUp(tester);
-      await iOpenMyProfile(tester);
-      await iSeeText(
-        tester,
-        'npub1sg6plzptd64u62a878hep2kev88swjh3tw00gjsfl8f237lmu63q0uf63m',
-      );
-      await iSeeText(
-        tester,
-        '82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2',
-      );
+      try {
+        await bddSetUp(tester);
+        await iOpenMyProfile(tester);
+        await iSeeText(
+          tester,
+          'npub1sg6plzptd64u62a878hep2kev88swjh3tw00gjsfl8f237lmu63q0uf63m',
+        );
+        await iSeeText(
+          tester,
+          '82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2',
+        );
+      } finally {
+        await bddTearDown(tester);
+      }
     });
     testWidgets('''The npub can be copied''', (tester) async {
-      await bddSetUp(tester);
-      await aFakeClipboard(tester);
-      await iOpenMyProfile(tester);
-      await iTapSemantics(tester, 'ProfileScreen.npubCopyButton');
-      await theClipboardContains(
-        tester,
-        'npub1sg6plzptd64u62a878hep2kev88swjh3tw00gjsfl8f237lmu63q0uf63m',
-      );
+      try {
+        await bddSetUp(tester);
+        await aFakeClipboard(tester);
+        await iOpenMyProfile(tester);
+        await iTapSemantics(tester, 'ProfileScreen.npubCopyButton');
+        await theClipboardContains(
+          tester,
+          'npub1sg6plzptd64u62a878hep2kev88swjh3tw00gjsfl8f237lmu63q0uf63m',
+        );
+      } finally {
+        await bddTearDown(tester);
+      }
     });
     testWidgets('''The hex public key can be copied''', (tester) async {
-      await bddSetUp(tester);
-      await aFakeClipboard(tester);
-      await iOpenMyProfile(tester);
-      await iTapSemantics(tester, 'ProfileScreen.pubkeyCopyButton');
-      await theClipboardContains(
-        tester,
-        '82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2',
-      );
+      try {
+        await bddSetUp(tester);
+        await aFakeClipboard(tester);
+        await iOpenMyProfile(tester);
+        await iTapSemantics(tester, 'ProfileScreen.pubkeyCopyButton');
+        await theClipboardContains(
+          tester,
+          '82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2',
+        );
+      } finally {
+        await bddTearDown(tester);
+      }
     });
   });
 }

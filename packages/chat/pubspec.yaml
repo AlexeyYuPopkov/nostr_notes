@@ -43,6 +43,11 @@ dependencies:
     sdk: flutter
   intl: any
   marionette_flutter: ^0.7.0
+  # 2.12+ / core 2.9.1+ build on package:material_ui, whose widgets need its own
+  # Material ancestor and ThemeData — not the app's Flutter material ones.
+  flutter_chat_ui: 2.11.1
+  flutter_chat_core: 2.9.0
+  connectivity_plus: ^7.3.2
 
 dev_dependencies:
   flutter_test:

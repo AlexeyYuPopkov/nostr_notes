@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'dart:js_interop';
 import 'dart:typed_data';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
-import 'package:nostr_notes/services/hex_to_bytes.dart';
-import 'package:nostr_notes/services/nip44/nip44.dart';
+import 'package:nostr/hex/hex_to_bytes.dart';
+import 'package:nostr/nip44/nip44.dart';
 import 'package:wasm_ffi/ffi.dart' as wasm;
 import 'package:wasm_ffi/ffi_utils.dart' as wasm_utils;
 

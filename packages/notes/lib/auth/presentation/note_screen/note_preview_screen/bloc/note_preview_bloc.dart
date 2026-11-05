@@ -3,7 +3,7 @@ import 'package:di_storage/di_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
-import 'package:nostr_notes/auth/domain/model/nip44_exception.dart';
+import 'package:nostr/nip44/nip44_exception.dart';
 import 'package:nostr_notes/auth/domain/usecase/create_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/export_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/fetch_notes_usecase.dart';
@@ -15,7 +15,7 @@ import 'package:nostr_notes/auth/presentation/note_screen/note_preview_screen/bl
 import 'package:common/domain/repo/app_lifecycle_listener_repository.dart';
 import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:common/presentation/tools/optional_box.dart';
-import 'package:nostr_notes/services/outbox_publisher.dart';
+import 'package:common/services/outbox/outbox_publisher.dart';
 import 'package:rxdart/rxdart.dart';
 
 final class NotePreviewBloc extends Bloc<NotePreviewEvent, NotePreviewState> {

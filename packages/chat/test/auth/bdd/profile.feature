@@ -4,6 +4,9 @@ Feature: Edit my profile
     Given the user is signed in
     And my profile is named {'Alice'}
 
+  After:
+    Then I close the app
+
   Scenario: The profile opens from the settings
     When I open the authorized area
     And I tap semantics {'AuthTabs.settings'}

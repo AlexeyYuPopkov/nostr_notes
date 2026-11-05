@@ -4,6 +4,9 @@ Feature: Search for a contact to chat with
     Given the user is signed in
     And a contact named {'Alice'} can be found
 
+  After:
+    Then I close the app
+
   Scenario: The search opens from the chats list
     When I open the authorized area
     And I tap semantics {'ChatsListScreen.searchContactButton'}
@@ -26,7 +29,7 @@ Feature: Search for a contact to chat with
     And I tap semantics {'ChatsListScreen.searchContactButton'}
     And I search for {'ali'}
     And I tap {'Alice'} text
-    Then I see semantics {'ChatScreen.messageField'}
+    Then I see semantics {'ChatScreen.sendButton'}
     And I don't see {'New chat'} text
 
   Scenario: Closing the search returns to the chats list

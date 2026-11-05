@@ -1,6 +1,8 @@
+import 'package:chat/auth/chat/domain/models/chat_room.dart';
 import 'package:chat/auth/chat/presentation/chats_list/provider/chats_list_provider.dart';
-import 'package:chat/auth/chat/domain/models/chat.dart';
+import 'package:chat/auth/chat/presentation/chats_list/widgets/chat_room_cell.dart';
 import 'package:chat/l10n/localization.dart';
+import 'package:common/app/theme/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,6 +15,7 @@ abstract interface class ChatsListScreenCoordinator {
 final class ChatsListScreen extends ConsumerWidget {
   static const searchContactButtonSemanticsId =
       'ChatsListScreen.searchContactButton';
+  static const startChatButtonSemanticsId = 'ChatsListScreen.startChatButton';
 
   final ChatsListScreenCoordinator coordinator;
 
@@ -20,7 +23,7 @@ final class ChatsListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final chats = ref.watch(chatsListProvider);
+    final rooms = ref.watch(chatsListProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -36,12 +39,12 @@ final class ChatsListScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: switch (chats) {
-        AsyncData(:final value) when value.isEmpty => Center(
-          child: Text(context.l10n.chatsListEmpty),
+      body: switch (rooms) {
+        AsyncData(:final value) when value.isEmpty => _EmptyChatsList(
+          coordinator: coordinator,
         ),
         AsyncData(:final value) => _ChatsList(
-          chats: value,
+          rooms: value,
           coordinator: coordinator,
         ),
         AsyncError() => Center(child: Text(context.l10n.chatsListLoadError)),
@@ -51,21 +54,48 @@ final class ChatsListScreen extends ConsumerWidget {
   }
 }
 
-final class _ChatsList extends StatelessWidget {
-  final List<Chat> chats;
+final class _EmptyChatsList extends StatelessWidget {
   final ChatsListScreenCoordinator coordinator;
 
-  const _ChatsList({required this.chats, required this.coordinator});
+  const _EmptyChatsList({required this.coordinator});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(context.l10n.chatsListEmpty),
+          const SizedBox(height: Sizes.indent2x),
+          Semantics(
+            identifier: ChatsListScreen.startChatButtonSemanticsId,
+            child: FilledButton(
+              onPressed: () => coordinator.onSearchContactRoute(context),
+              child: Text(context.l10n.chatsListStartChat),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+final class _ChatsList extends StatelessWidget {
+  final List<ChatRoom> rooms;
+  final ChatsListScreenCoordinator coordinator;
+
+  const _ChatsList({required this.rooms, required this.coordinator});
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: chats.length,
+      itemCount: rooms.length,
       itemBuilder: (context, index) {
-        final pubkey = chats[index].pubkey;
-        return ListTile(
-          title: Text(pubkey, maxLines: 1, overflow: TextOverflow.ellipsis),
-          onTap: () => coordinator.onChatRoute(context, pubkey: pubkey),
+        final room = rooms[index];
+        return ChatRoomCell(
+          room: room,
+          onTap: () =>
+              coordinator.onChatRoute(context, pubkey: room.peer.pubkey),
         );
       },
     );

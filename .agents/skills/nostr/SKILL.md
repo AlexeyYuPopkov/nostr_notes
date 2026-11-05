@@ -7,9 +7,10 @@ description: Project rules for Nostr protocol code — event kinds, tags, relay 
 
 ## Where things live
 - Protocol layer: `packages/nostr` — `NostrClient`, `NostrRelay`, `NostrEvent`, `NostrFilter`, `NostrReq`, EOSE/OK/CLOSE models, `UserKeys`, `Bech32Tool`/`KeyTool`.
-- Event kinds: `NostrKind` in `packages/notes/lib/core/event_kind.dart`. Never use a bare integer for a kind — add a constant there.
-- Crypto (secp256k1 signing, NIP-44): `CryptoService` in `packages/notes/lib/services/crypto_service/` (FFI on mobile/macOS, separate web impl).
-- Publishing: `OutboxPublisher` — events go through the persisted outbox queue, not straight to a relay.
+- Event kinds: `NostrKind` — notes: `packages/notes/lib/core/event_kind.dart`, chat: `packages/chat/lib/auth/common/data/model/nostr_kind.dart`. Never use a bare integer for a kind — add a constant there.
+- NIP-44 in pure Dart: `packages/nostr/lib/nip44/` (`Nip44`, `DeriveKeys`). notes wraps it in `CryptoService` (`packages/notes/lib/services/crypto_service/`, FFI on mobile/macOS, separate web impl); chat calls it on `AppWorker`.
+- Event authenticity: `NostrEventVerification.isAuthentic` (`packages/nostr/lib/model/nostr_event_verification.dart`) — id + BIP-340 signature.
+- Publishing: `OutboxPublisher` (`packages/common/lib/services/outbox/`) — events go through the persisted outbox queue, not straight to a relay.
 
 ## Kinds used
 | Kind | Constant | Meaning |
@@ -19,6 +20,7 @@ description: Project rules for Nostr protocol code — event kinds, tags, relay 
 | 9734 | `NostrKind.zapInvoice` | Zap request (NIP-57) |
 | 9735 | `NostrKind.zapConfirmation` | Zap receipt (NIP-57) |
 | 30023 | `NostrKind.note` | Note, addressable (NIP-33) |
+| 31014 | `NostrKind.directMessage` (chat) | 1-1 chat message, custom addressable kind: `d` message id (kept on edit), `p` peer, `published_at` first send time; NIP-44 content, no gift wrap — who talks to whom and when is public |
 | 31023 | `NostrKind.loginItem` | Login item, custom addressable kind, authored by the vault identity — never the account pubkey |
 
 Before adding a kind, check the registry: https://github.com/nostr-protocol/nips/blob/master/README.md

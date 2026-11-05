@@ -70,7 +70,9 @@ final class NostrPublisher {
 
     client.sendEventToAll(event);
 
-    final result = await Future.any([sendFuture, Future.delayed(window)]);
+    final NostrEvent? result = await sendFuture
+        .then<NostrEvent?>((event) => event)
+        .timeout(window, onTimeout: () => null);
 
     if (result is NostrEvent) {
       return PublishEventReport(

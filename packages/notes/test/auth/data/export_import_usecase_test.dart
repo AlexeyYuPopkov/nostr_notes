@@ -33,8 +33,8 @@ import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
-import 'package:nostr_notes/services/hex_to_bytes.dart';
-import 'package:nostr_notes/services/outbox_publisher.dart';
+import 'package:nostr/hex/hex_to_bytes.dart';
+import 'package:common/services/outbox/outbox_publisher.dart';
 
 import '../../../integration_test/di/in_memory_db_module.dart';
 import '../../tools/mock_error_messages_provider.dart';

@@ -153,6 +153,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chatsListEmpty => 'No chats yet';
 
   @override
+  String get chatsListStartChat => 'Start a chat';
+
+  @override
   String get chatsListLoadError => 'Couldn\'t load chats';
 
   @override
@@ -160,6 +163,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chatSend => 'Send';
+
+  @override
+  String get chatEdit => 'Edit';
+
+  @override
+  String get chatCopy => 'Copy';
+
+  @override
+  String get chatEditing => 'Editing message';
+
+  @override
+  String get chatCancelEditing => 'Cancel editing';
+
+  @override
+  String get chatEdited => 'edited';
+
+  @override
+  String get chatEmpty => 'No messages yet. Say hi!';
+
+  @override
+  String get chatLoadError => 'Couldn\'t load messages';
+
+  @override
+  String get chatSendError => 'Couldn\'t save the message';
 
   @override
   String get settingsTitle => 'Settings';

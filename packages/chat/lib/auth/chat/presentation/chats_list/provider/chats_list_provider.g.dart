@@ -15,11 +15,11 @@ final chatsListProvider = ChatsListProvider._();
 final class ChatsListProvider
     extends
         $FunctionalProvider<
-          AsyncValue<List<Chat>>,
-          List<Chat>,
-          FutureOr<List<Chat>>
+          AsyncValue<List<ChatRoom>>,
+          List<ChatRoom>,
+          Stream<List<ChatRoom>>
         >
-    with $FutureModifier<List<Chat>>, $FutureProvider<List<Chat>> {
+    with $FutureModifier<List<ChatRoom>>, $StreamProvider<List<ChatRoom>> {
   ChatsListProvider._()
     : super(
         from: null,
@@ -36,13 +36,14 @@ final class ChatsListProvider
 
   @$internal
   @override
-  $FutureProviderElement<List<Chat>> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $StreamProviderElement<List<ChatRoom>> $createElement(
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
 
   @override
-  FutureOr<List<Chat>> create(Ref ref) {
+  Stream<List<ChatRoom>> create(Ref ref) {
     return chatsList(ref);
   }
 }
 
-String _$chatsListHash() => r'9a5592f23e49dceb6abfd5535f1559da9caf8110';
+String _$chatsListHash() => r'ddbbe93ad08e6e643799230f02b37f6c3331bb64';

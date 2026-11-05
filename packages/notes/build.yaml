@@ -20,7 +20,9 @@ targets:
             - package:app_test_kit/bdd_steps/the_app_was_launched_before.dart
             - package:app_test_kit/bdd_steps/i_dont_see_text.dart
             - package:app_test_kit/bdd_steps/i_enter_into_semantics.dart
+            - package:app_test_kit/bdd_steps/i_long_press_text.dart
             - package:app_test_kit/bdd_steps/a_fake_clipboard.dart
+            - package:app_test_kit/bdd_steps/i_close_the_app.dart
             - package:app_test_kit/bdd_steps/the_clipboard_contains.dart
             # Notes-specific steps.
             - package:notes_test_kit/bdd_steps/a_fresh_install.dart
