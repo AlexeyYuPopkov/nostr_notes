@@ -56,6 +56,28 @@ void main() {
         await bddTearDown(tester);
       }
     });
+    testWidgets('''A profile with a malformed picture link is not saved''', (
+      tester,
+    ) async {
+      try {
+        await bddSetUp(tester);
+        await iOpenMyProfile(tester);
+        await iEnterIntoSemantics(tester, 'Bob', 'ProfileScreen.nameField');
+        await iEnterIntoSemantics(
+          tester,
+          'not a link',
+          'ProfileScreen.pictureField',
+        );
+        await iTapSemantics(tester, 'ProfileScreen.saveButton');
+        await iSeeText(
+          tester,
+          'Enter a full link starting with https:// or http://',
+        );
+        await mySavedNameIs(tester, 'Alice');
+      } finally {
+        await bddTearDown(tester);
+      }
+    });
     testWidgets('''A saved name is kept''', (tester) async {
       try {
         await bddSetUp(tester);

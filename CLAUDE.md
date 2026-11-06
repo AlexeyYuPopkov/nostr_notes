@@ -130,7 +130,7 @@ The `marionette_flutter` version in `packages/chat/pubspec.yaml` must match the 
 ## AI agent setup
 
 - Instructions: this file. `AGENTS.md` is a symlink to it; `.github/copilot-instructions.md` points here.
-- Skills: `.agents/skills/` (`.claude/skills` is a symlink to it). Project-owned skills are `nostr`, `navigation-coordinator`, `offline-first`, `feature-layout` and `self-documenting-code`. The `flutter-*` and `marionette-*` skills are copied from upstream, so re-sync them instead of hand-editing them. Where a skill and this file disagree, this file wins.
+- Skills: `.agents/skills/` (`.claude/skills` is a symlink to it). Project-owned skills are `nostr`, `navigation-coordinator`, `offline-first`, `feature-layout`, `form-validation` and `self-documenting-code`. The `flutter-*` and `marionette-*` skills are copied from upstream, so re-sync them instead of hand-editing them. Where a skill and this file disagree, this file wins.
 - MCP servers: `.mcp.json` — `dart` (analyzer, tests, pub) and `marionette` (drive the running app).
 - Claude Code: shared settings and the `reference_prompt.sh` hook live in `.claude/settings.json`; personal permissions go in the git-ignored `.claude/settings.local.json`.
 

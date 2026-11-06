@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:chat/auth/common/data/model/nostr_kind.dart';
+import 'package:chat/auth/settings/domain/models/picture_url.dart';
 import 'package:chat/auth/settings/domain/models/profile_exception.dart';
 import 'package:chat/auth/settings/domain/models/profile_fields.dart';
 import 'package:chat/auth/settings/domain/usecase/update_profile_usecase.dart';
@@ -51,6 +52,10 @@ final class UpdateProfileUsecaseImpl
 
   @override
   Future<void> execute(ProfileFields fields) async {
+    if (!PictureUrl.isValidOrEmpty(fields.picture)) {
+      throw const ProfileInvalidPictureException();
+    }
+
     final keys = _sessionUsecase.currentSession.keys;
     if (keys == null) {
       throw const ProfileNoSessionException();
@@ -69,8 +74,9 @@ final class UpdateProfileUsecaseImpl
       privateKey: keys.privateKey,
     );
 
-    await _eventStore.upsert([event]);
     await _publish(event);
+
+    await _eventStore.upsert([event]);
   }
 
   Future<void> _publish(NostrEvent event) async {

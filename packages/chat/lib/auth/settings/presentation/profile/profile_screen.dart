@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:chat/auth/settings/domain/models/picture_url.dart';
 import 'package:chat/auth/settings/domain/models/profile_exception.dart';
 import 'package:chat/auth/settings/presentation/profile/provider/profile_data.dart';
 import 'package:chat/auth/settings/presentation/profile/provider/profile_provider.dart';
@@ -11,7 +12,7 @@ import 'package:common/presentation/account_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class ProfileScreen extends ConsumerWidget {
+final class ProfileScreen extends ConsumerStatefulWidget {
   static const nameFieldSemanticsId = 'ProfileScreen.nameField';
   static const displayNameFieldSemanticsId = 'ProfileScreen.displayNameField';
   static const pictureFieldSemanticsId = 'ProfileScreen.pictureField';
@@ -19,19 +20,26 @@ final class ProfileScreen extends ConsumerWidget {
   static const npubCopyButtonSemanticsId = 'ProfileScreen.npubCopyButton';
   static const pubkeyCopyButtonSemanticsId = 'ProfileScreen.pubkeyCopyButton';
 
-  static const _avatarSize = 96.0;
-
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+final class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+  static const _avatarSize = 96.0;
+
+  final _formKey = GlobalKey<FormState>(debugLabel: '_ProfileScreenState');
+
+  @override
+  Widget build(BuildContext context) {
     ref.listen(profileProviderProvider, (_, state) => _notify(context, state));
     final state = ref.watch(profileProviderProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(context.l10n.profileTitle),
-        actions: [_SaveButton(state: state)],
+        actions: [_SaveButton(state: state, onSave: _save)],
       ),
       body: switch (state) {
         ProfileLoading() => const Center(
@@ -50,28 +58,39 @@ final class ProfileScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: Sizes.indent2x),
-              _ProfileForm(
-                key: ValueKey(state.data.formRevision),
-                data: state.data,
-                isEnabled: state is! ProfileSaving,
+              Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: _ProfileFields(
+                  key: ValueKey(state.data.formRevision),
+                  data: state.data,
+                  isEnabled: state is! ProfileSaving,
+                ),
               ),
               const SizedBox(height: Sizes.indent4x),
               CopyableKeyField(
                 label: context.l10n.profileNpubLabel,
                 value: state.data.npub,
-                copyButtonSemanticsId: npubCopyButtonSemanticsId,
+                copyButtonSemanticsId: ProfileScreen.npubCopyButtonSemanticsId,
               ),
               const SizedBox(height: Sizes.indent2x),
               CopyableKeyField(
                 label: context.l10n.profilePubkeyLabel,
                 value: state.data.pubkey,
-                copyButtonSemanticsId: pubkeyCopyButtonSemanticsId,
+                copyButtonSemanticsId:
+                    ProfileScreen.pubkeyCopyButtonSemanticsId,
               ),
             ],
           ),
         ),
       },
     );
+  }
+
+  void _save() {
+    if (_formKey.currentState?.validate() ?? false) {
+      unawaited(ref.read(profileProviderProvider.notifier).save());
+    }
   }
 
   static void _notify(BuildContext context, ProfileState state) {
@@ -90,21 +109,22 @@ final class ProfileScreen extends ConsumerWidget {
   }
 }
 
-final class _SaveButton extends ConsumerWidget {
+final class _SaveButton extends StatelessWidget {
   final ProfileState state;
+  final VoidCallback onSave;
 
-  const _SaveButton({required this.state});
+  const _SaveButton({required this.state, required this.onSave});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.read(profileProviderProvider.notifier);
+  Widget build(BuildContext context) {
     final isSaving = state is ProfileSaving;
-    final canSave = state is! ProfileLoading && !isSaving && state.data.canSave;
+    final canSave =
+        state is! ProfileLoading && !isSaving && state.data.hasChanges;
 
     return Semantics(
       identifier: ProfileScreen.saveButtonSemanticsId,
       child: TextButton(
-        onPressed: canSave ? () => unawaited(provider.save()) : null,
+        onPressed: canSave ? onSave : null,
         child: isSaving
             ? const SizedBox.square(
                 dimension: Sizes.iconMedium,
@@ -116,11 +136,15 @@ final class _SaveButton extends ConsumerWidget {
   }
 }
 
-final class _ProfileForm extends ConsumerWidget {
+final class _ProfileFields extends ConsumerWidget {
   final ProfileData data;
   final bool isEnabled;
 
-  const _ProfileForm({super.key, required this.data, required this.isEnabled});
+  const _ProfileFields({
+    super.key,
+    required this.data,
+    required this.isEnabled,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -152,7 +176,9 @@ final class _ProfileForm extends ConsumerWidget {
           initialValue: data.draft.picture,
           label: l10n.profilePictureLabel,
           hint: l10n.profilePictureHint,
-          error: data.isPictureValid ? null : l10n.profilePictureInvalid,
+          validator: (value) => PictureUrl.isValidOrEmpty(value ?? '')
+              ? null
+              : l10n.profilePictureInvalid,
           keyboardType: TextInputType.url,
           isEnabled: isEnabled,
           onChanged: provider.onPictureChanged,
@@ -168,7 +194,7 @@ final class _ProfileTextField extends StatelessWidget {
   final String label;
   final String? helper;
   final String? hint;
-  final String? error;
+  final FormFieldValidator<String>? validator;
   final TextInputType? keyboardType;
   final bool isEnabled;
   final ValueChanged<String> onChanged;
@@ -179,7 +205,7 @@ final class _ProfileTextField extends StatelessWidget {
     required this.label,
     this.helper,
     this.hint,
-    this.error,
+    this.validator,
     this.keyboardType,
     required this.isEnabled,
     required this.onChanged,
@@ -199,8 +225,8 @@ final class _ProfileTextField extends StatelessWidget {
           helperText: helper,
           helperMaxLines: 2,
           hintText: hint,
-          errorText: error,
         ),
+        validator: validator,
         onChanged: onChanged,
       ),
     );

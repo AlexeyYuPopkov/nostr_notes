@@ -18,6 +18,14 @@ Feature: Edit my profile
     And I enter {'not a link'} into semantics {'ProfileScreen.pictureField'}
     Then I see {'Enter a full link starting with https:// or http://'} text
 
+  Scenario: A profile with a malformed picture link is not saved
+    When I open my profile
+    And I enter {'Bob'} into semantics {'ProfileScreen.nameField'}
+    And I enter {'not a link'} into semantics {'ProfileScreen.pictureField'}
+    And I tap semantics {'ProfileScreen.saveButton'}
+    Then I see {'Enter a full link starting with https:// or http://'} text
+    And my saved name is {'Alice'}
+
   Scenario: A saved name is kept
     When I open my profile
     And I enter {'Bob'} into semantics {'ProfileScreen.nameField'}

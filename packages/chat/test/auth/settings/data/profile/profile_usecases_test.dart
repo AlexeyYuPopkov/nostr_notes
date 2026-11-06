@@ -152,10 +152,16 @@ void main() {
         publishWindow: _shortPublishWindow,
       );
 
-  Future<NostrEvent> newestStoredProfile() async {
+  Future<Iterable<NostrEvent>> newestStoredProfileEvents() async {
     final events = await store.queryEvents(
       RawEventQuery(kinds: const [0], authors: [keys.publicKey]),
     );
+
+    return events;
+  }
+
+  Future<NostrEvent> newestStoredProfile() async {
+    final events = await newestStoredProfileEvents();
     return events.reduce((a, b) => a.createdAt >= b.createdAt ? a : b);
   }
 
@@ -295,7 +301,7 @@ void main() {
       },
     );
 
-    test('without relays the profile stays on the device', () async {
+    test('without relays the profile not saved on the device', () async {
       relaysListRepo.relays = {};
 
       await expectLater(
@@ -303,21 +309,24 @@ void main() {
         throwsA(isA<ProfileNotPublishedException>()),
       );
 
-      final event = await newestStoredProfile();
-      expect(jsonDecode(event.content), {'name': 'Bob'});
+      final events = await newestStoredProfileEvents();
+      expect(events.isEmpty, true);
     });
 
-    test('a relay that rejects it is reported, the profile is kept', () async {
-      relayBehaves(acceptsEvents: false);
+    test(
+      'a relay that rejects it is reported, the profile not saved on the device',
+      () async {
+        relayBehaves(acceptsEvents: false);
 
-      await expectLater(
-        updateUsecase().execute(const ProfileFields(name: 'Bob')),
-        throwsA(isA<ProfileNotPublishedException>()),
-      );
+        await expectLater(
+          updateUsecase().execute(const ProfileFields(name: 'Bob')),
+          throwsA(isA<ProfileNotPublishedException>()),
+        );
 
-      final event = await newestStoredProfile();
-      expect(jsonDecode(event.content), {'name': 'Bob'});
-    });
+        final events = await newestStoredProfileEvents();
+        expect(events.isEmpty, true);
+      },
+    );
 
     test('without a session nothing is signed', () async {
       await sessionUsecase.setSession(const Session.unauth());
@@ -326,6 +335,18 @@ void main() {
         updateUsecase().execute(const ProfileFields(name: 'Bob')),
         throwsA(isA<ProfileNoSessionException>()),
       );
+    });
+
+    test('a malformed picture link is neither signed nor stored', () async {
+      relayBehaves();
+
+      await expectLater(
+        updateUsecase().execute(const ProfileFields(picture: 'not a link')),
+        throwsA(isA<ProfileInvalidPictureException>()),
+      );
+
+      final events = await newestStoredProfileEvents();
+      expect(events, isEmpty);
     });
   });
 }

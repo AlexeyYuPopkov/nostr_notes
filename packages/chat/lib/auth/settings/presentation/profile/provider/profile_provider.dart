@@ -38,7 +38,7 @@ final class ProfileProvider extends _$ProfileProvider {
       _updateDraft(_data.draft.copyWith(picture: value));
 
   Future<void> save() async {
-    if (state is ProfileSaving || !_data.canSave) {
+    if (state is ProfileSaving || !_data.hasChanges) {
       return;
     }
 

@@ -30,19 +30,15 @@ final class ProfileData extends Equatable {
 
   String get npub => pubkey.isEmpty ? '' : KeyTool.npubKey(pubkey);
 
-  bool get isPictureValid => PictureUrl.isValidOrEmpty(draft.picture);
-
   bool get hasChanges => draft.trimmed() != saved;
-
-  bool get canSave => hasChanges && isPictureValid;
 
   bool get isDraftUntouched => draft == saved;
 
-  /// The picture to show in the avatar: the draft link once it is valid,
-  /// otherwise the saved one.
+  /// The picture to show in the avatar: the draft link once it is a valid
+  /// link, otherwise the saved one.
   String get previewPictureUrl {
     final draftPicture = draft.picture.trim();
-    return isPictureValid && draftPicture.isNotEmpty
+    return draftPicture.isNotEmpty && PictureUrl.isValidOrEmpty(draftPicture)
         ? draftPicture
         : saved.picture;
   }
