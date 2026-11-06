@@ -6,9 +6,9 @@ import 'package:common/tools/app_worker/app_worker.dart';
 import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
 import 'package:nostr_notes/services/crypto_service/spec256k1_isolate_part.dart';
-import 'package:nostr_notes/services/hex_to_bytes.dart';
-import 'package:nostr_notes/services/nip44/derive_keys.dart';
-import 'package:nostr_notes/services/nip44/nip44.dart';
+import 'package:nostr/hex/hex_to_bytes.dart';
+import 'package:nostr/nip44/derive_keys.dart';
+import 'package:nostr/nip44/nip44.dart';
 
 final class IsWasmAvailable {
   const IsWasmAvailable();

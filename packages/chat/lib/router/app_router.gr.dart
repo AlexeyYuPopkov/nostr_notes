@@ -112,6 +112,38 @@ class OnboardingRoute extends _i3.PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [_i1.ProfilePage]
+class ProfileRoute extends _i3.PageRouteInfo<void> {
+  const ProfileRoute({List<_i3.PageRouteInfo>? children})
+    : super(ProfileRoute.name, initialChildren: children);
+
+  static const String name = 'ProfileRoute';
+
+  static _i3.PageInfo page = _i3.PageInfo(
+    name,
+    builder: (data) {
+      return const _i1.ProfilePage();
+    },
+  );
+}
+
+/// generated route for
+/// [_i1.SearchContactPage]
+class SearchContactRoute extends _i3.PageRouteInfo<void> {
+  const SearchContactRoute({List<_i3.PageRouteInfo>? children})
+    : super(SearchContactRoute.name, initialChildren: children);
+
+  static const String name = 'SearchContactRoute';
+
+  static _i3.PageInfo page = _i3.PageInfo(
+    name,
+    builder: (data) {
+      return const _i1.SearchContactPage();
+    },
+  );
+}
+
+/// generated route for
 /// [_i1.SettingsPage]
 class SettingsRoute extends _i3.PageRouteInfo<void> {
   const SettingsRoute({List<_i3.PageRouteInfo>? children})

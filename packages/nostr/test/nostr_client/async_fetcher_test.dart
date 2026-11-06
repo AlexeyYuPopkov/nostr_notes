@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -332,5 +333,83 @@ void main() {
       expect(results[0].events.values.single.pubkey, 'pubkey-a');
       expect(results[1].events.values.single.pubkey, 'pubkey-b');
     });
+
+    test('WaitForAllOrLimitPolicy completes once the limit is reached, '
+        'without waiting for EOSE', () async {
+      final channel1 = MockWSChannel(url: _relayUrl1);
+      final channel2 = MockWSChannel(url: _relayUrl2);
+
+      when(() => channelFactory.create(_relayUrl1)).thenReturn(channel1);
+      when(() => channelFactory.create(_relayUrl2)).thenReturn(channel2);
+
+      client.addRelay(_relayUrl1);
+      client.addRelay(_relayUrl2);
+
+      channel1.onAdd = (data, ch) {
+        if ((data as String).contains('"REQ"')) {
+          Future.microtask(() {
+            ch.mockStream.add(_eventJson('sub-id', 'event-1'));
+            ch.mockStream.add(_eventJson('sub-id', 'event-2'));
+          });
+        }
+      };
+
+      final result = await sut
+          .fetchEvents(
+            req: const NostrReq(
+              filters: [
+                NostrFilter(kinds: [1]),
+              ],
+            ),
+            policy: const WaitForAllOrLimitPolicy(limit: 2),
+          )
+          .timeout(const Duration(seconds: 1));
+
+      expect(result.error, isNull);
+      expect(result.events.keys, containsAll(['event-1', 'event-2']));
+    });
+
+    test(
+      'WaitForAllOrLimitPolicy below the limit waits for EOSE from every relay',
+      () async {
+        final channel1 = MockWSChannel(url: _relayUrl1);
+        final channel2 = MockWSChannel(url: _relayUrl2);
+
+        when(() => channelFactory.create(_relayUrl1)).thenReturn(channel1);
+        when(() => channelFactory.create(_relayUrl2)).thenReturn(channel2);
+
+        client.addRelay(_relayUrl1);
+        client.addRelay(_relayUrl2);
+
+        channel1.onAdd = (data, ch) {
+          if ((data as String).contains('"REQ"')) {
+            Future.microtask(() {
+              ch.mockStream.add(_eventJson('sub-id', 'event-1'));
+              ch.mockStream.add(_eoseJson('sub-id'));
+            });
+          }
+        };
+
+        final pending = sut.fetchEvents(
+          req: const NostrReq(
+            filters: [
+              NostrFilter(kinds: [1]),
+            ],
+          ),
+          policy: const WaitForAllOrLimitPolicy(limit: 10),
+        );
+
+        var completed = false;
+        unawaited(pending.then((_) => completed = true));
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+        expect(completed, isFalse);
+
+        channel2.mockStream.add(_eoseJson('sub-id'));
+        final result = await pending.timeout(const Duration(seconds: 1));
+
+        expect(result.error, isNull);
+        expect(result.events.keys, ['event-1']);
+      },
+    );
   });
 }

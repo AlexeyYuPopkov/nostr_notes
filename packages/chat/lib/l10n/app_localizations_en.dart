@@ -153,6 +153,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chatsListEmpty => 'No chats yet';
 
   @override
+  String get chatsListStartChat => 'Start a chat';
+
+  @override
   String get chatsListLoadError => 'Couldn\'t load chats';
 
   @override
@@ -162,8 +165,98 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chatSend => 'Send';
 
   @override
+  String get chatEdit => 'Edit';
+
+  @override
+  String get chatCopy => 'Copy';
+
+  @override
+  String get chatEditing => 'Editing message';
+
+  @override
+  String get chatCancelEditing => 'Cancel editing';
+
+  @override
+  String get chatEdited => 'edited';
+
+  @override
+  String get chatEmpty => 'No messages yet. Say hi!';
+
+  @override
+  String get chatLoadError => 'Couldn\'t load messages';
+
+  @override
+  String get chatSendError => 'Couldn\'t save the message';
+
+  @override
   String get settingsTitle => 'Settings';
 
   @override
-  String get settingsPlaceholder => 'Settings will appear here';
+  String get searchContactTitle => 'New chat';
+
+  @override
+  String get searchContactHint => 'Name, npub or public key';
+
+  @override
+  String get searchContactInitialHint =>
+      'Search people by name, npub or public key';
+
+  @override
+  String get searchContactNoResults => 'No users found';
+
+  @override
+  String get searchContactError =>
+      'Search failed. Check your relays and try again';
+
+  @override
+  String get settingsItemProfile => 'Profile';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get profileSave => 'Save';
+
+  @override
+  String get profileNameLabel => 'Name';
+
+  @override
+  String get profileNameHelper =>
+      'Short name. Other apps show it when there\'s no display name';
+
+  @override
+  String get profileDisplayNameLabel => 'Display name';
+
+  @override
+  String get profileDisplayNameHelper =>
+      'A longer name that can use any characters';
+
+  @override
+  String get profilePictureLabel => 'Picture URL';
+
+  @override
+  String get profilePictureHint => 'https://example.com/avatar.jpg';
+
+  @override
+  String get profilePictureInvalid =>
+      'Enter a full link starting with https:// or http://';
+
+  @override
+  String get profileSaved => 'Profile saved';
+
+  @override
+  String get profileNotPublished =>
+      'Saved on this device, but no relay accepted it';
+
+  @override
+  String get profileSaveError => 'Couldn\'t save the profile';
+
+  @override
+  String get profileNpubLabel => 'Public key (npub)';
+
+  @override
+  String get profilePubkeyLabel => 'Public key (hex)';
+
+  @override
+  String get profileCopyTooltip => 'Copy';
 }

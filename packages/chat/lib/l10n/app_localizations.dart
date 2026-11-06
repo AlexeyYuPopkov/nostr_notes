@@ -346,6 +346,12 @@ abstract class AppLocalizations {
   /// **'No chats yet'**
   String get chatsListEmpty;
 
+  /// No description provided for @chatsListStartChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a chat'**
+  String get chatsListStartChat;
+
   /// No description provided for @chatsListLoadError.
   ///
   /// In en, this message translates to:
@@ -364,17 +370,185 @@ abstract class AppLocalizations {
   /// **'Send'**
   String get chatSend;
 
+  /// No description provided for @chatEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get chatEdit;
+
+  /// No description provided for @chatCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get chatCopy;
+
+  /// No description provided for @chatEditing.
+  ///
+  /// In en, this message translates to:
+  /// **'Editing message'**
+  String get chatEditing;
+
+  /// No description provided for @chatCancelEditing.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel editing'**
+  String get chatCancelEditing;
+
+  /// No description provided for @chatEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'edited'**
+  String get chatEdited;
+
+  /// No description provided for @chatEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet. Say hi!'**
+  String get chatEmpty;
+
+  /// No description provided for @chatLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load messages'**
+  String get chatLoadError;
+
+  /// No description provided for @chatSendError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save the message'**
+  String get chatSendError;
+
   /// No description provided for @settingsTitle.
   ///
   /// In en, this message translates to:
   /// **'Settings'**
   String get settingsTitle;
 
-  /// No description provided for @settingsPlaceholder.
+  /// No description provided for @searchContactTitle.
   ///
   /// In en, this message translates to:
-  /// **'Settings will appear here'**
-  String get settingsPlaceholder;
+  /// **'New chat'**
+  String get searchContactTitle;
+
+  /// No description provided for @searchContactHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Name, npub or public key'**
+  String get searchContactHint;
+
+  /// No description provided for @searchContactInitialHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search people by name, npub or public key'**
+  String get searchContactInitialHint;
+
+  /// No description provided for @searchContactNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No users found'**
+  String get searchContactNoResults;
+
+  /// No description provided for @searchContactError.
+  ///
+  /// In en, this message translates to:
+  /// **'Search failed. Check your relays and try again'**
+  String get searchContactError;
+
+  /// No description provided for @settingsItemProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get settingsItemProfile;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTitle;
+
+  /// No description provided for @profileSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get profileSave;
+
+  /// No description provided for @profileNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get profileNameLabel;
+
+  /// No description provided for @profileNameHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Short name. Other apps show it when there\'s no display name'**
+  String get profileNameHelper;
+
+  /// No description provided for @profileDisplayNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Display name'**
+  String get profileDisplayNameLabel;
+
+  /// No description provided for @profileDisplayNameHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'A longer name that can use any characters'**
+  String get profileDisplayNameHelper;
+
+  /// No description provided for @profilePictureLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Picture URL'**
+  String get profilePictureLabel;
+
+  /// No description provided for @profilePictureHint.
+  ///
+  /// In en, this message translates to:
+  /// **'https://example.com/avatar.jpg'**
+  String get profilePictureHint;
+
+  /// No description provided for @profilePictureInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a full link starting with https:// or http://'**
+  String get profilePictureInvalid;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile saved'**
+  String get profileSaved;
+
+  /// No description provided for @profileNotPublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved on this device, but no relay accepted it'**
+  String get profileNotPublished;
+
+  /// No description provided for @profileSaveError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save the profile'**
+  String get profileSaveError;
+
+  /// No description provided for @profileNpubLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Public key (npub)'**
+  String get profileNpubLabel;
+
+  /// No description provided for @profilePubkeyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Public key (hex)'**
+  String get profilePubkeyLabel;
+
+  /// No description provided for @profileCopyTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get profileCopyTooltip;
 }
 
 class _AppLocalizationsDelegate

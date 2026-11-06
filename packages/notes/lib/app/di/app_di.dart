@@ -3,7 +3,7 @@ import 'package:di_storage/di_storage.dart';
 import 'package:nostr_notes/app/di/auth/auth_di_scope.dart';
 import 'package:nostr_notes/app/di/auth/login_items_di_scope.dart';
 import 'package:nostr_notes/app/di/unauth/db_module.dart';
-import 'package:nostr_notes/services/outbox_publisher.dart';
+import 'package:common/services/outbox/outbox_publisher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'unauth/unauth_di_scope.dart';

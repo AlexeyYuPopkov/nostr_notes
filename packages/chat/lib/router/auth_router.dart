@@ -1,41 +1,24 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:chat/auth/chat/chat_screen.dart';
-import 'package:chat/auth/chats_list/chats_list_screen.dart';
-import 'package:chat/auth/settings/settings_screen.dart';
-import 'package:chat/l10n/localization.dart';
+import 'package:chat/auth/chat/presentation/chat/chat_screen.dart';
+import 'package:chat/auth/chat/presentation/chats_list/chats_list_screen.dart';
+import 'package:chat/auth/chat/presentation/search_contact/search_contact_screen.dart';
+import 'package:chat/auth/settings/presentation/profile/profile_screen.dart';
+import 'package:chat/auth/settings/presentation/settings/settings_screen.dart';
+import 'package:chat/auth/home/presentation/home/home_navigation_bar.dart';
 import 'package:chat/router/app_router.gr.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
 final class AuthTabsPage extends StatelessWidget {
-  static const chatsTabSemanticsId = 'AuthTabs.chats';
-  static const settingsTabSemanticsId = 'AuthTabs.settings';
-
   const AuthTabsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
       routes: const [ChatsListRoute(), SettingsRoute()],
-      bottomNavigationBuilder: (context, tabsRouter) => NavigationBar(
+      bottomNavigationBuilder: (context, tabsRouter) => HomeNavigationBar(
         selectedIndex: tabsRouter.activeIndex,
-        onDestinationSelected: tabsRouter.setActiveIndex,
-        destinations: [
-          NavigationDestination(
-            icon: Semantics(
-              identifier: chatsTabSemanticsId,
-              child: const Icon(Icons.chat_bubble_outline),
-            ),
-            label: context.l10n.tabChats,
-          ),
-          NavigationDestination(
-            icon: Semantics(
-              identifier: settingsTabSemanticsId,
-              child: const Icon(Icons.settings_outlined),
-            ),
-            label: context.l10n.tabSettings,
-          ),
-        ],
+        onTabSelected: tabsRouter.setActiveIndex,
       ),
     );
   }
@@ -62,11 +45,30 @@ final class ChatPage extends StatelessWidget {
 }
 
 @RoutePage()
+final class SearchContactPage extends StatelessWidget {
+  const SearchContactPage({super.key});
+
+  @override
+  Widget build(BuildContext context) => const SearchContactScreen(
+    coordinator: SearchContactScreenCoordinatorImpl(),
+  );
+}
+
+@RoutePage()
 final class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
   @override
-  Widget build(BuildContext context) => const SettingsScreen();
+  Widget build(BuildContext context) =>
+      const SettingsScreen(coordinator: SettingsScreenCoordinatorImpl());
+}
+
+@RoutePage()
+final class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
+  @override
+  Widget build(BuildContext context) => const ProfileScreen();
 }
 
 final class ChatsListScreenCoordinatorImpl
@@ -81,5 +83,35 @@ final class ChatsListScreenCoordinatorImpl
     required String pubkey,
   }) async {
     await context.router.root.push(ChatRoute(pubkey: pubkey));
+  }
+
+  @override
+  Future<void> onSearchContactRoute(BuildContext context) async {
+    await context.router.root.push(const SearchContactRoute());
+  }
+}
+
+final class SearchContactScreenCoordinatorImpl
+    implements SearchContactScreenCoordinator {
+  const SearchContactScreenCoordinatorImpl();
+
+  // The modal search is swapped for the chat, so "back" from the chat
+  // returns to the chats list rather than to the search.
+  @override
+  Future<void> onChatRoute(
+    BuildContext context, {
+    required String pubkey,
+  }) async {
+    await context.router.root.replace(ChatRoute(pubkey: pubkey));
+  }
+}
+
+final class SettingsScreenCoordinatorImpl implements SettingsScreenCoordinator {
+  const SettingsScreenCoordinatorImpl();
+
+  // Like the chat, the profile covers the tab bar.
+  @override
+  Future<void> onProfileRoute(BuildContext context) async {
+    await context.router.root.push(const ProfileRoute());
   }
 }

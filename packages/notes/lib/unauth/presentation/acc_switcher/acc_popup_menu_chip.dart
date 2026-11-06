@@ -1,8 +1,8 @@
 import 'package:common/app/theme/sizes.dart';
 
 import 'package:flutter/material.dart';
-import 'package:nostr_notes/common/domain/model/user.dart';
-import 'package:nostr_notes/common/presentation/account_avatar.dart';
+import 'package:common/domain/model/user.dart';
+import 'package:common/presentation/account_avatar.dart';
 import 'package:nostr_notes/common/domain/usecase/get_user_usecase.dart';
 
 import 'account_chip_vm.dart';

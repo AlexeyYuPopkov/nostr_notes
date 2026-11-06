@@ -51,7 +51,7 @@ This is a Melos workspace (`melos.yaml`) with these packages:
 - **`packages/notes`** — Main notes app. Entry point: `lib/main.dart`. Uses `di_storage` for DI, `go_router` for routing, `flutter_bloc` + custom `Vm` (ValueNotifier-based) for state, `flutter_localizations` via `l10n/`.
 - **`packages/chat`** — Chat app (iOS only). Uses `get_it` for DI, `auto_route` for routing, Riverpod for state — see *Architecture (packages/chat)*.
 - **`packages/nostr`** — Pure Nostr protocol: `NostrClient`, `NostrRelay`, event models, NIP implementations.
-- **`packages/common`** — Shared models, theme (`AppTheme`, `AppBackgroundColors`), `GlobalSettingsScope`/`GlobalSettingsVm`, presentation widgets, `AppDatabase` (drift/sqlite).
+- **`packages/common`** — Shared models (incl. `User` kind 0 profile + `UserMapper`, `AccountAvatar`), theme (`AppTheme`, `AppBackgroundColors`), `GlobalSettingsScope`/`GlobalSettingsVm`, presentation widgets, `AppDatabase` (drift/sqlite).
 - **`packages/app_test_kit`** — Test-only, app-agnostic (dev dependency of `notes` and `chat`): `PumpHelpers`, `visibleText` finder, generic BDD steps (`I see/tap text`, semantics, clipboard, text fields). Must not depend on either app.
 - **`packages/notes_test_kit`** — Test-only, notes-specific (dev dependency of `notes`; depends on the notes app): `TestAppDiOverridesProxy`, backup-file fakes, notes BDD steps (`a_fresh_install`, key-file/backup steps).
 - **`cpp/ffi/`** — Native secp256k1 crypto module. Built as an xcframework for iOS/macOS and `.so` for Android. Consumed via `CryptoService` (abstract interface with mobile/web implementations).
@@ -101,14 +101,17 @@ Don't carry notes patterns (Bloc, `Vm`, `DiStorage`, `go_router`) into chat.
 
 ```
 lib/
-  common/di/    ← `Di` (get_it scopes)
-  common/domain/ ← models, repo interfaces (ChatsRepo), usecases (AuthUsecase, SessionUsecase)
-  common/data/  ← repo implementations (`FakeChatsRepo` — in-memory until relays are wired)
-  common/debug/ ← Marionette configuration (debug only)
-  router/       ← `AppRouter` (@AutoRouterConfig); `auth_router.dart` — tab bar, @RoutePage wrappers, coordinator impls
-  unauth/presentation/ ← onboarding
-  auth/         ← screens after login: chats_list/, chat/, settings/
+  common/       ← used by auth and unauth: di/ (`Di`, get_it scopes), debug/ (Marionette), domain/ (Session, AuthUsecase, SessionUsecase)
+  router/       ← `AppRouter` (@AutoRouterConfig); `auth_router.dart` — @RoutePage wrappers, coordinator impls
+  unauth/presentation/onboarding/
+  auth/
+    home/       ← tab-bar shell (`HomeNavigationBar`)
+    chat/       ← 1-1 chats. domain/ (ChatMessage, ChatRoom, RoomId, usecases), data/direct_messages/ — kind 31014, NIP-44 content, no gift wrap; written store + outbox in one transaction (`DirectMessageWriter`), read from the store and verified/decrypted in chunks on `AppWorker` (`DirectMessageCrypto`); `DirectMessagesSyncUsecase` holds the live REQ (incoming batched with `bufferTime`) and starts the `OutboxPublisher` while a screen listens. data/contacts/ — peers' kind 0. data/search_contacts/ — offline-first kind 0 search. presentation/ (chats_list, chat on `flutter_chat_ui`, search_contact — modal)
+    settings/   ← presentation/settings/ (menu items), presentation/profile/ + domain/ + data/profile/ — edit own kind 0 (name, display_name, picture); merges into the stored content, store first, then `NostrPublisher`
+    common/     ← shared by several auth features (`NostrKind`)
 ```
+
+Where new code goes (features, layers, shared levels, tests): the `feature-layout` skill.
 
 - **DI**: `get_it`. `Di.registerUnauthModules()` pushes the `unauth-scope`; drop it with `Di.dropUnauthModules()`. `Di.registerAuthModules()` pushes the `auth-scope` (chat repos) when onboarding completes. Shared repos/usecases come from `packages/common`.
 - **State**: Riverpod 3 with codegen — `@riverpod` notifiers in a `provider/` folder next to the screen, UI as `ConsumerWidget`. Root is `ProviderScope` in `main.dart`. Run `make codegen` after changing a provider.
@@ -127,7 +130,7 @@ The `marionette_flutter` version in `packages/chat/pubspec.yaml` must match the 
 ## AI agent setup
 
 - Instructions: this file. `AGENTS.md` is a symlink to it; `.github/copilot-instructions.md` points here.
-- Skills: `.agents/skills/` (`.claude/skills` is a symlink to it). Project-owned skills are `nostr`, `navigation-coordinator` and `self-documenting-code`. The `flutter-*` and `marionette-*` skills are copied from upstream, so re-sync them instead of hand-editing them. Where a skill and this file disagree, this file wins.
+- Skills: `.agents/skills/` (`.claude/skills` is a symlink to it). Project-owned skills are `nostr`, `navigation-coordinator`, `offline-first`, `feature-layout`, `form-validation` and `self-documenting-code`. The `flutter-*` and `marionette-*` skills are copied from upstream, so re-sync them instead of hand-editing them. Where a skill and this file disagree, this file wins.
 - MCP servers: `.mcp.json` — `dart` (analyzer, tests, pub) and `marionette` (drive the running app).
 - Claude Code: shared settings and the `reference_prompt.sh` hook live in `.claude/settings.json`; personal permissions go in the git-ignored `.claude/settings.local.json`.
 
