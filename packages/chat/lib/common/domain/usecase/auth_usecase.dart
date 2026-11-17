@@ -59,8 +59,8 @@ final class AuthUsecase {
   }
 
   Future<void> logout() async {
-    _secureStorage.setValue(key: secureStorageKey, value: '');
-    _sessionUsecase.setSession(const Unauth());
+    await _secureStorage.deleteValue(key: secureStorageKey);
+    await _sessionUsecase.setSession(const Unauth());
     _relaysListRepo.clear();
   }
 

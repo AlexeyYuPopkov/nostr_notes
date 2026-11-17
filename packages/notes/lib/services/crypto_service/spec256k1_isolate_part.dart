@@ -7,7 +7,7 @@ import 'dart:typed_data';
 import 'package:common/tools/disposable.dart';
 import 'package:ffi/ffi.dart' as ffi_ffi;
 import 'package:nostr_notes/ffigen/ffigen_crypto_module.dart';
-import 'package:nostr_notes/services/nip44/derive_keys.dart';
+import 'package:nostr/nip44/derive_keys.dart';
 
 final class Spec256k1Isolate implements Disposable {
   SendPort? _sendPort;

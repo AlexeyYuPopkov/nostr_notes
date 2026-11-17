@@ -5,3 +5,4 @@ analyzer:
     - build/**
     - .dart_tool/**
     - ios/**
+    - android/**

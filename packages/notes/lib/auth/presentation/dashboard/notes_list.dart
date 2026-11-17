@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/presentation/account_switcher/account_switcher_panel.dart';
-import 'package:nostr_notes/common/presentation/account_avatar.dart';
+import 'package:common/presentation/account_avatar.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes_list_tab.dart';
 import 'package:nostr_notes/common/domain/usecase/get_user_usecase.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';

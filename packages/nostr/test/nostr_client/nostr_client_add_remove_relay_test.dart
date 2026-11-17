@@ -93,6 +93,25 @@ void main() {
       }
     });
 
+    test(
+      'syncing the same relays again does not re-emit the relay list',
+      () async {
+        when(() => channelFactory.create(relayUrl1)).thenReturn(channel1);
+        client.syncRelays({relayUrl1});
+        final emitted = <Set<String>>[];
+        final subscription = client.relaysListStream.listen(emitted.add);
+        addTearDown(subscription.cancel);
+        await Future<void>.delayed(Duration.zero);
+
+        client.syncRelays({relayUrl1});
+        await Future<void>.delayed(Duration.zero);
+
+        expect(emitted, [
+          {relayUrl1},
+        ]);
+      },
+    );
+
     group('addRelays - invalid URLs are filtered out', () {
       test('only valid URLs are added when mixed list provided', () {
         when(() => channelFactory.create(relayUrl1)).thenReturn(channel1);

@@ -9,7 +9,7 @@ import 'package:nostr/nostr_client/async_fetcher.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/auth/domain/repo/accounts_repo.dart';
 import 'package:nostr_notes/auth/presentation/account_switcher/account_switcher_panel.dart';
-import 'package:nostr_notes/common/presentation/account_avatar.dart';
+import 'package:common/presentation/account_avatar.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/auth_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';

@@ -10,7 +10,7 @@ import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
 import 'package:nostr/nostr_client/ws_channel.dart';
-import 'package:nostr_notes/services/outbox_publisher.dart';
+import 'package:common/services/outbox/outbox_publisher.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../integration_test/di/in_memory_db_module.dart';

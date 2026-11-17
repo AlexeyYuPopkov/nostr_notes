@@ -31,7 +31,7 @@ final class OnboardingWelcomePage extends StatelessWidget {
           const Center(
             child: OnboardingIcon.asset(
               AppIcons.welcomeIcon,
-              semanticsLabel: 'Nostr icon',
+              semanticsLabel: 'Welcome icon',
             ),
           ),
           const SizedBox(height: Sizes.indentVariant4x),

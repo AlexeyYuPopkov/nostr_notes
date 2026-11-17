@@ -14,7 +14,7 @@ import 'package:nostr_notes/auth/domain/usecase/export_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 
-import 'package:nostr_notes/services/hex_to_bytes.dart';
+import 'package:nostr/hex/hex_to_bytes.dart';
 
 final class ExportUsecaseImpl implements ExportUsecase {
   static const archivedFileName = 'notes_export.json';

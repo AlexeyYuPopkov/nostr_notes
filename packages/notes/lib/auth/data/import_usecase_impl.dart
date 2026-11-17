@@ -21,7 +21,7 @@ import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
 import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/core/tools/now.dart';
-import 'package:nostr_notes/services/hex_to_bytes.dart';
+import 'package:nostr/hex/hex_to_bytes.dart';
 
 final class ImportUsecaseImpl implements ImportUsecase {
   final RawEventStore _eventStore;

@@ -16,7 +16,7 @@ import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_pending_usecase.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes/bloc/pending_vm.dart';
 import 'package:nostr_notes/common/presentation/formatters/date_group.dart';
-import 'package:nostr_notes/services/outbox_publisher.dart';
+import 'package:common/services/outbox/outbox_publisher.dart';
 import 'package:rxdart/transformers.dart';
 
 import '../../bloc/dashboard_bloc.dart';

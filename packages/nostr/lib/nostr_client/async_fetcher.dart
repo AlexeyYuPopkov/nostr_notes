@@ -45,6 +45,11 @@ final class AsyncFetcher {
       if (event is NostrEventWithRelay &&
           event.subscriptionId == subscriptionId) {
         events[event.id] = event;
+        if (policy case WaitForAllOrLimitPolicy(
+          :final limit,
+        ) when events.length >= limit) {
+          complete(null);
+        }
       } else if (event is NostrEventEose &&
           event.subscriptionId == subscriptionId) {
         eoseRelays.add(event.relay);
@@ -53,8 +58,13 @@ final class AsyncFetcher {
         switch (policy) {
           case ReturnFirstPolicy():
             if (events.isNotEmpty || everyRelayAnswered) complete(null);
+            break;
           case WaitForAllPolicy():
             if (everyRelayAnswered) complete(null);
+            break;
+          case WaitForAllOrLimitPolicy():
+            if (everyRelayAnswered) complete(null);
+            break;
         }
       }
     });
@@ -94,6 +104,13 @@ final class ReturnFirstPolicy extends AsyncFetchPolicy {
 
 final class WaitForAllPolicy extends AsyncFetchPolicy {
   const WaitForAllPolicy({super.timeout});
+}
+
+/// Completes as soon as [limit] distinct events have arrived — without
+/// waiting for any EOSE — or when every relay has answered.
+final class WaitForAllOrLimitPolicy extends AsyncFetchPolicy {
+  final int limit;
+  const WaitForAllOrLimitPolicy({super.timeout, required this.limit});
 }
 
 enum AsyncFetchError { timoutError }

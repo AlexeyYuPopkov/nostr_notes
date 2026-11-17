@@ -13,7 +13,7 @@ import 'package:nostr_notes/auth/data/models/login_item_payload.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/export_accounts_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/watch_login_items_usecase.dart';
-import 'package:nostr_notes/services/hex_to_bytes.dart';
+import 'package:nostr/hex/hex_to_bytes.dart';
 
 /// Mirrors `ExportUsecaseImpl` (notes) but over login items — see that class
 /// for the shared zip/crypto plumbing (`BackupCryptoHelper`/`BackupZipHelper`).

@@ -7,7 +7,7 @@ import 'package:nostr/key_tool/key_tool.dart';
 import 'package:nostr/model/user_keys.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/vault_identity_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
-import 'package:nostr_notes/services/hex_to_bytes.dart';
+import 'package:nostr/hex/hex_to_bytes.dart';
 
 /// Vault key derivation spec (v1) — treat as frozen once events are on
 /// relays; changing any constant makes existing vaults unreachable:
