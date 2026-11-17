@@ -2,7 +2,7 @@ import 'package:common/app/theme/gpt_markdown_theme_data.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/widgets/markdown/note_code_field.dart';
 import 'package:common/presentation/widgets/markdown/on_tap_link_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:gpt_markdown/gpt_markdown.dart';
 
 class GptMarkdownWidget extends StatefulWidget {

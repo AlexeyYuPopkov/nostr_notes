@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';

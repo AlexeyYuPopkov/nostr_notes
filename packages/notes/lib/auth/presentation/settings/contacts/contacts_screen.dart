@@ -1,6 +1,6 @@
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:common/presentation/markdown/markdown_screen.dart';
 import 'package:nostr_notes/common/presentation/layout/layout_config.dart';
 import 'package:nostr_notes/l10n/localization.dart';

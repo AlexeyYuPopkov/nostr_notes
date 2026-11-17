@@ -4,7 +4,7 @@ import 'package:common/domain/model/relay_info.dart';
 import 'package:common/domain/repo/relays_list_repo.dart';
 import 'package:common/domain/usecases/get_relays_usecase.dart';
 import 'package:common/presentation/buttons/prymary_button.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:get_it/get_it.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

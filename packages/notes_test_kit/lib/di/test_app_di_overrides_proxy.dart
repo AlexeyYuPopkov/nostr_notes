@@ -2,7 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/app/di/unauth/db_module.dart';
-import 'package:nostr_notes/services/outbox_publisher.dart';
+import 'package:common/services/outbox/outbox_publisher.dart';
 
 import 'package:common/testing/in_memory_db_module.dart';
 

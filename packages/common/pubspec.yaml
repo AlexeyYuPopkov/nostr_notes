@@ -36,6 +36,8 @@ dependencies:
 
   collection: ^1.19.0
   json_annotation: ^4.11.0
+  cached_network_image: ^4.0.4
+  cached_network_image_platform_interface: ^5.0.3
 
 
   flutter_svg: ^2.2.4
@@ -48,6 +50,8 @@ dependencies:
   flutter_highlight: any
   nostr_notes: any
   http: ^1.6.0
+  material_ui: any
+  cupertino_ui: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

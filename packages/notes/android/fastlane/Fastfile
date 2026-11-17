@@ -15,11 +15,6 @@ require 'shellwords'
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
-
   desc "Deploy a beta version to Google Play"
   lane :deploy do |options|
     track_name = options[:track] || 'internal' # по умолчанию internal
@@ -57,8 +52,6 @@ platform :android do
     File.write(pubspec_path, updated_pubspec)
     
     # Собираем AAB через Flutter
-    sh("cd ../.. && flutter clean") # опционально, для чистой сборки
-    sh("cd ../.. && flutter pub get")
     sh("cd ../.. && flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info")
 
     # Собираем APK для прямой дистрибуции

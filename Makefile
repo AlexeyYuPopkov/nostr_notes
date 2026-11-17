@@ -26,7 +26,7 @@ del_imports:
 	$(MELOS) exec --concurrency=1 -- dart fix --apply --code=unnecessary_import  --code=unused_import
 
 test:
-	$(MELOS) exec --concurrency=1 -- flutter test --coverage
+	$(MELOS) exec --concurrency=1 --dir-exists=test -- flutter test --coverage
 	./print_coverage.sh
 	mkdir -p coverage
 	for pkg in nostr common chat notes; do \
@@ -35,6 +35,20 @@ test:
 		fi; \
 	done
 	lcov $$(for pkg in nostr common chat notes; do [ -f /tmp/lcov_$$pkg.info ] && echo "-a /tmp/lcov_$$pkg.info"; done) -o coverage/lcov.info
+	@echo "Merged coverage written to coverage/lcov.info"
+
+CHAT_PACKAGES := nostr common chat
+
+test_chat:
+	$(MELOS) exec --concurrency=1 --dir-exists=test $(foreach pkg,$(CHAT_PACKAGES),--scope=$(pkg)) -- flutter test --coverage
+	./print_coverage.sh $(CHAT_PACKAGES)
+	mkdir -p coverage
+	for pkg in $(CHAT_PACKAGES); do \
+		if [ -f packages/$$pkg/coverage/lcov.info ]; then \
+			sed "s|SF:|SF:packages/$$pkg/|g" packages/$$pkg/coverage/lcov.info > /tmp/lcov_$$pkg.info; \
+		fi; \
+	done
+	lcov $$(for pkg in $(CHAT_PACKAGES); do [ -f packages/$$pkg/coverage/lcov.info ] && echo "-a /tmp/lcov_$$pkg.info"; done) -o coverage/lcov.info
 	@echo "Merged coverage written to coverage/lcov.info"
 
 relay_up:

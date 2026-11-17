@@ -1,3 +1,5 @@
+import 'package:nostr/nostr_client/relay_url_policy.dart';
+
 mixin RelayValidator {
   static final _relayUrlRegex = RegExp(
     r'^wss?://'
@@ -10,7 +12,8 @@ mixin RelayValidator {
     r'(/\S*)?$', // optional path
   );
 
-  bool isValidRelayUrl(String url) => _relayUrlRegex.hasMatch(url);
+  bool isValidRelayUrl(String url) =>
+      _relayUrlRegex.hasMatch(url) && RelayUrlPolicy.isAllowed(url);
 
   RelayValidatorError? validateRelayUrl(String? url) {
     const startWithWss = 'ws://';
@@ -26,9 +29,12 @@ mixin RelayValidator {
       return const RelayValidatorErrorScheme();
     }
 
-    final isValid = _relayUrlRegex.hasMatch(trimmedUrl);
-    if (!isValid) {
+    if (!_relayUrlRegex.hasMatch(trimmedUrl)) {
       return const RelayValidatorErrorFormat();
+    }
+
+    if (!RelayUrlPolicy.isAllowed(trimmedUrl)) {
+      return const RelayValidatorErrorCleartext();
     }
 
     return null;
@@ -51,4 +57,9 @@ final class RelayValidatorErrorScheme extends RelayValidatorError {
 
 final class RelayValidatorErrorFormat extends RelayValidatorError {
   const RelayValidatorErrorFormat() : super('Invalid relay URL format');
+}
+
+final class RelayValidatorErrorCleartext extends RelayValidatorError {
+  const RelayValidatorErrorCleartext()
+    : super('ws:// is allowed only for local relays');
 }

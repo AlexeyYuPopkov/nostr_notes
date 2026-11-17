@@ -54,6 +54,13 @@ final class HomeScreenCoordinatorImpl
       extra: LoginItemDetailsParams(id: item.dTag, readonly: readonly).toJson(),
     );
   }
+
+  @override
+  void onTabChanged(BuildContext context) {
+    final router = GoRouter.of(context);
+    final isDetailOpen = router.state.fullPath != AppRouterPath.home;
+    if (isDetailOpen) router.go(AppRouterPath.home);
+  }
 }
 
 final class LoginItemFormScreenCoordinatorImpl

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';
 import 'package:nostr_notes/app/router/create_routes.dart';

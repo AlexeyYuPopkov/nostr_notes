@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// [T] - must be hashable to store in Map as key, and comparable to find the best match for current scroll offset.
 final class SectionScrollVm<T> {

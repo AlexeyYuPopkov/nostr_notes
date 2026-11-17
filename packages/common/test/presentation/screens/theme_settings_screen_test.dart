@@ -4,7 +4,7 @@ import 'package:common/data/repo/app_theme_data_repo_impl.dart';
 
 import 'package:common/presentation/theme_settings/global_settings_vm.dart';
 import 'package:common/presentation/theme_settings/theme_settings_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../tools/app_launcher/app_launcher.dart';

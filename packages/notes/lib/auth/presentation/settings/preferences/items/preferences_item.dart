@@ -5,7 +5,7 @@ import 'package:common/l10n/localization.dart';
 import 'package:common/app/vm/global_settings_scope.dart';
 import 'package:common/presentation/theme_settings/global_settings_vm.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';
 import 'package:common/app/theme/sizes.dart';

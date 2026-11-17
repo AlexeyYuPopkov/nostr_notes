@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/buttons/prymary_button.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/note.dart';
 import 'package:nostr_notes/auth/presentation/model/category_localization.dart';

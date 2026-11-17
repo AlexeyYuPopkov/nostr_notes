@@ -1,6 +1,6 @@
 import 'package:common/app/theme/sizes.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/common/domain/usecase/get_user_usecase.dart';
 import 'package:nostr_notes/unauth/presentation/acc_switcher/account_chip_vm.dart';

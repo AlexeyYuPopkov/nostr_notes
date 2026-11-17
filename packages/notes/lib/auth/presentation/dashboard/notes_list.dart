@@ -4,13 +4,13 @@ import 'package:common/presentation/buttons/refresh_button/refresh_button.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/presentation/account_switcher/account_switcher_panel.dart';
-import 'package:nostr_notes/common/presentation/account_avatar.dart';
+import 'package:common/presentation/account_avatar.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes_list_tab.dart';
 import 'package:nostr_notes/common/domain/usecase/get_user_usecase.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
@@ -55,6 +55,9 @@ abstract interface class NotesListCoordinator {
     required LoginItem item,
     required bool readonly,
   });
+
+  /// The detail opened from the previous tab doesn't belong to the new one.
+  void onTabChanged(BuildContext context);
 }
 
 final class NotesList extends StatelessWidget {
@@ -248,6 +251,7 @@ final class _DashboardState extends State<_Dashboard>
                               DefaultTabController.of(context).animateTo(
                                 NotesListTab.tabs.indexOf(state.data.tab),
                               );
+                              widget.coordinator.onTabChanged(context);
                             },
                             child: TabBarView(
                               physics: const NeverScrollableScrollPhysics(),

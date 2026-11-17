@@ -1,5 +1,5 @@
 import 'package:common/app/theme/sizes.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:gpt_markdown/gpt_markdown.dart';
 
 final class AppGptMarkdownTheme extends ThemeExtension<AppGptMarkdownTheme> {

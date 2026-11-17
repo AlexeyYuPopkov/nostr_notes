@@ -24,14 +24,16 @@ jobs:
           flutter-version-file: .fvmrc
 
       - name: Install melos
-        run: dart pub global activate melos
+        run: dart pub global activate melos 8.10.1
 
       - name: Install dependencies
         run: melos bootstrap
 
       - name: Build web
         working-directory: packages/notes
-        run: flutter build web --release
+        # --wasm also emits the dart2js build; browsers without WasmGC load that.
+        # --no-deprecated-js-interop: dart:html/dart:js fail the build early.
+        run: flutter build web --release --wasm --no-deprecated-js-interop
 
       # - name: Setup SSH key
       #   uses: webfactory/ssh-agent@v0.9.0

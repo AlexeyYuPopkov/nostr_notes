@@ -1,8 +1,8 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=/Users/alekseypopkov/fvm/versions/3.47.7"
-export "FLUTTER_APPLICATION_PATH=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes"
-export "FLUTTER_FRAMEWORK_SWIFT_PACKAGE_PATH=/Users/alekseypopkov/Doc/nostr_notes/nostr_notes/ios/Flutter/ephemeral/Packages/.packages/FlutterFramework"
+export "FLUTTER_ROOT=/Users/alekseypopkov/fvm/versions/3.50.0"
+export "FLUTTER_APPLICATION_PATH=/Users/alekseypopkov/Doc/nostr_notes1/nostr_notes"
+export "FLUTTER_FRAMEWORK_SWIFT_PACKAGE_PATH=/Users/alekseypopkov/Doc/nostr_notes1/nostr_notes/ios/Flutter/ephemeral/Packages/.packages/FlutterFramework"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_TARGET=lib/main.dart"
 export "FLUTTER_BUILD_DIR=build"

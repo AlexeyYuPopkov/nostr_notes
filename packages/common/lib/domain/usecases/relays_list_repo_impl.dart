@@ -5,11 +5,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 final class RelaysListRepoImpl implements RelaysListRepo, Disposable {
   static const suggestedRelays = {
-    'wss://relay.damus.io',
     'wss://nos.lol',
     // 'wss://relay.snort.social',
     'wss://relay.primal.net',
     'wss://purplepag.es',
+    'wss://nostr.mom',
+    'wss://relay.damus.io',
   };
 
   final SharedPreferences _prefs;

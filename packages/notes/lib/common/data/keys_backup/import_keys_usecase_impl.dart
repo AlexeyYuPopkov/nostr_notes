@@ -10,7 +10,7 @@ import 'package:nostr_notes/common/data/keys_backup/keys_backup_payload.dart';
 import 'package:nostr_notes/common/domain/usecase/keys_backup/import_keys_usecase.dart';
 import 'package:nostr_notes/common/domain/usecase/keys_backup/key_backup_entry.dart';
 import 'package:nostr_notes/common/domain/usecase/keys_backup/keys_backup_error.dart';
-import 'package:nostr_notes/services/hex_to_bytes.dart';
+import 'package:nostr/hex/hex_to_bytes.dart';
 
 final class ImportKeysUsecaseImpl implements ImportKeysUsecase {
   final KeyToolRepository _keyToolRepository;

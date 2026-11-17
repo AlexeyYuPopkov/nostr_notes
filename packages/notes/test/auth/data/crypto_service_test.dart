@@ -4,7 +4,7 @@ library;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr_notes/services/crypto_service/crypto_service.dart';
-import 'package:nostr_notes/services/hex_to_bytes.dart';
+import 'package:nostr/hex/hex_to_bytes.dart';
 
 void main() {
   final sut = CryptoService.create();

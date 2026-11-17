@@ -18,8 +18,9 @@ void main() {
         'wss://relay.example.com:443',
         'wss://relay.example.com/path',
         'wss://relay.example.com:8080/path',
-        'ws://relay.example.com',
         'ws://localhost:8008',
+        'ws://127.0.0.1:8008',
+        'ws://10.0.2.2:8008',
         'ws://localhost:3000',
         'wss://a-b.relay.example.com',
       ];
@@ -42,6 +43,8 @@ void main() {
         'wss://relay',
         'wss:// relay.damus.io',
         'wss://user:pass@relay.damus.io',
+        'ws://relay.example.com',
+        'ws://192.168.1.10:8008',
         'ws://localhost',
         'ws://localhost:',
         'ws://localhost:999999',
@@ -52,6 +55,19 @@ void main() {
       for (final url in invalid) {
         expect(sut.isValidRelayUrl(url), isFalse);
       }
+    });
+  });
+
+  group('RelayValidator — validateRelayUrl', () {
+    test('ws:// to a public host is rejected as cleartext', () {
+      expect(
+        sut.validateRelayUrl('ws://relay.example.com'),
+        isA<RelayValidatorErrorCleartext>(),
+      );
+    });
+
+    test('ws:// to the emulator host is accepted', () {
+      expect(sut.validateRelayUrl('ws://10.0.2.2:8008'), isNull);
     });
   });
 }

@@ -2,7 +2,7 @@ import 'package:common/app/theme/app_theme_style.dart';
 import 'package:common/app/vm/global_settings_scope.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
 
 import 'package:common/presentation/tools/list_item_position.dart';

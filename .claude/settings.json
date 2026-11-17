@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(fvm flutter *)",
+      "Bash(fvm dart *)",
+      "Bash(make codegen *)",
+      "Bash(make l10n *)",
+      "mcp__dart__*",
+      "mcp__marionette__*"
+    ]
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/reference_prompt.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

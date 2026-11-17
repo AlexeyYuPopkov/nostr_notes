@@ -6,7 +6,7 @@ import 'package:common/app/theme/sizes.dart';
 import 'package:common/data/repo/fetch_event_repo_impl.dart';
 import 'package:common/domain/repo/fetch_event_repo.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:common/data/repo/get_event_repo_impl.dart';

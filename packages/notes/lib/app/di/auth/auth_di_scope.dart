@@ -22,7 +22,7 @@ import 'package:nostr_notes/auth/domain/usecase/get_note_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_notes_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/get_pending_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
-import 'package:nostr_notes/services/outbox_publisher.dart';
+import 'package:common/services/outbox/outbox_publisher.dart';
 
 final class AuthDiScope extends DiScope {
   const AuthDiScope();

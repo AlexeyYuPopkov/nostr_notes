@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:common/app/theme/sizes.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:common/domain/model/relay_info.dart';
 import 'package:common/data/repo/single_relay_monitoring_usecase_impl.dart';
 import 'package:nostr/model/relay_health.dart';

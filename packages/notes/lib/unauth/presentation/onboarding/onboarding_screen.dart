@@ -2,7 +2,7 @@ import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/widgets/progress_hud/progress_hud.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_notes/app/router/app_router_path.dart';

@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WsChannel {
-  WsChannel({required this._url, required this._channel});
+  WsChannel({required this._url, required this._channel}) {
+    // A dead relay fails `ready` before anyone awaits it; `add` still sees the error.
+    _channel.ready.ignore();
+  }
   final String _url;
   final WebSocketChannel _channel;
   bool _isReady = false;

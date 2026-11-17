@@ -1,4 +1,4 @@
-import 'package:nostr_notes/common/domain/model/user.dart';
+import 'package:common/domain/model/user.dart';
 
 abstract interface class GetUserUsecase {
   /// Emits the stored profile (`null` while none is stored), then every newer

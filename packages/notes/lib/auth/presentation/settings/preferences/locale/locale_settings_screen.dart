@@ -2,7 +2,7 @@ import 'package:common/app/vm/global_settings_scope.dart';
 import 'package:common/presentation/theme_settings/global_settings_vm.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 
 final class LocaleSettingsScreen extends StatefulWidget {

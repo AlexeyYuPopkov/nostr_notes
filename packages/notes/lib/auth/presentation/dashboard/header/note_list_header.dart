@@ -1,6 +1,6 @@
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/rendering.dart';
 import 'package:nostr_notes/auth/domain/model/label.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes_list_tab.dart';

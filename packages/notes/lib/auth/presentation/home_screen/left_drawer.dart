@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class LeftDrawer extends StatefulWidget {
   final double drawerWidth;

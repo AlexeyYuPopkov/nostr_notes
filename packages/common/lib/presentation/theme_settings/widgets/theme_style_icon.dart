@@ -1,6 +1,6 @@
 import 'package:common/app/theme/app_theme_style.dart';
 import 'package:common/app/theme/sizes.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class ThemeStyleIcon extends StatelessWidget {
   final AppThemePalette palette;

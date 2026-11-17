@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:common/domain/usecases/relays_monitoring_usecase.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr/model/relay_health.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/relay_status_indicator.dart';
@@ -29,9 +29,11 @@ final class _FakeRelaysMonitoringUsecase implements RelaysMonitoringUsecase {
 /// through RelayStatusIndicatorVM's mapped stream (RelaysMonitoringUsecase
 /// -> .map() -> StreamBuilder) — see PumpHelpers.waitFor's doc: this polls
 /// frames until the predicate holds instead of assuming one pump suffices.
-Finder _progressWithValue(double? value) => find.byWidgetPredicate(
-  (w) => w is CircularProgressIndicator && w.value == value,
-);
+Finder _progressWithValue(double value) => find.byWidgetPredicate((w) {
+  if (w is! CustomPaint) return false;
+  final painter = w.painter;
+  return painter is RelayRingPainter && painter.value == value;
+});
 
 void main() {
   const relay1 = 'wss://relay1.example.com';

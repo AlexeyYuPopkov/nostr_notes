@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:chat/common/di/di.dart';
 import 'package:chat/common/domain/usecase/auth_usecase.dart';
 import 'package:chat/router/app_router.gr.dart';
 import 'package:chat/unauth/presentation/onboarding/provider/onboarding_state.dart';
@@ -6,7 +7,7 @@ import 'package:chat/unauth/presentation/onboarding/pages/onboarding_screen_step
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 
@@ -60,7 +61,8 @@ final class _OnboardingBody extends ConsumerWidget with DialogHelper {
       }
 
       if (next is OnboardingDone) {
-        context.replaceRoute(const HomeRoute());
+        Di.registerAuthModules();
+        context.replaceRoute(const AuthTabsRoute());
       }
     });
 

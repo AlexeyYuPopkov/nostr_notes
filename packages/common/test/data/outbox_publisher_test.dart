@@ -12,7 +12,7 @@ import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
-import 'package:nostr_notes/services/outbox_publisher.dart';
+import 'package:common/services/outbox/outbox_publisher.dart';
 import 'package:nostr/nostr_client/ws_channel.dart';
 import 'package:rxdart/rxdart.dart';
 

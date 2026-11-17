@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:common/l10n/localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:nostr/nostr_client/channel_factory.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/data/repo/single_relay_monitoring_usecase_impl.dart';
@@ -198,6 +198,8 @@ final class _RelayInputTextField extends StatelessWidget {
         return context.commonL10n.relaysPageErrorInvalidUrl;
       case RelayValidatorErrorFormat():
         return context.commonL10n.relaysPageErrorInvalidRelayAddressFormat;
+      case RelayValidatorErrorCleartext():
+        return context.commonL10n.relaysPageErrorCleartextNotAllowed;
     }
   }
 

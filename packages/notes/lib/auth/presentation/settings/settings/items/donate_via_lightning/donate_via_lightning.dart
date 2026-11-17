@@ -5,7 +5,7 @@ import 'package:common/data/zap/fetch_lightning_payment_params.dart';
 import 'package:common/data/zap/get_lightning_donation_usecase.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/presentation/settings/settings/items/donate_via_lightning/donate_via_lightning_vm.dart';

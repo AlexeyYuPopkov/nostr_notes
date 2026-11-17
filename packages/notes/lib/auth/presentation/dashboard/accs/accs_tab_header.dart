@@ -1,5 +1,5 @@
 import 'package:common/app/theme/sizes.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/bloc/accs_bloc.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/bloc/accs_event.dart';

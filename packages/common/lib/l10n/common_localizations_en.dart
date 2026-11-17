@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
 import 'common_localizations.dart';
@@ -130,6 +132,10 @@ class CommonLocalizationsEn extends CommonLocalizations {
   @override
   String get relaysPageErrorInvalidRelayAddressFormat =>
       'Invalid relay address format';
+
+  @override
+  String get relaysPageErrorCleartextNotAllowed =>
+      'ws:// is allowed only for localhost, 127.0.0.1 and 10.0.2.2; use wss://';
 
   @override
   String relaysPageErrorFailedToConnectToRelay(String url) {

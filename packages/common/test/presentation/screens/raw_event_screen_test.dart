@@ -6,7 +6,7 @@ import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
 import 'package:common/services/event_store/database/app_database.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

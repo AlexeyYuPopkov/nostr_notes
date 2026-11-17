@@ -1,6 +1,6 @@
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/services/backup_files/file_share_service.dart';
 

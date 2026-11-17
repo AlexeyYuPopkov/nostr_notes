@@ -2,7 +2,7 @@ import 'package:common/data/zap/lightning_donation_repo.dart';
 import 'package:common/domain/error/app_error.dart';
 import 'package:common/presentation/buttons/prymary_button.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../tabs/donation_screen_tab.dart';

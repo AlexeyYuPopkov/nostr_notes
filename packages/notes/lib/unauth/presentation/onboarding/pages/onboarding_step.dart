@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_nsec_page/onboarding_nsec_page.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_pin_page/onboarding_pin_page.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/onboarding_relays_page.dart';
