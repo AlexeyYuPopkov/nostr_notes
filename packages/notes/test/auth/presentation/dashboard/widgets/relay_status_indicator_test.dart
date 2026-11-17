@@ -29,9 +29,11 @@ final class _FakeRelaysMonitoringUsecase implements RelaysMonitoringUsecase {
 /// through RelayStatusIndicatorVM's mapped stream (RelaysMonitoringUsecase
 /// -> .map() -> StreamBuilder) — see PumpHelpers.waitFor's doc: this polls
 /// frames until the predicate holds instead of assuming one pump suffices.
-Finder _progressWithValue(double? value) => find.byWidgetPredicate(
-  (w) => w is CircularProgressIndicator && w.value == value,
-);
+Finder _progressWithValue(double value) => find.byWidgetPredicate((w) {
+  if (w is! CustomPaint) return false;
+  final painter = w.painter;
+  return painter is RelayRingPainter && painter.value == value;
+});
 
 void main() {
   const relay1 = 'wss://relay1.example.com';

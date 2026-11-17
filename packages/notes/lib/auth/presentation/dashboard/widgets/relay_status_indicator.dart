@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/app/theme/success_colors.dart';
 import 'package:common/domain/usecases/relays_monitoring_usecase.dart';
@@ -134,24 +136,74 @@ final class RelayStatusWidget extends StatelessWidget {
     return SizedBox(
       width: size.width,
       height: size.height,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          CircularProgressIndicator(
-            value: relayStatusInfo.indicatorValue,
-            strokeWidth: 2.5,
-            color: successColor,
-            backgroundColor: theme.colorScheme.error,
-          ),
-          Icon(
+      child: CustomPaint(
+        painter: RelayRingPainter(
+          value: relayStatusInfo.indicatorValue ?? 0,
+          color: successColor,
+          backgroundColor: theme.colorScheme.error,
+        ),
+        child: Center(
+          child: Icon(
             Icons.cell_tower,
             size: size.shortestSide * _iconSizeRatio,
             color: successColor,
           ),
-        ],
+        ),
       ),
     );
   }
+}
+
+final class RelayRingPainter extends CustomPainter {
+  static const _startAngle = -math.pi / 2;
+  static const _strokeWidthRatio = 2.5 / 60;
+
+  final double value;
+  final Color color;
+  final Color backgroundColor;
+
+  const RelayRingPainter({
+    required this.value,
+    required this.color,
+    required this.backgroundColor,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final minSide = size.shortestSide;
+    final rect =
+        Offset((size.width - minSide) / 2, (size.height - minSide) / 2) &
+        Size.square(minSide);
+    final strokeWidth = minSide * _strokeWidthRatio;
+    final arcRect = rect.deflate(strokeWidth / 2);
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth
+      ..isAntiAlias = true;
+
+    canvas.drawArc(
+      arcRect,
+      0,
+      math.pi * 2,
+      false,
+      paint..color = backgroundColor,
+    );
+    if (value > 0) {
+      canvas.drawArc(
+        arcRect,
+        _startAngle,
+        math.pi * 2 * value.clamp(0.0, 1.0),
+        false,
+        paint..color = color,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(RelayRingPainter old) =>
+      old.value != value ||
+      old.color != color ||
+      old.backgroundColor != backgroundColor;
 }
 
 final class _RelayStatusPopover extends StatelessWidget {
