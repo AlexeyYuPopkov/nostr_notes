@@ -7,7 +7,7 @@ import 'package:chat/unauth/presentation/onboarding/pages/onboarding_screen_step
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 

@@ -1,7 +1,7 @@
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/widgets/progress_hud/progress_hud.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:nostr_notes/auth/presentation/tools/clipboard_helper.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:url_launcher/url_launcher.dart';

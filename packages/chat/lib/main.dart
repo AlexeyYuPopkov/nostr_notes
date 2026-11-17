@@ -11,7 +11,7 @@ import 'package:common/presentation/theme_settings/global_settings_vm.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:common/services/outbox/outbox_publisher.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:marionette_flutter/marionette_flutter.dart';
@@ -107,8 +107,9 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
             themeMode: vm.themeMode,
             // locale: , // TODO: implement locale change
             localizationsDelegates: const [
-              ...CommonL10n.localizationsDelegates,
-              ...Localization.localizationsDelegates,
+              CommonL10n.delegate,
+              Localization.delegate,
+              ...platformLocalizationsDelegates,
             ],
             supportedLocales: Localization.supportedLocales,
             routerConfig: _appRouter.config(),

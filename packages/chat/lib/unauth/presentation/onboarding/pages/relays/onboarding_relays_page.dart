@@ -6,7 +6,7 @@ import 'package:common/presentation/buttons/prymary_button.dart';
 
 import 'package:common/presentation/relay_input_text_field.dart';
 import 'package:common/presentation/widgets/relay_tile.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'provider/onboarding_relays_provider.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';

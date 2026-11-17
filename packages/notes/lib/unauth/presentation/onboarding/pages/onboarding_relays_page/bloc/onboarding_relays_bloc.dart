@@ -1,7 +1,7 @@
 import 'package:common/domain/model/relay_info.dart';
 import 'package:common/domain/usecases/relays_monitoring_usecase.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:common/domain/repo/relays_list_repo.dart';
 import 'package:common/domain/usecases/get_relays_usecase.dart';

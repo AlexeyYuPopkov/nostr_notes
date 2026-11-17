@@ -1,5 +1,5 @@
 import 'package:common/app/theme/sizes.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/bloc/dashboard_event.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/notes/bloc/notes_list_event.dart';

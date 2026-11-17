@@ -1,6 +1,6 @@
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:common/presentation/tools/link_tap_handler.dart';
 import 'package:gpt_markdown/custom_widgets/unordered_ordered_list.dart';

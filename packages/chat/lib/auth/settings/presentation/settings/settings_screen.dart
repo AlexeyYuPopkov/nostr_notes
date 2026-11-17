@@ -2,7 +2,7 @@ import 'package:chat/auth/settings/presentation/settings/items/settings_item.dar
 import 'package:chat/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 abstract interface class SettingsScreenCoordinator {
   Future<void> onProfileRoute(BuildContext context);

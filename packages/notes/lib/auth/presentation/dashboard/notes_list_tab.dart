@@ -1,7 +1,7 @@
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/tools/section_scroll_vm.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/accs_tab_content.dart';

@@ -1,7 +1,7 @@
 import 'package:app_test_kit/pump_helpers.dart';
 import 'package:chat/auth/chat/presentation/search_contact/provider/search_contact_provider.dart';
 import 'package:chat/auth/chat/presentation/search_contact/search_contact_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Usage: And I search for {'ali'}

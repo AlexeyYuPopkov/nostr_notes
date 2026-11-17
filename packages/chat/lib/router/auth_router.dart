@@ -7,7 +7,7 @@ import 'package:chat/auth/settings/presentation/settings/settings_screen.dart';
 import 'package:chat/auth/home/presentation/home/home_navigation_bar.dart';
 import 'package:chat/common/di/di.dart';
 import 'package:chat/router/app_router.gr.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 @RoutePage()
 final class AuthTabsPage extends StatelessWidget {

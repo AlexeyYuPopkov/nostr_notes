@@ -114,6 +114,8 @@ dependencies:
   leak_tracker_flutter_testing: ^3.0.10
 
 
+  material_ui: any
+  cupertino_ui: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -124,7 +126,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
 
-  bdd_widget_test: ^3.0.1
+  bdd_widget_test: ^3.0.5
 
   flutter_secure_storage: ^11.2.0
   flutter_lints: ^6.0.0

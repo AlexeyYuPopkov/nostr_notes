@@ -1,5 +1,5 @@
 import 'package:common/app/theme/sizes.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:nostr_notes/auth/presentation/widgets/brand_avatar.dart';
 
 final class LoginItemFormHeader extends StatelessWidget {

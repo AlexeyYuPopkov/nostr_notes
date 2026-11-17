@@ -2,7 +2,7 @@ import 'package:common/app/vm/global_settings_scope.dart';
 import 'package:common/data/repo/app_theme_data_repo_impl.dart';
 import 'package:common/presentation/theme_settings/global_settings_vm.dart';
 import 'package:common/l10n/localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:common/app/theme/app_theme.dart';
 import 'package:common/presentation/tools/root_context_provider/root_context_provider.dart';
@@ -32,7 +32,10 @@ final class AppLauncher {
           theme: AppTheme.light(style: globSettingsVm.lightThemeStyle),
           darkTheme: AppTheme.dark(style: globSettingsVm.darkThemeStyle),
           themeMode: globSettingsVm.themeMode,
-          localizationsDelegates: const [...CommonL10n.localizationsDelegates],
+          localizationsDelegates: const [
+            CommonL10n.delegate,
+            ...platformLocalizationsDelegates,
+          ],
           supportedLocales: CommonL10n.supportedLocales,
           debugShowCheckedModeBanner: false,
           builder: (context, _) {

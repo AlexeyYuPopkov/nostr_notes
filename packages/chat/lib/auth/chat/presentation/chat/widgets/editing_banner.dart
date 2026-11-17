@@ -1,6 +1,6 @@
 import 'package:chat/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class EditingBanner extends StatelessWidget {
   static const cancelButtonSemanticsId = 'ChatScreen.cancelEditingButton';

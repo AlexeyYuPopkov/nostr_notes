@@ -3,7 +3,7 @@ import 'package:common/app/theme/success_colors.dart';
 import 'package:common/domain/usecases/relays_monitoring_usecase.dart';
 import 'package:common/presentation/dialogs/opacity_button.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:nostr/model/relay_health.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 

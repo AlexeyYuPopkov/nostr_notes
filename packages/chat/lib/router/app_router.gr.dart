@@ -14,7 +14,7 @@ import 'package:auto_route/auto_route.dart' as _i3;
 import 'package:chat/router/auth_router.dart' as _i1;
 import 'package:chat/unauth/presentation/onboarding/onboarding_screen.dart'
     as _i2;
-import 'package:flutter/material.dart' as _i4;
+import 'package:material_ui/material_ui.dart' as _i4;
 
 /// generated route for
 /// [_i1.AuthTabsPage]

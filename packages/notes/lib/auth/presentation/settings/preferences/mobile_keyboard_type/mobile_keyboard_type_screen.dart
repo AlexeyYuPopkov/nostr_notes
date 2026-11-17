@@ -1,7 +1,7 @@
 import 'package:common/presentation/tools/list_item_position.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 import 'package:nostr_notes/auth/domain/repo/pin_keyboard_type_repo.dart';
 import 'package:nostr_notes/common/domain/model/pin_keyboard_type.dart';

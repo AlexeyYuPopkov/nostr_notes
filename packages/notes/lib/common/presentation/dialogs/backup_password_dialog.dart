@@ -4,7 +4,7 @@ import 'package:common/presentation/dialogs/common_tooltip.dart';
 import 'package:common/presentation/dialogs/dialog_button.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/widgets/onboarding_text_field.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:nostr_notes/common/domain/usecase/keys_backup/export_keys_usecase.dart';
 import 'package:nostr_notes/l10n/localization.dart';

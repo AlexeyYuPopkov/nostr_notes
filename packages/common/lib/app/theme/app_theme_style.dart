@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:common/l10n/localization.dart';
 
 /// A full, independently-selectable theme style — chosen separately for

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'onboarding_welcome_page.dart';
 import 'onboarding_nsec_page.dart';

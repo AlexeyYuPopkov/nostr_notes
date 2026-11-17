@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:custom_adaptive_scaffold/custom_adaptive_scaffold.dart' as asc;
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nostr_notes/app/icons/app_icons.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';

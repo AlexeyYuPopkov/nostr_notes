@@ -2,7 +2,7 @@ import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/tools/link_tap_handler.dart';
 import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:nostr_notes/l10n/localization.dart';

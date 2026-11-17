@@ -2,7 +2,7 @@ import 'package:common/app/theme/sizes.dart';
 import 'package:common/app/theme/success_colors.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:common/domain/model/relay_info.dart';
 import 'package:common/presentation/buttons/prymary_button.dart';

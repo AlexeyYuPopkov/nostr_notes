@@ -2,7 +2,7 @@ import 'package:common/data/repo/key_tool_repository_impl.dart';
 import 'package:common/services/event_store/database/app_database.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app_test_kit/pump_helpers.dart';
 import 'package:nostr/nostr_client/async_fetcher.dart';

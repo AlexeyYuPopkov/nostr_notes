@@ -1,7 +1,7 @@
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/widgets/markdown/on_tap_link_helper.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/app/theme/gpt_markdown_theme_data.dart';

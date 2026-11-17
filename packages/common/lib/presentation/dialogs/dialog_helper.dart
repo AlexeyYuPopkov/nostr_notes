@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:common/domain/error/app_error.dart';
 import 'package:common/l10n/localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:common/app/theme/sizes.dart';
 
 import 'dialog_button.dart';
