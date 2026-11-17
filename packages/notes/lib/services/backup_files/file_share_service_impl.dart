@@ -40,8 +40,7 @@ final class FileShareServiceImpl implements FileShareService {
     final savedPath = await FilePicker.saveFile(
       fileName: fileName,
       bytes: bytes,
-      type: FileType.custom,
-      allowedExtensions: ['zip'],
+      mimeType: 'application/zip',
     );
     return savedPath == null
         ? FileShareOutcome.dismissed

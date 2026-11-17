@@ -1,7 +1,7 @@
 import 'package:common/app/icons/app_icons.dart';
 import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
 import 'package:common/presentation/widgets/onboarding_icon.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/common/presentation/dialogs/backup_password_dialog.dart';

@@ -7,7 +7,7 @@ import 'package:common/data/repo/app_theme_data_repo_impl.dart';
 import 'package:common/presentation/theme_settings/global_settings_vm.dart';
 import 'package:common/domain/repo/secure_storage.dart';
 import 'package:common/l10n/localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:common/app/theme/app_theme.dart';
@@ -69,8 +69,9 @@ final class AppLauncher {
             darkTheme: AppTheme.dark(style: globSettingsVm.darkThemeStyle),
             themeMode: globSettingsVm.themeMode,
             localizationsDelegates: const [
-              ...Localization.localizationsDelegates,
-              ...CommonL10n.localizationsDelegates,
+              Localization.delegate,
+              CommonL10n.delegate,
+              ...platformLocalizationsDelegates,
             ],
             supportedLocales: CommonL10n.supportedLocales,
             debugShowCheckedModeBanner: false,
@@ -96,8 +97,9 @@ final class AppLauncher {
         child: MaterialApp.router(
           theme: AppTheme.light(style: globSettingsVm.lightThemeStyle),
           localizationsDelegates: const [
-            ...Localization.localizationsDelegates,
-            ...CommonL10n.localizationsDelegates,
+            Localization.delegate,
+            CommonL10n.delegate,
+            ...platformLocalizationsDelegates,
           ],
           supportedLocales: CommonL10n.supportedLocales,
           debugShowCheckedModeBanner: false,

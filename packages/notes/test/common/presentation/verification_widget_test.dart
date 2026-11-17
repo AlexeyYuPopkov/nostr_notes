@@ -1,5 +1,5 @@
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostr/model/user_keys.dart';

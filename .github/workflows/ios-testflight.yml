@@ -29,7 +29,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          dart pub global activate melos
+          dart pub global activate melos 8.10.1
           melos bootstrap
 
       - name: Clear SPM cache

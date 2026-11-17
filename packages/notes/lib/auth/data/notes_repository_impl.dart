@@ -80,8 +80,8 @@ class NotesRepositoryImpl with GetNotesFiltering implements NotesRepository {
             kinds: [EventKind.note.value],
             authors: [pubkey],
             p: [pubkey],
-            t: [AppConfig.clientTagValue],
-            until: until?.toSecondsSinceEpoch(),
+            // t: [AppConfig.clientTagValue],
+            // until: until?.toSecondsSinceEpoch(),
           ),
           NostrFilter(
             kinds: [EventKind.delete.value],

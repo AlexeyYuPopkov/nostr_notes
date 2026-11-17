@@ -1,7 +1,7 @@
 import 'package:common/app/theme/app_theme_style.dart';
 import 'package:common/domain/error/app_error.dart';
 import 'package:common/domain/repo/app_theme_data_repo_impl.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:common/presentation/tools/optional_box.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 

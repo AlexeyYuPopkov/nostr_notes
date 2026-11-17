@@ -2533,10 +2533,11 @@ class $$NostrEventsTableTableManager
                   getPrefetchedDataCallback: (items) async {
                     return [
                       if (nostrTagsRefs)
-                        await $_getPrefetchedData<
+                        await $_getPrefetchedDataByColumns<
                           NostrEventData,
                           $NostrEventsTable,
-                          NostrTagData
+                          NostrTagData,
+                          $NostrTagsTable
                         >(
                           currentTable: table,
                           referencedTable: $$NostrEventsTableReferences
@@ -2547,17 +2548,16 @@ class $$NostrEventsTableTableManager
                                 table,
                                 p0,
                               ).nostrTagsRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.eventId == item.id,
-                              ),
+                          currentColumn: 'id',
+                          referencedColumn: 'event_id',
                           typedResults: items,
                         ),
                       if (nostrEventRelaysRefs)
-                        await $_getPrefetchedData<
+                        await $_getPrefetchedDataByColumns<
                           NostrEventData,
                           $NostrEventsTable,
-                          NostrEventRelayData
+                          NostrEventRelayData,
+                          $NostrEventRelaysTable
                         >(
                           currentTable: table,
                           referencedTable: $$NostrEventsTableReferences
@@ -2568,17 +2568,16 @@ class $$NostrEventsTableTableManager
                                 table,
                                 p0,
                               ).nostrEventRelaysRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.eventId == item.id,
-                              ),
+                          currentColumn: 'id',
+                          referencedColumn: 'event_id',
                           typedResults: items,
                         ),
                       if (noteClassProbabilitiesRefs)
-                        await $_getPrefetchedData<
+                        await $_getPrefetchedDataByColumns<
                           NostrEventData,
                           $NostrEventsTable,
-                          NoteClassProbabilityData
+                          NoteClassProbabilityData,
+                          $NoteClassProbabilitiesTable
                         >(
                           currentTable: table,
                           referencedTable: $$NostrEventsTableReferences
@@ -2589,10 +2588,8 @@ class $$NostrEventsTableTableManager
                                 table,
                                 p0,
                               ).noteClassProbabilitiesRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.eventId == item.id,
-                              ),
+                          currentColumn: 'id',
+                          referencedColumn: 'event_id',
                           typedResults: items,
                         ),
                     ];

@@ -11,7 +11,7 @@ import 'package:chat/auth/chat/presentation/common/user_title.dart';
 import 'package:chat/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/account_avatar.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_core/flutter_chat_core.dart' as core;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart' as ui;

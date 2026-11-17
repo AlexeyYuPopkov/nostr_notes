@@ -6,7 +6,7 @@ import 'package:chat/auth/chat/presentation/search_contact/provider/search_conta
 import 'package:chat/auth/chat/presentation/search_contact/widgets/contact_list_cell.dart';
 import 'package:chat/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract interface class SearchContactScreenCoordinator {

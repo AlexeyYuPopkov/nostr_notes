@@ -39,6 +39,7 @@
     "relaysPageErrorInvalidRelayUrlEmpty": "URL cannot be empty",
     "relaysPageErrorInvalidUrl": "URL must start with wss:// or ws://",
     "relaysPageErrorInvalidRelayAddressFormat": "Invalid relay address format",
+    "relaysPageErrorCleartextNotAllowed": "ws:// is allowed only for localhost, 127.0.0.1 and 10.0.2.2; use wss://",
     "relaysPageErrorFailedToConnectToRelay": "Failed to connect to relay {url}",
     "@relaysPageErrorFailedToConnectToRelay": {
         "placeholders": {

@@ -8,7 +8,7 @@ import 'package:common/presentation/widgets/onboarding_text_field.dart';
 import 'package:common/presentation/widgets/progress_hud/progress_hud.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/app/router/app_route/route_handler.dart';

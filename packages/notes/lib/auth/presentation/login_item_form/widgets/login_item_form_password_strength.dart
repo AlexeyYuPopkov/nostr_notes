@@ -1,6 +1,6 @@
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/app/theme/success_colors.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/password_strength_usecase.dart';
 import 'package:nostr_notes/l10n/localization.dart';
 

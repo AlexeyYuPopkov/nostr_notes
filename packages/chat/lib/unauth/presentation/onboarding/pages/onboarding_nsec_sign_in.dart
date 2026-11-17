@@ -6,7 +6,7 @@ import 'package:common/presentation/buttons/prymary_loading_button.dart';
 import 'package:common/presentation/buttons/vm/loading_button_vm.dart';
 import 'package:common/presentation/widgets/onboarding_icon.dart';
 import 'package:common/presentation/widgets/onboarding_text_field.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr/key_tool/key_tool.dart';
 import '../provider/onboarding_provider.dart';

@@ -9,7 +9,7 @@ import 'package:common/app/vm/global_settings_scope.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:leak_tracker/leak_tracker.dart';
 import 'package:nostr_notes/app/di/app_di.dart';
 import 'package:nostr_notes/common/presentation/blur_widget/verification_widget.dart';
@@ -129,8 +129,9 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
             themeMode: vm.themeMode,
             locale: vm.locale,
             localizationsDelegates: const [
-              ...CommonL10n.localizationsDelegates,
-              ...Localization.localizationsDelegates,
+              CommonL10n.delegate,
+              Localization.delegate,
+              ...platformLocalizationsDelegates,
             ],
             supportedLocales: Localization.supportedLocales,
             localeListResolutionCallback: (locales, supportedLocales) {

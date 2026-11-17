@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:common/domain/usecases/relays_monitoring_usecase.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostr/model/user_keys.dart';
@@ -65,6 +65,9 @@ final class _TestNotesListCoordinator implements NotesListCoordinator {
     required LoginItem item,
     required bool readonly,
   }) {}
+
+  @override
+  void onTabChanged(BuildContext context) {}
 }
 
 class MockChannelFactory extends Mock implements ChannelFactory {}
@@ -257,21 +260,15 @@ void main() {
         () => channelFactory.create('wss://test.relay'),
       ).thenReturn(relayChannel);
 
-      // final requests = <String>[];
-
       relayChannel.onAdd = (data, channel) {
         const req =
-            r'["REQ",'
-            '"f5996f40-6622-11f0-b6aa-77622cb064581",'
+            r'["REQ","f5996f40-6622-11f0-b6aa-77622cb064581",'
             '{"kinds":[30023],'
             '"authors":["bfea1ad2fdbbdd4c6d2419b3d4f63f09ad8a94d5835a7f97453eb93e860ea8fe"],'
-            '"#t":["996e10ba"],'
-            '"#p":["bfea1ad2fdbbdd4c6d2419b3d4f63f09ad8a94d5835a7f97453eb93e860ea8fe"],'
-            '"until":1819918800},'
+            '"#p":["bfea1ad2fdbbdd4c6d2419b3d4f63f09ad8a94d5835a7f97453eb93e860ea8fe"]},'
             '{"kinds":[5],'
             '"authors":["bfea1ad2fdbbdd4c6d2419b3d4f63f09ad8a94d5835a7f97453eb93e860ea8fe"],'
-            '"until":1819918800,'
-            '"#k":["30023"]}]';
+            '"until":1819918800,"#k":["30023"]}]';
 
         if (data is String && data == req) {
           // Future.microtask гарантирует что события придут ПОСЛЕ того как

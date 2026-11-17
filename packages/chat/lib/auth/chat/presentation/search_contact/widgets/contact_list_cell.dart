@@ -2,7 +2,7 @@ import 'package:chat/auth/chat/presentation/common/user_title.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/domain/model/user.dart';
 import 'package:common/presentation/account_avatar.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class ContactListCell extends StatelessWidget {
   static const avatarSize = 40.0;

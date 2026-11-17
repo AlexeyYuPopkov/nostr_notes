@@ -4,7 +4,7 @@ import 'package:chat/auth/chat/presentation/chats_list/provider/chat_rooms_state
 import 'package:chat/auth/chat/presentation/chats_list/widgets/chat_room_cell.dart';
 import 'package:chat/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract interface class ChatsListScreenCoordinator {

@@ -1,6 +1,6 @@
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/widgets/label_chips.dart';
 import 'package:nostr_notes/l10n/localization.dart';

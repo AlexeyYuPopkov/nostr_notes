@@ -1,7 +1,7 @@
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/widgets/markdown/gpt_markdown_widget.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:nostr_notes/app/icons/app_icons.dart';

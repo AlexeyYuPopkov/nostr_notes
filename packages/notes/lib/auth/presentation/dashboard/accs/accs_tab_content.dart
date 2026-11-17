@@ -1,6 +1,6 @@
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/presentation/dashboard/accs/bloc/accs_bloc.dart';

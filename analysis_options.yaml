@@ -9,6 +9,9 @@ analyzer:
     - .dart_tool/**
     - .idea/**
     - .vscode/**
+    - "**/*.g.dart"
+    - "**/*.gr.dart"   # auto_route (app_router.gr.dart)
+    - "**/build/**"
 # Make the analyzer ignore a certain rule.
 
 linter:

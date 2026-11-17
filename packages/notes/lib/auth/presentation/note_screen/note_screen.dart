@@ -1,5 +1,5 @@
 import 'package:common/app/theme/sizes.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';
 import 'package:nostr_notes/auth/presentation/note_screen/edit_note_markdown_screen/edit_note_markdown_screen.dart';
 import 'package:nostr_notes/auth/presentation/note_screen/note_preview_screen/note_preview_screen.dart';

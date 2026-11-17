@@ -32,7 +32,7 @@ import 'dart:developer';
 
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/app/theme/success_colors.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 part 'hud_policy_part.dart';
 

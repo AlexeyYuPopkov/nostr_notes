@@ -3,7 +3,7 @@ import 'package:common/presentation/dialogs/dialog_helper.dart';
 import 'package:common/presentation/tools/list_item_position.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:di_storage/di_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:common/presentation/account_avatar.dart';
 import 'package:nostr_notes/l10n/localization.dart';

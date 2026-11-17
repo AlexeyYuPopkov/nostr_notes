@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:nostr_notes/app/icons/accs_icons.dart';
 
 final class BrandAvatar extends StatelessWidget with BrandAvatarHelper {

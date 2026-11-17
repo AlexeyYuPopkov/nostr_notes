@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:common/app/theme/sizes.dart';
 
 final class NotesListSectionHeader extends StatefulWidget {

@@ -4,7 +4,7 @@ import 'package:common/app/theme/sizes.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/tools/link_tap_handler.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:nostr_notes/common/presentation/layout/app_platform.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;

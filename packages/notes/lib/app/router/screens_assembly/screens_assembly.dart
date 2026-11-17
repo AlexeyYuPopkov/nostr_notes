@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:nostr_notes/auth/presentation/login_item_form/bloc/login_item_details_params.dart';
 import 'package:nostr_notes/auth/presentation/login_item_form/login_item_form_screen.dart';
 import 'package:nostr_notes/auth/presentation/model/path_params.dart';

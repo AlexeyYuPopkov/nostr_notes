@@ -5,7 +5,7 @@ import 'package:chat/auth/chat/domain/usecase/get_user_usecase.dart';
 import 'package:chat/auth/chat/presentation/common/user_title.dart';
 import 'package:common/domain/model/user.dart';
 import 'package:common/presentation/account_avatar.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 

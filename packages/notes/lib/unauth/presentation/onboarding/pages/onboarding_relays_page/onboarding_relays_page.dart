@@ -2,11 +2,12 @@ import 'package:common/app/theme/sizes.dart';
 import 'package:common/app/theme/success_colors.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:common/domain/model/relay_info.dart';
 import 'package:common/presentation/buttons/prymary_button.dart';
 import 'package:nostr/model/relay_health.dart';
+import 'package:nostr_notes/auth/presentation/dashboard/widgets/relay_status_indicator.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/bloc/onboarding_relays_bloc.dart';
 import 'package:nostr_notes/unauth/presentation/onboarding/pages/onboarding_relays_page/bloc/onboarding_relays_event.dart';
 import 'package:common/presentation/relay_input_text_field.dart';
@@ -55,6 +56,16 @@ final class OnboardingRelaysPage extends StatelessWidget with DialogHelper {
                       Icons.cell_tower,
                       size: headerIconSize,
                       color: successColor,
+                    ),
+                  ),
+
+                  SliverToBoxAdapter(
+                    child: RelayStatusWidget(
+                      relayStatusInfo: RelayStatusInfo(statuses: statuses),
+                      size: const Size(
+                        1.5 * headerIconSize,
+                        1.5 * headerIconSize,
+                      ),
                     ),
                   ),
 
