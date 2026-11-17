@@ -43,9 +43,10 @@ final class FolderFilterButton extends StatelessWidget {
             height: _size,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: isActive
-                  ? theme.colorScheme.primary
-                  : theme.colorScheme.surfaceContainerHighest,
+              color: isActive ? theme.colorScheme.primary : Colors.transparent,
+              border: isActive
+                  ? null
+                  : Border.all(color: theme.colorScheme.outlineVariant),
               borderRadius: BorderRadius.circular(Sizes.radiusSmall),
             ),
             child: Icon(

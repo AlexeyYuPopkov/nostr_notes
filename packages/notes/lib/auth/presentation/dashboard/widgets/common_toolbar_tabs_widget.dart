@@ -30,7 +30,7 @@ final class CommonToolbarTabsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: padding,
-      clipBehavior: Clip.none,
+      clipBehavior: Clip.hardEdge,
       scrollDirection: Axis.horizontal,
       child: Row(
         spacing: Sizes.indent,

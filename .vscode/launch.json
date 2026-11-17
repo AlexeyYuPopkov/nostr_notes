@@ -37,6 +37,30 @@
             "program": "lib/main.dart"
         },
         {
+            "name": "Notes Web (no deprecated JS interop)",
+            "request": "launch",
+            "type": "dart",
+            "cwd": "${workspaceFolder}/packages/notes",
+            "program": "lib/main.dart",
+            "deviceId": "chrome",
+            "args": [
+                "--no-deprecated-js-interop"
+            ],
+            "flutterMode": "debug"
+        },
+        {
+            "name": "Notes Web release (no deprecated JS interop)",
+            "request": "launch",
+            "type": "dart",
+            "cwd": "${workspaceFolder}/packages/notes",
+            "program": "lib/main.dart",
+            "deviceId": "chrome",
+            "args": [
+                "--no-deprecated-js-interop"
+            ],
+            "flutterMode": "release"
+        },
+        {
             "name": "Chat (debug)",
             "request": "launch",
             "type": "dart",
