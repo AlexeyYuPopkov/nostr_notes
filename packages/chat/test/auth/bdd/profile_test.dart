@@ -13,6 +13,8 @@ import 'package:app_test_kit/bdd_steps/i_see_text.dart';
 import './steps/i_open_my_profile.dart';
 import 'package:app_test_kit/bdd_steps/i_enter_into_semantics.dart';
 import './steps/my_saved_name_is.dart';
+import './steps/i_go_back.dart';
+import 'package:app_test_kit/bdd_steps/i_see_semantics.dart';
 import './steps/no_relay_accepts_my_profile.dart';
 import 'package:app_test_kit/bdd_steps/a_fake_clipboard.dart';
 import 'package:app_test_kit/bdd_steps/the_clipboard_contains.dart';
@@ -86,6 +88,21 @@ void main() {
         await iTapSemantics(tester, 'ProfileScreen.saveButton');
         await iSeeText(tester, 'Profile saved');
         await mySavedNameIs(tester, 'Bob');
+      } finally {
+        await bddTearDown(tester);
+      }
+    });
+    testWidgets('''Leaving the profile while its snack bar is shown''', (
+      tester,
+    ) async {
+      try {
+        await bddSetUp(tester);
+        await iOpenMyProfile(tester);
+        await iEnterIntoSemantics(tester, 'Bob', 'ProfileScreen.nameField');
+        await iTapSemantics(tester, 'ProfileScreen.saveButton');
+        await iSeeText(tester, 'Profile saved');
+        await iGoBack(tester);
+        await iSeeSemantics(tester, 'SettingsScreen.profileItem');
       } finally {
         await bddTearDown(tester);
       }

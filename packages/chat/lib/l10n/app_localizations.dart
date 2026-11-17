@@ -460,6 +460,24 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get settingsItemProfile;
 
+  /// No description provided for @settingsItemLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get settingsItemLogout;
+
+  /// No description provided for @settingsItemLogoutDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove your private key from this device'**
+  String get settingsItemLogoutDescription;
+
+  /// No description provided for @settingsLogoutConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you really want to sign out?\nMake sure you have saved your nsec — without it you can\'t sign back in to this account.'**
+  String get settingsLogoutConfirmation;
+
   /// No description provided for @profileTitle.
   ///
   /// In en, this message translates to:

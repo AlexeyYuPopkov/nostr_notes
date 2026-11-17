@@ -1,5 +1,6 @@
 import 'package:chat/auth/chat/domain/models/chat_room.dart';
-import 'package:chat/auth/chat/presentation/chats_list/provider/chats_list_provider.dart';
+import 'package:chat/auth/chat/presentation/chats_list/provider/chat_rooms_provider.dart';
+import 'package:chat/auth/chat/presentation/chats_list/provider/chat_rooms_state.dart';
 import 'package:chat/auth/chat/presentation/chats_list/widgets/chat_room_cell.dart';
 import 'package:chat/l10n/localization.dart';
 import 'package:common/app/theme/sizes.dart';
@@ -23,7 +24,8 @@ final class ChatsListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final rooms = ref.watch(chatsListProvider);
+    final state = ref.watch(chatRoomsProviderProvider);
+    final rooms = state.data.rooms;
 
     return Scaffold(
       appBar: AppBar(
@@ -39,16 +41,18 @@ final class ChatsListScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: switch (rooms) {
-        AsyncData(:final value) when value.isEmpty => _EmptyChatsList(
+      body: switch (state) {
+        _ when rooms.isNotEmpty => _ChatsList(
+          rooms: rooms,
           coordinator: coordinator,
         ),
-        AsyncData(:final value) => _ChatsList(
-          rooms: value,
-          coordinator: coordinator,
+        ChatRoomsLoading() => const Center(
+          child: CircularProgressIndicator.adaptive(),
         ),
-        AsyncError() => Center(child: Text(context.l10n.chatsListLoadError)),
-        _ => const Center(child: CircularProgressIndicator.adaptive()),
+        ChatRoomsError() => Center(
+          child: Text(context.l10n.chatsListLoadError),
+        ),
+        ChatRoomsCommon() => _EmptyChatsList(coordinator: coordinator),
       },
     );
   }
@@ -93,9 +97,10 @@ final class _ChatsList extends StatelessWidget {
       itemBuilder: (context, index) {
         final room = rooms[index];
         return ChatRoomCell(
+          key: ValueKey(room.peerPubkey),
           room: room,
           onTap: () =>
-              coordinator.onChatRoute(context, pubkey: room.peer.pubkey),
+              coordinator.onChatRoute(context, pubkey: room.peerPubkey),
         );
       },
     );

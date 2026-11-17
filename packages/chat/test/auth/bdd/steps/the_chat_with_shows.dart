@@ -8,6 +8,7 @@ import 'wait_until.dart';
 /// Usage: Then the chat with {'Alice'} shows {'Hi there'}
 ///
 /// Waits for the relay's messages and profile to reach the list.
+/// [contact] names the chat's cell and is what the cell must show as title.
 Future<void> theChatWithShows(
   WidgetTester tester,
   String contact,
@@ -25,5 +26,9 @@ Future<void> theChatWithShows(
     inCell(contact),
     reason: 'the chat named $contact',
   );
-  expect(inCell(lastMessage), findsOneWidget);
+  await waitUntilFound(
+    tester,
+    inCell(lastMessage),
+    reason: 'the chat with $contact to show "$lastMessage"',
+  );
 }

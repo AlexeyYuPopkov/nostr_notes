@@ -1,4 +1,3 @@
-import 'package:chat/auth/chat/data/contacts/contact_profiles.dart';
 import 'package:chat/auth/chat/data/direct_messages/direct_message_crypto.dart';
 import 'package:chat/auth/chat/data/direct_messages/direct_message_tags.dart';
 import 'package:chat/auth/chat/data/direct_messages/direct_message_writer.dart';
@@ -27,7 +26,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/tag/tag_value.dart';
 import 'package:nostr/model/user_keys.dart';
-import 'package:nostr/nostr_client/async_fetcher.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
 
@@ -123,12 +121,6 @@ void main() {
       sessionUsecase: session,
       reader: reader,
       sync: sync,
-      profiles: ContactProfiles(
-        eventStore: store,
-        client: client,
-        asyncFetcher: AsyncFetcher(client: client),
-        relaysListRepo: relaysListRepo,
-      ),
     );
 
     addTearDown(() async {
@@ -329,8 +321,7 @@ void main() {
   });
 
   group('rooms', () {
-    test('one room per peer with its newest message and profile', () async {
-      relay.publish(profileEvent(of: alice, name: 'Alice'));
+    test('one room per peer with its newest message', () async {
       relay.publish(
         await directMessage(
           from: alice,
@@ -345,12 +336,10 @@ void main() {
           .execute()
           .firstWhere(
             (rooms) =>
-                rooms.length == 1 &&
-                rooms.single.lastMessage.text == 'Second' &&
-                rooms.single.peer.name == 'Alice',
+                rooms.length == 1 && rooms.single.lastMessage.text == 'Second',
           )
           .timeout(const Duration(seconds: 5));
-      expect(room.peer.pubkey, alice.publicKey);
+      expect(room.peerPubkey, alice.publicKey);
     });
 
     test('newest conversation first', () async {

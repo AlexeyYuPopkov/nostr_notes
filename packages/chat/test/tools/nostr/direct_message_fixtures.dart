@@ -45,11 +45,15 @@ Future<NostrEvent> directMessage({
   );
 }
 
-NostrEvent profileEvent({required UserKeys of, required String name}) {
+NostrEvent profileEvent({
+  required UserKeys of,
+  required String name,
+  DateTime? createdAt,
+}) {
   return const NostrEventCreator().createEvent(
     kind: NostrKind.user,
     content: jsonEncode({'name': name}),
-    createdAt: DateTime.now(),
+    createdAt: createdAt ?? DateTime.now(),
     tags: const [],
     pubkey: of.publicKey,
     privateKey: of.privateKey,

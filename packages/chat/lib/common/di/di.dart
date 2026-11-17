@@ -1,5 +1,7 @@
 import 'package:chat/auth/chat/data/contacts/contact_profiles.dart';
 import 'package:chat/auth/chat/data/contacts/get_contact_usecase_impl.dart';
+import 'package:chat/auth/chat/data/contacts/fetch_users_usecase_impl.dart';
+import 'package:chat/auth/chat/data/contacts/get_user_usecase_impl.dart';
 import 'package:chat/auth/chat/data/direct_messages/direct_message_crypto.dart';
 import 'package:chat/auth/chat/data/direct_messages/direct_message_writer.dart';
 import 'package:chat/auth/chat/data/direct_messages/direct_messages_reader.dart';
@@ -15,6 +17,8 @@ import 'package:chat/auth/chat/domain/usecase/edit_chat_message_usecase.dart';
 import 'package:chat/auth/chat/domain/usecase/get_chat_messages_usecase.dart';
 import 'package:chat/auth/chat/domain/usecase/get_chat_rooms_usecase.dart';
 import 'package:chat/auth/chat/domain/usecase/get_contact_usecase.dart';
+import 'package:chat/auth/chat/domain/usecase/fetch_users_usecase.dart';
+import 'package:chat/auth/chat/domain/usecase/get_user_usecase.dart';
 import 'package:chat/auth/chat/domain/usecase/search_contacts_fetch_usecase.dart';
 import 'package:chat/auth/chat/domain/usecase/search_contacts_get_usecase.dart';
 import 'package:chat/auth/chat/domain/usecase/send_chat_message_usecase.dart';
@@ -189,7 +193,6 @@ abstract class Di {
         sessionUsecase: GetIt.I.get(),
         reader: GetIt.I.get(),
         sync: GetIt.I.get(),
-        profiles: GetIt.I.get(),
       ),
     );
     GetIt.I.registerFactory<GetChatMessagesUsecase>(
@@ -201,6 +204,16 @@ abstract class Di {
     );
     GetIt.I.registerFactory<GetContactUsecase>(
       () => GetContactUsecaseImpl(profiles: GetIt.I.get()),
+    );
+    GetIt.I.registerFactory<GetUserUseCase>(
+      () => GetUserUseCaseImpl(eventStore: GetIt.I.get()),
+    );
+    GetIt.I.registerFactory<FetchUsersUsecase>(
+      () => FetchUsersUsecaseImpl(
+        eventStore: GetIt.I.get(),
+        client: GetIt.I.get(),
+        relaysListRepo: GetIt.I.get(),
+      ),
     );
     GetIt.I.registerFactory<SendChatMessageUsecase>(
       () => SendChatMessageUsecaseImpl(

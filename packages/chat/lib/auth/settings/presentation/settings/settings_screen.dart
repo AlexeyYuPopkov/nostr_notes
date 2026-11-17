@@ -1,10 +1,13 @@
 import 'package:chat/auth/settings/presentation/settings/items/settings_item.dart';
 import 'package:chat/l10n/localization.dart';
+import 'package:common/app/theme/sizes.dart';
 import 'package:common/presentation/widgets/settings_item_tile.dart';
 import 'package:flutter/material.dart';
 
 abstract interface class SettingsScreenCoordinator {
   Future<void> onProfileRoute(BuildContext context);
+
+  Future<void> onLoggedOut(BuildContext context);
 }
 
 final class SettingsScreen extends StatelessWidget {
@@ -24,12 +27,16 @@ final class SettingsScreen extends StatelessWidget {
           final (item, position) = items[index];
           return Semantics(
             identifier: item.semanticsId,
-            child: SettingsItemTile(
-              title: Text(item.title(context)),
-              position: position,
-              trailing: item.trailing,
-              onTap: () => item.onTap(context, coordinator),
-            ),
+            child: item is SettingsItemSpacer
+                ? SizedBox(height: Sizes.indent2x)
+                : SettingsItemTile(
+                    title: Text(item.title(context)),
+                    subtitle: item.subtitle(context),
+                    titleTextColorBuilder: item.titleColor,
+                    position: position,
+                    trailing: item.trailing,
+                    onTap: () => item.onTap(context, coordinator),
+                  ),
           );
         },
       ),

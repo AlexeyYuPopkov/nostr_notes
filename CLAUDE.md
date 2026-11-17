@@ -49,7 +49,7 @@ flutter clean && flutter pub get
 This is a Melos workspace (`melos.yaml`) with these packages:
 
 - **`packages/notes`** — Main notes app. Entry point: `lib/main.dart`. Uses `di_storage` for DI, `go_router` for routing, `flutter_bloc` + custom `Vm` (ValueNotifier-based) for state, `flutter_localizations` via `l10n/`.
-- **`packages/chat`** — Chat app (iOS only). Uses `get_it` for DI, `auto_route` for routing, Riverpod for state — see *Architecture (packages/chat)*.
+- **`packages/chat`** — Chat app (iOS only). Uses `get_it` for DI, `auto_route` for routing, Riverpod for screen state, MVVM VMs for small widget logic — see *Architecture (packages/chat)*.
 - **`packages/nostr`** — Pure Nostr protocol: `NostrClient`, `NostrRelay`, event models, NIP implementations.
 - **`packages/common`** — Shared models (incl. `User` kind 0 profile + `UserMapper`, `AccountAvatar`), theme (`AppTheme`, `AppBackgroundColors`), `GlobalSettingsScope`/`GlobalSettingsVm`, presentation widgets, `AppDatabase` (drift/sqlite).
 - **`packages/app_test_kit`** — Test-only, app-agnostic (dev dependency of `notes` and `chat`): `PumpHelpers`, `visibleText` finder, generic BDD steps (`I see/tap text`, semantics, clipboard, text fields). Must not depend on either app.
@@ -97,7 +97,7 @@ unauth/       ← Pre-login screens (onboarding, etc.)
 
 ## Architecture (packages/chat)
 
-Don't carry notes patterns (Bloc, `Vm`, `DiStorage`, `go_router`) into chat.
+Don't carry notes patterns (Bloc, `DiStorage`, `go_router`) into chat.
 
 ```
 lib/
@@ -114,7 +114,10 @@ lib/
 Where new code goes (features, layers, shared levels, tests): the `feature-layout` skill.
 
 - **DI**: `get_it`. `Di.registerUnauthModules()` pushes the `unauth-scope`; drop it with `Di.dropUnauthModules()`. `Di.registerAuthModules()` pushes the `auth-scope` (chat repos) when onboarding completes. Shared repos/usecases come from `packages/common`.
-- **State**: Riverpod 3 with codegen — `@riverpod` notifiers in a `provider/` folder next to the screen, UI as `ConsumerWidget`. Root is `ProviderScope` in `main.dart`. Run `make codegen` after changing a provider.
+- **State** — pick by scope:
+  - **Screen** — Riverpod 3 with codegen: `@riverpod` notifiers in a `provider/` folder next to the screen, UI as `ConsumerWidget`. Root is `ProviderScope` in `main.dart`. Run `make codegen` after changing a provider. Exception: widgets meant to be used from other packages or to move into one (e.g. `packages/common`) don't use Riverpod.
+  - **Small logic inside a screen** (a list cell, a block with its own data subscription) — MVVM: a VM class exposing `ValueNotifier`/`Stream`, owned by a `StatefulWidget` that creates it, disposes it in `dispose`, and recreates it in `didUpdateWidget` when its input changes. The VM may take dependencies from `GetIt.I`.
+  - **Trivial local UI state** (a single flag, expanded/collapsed) — `StatefulWidget` + `setState`.
 - **Routing**: `auto_route`, routes registered in `router/app_router.dart`. Same coordinator pattern as notes: the screen takes an `XScreenCoordinator`; a `@RoutePage()` wrapper in `router/` builds it with `XScreenCoordinatorImpl`. See the `navigation-coordinator` skill. (`OnboardingScreen` still calls `context.replaceRoute` directly — not yet migrated.)
 - **Tests**: wrap in `AppLauncher.launchApp` from `packages/chat/test/tools/app_launcher/` (gives `ProviderScope`, theme, l10n). Call `AppLauncher.setUp()` in `setUp` and `addTearDown(AppLauncher.tearDown)`; it swaps `SecureStorage` for a fake in `get_it`. BDD steps shared with notes come from `app_test_kit` (listed in `packages/chat/build.yaml`); never add `notes_test_kit` to chat — it pulls in the notes app and its native plugins.
 

@@ -90,6 +90,9 @@ final class NostrClient {
 
   void addRelays(Iterable<String> urls) async {
     final validUrls = urls.where(_isValidRelayUrl).toList();
+    if (validUrls.isEmpty) {
+      return;
+    }
     for (final url in validUrls) {
       _addRelay(url);
     }

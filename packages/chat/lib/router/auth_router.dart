@@ -5,6 +5,7 @@ import 'package:chat/auth/chat/presentation/search_contact/search_contact_screen
 import 'package:chat/auth/settings/presentation/profile/profile_screen.dart';
 import 'package:chat/auth/settings/presentation/settings/settings_screen.dart';
 import 'package:chat/auth/home/presentation/home/home_navigation_bar.dart';
+import 'package:chat/common/di/di.dart';
 import 'package:chat/router/app_router.gr.dart';
 import 'package:flutter/material.dart';
 
@@ -34,6 +35,9 @@ final class ChatsListPage extends StatelessWidget {
   }
 }
 
+// Pages pushed over the tabs get their own ScaffoldMessenger: the root one
+// also puts their snack bar into the Scaffolds of the routes underneath, and
+// the back transition then fails on SnackBar Heroes sharing one tag.
 @RoutePage()
 final class ChatPage extends StatelessWidget {
   final String pubkey;
@@ -41,7 +45,8 @@ final class ChatPage extends StatelessWidget {
   const ChatPage({super.key, required this.pubkey});
 
   @override
-  Widget build(BuildContext context) => ChatScreen(pubkey: pubkey);
+  Widget build(BuildContext context) =>
+      ScaffoldMessenger(child: ChatScreen(pubkey: pubkey));
 }
 
 @RoutePage()
@@ -63,12 +68,14 @@ final class SettingsPage extends StatelessWidget {
       const SettingsScreen(coordinator: SettingsScreenCoordinatorImpl());
 }
 
+// See [ChatPage] for the own ScaffoldMessenger.
 @RoutePage()
 final class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
-  Widget build(BuildContext context) => const ProfileScreen();
+  Widget build(BuildContext context) =>
+      const ScaffoldMessenger(child: ProfileScreen());
 }
 
 final class ChatsListScreenCoordinatorImpl
@@ -113,5 +120,14 @@ final class SettingsScreenCoordinatorImpl implements SettingsScreenCoordinator {
   @override
   Future<void> onProfileRoute(BuildContext context) async {
     await context.router.root.push(const ProfileRoute());
+  }
+
+  // The auth scope goes only after the auth screens are gone: their
+  // providers still listen to the database and the relay client it owns.
+  @override
+  Future<void> onLoggedOut(BuildContext context) async {
+    await context.router.root.replaceAll([const OnboardingRoute()]);
+    await WidgetsBinding.instance.endOfFrame;
+    await Di.dropAuthModules();
   }
 }

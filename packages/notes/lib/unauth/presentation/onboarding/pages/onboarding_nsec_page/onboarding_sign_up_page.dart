@@ -25,7 +25,7 @@ final class OnboardingSignUpPage extends StatelessWidget {
           const Center(
             child: OnboardingIcon.asset(
               AppIcons.welcomeIcon,
-              semanticsLabel: 'Nostr icon',
+              semanticsLabel: 'Welcome icon',
             ),
             //  SvgPicture.asset(
             //   AppIcons.welcomeIcon,

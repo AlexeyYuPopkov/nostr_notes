@@ -33,6 +33,14 @@ Feature: Edit my profile
     Then I see {'Profile saved'} text
     And my saved name is {'Bob'}
 
+  Scenario: Leaving the profile while its snack bar is shown
+    When I open my profile
+    And I enter {'Bob'} into semantics {'ProfileScreen.nameField'}
+    And I tap semantics {'ProfileScreen.saveButton'}
+    And I see {'Profile saved'} text
+    And I go back
+    Then I see semantics {'SettingsScreen.profileItem'}
+
   Scenario: A profile no relay accepted stays on the device
     Given no relay accepts my profile
     When I open my profile

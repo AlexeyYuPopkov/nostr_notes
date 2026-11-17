@@ -12,6 +12,9 @@ import 'package:app_test_kit/bdd_steps/i_see_semantics.dart';
 import './steps/wrote_me.dart';
 import './steps/the_chat_with_shows.dart';
 import './steps/i_open_the_chat_with.dart';
+import './steps/is_now_known_as.dart';
+import './steps/publishes_the_name.dart';
+import './steps/wrote_me_hours_ago.dart';
 
 void main() {
   group('''Chats list''', () {
@@ -58,5 +61,48 @@ void main() {
         await bddTearDown(tester);
       }
     });
+    testWidgets('''A contact's new profile reaches the list''', (tester) async {
+      try {
+        await bddSetUp(tester);
+        await wroteMe(tester, 'Alice', 'Hi there');
+        await iOpenTheAuthorizedArea(tester);
+        await theChatWithShows(tester, 'Alice', 'Hi there');
+        await isNowKnownAs(tester, 'Alice', 'Alicia');
+        await theChatWithShows(tester, 'Alicia', 'Hi there');
+      } finally {
+        await bddTearDown(tester);
+      }
+    });
+    testWidgets('''A name the contact publishes reaches the open list''', (
+      tester,
+    ) async {
+      try {
+        await bddSetUp(tester);
+        await wroteMe(tester, 'Alice', 'Hi there');
+        await iOpenTheAuthorizedArea(tester);
+        await theChatWithShows(tester, 'Alice', 'Hi there');
+        await publishesTheName(tester, 'Alice', 'Alicia');
+        await theChatWithShows(tester, 'Alicia', 'Hi there');
+      } finally {
+        await bddTearDown(tester);
+      }
+    });
+    testWidgets(
+      '''Each conversation keeps its contact when the list reorders''',
+      (tester) async {
+        try {
+          await bddSetUp(tester);
+          await wroteMeHoursAgo(tester, 'Alice', 'Hi there', 2);
+          await wroteMeHoursAgo(tester, 'Bob', 'Hello', 1);
+          await iOpenTheAuthorizedArea(tester);
+          await theChatWithShows(tester, 'Bob', 'Hello');
+          await wroteMe(tester, 'Alice', 'Back again');
+          await theChatWithShows(tester, 'Alice', 'Back again');
+          await theChatWithShows(tester, 'Bob', 'Hello');
+        } finally {
+          await bddTearDown(tester);
+        }
+      },
+    );
   });
 }

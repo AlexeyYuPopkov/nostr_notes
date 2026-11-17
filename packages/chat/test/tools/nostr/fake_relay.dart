@@ -20,6 +20,9 @@ final class FakeRelay {
 
   List<NostrEvent> get events => List.unmodifiable(_events);
 
+  /// REQs that were not closed yet.
+  int get openSubscriptions => _subscriptions.length;
+
   ChannelFactory get channelFactory => _FakeChannelFactory(this);
 
   FakeWsChannel _connect(String url) {

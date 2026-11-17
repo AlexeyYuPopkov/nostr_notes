@@ -81,6 +81,11 @@ final class ChatTestWorld {
     await GetIt.I.get<AppDatabase>().customSelect('SELECT 1').get();
   }
 
+  /// Lets later steps refer to the contact named [name] as [newName].
+  void renameContact(String name, {required String newName}) {
+    _contacts[newName] = contact(name);
+  }
+
   /// A contact with a kind 0 [name] on the relay, created on first mention.
   UserKeys contact(String name) {
     return _contacts.putIfAbsent(name, () {

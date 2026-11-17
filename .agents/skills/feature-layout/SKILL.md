@@ -58,7 +58,7 @@ A layer folder that would be empty is not created: `home/` has only `presentatio
 
 A new auth feature gets its own folder when it has a screen of its own and its own domain (models/usecases). A screen that only shows another feature's data stays inside that feature.
 
-Chat specifics: state in `provider/` (Riverpod notifier + `*_state.dart`/`*_data.dart`), DI in `common/di/`, routing in top-level `router/`. Scenarios that start from the tab shell (`I open the authorized area`) share steps, so they live together in `test/auth/bdd/`.
+Chat specifics: screen state in `provider/` (Riverpod notifier + `*_state.dart`/`*_data.dart`); a small widget's VM lives next to that widget (see *State* in CLAUDE.md), DI in `common/di/`, routing in top-level `router/`. Scenarios that start from the tab shell (`I open the authorized area`) share steps, so they live together in `test/auth/bdd/`.
 
 ## packages/notes
 

@@ -23,8 +23,8 @@ final class OnboardingSignUpPage extends ConsumerWidget {
         children: [
           const Center(
             child: OnboardingIcon.asset(
-              CommonIcons.nostrIcon,
-              semanticsLabel: 'Nostr icon',
+              CommonIcons.welcomeIcon,
+              semanticsLabel: 'Welcome icon',
             ),
           ),
           const SizedBox(height: Sizes.indentVariant4x),

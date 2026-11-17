@@ -212,6 +212,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsItemProfile => 'Profile';
 
   @override
+  String get settingsItemLogout => 'Sign Out';
+
+  @override
+  String get settingsItemLogoutDescription =>
+      'Remove your private key from this device';
+
+  @override
+  String get settingsLogoutConfirmation =>
+      'Do you really want to sign out?\nMake sure you have saved your nsec — without it you can\'t sign back in to this account.';
+
+  @override
   String get profileTitle => 'Profile';
 
   @override
