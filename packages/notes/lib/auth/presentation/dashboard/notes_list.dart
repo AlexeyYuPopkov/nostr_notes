@@ -55,6 +55,9 @@ abstract interface class NotesListCoordinator {
     required LoginItem item,
     required bool readonly,
   });
+
+  /// The detail opened from the previous tab doesn't belong to the new one.
+  void onTabChanged(BuildContext context);
 }
 
 final class NotesList extends StatelessWidget {
@@ -248,6 +251,7 @@ final class _DashboardState extends State<_Dashboard>
                               DefaultTabController.of(context).animateTo(
                                 NotesListTab.tabs.indexOf(state.data.tab),
                               );
+                              widget.coordinator.onTabChanged(context);
                             },
                             child: TabBarView(
                               physics: const NeverScrollableScrollPhysics(),
