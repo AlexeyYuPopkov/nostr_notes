@@ -136,6 +136,10 @@ class CommonLocalizationsBg extends CommonLocalizations {
       'Невалиден формат на адреса на реле';
 
   @override
+  String get relaysPageErrorCleartextNotAllowed =>
+      'ws:// е разрешен само за localhost, 127.0.0.1 и 10.0.2.2, използвайте wss://';
+
+  @override
   String relaysPageErrorFailedToConnectToRelay(String url) {
     return 'Неуспешно свързване с реле $url';
   }

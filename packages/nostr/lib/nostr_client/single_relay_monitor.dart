@@ -10,6 +10,7 @@ import '../model/nostr_req.dart';
 import '../model/relay_health.dart';
 import 'channel_factory.dart';
 import 'nostr_relay.dart';
+import 'relay_url_policy.dart';
 
 /// Probes a single, not-yet-adopted relay URL over its own dedicated
 /// connection — used where there's no [NostrClient] with an open connection
@@ -75,10 +76,14 @@ final class SingleRelayMonitor {
   void _probe() {
     _probeSubscription?.cancel();
 
-    final relay = NostrRelay(
-      url: url.toString(),
-      channelFactory: channelFactory,
-    );
+    final NostrRelay relay;
+    try {
+      relay = NostrRelay(url: url.toString(), channelFactory: channelFactory);
+    } on RelayUrlNotAllowedException catch (e) {
+      log('Probe rejected: $e', name: 'SingleRelayMonitor');
+      _emit(RelayHealth.error);
+      return;
+    }
     final fetcher = _SingleRelayFetcher(relay: relay);
     bool receivedEvent = false;
     bool completed = false;

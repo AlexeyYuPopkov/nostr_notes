@@ -341,6 +341,12 @@ abstract class CommonLocalizations {
   /// **'Invalid relay address format'**
   String get relaysPageErrorInvalidRelayAddressFormat;
 
+  /// No description provided for @relaysPageErrorCleartextNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'ws:// is allowed only for localhost, 127.0.0.1 and 10.0.2.2; use wss://'**
+  String get relaysPageErrorCleartextNotAllowed;
+
   /// No description provided for @relaysPageErrorFailedToConnectToRelay.
   ///
   /// In en, this message translates to:

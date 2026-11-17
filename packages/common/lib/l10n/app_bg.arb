@@ -39,6 +39,7 @@
     "relaysPageErrorInvalidRelayUrlEmpty": "URL не може да бъде празен",
     "relaysPageErrorInvalidUrl": "URL трябва да започва с wss:// или ws://",
     "relaysPageErrorInvalidRelayAddressFormat": "Невалиден формат на адреса на реле",
+    "relaysPageErrorCleartextNotAllowed": "ws:// е разрешен само за localhost, 127.0.0.1 и 10.0.2.2, използвайте wss://",
     "relaysPageErrorFailedToConnectToRelay": "Неуспешно свързване с реле {url}",
     "@relaysPageErrorFailedToConnectToRelay": {
         "placeholders": {

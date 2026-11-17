@@ -24,7 +24,7 @@ jobs:
           flutter-version-file: .fvmrc
 
       - name: Install melos
-        run: dart pub global activate melos
+        run: dart pub global activate melos 8.10.1
 
       - name: Install dependencies
         run: melos bootstrap

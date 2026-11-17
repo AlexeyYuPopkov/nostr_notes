@@ -10,6 +10,7 @@ import '../model/nostr_req.dart';
 import 'channel_factory.dart';
 import 'nostr_client_delegate.dart';
 import 'nostr_relay.dart';
+import 'relay_url_policy.dart';
 
 final class NostrClient {
   NostrClient({
@@ -56,8 +57,7 @@ final class NostrClient {
 
   void addRelay(String url) {
     if (!_isValidRelayUrl(url)) return;
-    if (!_relays.containsKey(url)) {
-      _addRelay(url);
+    if (!_relays.containsKey(url) && _addRelay(url) != null) {
       _relaySubject.add({...?_relaySubject.valueOrNull, url});
     }
   }
@@ -75,12 +75,17 @@ final class NostrClient {
 
   NostrRelay? _addRelay(String url) {
     if (!_relays.containsKey(url)) {
-      final relay = NostrRelay(
-        url: url,
-        channelFactory: _channelFactory,
-        batchParser: _batchParser,
-      );
-      // await relay.ready;
+      final NostrRelay relay;
+      try {
+        relay = NostrRelay(
+          url: url,
+          channelFactory: _channelFactory,
+          batchParser: _batchParser,
+        );
+      } on RelayUrlNotAllowedException catch (e) {
+        log('Relay skipped: $e', name: 'Nostr');
+        return null;
+      }
       _relays[url] = relay;
       return relay;
     } else {
@@ -89,14 +94,16 @@ final class NostrClient {
   }
 
   void addRelays(Iterable<String> urls) async {
-    final validUrls = urls.where(_isValidRelayUrl).toList();
-    if (validUrls.isEmpty) {
+    final addedUrls = <String>[];
+    for (final url in urls.where(_isValidRelayUrl)) {
+      if (_addRelay(url) != null) {
+        addedUrls.add(url);
+      }
+    }
+    if (addedUrls.isEmpty) {
       return;
     }
-    for (final url in validUrls) {
-      _addRelay(url);
-    }
-    _relaySubject.add({...?_relaySubject.valueOrNull, ...validUrls});
+    _relaySubject.add({...?_relaySubject.valueOrNull, ...addedUrls});
   }
 
   /// Connects to the relays in [urls] that are missing and drops the rest.
