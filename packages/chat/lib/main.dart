@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:chat/common/debug/marionette_config.dart';
 import 'package:chat/common/di/di.dart';
 import 'package:chat/l10n/localization.dart';
@@ -11,6 +14,7 @@ import 'package:common/presentation/theme_settings/global_settings_vm.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:common/services/outbox/outbox_publisher.dart';
 import 'package:flutter/foundation.dart';
+import 'package:leak_tracker/leak_tracker.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
@@ -37,6 +41,34 @@ void main() async {
   // timeDilation = 4.0;
   await Di.registerUnauthModules();
   final prefs = AppSharedPrefsImpl(await SharedPreferences.getInstance());
+
+  if (kDebugMode || kProfileMode) {
+    FlutterMemoryAllocations.instance.addListener((ObjectEvent event) {
+      LeakTracking.dispatchObjectEvent(event.toMap());
+    });
+    LeakTracking.start();
+
+    // The periodic "leak_tracker: N memory leak(s): ..." line is just
+    // LeakSummary's counts. To see *which* classes are actually leaking,
+    // pull the details ourselves — collectLeaks() returns everything since
+    // the previous call, with the real class name in LeakReport.type.
+    Timer.periodic(const Duration(seconds: 20), (_) async {
+      final leaks = await LeakTracking.collectLeaks();
+      if (leaks.total == 0) return;
+      // One debugPrint call per line: VS Code's Debug Console collapses
+      // any single multi-line message down to its first line behind an
+      // expand arrow that's easy to miss — printing each line as its own
+      // call leaves nothing to collapse.
+      log(
+        'LeakTracking: ${leaks.total} leak(s) since last check',
+        name: 'LeakTracking',
+      );
+      for (final line in leaks.toYaml(phasesAreTests: false).split('\n')) {
+        if (line.isNotEmpty) log(line, name: 'LeakTracking');
+      }
+    });
+  }
+
   runApp(ProviderScope(child: App(prefs: prefs)));
 }
 
