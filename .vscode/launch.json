@@ -77,6 +77,14 @@
             "flutterMode": "profile"
         },
         {
+            "name": "WebRTC call example (debug)",
+            "request": "launch",
+            "type": "dart",
+            "program": "${workspaceFolder}/packages/webrtc_call/example/lib/main.dart",
+            "cwd": "${workspaceFolder}/packages/webrtc_call/example",
+            "flutterMode": "debug"
+        },
+        {
             "name": "Flutter (lib/auth/data/lightning_donation_repo_impl.dart)",
             "type": "dart",
             "request": "launch",
