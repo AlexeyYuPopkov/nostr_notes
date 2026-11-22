@@ -12,6 +12,10 @@ import '../domain/signaling_message.dart';
 /// Incoming offers are answered right away while idle and rejected with a
 /// bye while in a call; accept/decline comes with the call state machine.
 final class PeerConnectionSession {
+  /// The renderer binds to the stream's video track at the moment `srcObject`
+  /// is set, so it is set when that track arrives, not with the audio one.
+  static const _videoTrackKind = 'video';
+
   final SignalingChannel _signaling;
   final String _selfId;
   final List<IceServer> _iceServers;
@@ -161,7 +165,8 @@ final class PeerConnectionSession {
       _sendLocalCandidate(candidate, peerId);
     };
     peerConnection.onTrack = (event) {
-      if (event.streams.isNotEmpty) {
+      final isVideo = event.track.kind == _videoTrackKind;
+      if (isVideo && event.streams.isNotEmpty) {
         remoteRenderer.srcObject = event.streams.first;
       }
     };

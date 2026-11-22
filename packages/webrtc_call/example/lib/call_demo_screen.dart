@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:webrtc_call/webrtc_call.dart';
 
@@ -197,10 +196,7 @@ class _CallView extends StatelessWidget {
         Positioned.fill(
           child: ColoredBox(
             color: Colors.black,
-            child: RTCVideoView(
-              session.remoteRenderer,
-              objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-            ),
+            child: CallVideoView(renderer: session.remoteRenderer),
           ),
         ),
         Positioned(
@@ -210,11 +206,7 @@ class _CallView extends StatelessWidget {
           height: _localPreviewSize.height,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: RTCVideoView(
-              session.localRenderer,
-              mirror: true,
-              objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-            ),
+            child: CallVideoView(renderer: session.localRenderer, mirror: true),
           ),
         ),
         Positioned(

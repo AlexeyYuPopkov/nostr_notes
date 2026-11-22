@@ -14,7 +14,6 @@ dependencies:
   webrtc_call:
     path: ..
   material_ui: any
-  flutter_webrtc: ^1.6.3
 
 dev_dependencies:
   flutter_lints: ^6.0.0
