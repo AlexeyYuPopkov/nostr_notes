@@ -345,3 +345,20 @@ docker run --rm --network host -v /opt/nostr-relay/t3.py:/t3.py python:3.11-slim
 - **n0str** (Bun, AGPL; по умолчанию БД в памяти) — запасной вариант, если nostr-relay не устроит.
 - Другие кандидаты: khatru+Bleve (индексирует kind 0), Saltivka.
 - Выбран **nostr-relay**: ставится одним pip, поиск по kind 0 проверен.
+
+
+## 13. Сторонние решения (3rd party)
+
+Только то, что реально используется. Отвергнутые варианты — в §12.
+
+1. [nostr-relay](https://code.pobblelabs.org/fossil/nostr_relay) — Nostr-релей на Python (v1.14), хранилище LMDB, полнотекстовый поиск NIP-50. Используем как релей для чата и для поиска пользователей по имени профиля (kind 0), см. §6.3, §7.
+2. [coturn](https://github.com/coturn/coturn) — STUN/TURN-сервер. Используем для STUN, TURN (UDP/TCP 3478) и TURN over TLS (443) с REST-авторизацией по общему секрету, см. §6.1.
+3. [flutter-webrtc-server](https://github.com/flutter-webrtc/flutter-webrtc-server) — демо-сигналинг-сервер на Go. Используем только как сигналинг (WebSocket, обмен offer/answer/candidate); его встроенный TURN и `/api/turn` не используем, см. §6.2.
+4. [flutter_webrtc](https://github.com/flutter-webrtc/flutter-webrtc) — Flutter-плагин WebRTC. Используем в клиенте для видео- и аудиозвонков 1-1 на iOS/Android, см. §8.2.
+5. [flutter-webrtc-demo](https://github.com/flutter-webrtc/flutter-webrtc-demo) — демо-приложение к плагину. Берём как основу клиента (логика сигналинга в `signaling.dart`), см. §8.2.
+6. [Caddy](https://github.com/caddyserver/caddy) — веб-сервер и reverse proxy. Используем для TLS-терминации и проксирования WebSocket на релей (8443 → 127.0.0.1:6969), см. §6.4.
+7. [Certbot](https://certbot.eff.org) + [Let's Encrypt](https://letsencrypt.org) — бесплатные TLS-сертификаты для `alekseiiapi.site` и их автопродление; deploy-hook раздаёт сертификаты coturn, caddy и signaling, см. §5.
+8. [Docker](https://www.docker.com) (пакет `docker.io` в Debian 13) — запуск всех сервисов в контейнерах, см. §4.
+9. [LMDB](https://www.symas.com/lmdb) и [Whoosh](https://github.com/mchaput/whoosh) — хранилище и движок полнотекстового индекса внутри nostr-relay; отдельно не разворачиваются.
+10. [crypto](https://pub.dev/packages/crypto) (Dart) — HMAC-SHA1 для временных TURN-credentials на клиенте, см. §6.1.
+11. [coincurve](https://github.com/ofek/coincurve) и [websockets](https://github.com/python-websockets/websockets) (Python) — подписи событий и WebSocket-клиент в тестовых скриптах релея, см. §11.

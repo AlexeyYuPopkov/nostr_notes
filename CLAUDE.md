@@ -49,7 +49,8 @@ flutter clean && flutter pub get
 This is a Melos workspace (`melos.yaml`) with these packages:
 
 - **`packages/notes`** — Main notes app. Entry point: `lib/main.dart`. Uses `di_storage` for DI, `go_router` for routing, `flutter_bloc` + custom `Vm` (ValueNotifier-based) for state, `flutter_localizations` via `l10n/`.
-- **`packages/chat`** — Chat app (iOS only). Uses `get_it` for DI, `auto_route` for routing, Riverpod for screen state, MVVM VMs for small widget logic — see *Architecture (packages/chat)*.
+- **`packages/chat`** — Chat app (iOS and Android). Uses `get_it` for DI, `auto_route` for routing, Riverpod for screen state, MVVM VMs for small widget logic — see *Architecture (packages/chat)*.
+- **`packages/webrtc_call`** — 1-1 WebRTC calls (`flutter_webrtc`) behind a replaceable `SignalingChannel`; no Nostr, DI or routing. `example/` calls between two devices without the chat app. Backend: `doc/webrtc-backend.md`, accepted shortcuts: `doc/webrtc-assumptions.md`.
 - **`packages/nostr`** — Pure Nostr protocol: `NostrClient`, `NostrRelay`, event models, NIP implementations.
 - **`packages/common`** — Shared models (incl. `User` kind 0 profile + `UserMapper`, `AccountAvatar`), theme (`AppTheme`, `AppBackgroundColors`), `GlobalSettingsScope`/`GlobalSettingsVm`, presentation widgets, `AppDatabase` (drift/sqlite).
 - **`packages/app_test_kit`** — Test-only, app-agnostic (dev dependency of `notes` and `chat`): `PumpHelpers`, `visibleText` finder, generic BDD steps (`I see/tap text`, semantics, clipboard, text fields). Must not depend on either app.

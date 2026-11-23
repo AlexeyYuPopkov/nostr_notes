@@ -18,6 +18,9 @@ dependencies:
   nostr:
     path: ../nostr
 
+  webrtc_call:
+    path: ../webrtc_call
+
   leak_tracker: any
     
   flutter_web_plugins:
