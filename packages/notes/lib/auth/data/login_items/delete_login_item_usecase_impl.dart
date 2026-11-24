@@ -3,6 +3,7 @@ import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:nostr/model/tag/tag.dart';
 import 'package:nostr/model/tag/tag_value.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
+import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/delete_login_item_usecase.dart';
 import 'package:nostr_notes/auth/domain/usecase/login_items/vault_identity_usecase.dart';
@@ -53,6 +54,7 @@ final class DeleteLoginItemUsecaseImpl implements DeleteLoginItemUsecase {
       content: '',
       createdAt: createdAt,
       tags: [
+        AppConfig.clientTagList(),
         [Tag.d.value, item.dTag],
       ],
       pubkey: vaultKeys.publicKey,
@@ -64,6 +66,7 @@ final class DeleteLoginItemUsecaseImpl implements DeleteLoginItemUsecase {
       content: '',
       createdAt: createdAt,
       tags: [
+        AppConfig.clientTagList(),
         if (item.eventId.isNotEmpty) [TagValue.e, item.eventId],
         [
           TagValue.a,

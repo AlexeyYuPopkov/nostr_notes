@@ -1,4 +1,5 @@
 import 'package:chat/auth/chat/domain/models/chat_message.dart';
+import 'package:chat/auth/common/data/model/client_tag.dart';
 import 'package:chat/auth/common/data/model/nostr_kind.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:nostr/model/nostr_event.dart';
@@ -19,6 +20,7 @@ abstract final class DirectMessageTags {
       [TagValue.d, id],
       [TagValue.p, peerPubkey],
       [publishedAt, publishedAtSeconds.toString()],
+      ClientTag.tag,
     ];
   }
 

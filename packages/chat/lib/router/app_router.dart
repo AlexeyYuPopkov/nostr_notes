@@ -14,7 +14,9 @@ class AppRouter extends RootStackRouter {
       ],
     ),
     AutoRoute(page: ChatRoute.page),
+    AutoRoute(page: CallRoute.page, fullscreenDialog: true),
     AutoRoute(page: SearchContactRoute.page, fullscreenDialog: true),
     AutoRoute(page: ProfileRoute.page),
+    AutoRoute(page: RelaysListRoute.page),
   ];
 }

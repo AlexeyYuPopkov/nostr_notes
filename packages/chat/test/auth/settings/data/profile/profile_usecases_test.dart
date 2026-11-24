@@ -234,6 +234,7 @@ void main() {
             createdAt: 100,
             tags: [
               ['i', 'github:alice', 'proof'],
+              ['client', 'other-app'],
             ],
           ),
         ]);
@@ -251,12 +252,25 @@ void main() {
         });
         expect(event.tags, [
           ['i', 'github:alice', 'proof'],
+          ['client', '996e10ba'],
         ]);
         expect(event.kind, 0);
         expect(event.pubkey, keys.publicKey);
         expect(event.createdAt, greaterThan(100));
       },
     );
+
+    test('editing twice keeps a single client tag', () async {
+      relayBehaves();
+
+      await updateUsecase().execute(const ProfileFields(name: 'Bob'));
+      await updateUsecase().execute(const ProfileFields(name: 'Robert'));
+
+      final event = await newestStoredProfile();
+      expect(event.tags.where((tag) => tag.first == 'client'), [
+        ['client', '996e10ba'],
+      ]);
+    });
 
     test('signs the event and publishes it to the relay', () async {
       relayBehaves();

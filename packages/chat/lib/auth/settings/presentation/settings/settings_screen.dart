@@ -7,6 +7,8 @@ import 'package:material_ui/material_ui.dart';
 abstract interface class SettingsScreenCoordinator {
   Future<void> onProfileRoute(BuildContext context);
 
+  Future<void> onRelaysListRoute(BuildContext context);
+
   Future<void> onLoggedOut(BuildContext context);
 }
 

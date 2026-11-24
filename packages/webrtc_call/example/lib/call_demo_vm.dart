@@ -70,9 +70,8 @@ final class CallDemoVm {
     }
   }
 
-  Future<void> call(SignalingPeer peer) async => _session.value?.call(peer.id);
-
-  Future<void> hangUp() async => _session.value?.hangUp();
+  Future<void> call(SignalingPeer peer, CallMedia media) async =>
+      _session.value?.call(peer.id, media: media);
 
   Future<void> disconnect() async {
     await _signaling.disconnect();

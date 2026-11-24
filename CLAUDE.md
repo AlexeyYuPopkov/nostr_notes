@@ -102,13 +102,14 @@ Don't carry notes patterns (Bloc, `DiStorage`, `go_router`) into chat.
 
 ```
 lib/
-  common/       ← used by auth and unauth: di/ (`Di`, get_it scopes), debug/ (Marionette), domain/ (Session, AuthUsecase, SessionUsecase)
+  common/       ← used by auth and unauth: di/ (`Di`, get_it scopes), debug/ (Marionette), domain/ (Session, AuthUsecase, SessionUsecase), presentation/relays/ (`RelaysPage` — onboarding step and the settings relays list)
   router/       ← `AppRouter` (@AutoRouterConfig); `auth_router.dart` — @RoutePage wrappers, coordinator impls
   unauth/presentation/onboarding/
   auth/
     home/       ← tab-bar shell (`HomeNavigationBar`)
     chat/       ← 1-1 chats. domain/ (ChatMessage, ChatRoom, RoomId, usecases), data/direct_messages/ — kind 31014, NIP-44 content, no gift wrap; written store + outbox in one transaction (`DirectMessageWriter`), read from the store and verified/decrypted in chunks on `AppWorker` (`DirectMessageCrypto`); `DirectMessagesSyncUsecase` holds the live REQ (incoming batched with `bufferTime`) and starts the `OutboxPublisher` while a screen listens. data/contacts/ — peers' kind 0. data/search_contacts/ — offline-first kind 0 search. presentation/ (chats_list, chat on `flutter_chat_ui`, search_contact — modal)
-    settings/   ← presentation/settings/ (menu items), presentation/profile/ + domain/ + data/profile/ — edit own kind 0 (name, display_name, picture); merges into the stored content, store first, then `NostrPublisher`
+    call/       ← outgoing 1-1 calls over `packages/webrtc_call`. data/ — `CallConfig` (`SIGNALING_URL` dart-define, STUN), `OpenCallConnectionUsecaseImpl` (joins signaling as the session pubkey); presentation/call/ — `CallScreen` (fullscreen dialog opened from the chat's app bar)
+    settings/   ← presentation/settings/ (menu items), presentation/relays_list/ (`RelaysPage` in a screen), presentation/profile/ + domain/ + data/profile/ — edit own kind 0 (name, display_name, picture); merges into the stored content, store first, then `NostrPublisher`
     common/     ← shared by several auth features (`NostrKind`)
 ```
 

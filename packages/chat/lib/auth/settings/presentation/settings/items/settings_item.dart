@@ -13,7 +13,7 @@ import 'package:get_it/get_it.dart';
 sealed class SettingsItem {
   /// The rounded blocks of the screen, in order.
   static const sections = <List<SettingsItem>>[
-    [SettingsItemProfile()],
+    [SettingsItemProfile(), SettingsItemRelays()],
     [SettingsItemSpacer()],
     [SettingsItemLogout()],
   ];
@@ -55,6 +55,25 @@ final class SettingsItemProfile extends SettingsItem {
   @override
   void onTap(BuildContext context, SettingsScreenCoordinator coordinator) {
     unawaited(coordinator.onProfileRoute(context));
+  }
+}
+
+final class SettingsItemRelays extends SettingsItem {
+  const SettingsItemRelays();
+
+  @override
+  String get semanticsId => 'SettingsScreen.relaysItem';
+
+  @override
+  String title(BuildContext context) => context.l10n.settingsItemRelays;
+
+  @override
+  Widget get trailing =>
+      const Icon(Icons.arrow_forward_ios, size: Sizes.iconSmall);
+
+  @override
+  void onTap(BuildContext context, SettingsScreenCoordinator coordinator) {
+    unawaited(coordinator.onRelaysListRoute(context));
   }
 }
 

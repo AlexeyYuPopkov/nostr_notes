@@ -28,6 +28,7 @@ Before adding a kind, check the registry: https://github.com/nostr-protocol/nips
 ## Tags
 - `p` pubkey, `e` event id, `a` addressable event (`<kind>:<pubkey>:<d>`), `d` identifier of an addressable event.
 - Addressable events (30000–39999) are replaced by `kind + pubkey + d`; changing `d` creates a new event, it does not update the old one.
+- Every event we sign carries exactly one `["client", AppConfig.clientTagValue]`; our relay rejects events without it (except NIP-42 AUTH, 22242). Chat builds it with `ClientTag` (`chat/lib/auth/common/data/model/client_tag.dart`) — when re-signing a stored event (profile edit), `ClientTag.withOurs` swaps any existing client tag for ours. Notes uses `AppConfig.clientTagList()`, the vault events (31023 login items, their tombstones and deletions) included — an accepted trade-off: it shows they come from this app, see `LoginItemMapper`.
 
 ## Relays (NIP-01)
 - `REQ` to subscribe, `CLOSE` to stop; always close subscriptions you open.

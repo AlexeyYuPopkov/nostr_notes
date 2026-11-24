@@ -157,6 +157,7 @@ void main() {
       expect(event.content, isNot(contains('Hello')));
       expect(event.tags, contains(equals([TagValue.p, alice.publicKey])));
       expect(event.tags.map((tag) => tag.first), contains(TagValue.d));
+      expect(event.tags, contains(equals([TagValue.client, '996e10ba'])));
       expect(await readDirectMessage(event, as: alice), 'Hello');
     });
 

@@ -110,34 +110,40 @@ final class _ConnectedView extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: session.peerId,
       builder: (context, peerId, _) => peerId == null
-          ? _PeersList(vm: vm, lastError: session.lastError)
-          : _CallView(vm: vm, session: session, peerId: peerId),
+          ? _PeersList(vm: vm, session: session)
+          : CallView(session: session, peerName: peerId),
     );
   }
 }
 
 final class _PeersList extends StatelessWidget {
   final CallDemoVm vm;
-  final ValueListenable<String?> lastError;
+  final PeerConnectionSession session;
 
-  const _PeersList({required this.vm, required this.lastError});
+  const _PeersList({required this.vm, required this.session});
 
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: Listenable.merge([vm.otherPeers, lastError]),
+      listenable: Listenable.merge([
+        vm.otherPeers,
+        session.lastEndReason,
+        session.lastError,
+      ]),
       builder: (context, _) {
         final peers = vm.otherPeers.value;
-        final error = lastError.value;
+        final endReason = session.lastEndReason.value;
+        final error = session.lastError.value;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (error != null)
+            if (endReason != null)
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
-                  'Last call failed: $error',
+                  'Last call: ${endReason.name}'
+                  '${error == null ? '' : ' ($error)'}',
                   style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
               ),
@@ -152,8 +158,29 @@ final class _PeersList extends StatelessWidget {
                             child: ListTile(
                               title: Text(peer.id),
                               subtitle: Text(peer.userAgent),
-                              trailing: const Icon(Icons.videocam),
-                              onTap: () => vm.call(peer),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Semantics(
+                                    identifier:
+                                        'call_demo.peer.${peer.id}.audio',
+                                    child: IconButton(
+                                      icon: const Icon(Icons.call),
+                                      onPressed: () =>
+                                          vm.call(peer, CallMedia.audio),
+                                    ),
+                                  ),
+                                  Semantics(
+                                    identifier:
+                                        'call_demo.peer.${peer.id}.video',
+                                    child: IconButton(
+                                      icon: const Icon(Icons.videocam),
+                                      onPressed: () =>
+                                          vm.call(peer, CallMedia.video),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                       ],
@@ -172,79 +199,6 @@ final class _PeersList extends StatelessWidget {
           ],
         );
       },
-    );
-  }
-}
-
-class _CallView extends StatelessWidget {
-  static const _localPreviewSize = Size(120, 160);
-
-  final CallDemoVm vm;
-  final PeerConnectionSession session;
-  final String peerId;
-
-  const _CallView({
-    required this.vm,
-    required this.session,
-    required this.peerId,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: ColoredBox(
-            color: Colors.black,
-            child: CallVideoView(renderer: session.remoteRenderer),
-          ),
-        ),
-        Positioned(
-          top: 16,
-          right: 16,
-          width: _localPreviewSize.width,
-          height: _localPreviewSize.height,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: CallVideoView(renderer: session.localRenderer, mirror: true),
-          ),
-        ),
-        Positioned(
-          left: 16,
-          top: 16,
-          child: ValueListenableBuilder(
-            valueListenable: session.connectionState,
-            builder: (context, state, _) => DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.black54,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Text(
-                  '$peerId\n${state?.name ?? 'starting'}',
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 32,
-          left: 0,
-          right: 0,
-          child: Center(
-            child: Semantics(
-              identifier: 'call_demo.hang_up',
-              child: FloatingActionButton(
-                backgroundColor: Colors.red,
-                onPressed: vm.hangUp,
-                child: const Icon(Icons.call_end, color: Colors.white),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

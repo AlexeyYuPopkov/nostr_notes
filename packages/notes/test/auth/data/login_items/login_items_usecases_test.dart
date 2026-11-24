@@ -7,7 +7,10 @@ import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:di_storage/di_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:nostr/model/nostr_event.dart';
+import 'package:nostr/model/tag/tag_value.dart';
 import 'package:nostr/model/user_keys.dart';
+import 'package:nostr_notes/app/app_config.dart';
 import 'package:nostr_notes/auth/data/login_items/delete_login_item_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/login_items/get_login_item_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/login_items/login_item_crypto_usecase_impl.dart';
@@ -15,6 +18,7 @@ import 'package:nostr_notes/auth/data/login_items/save_login_item_usecase_impl.d
 import 'package:nostr_notes/auth/data/login_items/vault_identity_usecase_impl.dart';
 import 'package:nostr_notes/auth/data/login_items/watch_login_items_usecase_impl.dart';
 import 'package:nostr_notes/auth/domain/model/login_item.dart';
+import 'package:nostr_notes/core/event_kind.dart';
 import 'package:nostr_notes/auth/domain/usecase/note_crypto_use_case.dart';
 import 'package:nostr_notes/common/domain/model/session/session.dart';
 import 'package:nostr_notes/common/domain/usecase/session_usecase.dart';
@@ -73,6 +77,7 @@ void main() {
   late WatchLoginItemsUsecaseImpl watch;
   late GetLoginItemUsecaseImpl get;
   late DeleteLoginItemUsecaseImpl delete;
+  late _RecordingEventStore deleteStore;
 
   setUpAll(() {
     registerFallbackValue(Uint8List(0));
@@ -119,8 +124,9 @@ void main() {
       vaultIdentityUsecase: vaultIdentity,
       loginItemCryptoUsecase: loginItemCrypto,
     );
+    deleteStore = _RecordingEventStore(store);
     delete = DeleteLoginItemUsecaseImpl(
-      eventStore: store,
+      eventStore: deleteStore,
       outboxDao: outboxDao,
       vaultIdentityUsecase: vaultIdentity,
     );
@@ -177,6 +183,7 @@ void main() {
     expect(storedEvents.length, 1);
     expect(storedEvents.first.pubkey, vaultPubkey);
     expect(storedEvents.first.sig, isNotEmpty);
+    expect(clientTagsOf(storedEvents.first), [AppConfig.clientTagList()]);
 
     final edited = await save.execute(
       item: saved.copyWith(password: 'n3w-p@ss'),
@@ -198,5 +205,56 @@ void main() {
     await delete.execute(item: edited);
     expect(await watch.execute().first, isEmpty);
     expect(await get.execute(dTag: saved.dTag), isNull);
+
+    // The store drops the tombstone once the deletion references it, so the
+    // published events are read from what the usecase wrote.
+    final [tombstone, deletion] = deleteStore.upserted;
+    expect(tombstone.kind, 31023);
+    expect(deletion.kind, NostrKind.deletion);
+    expect(clientTagsOf(tombstone), [AppConfig.clientTagList()]);
+    expect(clientTagsOf(deletion), [AppConfig.clientTagList()]);
   });
+}
+
+List<List<String>> clientTagsOf(NostrEvent event) =>
+    event.tags.where((tag) => tag.first == TagValue.client).toList();
+
+final class _RecordingEventStore implements RawEventStore {
+  final RawEventStore _store;
+  final upserted = <NostrEvent>[];
+
+  _RecordingEventStore(this._store);
+
+  @override
+  Future<void> upsert(Iterable<NostrEvent> events) {
+    upserted.addAll(events);
+    return _store.upsert(events);
+  }
+
+  @override
+  Future<List<NostrEvent>> queryEvents(RawEventQuery query) =>
+      _store.queryEvents(query);
+
+  @override
+  Stream<List<NostrEvent>> watchEvents(RawEventQuery query) =>
+      _store.watchEvents(query);
+
+  @override
+  Future<Set<String>> filterMissingEventIds(Set<String> ids) =>
+      _store.filterMissingEventIds(ids);
+
+  @override
+  Future<Set<String>> filterMissingPubkeys(Set<String> pubkeys) =>
+      _store.filterMissingPubkeys(pubkeys);
+
+  @override
+  Future<Set<String>> filterMissingDTags(Set<String> dTags) =>
+      _store.filterMissingDTags(dTags);
+
+  @override
+  Future<void> deleteEvents(Set<String> ids) => _store.deleteEvents(ids);
+
+  @override
+  Future<Set<String>> eventRelays(NostrEvent event) =>
+      _store.eventRelays(event);
 }

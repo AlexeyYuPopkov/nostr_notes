@@ -105,6 +105,8 @@ final class RelayTile1 extends StatelessWidget {
   final RelayStatus? status;
   final ValueChanged<bool?> onChanged;
 
+  static String checkboxSemanticsIdFor(String url) => 'RelayTile.checkbox.$url';
+
   const RelayTile1({
     super.key,
     required this.url,
@@ -146,10 +148,13 @@ final class RelayTile1 extends StatelessWidget {
         ),
 
         Expanded(child: Text(url.toString(), style: theme.textTheme.bodyLarge)),
-        Checkbox.adaptive(
-          value: isSelected,
-          activeColor: theme.colorScheme.primary,
-          onChanged: onChanged,
+        Semantics(
+          identifier: checkboxSemanticsIdFor(url),
+          child: Checkbox.adaptive(
+            value: isSelected,
+            activeColor: theme.colorScheme.primary,
+            onChanged: onChanged,
+          ),
         ),
       ],
     );

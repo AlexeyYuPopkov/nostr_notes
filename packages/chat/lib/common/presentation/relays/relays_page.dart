@@ -1,4 +1,4 @@
-import 'package:chat/unauth/presentation/onboarding/pages/relays/provider/onboarding_relays_state.dart';
+import 'package:chat/common/presentation/relays/provider/relays_state.dart';
 import 'package:common/app/theme/sizes.dart';
 import 'package:common/domain/model/relay_info.dart';
 import 'package:common/l10n/localization.dart';
@@ -8,27 +8,34 @@ import 'package:common/presentation/relay_input_text_field.dart';
 import 'package:common/presentation/widgets/relay_tile.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'provider/onboarding_relays_provider.dart';
+import 'provider/relays_provider.dart';
 import 'package:common/presentation/dialogs/dialog_helper.dart';
 
-final class OnboardingRelaysPage extends ConsumerWidget with DialogHelper {
-  const OnboardingRelaysPage({super.key});
+final class RelaysPage extends ConsumerWidget with DialogHelper {
+  const RelaysPage({super.key});
+
+  void _listener(
+    BuildContext context,
+    WidgetRef ref,
+    RelaysState? prev,
+    RelaysState next,
+  ) {
+    switch (next) {
+      case RelaysCommon():
+        break;
+
+      case RelaysError():
+        showError(context, error: next.error);
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<OnboardingRelaysState>(onboardingRelaysProviderProvider, (
-      prev,
-      next,
-    ) {
-      switch (next) {
-        case CommonState():
-          break;
-
-        case ErrorState():
-          showError(context, error: next.error);
-          break;
-      }
-    });
+    ref.listen<RelaysState>(
+      relaysProviderProvider,
+      (prev, next) => _listener(context, ref, prev, next),
+    );
 
     final theme = Theme.of(context);
     final commonL10n = context.commonL10n;
@@ -63,9 +70,10 @@ final class OnboardingRelaysPage extends ConsumerWidget with DialogHelper {
         const SliverToBoxAdapter(
           child: SizedBox(height: Sizes.indentVariant4x),
         ),
+
         Builder(
           builder: (context) {
-            final state = ref.watch(onboardingRelaysProviderProvider);
+            final state = ref.watch(relaysProviderProvider);
             return SliverList.separated(
               itemBuilder: (context, index) {
                 final relay = state.data.relays[index];
@@ -94,11 +102,11 @@ final class OnboardingRelaysPage extends ConsumerWidget with DialogHelper {
               Center(
                 child: Builder(
                   builder: (context) {
-                    final state = ref.watch(onboardingRelaysProviderProvider);
+                    final state = ref.watch(relaysProviderProvider);
                     return PrymaryLoadingButton(
                       title: commonL10n.commonButtonSave,
                       vm: ref
-                          .read(onboardingRelaysProviderProvider.notifier)
+                          .read(relaysProviderProvider.notifier)
                           .saveButtonVm,
                       onTap: state.data.hasChanges ? () => _onNext(ref) : null,
                     );
@@ -113,14 +121,14 @@ final class OnboardingRelaysPage extends ConsumerWidget with DialogHelper {
   }
 
   void _onToggle(WidgetRef ref, RelayInfo relay) {
-    ref.read(onboardingRelaysProviderProvider.notifier).onToggle(relay);
+    ref.read(relaysProviderProvider.notifier).onToggle(relay);
   }
 
   void _onAddCustom(WidgetRef ref, {required String urlStr}) {
-    ref.read(onboardingRelaysProviderProvider.notifier).onAdd(urlStr);
+    ref.read(relaysProviderProvider.notifier).onAdd(urlStr);
   }
 
   void _onNext(WidgetRef ref) {
-    ref.read(onboardingRelaysProviderProvider.notifier).onSave();
+    ref.read(relaysProviderProvider.notifier).onSave();
   }
 }

@@ -419,6 +419,96 @@ abstract class AppLocalizations {
   /// **'Couldn\'t save the message'**
   String get chatSendError;
 
+  /// No description provided for @chatAudioCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio call'**
+  String get chatAudioCall;
+
+  /// No description provided for @chatVideoCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Video call'**
+  String get chatVideoCall;
+
+  /// No description provided for @callCalling.
+  ///
+  /// In en, this message translates to:
+  /// **'Calling…'**
+  String get callCalling;
+
+  /// No description provided for @callConnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting…'**
+  String get callConnecting;
+
+  /// No description provided for @callConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get callConnected;
+
+  /// No description provided for @callEnded.
+  ///
+  /// In en, this message translates to:
+  /// **'Call ended'**
+  String get callEnded;
+
+  /// No description provided for @callNoAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'No answer'**
+  String get callNoAnswer;
+
+  /// No description provided for @callFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Call failed'**
+  String get callFailed;
+
+  /// No description provided for @callStartError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t start the call'**
+  String get callStartError;
+
+  /// No description provided for @callMute.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute'**
+  String get callMute;
+
+  /// No description provided for @callUnmute.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute'**
+  String get callUnmute;
+
+  /// No description provided for @callSpeakerOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Speaker on'**
+  String get callSpeakerOn;
+
+  /// No description provided for @callSpeakerOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Speaker off'**
+  String get callSpeakerOff;
+
+  /// No description provided for @callSwitchCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch camera'**
+  String get callSwitchCamera;
+
+  /// No description provided for @callHangUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Hang up'**
+  String get callHangUp;
+
   /// No description provided for @settingsTitle.
   ///
   /// In en, this message translates to:
@@ -460,6 +550,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profile'**
   String get settingsItemProfile;
+
+  /// No description provided for @settingsItemRelays.
+  ///
+  /// In en, this message translates to:
+  /// **'Relays'**
+  String get settingsItemRelays;
 
   /// No description provided for @settingsItemLogout.
   ///

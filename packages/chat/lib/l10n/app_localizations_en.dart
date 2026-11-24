@@ -191,6 +191,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chatSendError => 'Couldn\'t save the message';
 
   @override
+  String get chatAudioCall => 'Audio call';
+
+  @override
+  String get chatVideoCall => 'Video call';
+
+  @override
+  String get callCalling => 'Calling…';
+
+  @override
+  String get callConnecting => 'Connecting…';
+
+  @override
+  String get callConnected => 'Connected';
+
+  @override
+  String get callEnded => 'Call ended';
+
+  @override
+  String get callNoAnswer => 'No answer';
+
+  @override
+  String get callFailed => 'Call failed';
+
+  @override
+  String get callStartError => 'Couldn\'t start the call';
+
+  @override
+  String get callMute => 'Mute';
+
+  @override
+  String get callUnmute => 'Unmute';
+
+  @override
+  String get callSpeakerOn => 'Speaker on';
+
+  @override
+  String get callSpeakerOff => 'Speaker off';
+
+  @override
+  String get callSwitchCamera => 'Switch camera';
+
+  @override
+  String get callHangUp => 'Hang up';
+
+  @override
   String get settingsTitle => 'Settings';
 
   @override
@@ -212,6 +257,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsItemProfile => 'Profile';
+
+  @override
+  String get settingsItemRelays => 'Relays';
 
   @override
   String get settingsItemLogout => 'Sign Out';

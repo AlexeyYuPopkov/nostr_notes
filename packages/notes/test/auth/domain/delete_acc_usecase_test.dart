@@ -1,3 +1,4 @@
+import 'package:nostr_notes/app/app_config.dart';
 import 'dart:convert';
 import 'package:common/domain/repo/secure_storage.dart';
 import 'package:di_storage/di_storage.dart';
@@ -152,23 +153,13 @@ void main() {
       await eventStore.upsert([_Helper.event1, _Helper.event2]);
 
       channel.onAdd = (data, ch) {
-        const delReq =
-            r'["EVENT",'
-            '{"kind":5,'
-            '"id":"6e48a44c95ceb083fa4ea975a903b8166ecf3ad848ca7cf8c7a5ea28ecb7641a",'
-            '"pubkey":"5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee",'
-            '"created_at":1773957600,'
-            '"tags":['
-            '["a","30023:5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee:note1-d-tag"],'
-            '["a","30023:5f23c86b8dd9a3a3fd020d5f3f87293ffcba7e66b23437a164ed41f67d75f7ee:note2-d-tag"],'
-            '["k","30023"]],'
-            '"content":"",'
-            '"sig":"451f963f9bea3b6ea0890174f5dfd81bafd83fa484f23f9f8488a3e9b0813550c7e7f4add2c4006fd84d9ece699cb7c0cfcd697c40bc61e40e874c4d21433481"}]';
-
-        if (data is String && data == delReq) {
-          final parsed = jsonDecode(data);
-          final eventId = parsed[1]['id'] as String;
-          ch.mockStream.add('["OK","$eventId",true,""]');
+        if (data is! String) return;
+        final message = jsonDecode(data) as List<Object?>;
+        final event = message.length > 1 ? message[1] : null;
+        if (message.first == 'EVENT' &&
+            event is Map<String, Object?> &&
+            event['kind'] == EventKind.delete.value) {
+          ch.mockStream.add('["OK","${event['id']}",true,""]');
         }
       };
 
@@ -210,6 +201,12 @@ void main() {
       );
 
       expect(deletionEventWasStored, hasLength(1));
+      expect(deletionEventWasStored.single.tags, [
+        AppConfig.clientTagList(),
+        ['a', '30023:${SomeMokedData.publicKey}:note1-d-tag'],
+        ['a', '30023:${SomeMokedData.publicKey}:note2-d-tag'],
+        ['k', '30023'],
+      ]);
 
       // If BD contains deletion events - cannot get any note with deleted dTag
 

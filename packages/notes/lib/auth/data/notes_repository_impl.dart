@@ -319,6 +319,7 @@ class NotesRepositoryImpl with GetNotesFiltering implements NotesRepository {
       content: '',
       createdAt: createdAt,
       tags: [
+        AppConfig.clientTagList(),
         [TagValue.e, event.id],
         [
           TagValue.a,
@@ -387,6 +388,7 @@ class NotesRepositoryImpl with GetNotesFiltering implements NotesRepository {
       pubkey: publicKey,
       privateKey: privateKey,
       tags: [
+        AppConfig.clientTagList(),
         ...aTags.aTags.map((aTag) => aTag.toEventTag()),
         [Tag.k.value, EventKind.note.value.toString()],
       ],

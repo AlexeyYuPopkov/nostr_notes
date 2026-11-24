@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_webrtc: ^1.6.3
+  material_ui: any
   web_socket_channel: ^3.0.3
   equatable: ^3.0.0
   meta: ^1.17.0

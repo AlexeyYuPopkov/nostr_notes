@@ -1,3 +1,6 @@
+import 'package:chat/auth/call/data/call_config.dart';
+import 'package:chat/auth/call/data/open_call_connection_usecase_impl.dart';
+import 'package:chat/auth/call/domain/usecase/open_call_connection_usecase.dart';
 import 'package:chat/auth/chat/data/contacts/contact_profiles.dart';
 import 'package:chat/auth/chat/data/contacts/get_contact_usecase_impl.dart';
 import 'package:chat/auth/chat/data/contacts/fetch_users_usecase_impl.dart';
@@ -123,6 +126,7 @@ abstract class Di {
       dispose: (publisher) => publisher.dispose(),
     );
     _registerDirectMessages();
+    _registerCalls();
     GetIt.I.registerFactory<SearchContactsFetchUsecase>(
       () => SearchContactsFetchUsecaseImpl(
         client: GetIt.I.get(),
@@ -226,6 +230,16 @@ abstract class Di {
         sessionUsecase: GetIt.I.get(),
         eventStore: GetIt.I.get(),
         writer: GetIt.I.get(),
+      ),
+    );
+  }
+
+  static void _registerCalls() {
+    GetIt.I.registerLazySingleton<CallConfig>(CallConfig.fromEnvironment);
+    GetIt.I.registerFactory<OpenCallConnectionUsecase>(
+      () => OpenCallConnectionUsecaseImpl(
+        sessionUsecase: GetIt.I.get(),
+        config: GetIt.I.get(),
       ),
     );
   }

@@ -1,13 +1,16 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:chat/auth/call/presentation/call/call_screen.dart';
 import 'package:chat/auth/chat/presentation/chat/chat_screen.dart';
 import 'package:chat/auth/chat/presentation/chats_list/chats_list_screen.dart';
 import 'package:chat/auth/chat/presentation/search_contact/search_contact_screen.dart';
 import 'package:chat/auth/settings/presentation/profile/profile_screen.dart';
+import 'package:chat/auth/settings/presentation/relays_list/relays_list_screen.dart';
 import 'package:chat/auth/settings/presentation/settings/settings_screen.dart';
 import 'package:chat/auth/home/presentation/home/home_navigation_bar.dart';
 import 'package:chat/common/di/di.dart';
 import 'package:chat/router/app_router.gr.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:webrtc_call/webrtc_call.dart';
 
 @RoutePage()
 final class AuthTabsPage extends StatelessWidget {
@@ -45,8 +48,24 @@ final class ChatPage extends StatelessWidget {
   const ChatPage({super.key, required this.pubkey});
 
   @override
+  Widget build(BuildContext context) => ScaffoldMessenger(
+    child: ChatScreen(
+      pubkey: pubkey,
+      coordinator: const ChatScreenCoordinatorImpl(),
+    ),
+  );
+}
+
+@RoutePage()
+final class CallPage extends StatelessWidget {
+  final String peerPubkey;
+  final CallMedia media;
+
+  const CallPage({super.key, required this.peerPubkey, required this.media});
+
+  @override
   Widget build(BuildContext context) =>
-      ScaffoldMessenger(child: ChatScreen(pubkey: pubkey));
+      CallScreen(peerPubkey: peerPubkey, media: media);
 }
 
 @RoutePage()
@@ -78,6 +97,14 @@ final class ProfilePage extends StatelessWidget {
       const ScaffoldMessenger(child: ProfileScreen());
 }
 
+@RoutePage()
+final class RelaysListPage extends StatelessWidget {
+  const RelaysListPage({super.key});
+
+  @override
+  Widget build(BuildContext context) => const RelaysListScreen();
+}
+
 final class ChatsListScreenCoordinatorImpl
     implements ChatsListScreenCoordinator {
   const ChatsListScreenCoordinatorImpl();
@@ -95,6 +122,21 @@ final class ChatsListScreenCoordinatorImpl
   @override
   Future<void> onSearchContactRoute(BuildContext context) async {
     await context.router.root.push(const SearchContactRoute());
+  }
+}
+
+final class ChatScreenCoordinatorImpl implements ChatScreenCoordinator {
+  const ChatScreenCoordinatorImpl();
+
+  @override
+  Future<void> onCallRoute(
+    BuildContext context, {
+    required String peerPubkey,
+    required CallMedia media,
+  }) async {
+    await context.router.root.push(
+      CallRoute(peerPubkey: peerPubkey, media: media),
+    );
   }
 }
 
@@ -120,6 +162,12 @@ final class SettingsScreenCoordinatorImpl implements SettingsScreenCoordinator {
   @override
   Future<void> onProfileRoute(BuildContext context) async {
     await context.router.root.push(const ProfileRoute());
+  }
+
+  // Like the profile, the relays list covers the tab bar.
+  @override
+  Future<void> onRelaysListRoute(BuildContext context) async {
+    await context.router.root.push(const RelaysListRoute());
   }
 
   // The auth scope goes only after the auth screens are gone: their
