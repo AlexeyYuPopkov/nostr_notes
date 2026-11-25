@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:chat/auth/call/domain/models/call_direction.dart';
 import 'package:chat/auth/call/presentation/call/provider/call_provider.dart';
 import 'package:chat/auth/call/presentation/call/provider/call_state.dart';
 import 'package:chat/auth/chat/presentation/common/user_title.dart';
@@ -8,18 +9,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:webrtc_call/webrtc_call.dart';
 
-/// An outgoing call; closes itself once the call ends.
+/// A call with [peerPubkey]; closes itself once the call ends.
 final class CallScreen extends ConsumerWidget {
   static const closeSemanticsId = 'CallScreen.close';
 
   final String peerPubkey;
   final CallMedia media;
+  final CallDirection direction;
 
-  const CallScreen({super.key, required this.peerPubkey, required this.media});
+  const CallScreen({
+    super.key,
+    required this.peerPubkey,
+    required this.media,
+    required this.direction,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(callProviderProvider(peerPubkey, media));
+    final state = ref.watch(callProviderProvider(peerPubkey, media, direction));
     final peerName = state.data.peer.title;
 
     return Scaffold(
@@ -112,6 +119,7 @@ final class _ActiveCallState extends State<_ActiveCall> {
         connected: l10n.callConnected,
         ended: l10n.callEnded,
         noAnswer: l10n.callNoAnswer,
+        declined: l10n.callDeclined,
         failed: l10n.callFailed,
         mute: l10n.callMute,
         unmute: l10n.callUnmute,

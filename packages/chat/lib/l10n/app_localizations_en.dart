@@ -197,6 +197,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chatVideoCall => 'Video call';
 
   @override
+  String get chatCallInviteAudio => 'Audio call';
+
+  @override
+  String get chatCallInviteVideo => 'Video call';
+
+  @override
+  String get chatCallDeclined => 'Call declined';
+
+  @override
+  String get chatCallCancelled => 'Call cancelled';
+
+  @override
   String get callCalling => 'Calling…';
 
   @override
@@ -210,6 +222,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get callNoAnswer => 'No answer';
+
+  @override
+  String get callDeclined => 'Declined';
 
   @override
   String get callFailed => 'Call failed';
@@ -234,6 +249,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get callHangUp => 'Hang up';
+
+  @override
+  String get incomingCallAudio => 'Incoming audio call';
+
+  @override
+  String get incomingCallVideo => 'Incoming video call';
+
+  @override
+  String get incomingCallAccept => 'Accept';
+
+  @override
+  String get incomingCallDecline => 'Decline';
 
   @override
   String get settingsTitle => 'Settings';

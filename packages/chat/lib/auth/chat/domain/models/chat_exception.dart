@@ -14,3 +14,8 @@ final class ChatEmptyMessageException extends ChatException {
 final class ChatNotMyMessageException extends ChatException {
   const ChatNotMyMessageException();
 }
+
+/// Only text messages can be edited.
+final class ChatNotEditableException extends ChatException {
+  const ChatNotEditableException();
+}

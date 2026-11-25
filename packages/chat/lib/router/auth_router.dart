@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:chat/auth/call/domain/models/call_direction.dart';
 import 'package:chat/auth/call/presentation/call/call_screen.dart';
+import 'package:chat/auth/call/presentation/incoming_call/incoming_call_listener.dart';
+import 'package:chat/auth/call/presentation/incoming_call/incoming_call_screen.dart';
 import 'package:chat/auth/chat/presentation/chat/chat_screen.dart';
 import 'package:chat/auth/chat/presentation/chats_list/chats_list_screen.dart';
 import 'package:chat/auth/chat/presentation/search_contact/search_contact_screen.dart';
@@ -18,11 +21,14 @@ final class AuthTabsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsScaffold(
-      routes: const [ChatsListRoute(), SettingsRoute()],
-      bottomNavigationBuilder: (context, tabsRouter) => HomeNavigationBar(
-        selectedIndex: tabsRouter.activeIndex,
-        onTabSelected: tabsRouter.setActiveIndex,
+    return IncomingCallListener(
+      coordinator: const IncomingCallListenerCoordinatorImpl(),
+      child: AutoTabsScaffold(
+        routes: const [ChatsListRoute(), SettingsRoute()],
+        bottomNavigationBuilder: (context, tabsRouter) => HomeNavigationBar(
+          selectedIndex: tabsRouter.activeIndex,
+          onTabSelected: tabsRouter.setActiveIndex,
+        ),
       ),
     );
   }
@@ -60,12 +66,43 @@ final class ChatPage extends StatelessWidget {
 final class CallPage extends StatelessWidget {
   final String peerPubkey;
   final CallMedia media;
+  final CallDirection direction;
 
-  const CallPage({super.key, required this.peerPubkey, required this.media});
+  const CallPage({
+    super.key,
+    required this.peerPubkey,
+    required this.media,
+    required this.direction,
+  });
 
   @override
   Widget build(BuildContext context) =>
-      CallScreen(peerPubkey: peerPubkey, media: media);
+      CallScreen(peerPubkey: peerPubkey, media: media, direction: direction);
+}
+
+@RoutePage()
+final class IncomingCallPage extends StatelessWidget {
+  final String callerPubkey;
+  final String callId;
+  final CallMedia media;
+  final DateTime expiresAt;
+
+  const IncomingCallPage({
+    super.key,
+    required this.callerPubkey,
+    required this.callId,
+    required this.media,
+    required this.expiresAt,
+  });
+
+  @override
+  Widget build(BuildContext context) => IncomingCallScreen(
+    callerPubkey: callerPubkey,
+    callId: callId,
+    media: media,
+    expiresAt: expiresAt,
+    coordinator: const IncomingCallScreenCoordinatorImpl(),
+  );
 }
 
 @RoutePage()
@@ -135,7 +172,62 @@ final class ChatScreenCoordinatorImpl implements ChatScreenCoordinator {
     required CallMedia media,
   }) async {
     await context.router.root.push(
-      CallRoute(peerPubkey: peerPubkey, media: media),
+      CallRoute(
+        peerPubkey: peerPubkey,
+        media: media,
+        direction: CallDirection.outgoing,
+      ),
+    );
+  }
+}
+
+final class IncomingCallListenerCoordinatorImpl
+    implements IncomingCallListenerCoordinator {
+  static const _callRouteNames = {CallRoute.name, IncomingCallRoute.name};
+
+  const IncomingCallListenerCoordinatorImpl();
+
+  // An invite during a call is not shown: the session turns the second
+  // caller's offer down as busy.
+  @override
+  Future<void> onIncomingCall(
+    BuildContext context, {
+    required String callerPubkey,
+    required String callId,
+    required CallMedia media,
+    required DateTime expiresAt,
+  }) async {
+    final root = context.router.root;
+    if (_callRouteNames.contains(root.current.name)) return;
+    await root.push(
+      IncomingCallRoute(
+        callerPubkey: callerPubkey,
+        callId: callId,
+        media: media,
+        expiresAt: expiresAt,
+      ),
+    );
+  }
+}
+
+final class IncomingCallScreenCoordinatorImpl
+    implements IncomingCallScreenCoordinator {
+  const IncomingCallScreenCoordinatorImpl();
+
+  // The ringing screen is swapped for the call, so the call closes back to
+  // wherever the invite found the user.
+  @override
+  Future<void> onAccepted(
+    BuildContext context, {
+    required String callerPubkey,
+    required CallMedia media,
+  }) async {
+    await context.router.root.replace(
+      CallRoute(
+        peerPubkey: callerPubkey,
+        media: media,
+        direction: CallDirection.incoming,
+      ),
     );
   }
 }

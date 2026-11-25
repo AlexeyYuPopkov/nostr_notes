@@ -14,6 +14,9 @@ import './steps/i_am_calling_with.dart';
 import 'package:app_test_kit/bdd_steps/i_see_text.dart';
 import './steps/the_call_screen_is_closed.dart';
 import './steps/the_conversation_shows.dart';
+import './steps/declines_my_call.dart';
+import './steps/the_call_shows.dart';
+import './steps/is_told_the_call_was.dart';
 
 void main() {
   group('''Calls from a chat''', () {
@@ -56,6 +59,43 @@ void main() {
         await iTapSemantics(tester, 'call_view.hang_up');
         await theCallScreenIsClosed(tester);
         await theConversationShows(tester, 'Hi there');
+      } finally {
+        await bddTearDown(tester);
+      }
+    });
+    testWidgets('''A call leaves an invite in the conversation''', (
+      tester,
+    ) async {
+      try {
+        await bddSetUp(tester);
+        await iOpenTheChatWith(tester, 'Alice');
+        await iTapSemantics(tester, 'ChatScreen.audioCall');
+        await iTapSemantics(tester, 'call_view.hang_up');
+        await theConversationShows(tester, 'Audio call');
+      } finally {
+        await bddTearDown(tester);
+      }
+    });
+    testWidgets('''A declined call ends''', (tester) async {
+      try {
+        await bddSetUp(tester);
+        await iOpenTheChatWith(tester, 'Alice');
+        await iTapSemantics(tester, 'ChatScreen.audioCall');
+        await declinesMyCall(tester, 'Alice');
+        await theCallShows(tester, 'Declined');
+      } finally {
+        await bddTearDown(tester);
+      }
+    });
+    testWidgets('''Hanging up before an answer cancels the invite''', (
+      tester,
+    ) async {
+      try {
+        await bddSetUp(tester);
+        await iOpenTheChatWith(tester, 'Alice');
+        await iTapSemantics(tester, 'ChatScreen.audioCall');
+        await iTapSemantics(tester, 'call_view.hang_up');
+        await isToldTheCallWas(tester, 'Alice', 'cancelled');
       } finally {
         await bddTearDown(tester);
       }

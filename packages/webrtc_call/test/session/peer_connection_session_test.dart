@@ -220,6 +220,63 @@ void main() {
     });
   });
 
+  test('a call the peer declined ends without a bye', () async {
+    await peersOnline({_self});
+    await session.call(_peer, media: CallMedia.video);
+
+    await session.declinedByPeer();
+
+    expect(session.phase.value, CallPhase.idle);
+    expect(session.lastEndReason.value, CallEndReason.declined);
+    expect(signaling.sent, isEmpty);
+  });
+
+  group('awaiting an accepted call', () {
+    test('answers the offer of the awaited peer', () async {
+      session.awaitCall(_peer, media: CallMedia.audio);
+      expect(session.phase.value, CallPhase.connecting);
+      expect(platform.mediaConstraints, isEmpty);
+
+      await receive(_offer(media: CallMedia.video));
+
+      expect(
+        signaling.sent.whereType<SignalingAnswer>().single.sessionId,
+        _incomingSessionId,
+      );
+      expect(session.media.value, CallMedia.video);
+    });
+
+    test('ends with noAnswer and no bye when no offer comes', () async {
+      session.awaitCall(
+        _peer,
+        media: CallMedia.audio,
+        offerTimeout: const Duration(milliseconds: 10),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      expect(session.phase.value, CallPhase.idle);
+      expect(session.lastEndReason.value, CallEndReason.noAnswer);
+      expect(signaling.sent, isEmpty);
+    });
+
+    test('rejects an offer from someone else', () async {
+      session.awaitCall(_peer, media: CallMedia.audio);
+
+      await receive(
+        const SignalingOffer(
+          from: 'carol',
+          to: _self,
+          sessionId: 'carol-$_self',
+          media: CallMedia.video,
+          description: SessionDescription(sdp: 'sdp', type: 'offer'),
+        ),
+      );
+
+      expect(signaling.sent, [const SignalingBye(sessionId: 'carol-$_self')]);
+      expect(session.peerId.value, _peer);
+    });
+  });
+
   group('both sides calling each other', () {
     test(
       'the side with the smaller id keeps calling and drops the offer',

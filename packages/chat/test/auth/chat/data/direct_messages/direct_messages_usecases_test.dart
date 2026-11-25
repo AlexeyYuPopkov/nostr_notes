@@ -6,9 +6,14 @@ import 'package:chat/auth/chat/data/direct_messages/direct_messages_sync_usecase
 import 'package:chat/auth/chat/data/direct_messages/edit_chat_message_usecase_impl.dart';
 import 'package:chat/auth/chat/data/direct_messages/get_chat_messages_usecase_impl.dart';
 import 'package:chat/auth/chat/data/direct_messages/get_chat_rooms_usecase_impl.dart';
+import 'package:chat/auth/chat/data/direct_messages/send_call_invite_usecase_impl.dart';
+import 'package:chat/auth/chat/data/direct_messages/chat_message_body_codec.dart';
 import 'package:chat/auth/chat/data/direct_messages/send_chat_message_usecase_impl.dart';
+import 'package:chat/auth/chat/data/direct_messages/watch_call_notices_usecase_impl.dart';
+import 'package:chat/auth/chat/data/direct_messages/watch_incoming_call_invites_usecase_impl.dart';
 import 'package:chat/auth/chat/domain/models/chat_exception.dart';
 import 'package:chat/auth/chat/domain/models/chat_message.dart';
+import 'package:chat/auth/chat/domain/models/chat_message_body.dart';
 import 'package:chat/auth/chat/domain/models/chat_room.dart';
 import 'package:chat/common/domain/models/session.dart';
 import 'package:chat/common/domain/usecase/session_usecase.dart';
@@ -28,6 +33,7 @@ import 'package:nostr/model/tag/tag_value.dart';
 import 'package:nostr/model/user_keys.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
+import 'package:webrtc_call/webrtc_call.dart';
 
 import '../../../../tools/nostr/direct_message_fixtures.dart';
 import '../../../../tools/nostr/fake_relay.dart';
@@ -55,6 +61,9 @@ void main() {
 
   late SendChatMessageUsecaseImpl send;
   late EditChatMessageUsecaseImpl edit;
+  late SendCallInviteUsecaseImpl sendInvite;
+  late WatchIncomingCallInvitesUsecaseImpl watchInvites;
+  late WatchCallNoticesUsecaseImpl watchNotices;
   late GetChatMessagesUsecaseImpl getMessages;
   late GetChatRoomsUsecaseImpl getRooms;
 
@@ -106,6 +115,22 @@ void main() {
       writer: writer,
       now: () => now,
     );
+    sendInvite = SendCallInviteUsecaseImpl(
+      sessionUsecase: session,
+      writer: writer,
+      now: () => now,
+    );
+    watchInvites = WatchIncomingCallInvitesUsecaseImpl(
+      sessionUsecase: session,
+      reader: reader,
+      sync: sync,
+      now: () => now,
+    );
+    watchNotices = WatchCallNoticesUsecaseImpl(
+      sessionUsecase: session,
+      reader: reader,
+      sync: sync,
+    );
     edit = EditChatMessageUsecaseImpl(
       sessionUsecase: session,
       eventStore: store,
@@ -136,7 +161,7 @@ void main() {
     DirectMessageTags.sentBy(me.publicKey, to: alice.publicKey),
   );
 
-  Future<List<String>> lastMessagesOfRooms() => getRooms
+  Future<List<String?>> lastMessagesOfRooms() => getRooms
       .execute()
       .firstWhere((rooms) => rooms.isNotEmpty)
       .timeout(const Duration(seconds: 5))
@@ -237,6 +262,174 @@ void main() {
         () => edit.execute(message: received, text: 'Changed'),
         throwsA(isA<ChatNotMyMessageException>()),
       );
+    });
+  });
+
+  group('call invites', () {
+    test('an invite reads back with its call id and media', () async {
+      final callId = await sendInvite.execute(
+        peerPubkey: alice.publicKey,
+        media: CallMedia.video,
+      );
+
+      final [message] = await messagesWhen((m) => m.isNotEmpty);
+      expect(
+        message.body,
+        ChatCallInvite(callId: callId, media: CallMedia.video),
+      );
+      expect(message.text, isNull);
+    });
+
+    test('the peer reads the invite too', () async {
+      await sendInvite.execute(
+        peerPubkey: alice.publicKey,
+        media: CallMedia.audio,
+      );
+
+      final [event] = await storedMessages();
+      final [received] = await DirectMessageCrypto().decrypt(
+        keys: alice,
+        events: [event],
+      );
+      expect(received.body, isA<ChatCallInvite>());
+    });
+
+    test('an invite cannot be edited', () async {
+      await sendInvite.execute(
+        peerPubkey: alice.publicKey,
+        media: CallMedia.audio,
+      );
+      final [invite] = await messagesWhen((m) => m.isNotEmpty);
+
+      expect(
+        () => edit.execute(message: invite, text: 'Changed'),
+        throwsA(isA<ChatNotEditableException>()),
+      );
+    });
+  });
+
+  group('incoming call invites', () {
+    Future<NostrEvent> inviteFromAlice({
+      required String callId,
+      required DateTime at,
+    }) => directMessage(
+      from: alice,
+      to: me.publicKey,
+      text: ChatMessageBodyCodec.encode(
+        ChatCallInvite(callId: callId, media: CallMedia.video),
+      ),
+      createdAt: at,
+    );
+
+    test('a fresh invite from the peer rings once', () async {
+      final invites = <ChatMessage>[];
+      final subscription = watchInvites.execute().listen(invites.add);
+      addTearDown(subscription.cancel);
+
+      relay.publish(await inviteFromAlice(callId: 'fresh', at: now));
+      relay.publish(
+        await directMessage(from: alice, to: me.publicKey, text: 'Hi'),
+      );
+      await getMessages
+          .execute(peerPubkey: alice.publicKey)
+          .firstWhere((m) => m.length == 2)
+          .timeout(const Duration(seconds: 5));
+      await pumpEventQueue();
+
+      expect(invites.map((m) => m.body), [
+        const ChatCallInvite(callId: 'fresh', media: CallMedia.video),
+      ]);
+    });
+
+    test('an invite the caller gave up on does not ring', () async {
+      final invites = <ChatMessage>[];
+      final subscription = watchInvites.execute().listen(invites.add);
+      addTearDown(subscription.cancel);
+
+      relay.publish(
+        await inviteFromAlice(
+          callId: 'stale',
+          at: now.subtract(
+            WatchIncomingCallInvitesUsecaseImpl.lifetime +
+                const Duration(seconds: 1),
+          ),
+        ),
+      );
+      await getMessages
+          .execute(peerPubkey: alice.publicKey)
+          .firstWhere((m) => m.isNotEmpty)
+          .timeout(const Duration(seconds: 5));
+      await pumpEventQueue();
+
+      expect(invites, isEmpty);
+    });
+
+    test('an invite already cancelled does not ring', () async {
+      final invites = <ChatMessage>[];
+      final subscription = watchInvites.execute().listen(invites.add);
+      addTearDown(subscription.cancel);
+
+      relay
+        ..publish(await inviteFromAlice(callId: 'short', at: now))
+        ..publish(
+          await directMessage(
+            from: alice,
+            to: me.publicKey,
+            text: ChatMessageBodyCodec.encode(const ChatCallCancel('short')),
+            createdAt: now,
+          ),
+        );
+      await getMessages
+          .execute(peerPubkey: alice.publicKey)
+          .firstWhere((m) => m.length == 2)
+          .timeout(const Duration(seconds: 5));
+      await pumpEventQueue();
+
+      expect(invites, isEmpty);
+    });
+
+    test('notices about the call reach the caller', () async {
+      final notices = <ChatCallNotice>[];
+      final subscription = watchNotices
+          .execute(peerPubkey: alice.publicKey, callId: 'mine')
+          .listen(notices.add);
+      addTearDown(subscription.cancel);
+
+      for (final notice in [
+        const ChatCallDecline('other'),
+        const ChatCallDecline('mine'),
+      ]) {
+        relay.publish(
+          await directMessage(
+            from: alice,
+            to: me.publicKey,
+            text: ChatMessageBodyCodec.encode(notice),
+            createdAt: now,
+          ),
+        );
+      }
+      await getMessages
+          .execute(peerPubkey: alice.publicKey)
+          .firstWhere((m) => m.length == 2)
+          .timeout(const Duration(seconds: 5));
+      await pumpEventQueue();
+
+      expect(notices, [const ChatCallDecline('mine')]);
+    });
+
+    test('my own invite does not ring', () async {
+      final invites = <ChatMessage>[];
+      final subscription = watchInvites.execute().listen(invites.add);
+      addTearDown(subscription.cancel);
+
+      await sendInvite.execute(
+        peerPubkey: alice.publicKey,
+        media: CallMedia.audio,
+      );
+      await messagesWhen((m) => m.isNotEmpty);
+      await pumpEventQueue();
+
+      expect(invites, isEmpty);
     });
   });
 

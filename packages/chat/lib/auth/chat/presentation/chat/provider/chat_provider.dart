@@ -61,7 +61,7 @@ final class ChatProvider extends _$ChatProvider {
   };
 
   void startEditing(ChatMessage message) {
-    if (_data.isMine(message)) {
+    if (_data.canEdit(message)) {
       state = _withData(_data.withEditing(message));
     }
   }

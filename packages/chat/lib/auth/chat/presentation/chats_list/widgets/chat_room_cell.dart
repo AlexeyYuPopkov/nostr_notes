@@ -1,3 +1,4 @@
+import 'package:chat/auth/chat/presentation/common/chat_message_preview.dart';
 import 'dart:async';
 
 import 'package:chat/auth/chat/domain/models/chat_room.dart';
@@ -101,7 +102,7 @@ final class _ChatRoomCellState extends State<ChatRoomCell> {
               overflow: TextOverflow.ellipsis,
             ),
             subtitle: Text(
-              widget.room.lastMessage.text,
+              widget.room.lastMessage.body.preview(context),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),

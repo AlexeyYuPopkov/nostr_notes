@@ -8,18 +8,27 @@ part of 'call_provider.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// An outgoing call to [peerPubkey]; it ends when the provider is disposed.
+/// A call with [peerPubkey]; it ends when the provider is disposed.
+///
+/// An outgoing call also follows its invite: a decline from the peer ends
+/// the call, and hanging up before the peer answered cancels the invite.
 
 @ProviderFor(CallProvider)
 final callProviderProvider = CallProviderFamily._();
 
-/// An outgoing call to [peerPubkey]; it ends when the provider is disposed.
+/// A call with [peerPubkey]; it ends when the provider is disposed.
+///
+/// An outgoing call also follows its invite: a decline from the peer ends
+/// the call, and hanging up before the peer answered cancels the invite.
 final class CallProviderProvider
     extends $NotifierProvider<CallProvider, CallState> {
-  /// An outgoing call to [peerPubkey]; it ends when the provider is disposed.
+  /// A call with [peerPubkey]; it ends when the provider is disposed.
+  ///
+  /// An outgoing call also follows its invite: a decline from the peer ends
+  /// the call, and hanging up before the peer answered cancels the invite.
   CallProviderProvider._({
     required CallProviderFamily super.from,
-    required (String, CallMedia) super.argument,
+    required (String, CallMedia, CallDirection) super.argument,
   }) : super(
          retry: null,
          name: r'callProviderProvider',
@@ -61,9 +70,12 @@ final class CallProviderProvider
   }
 }
 
-String _$callProviderHash() => r'787d28bd1b16a9de6a882d308c6c3fccfbce1ad3';
+String _$callProviderHash() => r'9e6db49d73c0ec2332353b7c37bca2252619160a';
 
-/// An outgoing call to [peerPubkey]; it ends when the provider is disposed.
+/// A call with [peerPubkey]; it ends when the provider is disposed.
+///
+/// An outgoing call also follows its invite: a decline from the peer ends
+/// the call, and hanging up before the peer answered cancels the invite.
 
 final class CallProviderFamily extends $Family
     with
@@ -72,7 +84,7 @@ final class CallProviderFamily extends $Family
           CallState,
           CallState,
           CallState,
-          (String, CallMedia)
+          (String, CallMedia, CallDirection)
         > {
   CallProviderFamily._()
     : super(
@@ -83,23 +95,36 @@ final class CallProviderFamily extends $Family
         isAutoDispose: true,
       );
 
-  /// An outgoing call to [peerPubkey]; it ends when the provider is disposed.
+  /// A call with [peerPubkey]; it ends when the provider is disposed.
+  ///
+  /// An outgoing call also follows its invite: a decline from the peer ends
+  /// the call, and hanging up before the peer answered cancels the invite.
 
-  CallProviderProvider call(String peerPubkey, CallMedia media) =>
-      CallProviderProvider._(argument: (peerPubkey, media), from: this);
+  CallProviderProvider call(
+    String peerPubkey,
+    CallMedia media,
+    CallDirection direction,
+  ) => CallProviderProvider._(
+    argument: (peerPubkey, media, direction),
+    from: this,
+  );
 
   @override
   String toString() => r'callProviderProvider';
 }
 
-/// An outgoing call to [peerPubkey]; it ends when the provider is disposed.
+/// A call with [peerPubkey]; it ends when the provider is disposed.
+///
+/// An outgoing call also follows its invite: a decline from the peer ends
+/// the call, and hanging up before the peer answered cancels the invite.
 
 abstract class _$CallProvider extends $Notifier<CallState> {
-  late final _$args = ref.$arg as (String, CallMedia);
+  late final _$args = ref.$arg as (String, CallMedia, CallDirection);
   String get peerPubkey => _$args.$1;
   CallMedia get media => _$args.$2;
+  CallDirection get direction => _$args.$3;
 
-  CallState build(String peerPubkey, CallMedia media);
+  CallState build(String peerPubkey, CallMedia media, CallDirection direction);
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
@@ -112,6 +137,9 @@ abstract class _$CallProvider extends $Notifier<CallState> {
               Object?,
               Object?
             >;
-    return element.handleCreate(ref, () => build(_$args.$1, _$args.$2));
+    return element.handleCreate(
+      ref,
+      () => build(_$args.$1, _$args.$2, _$args.$3),
+    );
   }
 }

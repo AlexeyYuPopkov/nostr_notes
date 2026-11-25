@@ -20,7 +20,7 @@ description: Project rules for Nostr protocol code — event kinds, tags, relay 
 | 9734 | `NostrKind.zapInvoice` | Zap request (NIP-57) |
 | 9735 | `NostrKind.zapConfirmation` | Zap receipt (NIP-57) |
 | 30023 | `NostrKind.note` | Note, addressable (NIP-33) |
-| 31014 | `NostrKind.directMessage` (chat) | 1-1 chat message, custom addressable kind: `d` message id (kept on edit), `p` peer, `published_at` first send time; NIP-44 content, no gift wrap — who talks to whom and when is public |
+| 31014 | `NostrKind.directMessage` (chat) | 1-1 chat message, custom addressable kind: `d` message id (kept on edit), `p` peer, `published_at` first send time; NIP-44 content, no gift wrap — who talks to whom and when is public. Plaintext is the text itself or a JSON body with a `type` (`call_invite`: `call_id`, `media`; `call_decline` / `call_cancel`: `call_id`), see `ChatMessageBodyCodec` |
 | 31023 | `NostrKind.loginItem` | Login item, custom addressable kind, authored by the vault identity — never the account pubkey |
 
 Before adding a kind, check the registry: https://github.com/nostr-protocol/nips/blob/master/README.md

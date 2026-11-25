@@ -20,7 +20,7 @@ enum CallPhase {
   connected,
 }
 
-enum CallEndReason { hungUp, remoteHungUp, noAnswer, failed }
+enum CallEndReason { hungUp, remoteHungUp, noAnswer, declined, failed }
 
 /// One 1-1 call at a time over [SignalingChannel].
 ///
@@ -129,6 +129,38 @@ final class PeerConnectionSession {
       await _openPeerConnection(sessionId: sessionId, peerId: peerId);
       await _sendOfferIfPeerOnline();
     });
+  }
+
+  /// Waits for [peerId]'s call after accepting their invite; the offer is
+  /// answered when it comes.
+  ///
+  /// Ends with [CallEndReason.noAnswer] if no offer comes within
+  /// [offerTimeout], and with [CallEndReason.remoteHungUp] if [peerId] leaves
+  /// the signaling server meanwhile.
+  void awaitCall(
+    String peerId, {
+    required CallMedia media,
+    Duration offerTimeout = defaultAnswerTimeout,
+  }) {
+    if (_sessionId != null) return;
+
+    _startSession(
+      sessionId: _signaling.sessionIdFor(callerId: peerId, calleeId: _selfId),
+      peerId: peerId,
+      media: media,
+      phase: CallPhase.connecting,
+    );
+    _answerTimer = Timer(
+      offerTimeout,
+      () => _closeSession(CallEndReason.noAnswer),
+    );
+  }
+
+  /// Ends a call the peer turned down by other means than signaling, e.g. a
+  /// decline message; they never joined, so no bye is sent.
+  Future<void> declinedByPeer() async {
+    if (_sessionId == null) return;
+    await _closeSession(CallEndReason.declined);
   }
 
   Future<void> hangUp() async {
@@ -253,6 +285,18 @@ final class PeerConnectionSession {
   }
 
   Future<void> _onOffer(SignalingOffer offer) async {
+    final isAwaited =
+        offer.sessionId == _sessionId &&
+        offer.from == _peerId.value &&
+        _peerConnection == null &&
+        _phase.value == CallPhase.connecting;
+    if (isAwaited) {
+      _answerTimer?.cancel();
+      _media.value = offer.media;
+      await _answer(offer);
+      return;
+    }
+
     final isGlare =
         _sessionId != null &&
         offer.from == _peerId.value &&
@@ -281,7 +325,11 @@ final class PeerConnectionSession {
 
     // Frees the camera before the answer asks for it again.
     await abandoned?.release();
+    await _answer(offer);
+  }
 
+  Future<void> _answer(SignalingOffer offer) async {
+    final sessionId = offer.sessionId;
     await _guard(sessionId, () async {
       final peerConnection = await _openPeerConnection(
         sessionId: sessionId,
@@ -461,8 +509,11 @@ final class PeerConnectionSession {
       'call $sessionId ended: ${reason.name}'
       '${_lastError.value == null ? '' : ' (${_lastError.value})'}',
     );
-    final peerEndedIt = reason == CallEndReason.remoteHungUp;
-    if (!peerEndedIt && _peerConnectionStarted) {
+    final peerEndedIt =
+        reason == CallEndReason.remoteHungUp ||
+        reason == CallEndReason.declined;
+    final peerKnowsOfCall = _offerSent || _hasRemoteDescription;
+    if (!peerEndedIt && peerKnowsOfCall) {
       _signaling.send(SignalingBye(sessionId: sessionId));
     }
     final detached = _detachCall();

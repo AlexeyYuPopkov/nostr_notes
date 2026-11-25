@@ -12,7 +12,11 @@ import 'package:chat/auth/chat/data/direct_messages/direct_messages_sync_usecase
 import 'package:chat/auth/chat/data/direct_messages/edit_chat_message_usecase_impl.dart';
 import 'package:chat/auth/chat/data/direct_messages/get_chat_messages_usecase_impl.dart';
 import 'package:chat/auth/chat/data/direct_messages/get_chat_rooms_usecase_impl.dart';
+import 'package:chat/auth/chat/data/direct_messages/send_call_invite_usecase_impl.dart';
+import 'package:chat/auth/chat/data/direct_messages/send_call_notice_usecase_impl.dart';
 import 'package:chat/auth/chat/data/direct_messages/send_chat_message_usecase_impl.dart';
+import 'package:chat/auth/chat/data/direct_messages/watch_call_notices_usecase_impl.dart';
+import 'package:chat/auth/chat/data/direct_messages/watch_incoming_call_invites_usecase_impl.dart';
 import 'package:chat/auth/chat/data/search_contacts/search_contacts_fetch_usecase_impl.dart';
 import 'package:chat/auth/chat/data/search_contacts/search_contacts_get_usecase_impl.dart';
 import 'package:chat/auth/chat/domain/usecase/direct_messages_sync_usecase.dart';
@@ -24,7 +28,11 @@ import 'package:chat/auth/chat/domain/usecase/fetch_users_usecase.dart';
 import 'package:chat/auth/chat/domain/usecase/get_user_usecase.dart';
 import 'package:chat/auth/chat/domain/usecase/search_contacts_fetch_usecase.dart';
 import 'package:chat/auth/chat/domain/usecase/search_contacts_get_usecase.dart';
+import 'package:chat/auth/chat/domain/usecase/send_call_invite_usecase.dart';
+import 'package:chat/auth/chat/domain/usecase/send_call_notice_usecase.dart';
 import 'package:chat/auth/chat/domain/usecase/send_chat_message_usecase.dart';
+import 'package:chat/auth/chat/domain/usecase/watch_call_notices_usecase.dart';
+import 'package:chat/auth/chat/domain/usecase/watch_incoming_call_invites_usecase.dart';
 import 'package:chat/auth/settings/data/profile/get_current_profile_usecase_impl.dart';
 import 'package:chat/auth/settings/data/profile/update_profile_usecase_impl.dart';
 import 'package:chat/auth/settings/domain/usecase/get_current_profile_usecase.dart';
@@ -223,6 +231,32 @@ abstract class Di {
       () => SendChatMessageUsecaseImpl(
         sessionUsecase: GetIt.I.get(),
         writer: GetIt.I.get(),
+      ),
+    );
+    GetIt.I.registerFactory<SendCallInviteUsecase>(
+      () => SendCallInviteUsecaseImpl(
+        sessionUsecase: GetIt.I.get(),
+        writer: GetIt.I.get(),
+      ),
+    );
+    GetIt.I.registerFactory<SendCallNoticeUsecase>(
+      () => SendCallNoticeUsecaseImpl(
+        sessionUsecase: GetIt.I.get(),
+        writer: GetIt.I.get(),
+      ),
+    );
+    GetIt.I.registerFactory<WatchCallNoticesUsecase>(
+      () => WatchCallNoticesUsecaseImpl(
+        sessionUsecase: GetIt.I.get(),
+        reader: GetIt.I.get(),
+        sync: GetIt.I.get(),
+      ),
+    );
+    GetIt.I.registerLazySingleton<WatchIncomingCallInvitesUsecase>(
+      () => WatchIncomingCallInvitesUsecaseImpl(
+        sessionUsecase: GetIt.I.get(),
+        reader: GetIt.I.get(),
+        sync: GetIt.I.get(),
       ),
     );
     GetIt.I.registerFactory<EditChatMessageUsecase>(

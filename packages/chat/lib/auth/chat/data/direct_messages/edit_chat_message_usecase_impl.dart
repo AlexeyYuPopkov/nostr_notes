@@ -1,5 +1,6 @@
 import 'package:chat/auth/chat/domain/models/chat_exception.dart';
 import 'package:chat/auth/chat/domain/models/chat_message.dart';
+import 'package:chat/auth/chat/domain/models/chat_message_body.dart';
 import 'package:chat/auth/chat/domain/usecase/edit_chat_message_usecase.dart';
 import 'package:chat/common/domain/usecase/session_usecase.dart';
 import 'package:collection/collection.dart';
@@ -33,6 +34,9 @@ final class EditChatMessageUsecaseImpl implements EditChatMessageUsecase {
     if (message.authorPubkey != keys.publicKey) {
       throw const ChatNotMyMessageException();
     }
+    if (message.body is! ChatText) {
+      throw const ChatNotEditableException();
+    }
     final trimmed = text.trim();
     if (trimmed.isEmpty) {
       throw const ChatEmptyMessageException();
@@ -46,7 +50,7 @@ final class EditChatMessageUsecaseImpl implements EditChatMessageUsecase {
       keys: keys,
       id: message.id,
       peerPubkey: message.peerPubkey,
-      text: trimmed,
+      body: ChatText(trimmed),
       publishedAtSeconds:
           message.publishedAt.millisecondsSinceEpoch ~/
           Duration.millisecondsPerSecond,

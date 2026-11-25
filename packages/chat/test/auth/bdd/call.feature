@@ -25,3 +25,21 @@ Feature: Calls from a chat
     And I tap semantics {'call_view.hang_up'}
     Then the call screen is closed
     And the conversation shows {'Hi there'}
+
+  Scenario: A call leaves an invite in the conversation
+    When I open the chat with {'Alice'}
+    And I tap semantics {'ChatScreen.audioCall'}
+    And I tap semantics {'call_view.hang_up'}
+    Then the conversation shows {'Audio call'}
+
+  Scenario: A declined call ends
+    When I open the chat with {'Alice'}
+    And I tap semantics {'ChatScreen.audioCall'}
+    And {'Alice'} declines my call
+    Then the call shows {'Declined'}
+
+  Scenario: Hanging up before an answer cancels the invite
+    When I open the chat with {'Alice'}
+    And I tap semantics {'ChatScreen.audioCall'}
+    And I tap semantics {'call_view.hang_up'}
+    Then {'Alice'} is told the call was {'cancelled'}

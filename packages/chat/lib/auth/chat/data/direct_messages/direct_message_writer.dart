@@ -1,3 +1,4 @@
+import 'package:chat/auth/chat/domain/models/chat_message_body.dart';
 import 'package:chat/auth/common/data/model/nostr_kind.dart';
 import 'package:common/services/event_store/database/app_database.dart';
 import 'package:common/services/event_store/database/daos/outbox_dao_interface.dart';
@@ -5,6 +6,7 @@ import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:nostr/model/user_keys.dart';
 import 'package:nostr/nostr_client/nostr_event_creator.dart';
 
+import 'chat_message_body_codec.dart';
 import 'direct_message_crypto.dart';
 import 'direct_message_tags.dart';
 
@@ -29,7 +31,7 @@ final class DirectMessageWriter {
     required UserKeys keys,
     required String id,
     required String peerPubkey,
-    required String text,
+    required ChatMessageBody body,
     required int publishedAtSeconds,
     required DateTime createdAt,
     Set<String> replacedEventIds = const {},
@@ -37,7 +39,7 @@ final class DirectMessageWriter {
     final content = await _crypto.encrypt(
       keys: keys,
       peerPubkey: peerPubkey,
-      text: text,
+      text: ChatMessageBodyCodec.encode(body),
     );
     final event = _eventCreator.createEvent(
       kind: NostrKind.directMessage,

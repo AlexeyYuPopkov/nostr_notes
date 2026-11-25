@@ -1,4 +1,5 @@
 import 'package:chat/auth/chat/domain/models/chat_exception.dart';
+import 'package:chat/auth/chat/domain/models/chat_message_body.dart';
 import 'package:chat/auth/chat/domain/usecase/send_chat_message_usecase.dart';
 import 'package:chat/common/domain/usecase/session_usecase.dart';
 import 'package:nostr/key_tool/key_tool.dart';
@@ -37,7 +38,7 @@ final class SendChatMessageUsecaseImpl implements SendChatMessageUsecase {
       keys: keys,
       id: _newMessageId(),
       peerPubkey: peerPubkey,
-      text: trimmed,
+      body: ChatText(trimmed),
       publishedAtSeconds:
           now.millisecondsSinceEpoch ~/ Duration.millisecondsPerSecond,
       createdAt: now,

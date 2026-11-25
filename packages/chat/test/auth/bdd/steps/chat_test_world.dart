@@ -35,6 +35,9 @@ final class ChatTestWorld {
   final me = generateKeys();
   final _contacts = <String, UserKeys>{};
 
+  /// The call id of the last invite each contact sent me, by contact name.
+  final lastInviteCallIds = <String, String>{};
+
   ChatTestWorld._();
 
   /// Call after the auth scope is registered.

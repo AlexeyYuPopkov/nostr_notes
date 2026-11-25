@@ -11,6 +11,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 
 import 'package:auto_route/auto_route.dart' as _i3;
+import 'package:chat/auth/call/domain/models/call_direction.dart' as _i6;
 import 'package:chat/router/auth_router.dart' as _i1;
 import 'package:chat/unauth/presentation/onboarding/onboarding_screen.dart'
     as _i2;
@@ -40,10 +41,16 @@ class CallRoute extends _i3.PageRouteInfo<CallRouteArgs> {
     _i4.Key? key,
     required String peerPubkey,
     required _i5.CallMedia media,
+    required _i6.CallDirection direction,
     List<_i3.PageRouteInfo>? children,
   }) : super(
          CallRoute.name,
-         args: CallRouteArgs(key: key, peerPubkey: peerPubkey, media: media),
+         args: CallRouteArgs(
+           key: key,
+           peerPubkey: peerPubkey,
+           media: media,
+           direction: direction,
+         ),
          initialChildren: children,
        );
 
@@ -57,6 +64,7 @@ class CallRoute extends _i3.PageRouteInfo<CallRouteArgs> {
         key: args.key,
         peerPubkey: args.peerPubkey,
         media: args.media,
+        direction: args.direction,
       );
     },
   );
@@ -67,6 +75,7 @@ class CallRouteArgs {
     this.key,
     required this.peerPubkey,
     required this.media,
+    required this.direction,
   });
 
   final _i4.Key? key;
@@ -75,9 +84,11 @@ class CallRouteArgs {
 
   final _i5.CallMedia media;
 
+  final _i6.CallDirection direction;
+
   @override
   String toString() {
-    return 'CallRouteArgs{key: $key, peerPubkey: $peerPubkey, media: $media}';
+    return 'CallRouteArgs{key: $key, peerPubkey: $peerPubkey, media: $media, direction: $direction}';
   }
 
   @override
@@ -86,11 +97,13 @@ class CallRouteArgs {
     if (other is! CallRouteArgs) return false;
     return key == other.key &&
         peerPubkey == other.peerPubkey &&
-        media == other.media;
+        media == other.media &&
+        direction == other.direction;
   }
 
   @override
-  int get hashCode => key.hashCode ^ peerPubkey.hashCode ^ media.hashCode;
+  int get hashCode =>
+      key.hashCode ^ peerPubkey.hashCode ^ media.hashCode ^ direction.hashCode;
 }
 
 /// generated route for
@@ -154,6 +167,89 @@ class ChatsListRoute extends _i3.PageRouteInfo<void> {
       return const _i1.ChatsListPage();
     },
   );
+}
+
+/// generated route for
+/// [_i1.IncomingCallPage]
+class IncomingCallRoute extends _i3.PageRouteInfo<IncomingCallRouteArgs> {
+  IncomingCallRoute({
+    _i4.Key? key,
+    required String callerPubkey,
+    required String callId,
+    required _i5.CallMedia media,
+    required DateTime expiresAt,
+    List<_i3.PageRouteInfo>? children,
+  }) : super(
+         IncomingCallRoute.name,
+         args: IncomingCallRouteArgs(
+           key: key,
+           callerPubkey: callerPubkey,
+           callId: callId,
+           media: media,
+           expiresAt: expiresAt,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'IncomingCallRoute';
+
+  static _i3.PageInfo page = _i3.PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<IncomingCallRouteArgs>();
+      return _i1.IncomingCallPage(
+        key: args.key,
+        callerPubkey: args.callerPubkey,
+        callId: args.callId,
+        media: args.media,
+        expiresAt: args.expiresAt,
+      );
+    },
+  );
+}
+
+class IncomingCallRouteArgs {
+  const IncomingCallRouteArgs({
+    this.key,
+    required this.callerPubkey,
+    required this.callId,
+    required this.media,
+    required this.expiresAt,
+  });
+
+  final _i4.Key? key;
+
+  final String callerPubkey;
+
+  final String callId;
+
+  final _i5.CallMedia media;
+
+  final DateTime expiresAt;
+
+  @override
+  String toString() {
+    return 'IncomingCallRouteArgs{key: $key, callerPubkey: $callerPubkey, callId: $callId, media: $media, expiresAt: $expiresAt}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! IncomingCallRouteArgs) return false;
+    return key == other.key &&
+        callerPubkey == other.callerPubkey &&
+        callId == other.callId &&
+        media == other.media &&
+        expiresAt == other.expiresAt;
+  }
+
+  @override
+  int get hashCode =>
+      key.hashCode ^
+      callerPubkey.hashCode ^
+      callId.hashCode ^
+      media.hashCode ^
+      expiresAt.hashCode;
 }
 
 /// generated route for

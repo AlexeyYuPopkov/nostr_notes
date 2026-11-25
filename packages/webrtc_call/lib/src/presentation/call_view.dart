@@ -11,6 +11,7 @@ final class CallViewLabels {
   final String connected;
   final String ended;
   final String noAnswer;
+  final String declined;
   final String failed;
   final String mute;
   final String unmute;
@@ -25,6 +26,7 @@ final class CallViewLabels {
     this.connected = 'Connected',
     this.ended = 'Call ended',
     this.noAnswer = 'No answer',
+    this.declined = 'Declined',
     this.failed = 'Call failed',
     this.mute = 'Mute',
     this.unmute = 'Unmute',
@@ -38,6 +40,7 @@ final class CallViewLabels {
   String status(CallPhase phase, CallEndReason? endReason) => switch (phase) {
     CallPhase.idle => switch (endReason) {
       CallEndReason.noAnswer => noAnswer,
+      CallEndReason.declined => declined,
       CallEndReason.failed => failed,
       CallEndReason.hungUp || CallEndReason.remoteHungUp || null => ended,
     },

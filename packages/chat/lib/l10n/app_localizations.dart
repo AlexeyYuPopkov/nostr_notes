@@ -431,6 +431,30 @@ abstract class AppLocalizations {
   /// **'Video call'**
   String get chatVideoCall;
 
+  /// No description provided for @chatCallInviteAudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio call'**
+  String get chatCallInviteAudio;
+
+  /// No description provided for @chatCallInviteVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Video call'**
+  String get chatCallInviteVideo;
+
+  /// No description provided for @chatCallDeclined.
+  ///
+  /// In en, this message translates to:
+  /// **'Call declined'**
+  String get chatCallDeclined;
+
+  /// No description provided for @chatCallCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Call cancelled'**
+  String get chatCallCancelled;
+
   /// No description provided for @callCalling.
   ///
   /// In en, this message translates to:
@@ -460,6 +484,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No answer'**
   String get callNoAnswer;
+
+  /// No description provided for @callDeclined.
+  ///
+  /// In en, this message translates to:
+  /// **'Declined'**
+  String get callDeclined;
 
   /// No description provided for @callFailed.
   ///
@@ -508,6 +538,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hang up'**
   String get callHangUp;
+
+  /// No description provided for @incomingCallAudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming audio call'**
+  String get incomingCallAudio;
+
+  /// No description provided for @incomingCallVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming video call'**
+  String get incomingCallVideo;
+
+  /// No description provided for @incomingCallAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get incomingCallAccept;
+
+  /// No description provided for @incomingCallDecline.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline'**
+  String get incomingCallDecline;
 
   /// No description provided for @settingsTitle.
   ///

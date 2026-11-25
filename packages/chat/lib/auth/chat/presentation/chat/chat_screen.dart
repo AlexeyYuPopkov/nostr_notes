@@ -4,6 +4,8 @@ import 'package:chat/auth/chat/domain/models/chat_message.dart';
 import 'package:chat/auth/chat/presentation/chat/provider/chat_data.dart';
 import 'package:chat/auth/chat/presentation/chat/provider/chat_provider.dart';
 import 'package:chat/auth/chat/presentation/chat/provider/chat_state.dart';
+import 'package:chat/auth/chat/domain/models/chat_message_body.dart';
+import 'package:chat/auth/chat/presentation/chat/widgets/call_bubble.dart';
 import 'package:chat/auth/chat/presentation/chat/widgets/chat_message_mapper.dart';
 import 'package:chat/auth/chat/presentation/chat/widgets/editing_banner.dart';
 import 'package:chat/auth/chat/presentation/chat/widgets/message_actions_sheet.dart';
@@ -72,9 +74,9 @@ final class _ChatScreenState extends ConsumerState<ChatScreen> {
       );
     }
 
-    final editing = data.editing;
-    if (editing != null && previous?.data.editing != editing) {
-      _composerController.text = editing.text;
+    final editingText = data.editing?.text;
+    if (editingText != null && previous?.data.editing != data.editing) {
+      _composerController.text = editingText;
     }
 
     if (next is ChatSendError) {
@@ -100,19 +102,20 @@ final class _ChatScreenState extends ConsumerState<ChatScreen> {
         .messages
         .where((e) => e.id == message.id)
         .firstOrNull;
-    if (chatMessage == null) {
+    final text = chatMessage?.text;
+    if (chatMessage == null || text == null) {
       return;
     }
 
     final action = await MessageActionsSheet.show(
       context,
-      canEdit: ref.read(_provider).data.isMine(chatMessage),
+      canEdit: ref.read(_provider).data.canEdit(chatMessage),
     );
     switch (action) {
       case MessageAction.edit:
         ref.read(_provider.notifier).startEditing(chatMessage);
       case MessageAction.copy:
-        await Clipboard.setData(ClipboardData(text: chatMessage.text));
+        await Clipboard.setData(ClipboardData(text: text));
       case null:
         break;
     }
@@ -215,6 +218,15 @@ final class _ChatScreenState extends ConsumerState<ChatScreen> {
                           ? null
                           : const EditedLabel(),
                     ),
+            customMessageBuilder:
+                (context, message, index, {required isSentByMe, groupStatus}) =>
+                    switch (ChatMessageMapper.callBodyOf(message)) {
+                      final ChatMessageBody body => CallBubble(
+                        body: body,
+                        isSentByMe: isSentByMe,
+                      ),
+                      null => const SizedBox.shrink(),
+                    },
             emptyChatListBuilder: (context) =>
                 ui.EmptyChatList(text: context.l10n.chatEmpty),
           ),
