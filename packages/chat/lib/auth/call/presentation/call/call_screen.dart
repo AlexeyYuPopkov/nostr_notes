@@ -5,6 +5,7 @@ import 'package:chat/auth/call/presentation/call/provider/call_provider.dart';
 import 'package:chat/auth/call/presentation/call/provider/call_state.dart';
 import 'package:chat/auth/chat/presentation/common/user_title.dart';
 import 'package:chat/l10n/localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:webrtc_call/webrtc_call.dart';
@@ -113,6 +114,7 @@ final class _ActiveCallState extends State<_ActiveCall> {
     return CallView(
       session: widget.session,
       peerName: widget.peerName,
+      showsCandidateType: kDebugMode,
       labels: CallViewLabels(
         calling: l10n.callCalling,
         connecting: l10n.callConnecting,

@@ -111,7 +111,11 @@ final class _ConnectedView extends StatelessWidget {
       valueListenable: session.peerId,
       builder: (context, peerId, _) => peerId == null
           ? _PeersList(vm: vm, session: session)
-          : CallView(session: session, peerName: peerId),
+          : CallView(
+              session: session,
+              peerName: peerId,
+              showsCandidateType: true,
+            ),
     );
   }
 }

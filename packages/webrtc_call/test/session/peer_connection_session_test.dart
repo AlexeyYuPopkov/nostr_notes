@@ -377,6 +377,52 @@ void main() {
     expect(signaling.sent, isEmpty);
   });
 
+  group('ICE', () {
+    test('passes the ICE transport policy to the connection', () async {
+      final relayOnly = PeerConnectionSession(
+        signaling: signaling,
+        selfId: _self,
+        iceServers: const [
+          IceServer(urls: ['turn:t.example'], username: 'u', credential: 'c'),
+        ],
+        iceTransportPolicy: IceTransportPolicy.relay,
+        platform: platform,
+      );
+      await relayOnly.initialize();
+      addTearDown(relayOnly.dispose);
+
+      await receive(_offer(media: CallMedia.audio));
+
+      expect(platform.peerConnectionConfigurations.last, {
+        'iceServers': [
+          {
+            'urls': ['turn:t.example'],
+            'username': 'u',
+            'credential': 'c',
+          },
+        ],
+        'iceTransportPolicy': 'relay',
+        'sdpSemantics': 'unified-plan',
+      });
+    });
+
+    test('reports the candidate type the connected call uses', () async {
+      await receive(_offer(media: CallMedia.video));
+      platform.peerConnection.stats = [
+        StatsReport('T', 'transport', 0, {'selectedCandidatePairId': 'P'}),
+        StatsReport('P', 'candidate-pair', 0, {'localCandidateId': 'L'}),
+        StatsReport('L', 'local-candidate', 0, {'candidateType': 'relay'}),
+      ];
+
+      platform.peerConnection.onConnectionState?.call(
+        RTCPeerConnectionState.RTCPeerConnectionStateConnected,
+      );
+      await pumpEventQueue();
+
+      expect(session.localCandidateType.value, 'relay');
+    });
+  });
+
   group('call controls', () {
     test('a video call starts on the loudspeaker', () async {
       await receive(_offer(media: CallMedia.video));

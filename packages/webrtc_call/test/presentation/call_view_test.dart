@@ -103,4 +103,43 @@ void main() {
     expect(session.lastEndReason.value, CallEndReason.hungUp);
     expect(find.text('Call ended'), findsOneWidget);
   });
+
+  testWidgets('shows the candidate type of the connected call when asked', (
+    tester,
+  ) async {
+    await tester.runAsync(() async {
+      await session.initialize();
+      signaling.receive(
+        const SignalingOffer(
+          from: 'bob',
+          to: 'alice',
+          sessionId: 'bob-alice',
+          media: CallMedia.audio,
+          description: SessionDescription(sdp: 'sdp', type: 'offer'),
+        ),
+      );
+      await pumpEventQueue();
+      platform.peerConnection.stats = [
+        StatsReport('T', 'transport', 0, {'selectedCandidatePairId': 'P'}),
+        StatsReport('P', 'candidate-pair', 0, {'localCandidateId': 'L'}),
+        StatsReport('L', 'local-candidate', 0, {'candidateType': 'relay'}),
+      ];
+      platform.peerConnection.onConnectionState?.call(
+        RTCPeerConnectionState.RTCPeerConnectionStateConnected,
+      );
+      await pumpEventQueue();
+    });
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: CallView(
+          session: session,
+          peerName: _peerName,
+          showsCandidateType: true,
+        ),
+      ),
+    );
+
+    expect(find.text('Connected · relay'), findsOneWidget);
+  });
 }

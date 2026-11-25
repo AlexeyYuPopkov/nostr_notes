@@ -41,6 +41,7 @@ final class FakeSignaling implements SignalingChannel {
 
 final class FakePlatform implements WebRtcPlatform {
   final mediaConstraints = <Map<String, Object?>>[];
+  final peerConnectionConfigurations = <Map<String, Object?>>[];
   final speakerphoneCalls = <bool>[];
   final switchedCameraTracks = <MediaStreamTrack>[];
   Exception? mediaError;
@@ -61,7 +62,10 @@ final class FakePlatform implements WebRtcPlatform {
   @override
   Future<RTCPeerConnection> createPeerConnection(
     Map<String, Object?> configuration,
-  ) async => peerConnection = FakePeerConnection();
+  ) async {
+    peerConnectionConfigurations.add(configuration);
+    return peerConnection = FakePeerConnection();
+  }
 
   @override
   Future<void> setSpeakerphoneOn(bool on) async => speakerphoneCalls.add(on);
@@ -87,6 +91,7 @@ final class FakeRenderer extends RTCVideoRenderer {
 final class FakePeerConnection extends Fake implements RTCPeerConnection {
   final candidates = <RTCIceCandidate>[];
   RTCSessionDescription? remoteDescription;
+  List<StatsReport> stats = const [];
   bool isClosed = false;
 
   @override
@@ -126,6 +131,9 @@ final class FakePeerConnection extends Fake implements RTCPeerConnection {
     MediaStreamTrack track, [
     MediaStream? stream,
   ]) async => FakeSender();
+
+  @override
+  Future<List<StatsReport>> getStats([MediaStreamTrack? track]) async => stats;
 
   @override
   Future<void> close() async => isClosed = true;

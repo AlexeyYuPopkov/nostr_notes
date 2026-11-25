@@ -2,15 +2,21 @@ import 'package:chat/auth/call/data/call_config.dart';
 import 'package:chat/auth/call/domain/usecase/open_call_connection_usecase.dart';
 import 'package:chat/common/domain/usecase/session_usecase.dart';
 import 'package:flutter/foundation.dart';
+import 'package:nostr/key_tool/key_tool.dart';
 import 'package:webrtc_call/webrtc_call.dart';
 
 final class OpenCallConnectionUsecaseImpl implements OpenCallConnectionUsecase {
+  /// Enough to tell calls apart in the TURN server's logs.
+  static const _turnUserIdLength = 16;
+
   final SessionUsecase _sessionUsecase;
   final CallConfig _config;
+  final DateTime Function() _now;
 
-  const OpenCallConnectionUsecaseImpl({
+  OpenCallConnectionUsecaseImpl({
     required this._sessionUsecase,
     required this._config,
+    this._now = DateTime.now,
   });
 
   @override
@@ -22,7 +28,12 @@ final class OpenCallConnectionUsecaseImpl implements OpenCallConnectionUsecase {
     final session = PeerConnectionSession(
       signaling: signaling,
       selfId: selfId,
-      iceServers: _config.iceServers,
+      // A random id rather than the pubkey keeps who calls out of TURN logs.
+      iceServers: _config.iceServers(
+        turnUserId: KeyTool.random64HexChars().substring(0, _turnUserIdLength),
+        now: _now(),
+      ),
+      iceTransportPolicy: _config.iceTransportPolicy,
     );
     final connection = _CallConnection(session: session, signaling: signaling);
 

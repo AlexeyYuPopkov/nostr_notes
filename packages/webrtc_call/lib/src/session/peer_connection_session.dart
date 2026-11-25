@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 import '../domain/ice_server.dart';
+import '../domain/ice_transport_policy.dart';
 import '../domain/signaling_channel.dart';
 import '../domain/signaling_message.dart';
 import 'web_rtc_platform.dart';
@@ -37,6 +38,7 @@ final class PeerConnectionSession {
   final SignalingChannel _signaling;
   final String _selfId;
   final List<IceServer> _iceServers;
+  final IceTransportPolicy _iceTransportPolicy;
   final WebRtcPlatform _platform;
 
   late final localRenderer = _platform.createRenderer();
@@ -47,6 +49,7 @@ final class PeerConnectionSession {
   final _phase = ValueNotifier(CallPhase.idle);
   final _lastEndReason = ValueNotifier<CallEndReason?>(null);
   final _lastError = ValueNotifier<String?>(null);
+  final _localCandidateType = ValueNotifier<String?>(null);
   final _microphoneMuted = ValueNotifier(false);
   final _speakerOn = ValueNotifier(false);
   final _usingFrontCamera = ValueNotifier(true);
@@ -66,6 +69,7 @@ final class PeerConnectionSession {
     required this._signaling,
     required this._selfId,
     required this._iceServers,
+    this._iceTransportPolicy = IceTransportPolicy.all,
     this._platform = const FlutterWebRtcPlatform(),
   });
 
@@ -82,6 +86,10 @@ final class PeerConnectionSession {
 
   /// Details for [CallEndReason.failed].
   ValueListenable<String?> get lastError => _lastError;
+
+  /// How the connected call reaches the peer: `host`, `srflx`, `prflx` or
+  /// `relay` (through TURN); `null` until connected.
+  ValueListenable<String?> get localCandidateType => _localCandidateType;
 
   ValueListenable<bool> get microphoneMuted => _microphoneMuted;
 
@@ -202,6 +210,7 @@ final class PeerConnectionSession {
     _phase.dispose();
     _lastEndReason.dispose();
     _lastError.dispose();
+    _localCandidateType.dispose();
     _microphoneMuted.dispose();
     _speakerOn.dispose();
     _usingFrontCamera.dispose();
@@ -368,6 +377,7 @@ final class PeerConnectionSession {
     _lastError.value = null;
     _microphoneMuted.value = false;
     _usingFrontCamera.value = true;
+    _localCandidateType.value = null;
   }
 
   Future<RTCPeerConnection> _openPeerConnection({
@@ -389,6 +399,7 @@ final class PeerConnectionSession {
 
     final peerConnection = await _platform.createPeerConnection({
       'iceServers': _iceServers.map((s) => s.toConfiguration()).toList(),
+      'iceTransportPolicy': _iceTransportPolicy.name,
       'sdpSemantics': 'unified-plan',
     });
     if (_sessionId != sessionId) {
@@ -422,6 +433,7 @@ final class PeerConnectionSession {
     switch (state) {
       case RTCPeerConnectionState.RTCPeerConnectionStateConnected:
         _phase.value = CallPhase.connected;
+        unawaited(_readLocalCandidateType());
       case RTCPeerConnectionState.RTCPeerConnectionStateFailed:
         _lastError.value = 'ICE connection failed';
         unawaited(_closeSession(CallEndReason.failed));
@@ -430,6 +442,21 @@ final class PeerConnectionSession {
           RTCPeerConnectionState.RTCPeerConnectionStateDisconnected ||
           RTCPeerConnectionState.RTCPeerConnectionStateClosed:
         break;
+    }
+  }
+
+  Future<void> _readLocalCandidateType() async {
+    final peerConnection = _peerConnection;
+    if (peerConnection == null) return;
+    try {
+      final type = _SelectedCandidate.localType(
+        await peerConnection.getStats(),
+      );
+      if (!identical(_peerConnection, peerConnection)) return;
+      _localCandidateType.value = type;
+      _log('connected via ${type ?? 'an unknown candidate type'}');
+    } catch (error) {
+      _log('cannot read the candidate type: $error');
     }
   }
 
@@ -592,4 +619,39 @@ final class _DetachedCall {
     peerConnection: peerConnection,
     localStream: localStream,
   );
+}
+
+/// Reads the selected candidate pair out of `getStats` reports.
+abstract final class _SelectedCandidate {
+  static String? localType(List<StatsReport> reports) {
+    final byId = {for (final report in reports) report.id: report};
+    final pair = _selectedPair(reports, byId);
+    final localId = pair?.values['localCandidateId'];
+    return switch (byId[localId]?.values['candidateType']) {
+      final String type => type,
+      _ => null,
+    };
+  }
+
+  /// The transport names the pair in use; older stacks only mark it
+  /// nominated and succeeded.
+  static StatsReport? _selectedPair(
+    List<StatsReport> reports,
+    Map<String, StatsReport> byId,
+  ) {
+    for (final report in reports) {
+      if (report.type != 'transport') continue;
+      final pair = byId[report.values['selectedCandidatePairId']];
+      if (pair != null) return pair;
+    }
+    for (final report in reports) {
+      final values = report.values;
+      if (report.type == 'candidate-pair' &&
+          values['state'] == 'succeeded' &&
+          values['nominated'] == true) {
+        return report;
+      }
+    }
+    return null;
+  }
 }

@@ -54,6 +54,7 @@ import 'package:common/domain/repo/relays_list_repo.dart';
 import 'package:common/domain/repo/secure_storage.dart';
 import 'package:common/domain/usecases/get_relays_usecase.dart';
 import 'package:common/domain/usecases/relays_list_repo_impl.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nostr/nostr_client/async_fetcher.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
@@ -269,7 +270,13 @@ abstract class Di {
   }
 
   static void _registerCalls() {
-    GetIt.I.registerLazySingleton<CallConfig>(CallConfig.fromEnvironment);
+    GetIt.I.registerLazySingleton<CallConfig>(() {
+      final config = CallConfig.fromEnvironment();
+      if (!config.hasTurn) {
+        debugPrint('[CallConfig] no TURN_DEV_SECRET: calls use STUN only');
+      }
+      return config;
+    });
     GetIt.I.registerFactory<OpenCallConnectionUsecase>(
       () => OpenCallConnectionUsecaseImpl(
         sessionUsecase: GetIt.I.get(),

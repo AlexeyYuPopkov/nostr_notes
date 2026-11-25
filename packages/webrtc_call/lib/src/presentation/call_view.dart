@@ -57,11 +57,16 @@ final class CallView extends StatelessWidget {
   final String peerName;
   final CallViewLabels labels;
 
+  /// Appends how the call reaches the peer (`relay` means TURN) to the
+  /// status; for checking the network setup, not for end users.
+  final bool showsCandidateType;
+
   const CallView({
     super.key,
     required this.session,
     required this.peerName,
     this.labels = const CallViewLabels(),
+    this.showsCandidateType = false,
   });
 
   @override
@@ -87,6 +92,7 @@ final class CallView extends StatelessWidget {
                     session: session,
                     peerName: peerName,
                     labels: labels,
+                    showsCandidateType: showsCandidateType,
                     alignment: CrossAxisAlignment.start,
                   ),
                 ),
@@ -97,6 +103,7 @@ final class CallView extends StatelessWidget {
                     session: session,
                     peerName: peerName,
                     labels: labels,
+                    showsCandidateType: showsCandidateType,
                     alignment: CrossAxisAlignment.center,
                     showAvatar: true,
                   ),
@@ -151,6 +158,7 @@ final class _PeerStatus extends StatelessWidget {
   final PeerConnectionSession session;
   final String peerName;
   final CallViewLabels labels;
+  final bool showsCandidateType;
   final CrossAxisAlignment alignment;
   final bool showAvatar;
 
@@ -158,6 +166,7 @@ final class _PeerStatus extends StatelessWidget {
     required this.session,
     required this.peerName,
     required this.labels,
+    required this.showsCandidateType,
     required this.alignment,
     this.showAvatar = false,
   });
@@ -186,17 +195,32 @@ final class _PeerStatus extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         ListenableBuilder(
-          listenable: Listenable.merge([session.phase, session.lastEndReason]),
+          listenable: Listenable.merge([
+            session.phase,
+            session.lastEndReason,
+            session.localCandidateType,
+          ]),
           builder: (context, _) => Semantics(
             identifier: 'call_view.status',
             child: Text(
-              labels.status(session.phase.value, session.lastEndReason.value),
+              _status,
               style: textTheme.bodyMedium?.copyWith(color: Colors.white70),
             ),
           ),
         ),
       ],
     );
+  }
+
+  String get _status {
+    final status = labels.status(
+      session.phase.value,
+      session.lastEndReason.value,
+    );
+    final candidateType = session.localCandidateType.value;
+    return showsCandidateType && candidateType != null
+        ? '$status · $candidateType'
+        : status;
   }
 }
 

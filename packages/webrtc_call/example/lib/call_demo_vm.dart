@@ -9,10 +9,38 @@ const _signalingUrl = String.fromEnvironment(
   defaultValue: 'wss://alekseiiapi.site:8086/ws',
 );
 
-/// TURN joins in stage 2; until then calls behind CGNAT (LTE) may not connect.
-const _iceServers = [
-  IceServer(urls: ['stun:alekseiiapi.site:3478']),
+/// From config/turn.dev.json (see config/README.md); without it calls use
+/// STUN only, and those behind CGNAT (LTE) may not connect.
+const _turnDevSecret = String.fromEnvironment('TURN_DEV_SECRET');
+const _relayOnly = bool.fromEnvironment('CALL_RELAY_ONLY');
+
+const _stunServer = IceServer(urls: ['stun:alekseiiapi.site:3478']);
+const _turnUrls = [
+  'turn:alekseiiapi.site:3478?transport=udp',
+  'turn:alekseiiapi.site:3478?transport=tcp',
+  'turns:alekseiiapi.site:443?transport=tcp',
 ];
+
+/// The session outlives calls here, so the credentials last a whole demo.
+const _turnCredentialsTtl = Duration(hours: 12);
+
+List<IceServer> _iceServers(String selfId) {
+  if (_turnDevSecret.isEmpty) return const [_stunServer];
+  final credentials = TurnCredentials.mint(
+    secret: _turnDevSecret,
+    userId: selfId,
+    now: DateTime.now(),
+    ttl: _turnCredentialsTtl,
+  );
+  return [
+    _stunServer,
+    IceServer(
+      urls: _turnUrls,
+      username: credentials.username,
+      credential: credentials.credential,
+    ),
+  ];
+}
 
 final class CallDemoVm {
   final SignalingChannel _signaling;
@@ -46,7 +74,10 @@ final class CallDemoVm {
       final session = PeerConnectionSession(
         signaling: _signaling,
         selfId: id,
-        iceServers: _iceServers,
+        iceServers: _iceServers(id),
+        iceTransportPolicy: _relayOnly
+            ? IceTransportPolicy.relay
+            : IceTransportPolicy.all,
       );
       await session.initialize();
       _session.value = session;
