@@ -11,6 +11,9 @@ abstract final class FlutterWebrtcServerCodec {
   static String encodeNew(SignalingPeer self) =>
       _encode('new', PeerDto.fromDomain(self).toJson());
 
+  /// The server echoes it back, which tells a live socket from a dead one.
+  static String encodeKeepalive() => _encode('keepalive', const {});
+
   static String encode(SignalingMessage message) => switch (message) {
     SignalingOffer() => _encode('offer', {
       ..._negotiation(message),

@@ -7,22 +7,37 @@ import 'package:webrtc_call/webrtc_call.dart';
 
 const _self = SignalingPeer(id: 'alice', name: 'Alice', userAgent: 'test');
 
+const _reconnectDelay = Duration(milliseconds: 10);
+const _keepaliveInterval = Duration(milliseconds: 50);
+
 void main() {
-  late _FakeWebSocket socket;
+  late List<_FakeWebSocket> sockets;
   late FlutterWebrtcServerSignalingChannel channel;
   late List<Uri> connectedUris;
+  var nextHandshakeFails = false;
+
+  _FakeWebSocket socket() => sockets.last;
 
   setUp(() {
-    socket = _FakeWebSocket();
+    sockets = [];
     connectedUris = [];
+    nextHandshakeFails = false;
     channel = FlutterWebrtcServerSignalingChannel(
       uri: Uri.parse('wss://signaling.test/ws'),
       connectWebSocket: (uri) {
         connectedUris.add(uri);
+        final socket = _FakeWebSocket();
+        if (nextHandshakeFails) socket.failHandshake();
+        sockets.add(socket);
         return socket;
       },
+      reconnectDelays: const [_reconnectDelay],
+      keepaliveInterval: _keepaliveInterval,
     );
   });
+
+  Future<void> afterReconnectDelay() =>
+      Future<void>.delayed(_reconnectDelay * 3);
 
   tearDown(() => channel.dispose());
 
@@ -31,7 +46,7 @@ void main() {
 
     expect(connectedUris, [Uri.parse('wss://signaling.test/ws')]);
     expect(channel.connectionState.value, SignalingConnectionState.connected);
-    expect(socket.sentJson.single, {
+    expect(socket().sentJson.single, {
       'type': 'new',
       'data': {'id': 'alice', 'name': 'Alice', 'user_agent': 'test'},
     });
@@ -52,8 +67,8 @@ void main() {
     final received = <SignalingMessage>[];
     channel.messages.listen(received.add);
 
-    socket.receive('{}');
-    socket.receive('{"type":"bye","data":{"session_id":"alice-bob"}}');
+    socket().receive('{}');
+    socket().receive('{"type":"bye","data":{"session_id":"alice-bob"}}');
     await pumpEventQueue();
 
     expect(received, [const SignalingBye(sessionId: 'alice-bob')]);
@@ -64,7 +79,7 @@ void main() {
 
     channel.send(const SignalingBye(sessionId: 'alice-bob'));
 
-    expect(socket.sentJson.last, {
+    expect(socket().sentJson.last, {
       'type': 'bye',
       'data': {'session_id': 'alice-bob'},
     });
@@ -77,22 +92,111 @@ void main() {
     );
   });
 
-  test('reports disconnection when the server closes the socket', () async {
-    await channel.connect(self: _self);
+  group('after the socket is lost', () {
+    test('reopens it and registers again under the same id', () async {
+      await channel.connect(self: _self);
 
-    await socket.closeFromServer();
-    await pumpEventQueue();
+      await socket().closeFromServer();
+      await pumpEventQueue();
+      expect(
+        channel.connectionState.value,
+        SignalingConnectionState.connecting,
+      );
 
-    expect(
-      channel.connectionState.value,
-      SignalingConnectionState.disconnected,
-    );
+      await afterReconnectDelay();
+      expect(sockets, hasLength(2));
+      expect(channel.connectionState.value, SignalingConnectionState.connected);
+      expect(socket().sentJson.single, {
+        'type': 'new',
+        'data': {'id': 'alice', 'name': 'Alice', 'user_agent': 'test'},
+      });
+    });
+
+    test('sends what was sent meanwhile once reopened', () async {
+      await channel.connect(self: _self);
+      await socket().closeFromServer();
+      await pumpEventQueue();
+
+      channel.send(const SignalingBye(sessionId: 'alice-bob'));
+      await afterReconnectDelay();
+
+      expect(socket().sentJson, [
+        containsPair('type', 'new'),
+        {
+          'type': 'bye',
+          'data': {'session_id': 'alice-bob'},
+        },
+      ]);
+    });
+
+    test('keeps retrying while the server is unreachable', () async {
+      await channel.connect(self: _self);
+      nextHandshakeFails = true;
+
+      await socket().closeFromServer();
+      await afterReconnectDelay();
+      expect(
+        channel.connectionState.value,
+        SignalingConnectionState.connecting,
+      );
+
+      nextHandshakeFails = false;
+      await afterReconnectDelay();
+      expect(channel.connectionState.value, SignalingConnectionState.connected);
+    });
+
+    test('stops after disconnect', () async {
+      await channel.connect(self: _self);
+      await socket().closeFromServer();
+      await pumpEventQueue();
+
+      await channel.disconnect();
+      await afterReconnectDelay();
+
+      expect(sockets, hasLength(1));
+      expect(
+        channel.connectionState.value,
+        SignalingConnectionState.disconnected,
+      );
+    });
   });
 
-  test('a failed handshake leaves the channel disconnected', () async {
-    socket.failHandshake();
+  group('keepalive', () {
+    test('is sent while the server replies', () async {
+      await channel.connect(self: _self);
+
+      await Future<void>.delayed(_keepaliveInterval * 1.5);
+
+      expect(socket().sentJson.last, {'type': 'keepalive', 'data': {}});
+    });
+
+    test('a socket that stays silent is reopened', () async {
+      await channel.connect(self: _self);
+
+      await Future<void>.delayed(_keepaliveInterval * 2.5);
+      await afterReconnectDelay();
+
+      expect(sockets, hasLength(greaterThan(1)));
+    });
+
+    test('a reply keeps the socket', () async {
+      await channel.connect(self: _self);
+
+      for (var i = 0; i < 3; i++) {
+        await Future<void>.delayed(_keepaliveInterval * 0.8);
+        socket().receive('{"type":"keepalive","data":{}}');
+      }
+
+      expect(sockets, hasLength(1));
+    });
+  });
+
+  test('a failed first handshake leaves the channel disconnected', () async {
+    nextHandshakeFails = true;
 
     await expectLater(channel.connect(self: _self), throwsA(isA<Exception>()));
+    await afterReconnectDelay();
+    expect(sockets, hasLength(1));
     expect(
       channel.connectionState.value,
       SignalingConnectionState.disconnected,

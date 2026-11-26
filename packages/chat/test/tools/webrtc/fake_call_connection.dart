@@ -16,7 +16,7 @@ final class NeverConnectingCalls implements OpenCallConnectionUsecase {
     final session = PeerConnectionSession(
       signaling: signaling,
       selfId: 'me',
-      iceServers: const [],
+      iceServers: () => const [],
       platform: const _MediaNeverComes(),
     );
     await session.initialize();

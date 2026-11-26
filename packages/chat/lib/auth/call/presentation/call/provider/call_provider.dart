@@ -110,7 +110,9 @@ final class CallProvider extends _$CallProvider {
 
   void _onPhase(PeerConnectionSession session) {
     switch (session.phase.value) {
-      case CallPhase.connecting || CallPhase.connected:
+      case CallPhase.connecting ||
+          CallPhase.connected ||
+          CallPhase.reconnecting:
         _wasAnswered = true;
       case CallPhase.idle:
         _cancelUnansweredInvite();

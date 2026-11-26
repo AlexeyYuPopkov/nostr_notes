@@ -76,7 +76,11 @@ final class CandidatePairSnapshot {
       );
 
   static int? _kbps(num? before, num? after, Duration elapsed) {
-    if (before == null || after == null || elapsed <= Duration.zero) {
+    // An ICE restart may select a new pair, whose counters start over.
+    if (before == null ||
+        after == null ||
+        after < before ||
+        elapsed <= Duration.zero) {
       return null;
     }
     final seconds = elapsed.inMicroseconds / Duration.microsecondsPerSecond;

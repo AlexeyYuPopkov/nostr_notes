@@ -40,6 +40,18 @@ void main() {
     expect(stats.localCandidateType, 'relay');
   });
 
+  test('counters that start over, as on a new pair, give no bitrates', () {
+    final before = CandidatePairSnapshot.read(
+      _reports(sent: 125000, received: 250000),
+    );
+    final after = CandidatePairSnapshot.read(_reports(sent: 10, received: 10))!;
+
+    final stats = after.since(before, const Duration(seconds: 1));
+
+    expect(stats.outgoingKbps, isNull);
+    expect(stats.incomingKbps, isNull);
+  });
+
   test('falls back to the nominated pair without a transport report', () {
     final snapshot = CandidatePairSnapshot.read([
       StatsReport('P', 'candidate-pair', 0, {

@@ -9,7 +9,19 @@ void main() {
     signalingUri: Uri.parse('wss://signaling.test/ws'),
     turnSecret: turnSecret,
     iceTransportPolicy: IceTransportPolicy.all,
+    turnCredentialsTtl: const Duration(minutes: 6),
   );
+
+  test('ICE restarts with fresh TURN credentials before they expire', () {
+    expect(
+      config(turnSecret: 'secret').iceServersRefreshInterval,
+      const Duration(minutes: 5),
+    );
+  });
+
+  test('without TURN nothing needs refreshing', () {
+    expect(config().iceServersRefreshInterval, isNull);
+  });
 
   test('without a TURN secret a call has STUN only', () {
     final servers = config().iceServers(turnUserId: 'id', now: now);
@@ -33,6 +45,7 @@ void main() {
       secret: 'secret',
       userId: 'id',
       now: now,
+      ttl: const Duration(minutes: 6),
     );
     expect(turn.username, credentials.username);
     expect(turn.credential, credentials.credential);

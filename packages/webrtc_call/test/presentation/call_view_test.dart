@@ -18,7 +18,7 @@ void main() {
     session = PeerConnectionSession(
       signaling: signaling,
       selfId: 'alice',
-      iceServers: const [],
+      iceServers: () => const [],
       platform: platform,
     );
   });
@@ -68,6 +68,13 @@ void main() {
 
     expect(find.byType(CallVideoView), findsNWidgets(2));
     expect(find.byTooltip('Switch camera'), findsOneWidget);
+  });
+
+  test('a reconnecting call says so', () {
+    expect(
+      const CallViewLabels().status(CallPhase.reconnecting, null),
+      'Reconnecting…',
+    );
   });
 
   testWidgets('the state follows the call phase', (tester) async {

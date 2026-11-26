@@ -62,6 +62,7 @@
     "callCalling": "Calling…",
     "callConnecting": "Connecting…",
     "callConnected": "Connected",
+    "callReconnecting": "Reconnecting…",
     "callEnded": "Call ended",
     "callNoAnswer": "No answer",
     "callDeclined": "Declined",

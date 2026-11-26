@@ -119,6 +119,7 @@ final class _ActiveCallState extends State<_ActiveCall> {
         calling: l10n.callCalling,
         connecting: l10n.callConnecting,
         connected: l10n.callConnected,
+        reconnecting: l10n.callReconnecting,
         ended: l10n.callEnded,
         noAnswer: l10n.callNoAnswer,
         declined: l10n.callDeclined,

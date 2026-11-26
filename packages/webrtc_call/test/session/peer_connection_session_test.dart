@@ -26,7 +26,7 @@ void main() {
     session = PeerConnectionSession(
       signaling: signaling,
       selfId: _self,
-      iceServers: const [],
+      iceServers: () => const [],
       platform: platform,
     );
     await session.initialize();
@@ -382,7 +382,7 @@ void main() {
       final timed = PeerConnectionSession(
         signaling: signaling,
         selfId: _self,
-        iceServers: const [],
+        iceServers: () => const [],
         connectTimeout: timeout,
         platform: platform,
       );
@@ -425,8 +425,8 @@ void main() {
       final timed = PeerConnectionSession(
         signaling: signaling,
         selfId: _self,
-        iceServers: const [],
-        disconnectedTimeout: timeout,
+        iceServers: () => const [],
+        reconnectTimeout: timeout,
         platform: platform,
       );
       addTearDown(timed.dispose);
@@ -446,7 +446,7 @@ void main() {
       expect(signaling.sent.length, sentBefore);
     });
 
-    test('ends a call that stays disconnected', () async {
+    test('ends a call that does not reconnect in time', () async {
       final timed = sessionDroppingAfter(const Duration(milliseconds: 10));
       await timed.initialize();
       await receive(_offer(media: CallMedia.audio));
@@ -460,24 +460,329 @@ void main() {
       await Future<void>.delayed(const Duration(milliseconds: 20));
 
       expect(timed.lastEndReason.value, CallEndReason.failed);
-      expect(timed.lastError.value, contains('Disconnected'));
+      expect(timed.lastError.value, contains('Not reconnected'));
     });
 
-    test('keeps a call that reconnects in time', () async {
-      final timed = sessionDroppingAfter(const Duration(milliseconds: 20));
-      await timed.initialize();
+    test('a connection that fails before connecting ends the call', () async {
       await receive(_offer(media: CallMedia.audio));
-      final connection = platform.peerConnection;
 
-      connection.onConnectionState?.call(
-        RTCPeerConnectionState.RTCPeerConnectionStateDisconnected,
+      platform.peerConnection.onConnectionState?.call(
+        RTCPeerConnectionState.RTCPeerConnectionStateFailed,
       );
-      connection.onConnectionState?.call(
-        RTCPeerConnectionState.RTCPeerConnectionStateConnected,
+      await pumpEventQueue();
+
+      expect(session.lastEndReason.value, CallEndReason.failed);
+      expect(session.lastError.value, 'ICE connection failed');
+    });
+  });
+
+  group('reconnecting', () {
+    void setConnection(RTCPeerConnectionState state) =>
+        platform.peerConnection.onConnectionState?.call(state);
+
+    Future<void> connectedOutgoingCall() async {
+      await peersOnline({_self, _peer});
+      await session.call(_peer, media: CallMedia.video);
+      await receive(_answer());
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateConnected);
+    }
+
+    Iterable<SignalingOffer> sentOffers() =>
+        signaling.sent.whereType<SignalingOffer>();
+
+    test('a connected call that loses media is reconnecting', () async {
+      await receive(_offer(media: CallMedia.audio));
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateConnected);
+
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateDisconnected);
+
+      expect(session.phase.value, CallPhase.reconnecting);
+    });
+
+    test('a failed connection of a connected call is reconnecting', () async {
+      await receive(_offer(media: CallMedia.audio));
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateConnected);
+
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateFailed);
+      await pumpEventQueue();
+
+      expect(session.phase.value, CallPhase.reconnecting);
+    });
+
+    test('is connected again once the media is back', () async {
+      await receive(_offer(media: CallMedia.audio));
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateConnected);
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateDisconnected);
+
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateConnected);
+
+      expect(session.phase.value, CallPhase.connected);
+    });
+
+    test('the caller restarts ICE with a new offer', () async {
+      await connectedOutgoingCall();
+
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateDisconnected);
+      await pumpEventQueue();
+
+      expect(platform.peerConnection.iceRestarts, 1);
+      expect(sentOffers(), hasLength(2));
+      expect(sentOffers().last.sessionId, _outgoingSessionId);
+    });
+
+    test(
+      'the caller applies the restart answer and stays reconnecting',
+      () async {
+        await connectedOutgoingCall();
+        setConnection(
+          RTCPeerConnectionState.RTCPeerConnectionStateDisconnected,
+        );
+        await pumpEventQueue();
+
+        await receive(
+          const SignalingAnswer(
+            from: _peer,
+            to: _self,
+            sessionId: _outgoingSessionId,
+            description: SessionDescription(sdp: 'restart-sdp', type: 'answer'),
+          ),
+        );
+
+        expect(platform.peerConnection.remoteDescription?.sdp, 'restart-sdp');
+        expect(session.phase.value, CallPhase.reconnecting);
+      },
+    );
+
+    test('the caller waits for the peer to be online to restart', () async {
+      await connectedOutgoingCall();
+      await peersOnline({_self});
+
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateDisconnected);
+      await pumpEventQueue();
+      expect(sentOffers(), hasLength(1));
+
+      await peersOnline({_self, _peer});
+      expect(sentOffers(), hasLength(2));
+    });
+
+    test('the caller waits for signaling to restart', () async {
+      await connectedOutgoingCall();
+      signaling.startReconnecting();
+
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateDisconnected);
+      await pumpEventQueue();
+      expect(sentOffers(), hasLength(1));
+
+      signaling.finishReconnecting();
+      await peersOnline({_self, _peer});
+      expect(sentOffers(), hasLength(2));
+    });
+
+    test('the callee leaves the restart to the caller', () async {
+      await receive(_offer(media: CallMedia.audio));
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateConnected);
+
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateDisconnected);
+      await pumpEventQueue();
+
+      expect(platform.peerConnection.iceRestarts, 0);
+      expect(sentOffers(), isEmpty);
+    });
+
+    test('the callee answers a restart offer instead of a bye', () async {
+      await receive(_offer(media: CallMedia.audio));
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateConnected);
+
+      await receive(_offer(media: CallMedia.audio));
+
+      expect(signaling.sent.whereType<SignalingBye>(), isEmpty);
+      expect(signaling.sent.whereType<SignalingAnswer>(), hasLength(2));
+      expect(session.phase.value, CallPhase.connected);
+    });
+
+    test('a rejected candidate does not end the call', () async {
+      await receive(_offer(media: CallMedia.audio));
+      platform.peerConnection.candidateError = Exception('stale ufrag');
+
+      await receive(
+        const SignalingCandidate(
+          from: _peer,
+          to: _self,
+          sessionId: _incomingSessionId,
+          candidate: _candidate,
+        ),
       );
+
+      expect(session.phase.value, CallPhase.connecting);
+    });
+  });
+
+  group('fresh ICE servers', () {
+    var mintedCredentials = 0;
+
+    PeerConnectionSession sessionMintingCredentials({
+      Duration? refreshInterval,
+    }) {
+      mintedCredentials = 0;
+      final minting = PeerConnectionSession(
+        signaling: signaling,
+        selfId: _self,
+        iceServers: () => [
+          IceServer(
+            urls: const ['turn:t.example'],
+            username: 'u${++mintedCredentials}',
+            credential: 'c',
+          ),
+        ],
+        iceServersRefreshInterval: refreshInterval,
+        platform: platform,
+      );
+      addTearDown(minting.dispose);
+      return minting;
+    }
+
+    String? lastUsername(Map<String, Object?> configuration) =>
+        switch (configuration['iceServers']) {
+          [..., {'username': final String username}] => username,
+          _ => null,
+        };
+
+    void setConnection(RTCPeerConnectionState state) =>
+        platform.peerConnection.onConnectionState?.call(state);
+
+    test('the caller takes them for every ICE restart', () async {
+      final minting = sessionMintingCredentials();
+      await minting.initialize();
+      await peersOnline({_self, _peer});
+      await minting.call(_peer, media: CallMedia.audio);
+      await receive(_answer());
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateConnected);
+      expect(lastUsername(platform.peerConnectionConfigurations.last), 'u1');
+
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateDisconnected);
+      await pumpEventQueue();
+
+      expect(platform.peerConnection.configurations, hasLength(1));
+      expect(lastUsername(platform.peerConnection.configurations.single), 'u2');
+      expect(
+        platform.peerConnection.configurations.single['iceTransportPolicy'],
+        'all',
+      );
+    });
+
+    test('the callee takes them before answering a restart', () async {
+      final minting = sessionMintingCredentials();
+      await minting.initialize();
+      await receive(_offer(media: CallMedia.audio));
+      final configurationsBefore =
+          platform.peerConnection.configurations.length;
+
+      await receive(_offer(media: CallMedia.audio));
+
+      expect(
+        platform.peerConnection.configurations,
+        hasLength(configurationsBefore + 1),
+      );
+    });
+
+    test('a connected caller restarts ICE before they expire', () async {
+      final minting = sessionMintingCredentials(
+        refreshInterval: const Duration(milliseconds: 10),
+      );
+      await minting.initialize();
+      await peersOnline({_self, _peer});
+      await minting.call(_peer, media: CallMedia.audio);
+      await receive(_answer());
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateConnected);
+
+      await Future<void>.delayed(const Duration(milliseconds: 15));
+
+      expect(platform.peerConnection.iceRestarts, greaterThanOrEqualTo(1));
+      expect(minting.phase.value, CallPhase.connected);
+    });
+
+    test('the callee leaves the refresh to the caller', () async {
+      final minting = sessionMintingCredentials(
+        refreshInterval: const Duration(milliseconds: 10),
+      );
+      await minting.initialize();
+      await receive(_offer(media: CallMedia.audio));
+      setConnection(RTCPeerConnectionState.RTCPeerConnectionStateConnected);
+
+      await Future<void>.delayed(const Duration(milliseconds: 25));
+
+      expect(platform.peerConnection.iceRestarts, 0);
+    });
+  });
+
+  group('surviving a signaling drop', () {
+    PeerConnectionSession sessionWaitingForPeer(Duration timeout) {
+      final timed = PeerConnectionSession(
+        signaling: signaling,
+        selfId: _self,
+        iceServers: () => const [],
+        peerAwayTimeout: timeout,
+        platform: platform,
+      );
+      addTearDown(timed.dispose);
+      return timed;
+    }
+
+    void connect() => platform.peerConnection.onConnectionState?.call(
+      RTCPeerConnectionState.RTCPeerConnectionStateConnected,
+    );
+
+    test('keeps the call while signaling reconnects', () async {
+      await receive(_offer(media: CallMedia.audio));
+      connect();
+
+      signaling.startReconnecting();
+      await pumpEventQueue();
+      signaling.finishReconnecting();
+
+      expect(session.phase.value, CallPhase.connected);
+    });
+
+    test('a hang-up while reconnecting still says bye', () async {
+      await receive(_offer(media: CallMedia.audio));
+      connect();
+      signaling.startReconnecting();
+
+      await session.hangUp();
+
+      expect(
+        signaling.sent.last,
+        const SignalingBye(sessionId: _incomingSessionId),
+      );
+    });
+
+    test('gives a connected peer time to come back', () async {
+      final timed = sessionWaitingForPeer(const Duration(milliseconds: 20));
+      await timed.initialize();
+      await peersOnline({_self, _peer});
+      await receive(_offer(media: CallMedia.audio));
+      connect();
+
+      await peersOnline({_self});
+      await peersOnline({_self, _peer});
       await Future<void>.delayed(const Duration(milliseconds: 40));
 
       expect(timed.phase.value, CallPhase.connected);
+    });
+
+    test('ends with remoteHungUp when a connected peer stays away', () async {
+      final timed = sessionWaitingForPeer(const Duration(milliseconds: 10));
+      await timed.initialize();
+      await peersOnline({_self, _peer});
+      await receive(_offer(media: CallMedia.audio));
+      connect();
+
+      await peersOnline({_self});
+      expect(timed.phase.value, CallPhase.connected);
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      expect(timed.phase.value, CallPhase.idle);
+      expect(timed.lastEndReason.value, CallEndReason.remoteHungUp);
     });
   });
 
@@ -486,7 +791,7 @@ void main() {
       final relayOnly = PeerConnectionSession(
         signaling: signaling,
         selfId: _self,
-        iceServers: const [
+        iceServers: () => const [
           IceServer(urls: ['turn:t.example'], username: 'u', credential: 'c'),
         ],
         iceTransportPolicy: IceTransportPolicy.relay,

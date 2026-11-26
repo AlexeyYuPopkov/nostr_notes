@@ -21,8 +21,14 @@ const _turnUrls = [
   'turns:alekseiiapi.site:443?transport=tcp',
 ];
 
-/// The session outlives calls here, so the credentials last a whole demo.
-const _turnCredentialsTtl = Duration(hours: 12);
+const _turnTtlSeconds = int.fromEnvironment(
+  'TURN_TTL_SECONDS',
+  defaultValue: 3600,
+);
+const _turnCredentialsTtl = Duration(seconds: _turnTtlSeconds);
+
+/// A sixth of the lifetime is left for the restart to get through.
+const _iceServersRefreshInterval = Duration(seconds: _turnTtlSeconds * 5 ~/ 6);
 
 List<IceServer> _iceServers(String selfId) {
   if (_turnDevSecret.isEmpty) return const [_stunServer];
@@ -74,7 +80,10 @@ final class CallDemoVm {
       final session = PeerConnectionSession(
         signaling: _signaling,
         selfId: id,
-        iceServers: _iceServers(id),
+        iceServers: () => _iceServers(id),
+        iceServersRefreshInterval: _turnDevSecret.isEmpty
+            ? null
+            : _iceServersRefreshInterval,
         iceTransportPolicy: _relayOnly
             ? IceTransportPolicy.relay
             : IceTransportPolicy.all,

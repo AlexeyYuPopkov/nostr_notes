@@ -473,6 +473,12 @@ abstract class AppLocalizations {
   /// **'Connected'**
   String get callConnected;
 
+  /// No description provided for @callReconnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnecting…'**
+  String get callReconnecting;
+
   /// No description provided for @callEnded.
   ///
   /// In en, this message translates to:

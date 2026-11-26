@@ -20,9 +20,16 @@ enum CallPhase {
   /// SDP exchanged, ICE still connecting.
   connecting,
   connected,
+
+  /// The media of a connected call stopped; ICE is being restarted.
+  reconnecting,
 }
 
 enum CallEndReason { hungUp, remoteHungUp, noAnswer, declined, failed }
+
+/// Called for every new or restarted connection, so TURN credentials are
+/// fresh each time.
+typedef IceServersProvider = FutureOr<List<IceServer>> Function();
 
 /// One 1-1 call at a time over [SignalingChannel].
 ///
@@ -35,9 +42,17 @@ final class PeerConnectionSession {
   /// e.g. relay-only with rejected TURN credentials.
   static const defaultConnectTimeout = Duration(minutes: 1);
 
-  /// How long a connected call may stay `disconnected` before it is dropped;
-  /// short network blips recover within it.
-  static const defaultDisconnectedTimeout = Duration(seconds: 15);
+  /// How long a call may stay [CallPhase.reconnecting] before it is dropped;
+  /// covers a network switch: signaling reconnect, then an ICE restart.
+  static const defaultReconnectTimeout = Duration(seconds: 30);
+
+  /// How often the caller retries the ICE restart while reconnecting: an
+  /// offer sent while the peer's network was still down never arrives.
+  static const defaultIceRestartInterval = Duration(seconds: 5);
+
+  /// How long the peer of a connected call may be missing from `peers`: its
+  /// signaling reconnects after a network change while the media goes on.
+  static const defaultPeerAwayTimeout = Duration(seconds: 15);
   static const defaultStatsInterval = Duration(seconds: 1);
 
   /// The renderer binds to the stream's video track at the moment `srcObject`
@@ -47,10 +62,17 @@ final class PeerConnectionSession {
 
   final SignalingChannel _signaling;
   final String _selfId;
-  final List<IceServer> _iceServers;
+  final IceServersProvider _iceServers;
+
+  /// How often the caller of a connected call restarts ICE with fresh
+  /// [_iceServers]; `null` never. TURN refuses to extend an allocation with
+  /// expired credentials, so it must be shorter than their lifetime.
+  final Duration? _iceServersRefreshInterval;
   final IceTransportPolicy _iceTransportPolicy;
   final Duration _connectTimeout;
-  final Duration _disconnectedTimeout;
+  final Duration _reconnectTimeout;
+  final Duration _iceRestartInterval;
+  final Duration _peerAwayTimeout;
   final Duration _statsInterval;
   final WebRtcPlatform _platform;
 
@@ -69,6 +91,10 @@ final class PeerConnectionSession {
   final _usingFrontCamera = ValueNotifier(true);
 
   StreamSubscription<SignalingMessage>? _signalingSubscription;
+
+  /// Messages are handled one after another: candidates that follow an ICE
+  /// restart offer are only valid once that offer is applied.
+  Future<void> _handledSignaling = Future.value();
   Set<String> _onlinePeerIds = const {};
 
   RTCPeerConnection? _peerConnection;
@@ -78,7 +104,11 @@ final class PeerConnectionSession {
   bool _hasRemoteDescription = false;
   Timer? _answerTimer;
   Timer? _connectTimer;
-  Timer? _disconnectedTimer;
+  Timer? _reconnectTimer;
+  Timer? _iceRestartTimer;
+  Timer? _iceServersRefreshTimer;
+  bool _isRestartingIce = false;
+  Timer? _peerAwayTimer;
   Timer? _statsTimer;
   CandidatePairSnapshot? _lastPairSnapshot;
   DateTime? _lastPairSnapshotAt;
@@ -89,8 +119,11 @@ final class PeerConnectionSession {
     required this._selfId,
     required this._iceServers,
     this._iceTransportPolicy = IceTransportPolicy.all,
+    this._iceServersRefreshInterval,
     this._connectTimeout = defaultConnectTimeout,
-    this._disconnectedTimeout = defaultDisconnectedTimeout,
+    this._reconnectTimeout = defaultReconnectTimeout,
+    this._iceRestartInterval = defaultIceRestartInterval,
+    this._peerAwayTimeout = defaultPeerAwayTimeout,
     this._statsInterval = defaultStatsInterval,
     this._platform = const FlutterWebRtcPlatform(),
   });
@@ -128,7 +161,7 @@ final class PeerConnectionSession {
   Future<void> initialize() async {
     await localRenderer.initialize();
     await remoteRenderer.initialize();
-    _signalingSubscription = _signaling.messages.listen(_onSignalingMessage);
+    _signalingSubscription = _signaling.messages.listen(_enqueueSignaling);
     _signaling.connectionState.addListener(_onSignalingConnectionState);
   }
 
@@ -252,6 +285,14 @@ final class PeerConnectionSession {
     _usingFrontCamera.dispose();
   }
 
+  void _enqueueSignaling(SignalingMessage message) {
+    _handledSignaling = _handledSignaling.then(
+      (_) => _onSignalingMessage(message).catchError(
+        (Object error) => _log('cannot handle ${message.runtimeType}: $error'),
+      ),
+    );
+  }
+
   Future<void> _onSignalingMessage(SignalingMessage message) async {
     final sessionId = _sessionId;
     switch (message) {
@@ -281,14 +322,27 @@ final class PeerConnectionSession {
 
     final sessionId = _sessionId;
     if (sessionId == null) return;
-    final peerWentOffline =
-        _peerConnectionStarted && !_onlinePeerIds.contains(_peerId.value);
-    if (peerWentOffline) {
+    final isPeerOnline = _onlinePeerIds.contains(_peerId.value);
+    if (isPeerOnline) {
+      _peerAwayTimer?.cancel();
+      _peerAwayTimer = null;
+      if (_phase.value == CallPhase.reconnecting) unawaited(_restartIce());
+    } else if (_wasConnected) {
+      _peerAwayTimer ??= Timer(
+        _peerAwayTimeout,
+        () => _closeSession(CallEndReason.remoteHungUp),
+      );
+      return;
+    } else if (_peerConnectionStarted) {
       await _closeSession(CallEndReason.remoteHungUp);
       return;
     }
     await _guard(sessionId, _sendOfferIfPeerOnline);
   }
+
+  bool get _wasConnected =>
+      _phase.value == CallPhase.connected ||
+      _phase.value == CallPhase.reconnecting;
 
   /// The offer is sent or received: from here on the peer has to stay online.
   bool get _peerConnectionStarted =>
@@ -324,6 +378,13 @@ final class PeerConnectionSession {
   }
 
   Future<void> _onAnswer(String sessionId, SessionDescription answer) async {
+    if (_phase.value != CallPhase.calling) {
+      await _tryRenegotiation('apply the ICE restart answer', () async {
+        await _setRemoteDescription(answer);
+        _log('ICE restart answered');
+      });
+      return;
+    }
     _answerTimer?.cancel();
     _phase.value = CallPhase.connecting;
     _startConnectTimer();
@@ -331,6 +392,15 @@ final class PeerConnectionSession {
   }
 
   Future<void> _onOffer(SignalingOffer offer) async {
+    final isRestart =
+        offer.sessionId == _sessionId &&
+        offer.from == _peerId.value &&
+        _hasRemoteDescription;
+    if (isRestart) {
+      await _answerIceRestart(offer);
+      return;
+    }
+
     final isAwaited =
         offer.sessionId == _sessionId &&
         offer.from == _peerId.value &&
@@ -397,6 +467,96 @@ final class PeerConnectionSession {
     });
   }
 
+  Future<void> _answerIceRestart(SignalingOffer offer) async {
+    final peerConnection = _peerConnection;
+    if (peerConnection == null) return;
+    await _tryRenegotiation('answer the ICE restart', () async {
+      await _refreshIceServers(peerConnection);
+      await _setRemoteDescription(offer.description);
+      final answer = await peerConnection.createAnswer();
+      await peerConnection.setLocalDescription(answer);
+      _ensureCurrent(offer.sessionId);
+      _signaling.send(
+        SignalingAnswer(
+          from: _selfId,
+          to: offer.from,
+          sessionId: offer.sessionId,
+          description: _toDescription(answer),
+        ),
+      );
+      _log('answered the ICE restart');
+    });
+  }
+
+  /// Only the caller restarts ICE, so the two sides never send offers at
+  /// once; it needs signaling and the peer online for the offer to arrive.
+  Future<void> _restartIce() async {
+    final peerConnection = _peerConnection;
+    final sessionId = _sessionId;
+    final peerId = _peerId.value;
+    final media = _media.value;
+    final canRestart =
+        !_isRestartingIce &&
+        _offerSent &&
+        _wasConnected &&
+        peerConnection != null &&
+        sessionId != null &&
+        peerId != null &&
+        media != null &&
+        _onlinePeerIds.contains(peerId) &&
+        _signaling.connectionState.value == SignalingConnectionState.connected;
+    if (!canRestart) return;
+
+    _isRestartingIce = true;
+    try {
+      await _tryRenegotiation('restart ICE', () async {
+        await _refreshIceServers(peerConnection);
+        await peerConnection.restartIce();
+        final offer = await peerConnection.createOffer();
+        await peerConnection.setLocalDescription(offer);
+        _ensureCurrent(sessionId);
+        _signaling.send(
+          SignalingOffer(
+            from: _selfId,
+            to: peerId,
+            sessionId: sessionId,
+            media: media,
+            description: _toDescription(offer),
+          ),
+        );
+        _log('ICE restart offer sent');
+      });
+    } finally {
+      _isRestartingIce = false;
+    }
+  }
+
+  Future<void> _refreshIceServers(RTCPeerConnection peerConnection) async {
+    final configuration = _configuration(await _iceServers());
+    await peerConnection.setConfiguration(configuration);
+  }
+
+  Map<String, Object?> _configuration(List<IceServer> iceServers) => {
+    'iceServers': iceServers.map((s) => s.toConfiguration()).toList(),
+    'iceTransportPolicy': _iceTransportPolicy.name,
+    'sdpSemantics': 'unified-plan',
+  };
+
+  /// A failed step of a restart leaves the call to the next attempt or to
+  /// the reconnect timeout instead of ending it.
+  Future<void> _tryRenegotiation(
+    String step,
+    Future<void> Function() action,
+  ) async {
+    try {
+      await action();
+    } on _SessionEnded {
+      return;
+    } catch (error) {
+      _log('cannot $step: $error');
+    }
+  }
+
   /// When both sides call each other at once, the one with the greater id
   /// answers: the peer drops our offer silently, so no bye ends either call.
   bool _yieldsTo(String peerId) => peerId.compareTo(_selfId) < 0;
@@ -436,11 +596,10 @@ final class PeerConnectionSession {
     if (isVideo) localRenderer.srcObject = localStream;
     await setSpeakerOn(isVideo);
 
-    final peerConnection = await _platform.createPeerConnection({
-      'iceServers': _iceServers.map((s) => s.toConfiguration()).toList(),
-      'iceTransportPolicy': _iceTransportPolicy.name,
-      'sdpSemantics': 'unified-plan',
-    });
+    final iceServers = await _iceServers();
+    final peerConnection = await _platform.createPeerConnection(
+      _configuration(iceServers),
+    );
     if (_sessionId != sessionId) {
       await _release(peerConnection: peerConnection);
       throw const _SessionEnded();
@@ -481,19 +640,22 @@ final class PeerConnectionSession {
     switch (state) {
       case RTCPeerConnectionState.RTCPeerConnectionStateConnected:
         _connectTimer?.cancel();
-        _disconnectedTimer?.cancel();
-        _disconnectedTimer = null;
+        if (_phase.value == CallPhase.reconnecting) _log('reconnected');
+        _stopReconnecting();
         _phase.value = CallPhase.connected;
         _startStatsPolling();
-      case RTCPeerConnectionState.RTCPeerConnectionStateDisconnected:
-        _disconnectedTimer ??= Timer(_disconnectedTimeout, () {
-          _lastError.value =
-              'Disconnected for ${_disconnectedTimeout.inSeconds} s';
-          unawaited(_closeSession(CallEndReason.failed));
-        });
+        _startIceServersRefresh();
+      case RTCPeerConnectionState.RTCPeerConnectionStateDisconnected
+          when _wasConnected:
+        _startReconnecting();
+      case RTCPeerConnectionState.RTCPeerConnectionStateFailed
+          when _wasConnected:
+        _startReconnecting();
       case RTCPeerConnectionState.RTCPeerConnectionStateFailed:
         _lastError.value = 'ICE connection failed';
         unawaited(_closeSession(CallEndReason.failed));
+      case RTCPeerConnectionState.RTCPeerConnectionStateDisconnected:
+        break;
       case RTCPeerConnectionState.RTCPeerConnectionStateNew ||
           RTCPeerConnectionState.RTCPeerConnectionStateConnecting ||
           RTCPeerConnectionState.RTCPeerConnectionStateClosed:
@@ -501,7 +663,42 @@ final class PeerConnectionSession {
     }
   }
 
-  /// Without signaling the call cannot be ended properly, so it ends now.
+  void _startIceServersRefresh() {
+    final interval = _iceServersRefreshInterval;
+    if (interval == null || !_offerSent || _iceServersRefreshTimer != null) {
+      return;
+    }
+    _iceServersRefreshTimer = Timer.periodic(interval, (_) {
+      _log('restarting ICE with fresh ICE servers');
+      unawaited(_restartIce());
+    });
+  }
+
+  void _startReconnecting() {
+    if (_phase.value == CallPhase.reconnecting) return;
+    _log('media lost, reconnecting');
+    _phase.value = CallPhase.reconnecting;
+    _reconnectTimer = Timer(_reconnectTimeout, () {
+      _lastError.value =
+          'Not reconnected within ${_reconnectTimeout.inSeconds} s';
+      unawaited(_closeSession(CallEndReason.failed));
+    });
+    _iceRestartTimer = Timer.periodic(
+      _iceRestartInterval,
+      (_) => unawaited(_restartIce()),
+    );
+    unawaited(_restartIce());
+  }
+
+  void _stopReconnecting() {
+    _reconnectTimer?.cancel();
+    _reconnectTimer = null;
+    _iceRestartTimer?.cancel();
+    _iceRestartTimer = null;
+  }
+
+  /// The channel reconnects on its own; `disconnected` means it was closed,
+  /// and without signaling the call cannot be ended properly.
   void _onSignalingConnectionState() {
     final isLost =
         _signaling.connectionState.value ==
@@ -549,7 +746,7 @@ final class PeerConnectionSession {
   void _sendLocalCandidate(RTCIceCandidate candidate, String peerId) {
     final sessionId = _sessionId;
     final value = candidate.candidate;
-    if (sessionId == null || value == null) return;
+    if (sessionId == null || value == null || !_canSignal) return;
 
     _signaling.send(
       SignalingCandidate(
@@ -577,7 +774,20 @@ final class PeerConnectionSession {
     final pending = List.of(_pendingCandidates);
     _pendingCandidates.clear();
     for (final candidate in pending) {
+      await _addCandidate(peerConnection, candidate);
+    }
+  }
+
+  /// One bad candidate, e.g. from before an ICE restart, is not worth the
+  /// call: the others may still connect.
+  static Future<void> _addCandidate(
+    RTCPeerConnection peerConnection,
+    RTCIceCandidate candidate,
+  ) async {
+    try {
       await peerConnection.addCandidate(candidate);
+    } catch (error) {
+      _log('candidate rejected: $error');
     }
   }
 
@@ -594,7 +804,7 @@ final class PeerConnectionSession {
       _pendingCandidates.add(rtcCandidate);
       return;
     }
-    await peerConnection.addCandidate(rtcCandidate);
+    await _addCandidate(peerConnection, rtcCandidate);
   }
 
   /// Stops [sessionId]'s work once a hang-up or a bye has ended it.
@@ -626,9 +836,7 @@ final class PeerConnectionSession {
         reason == CallEndReason.remoteHungUp ||
         reason == CallEndReason.declined;
     final peerKnowsOfCall = _offerSent || _hasRemoteDescription;
-    final canSignal =
-        _signaling.connectionState.value == SignalingConnectionState.connected;
-    if (!peerEndedIt && peerKnowsOfCall && canSignal) {
+    if (!peerEndedIt && peerKnowsOfCall && _canSignal) {
       _signaling.send(SignalingBye(sessionId: sessionId));
     }
     final detached = _detachCall();
@@ -642,6 +850,10 @@ final class PeerConnectionSession {
     await detached.release();
   }
 
+  /// The channel holds messages while it reconnects.
+  bool get _canSignal =>
+      _signaling.connectionState.value != SignalingConnectionState.disconnected;
+
   /// Forgets the current call without notifying listeners; the caller
   /// releases what it returns.
   _DetachedCall _detachCall() {
@@ -653,8 +865,11 @@ final class PeerConnectionSession {
     _answerTimer = null;
     _connectTimer?.cancel();
     _connectTimer = null;
-    _disconnectedTimer?.cancel();
-    _disconnectedTimer = null;
+    _stopReconnecting();
+    _iceServersRefreshTimer?.cancel();
+    _iceServersRefreshTimer = null;
+    _peerAwayTimer?.cancel();
+    _peerAwayTimer = null;
     _statsTimer?.cancel();
     _statsTimer = null;
     _lastPairSnapshot = null;

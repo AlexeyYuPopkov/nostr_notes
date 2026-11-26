@@ -25,14 +25,16 @@ final class OpenCallConnectionUsecaseImpl implements OpenCallConnectionUsecase {
     final signaling = FlutterWebrtcServerSignalingChannel(
       uri: _config.signalingUri,
     );
+    // A random id rather than the pubkey keeps who calls out of TURN logs.
+    final turnUserId = KeyTool.random64HexChars().substring(
+      0,
+      _turnUserIdLength,
+    );
     final session = PeerConnectionSession(
       signaling: signaling,
       selfId: selfId,
-      // A random id rather than the pubkey keeps who calls out of TURN logs.
-      iceServers: _config.iceServers(
-        turnUserId: KeyTool.random64HexChars().substring(0, _turnUserIdLength),
-        now: _now(),
-      ),
+      iceServers: () => _config.iceServers(turnUserId: turnUserId, now: _now()),
+      iceServersRefreshInterval: _config.iceServersRefreshInterval,
       iceTransportPolicy: _config.iceTransportPolicy,
     );
     final connection = _CallConnection(session: session, signaling: signaling);

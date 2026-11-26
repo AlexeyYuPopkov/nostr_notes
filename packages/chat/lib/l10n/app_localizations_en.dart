@@ -218,6 +218,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get callConnected => 'Connected';
 
   @override
+  String get callReconnecting => 'Reconnecting…';
+
+  @override
   String get callEnded => 'Call ended';
 
   @override

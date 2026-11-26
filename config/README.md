@@ -6,5 +6,6 @@
 |---|---|
 | `TURN_DEV_SECRET` | coturn `static-auth-secret`; the app mints short-lived TURN credentials from it. Dev builds only — anyone can extract it from the build (doc/webrtc-assumptions.md, #3). Without it calls use STUN only. |
 | `CALL_RELAY_ONLY` | `true` restricts ICE to TURN relay candidates, to check that TURN works. |
+| `TURN_TTL_SECONDS` | Optional, default `3600`. Lifetime of the minted TURN credentials; the caller restarts ICE with fresh ones after 5/6 of it. Set e.g. `120` to check the refresh without a one-hour call. |
 
 Run: the "… (TURN)" configurations in `.vscode/launch.json`, or `fvm flutter run --dart-define-from-file=../../config/turn.dev.json` from `packages/chat` (`../../../config/…` from the example).

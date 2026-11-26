@@ -10,6 +10,7 @@ final class CallViewLabels {
   final String calling;
   final String connecting;
   final String connected;
+  final String reconnecting;
   final String ended;
   final String noAnswer;
   final String declined;
@@ -27,6 +28,7 @@ final class CallViewLabels {
     this.calling = 'Calling…',
     this.connecting = 'Connecting…',
     this.connected = 'Connected',
+    this.reconnecting = 'Reconnecting…',
     this.ended = 'Call ended',
     this.noAnswer = 'No answer',
     this.declined = 'Declined',
@@ -52,6 +54,7 @@ final class CallViewLabels {
     CallPhase.calling => calling,
     CallPhase.connecting => connecting,
     CallPhase.connected => connected,
+    CallPhase.reconnecting => reconnecting,
   };
 }
 

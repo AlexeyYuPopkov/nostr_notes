@@ -15,6 +15,12 @@ final class FakeSignaling implements SignalingChannel {
   void dropConnection() =>
       _connectionState.value = SignalingConnectionState.disconnected;
 
+  void startReconnecting() =>
+      _connectionState.value = SignalingConnectionState.connecting;
+
+  void finishReconnecting() =>
+      _connectionState.value = SignalingConnectionState.connected;
+
   @override
   ValueListenable<SignalingConnectionState> get connectionState =>
       _connectionState;
@@ -27,7 +33,7 @@ final class FakeSignaling implements SignalingChannel {
 
   @override
   void send(SignalingMessage message) {
-    if (_connectionState.value != SignalingConnectionState.connected) {
+    if (_connectionState.value == SignalingConnectionState.disconnected) {
       throw StateError('Signaling is not connected');
     }
     sent.add(message);
@@ -100,6 +106,9 @@ final class FakePeerConnection extends Fake implements RTCPeerConnection {
   final candidates = <RTCIceCandidate>[];
   RTCSessionDescription? remoteDescription;
   List<StatsReport> stats = const [];
+  Exception? candidateError;
+  int iceRestarts = 0;
+  final configurations = <Map<String, dynamic>>[];
   bool isClosed = false;
 
   @override
@@ -131,8 +140,17 @@ final class FakePeerConnection extends Fake implements RTCPeerConnection {
 
   @override
   Future<void> addCandidate(RTCIceCandidate candidate) async {
+    final error = candidateError;
+    if (error != null) throw error;
     candidates.add(candidate);
   }
+
+  @override
+  Future<void> restartIce() async => iceRestarts++;
+
+  @override
+  Future<void> setConfiguration(Map<String, dynamic> configuration) async =>
+      configurations.add(configuration);
 
   @override
   Future<RTCRtpSender> addTrack(
