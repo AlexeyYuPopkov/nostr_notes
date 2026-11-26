@@ -12,6 +12,9 @@ final class FakeSignaling implements SignalingChannel {
 
   void receive(SignalingMessage message) => _messages.add(message);
 
+  void dropConnection() =>
+      _connectionState.value = SignalingConnectionState.disconnected;
+
   @override
   ValueListenable<SignalingConnectionState> get connectionState =>
       _connectionState;
@@ -23,7 +26,12 @@ final class FakeSignaling implements SignalingChannel {
   Future<void> connect({required SignalingPeer self}) async {}
 
   @override
-  void send(SignalingMessage message) => sent.add(message);
+  void send(SignalingMessage message) {
+    if (_connectionState.value != SignalingConnectionState.connected) {
+      throw StateError('Signaling is not connected');
+    }
+    sent.add(message);
+  }
 
   @override
   String sessionIdFor({required String callerId, required String calleeId}) =>

@@ -248,6 +248,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get callSwitchCamera => 'Switch camera';
 
   @override
+  String get callCameraOff => 'Turn camera off';
+
+  @override
+  String get callCameraOn => 'Turn camera on';
+
+  @override
   String get callHangUp => 'Hang up';
 
   @override

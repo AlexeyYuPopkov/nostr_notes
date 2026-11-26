@@ -79,6 +79,7 @@ void main() {
     await tester.pump();
 
     expect(find.text('Connected'), findsOneWidget);
+    await session.hangUp();
   });
 
   testWidgets('the mute button toggles the microphone', (tester) async {
@@ -135,7 +136,7 @@ void main() {
         home: CallView(
           session: session,
           peerName: _peerName,
-          showsCandidateType: true,
+          showsConnectionStats: true,
         ),
       ),
     );

@@ -7,6 +7,7 @@ import '../domain/ice_server.dart';
 import '../domain/ice_transport_policy.dart';
 import '../domain/signaling_channel.dart';
 import '../domain/signaling_message.dart';
+import 'call_stats.dart';
 import 'web_rtc_platform.dart';
 
 enum CallPhase {
@@ -30,6 +31,15 @@ enum CallEndReason { hungUp, remoteHungUp, noAnswer, declined, failed }
 final class PeerConnectionSession {
   static const defaultAnswerTimeout = Duration(seconds: 45);
 
+  /// WebRTC may never report `failed` when no candidate pair works at all,
+  /// e.g. relay-only with rejected TURN credentials.
+  static const defaultConnectTimeout = Duration(minutes: 1);
+
+  /// How long a connected call may stay `disconnected` before it is dropped;
+  /// short network blips recover within it.
+  static const defaultDisconnectedTimeout = Duration(seconds: 15);
+  static const defaultStatsInterval = Duration(seconds: 1);
+
   /// The renderer binds to the stream's video track at the moment `srcObject`
   /// is set, so it is set when that track arrives, not with the audio one.
   static const _videoTrackKind = 'video';
@@ -39,6 +49,9 @@ final class PeerConnectionSession {
   final String _selfId;
   final List<IceServer> _iceServers;
   final IceTransportPolicy _iceTransportPolicy;
+  final Duration _connectTimeout;
+  final Duration _disconnectedTimeout;
+  final Duration _statsInterval;
   final WebRtcPlatform _platform;
 
   late final localRenderer = _platform.createRenderer();
@@ -49,7 +62,8 @@ final class PeerConnectionSession {
   final _phase = ValueNotifier(CallPhase.idle);
   final _lastEndReason = ValueNotifier<CallEndReason?>(null);
   final _lastError = ValueNotifier<String?>(null);
-  final _localCandidateType = ValueNotifier<String?>(null);
+  final _stats = ValueNotifier<CallStats?>(null);
+  final _cameraEnabled = ValueNotifier(true);
   final _microphoneMuted = ValueNotifier(false);
   final _speakerOn = ValueNotifier(false);
   final _usingFrontCamera = ValueNotifier(true);
@@ -63,6 +77,11 @@ final class PeerConnectionSession {
   bool _offerSent = false;
   bool _hasRemoteDescription = false;
   Timer? _answerTimer;
+  Timer? _connectTimer;
+  Timer? _disconnectedTimer;
+  Timer? _statsTimer;
+  CandidatePairSnapshot? _lastPairSnapshot;
+  DateTime? _lastPairSnapshotAt;
   final _pendingCandidates = <RTCIceCandidate>[];
 
   PeerConnectionSession({
@@ -70,6 +89,9 @@ final class PeerConnectionSession {
     required this._selfId,
     required this._iceServers,
     this._iceTransportPolicy = IceTransportPolicy.all,
+    this._connectTimeout = defaultConnectTimeout,
+    this._disconnectedTimeout = defaultDisconnectedTimeout,
+    this._statsInterval = defaultStatsInterval,
     this._platform = const FlutterWebRtcPlatform(),
   });
 
@@ -87,9 +109,8 @@ final class PeerConnectionSession {
   /// Details for [CallEndReason.failed].
   ValueListenable<String?> get lastError => _lastError;
 
-  /// How the connected call reaches the peer: `host`, `srflx`, `prflx` or
-  /// `relay` (through TURN); `null` until connected.
-  ValueListenable<String?> get localCandidateType => _localCandidateType;
+  /// Refreshed every [defaultStatsInterval] while connected; `null` before.
+  ValueListenable<CallStats?> get stats => _stats;
 
   ValueListenable<bool> get microphoneMuted => _microphoneMuted;
 
@@ -99,12 +120,16 @@ final class PeerConnectionSession {
   /// The local preview is mirrored only for the front camera.
   ValueListenable<bool> get usingFrontCamera => _usingFrontCamera;
 
+  /// Whether the peer sees our video; audio goes on either way.
+  ValueListenable<bool> get cameraEnabled => _cameraEnabled;
+
   /// Call before the channel connects: who is online comes in the `peers`
   /// message the server sends right after joining.
   Future<void> initialize() async {
     await localRenderer.initialize();
     await remoteRenderer.initialize();
     _signalingSubscription = _signaling.messages.listen(_onSignalingMessage);
+    _signaling.connectionState.addListener(_onSignalingConnectionState);
   }
 
   /// Calls [peerId], sending the offer once it is online.
@@ -191,6 +216,15 @@ final class PeerConnectionSession {
     _speakerOn.value = on;
   }
 
+  void setCameraEnabled(bool enabled) {
+    final localStream = _localStream;
+    if (localStream == null) return;
+    for (final track in _tracksOf(localStream, _videoTrackKind)) {
+      track.enabled = enabled;
+    }
+    _cameraEnabled.value = enabled;
+  }
+
   Future<void> switchCamera() async {
     final localStream = _localStream;
     if (localStream == null) return;
@@ -202,6 +236,7 @@ final class PeerConnectionSession {
 
   Future<void> dispose() async {
     await _closeSession(CallEndReason.hungUp);
+    _signaling.connectionState.removeListener(_onSignalingConnectionState);
     await _signalingSubscription?.cancel();
     await localRenderer.dispose();
     await remoteRenderer.dispose();
@@ -210,7 +245,8 @@ final class PeerConnectionSession {
     _phase.dispose();
     _lastEndReason.dispose();
     _lastError.dispose();
-    _localCandidateType.dispose();
+    _stats.dispose();
+    _cameraEnabled.dispose();
     _microphoneMuted.dispose();
     _speakerOn.dispose();
     _usingFrontCamera.dispose();
@@ -290,6 +326,7 @@ final class PeerConnectionSession {
   Future<void> _onAnswer(String sessionId, SessionDescription answer) async {
     _answerTimer?.cancel();
     _phase.value = CallPhase.connecting;
+    _startConnectTimer();
     await _guard(sessionId, () => _setRemoteDescription(answer));
   }
 
@@ -339,6 +376,7 @@ final class PeerConnectionSession {
 
   Future<void> _answer(SignalingOffer offer) async {
     final sessionId = offer.sessionId;
+    _startConnectTimer();
     await _guard(sessionId, () async {
       final peerConnection = await _openPeerConnection(
         sessionId: sessionId,
@@ -377,7 +415,8 @@ final class PeerConnectionSession {
     _lastError.value = null;
     _microphoneMuted.value = false;
     _usingFrontCamera.value = true;
-    _localCandidateType.value = null;
+    _cameraEnabled.value = true;
+    _stats.value = null;
   }
 
   Future<RTCPeerConnection> _openPeerConnection({
@@ -429,34 +468,81 @@ final class PeerConnectionSession {
     return peerConnection;
   }
 
+  /// Runs from the SDP exchange until the peer connection connects.
+  void _startConnectTimer() {
+    _connectTimer?.cancel();
+    _connectTimer = Timer(_connectTimeout, () {
+      _lastError.value = 'No connection within ${_connectTimeout.inSeconds} s';
+      unawaited(_closeSession(CallEndReason.failed));
+    });
+  }
+
   void _onConnectionState(RTCPeerConnectionState state) {
     switch (state) {
       case RTCPeerConnectionState.RTCPeerConnectionStateConnected:
+        _connectTimer?.cancel();
+        _disconnectedTimer?.cancel();
+        _disconnectedTimer = null;
         _phase.value = CallPhase.connected;
-        unawaited(_readLocalCandidateType());
+        _startStatsPolling();
+      case RTCPeerConnectionState.RTCPeerConnectionStateDisconnected:
+        _disconnectedTimer ??= Timer(_disconnectedTimeout, () {
+          _lastError.value =
+              'Disconnected for ${_disconnectedTimeout.inSeconds} s';
+          unawaited(_closeSession(CallEndReason.failed));
+        });
       case RTCPeerConnectionState.RTCPeerConnectionStateFailed:
         _lastError.value = 'ICE connection failed';
         unawaited(_closeSession(CallEndReason.failed));
       case RTCPeerConnectionState.RTCPeerConnectionStateNew ||
           RTCPeerConnectionState.RTCPeerConnectionStateConnecting ||
-          RTCPeerConnectionState.RTCPeerConnectionStateDisconnected ||
           RTCPeerConnectionState.RTCPeerConnectionStateClosed:
         break;
     }
   }
 
-  Future<void> _readLocalCandidateType() async {
+  /// Without signaling the call cannot be ended properly, so it ends now.
+  void _onSignalingConnectionState() {
+    final isLost =
+        _signaling.connectionState.value ==
+        SignalingConnectionState.disconnected;
+    if (!isLost || _sessionId == null) return;
+    _lastError.value = 'Signaling connection lost';
+    unawaited(_closeSession(CallEndReason.failed));
+  }
+
+  void _startStatsPolling() {
+    if (_statsTimer != null) return;
+    unawaited(_pollStats(isFirst: true));
+    _statsTimer = Timer.periodic(_statsInterval, (_) => _pollStats());
+  }
+
+  Future<void> _pollStats({bool isFirst = false}) async {
     final peerConnection = _peerConnection;
     if (peerConnection == null) return;
     try {
-      final type = _SelectedCandidate.localType(
+      final snapshot = CandidatePairSnapshot.read(
         await peerConnection.getStats(),
       );
-      if (!identical(_peerConnection, peerConnection)) return;
-      _localCandidateType.value = type;
-      _log('connected via ${type ?? 'an unknown candidate type'}');
+      if (!identical(_peerConnection, peerConnection) || snapshot == null) {
+        return;
+      }
+      final now = DateTime.now();
+      final previousAt = _lastPairSnapshotAt;
+      _stats.value = snapshot.since(
+        _lastPairSnapshot,
+        previousAt == null ? Duration.zero : now.difference(previousAt),
+      );
+      _lastPairSnapshot = snapshot;
+      _lastPairSnapshotAt = now;
+      if (isFirst) {
+        _log(
+          'connected via '
+          '${snapshot.localCandidateType ?? 'an unknown candidate type'}',
+        );
+      }
     } catch (error) {
-      _log('cannot read the candidate type: $error');
+      if (isFirst) _log('cannot read call stats: $error');
     }
   }
 
@@ -540,7 +626,9 @@ final class PeerConnectionSession {
         reason == CallEndReason.remoteHungUp ||
         reason == CallEndReason.declined;
     final peerKnowsOfCall = _offerSent || _hasRemoteDescription;
-    if (!peerEndedIt && peerKnowsOfCall) {
+    final canSignal =
+        _signaling.connectionState.value == SignalingConnectionState.connected;
+    if (!peerEndedIt && peerKnowsOfCall && canSignal) {
       _signaling.send(SignalingBye(sessionId: sessionId));
     }
     final detached = _detachCall();
@@ -563,6 +651,14 @@ final class PeerConnectionSession {
     );
     _answerTimer?.cancel();
     _answerTimer = null;
+    _connectTimer?.cancel();
+    _connectTimer = null;
+    _disconnectedTimer?.cancel();
+    _disconnectedTimer = null;
+    _statsTimer?.cancel();
+    _statsTimer = null;
+    _lastPairSnapshot = null;
+    _lastPairSnapshotAt = null;
     _peerConnection = null;
     _localStream = null;
     _sessionId = null;
@@ -619,39 +715,4 @@ final class _DetachedCall {
     peerConnection: peerConnection,
     localStream: localStream,
   );
-}
-
-/// Reads the selected candidate pair out of `getStats` reports.
-abstract final class _SelectedCandidate {
-  static String? localType(List<StatsReport> reports) {
-    final byId = {for (final report in reports) report.id: report};
-    final pair = _selectedPair(reports, byId);
-    final localId = pair?.values['localCandidateId'];
-    return switch (byId[localId]?.values['candidateType']) {
-      final String type => type,
-      _ => null,
-    };
-  }
-
-  /// The transport names the pair in use; older stacks only mark it
-  /// nominated and succeeded.
-  static StatsReport? _selectedPair(
-    List<StatsReport> reports,
-    Map<String, StatsReport> byId,
-  ) {
-    for (final report in reports) {
-      if (report.type != 'transport') continue;
-      final pair = byId[report.values['selectedCandidatePairId']];
-      if (pair != null) return pair;
-    }
-    for (final report in reports) {
-      final values = report.values;
-      if (report.type == 'candidate-pair' &&
-          values['state'] == 'succeeded' &&
-          values['nominated'] == true) {
-        return report;
-      }
-    }
-    return null;
-  }
 }

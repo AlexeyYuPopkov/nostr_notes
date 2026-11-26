@@ -6,5 +6,6 @@ export 'src/domain/signaling_message.dart';
 export 'src/domain/turn_credentials.dart';
 export 'src/presentation/call_video_view.dart';
 export 'src/presentation/call_view.dart';
+export 'src/session/call_stats.dart' show CallStats;
 export 'src/session/peer_connection_session.dart';
 export 'src/session/web_rtc_platform.dart';

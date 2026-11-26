@@ -533,6 +533,18 @@ abstract class AppLocalizations {
   /// **'Switch camera'**
   String get callSwitchCamera;
 
+  /// No description provided for @callCameraOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn camera off'**
+  String get callCameraOff;
+
+  /// No description provided for @callCameraOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn camera on'**
+  String get callCameraOn;
+
   /// No description provided for @callHangUp.
   ///
   /// In en, this message translates to:

@@ -114,7 +114,7 @@ final class _ConnectedView extends StatelessWidget {
           : CallView(
               session: session,
               peerName: peerId,
-              showsCandidateType: true,
+              showsConnectionStats: true,
             ),
     );
   }

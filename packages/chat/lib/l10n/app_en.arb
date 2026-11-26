@@ -72,6 +72,8 @@
     "callSpeakerOn": "Speaker on",
     "callSpeakerOff": "Speaker off",
     "callSwitchCamera": "Switch camera",
+    "callCameraOff": "Turn camera off",
+    "callCameraOn": "Turn camera on",
     "callHangUp": "Hang up",
     "incomingCallAudio": "Incoming audio call",
     "incomingCallVideo": "Incoming video call",

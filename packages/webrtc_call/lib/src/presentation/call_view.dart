@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../domain/signaling_message.dart';
+import '../session/call_stats.dart';
 import '../session/peer_connection_session.dart';
 import 'call_video_view.dart';
 
@@ -18,6 +19,8 @@ final class CallViewLabels {
   final String speakerOn;
   final String speakerOff;
   final String switchCamera;
+  final String cameraOff;
+  final String cameraOn;
   final String hangUp;
 
   const CallViewLabels({
@@ -33,6 +36,8 @@ final class CallViewLabels {
     this.speakerOn = 'Speaker on',
     this.speakerOff = 'Speaker off',
     this.switchCamera = 'Switch camera',
+    this.cameraOff = 'Turn camera off',
+    this.cameraOn = 'Turn camera on',
     this.hangUp = 'Hang up',
   });
 
@@ -57,16 +62,16 @@ final class CallView extends StatelessWidget {
   final String peerName;
   final CallViewLabels labels;
 
-  /// Appends how the call reaches the peer (`relay` means TURN) to the
-  /// status; for checking the network setup, not for end users.
-  final bool showsCandidateType;
+  /// Shows how the call reaches the peer (`relay` means TURN), round trip and
+  /// bitrates; for checking the network setup, not for end users.
+  final bool showsConnectionStats;
 
   const CallView({
     super.key,
     required this.session,
     required this.peerName,
     this.labels = const CallViewLabels(),
-    this.showsCandidateType = false,
+    this.showsConnectionStats = false,
   });
 
   @override
@@ -92,7 +97,7 @@ final class CallView extends StatelessWidget {
                     session: session,
                     peerName: peerName,
                     labels: labels,
-                    showsCandidateType: showsCandidateType,
+                    showsConnectionStats: showsConnectionStats,
                     alignment: CrossAxisAlignment.start,
                   ),
                 ),
@@ -103,7 +108,7 @@ final class CallView extends StatelessWidget {
                     session: session,
                     peerName: peerName,
                     labels: labels,
-                    showsCandidateType: showsCandidateType,
+                    showsConnectionStats: showsConnectionStats,
                     alignment: CrossAxisAlignment.center,
                     showAvatar: true,
                   ),
@@ -142,10 +147,22 @@ final class _LocalPreview extends StatelessWidget {
       height: size.height,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: ValueListenableBuilder(
-          valueListenable: session.usingFrontCamera,
-          builder: (context, isFront, _) =>
-              CallVideoView(renderer: session.localRenderer, mirror: isFront),
+        child: ListenableBuilder(
+          listenable: Listenable.merge([
+            session.usingFrontCamera,
+            session.cameraEnabled,
+          ]),
+          builder: (context, _) => session.cameraEnabled.value
+              ? CallVideoView(
+                  renderer: session.localRenderer,
+                  mirror: session.usingFrontCamera.value,
+                )
+              : const ColoredBox(
+                  color: Colors.black54,
+                  child: Center(
+                    child: Icon(Icons.videocam_off, color: Colors.white70),
+                  ),
+                ),
         ),
       ),
     );
@@ -158,7 +175,7 @@ final class _PeerStatus extends StatelessWidget {
   final PeerConnectionSession session;
   final String peerName;
   final CallViewLabels labels;
-  final bool showsCandidateType;
+  final bool showsConnectionStats;
   final CrossAxisAlignment alignment;
   final bool showAvatar;
 
@@ -166,7 +183,7 @@ final class _PeerStatus extends StatelessWidget {
     required this.session,
     required this.peerName,
     required this.labels,
-    required this.showsCandidateType,
+    required this.showsConnectionStats,
     required this.alignment,
     this.showAvatar = false,
   });
@@ -198,29 +215,52 @@ final class _PeerStatus extends StatelessWidget {
           listenable: Listenable.merge([
             session.phase,
             session.lastEndReason,
-            session.localCandidateType,
+            session.stats,
           ]),
-          builder: (context, _) => Semantics(
-            identifier: 'call_view.status',
-            child: Text(
-              _status,
-              style: textTheme.bodyMedium?.copyWith(color: Colors.white70),
-            ),
-          ),
+          builder: (context, _) {
+            final stats = showsConnectionStats ? session.stats.value : null;
+            final statusStyle = textTheme.bodyMedium?.copyWith(
+              color: Colors.white70,
+            );
+            return Column(
+              crossAxisAlignment: alignment,
+              children: [
+                Semantics(
+                  identifier: 'call_view.status',
+                  child: Text(_status(stats), style: statusStyle),
+                ),
+                if (stats != null)
+                  Semantics(
+                    identifier: 'call_view.stats',
+                    child: Text(
+                      _statsLine(stats),
+                      style: textTheme.bodySmall?.copyWith(
+                        color: Colors.white54,
+                      ),
+                    ),
+                  ),
+              ],
+            );
+          },
         ),
       ],
     );
   }
 
-  String get _status {
+  String _status(CallStats? stats) {
     final status = labels.status(
       session.phase.value,
       session.lastEndReason.value,
     );
-    final candidateType = session.localCandidateType.value;
-    return showsCandidateType && candidateType != null
-        ? '$status · $candidateType'
-        : status;
+    final candidateType = stats?.localCandidateType;
+    return candidateType == null ? status : '$status · $candidateType';
+  }
+
+  static String _statsLine(CallStats stats) {
+    String orDash(int? value) => value?.toString() ?? '–';
+    return 'RTT ${orDash(stats.roundTripTime?.inMilliseconds)} ms'
+        ' · ↑ ${orDash(stats.outgoingKbps)}'
+        ' ↓ ${orDash(stats.incomingKbps)} kbps';
   }
 }
 
@@ -241,10 +281,12 @@ final class _CallControls extends StatelessWidget {
       listenable: Listenable.merge([
         session.microphoneMuted,
         session.speakerOn,
+        session.cameraEnabled,
       ]),
       builder: (context, _) {
         final isMuted = session.microphoneMuted.value;
         final isSpeakerOn = session.speakerOn.value;
+        final isCameraOn = session.cameraEnabled.value;
 
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -263,6 +305,14 @@ final class _CallControls extends StatelessWidget {
               isActive: isSpeakerOn,
               onPressed: () => session.setSpeakerOn(!isSpeakerOn),
             ),
+            if (isVideo)
+              _ControlButton(
+                identifier: 'call_view.camera',
+                tooltip: isCameraOn ? labels.cameraOff : labels.cameraOn,
+                icon: isCameraOn ? Icons.videocam : Icons.videocam_off,
+                isActive: !isCameraOn,
+                onPressed: () => session.setCameraEnabled(!isCameraOn),
+              ),
             if (isVideo)
               _ControlButton(
                 identifier: 'call_view.switch_camera',

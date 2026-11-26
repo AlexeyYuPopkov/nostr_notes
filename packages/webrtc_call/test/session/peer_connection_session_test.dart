@@ -377,6 +377,110 @@ void main() {
     expect(signaling.sent, isEmpty);
   });
 
+  group('connect timeout', () {
+    PeerConnectionSession sessionTimingOutAfter(Duration timeout) {
+      final timed = PeerConnectionSession(
+        signaling: signaling,
+        selfId: _self,
+        iceServers: const [],
+        connectTimeout: timeout,
+        platform: platform,
+      );
+      addTearDown(timed.dispose);
+      return timed;
+    }
+
+    test('fails a call that never connects after the SDP exchange', () async {
+      final timed = sessionTimingOutAfter(const Duration(milliseconds: 10));
+      await timed.initialize();
+
+      await receive(_offer(media: CallMedia.audio));
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      expect(timed.phase.value, CallPhase.idle);
+      expect(timed.lastEndReason.value, CallEndReason.failed);
+      expect(timed.lastError.value, contains('No connection'));
+      expect(
+        signaling.sent.last,
+        const SignalingBye(sessionId: _incomingSessionId),
+      );
+    });
+
+    test('leaves a connected call alone', () async {
+      final timed = sessionTimingOutAfter(const Duration(milliseconds: 10));
+      await timed.initialize();
+      await receive(_offer(media: CallMedia.audio));
+
+      platform.peerConnection.onConnectionState?.call(
+        RTCPeerConnectionState.RTCPeerConnectionStateConnected,
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      expect(timed.phase.value, CallPhase.connected);
+    });
+  });
+
+  group('dropping a broken call', () {
+    PeerConnectionSession sessionDroppingAfter(Duration timeout) {
+      final timed = PeerConnectionSession(
+        signaling: signaling,
+        selfId: _self,
+        iceServers: const [],
+        disconnectedTimeout: timeout,
+        platform: platform,
+      );
+      addTearDown(timed.dispose);
+      return timed;
+    }
+
+    test('ends the call when signaling drops, without a bye', () async {
+      await receive(_offer(media: CallMedia.audio));
+      final sentBefore = signaling.sent.length;
+
+      signaling.dropConnection();
+      await pumpEventQueue();
+
+      expect(session.phase.value, CallPhase.idle);
+      expect(session.lastEndReason.value, CallEndReason.failed);
+      expect(session.lastError.value, 'Signaling connection lost');
+      expect(signaling.sent.length, sentBefore);
+    });
+
+    test('ends a call that stays disconnected', () async {
+      final timed = sessionDroppingAfter(const Duration(milliseconds: 10));
+      await timed.initialize();
+      await receive(_offer(media: CallMedia.audio));
+      platform.peerConnection.onConnectionState?.call(
+        RTCPeerConnectionState.RTCPeerConnectionStateConnected,
+      );
+
+      platform.peerConnection.onConnectionState?.call(
+        RTCPeerConnectionState.RTCPeerConnectionStateDisconnected,
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      expect(timed.lastEndReason.value, CallEndReason.failed);
+      expect(timed.lastError.value, contains('Disconnected'));
+    });
+
+    test('keeps a call that reconnects in time', () async {
+      final timed = sessionDroppingAfter(const Duration(milliseconds: 20));
+      await timed.initialize();
+      await receive(_offer(media: CallMedia.audio));
+      final connection = platform.peerConnection;
+
+      connection.onConnectionState?.call(
+        RTCPeerConnectionState.RTCPeerConnectionStateDisconnected,
+      );
+      connection.onConnectionState?.call(
+        RTCPeerConnectionState.RTCPeerConnectionStateConnected,
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 40));
+
+      expect(timed.phase.value, CallPhase.connected);
+    });
+  });
+
   group('ICE', () {
     test('passes the ICE transport policy to the connection', () async {
       final relayOnly = PeerConnectionSession(
@@ -419,7 +523,7 @@ void main() {
       );
       await pumpEventQueue();
 
-      expect(session.localCandidateType.value, 'relay');
+      expect(session.stats.value?.localCandidateType, 'relay');
     });
   });
 
@@ -456,6 +560,16 @@ void main() {
       await receive(_offer(media: CallMedia.audio));
 
       expect(session.microphoneMuted.value, isFalse);
+    });
+
+    test('turning the camera off disables the video track only', () async {
+      await receive(_offer(media: CallMedia.video));
+
+      session.setCameraEnabled(false);
+
+      expect(session.cameraEnabled.value, isFalse);
+      expect(platform.localStream.videoTrack!.enabled, isFalse);
+      expect(platform.localStream.audioTrack.enabled, isTrue);
     });
 
     test('switching the camera flips the front camera flag', () async {

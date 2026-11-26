@@ -114,7 +114,7 @@ final class _ActiveCallState extends State<_ActiveCall> {
     return CallView(
       session: widget.session,
       peerName: widget.peerName,
-      showsCandidateType: kDebugMode,
+      showsConnectionStats: kDebugMode,
       labels: CallViewLabels(
         calling: l10n.callCalling,
         connecting: l10n.callConnecting,
@@ -128,6 +128,8 @@ final class _ActiveCallState extends State<_ActiveCall> {
         speakerOn: l10n.callSpeakerOn,
         speakerOff: l10n.callSpeakerOff,
         switchCamera: l10n.callSwitchCamera,
+        cameraOff: l10n.callCameraOff,
+        cameraOn: l10n.callCameraOn,
         hangUp: l10n.callHangUp,
       ),
     );
