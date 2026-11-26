@@ -1,0 +1,43 @@
+{
+  "parameters": {
+    "signaling_url": {
+      "defaultValue": { "value": "wss://alekseiiapi.site:8086/ws" },
+      "description": "Signaling server WebSocket URL (wss:// or ws://).",
+      "valueType": "STRING"
+    },
+    "stun_urls": {
+      "defaultValue": { "value": "stun:alekseiiapi.site:3478" },
+      "description": "STUN server URLs, comma-separated.",
+      "valueType": "STRING"
+    },
+    "turn_urls": {
+      "defaultValue": {
+        "value": "turn:alekseiiapi.site:3478?transport=udp,turn:alekseiiapi.site:3478?transport=tcp,turns:alekseiiapi.site:443?transport=tcp"
+      },
+      "description": "TURN server URLs, comma-separated. Credentials are not stored here.",
+      "valueType": "STRING"
+    },
+    "call_answer_timeout_seconds": {
+      "defaultValue": { "value": "45" },
+      "description": "Seconds to wait for an answer; also how long an incoming call invite stays fresh.",
+      "valueType": "NUMBER"
+    },
+    "call_relay_only": {
+      "defaultValue": { "value": "false" },
+      "description": "Restrict ICE to TURN relay candidates (for checking TURN).",
+      "valueType": "BOOLEAN"
+    },
+    "chat_relay": {
+      "defaultValue": { "value": "wss://alekseiiapi.site:8443" },
+      "description": "Our Nostr relay, added to the relays suggested in the relay picker.",
+      "valueType": "STRING"
+    },
+    "signaling_client_name": {
+      "defaultValue": { "value": "Mosty" },
+      "description": "Client name shown next to the pubkey to every signaling client.",
+      "valueType": "STRING"
+    }
+  },
+  "conditions": [],
+  "parameterGroups": {}
+}

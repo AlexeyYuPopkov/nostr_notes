@@ -70,7 +70,7 @@ final class CallProviderProvider
   }
 }
 
-String _$callProviderHash() => r'9e6db49d73c0ec2332353b7c37bca2252619160a';
+String _$callProviderHash() => r'f12cad32e2549a1787af0c737dab65fe97e2b154';
 
 /// A call with [peerPubkey]; it ends when the provider is disposed.
 ///

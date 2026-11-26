@@ -91,16 +91,13 @@ final class IncomingCallListenerVm {
       .handleError((Object _) {})
       .expand((message) => [?_toInvite(message)]);
 
-  static IncomingCallInvite? _toInvite(ChatMessage message) =>
-      switch (message.body) {
-        ChatCallInvite(:final callId, :final media) => IncomingCallInvite(
-          callerPubkey: message.authorPubkey,
-          callId: callId,
-          media: media,
-          expiresAt: message.publishedAt.add(
-            PeerConnectionSession.defaultAnswerTimeout,
-          ),
-        ),
-        ChatText() || ChatCallNotice() => null,
-      };
+  IncomingCallInvite? _toInvite(ChatMessage message) => switch (message.body) {
+    ChatCallInvite(:final callId, :final media) => IncomingCallInvite(
+      callerPubkey: message.authorPubkey,
+      callId: callId,
+      media: media,
+      expiresAt: message.publishedAt.add(_watchInvites.inviteLifetime),
+    ),
+    ChatText() || ChatCallNotice() => null,
+  };
 }

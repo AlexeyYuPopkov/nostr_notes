@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "213482284764",
+    "project_id": "mosty-1b2f1",
+    "storage_bucket": "mosty-1b2f1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213482284764:android:b7baae754eb49cc403f619",
+        "android_client_info": {
+          "package_name": "com.aleksei.yu.mosty"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAR_cHjV2KDNqWB91YOf_cp6qhwtkVTs0c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

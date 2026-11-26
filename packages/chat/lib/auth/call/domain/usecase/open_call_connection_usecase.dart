@@ -4,6 +4,9 @@ import 'package:webrtc_call/webrtc_call.dart';
 abstract interface class CallConnection {
   PeerConnectionSession get session;
 
+  /// How long the caller waits for an answer, and the callee for the offer.
+  Duration get answerTimeout;
+
   /// Ends any call and leaves the signaling server.
   Future<void> close();
 }

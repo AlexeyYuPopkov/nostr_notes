@@ -5,7 +5,6 @@ import 'package:chat/auth/chat/domain/usecase/direct_messages_sync_usecase.dart'
 import 'package:chat/auth/chat/domain/usecase/watch_incoming_call_invites_usecase.dart';
 import 'package:chat/common/domain/usecase/session_usecase.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:webrtc_call/webrtc_call.dart';
 
 import 'direct_message_tags.dart';
 import 'direct_messages_reader.dart';
@@ -14,9 +13,6 @@ import 'direct_messages_reader.dart';
 /// the listener resubscribes.
 final class WatchIncomingCallInvitesUsecaseImpl
     implements WatchIncomingCallInvitesUsecase {
-  /// The caller gives up after this long, so an older invite cannot be joined.
-  static const lifetime = PeerConnectionSession.defaultAnswerTimeout;
-
   final SessionUsecase _sessionUsecase;
   final DirectMessagesReader _reader;
   final DirectMessagesSyncUsecase _sync;
@@ -27,8 +23,13 @@ final class WatchIncomingCallInvitesUsecaseImpl
     required this._sessionUsecase,
     required this._reader,
     required this._sync,
+    required this.inviteLifetime,
     this._now = DateTime.now,
   });
+
+  /// The caller gives up after this long, so an older invite cannot be joined.
+  @override
+  final Duration inviteLifetime;
 
   @override
   Stream<ChatMessage> execute() {
@@ -66,7 +67,7 @@ final class WatchIncomingCallInvitesUsecaseImpl
 
   bool _isFresh(ChatMessage message) =>
       message.body is ChatCallInvite &&
-      _now().difference(message.publishedAt) <= lifetime;
+      _now().difference(message.publishedAt) <= inviteLifetime;
 
   bool _showsFirstTime(ChatMessage message) => switch (message.body) {
     ChatCallInvite(:final callId) => _shownCallIds.add(callId),

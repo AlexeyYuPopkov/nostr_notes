@@ -10,6 +10,10 @@ Feature: Relays list in the settings
     When I open the relays list
     Then I see {'ws://relay.test'} text
 
+  Scenario: Our relay is suggested
+    When I open the relays list
+    Then I see {'wss://alekseiiapi.site:8443'} text
+
   Scenario: A deselected relay is saved
     When I open the relays list
     And I tap semantics {'RelayTile.checkbox.ws://relay.test'}

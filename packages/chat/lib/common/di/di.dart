@@ -37,6 +37,7 @@ import 'package:chat/auth/settings/data/profile/get_current_profile_usecase_impl
 import 'package:chat/auth/settings/data/profile/update_profile_usecase_impl.dart';
 import 'package:chat/auth/settings/domain/usecase/get_current_profile_usecase.dart';
 import 'package:chat/auth/settings/domain/usecase/update_profile_usecase.dart';
+import 'package:chat/common/domain/remote_settings.dart';
 import 'package:chat/common/domain/usecase/auth_usecase.dart';
 import 'package:chat/common/domain/usecase/session_usecase.dart';
 import 'package:common/data/repo/key_tool_repository_impl.dart';
@@ -65,13 +66,23 @@ abstract class Di {
   static const _unauthScope = 'unauth-scope';
   static const _authScope = 'auth-scope';
 
-  static Future<void> registerUnauthModules() async {
+  static Future<void> registerUnauthModules({
+    required RemoteSettings remoteSettings,
+  }) async {
     final prefs = await SharedPreferences.getInstance();
 
     GetIt.I.pushNewScope(scopeName: _unauthScope);
 
+    GetIt.I.registerSingleton<RemoteSettings>(remoteSettings);
+
     GetIt.I.registerSingleton<RelaysListRepo>(
-      RelaysListRepoImpl(prefs),
+      RelaysListRepoImpl(
+        prefs,
+        suggestedRelays: {
+          remoteSettings.chatRelay.toString(),
+          ...RelaysListRepoImpl.suggestedRelays,
+        },
+      ),
       dispose: (i) => i.dispose(),
     );
     GetIt.I.registerSingleton<SecureStorage>(SecureStorageImpl());
@@ -258,6 +269,7 @@ abstract class Di {
         sessionUsecase: GetIt.I.get(),
         reader: GetIt.I.get(),
         sync: GetIt.I.get(),
+        inviteLifetime: GetIt.I.get<CallConfig>().answerTimeout,
       ),
     );
     GetIt.I.registerFactory<EditChatMessageUsecase>(
@@ -271,7 +283,7 @@ abstract class Di {
 
   static void _registerCalls() {
     GetIt.I.registerLazySingleton<CallConfig>(() {
-      final config = CallConfig.fromEnvironment();
+      final config = CallConfig.from(GetIt.I.get());
       if (!config.hasTurn) {
         debugPrint('[CallConfig] no TURN_DEV_SECRET: calls use STUN only');
       }

@@ -37,14 +37,18 @@ final class OpenCallConnectionUsecaseImpl implements OpenCallConnectionUsecase {
       iceServersRefreshInterval: _config.iceServersRefreshInterval,
       iceTransportPolicy: _config.iceTransportPolicy,
     );
-    final connection = _CallConnection(session: session, signaling: signaling);
+    final connection = _CallConnection(
+      session: session,
+      signaling: signaling,
+      answerTimeout: _config.answerTimeout,
+    );
 
     try {
       await session.initialize();
       await signaling.connect(
         self: SignalingPeer(
           id: selfId,
-          name: CallConfig.clientName,
+          name: _config.clientName,
           userAgent: defaultTargetPlatform.name,
         ),
       );
@@ -59,9 +63,15 @@ final class OpenCallConnectionUsecaseImpl implements OpenCallConnectionUsecase {
 final class _CallConnection implements CallConnection {
   @override
   final PeerConnectionSession session;
+  @override
+  final Duration answerTimeout;
   final SignalingChannel _signaling;
 
-  _CallConnection({required this.session, required this._signaling});
+  _CallConnection({
+    required this.session,
+    required this._signaling,
+    required this.answerTimeout,
+  });
 
   @override
   Future<void> close() async {

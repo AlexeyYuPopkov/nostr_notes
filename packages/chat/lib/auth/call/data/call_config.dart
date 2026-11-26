@@ -1,49 +1,56 @@
+import 'package:chat/common/domain/remote_settings.dart';
 import 'package:webrtc_call/webrtc_call.dart';
 
 /// Our signaling, STUN and TURN servers (doc/webrtc-backend.md §4, §6).
 final class CallConfig {
-  static const _signalingUrl = String.fromEnvironment(
-    'SIGNALING_URL',
-    defaultValue: 'wss://alekseiiapi.site:8086/ws',
-  );
+  /// Local overrides for debugging; when set they win over Remote Config.
+  static const _signalingUrlOverride = String.fromEnvironment('SIGNALING_URL');
+  static const _relayOnlyOverride = bool.fromEnvironment('CALL_RELAY_ONLY');
 
   /// From config/turn.dev.json; dev builds only (doc/webrtc-assumptions.md,
   /// #3). Without it calls fall back to STUN.
   static const _turnDevSecret = String.fromEnvironment('TURN_DEV_SECRET');
-  static const _relayOnly = bool.fromEnvironment('CALL_RELAY_ONLY');
   static const _turnTtlSeconds = int.fromEnvironment(
     'TURN_TTL_SECONDS',
     defaultValue: 3600,
   );
 
-  static const _stunUrls = ['stun:alekseiiapi.site:3478'];
-  static const _turnUrls = [
-    'turn:alekseiiapi.site:3478?transport=udp',
-    'turn:alekseiiapi.site:3478?transport=tcp',
-    'turns:alekseiiapi.site:443?transport=tcp',
-  ];
-
-  /// Every signaling client sees it next to our pubkey in `peers`.
-  static const clientName = 'Mosty';
-
   final Uri signalingUri;
+  final List<String> stunUrls;
+  final List<String> turnUrls;
   final String turnSecret;
   final IceTransportPolicy iceTransportPolicy;
   final Duration turnCredentialsTtl;
 
+  /// Every signaling client sees it next to our pubkey in `peers`.
+  final String clientName;
+
+  /// Also how long an incoming call invite stays fresh.
+  final Duration answerTimeout;
+
   const CallConfig({
     required this.signalingUri,
+    required this.stunUrls,
+    required this.turnUrls,
     required this.turnSecret,
     required this.iceTransportPolicy,
+    required this.clientName,
+    required this.answerTimeout,
     this.turnCredentialsTtl = const Duration(hours: 1),
   });
 
-  factory CallConfig.fromEnvironment() => CallConfig(
-    signalingUri: Uri.parse(_signalingUrl),
+  factory CallConfig.from(RemoteSettings settings) => CallConfig(
+    signalingUri: _signalingUrlOverride.isEmpty
+        ? settings.signalingUri
+        : Uri.parse(_signalingUrlOverride),
+    stunUrls: settings.stunUrls,
+    turnUrls: settings.turnUrls,
     turnSecret: _turnDevSecret,
-    iceTransportPolicy: _relayOnly
+    iceTransportPolicy: _relayOnlyOverride || settings.callRelayOnly
         ? IceTransportPolicy.relay
         : IceTransportPolicy.all,
+    clientName: settings.signalingClientName,
+    answerTimeout: settings.callAnswerTimeout,
     turnCredentialsTtl: const Duration(seconds: _turnTtlSeconds),
   );
 
@@ -60,7 +67,8 @@ final class CallConfig {
     required String turnUserId,
     required DateTime now,
   }) {
-    if (!hasTurn) return const [IceServer(urls: _stunUrls)];
+    final stun = IceServer(urls: stunUrls);
+    if (!hasTurn) return [stun];
     final credentials = TurnCredentials.mint(
       secret: turnSecret,
       userId: turnUserId,
@@ -68,9 +76,9 @@ final class CallConfig {
       ttl: turnCredentialsTtl,
     );
     return [
-      const IceServer(urls: _stunUrls),
+      stun,
       IceServer(
-        urls: _turnUrls,
+        urls: turnUrls,
         username: credentials.username,
         credential: credentials.credential,
       ),

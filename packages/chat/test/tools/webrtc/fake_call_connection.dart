@@ -28,6 +28,8 @@ final class NeverConnectingCalls implements OpenCallConnectionUsecase {
 final class _FakeCallConnection implements CallConnection {
   @override
   final PeerConnectionSession session;
+  @override
+  Duration get answerTimeout => PeerConnectionSession.defaultAnswerTimeout;
   final _SilentSignaling _signaling;
 
   _FakeCallConnection({required this.session, required this._signaling});

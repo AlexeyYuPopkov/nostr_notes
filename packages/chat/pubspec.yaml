@@ -56,6 +56,8 @@ dependencies:
 
   material_ui: any
   cupertino_ui: any
+  firebase_core: ^5.2.0
+  firebase_remote_config: ^7.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

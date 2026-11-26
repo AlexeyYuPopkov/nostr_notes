@@ -31,6 +31,15 @@ void main() {
         await bddTearDown(tester);
       }
     });
+    testWidgets('''Our relay is suggested''', (tester) async {
+      try {
+        await bddSetUp(tester);
+        await iOpenTheRelaysList(tester);
+        await iSeeText(tester, 'wss://alekseiiapi.site:8443');
+      } finally {
+        await bddTearDown(tester);
+      }
+    });
     testWidgets('''A deselected relay is saved''', (tester) async {
       try {
         await bddSetUp(tester);

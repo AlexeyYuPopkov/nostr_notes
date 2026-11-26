@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:chat/common/debug/marionette_config.dart';
+import 'package:chat/common/data/remote_settings/firebase_remote_settings.dart';
 import 'package:chat/common/di/di.dart';
+import 'package:chat/firebase_options.dart';
 import 'package:chat/l10n/localization.dart';
 import 'package:chat/router/app_router.dart';
 import 'package:common/app/theme/app_theme.dart';
@@ -13,6 +15,8 @@ import 'package:common/domain/repo/app_shared_prefs.dart';
 import 'package:common/presentation/theme_settings/global_settings_vm.dart';
 import 'package:common/l10n/localization.dart';
 import 'package:common/services/outbox/outbox_publisher.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:leak_tracker/leak_tracker.dart';
 import 'package:material_ui/material_ui.dart';
@@ -39,7 +43,12 @@ void main() async {
   // await Di.instance.bindUnauthModules();
   // HttpOverrides.global = MyHttpOverrides();
   // timeDilation = 4.0;
-  await Di.registerUnauthModules();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Di.registerUnauthModules(
+    remoteSettings: await FirebaseRemoteSettings.load(
+      FirebaseRemoteConfig.instance,
+    ),
+  );
   final prefs = AppSharedPrefsImpl(await SharedPreferences.getInstance());
 
   if (kDebugMode || kProfileMode) {

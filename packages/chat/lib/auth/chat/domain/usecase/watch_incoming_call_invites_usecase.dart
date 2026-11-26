@@ -5,4 +5,7 @@ abstract interface class WatchIncomingCallInvitesUsecase {
   /// per app run, as they reach the store. Keeps the relay sync running while
   /// listened to.
   Stream<ChatMessage> execute();
+
+  /// How long after it was sent an invite can still be answered.
+  Duration get inviteLifetime;
 }

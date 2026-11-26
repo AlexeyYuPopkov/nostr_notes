@@ -48,6 +48,8 @@ final class _FakeRelaysListRepo implements RelaysListRepo {
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
+const _inviteLifetime = Duration(seconds: 45);
+
 void main() {
   late AppDatabase db;
   late RawEventStore store;
@@ -124,6 +126,7 @@ void main() {
       sessionUsecase: session,
       reader: reader,
       sync: sync,
+      inviteLifetime: _inviteLifetime,
       now: () => now,
     );
     watchNotices = WatchCallNoticesUsecaseImpl(
@@ -349,10 +352,7 @@ void main() {
       relay.publish(
         await inviteFromAlice(
           callId: 'stale',
-          at: now.subtract(
-            WatchIncomingCallInvitesUsecaseImpl.lifetime +
-                const Duration(seconds: 1),
-          ),
+          at: now.subtract(_inviteLifetime + const Duration(seconds: 1)),
         ),
       );
       await getMessages

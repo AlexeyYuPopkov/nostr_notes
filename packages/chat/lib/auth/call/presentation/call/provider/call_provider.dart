@@ -78,11 +78,19 @@ final class CallProvider extends _$CallProvider {
 
       switch (direction) {
         case CallDirection.outgoing:
-          final calling = session.call(peerPubkey, media: media);
+          final calling = session.call(
+            peerPubkey,
+            media: media,
+            answerTimeout: connection.answerTimeout,
+          );
           if (_wasDeclined) await session.declinedByPeer();
           await calling;
         case CallDirection.incoming:
-          session.awaitCall(peerPubkey, media: media);
+          session.awaitCall(
+            peerPubkey,
+            media: media,
+            offerTimeout: connection.answerTimeout,
+          );
       }
     } catch (error) {
       if (!ref.mounted) return;
