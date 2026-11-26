@@ -63,3 +63,6 @@ app.*.map.json
 
 # Local secrets passed with --dart-define-from-file (see config/README.md)
 /config/turn.dev.json
+
+# Firebase CLI debug output (contains the signed-in account)
+firebase-debug.log
