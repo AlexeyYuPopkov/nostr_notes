@@ -1,5 +1,5 @@
 name: chat
-description: Nostr chat
+description: Nostr chat and webRTC integration
 version: 0.0.1
 publish_to: none
 environment:

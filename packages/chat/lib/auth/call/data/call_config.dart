@@ -24,7 +24,7 @@ final class CallConfig {
   ];
 
   /// Every signaling client sees it next to our pubkey in `peers`.
-  static const clientName = 'nostr chat';
+  static const clientName = 'Mosty';
 
   final Uri signalingUri;
   final String turnSecret;

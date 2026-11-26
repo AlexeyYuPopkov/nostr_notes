@@ -134,6 +134,7 @@ final class _AppState extends State<App> with WidgetsBindingObserver {
         builder: (context, _) {
           final vm = _globalSettingsVm;
           return MaterialApp.router(
+            title: 'Mosty',
             theme: AppTheme.light(style: vm.lightThemeStyle),
             darkTheme: AppTheme.dark(style: vm.darkThemeStyle),
             themeMode: vm.themeMode,
