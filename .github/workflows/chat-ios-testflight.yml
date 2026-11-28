@@ -1,0 +1,59 @@
+name: Chat iOS TestFlight
+
+# Run by hand only; tests run in the pre-commit hook (doc/ci-cd-plan.md).
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-upload:
+    runs-on: macos-15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode 26.3
+        run: sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: .fvmrc
+          cache: true
+
+      - name: Install dependencies
+        run: |
+          dart pub global activate melos 8.10.1
+          melos bootstrap
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          # Gemfile.lock is resolved against this version (fastlane 2.239 needs >= 3.3).
+          ruby-version: '3.4'
+          bundler-cache: true
+          working-directory: packages/chat/ios
+
+      # The beta lane also clears the artifact cache between the Flutter build
+      # and gym.
+      - name: Clear SwiftPM caches
+        run: |
+          rm -rf "$HOME/Library/Caches/org.swift.swiftpm"
+          rm -rf "$HOME/Library/Developer/Xcode/DerivedData"
+
+      - name: Build and upload
+        working-directory: packages/chat/ios
+        env:
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.NOSTR_NOTES_APP_STORE_CONNECT_API_KEY_BASE64 }}
+          MATCH_PASSWORD: ${{ secrets.NOSTR_NOTES_MATCH_PASSWORD }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.NOSTR_NOTES_MATCH_GIT_BASIC_AUTHORIZATION }}
+          TURN_DEV_SECRET: ${{ secrets.MOSTY_TURN_SECRET }}
+        run: bundle exec fastlane beta
+
+      - name: Upload Dart debug symbols
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chat-ios-debug-symbols
+          path: packages/chat/build/debug-info/
