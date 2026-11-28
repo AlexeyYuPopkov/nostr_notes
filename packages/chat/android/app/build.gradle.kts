@@ -1,3 +1,11 @@
+import java.util.Properties
+
+// Git-ignored; written by CI from secrets (doc/ci-cd-plan.md, C.1).
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("key.properties")
+    if (file.exists()) file.inputStream().use(::load)
+}
+
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -32,11 +40,21 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties.getProperty("keyAlias")
+            keyPassword = keystoreProperties.getProperty("keyPassword")
+            storeFile = keystoreProperties.getProperty("storeFile")?.let(::file)
+            storePassword = keystoreProperties.getProperty("storePassword")
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // Without key.properties, debug keys keep `flutter run --release` working.
+            signingConfig = signingConfigs.getByName(
+                if (keystoreProperties.isEmpty) "debug" else "release",
+            )
         }
     }
 }

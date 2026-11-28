@@ -12,3 +12,6 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+
+# Google Play service account key, written by CI from secrets
+/fastlane/play_store_credentials.json

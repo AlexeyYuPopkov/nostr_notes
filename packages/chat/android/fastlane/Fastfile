@@ -1,0 +1,59 @@
+require 'json'
+require 'shellwords'
+
+default_platform(:android)
+
+# Actions and `sh` resolve relative paths from different folders.
+CHAT_ROOT = File.expand_path('../..', __dir__)
+
+platform :android do
+  desc 'Build Mosty and upload it to the Google Play internal testing track'
+  desc 'Options: release_status (draft by default — the only status Play accepts while the app is a draft)'
+  lane :internal do |options|
+    release_status = options[:release_status] || 'draft'
+
+    # CI never commits a bump back, so the code has to come from Play.
+    # Drafts and closed tracks hold codes too, hence the max over all tracks.
+    used_codes = %w[internal alpha beta production].flat_map do |track|
+      google_play_track_version_codes(track: track)
+    rescue StandardError => e
+      UI.message("Track #{track} skipped: #{e.message}")
+      []
+    end
+    version_code = [used_codes.map(&:to_i).max.to_i, pubspec_build_number].max + 1
+    UI.important("versionCode: #{version_code}")
+
+    build_app_bundle(version_code)
+
+    upload_to_play_store(
+      track: 'internal',
+      aab: File.join(CHAT_ROOT, 'build/app/outputs/bundle/release/app-release.aab'),
+      release_status: release_status,
+    )
+  end
+end
+
+def pubspec_build_number
+  version = File.read(File.join(CHAT_ROOT, 'pubspec.yaml'))[/^version:\s*(\S+)/, 1]
+  version.split('+')[1].to_i
+end
+
+# The TURN secret goes through a file rather than the command line, so it
+# never shows up in the logged command.
+def build_app_bundle(version_code)
+  turn_secret = ENV.fetch('TURN_DEV_SECRET', '')
+  UI.important('TURN_DEV_SECRET is not set: calls in this build use STUN only') if turn_secret.empty?
+
+  defines = File.join(CHAT_ROOT, 'build', 'ci-dart-defines.json')
+  FileUtils.mkdir_p(File.dirname(defines))
+  File.write(defines, JSON.generate('TURN_DEV_SECRET' => turn_secret))
+
+  flutter = ENV.fetch('FLUTTER', 'flutter')
+  sh(
+    "cd #{CHAT_ROOT.shellescape} && #{flutter} build appbundle --release " \
+    '--obfuscate --split-debug-info=build/debug-info ' \
+    "--build-number=#{version_code} --dart-define-from-file=#{defines.shellescape}",
+  )
+ensure
+  FileUtils.rm_f(defines) if defines
+end

@@ -1,6 +1,6 @@
 # Local build config
 
-`turn.dev.json` is git-ignored and passed with `--dart-define-from-file` to the chat app and the `webrtc_call` example. Create it from `turn.dev.example.json`:
+`turn.dev.json` is git-ignored and passed with `--dart-define-from-file` to the chat app and the `webrtc_call` example. Create it from `turn.dev.example.json`. Call servers and flags otherwise come from Firebase Remote Config (doc/firebase-plan.md); the keys below are the local overrides and the values that must not go there.
 
 | Key | Meaning |
 |---|---|
