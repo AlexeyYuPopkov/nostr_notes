@@ -1,0 +1,6 @@
+# Same certificates repo as notes; the Mosty profile sits next to its profile.
+git_url("https://github.com/AlexeyYuPopkov/SECRETS")
+git_branch("master")
+storage_mode("git")
+type("appstore")
+app_identifier("com.aleksei.yu.mosty")

@@ -1,0 +1,99 @@
+require 'json'
+require 'shellwords'
+
+default_platform(:ios)
+
+# Actions and `sh` resolve relative paths from different folders.
+CHAT_ROOT = File.expand_path('../..', __dir__)
+BUNDLE_ID = 'com.aleksei.yu.mosty'
+PROFILE_NAME = "match AppStore #{BUNDLE_ID}"
+
+platform :ios do
+  desc 'Build Mosty and upload it to TestFlight'
+  lane :beta do
+    setup_ci if ENV['CI']
+    api_key = connect_api_key
+
+    build_number = latest_testflight_build_number(
+      api_key: api_key,
+      app_identifier: BUNDLE_ID,
+      initial_build_number: 0,
+    ) + 1
+    UI.important("Build number: #{build_number}")
+
+    build_flutter(build_number)
+
+    match(
+      type: 'appstore',
+      readonly: true,
+      git_basic_authorization: ENV['MATCH_GIT_BASIC_AUTHORIZATION'],
+      api_key: api_key,
+    )
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      path: 'Runner.xcodeproj',
+      targets: ['Runner'],
+      team_id: 'HCYSG3HDXK',
+      bundle_identifier: BUNDLE_ID,
+      profile_name: PROFILE_NAME,
+      code_sign_identity: 'Apple Distribution',
+    )
+
+    # gym resolves the Swift packages again in its own derived data; the
+    # artifacts `flutter build` left in the shared cache make SwiftPM fail
+    # with "already exists in file system" (see ios-testflight.yml for notes).
+    FileUtils.rm_rf(File.expand_path('~/Library/Caches/org.swift.swiftpm/artifacts')) if ENV['CI']
+
+    # gym archives with the Generated.xcconfig that `flutter build ios` left,
+    # so the build number, obfuscation and dart-defines carry over.
+    build_app(
+      workspace: 'Runner.xcworkspace',
+      scheme: 'Runner',
+      export_method: 'app-store',
+      export_options: { provisioningProfiles: { BUNDLE_ID => PROFILE_NAME } },
+    )
+
+    upload_to_testflight(
+      api_key: api_key,
+      skip_waiting_for_build_processing: true,
+    )
+  end
+
+  desc 'Once per new bundle id: create the App Store certificate and profile in the match repo'
+  lane :certificates do
+    match(
+      type: 'appstore',
+      readonly: false,
+      git_basic_authorization: ENV['MATCH_GIT_BASIC_AUTHORIZATION'],
+      api_key: connect_api_key,
+    )
+  end
+end
+
+def connect_api_key
+  app_store_connect_api_key(
+    key_id: ENV.fetch('APP_STORE_CONNECT_API_KEY_ID'),
+    issuer_id: ENV.fetch('APP_STORE_CONNECT_ISSUER_ID'),
+    key_content: Base64.decode64(ENV.fetch('APP_STORE_CONNECT_API_KEY_BASE64')),
+  )
+end
+
+# The TURN secret goes through a file rather than the command line, so it
+# never shows up in the logged command.
+def build_flutter(build_number)
+  turn_secret = ENV.fetch('TURN_DEV_SECRET', '')
+  UI.important('TURN_DEV_SECRET is not set: calls in this build use STUN only') if turn_secret.empty?
+
+  defines = File.join(CHAT_ROOT, 'build', 'ci-dart-defines.json')
+  FileUtils.mkdir_p(File.dirname(defines))
+  File.write(defines, JSON.generate('TURN_DEV_SECRET' => turn_secret))
+
+  flutter = ENV.fetch('FLUTTER', 'flutter')
+  sh(
+    "cd #{CHAT_ROOT.shellescape} && #{flutter} build ios --release --no-codesign " \
+    '--obfuscate --split-debug-info=build/debug-info ' \
+    "--build-number=#{build_number} --dart-define-from-file=#{defines.shellescape}",
+  )
+ensure
+  FileUtils.rm_f(defines) if defines
+end
