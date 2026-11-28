@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import 'chat_message_body.dart';
 import 'room_id.dart';
 
 enum ChatMessageDelivery { sending, sent }
@@ -10,7 +11,7 @@ final class ChatMessage extends Equatable {
   final String eventId;
   final String authorPubkey;
   final String peerPubkey;
-  final String text;
+  final ChatMessageBody body;
   final DateTime publishedAt;
 
   /// Null until the message is edited.
@@ -22,13 +23,19 @@ final class ChatMessage extends Equatable {
     required this.eventId,
     required this.authorPubkey,
     required this.peerPubkey,
-    required this.text,
+    required this.body,
     required this.publishedAt,
     this.editedAt,
     this.delivery = ChatMessageDelivery.sent,
   });
 
   RoomId get roomId => RoomId.of(authorPubkey, peerPubkey);
+
+  /// Null for anything but a text message.
+  String? get text => switch (body) {
+    ChatText(:final text) => text,
+    ChatCallInvite() || ChatCallNotice() => null,
+  };
 
   bool get isEdited => editedAt != null;
 
@@ -44,7 +51,7 @@ final class ChatMessage extends Equatable {
       eventId: eventId,
       authorPubkey: authorPubkey,
       peerPubkey: peerPubkey,
-      text: text,
+      body: body,
       publishedAt: publishedAt,
       editedAt: editedAt,
       delivery: delivery ?? this.delivery,
@@ -57,7 +64,7 @@ final class ChatMessage extends Equatable {
     eventId,
     authorPubkey,
     peerPubkey,
-    text,
+    body,
     publishedAt,
     editedAt,
     delivery,

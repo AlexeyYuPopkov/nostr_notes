@@ -20,7 +20,7 @@ description: Project rules for Nostr protocol code — event kinds, tags, relay 
 | 9734 | `NostrKind.zapInvoice` | Zap request (NIP-57) |
 | 9735 | `NostrKind.zapConfirmation` | Zap receipt (NIP-57) |
 | 30023 | `NostrKind.note` | Note, addressable (NIP-33) |
-| 31014 | `NostrKind.directMessage` (chat) | 1-1 chat message, custom addressable kind: `d` message id (kept on edit), `p` peer, `published_at` first send time; NIP-44 content, no gift wrap — who talks to whom and when is public |
+| 31014 | `NostrKind.directMessage` (chat) | 1-1 chat message, custom addressable kind: `d` message id (kept on edit), `p` peer, `published_at` first send time; NIP-44 content, no gift wrap — who talks to whom and when is public. Plaintext is the text itself or a JSON body with a `type` (`call_invite`: `call_id`, `media`; `call_decline` / `call_cancel`: `call_id`), see `ChatMessageBodyCodec` |
 | 31023 | `NostrKind.loginItem` | Login item, custom addressable kind, authored by the vault identity — never the account pubkey |
 
 Before adding a kind, check the registry: https://github.com/nostr-protocol/nips/blob/master/README.md
@@ -28,6 +28,7 @@ Before adding a kind, check the registry: https://github.com/nostr-protocol/nips
 ## Tags
 - `p` pubkey, `e` event id, `a` addressable event (`<kind>:<pubkey>:<d>`), `d` identifier of an addressable event.
 - Addressable events (30000–39999) are replaced by `kind + pubkey + d`; changing `d` creates a new event, it does not update the old one.
+- Every event we sign carries exactly one `["client", AppConfig.clientTagValue]`; our relay rejects events without it (except NIP-42 AUTH, 22242). Chat builds it with `ClientTag` (`chat/lib/auth/common/data/model/client_tag.dart`) — when re-signing a stored event (profile edit), `ClientTag.withOurs` swaps any existing client tag for ours. Notes uses `AppConfig.clientTagList()`, the vault events (31023 login items, their tombstones and deletions) included — an accepted trade-off: it shows they come from this app, see `LoginItemMapper`.
 
 ## Relays (NIP-01)
 - `REQ` to subscribe, `CLOSE` to stop; always close subscriptions you open.

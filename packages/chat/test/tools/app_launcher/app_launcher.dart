@@ -1,3 +1,4 @@
+import 'package:chat/common/data/remote_settings/parsed_remote_settings.dart';
 import 'package:chat/common/di/di.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:chat/l10n/localization.dart';
@@ -36,7 +37,9 @@ final class _FakeSecureStorage implements SecureStorage {
 final class AppLauncher {
   static Future<void> setUp() async {
     SharedPreferences.setMockInitialValues({});
-    await Di.registerUnauthModules();
+    await Di.registerUnauthModules(
+      remoteSettings: ParsedRemoteSettings.defaults(),
+    );
     GetIt.I.unregister<SecureStorage>();
     GetIt.I.registerSingleton<SecureStorage>(_FakeSecureStorage());
   }

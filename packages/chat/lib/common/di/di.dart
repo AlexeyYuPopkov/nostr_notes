@@ -1,3 +1,6 @@
+import 'package:chat/auth/call/data/call_config.dart';
+import 'package:chat/auth/call/data/open_call_connection_usecase_impl.dart';
+import 'package:chat/auth/call/domain/usecase/open_call_connection_usecase.dart';
 import 'package:chat/auth/chat/data/contacts/contact_profiles.dart';
 import 'package:chat/auth/chat/data/contacts/get_contact_usecase_impl.dart';
 import 'package:chat/auth/chat/data/contacts/fetch_users_usecase_impl.dart';
@@ -9,7 +12,11 @@ import 'package:chat/auth/chat/data/direct_messages/direct_messages_sync_usecase
 import 'package:chat/auth/chat/data/direct_messages/edit_chat_message_usecase_impl.dart';
 import 'package:chat/auth/chat/data/direct_messages/get_chat_messages_usecase_impl.dart';
 import 'package:chat/auth/chat/data/direct_messages/get_chat_rooms_usecase_impl.dart';
+import 'package:chat/auth/chat/data/direct_messages/send_call_invite_usecase_impl.dart';
+import 'package:chat/auth/chat/data/direct_messages/send_call_notice_usecase_impl.dart';
 import 'package:chat/auth/chat/data/direct_messages/send_chat_message_usecase_impl.dart';
+import 'package:chat/auth/chat/data/direct_messages/watch_call_notices_usecase_impl.dart';
+import 'package:chat/auth/chat/data/direct_messages/watch_incoming_call_invites_usecase_impl.dart';
 import 'package:chat/auth/chat/data/search_contacts/search_contacts_fetch_usecase_impl.dart';
 import 'package:chat/auth/chat/data/search_contacts/search_contacts_get_usecase_impl.dart';
 import 'package:chat/auth/chat/domain/usecase/direct_messages_sync_usecase.dart';
@@ -21,11 +28,16 @@ import 'package:chat/auth/chat/domain/usecase/fetch_users_usecase.dart';
 import 'package:chat/auth/chat/domain/usecase/get_user_usecase.dart';
 import 'package:chat/auth/chat/domain/usecase/search_contacts_fetch_usecase.dart';
 import 'package:chat/auth/chat/domain/usecase/search_contacts_get_usecase.dart';
+import 'package:chat/auth/chat/domain/usecase/send_call_invite_usecase.dart';
+import 'package:chat/auth/chat/domain/usecase/send_call_notice_usecase.dart';
 import 'package:chat/auth/chat/domain/usecase/send_chat_message_usecase.dart';
+import 'package:chat/auth/chat/domain/usecase/watch_call_notices_usecase.dart';
+import 'package:chat/auth/chat/domain/usecase/watch_incoming_call_invites_usecase.dart';
 import 'package:chat/auth/settings/data/profile/get_current_profile_usecase_impl.dart';
 import 'package:chat/auth/settings/data/profile/update_profile_usecase_impl.dart';
 import 'package:chat/auth/settings/domain/usecase/get_current_profile_usecase.dart';
 import 'package:chat/auth/settings/domain/usecase/update_profile_usecase.dart';
+import 'package:chat/common/domain/remote_settings.dart';
 import 'package:chat/common/domain/usecase/auth_usecase.dart';
 import 'package:chat/common/domain/usecase/session_usecase.dart';
 import 'package:common/data/repo/key_tool_repository_impl.dart';
@@ -43,6 +55,7 @@ import 'package:common/domain/repo/relays_list_repo.dart';
 import 'package:common/domain/repo/secure_storage.dart';
 import 'package:common/domain/usecases/get_relays_usecase.dart';
 import 'package:common/domain/usecases/relays_list_repo_impl.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nostr/nostr_client/async_fetcher.dart';
 import 'package:nostr/nostr_client/nostr_client.dart';
@@ -53,13 +66,23 @@ abstract class Di {
   static const _unauthScope = 'unauth-scope';
   static const _authScope = 'auth-scope';
 
-  static Future<void> registerUnauthModules() async {
+  static Future<void> registerUnauthModules({
+    required RemoteSettings remoteSettings,
+  }) async {
     final prefs = await SharedPreferences.getInstance();
 
     GetIt.I.pushNewScope(scopeName: _unauthScope);
 
+    GetIt.I.registerSingleton<RemoteSettings>(remoteSettings);
+
     GetIt.I.registerSingleton<RelaysListRepo>(
-      RelaysListRepoImpl(prefs),
+      RelaysListRepoImpl(
+        prefs,
+        suggestedRelays: {
+          remoteSettings.chatRelay.toString(),
+          ...RelaysListRepoImpl.suggestedRelays,
+        },
+      ),
       dispose: (i) => i.dispose(),
     );
     GetIt.I.registerSingleton<SecureStorage>(SecureStorageImpl());
@@ -123,6 +146,7 @@ abstract class Di {
       dispose: (publisher) => publisher.dispose(),
     );
     _registerDirectMessages();
+    _registerCalls();
     GetIt.I.registerFactory<SearchContactsFetchUsecase>(
       () => SearchContactsFetchUsecaseImpl(
         client: GetIt.I.get(),
@@ -221,11 +245,54 @@ abstract class Di {
         writer: GetIt.I.get(),
       ),
     );
+    GetIt.I.registerFactory<SendCallInviteUsecase>(
+      () => SendCallInviteUsecaseImpl(
+        sessionUsecase: GetIt.I.get(),
+        writer: GetIt.I.get(),
+      ),
+    );
+    GetIt.I.registerFactory<SendCallNoticeUsecase>(
+      () => SendCallNoticeUsecaseImpl(
+        sessionUsecase: GetIt.I.get(),
+        writer: GetIt.I.get(),
+      ),
+    );
+    GetIt.I.registerFactory<WatchCallNoticesUsecase>(
+      () => WatchCallNoticesUsecaseImpl(
+        sessionUsecase: GetIt.I.get(),
+        reader: GetIt.I.get(),
+        sync: GetIt.I.get(),
+      ),
+    );
+    GetIt.I.registerLazySingleton<WatchIncomingCallInvitesUsecase>(
+      () => WatchIncomingCallInvitesUsecaseImpl(
+        sessionUsecase: GetIt.I.get(),
+        reader: GetIt.I.get(),
+        sync: GetIt.I.get(),
+        inviteLifetime: GetIt.I.get<CallConfig>().answerTimeout,
+      ),
+    );
     GetIt.I.registerFactory<EditChatMessageUsecase>(
       () => EditChatMessageUsecaseImpl(
         sessionUsecase: GetIt.I.get(),
         eventStore: GetIt.I.get(),
         writer: GetIt.I.get(),
+      ),
+    );
+  }
+
+  static void _registerCalls() {
+    GetIt.I.registerLazySingleton<CallConfig>(() {
+      final config = CallConfig.from(GetIt.I.get());
+      if (!config.hasTurn) {
+        debugPrint('[CallConfig] no TURN_DEV_SECRET: calls use STUN only');
+      }
+      return config;
+    });
+    GetIt.I.registerFactory<OpenCallConnectionUsecase>(
+      () => OpenCallConnectionUsecaseImpl(
+        sessionUsecase: GetIt.I.get(),
+        config: GetIt.I.get(),
       ),
     );
   }

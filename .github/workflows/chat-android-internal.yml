@@ -1,0 +1,71 @@
+name: Chat Android internal testing
+
+# Run by hand only; tests run in the pre-commit hook (doc/ci-cd-plan.md).
+on:
+  workflow_dispatch:
+    inputs:
+      release_status:
+        description: 'Play release status: draft until the app has been published once'
+        type: choice
+        options: [draft, completed]
+        default: draft
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+    env:
+      ANDROID_DIR: packages/chat/android
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Write upload keystore and key.properties
+        run: |
+          echo "${{ secrets.MOSTY_ANDROID_UPLOAD_KEYSTORE }}" | base64 -d > "$ANDROID_DIR/app/upload-keystore.jks"
+          {
+            echo "storePassword=${{ secrets.MOSTY_ANDROID_STORE_PASSWORD }}"
+            echo "keyPassword=${{ secrets.MOSTY_ANDROID_KEY_PASSWORD }}"
+            echo "keyAlias=${{ secrets.MOSTY_ANDROID_KEY_ALIAS }}"
+            echo "storeFile=upload-keystore.jks"
+          } > "$ANDROID_DIR/key.properties"
+
+      - name: Write Google Play credentials
+        run: echo '${{ secrets.ANDROID_JSON_KEY_DATA }}' > "$ANDROID_DIR/fastlane/play_store_credentials.json"
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          # Gemfile.lock is resolved against this version (fastlane 2.239 needs >= 3.3).
+          ruby-version: '3.4'
+          bundler-cache: true
+          working-directory: packages/chat/android
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: .fvmrc
+          cache: true
+
+      - name: Install dependencies
+        run: |
+          dart pub global activate melos 8.10.1
+          melos bootstrap
+
+      - name: Build and upload
+        working-directory: packages/chat/android
+        env:
+          TURN_DEV_SECRET: ${{ secrets.MOSTY_TURN_SECRET }}
+        run: bundle exec fastlane internal release_status:${{ inputs.release_status }}
+
+      - name: Upload Dart debug symbols
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chat-android-debug-symbols
+          path: packages/chat/build/debug-info/

@@ -12,6 +12,8 @@ workspace:
   - packages/chat
   - packages/notes_test_kit
   - packages/app_test_kit
+  - packages/webrtc_call
+  - packages/webrtc_call/example
 
 
 dev_dependencies:

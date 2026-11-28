@@ -14,17 +14,21 @@ final class RelaysListRepoImpl implements RelaysListRepo, Disposable {
   };
 
   final SharedPreferences _prefs;
+  final Set<String> _suggestedRelays;
   static const _key = 'relay_urls';
   late final BehaviorSubject<Set<String>> _behaviorSubject =
       BehaviorSubject<Set<String>>.seeded(_getRelaysList());
 
-  RelaysListRepoImpl(this._prefs);
+  RelaysListRepoImpl(
+    this._prefs, {
+    this._suggestedRelays = RelaysListRepoImpl.suggestedRelays,
+  });
 
   @override
   Set<String> getRelaysList() => _behaviorSubject.value;
 
   @override
-  Set<String> getSuggestedRelays() => suggestedRelays;
+  Set<String> getSuggestedRelays() => _suggestedRelays;
 
   @override
   Stream<Set<String>> get relaysListStream => _behaviorSubject.stream;

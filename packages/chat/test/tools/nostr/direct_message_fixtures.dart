@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:chat/auth/chat/data/direct_messages/direct_message_crypto.dart';
 import 'package:chat/auth/chat/data/direct_messages/direct_message_tags.dart';
+import 'package:chat/auth/chat/domain/models/chat_message_body.dart';
 import 'package:chat/auth/common/data/model/nostr_kind.dart';
 import 'package:nostr/key_tool/key_tool.dart';
 import 'package:nostr/model/nostr_event.dart';
@@ -65,4 +66,14 @@ Future<String?> readDirectMessage(NostrEvent event, {required UserKeys as}) {
   return DirectMessageCrypto()
       .decrypt(keys: as, events: [event])
       .then((messages) => messages.firstOrNull?.text);
+}
+
+/// The body of a direct message, read the way its recipient would.
+Future<ChatMessageBody?> readDirectMessageBody(
+  NostrEvent event, {
+  required UserKeys as,
+}) {
+  return DirectMessageCrypto()
+      .decrypt(keys: as, events: [event])
+      .then((messages) => messages.firstOrNull?.body);
 }

@@ -1,0 +1,4 @@
+{
+  "TURN_DEV_SECRET": "<static-auth-secret from /opt/coturn/turnserver.conf>",
+  "CALL_RELAY_ONLY": "false"
+}

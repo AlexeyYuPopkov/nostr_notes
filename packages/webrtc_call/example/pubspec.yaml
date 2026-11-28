@@ -1,0 +1,24 @@
+name: webrtc_call_example
+description: Calls between two devices through the webrtc_call package, without the chat app.
+publish_to: none
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.12.0
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+  webrtc_call:
+    path: ..
+  material_ui: any
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  config:
+    enable-swift-package-manager: true

@@ -1,4 +1,5 @@
 import 'package:chat/auth/chat/domain/models/chat_message.dart';
+import 'package:chat/auth/chat/domain/models/chat_message_body.dart';
 import 'package:common/domain/model/user.dart';
 import 'package:equatable/equatable.dart';
 
@@ -27,6 +28,9 @@ final class ChatData extends Equatable {
   );
 
   bool isMine(ChatMessage message) => message.authorPubkey == myPubkey;
+
+  bool canEdit(ChatMessage message) =>
+      isMine(message) && message.body is ChatText;
 
   ChatData copyWith({User? peer, List<ChatMessage>? messages}) {
     return ChatData._(

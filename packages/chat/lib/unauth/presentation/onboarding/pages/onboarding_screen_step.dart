@@ -4,7 +4,7 @@ import 'package:material_ui/material_ui.dart';
 import 'onboarding_welcome_page.dart';
 import 'onboarding_nsec_page.dart';
 import 'onboarding_show_nsec_page.dart';
-import 'relays/onboarding_relays_page.dart';
+import 'package:chat/common/presentation/relays/relays_page.dart';
 
 sealed class OnboardingStep extends Equatable {
   static const pages = <OnboardingStep>[
@@ -58,7 +58,7 @@ final class OnboardingRelays extends OnboardingStep {
   const OnboardingRelays();
 
   @override
-  Widget build(BuildContext context) => const OnboardingRelaysPage();
+  Widget build(BuildContext context) => const RelaysPage();
 
   @override
   OnboardingStep? getNextStep() => null;

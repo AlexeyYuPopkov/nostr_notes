@@ -1,8 +1,11 @@
 import 'package:chat/auth/chat/domain/models/chat_message.dart';
+import 'package:chat/auth/common/data/model/client_tag.dart';
 import 'package:chat/auth/common/data/model/nostr_kind.dart';
 import 'package:common/services/event_store/raw_event_store.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/tag/tag_value.dart';
+
+import 'chat_message_body_codec.dart';
 
 /// Tags of a [NostrKind.directMessage] event and the store queries over them.
 abstract final class DirectMessageTags {
@@ -19,14 +22,15 @@ abstract final class DirectMessageTags {
       [TagValue.d, id],
       [TagValue.p, peerPubkey],
       [publishedAt, publishedAtSeconds.toString()],
+      ClientTag.tag,
     ];
   }
 
   static String? peerOf(NostrEvent event) => event.getFirstTagStr(TagValue.p);
 
-  /// Builds the message from an already decrypted [text]; null when the event
-  /// misses the tags a direct message must have.
-  static ChatMessage? toMessage(NostrEvent event, String text) {
+  /// Builds the message from an already decrypted [plaintext]; null when the
+  /// event misses the tags a direct message must have.
+  static ChatMessage? toMessage(NostrEvent event, String plaintext) {
     final id = event.getDTag();
     final peer = peerOf(event);
     if (id == null || id.isEmpty || peer == null || peer.isEmpty) {
@@ -42,7 +46,7 @@ abstract final class DirectMessageTags {
       eventId: event.id,
       authorPubkey: event.pubkey,
       peerPubkey: peer,
-      text: text,
+      body: ChatMessageBodyCodec.decode(plaintext),
       publishedAt: _fromSeconds(publishedSeconds),
       editedAt: event.createdAt > publishedSeconds
           ? _fromSeconds(event.createdAt)

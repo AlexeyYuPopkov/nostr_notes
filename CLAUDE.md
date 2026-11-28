@@ -49,7 +49,8 @@ flutter clean && flutter pub get
 This is a Melos workspace (`melos.yaml`) with these packages:
 
 - **`packages/notes`** — Main notes app. Entry point: `lib/main.dart`. Uses `di_storage` for DI, `go_router` for routing, `flutter_bloc` + custom `Vm` (ValueNotifier-based) for state, `flutter_localizations` via `l10n/`.
-- **`packages/chat`** — Chat app (iOS only). Uses `get_it` for DI, `auto_route` for routing, Riverpod for screen state, MVVM VMs for small widget logic — see *Architecture (packages/chat)*.
+- **`packages/chat`** — Chat app (iOS and Android). Uses `get_it` for DI, `auto_route` for routing, Riverpod for screen state, MVVM VMs for small widget logic — see *Architecture (packages/chat)*.
+- **`packages/webrtc_call`** — 1-1 WebRTC calls (`flutter_webrtc`) behind a replaceable `SignalingChannel`; no Nostr, DI or routing. A connected call survives network changes: the signaling channel reconnects on its own, the caller restarts ICE (with fresh `iceServers`) while the call is `reconnecting`. `example/` calls between two devices without the chat app. Backend: `doc/webrtc-backend.md`, accepted shortcuts: `doc/webrtc-assumptions.md`.
 - **`packages/nostr`** — Pure Nostr protocol: `NostrClient`, `NostrRelay`, event models, NIP implementations.
 - **`packages/common`** — Shared models (incl. `User` kind 0 profile + `UserMapper`, `AccountAvatar`), theme (`AppTheme`, `AppBackgroundColors`), `GlobalSettingsScope`/`GlobalSettingsVm`, presentation widgets, `AppDatabase` (drift/sqlite).
 - **`packages/app_test_kit`** — Test-only, app-agnostic (dev dependency of `notes` and `chat`): `PumpHelpers`, `visibleText` finder, generic BDD steps (`I see/tap text`, semantics, clipboard, text fields). Must not depend on either app.
@@ -101,13 +102,14 @@ Don't carry notes patterns (Bloc, `DiStorage`, `go_router`) into chat.
 
 ```
 lib/
-  common/       ← used by auth and unauth: di/ (`Di`, get_it scopes), debug/ (Marionette), domain/ (Session, AuthUsecase, SessionUsecase)
+  common/       ← used by auth and unauth: di/ (`Di`, get_it scopes), debug/ (Marionette), domain/ (Session, AuthUsecase, SessionUsecase), presentation/relays/ (`RelaysPage` — onboarding step and the settings relays list)
   router/       ← `AppRouter` (@AutoRouterConfig); `auth_router.dart` — @RoutePage wrappers, coordinator impls
   unauth/presentation/onboarding/
   auth/
     home/       ← tab-bar shell (`HomeNavigationBar`)
     chat/       ← 1-1 chats. domain/ (ChatMessage, ChatRoom, RoomId, usecases), data/direct_messages/ — kind 31014, NIP-44 content, no gift wrap; written store + outbox in one transaction (`DirectMessageWriter`), read from the store and verified/decrypted in chunks on `AppWorker` (`DirectMessageCrypto`); `DirectMessagesSyncUsecase` holds the live REQ (incoming batched with `bufferTime`) and starts the `OutboxPublisher` while a screen listens. data/contacts/ — peers' kind 0. data/search_contacts/ — offline-first kind 0 search. presentation/ (chats_list, chat on `flutter_chat_ui`, search_contact — modal)
-    settings/   ← presentation/settings/ (menu items), presentation/profile/ + domain/ + data/profile/ — edit own kind 0 (name, display_name, picture); merges into the stored content, store first, then `NostrPublisher`
+    call/       ← 1-1 calls over `packages/webrtc_call`. The caller sends a `call_invite` direct message (chat's `SendCallInviteUsecase`), joins signaling and offers once the callee is online; the callee rings via `IncomingCallListener` (wraps the tabs, fresh invites from `WatchIncomingCallInvitesUsecase`), and on accept joins signaling and answers (`awaitCall`); decline and an early hang-up travel back as `call_decline` / `call_cancel` messages (`SendCallNoticeUsecase`, `WatchCallNoticesUsecase`). data/ — `CallConfig.from(RemoteSettings)` (servers, relay-only, answer timeout; the TURN secret and local overrides come from the git-ignored `config/turn.dev.json` via `--dart-define-from-file`, see `config/README.md`), `OpenCallConnectionUsecaseImpl`; presentation/ — `call/` (`CallScreen`, outgoing or incoming), `incoming_call/`
+    settings/   ← presentation/settings/ (menu items), presentation/relays_list/ (`RelaysPage` in a screen), presentation/profile/ + domain/ + data/profile/ — edit own kind 0 (name, display_name, picture); merges into the stored content, store first, then `NostrPublisher`
     common/     ← shared by several auth features (`NostrKind`)
 ```
 
@@ -118,6 +120,7 @@ Where new code goes (features, layers, shared levels, tests): the `feature-layou
   - **Screen** — Riverpod 3 with codegen: `@riverpod` notifiers in a `provider/` folder next to the screen, UI as `ConsumerWidget`. Root is `ProviderScope` in `main.dart`. Run `make codegen` after changing a provider. Exception: widgets meant to be used from other packages or to move into one (e.g. `packages/common`) don't use Riverpod.
   - **Small logic inside a screen** (a list cell, a block with its own data subscription) — MVVM: a VM class exposing `ValueNotifier`/`Stream`, owned by a `StatefulWidget` that creates it, disposes it in `dispose`, and recreates it in `didUpdateWidget` when its input changes. The VM may take dependencies from `GetIt.I`.
   - **Trivial local UI state** (a single flag, expanded/collapsed) — `StatefulWidget` + `setState`.
+- **Remote settings**: Firebase is used by chat only (project `mosty-1b2f1`, no Analytics). `main.dart` loads `RemoteSettings` (`common/domain/`) via `FirebaseRemoteSettings.load` — values fetched on the previous launch, built-in defaults in `ParsedRemoteSettings` — and passes it to `Di.registerUnauthModules`; tests pass `ParsedRemoteSettings.defaults()`. Never put secrets there. When a key or default changes, update `packages/chat/firebase/remote_config_template.json` and the table in `doc/firebase-plan.md`.
 - **Routing**: `auto_route`, routes registered in `router/app_router.dart`. Same coordinator pattern as notes: the screen takes an `XScreenCoordinator`; a `@RoutePage()` wrapper in `router/` builds it with `XScreenCoordinatorImpl`. See the `navigation-coordinator` skill. (`OnboardingScreen` still calls `context.replaceRoute` directly — not yet migrated.)
 - **Tests**: wrap in `AppLauncher.launchApp` from `packages/chat/test/tools/app_launcher/` (gives `ProviderScope`, theme, l10n). Call `AppLauncher.setUp()` in `setUp` and `addTearDown(AppLauncher.tearDown)`; it swaps `SecureStorage` for a fake in `get_it`. BDD steps shared with notes come from `app_test_kit` (listed in `packages/chat/build.yaml`); never add `notes_test_kit` to chat — it pulls in the notes app and its native plugins.
 

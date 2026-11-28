@@ -1,3 +1,5 @@
+import 'package:nostr/model/tag/tag_value.dart';
+import 'package:nostr_notes/app/app_config.dart';
 import 'dart:convert';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -298,6 +300,9 @@ void main() {
         deletions[0].getFirstTag(Tag.a),
         '${EventKind.note.value}:${SomeMokedData.publicKey}:test-dtag',
       );
+      expect(deletions[0].tags.where((tag) => tag.first == TagValue.client), [
+        AppConfig.clientTagList(),
+      ]);
     });
   });
 }

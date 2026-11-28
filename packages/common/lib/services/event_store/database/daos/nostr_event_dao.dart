@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
+import 'package:drift/extensions/native.dart';
 import 'package:nostr/model/nostr_event.dart';
 import 'package:nostr/model/nostr_event_with_relay.dart';
 import 'package:nostr/model/tag/tag.dart';
@@ -402,16 +403,14 @@ class NostrEventDao extends DatabaseAccessor<AppDatabase>
     }
 
     if (query.search != null && query.search!.isNotEmpty) {
-      final searchLower = query.search;
+      final search = query.search!;
 
-      // Subquery to find event IDs with matching tag values
       final tagSubquery = selectOnly(nostrTags)
         ..addColumns([nostrTags.eventId])
-        ..where(nostrTags.value.like('%$searchLower%'));
+        ..where(nostrTags.value.containsCase(search));
 
-      // Search in content OR in tag values
       q.where(
-        (e) => e.content.like('%$searchLower%') | e.id.isInQuery(tagSubquery),
+        (e) => e.content.containsCase(search) | e.id.isInQuery(tagSubquery),
       );
     }
 
@@ -448,16 +447,14 @@ class NostrEventDao extends DatabaseAccessor<AppDatabase>
     }
 
     if (query.search != null && query.search!.isNotEmpty) {
-      final searchLower = query.search;
+      final search = query.search!;
 
-      // Subquery to find event IDs with matching tag values
       final tagSubquery = selectOnly(nostrTags)
         ..addColumns([nostrTags.eventId])
-        ..where(nostrTags.value.like('%$searchLower%'));
+        ..where(nostrTags.value.containsCase(search));
 
-      // Search in content OR in tag values
       joined.where(
-        nostrEvents.content.like('%$searchLower%') |
+        nostrEvents.content.containsCase(search) |
             nostrEvents.id.isInQuery(tagSubquery),
       );
     }

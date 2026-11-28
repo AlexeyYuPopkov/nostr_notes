@@ -47,12 +47,7 @@ void main() {
       expect(ids.contains('event2'), isFalse);
     });
 
-    test('search finds events by content and tags. non-ASCII', () async {
-      // Note: SQLite's lower() function only works with ASCII characters.
-      // For Cyrillic and other Unicode characters, search is effectively
-      // case-sensitive because SQLite doesn't lowercase non-ASCII.
-      // This is a known SQLite limitation without ICU extension.
-
+    test('search is case-insensitive for non-ASCII', () async {
       await rawEventStore.upsert([
         _createEvent(id: 'event1', content: 'ПРИВЕТ World', tags: []),
 
@@ -75,14 +70,26 @@ void main() {
       ]);
 
       final results = await rawEventStore.queryEvents(
-        const RawEventQuery(search: 'Привет'),
+        const RawEventQuery(search: 'привет'),
       );
 
-      expect(results.length, 2);
-      final ids = results.map((e) => e.id).toSet();
-      expect(ids.containsAll(['event1', 'event3']), isFalse);
-      expect(ids.contains('event2'), isFalse);
-      expect(ids.containsAll(['event4', 'event5']), isTrue);
+      expect(
+        results.map((e) => e.id),
+        unorderedEquals(['event1', 'event3', 'event4', 'event5']),
+      );
+    });
+
+    test('search treats % and _ literally', () async {
+      await rawEventStore.upsert([
+        _createEvent(id: 'event1', content: '100% done', tags: []),
+        _createEvent(id: 'event2', content: '100 done', tags: []),
+      ]);
+
+      final results = await rawEventStore.queryEvents(
+        const RawEventQuery(search: '0%'),
+      );
+
+      expect(results.map((e) => e.id), ['event1']);
     });
 
     test('watchEvents emits updates when matching event is added', () async {

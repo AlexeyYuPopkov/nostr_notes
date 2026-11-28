@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:chat/auth/common/data/model/client_tag.dart';
 import 'package:chat/auth/common/data/model/nostr_kind.dart';
 import 'package:chat/auth/settings/domain/models/picture_url.dart';
 import 'package:chat/auth/settings/domain/models/profile_exception.dart';
@@ -69,7 +70,7 @@ final class UpdateProfileUsecaseImpl
       kind: NostrKind.user,
       content: jsonEncode(_mergedContent(previous, fields.trimmed())),
       createdAt: _createdAtAfter(previous),
-      tags: previous?.tags ?? const [],
+      tags: ClientTag.withOurs(previous?.tags ?? const []),
       pubkey: keys.publicKey,
       privateKey: keys.privateKey,
     );
